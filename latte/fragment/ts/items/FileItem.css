@@ -1,0 +1,78 @@
+.latte-item.file{
+    border: solid 1px #ccc;
+    background: #f0f0f0;
+    cursor: pointer;
+    box-shadow: 0 2px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+
+.latte-item.file.selected{
+    border-color: #4285F4;
+}
+
+.latte-item.file .thumb{
+    position: relative;
+    width: 199px;
+    height: 124px;
+    background-color: white;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    overflow: hidden;
+}
+
+.latte-item.file .thumb .extension{
+    font-size: 30px;
+    font-weight: bold;
+    color: gray;
+    text-align: center;
+    top: 50%;
+    margin-top: -13px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    /*font-family: AvenirNextLTW01Bold, sans-serif;*/
+    letter-spacing: 1px;
+}
+
+.latte-item.file .thumb img{
+    width: 100%;
+}
+
+.latte-item.file .thumb .latte-item.progress{
+    top: 50%;
+    position: absolute;
+    margin-top: -5px;
+    left: 10px;
+    right: 10px;
+}
+
+.latte-item.file .info{
+    color: gray;
+    font-size: 13px;
+    padding: 5px 5px 2px 5px;
+}
+.latte-item.file.selected .info{
+    background: #4285F4;
+    color: white;
+}
+
+.latte-item.file .info:after{
+    content: '.';
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.latte-item.file .info .name{
+    float: left;
+    margin-left: 3px;
+    max-width: 130px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.latte-item.file .info .size{
+    float: right;
+    margin-right: 3px;
+}

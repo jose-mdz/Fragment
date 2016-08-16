@@ -1,0 +1,10 @@
+.cms-fragment-expando .latte-item.toolbar.with-face > .face{
+    background: white;
+}
+.cms-fragment-expando{
+    margin: 0;
+}
+
+.cms-fragment-expando .expando-title{
+    color: #ccc;
+}

@@ -1,0 +1,246 @@
+@font-face {
+    font-family: AvenirNextThin;
+    src: url(/latte/releases/fragment/support/fonts/avenir-next-thin.woff);
+}
+
+.signin-view ,
+.signin-view input,
+.signin-view button,
+.signin-view textarea,
+.signin-view td,
+.signin-view th{
+    font-family: AvenirNextThin, sans-serif;
+    font-size: 13px;
+}
+
+.signin-view {
+    color: #999;
+}
+
+.signin-view a,
+.signin-view p.link{
+    color: #4486f4;
+    text-decoration: none;
+}
+
+.signin-view a:hover,
+.signin-view a:focus,
+.signin-view p.link:focus,
+.signin-view p.link:hover{
+    text-decoration: underline;
+}
+
+.signin-view.holder{
+    width: 300px;
+    margin: 0 auto;
+}
+
+.signin-view header{
+    margin: 0;
+    padding: 0;
+}
+
+.signin-view header h1{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.signin-view header .logo{
+    background: url(/latte/releases/fragment/support/imgs/fragment-logo.png) no-repeat center center;
+    background-size: 100% auto;
+    width: 300px;
+    height: 77px;
+    margin: 0 auto;
+}
+
+.signin-view main{
+    margin-top: 40px;
+    font-size: 15px;
+}
+
+.signin-view main h2{
+    color: black;
+}
+
+.signin-view main .connection .icon{
+    width: 32px;
+    height: 32px;
+    background: #f0f0f0;
+    float: left;
+    margin-right: 10px;
+}
+
+.signin-view main .connection .text{
+    padding-top:5px;
+    margin-bottom: 20px;
+}
+
+.signin-view main .connection:after{
+    content: '.';
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.signin-view main .combo{
+
+}
+
+.signin-view main .combo input{
+    border: none;
+    background-color: transparent;
+    width: 258px;
+    padding: 20px;
+    font-size: 15px;
+}
+
+.signin-view main .combo input:focus,
+.signin-view main .submit:focus{
+    outline: none;
+}
+
+
+.signin-view main .combo .user{
+    border-bottom: solid 1px #999;
+}
+
+.signin-view main .combo .field{
+    border: solid 1px #999;
+    border-radius: 10px;
+}
+
+.signin-view main .combo .field.user{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: none;
+}
+
+.signin-view main .combo .separator{
+    border-top: solid 1px #999;
+}
+
+.signin-view main .combo.focus .separator{
+    border-top-color: #4486f4;
+}
+
+.signin-view main .combo .field.password{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top:none;
+}
+
+.signin-view main .field.focus {
+    border-color: #4486f4;
+    background: #F7FFFF;
+}
+
+.signin-view main .error{
+    color: #FF3300;
+    margin: 20px 0;
+}
+
+.signin-view main .error a{
+    font-size: 80%;
+}
+
+.signin-view main .remember{
+    margin: 20px 0;
+}
+
+.signin-view main .submit{
+    cursor: pointer;
+    border: solid 1px #4486f4;
+    color: #4486f4;
+    border-radius: 10px;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: 30px;
+    display: block;
+    background: white;
+    width: 300px;
+    font-size: 15px;
+}
+
+.signin-view main .submit:hover,
+.signin-view main .submit:focus{
+    background: #4486f4;
+    color: white;
+}
+
+.signin-view main form > .field{
+    border: solid 1px #999;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+.signin-view main form > .field input{
+    width: 100%;
+    padding: 13px;
+    border: none;
+    background: transparent;
+}
+
+.signin-view main form > .field.birth{
+    border: none;
+}
+
+.signin-view main form > .field.birth input{
+    border: solid 1px #999;
+    border-radius: 5px;
+    padding: 13px;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.signin-view main form > .field.birth input:last-child{
+    margin-right:0;
+    width: 88px;
+}
+
+.signin-view main form > .field.birth input:focus{
+    border-color: #4486f4;
+    background: #F7FFFF;
+}
+
+.signin-view main form > .separator{
+    margin-top: 30px;
+}
+
+.signin-view main form > .strength:after{
+    content: '.';
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.signin-view main form > .strength > .label{
+    float: right;
+    font-size: 70%;
+    margin-top: 2px;
+    margin-right: 10px;
+}
+
+.signin-view main form > .strength .strength-bars{
+}
+
+.signin-view main form > .strength .strength-bars > div{
+    width: 40px;
+    height: 3px;
+    background-color: silver;
+    float: right;
+    margin-right: 1px;
+    margin-top: 8px;
+}
+
+.signin-view main form > .strength .strength-bars > .bar-1.on{ background: #990000; }
+.signin-view main form > .strength .strength-bars > .bar-2.on{ background: #FF6600; }
+.signin-view main form > .strength .strength-bars > .bar-3.on{ background: #FFCC00; }
+.signin-view main form > .strength .strength-bars > .bar-4.on{ background: #99CC00; }
+.signin-view main form > .strength .strength-bars > .bar-5.on{ background: #009933; }
+
+.signin-view footer{
+    margin-top: 50px;
+    text-align: center;
+}

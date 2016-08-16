@@ -1,0 +1,81 @@
+pages Páginas
+newRootPage Nueva Página Raíz
+newPage Nueva Página
+guid GUID
+pageKey Clave URL
+inTrash En Papelera
+online En línea
+template Template
+created Creado
+modified Modificado
+title Título
+description Descripción
+pageSort Orden
+pageSortCreatedAsc Fecha de Creación (Ascendente)
+pageSortCreatedDesc Fecha de Creación (Descendente)
+pageSortModifiedAsc Fecha de Modificación (Ascendente)
+pageSortModifiedDesc Fecha de Modificación (Descendente)
+pageSortTitleAsc Título (Ascendente)
+pageSortTitleDesc Título (Descendente)
+detail Detalle
+configuration Configuración
+openPage Abrir
+openPageS Abrir %s
+openPageEditor Abrir Editor
+page Página
+emptyView Vista Vacía
+missingName (Sin Nombre)
+body Cuerpo
+format Formato
+imageGallery Galería
+path Ruta
+fileSize Tamaño
+changeNameDescription Cambiar Nombre
+deleteFile Eliminar Archivo
+deleteS Eliminar %s
+productThumb Miniatura del Producto
+FileItemThumb (Miniatura del Sistema)
+nonameThumb (Sin Nombre)
+image Imagen
+deleteImage Eliminar Imagen
+moveImageBefore Mover Antes
+moveImageAfter Mover Después
+viewImage Ver Imagen
+viewOriginal Ver Original
+users Usuarios
+newUser Nuevo Usuario
+groups Grupos
+newGroup Nuevo Grupo
+addUserToGroup Agregar Usuario
+user Usuario
+group Grupo
+isRoot Es Root
+isBanned Está Bloqueado
+owner Dueño
+readPermission Leer
+writePermission Escribir
+removePermission Eliminar
+insertChildPermission Insertar Hijos
+writeChildPermission Escribir Hijos
+deleteChildPermission Eliminar Hijos
+readChildrenPermission Leer Hijos
+permissionsOther Otro
+permissionsWorld Mundo
+configurePermission Puede Configurar
+advanced Avanzado
+invalidUserOrPass Nombre de usuario o contraseña inválidos. Por favor intenta de nuevo.
+changePassword Cambiar Contraseña
+oldPassword Contraseña Actual
+newPassword Nueva Contraseña
+confirmNewPassword Confirmar
+passwordRules Al menos 5 caracteres
+passwordsDontMatch Las contraseñas no coinciden
+currentPasswordNotValid La contraseña actual no es válida
+passwordChangeSuccess La contraseña fue cambiada con éxito
+pageSortCustom Por índice
+pageSortIndex Sort Index
+isSysAdmin Es SysAdmin
+areYouSureSetPageOnline ¿Deseas poner la página en línea?
+areYouSureSetPageOnlineDesc Debido a tu nivel de permisos no te será posible hacer más cambios tras establecerla como disponible en línea.
+yesMakeOnline Sí, poner en línea
+signOut Cerrar Sesión

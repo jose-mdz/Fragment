@@ -1,0 +1,44 @@
+
+
+.page-editor-main-view{
+    background: #f7f7f7;
+}
+
+.page-editor-main-view > .container{
+    top: 50px;
+
+}
+
+.page-editor-main-view > .container .latte-view.ribbon{
+    background: white;
+}
+
+.page-editor-main-view > .container .latte-item.ribbon {
+    background: #f7f7f7;
+}
+
+.page-editor-main-view .page-close{
+    position:absolute;
+    right: 5px;
+    top: 5px;
+}
+.page-editor-main-view .page-title-gizmo{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    font-size: 22px;
+    padding: 5px;
+    border: solid 1px transparent;
+}
+
+.page-editor-main-view .page-title-gizmo:hover,
+.page-editor-main-view .page-title-gizmo:focus{
+    border-color: #ccc;
+    border-radius: 4px;
+
+}
+
+.page-editor-main-view .page-title-gizmo:focus{
+    background: white;
+}
+

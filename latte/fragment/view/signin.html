@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="../../../html/design/css/account.css"/>
+</head>
+<body>
+
+<div data-class="SignInViewBase" class="signin-view holder">
+    <header>
+        <!--<h1>Cuenta</h1>-->
+        <div class="logo"></div>
+    </header>
+    <main>
+        <h2>Sign In</h2>
+        <form data-property="form">
+            <div data-property="combo" class="combo">
+                <div data-property="fieldEmail" class="field user">
+                    <input data-property="txtEmail" type="text" placeholder="User"/>
+                </div>
+                <div class="separator"></div>
+                <div data-property="fieldPassword" class="field password ">
+                    <input data-property="txtPassword" type="password" placeholder="Password"/>
+                </div>
+            </div>
+            <div style="display: none;" data-property="error" class="error">User, email or password are invalid. Please try again.</div>
+            <!--<div class="remember">-->
+                <!--<input id="remember" name="remember" type="checkbox" checked/>-->
+                <!--<label for="remember">Remember Me</label>-->
+            <!--</div>-->
+            <button class="submit" tabindex="0">Sign In</button>
+        </form>
+    </main>
+    <footer>
+        <!--<p class="link">Forgot Password?</p>-->
+        <!--<p class="link">Register</p>-->
+    </footer>
+</div>
+
+</body>
+</html>

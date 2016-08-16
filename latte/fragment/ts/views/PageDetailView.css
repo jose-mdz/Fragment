@@ -1,0 +1,29 @@
+
+
+.latte-view.page-detail-view .open-editor-button.no-icon{
+    background-color: white;
+    border-color: #4285F4;
+    color: #4285F4;
+    text-align: center;
+    padding: 10px;
+}
+
+.latte-view.page-detail-view .open-editor-button:hover{
+    background-color: #4285F4;
+    border-color: #4285F4;
+    color: #fff;
+}
+
+.latte-view .action-button.no-icon{
+    background-color: white !important;
+    border-color: #777 !important;
+    color: #777 !important;
+    text-align: center !important;
+    padding: 10px !important;
+}
+
+.latte-view .action-button:hover{
+    background-color: #777 !important;
+    border-color: #777 !important;
+    color: #fff !important;
+}

@@ -1,0 +1,11 @@
+/* 
+    Document   : CheckboxItem
+    Created on : Feb 1, 2013, 2:16:38 PM
+    Author     : josemanuel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.latte-item.value.checkbox > .latte-item.label{
+    /*float: none;*/
+    margin-top: 5px;
+}

@@ -1,0 +1,34 @@
+/* 
+    Document   : FormItem
+    Created on : Feb 3, 2013, 8:52:46 AM
+    Author     : menendezpoo
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.latte-item.form {
+    padding: 20px;
+
+}
+
+.latte-item.form.with-face{
+    background: white;
+    border: solid 1px #dedede;
+    border-radius: 5px;
+}
+
+.latte-item.form > .container > .latte-item{
+    margin-bottom: 15px;
+}
+
+.latte-item.form > .container > .latte-item.input > .value > .latte-item.textbox{
+    float: none;
+}
+
+.latte-item.form > .container > .latte-item.input > .value > .latte-item.textbox input,
+.latte-item.form > .container > .latte-item.input > .value > .latte-item.textbox textarea,
+.latte-item.form > .container > .latte-item.input > .value > .latte-item.textbox textarea,
+.latte-item.form > .container > .latte-item.input > .value .value.data-record,
+.latte-item.form > .container > .latte-item.input > .value .value.data-record .value.textbox,
+.latte-item.form > .container > .latte-item.input > .value .value.data-record .latte-item.textbox input{
+    width: 100%;
+}

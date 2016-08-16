@@ -1,0 +1,37 @@
+{
+  "module-include":[
+    "latte.element",
+    "latte.ui",
+    "latte.data.ui"
+  ],
+
+  "connection": {
+    "file": "../../../connection-cms.json"
+  },
+
+  "records" : [
+    "page",
+    "file",
+    "setting",
+    "fragment",
+    "group",
+    "group_user",
+    "user"
+  ],
+
+  "before-make":[
+    "mysql-dump.js"
+  ],
+
+  "release-export" :[
+    "actions/upload.php"
+  , "actions/dispatch.php"
+  , "actions/dispatch-functions.php"
+  , "actions/launcher.php"
+  , "actions/upload64.php"
+  , "fonts/avenir-next-thin.woff"
+  , "imgs/fragment-logo.png"
+  , "imgs/triangle-white.png"
+  ]
+
+}

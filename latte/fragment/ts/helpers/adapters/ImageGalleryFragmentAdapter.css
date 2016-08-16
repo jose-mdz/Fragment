@@ -1,0 +1,16 @@
+.gallery-fragment-editor{
+    min-height: 400px;
+    background: #fcfcfc;
+}
+
+.gallery-fragment-editor:focus{
+    background: #f0f0f0;
+}
+
+.gallery-fragment-editor input[type=file]{
+    visibility: hidden;
+}
+
+.gallery-fragment-editor .latte-item.file{
+    margin: 15px;
+}
