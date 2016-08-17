@@ -49,6 +49,8 @@ class Page extends pageBase{
      */
     const PERMISSION_READ_CHILDREN = 16;
 
+    const SEARCH_MAX_PAGESIZE = 100;
+
     /**
      * Map of character normalization for URLS
      * @var array
@@ -144,11 +146,283 @@ class Page extends pageBase{
         ");
     }
 
+    private static function search_create_filter($f, $page_fields){
+        $filter_string = var_export($f, true);
+
+        if(!is_array($f))
+        throw new Exception("Filter is not an array: " . $filter_string);
+
+
+        $count = sizeof($f);
+
+        // Check if filter is a group
+        if ($count == 1 && isset($f['group'])){
+            $sentences = array();
+
+            foreach($f['group'] as $sub_filter){
+                $sentences[] = self::search_create_filter($sub_filter, $page_fields);
+            }
+
+
+            return '(' . implode(' OR ', $sentences) . ')';
+        }
+
+        if($count < 1) {
+            throw new Exception('Incorrect filter: ' . $filter_string);
+        }
+
+        $isAssoc = array_keys($f) !== range(0, $count - 1);
+        $c = '';
+        $operator = '=';
+        $type = 'string';
+        $typeSet = false;
+
+        // Reconstruct information in filter
+        if ($isAssoc){
+
+            if (isset($f['a'])){
+                $a = $f['a'];
+            }else{
+                throw new Exception('Missing "a" operand in filter: ' . $filter_string);
+            }
+
+            if (isset($f['b'])){
+                $b = $f['b'];
+            }else{
+                throw new Exception('Missing "b" in filter: ' . $filter_string);
+            }
+
+            if (isset($f['c'])){
+                $c = $f['c'];
+            }else{
+                $c = $b;
+            }
+
+            if (isset($f['operator'])){
+                $operator = $f['operator'];
+            }
+
+            if (isset($f['type'])){
+                $typeSet = true;
+                $type = $f['type'];
+            }
+
+        }else{
+            if($count == 2){
+                $a = $f[0];
+                $b = $f[1];
+
+            }else{
+                $a = $f[0];
+                $operator = $f[1];
+                $b =  $f[2];
+
+                if ($count > 3){
+                    $c = $f[3];
+                }
+
+                if ($count > 4){
+                    $typeSet = true;
+                    $type = $f[4];
+                }
+            }
+        }
+
+        // Check if a is a setting
+        $isSetting = !in_array($a, $page_fields);
+
+        // Casts dictionary
+        $casts = array(
+            'string' => null,
+            'int' => 'SIGNED',
+            'integer' => 'SIGNED',
+            'float' => 'DECIMAL',
+            'date' => 'DATE',
+            'datetime' => 'DATETIME'
+        );
+
+        // Check if cast is ok
+        if(!in_array(strtolower($type), array_keys($casts)))
+            throw new Exception('Filter type not recognized: ' . $type);
+
+        if($isSetting){
+            $aToUse = 'setting.value';
+        }else{
+            $aToUse = "page.$a";
+        }
+
+        // Check if cast needed
+        if(($isSetting || $typeSet) && $type != 'string'){
+
+            if($isSetting){
+                $aToUse = "CAST(setting.value AS " . $casts[strtolower($type)] . ")";
+            }else{
+                $aToUse = "CAST(page.$a AS " . $casts[strtolower($type)] . ")";
+            }
+
+        }
+
+        // Filter SQL sentence
+        $sentence = '';
+
+        if ($isSetting){
+
+            $lock = "(setting.name = '$a') AND";
+
+            switch(strtolower($operator)){
+                case '=':
+                case '<':
+                case '>':
+                case '<=':
+                case '>=':
+                    $sentence = "( $lock $aToUse $operator '$b')"; break;
+                case 'between':
+                    $sentence = "( $lock ($aToUse $operator '$b' AND '$c')"; break;
+                case '&':
+                case '|':
+                    $sentence = "( $lock (($aToUse $operator $b) = $c))"; break;
+            }
+        }else{
+
+            if($typeSet){
+                $a = "CAST(page.$a AS " . $casts[strtolower($type)] . ")";
+            }
+
+            switch(strtolower($operator)){
+                case '=':
+                case '<':
+                case '>':
+                case '<=':
+                case '>=':
+                    $sentence = "($a $operator '$b')"; break;
+                case 'between':
+                    $sentence = "($a $operator '$b' AND '$c')"; break;
+                case '&':
+                case '|':
+                    $sentence = "(($a $operator $b) = $c)"; break;
+            }
+        }
+
+        return $sentence;
+
+    }
+
+    /**
+     * Searches for pages with different options of retrieval
+     * @param $options
+     * @return PageResult
+     * @throws Exception
+     */
+    public static function search($options){
+
+        // Setup variables
+        $settings = isset($options['settings']) ? $options['settings'] : array();
+        $fragments = isset($options['fragments']) ? $options['fragments'] : array();
+        $filters = isset($options['filters']) ? $options['filters'] : array();
+        $pageFields = array_keys((new Page())->getFields());
+        $sentences = array();
+        $page = isset($options['page']) ? $options['page'] : 1;
+        $pageSize = isset($options['pageSize']) ? $options['page'] : 50;
+
+        if (isset($options['idparent'])){
+            $idparents = is_array($options['idparent']) ? $options['idparent'] : array($options['idparent']);
+            $group = array('group' => array());
+            foreach($idparents as $idparent){
+                $group['group'][] = array('idparent', $idparent);
+            }
+
+            $filters[] = $group;
+        }
+
+        // Convert filters into SQL filters
+        foreach($filters as $i => $filter){
+            $sentences[] = self::search_create_filter($filter, $pageFields);
+        }
+
+        // Tie together sentences
+        $sentencesSQL = implode("\nAND ", $sentences);
+
+        $pagesSQL = "
+            SELECT #COLUMNS
+            FROM page
+             LEFT JOIN setting on (setting.owner = 'Page' AND setting.idowner = page.idpage)
+            WHERE (pworld & 1) = 1
+            AND $sentencesSQL
+            GROUP BY page.idpage
+        ";
+
+//        die($pagesSQL);
+
+        // Go for pages
+        $result = DL::pageOf('Page', $pagesSQL, $page, min($pageSize, self::SEARCH_MAX_PAGESIZE));
+
+        // Get pages as associative array
+        $pages = DL::associativeArray($result['records']);
+
+        // Get array with ids of pages
+        $pagesIds = array_keys($pages);
+
+        // Get fragments
+        if(sizeof($fragments) > 0){
+
+            // Gather ids
+            $fids = implode("' OR idpage = '", $pagesIds);
+            $fnames = implode("' OR name = '", $fragments);
+
+            $fragmentRecords = DL::arrayOf('Fragment', "
+                SELECT *
+                FROM fragment
+                WHERE (idpage = '$fids')
+                AND (name = '$fnames')
+            ");
+
+            // Attach fragments to pages
+            foreach($fragmentRecords as $f){
+                $pages[$f->idpage]->fragments[$f->name] = $f;
+            }
+
+        }
+
+        // Get settings
+        if(sizeof($settings) > 0){
+
+            // Gather ids
+            $sids = implode("' OR idowner = '", $pagesIds);
+            $snames = implode("' OR name = '", $settings);
+
+            $settingRecords = DL::arrayOf('Setting', "
+                SELECT *
+                FROM fragment
+                WHERE owner = 'Page'
+                AND (idowner = '$sids')
+                AND (name = '$snames')
+            ");
+
+            // Attach settings to pages
+            foreach($settingRecords as $s){
+                $pages[$s->idowner]->settings[$s->name] = $s;
+            }
+        }
+
+        return $result;
+
+    }
+
     /**
      * Configuration of page
      * @var Setting
      */
     var $configuration;
+
+    /**
+     * @var array
+     */
+    public $settings = array();
+
+    /**
+     * @var array
+     */
+    public $fragments = array();
 
     /**
      * @var Page
