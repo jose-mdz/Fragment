@@ -52,6 +52,19 @@ class Page extends pageBase{
     const SEARCH_MAX_PAGESIZE = 100;
 
     /**
+     * Dictionary of casts for search algorithms
+     * @var array
+     */
+    private static $search_casts = array(
+        'string' => null,
+        'int' => 'SIGNED',
+        'integer' => 'SIGNED',
+        'float' => 'DECIMAL',
+        'date' => 'DATE',
+        'datetime' => 'DATETIME'
+    );
+
+    /**
      * Map of character normalization for URLS
      * @var array
      */
@@ -146,6 +159,21 @@ class Page extends pageBase{
         ");
     }
 
+    private static function search_validate_field($field){
+
+    }
+
+    private static function search_validate_constant($field){
+
+    }
+
+    /**
+     * Creates SQL from specified filter of search
+     * @param $f
+     * @param $page_fields
+     * @return string
+     * @throws Exception
+     */
     private static function search_create_filter($f, $page_fields){
         $filter_string = var_export($f, true);
 
@@ -157,6 +185,7 @@ class Page extends pageBase{
 
         // Check if filter is a group
         if ($count == 1 && isset($f['group'])){
+//            echo "[ENTERING group]";
             $sentences = array();
 
             foreach($f['group'] as $sub_filter){
@@ -164,7 +193,10 @@ class Page extends pageBase{
             }
 
 
+
             return '(' . implode(' OR ', $sentences) . ')';
+//        }else{
+//            echo "[NOT A GROUP: " . var_export($f, true) . "]";
         }
 
         if($count < 1) {
@@ -228,18 +260,16 @@ class Page extends pageBase{
             }
         }
 
+        // Validate
+        self::search_validate_field($a);
+        self::search_validate_constant($b);
+        self::search_validate_constant($c);
+
         // Check if a is a setting
         $isSetting = !in_array($a, $page_fields);
 
         // Casts dictionary
-        $casts = array(
-            'string' => null,
-            'int' => 'SIGNED',
-            'integer' => 'SIGNED',
-            'float' => 'DECIMAL',
-            'date' => 'DATE',
-            'datetime' => 'DATETIME'
-        );
+        $casts = self::$search_casts;
 
         // Check if cast is ok
         if(!in_array(strtolower($type), array_keys($casts)))
@@ -267,7 +297,7 @@ class Page extends pageBase{
 
         if ($isSetting){
 
-            $lock = "(setting.name = '$a') AND";
+            $lock = "setting.name = '$a' AND";
 
             switch(strtolower($operator)){
                 case '=':
@@ -281,6 +311,8 @@ class Page extends pageBase{
                 case '&':
                 case '|':
                     $sentence = "( $lock (($aToUse $operator $b) = $c))"; break;
+                default:
+                    throw new SecurityException("Unrecognized operator: $operator");
             }
         }else{
 
@@ -300,6 +332,8 @@ class Page extends pageBase{
                 case '&':
                 case '|':
                     $sentence = "(($a $operator $b) = $c)"; break;
+                default:
+                    throw new SecurityException("Unrecognized operator: $operator");
             }
         }
 
@@ -323,7 +357,10 @@ class Page extends pageBase{
         $sentences = array();
         $page = isset($options['page']) ? $options['page'] : 1;
         $pageSize = isset($options['pageSize']) ? $options['page'] : 50;
+        $sortBy = isset($options['sortBy']) ? $options['sortBy'] : 'created DESC';
 
+        //region Create Filters for idparent
+        // Add idparent conditions
         if (isset($options['idparent'])){
             $idparents = is_array($options['idparent']) ? $options['idparent'] : array($options['idparent']);
             $group = array('group' => array());
@@ -333,25 +370,92 @@ class Page extends pageBase{
 
             $filters[] = $group;
         }
+        //endregion
 
-        // Convert filters into SQL filters
+        //region Arrange Setting filters into a group
+        $settingFilters = array();
+        $columnFilters = array();
+        $groupFilters = array();
+
+
+//        print_r($filters);
+
+        foreach($filters as $i => $filter){
+            $size = sizeof($filter);
+            $a = isset($filter['a']) ? $filter['a'] : $filter[0];
+
+            if($size == 1 && isset($filter['group'])){
+                $groupFilters[] = $filter;
+            }elseif(!in_array($a, $pageFields)){
+                $settingFilters[] = $filter;
+            }else{
+                $columnFilters[] =$filter;
+            }
+
+        }
+
+//        print_r($settingFilters);
+
+        if(sizeof($settingFilters) > 0){
+
+            $settingFilters = array(array('group' => $settingFilters));
+        }
+
+        $filters = array_merge($settingFilters, $columnFilters, $groupFilters);
+//        print_r($filters);
+//        die();
+        //endregion
+
+        //region Convert filters into SQL
+
         foreach($filters as $i => $filter){
             $sentences[] = self::search_create_filter($filter, $pageFields);
         }
 
         // Tie together sentences
         $sentencesSQL = implode("\nAND ", $sentences);
+        //endregion
 
+        //region Convert sortBys into SQL
+        // Sort result (Because of SQL
+        if(!is_array($sortBy)) $sortBy = array($sortBy);
+        $sorts = array();
+
+        foreach($sortBy as $instruction){
+            $parts = explode(' ', $instruction);
+            $field = $parts[0];
+            $direction = sizeof($parts) > 1 ? $parts[1] : 'ASC';
+            $casting = sizeof($parts) > 2 ? $parts[2] : null;
+            $isSetting = !in_array($field, $pageFields);
+            $casts = self::$search_casts;
+
+            if($isSetting){
+                $sorts[] = "setting.name = '$field'";
+            }
+
+            if($casting && $casts[$casting]){
+                $castType = $casts[$casting];
+                $sorts[] = "CAST(setting.value AS $castType) $direction";
+            }else{
+                $sorts[] = "page.$field $direction";
+            }
+
+        }
+        $sortBySQL = implode(", ", $sorts);
+        //endregion
+
+        //region Generate SQL Query for retrieving pages
         $pagesSQL = "
-            SELECT #COLUMNS
-            FROM page
-             LEFT JOIN setting on (setting.owner = 'Page' AND setting.idowner = page.idpage)
-            WHERE (pworld & 1) = 1
-            AND $sentencesSQL
-            GROUP BY page.idpage
+SELECT #COLUMNS
+FROM page
+ LEFT JOIN setting on (setting.owner = 'Page' AND setting.idowner = page.idpage)
+WHERE (pworld & 1) = 1
+AND $sentencesSQL
+GROUP BY page.idpage
+ORDER BY $sortBySQL
         ";
-
 //        die($pagesSQL);
+        //endregion
 
         // Go for pages
         $result = DL::pageOf('Page', $pagesSQL, $page, min($pageSize, self::SEARCH_MAX_PAGESIZE));
@@ -362,7 +466,10 @@ class Page extends pageBase{
         // Get array with ids of pages
         $pagesIds = array_keys($pages);
 
-        // Get fragments
+        //region Retrieve Fragments
+        if(!is_array($fragments))
+            $fragments = array($fragments);
+
         if(sizeof($fragments) > 0){
 
             // Gather ids
@@ -382,7 +489,11 @@ class Page extends pageBase{
             }
 
         }
+        //endregion
 
+        //region Retrieve Settings
+        if(!is_array($settings))
+            $settings = array($settings);
         // Get settings
         if(sizeof($settings) > 0){
 
@@ -403,6 +514,7 @@ class Page extends pageBase{
                 $pages[$s->idowner]->settings[$s->name] = $s;
             }
         }
+        //endregion
 
         return $result;
 
