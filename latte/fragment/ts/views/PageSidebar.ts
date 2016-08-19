@@ -9,6 +9,7 @@ module latte {
     export class PageSidebar extends TabView {
 
         //region Static
+        static lastSelectedTab: string = null;
         //endregion
 
         //region Fields
@@ -39,7 +40,16 @@ module latte {
                 this.tabAdvanced
             ]);
 
-            this.selectedTab = this.tabDetail;
+            if(PageSidebar.lastSelectedTab == this.tabAdvanced.text) {
+                this.selectedTab = this.tabAdvanced;
+
+            }else if(PageSidebar.lastSelectedTab == this.tabConfiguration.text) {
+                this.selectedTab = this.tabConfiguration;
+
+            }else {
+                this.selectedTab = this.tabDetail;
+            }
+
 
             this.tabsSide = Side.BOTTOM;
         }
@@ -49,6 +59,8 @@ module latte {
          */
         onSelectedTabChanged(){
             super.onSelectedTabChanged();
+
+            PageSidebar.lastSelectedTab = this.selectedTab.text;
 
             if(this.selectedTab == this.tabDetail) {
                 this.view = this.detailView;

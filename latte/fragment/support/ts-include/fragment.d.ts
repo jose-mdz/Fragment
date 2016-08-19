@@ -485,7 +485,7 @@ declare module latte {
         getConfiguration(): RemoteCall<string>;
         setConfiguration(json: string): RemoteCall<Setting>;
         getFragments(): RemoteCall<Fragment[]>;
-        getPages(page?: number): RemoteCall<PageResult<Page>>;
+        getPages(page?: number, options?: any): RemoteCall<PageResult<Page>>;
         getSettingsPack(): RemoteCall<any>;
         setOnline(online: boolean): RemoteCall<any>;
     }
@@ -851,110 +851,6 @@ declare module latte {
         static changeNameDescription(idfile: number, name: string, description: string): RemoteCall<any>;
         physicalRemove(): RemoteCall<any>;
     }
-    class fragmentBase extends DataRecord {
-        _recordType: string;
-        _moduleName: string;
-        /**
-         * Database field: int(11)
-         */
-        _idfragment: any;
-        /**
-         * Gets or sets the value of the idfragment field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idfragment field of type int(11)
-         */
-        idfragment: any;
-        /**
-         * Back field for event
-         */
-        _idfragmentChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idfragment property changes
-         */
-        idfragmentChanged: LatteEvent;
-        /**
-         * Raises the <c>idfragmentChanged</c> event
-         */
-        onIdfragmentChanged(): void;
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        onGetRecordIdName(): string;
-        /**
-         * Database field: int(11)
-         */
-        _idpage: any;
-        /**
-         * Gets or sets the value of the idpage field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idpage field of type int(11)
-         */
-        idpage: any;
-        /**
-         * Back field for event
-         */
-        _idpageChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idpage property changes
-         */
-        idpageChanged: LatteEvent;
-        /**
-         * Raises the <c>idpageChanged</c> event
-         */
-        onIdpageChanged(): void;
-        /**
-         * Database field: longtext
-         */
-        _value: any;
-        /**
-         * Gets or sets the value of the value field of type longtext
-         */
-        /**
-         * Gets or sets the value of the value field of type longtext
-         */
-        value: any;
-        /**
-         * Back field for event
-         */
-        _valueChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the value property changes
-         */
-        valueChanged: LatteEvent;
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        onValueChanged(): void;
-        /**
-         * Database field: varchar(50)
-         */
-        _name: any;
-        /**
-         * Gets or sets the value of the name field of type varchar(50)
-         */
-        /**
-         * Gets or sets the value of the name field of type varchar(50)
-         */
-        name: any;
-        /**
-         * Back field for event
-         */
-        _nameChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the name property changes
-         */
-        nameChanged: LatteEvent;
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        onNameChanged(): void;
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        onGetFields(): any;
-    }
     class settingBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
@@ -1082,6 +978,110 @@ declare module latte {
         **/
         onGetFields(): any;
         static getGlobal(): RemoteCall<Setting[]>;
+    }
+    class fragmentBase extends DataRecord {
+        _recordType: string;
+        _moduleName: string;
+        /**
+         * Database field: int(11)
+         */
+        _idfragment: any;
+        /**
+         * Gets or sets the value of the idfragment field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idfragment field of type int(11)
+         */
+        idfragment: any;
+        /**
+         * Back field for event
+         */
+        _idfragmentChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idfragment property changes
+         */
+        idfragmentChanged: LatteEvent;
+        /**
+         * Raises the <c>idfragmentChanged</c> event
+         */
+        onIdfragmentChanged(): void;
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        onGetRecordIdName(): string;
+        /**
+         * Database field: int(11)
+         */
+        _idpage: any;
+        /**
+         * Gets or sets the value of the idpage field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idpage field of type int(11)
+         */
+        idpage: any;
+        /**
+         * Back field for event
+         */
+        _idpageChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idpage property changes
+         */
+        idpageChanged: LatteEvent;
+        /**
+         * Raises the <c>idpageChanged</c> event
+         */
+        onIdpageChanged(): void;
+        /**
+         * Database field: longtext
+         */
+        _value: any;
+        /**
+         * Gets or sets the value of the value field of type longtext
+         */
+        /**
+         * Gets or sets the value of the value field of type longtext
+         */
+        value: any;
+        /**
+         * Back field for event
+         */
+        _valueChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the value property changes
+         */
+        valueChanged: LatteEvent;
+        /**
+         * Raises the <c>valueChanged</c> event
+         */
+        onValueChanged(): void;
+        /**
+         * Database field: varchar(50)
+         */
+        _name: any;
+        /**
+         * Gets or sets the value of the name field of type varchar(50)
+         */
+        /**
+         * Gets or sets the value of the name field of type varchar(50)
+         */
+        name: any;
+        /**
+         * Back field for event
+         */
+        _nameChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the name property changes
+         */
+        nameChanged: LatteEvent;
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        onNameChanged(): void;
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        onGetFields(): any;
     }
     class groupBase extends DataRecord {
         _recordType: string;
@@ -1780,6 +1780,41 @@ declare module latte {
     /**
      *
      */
+    class GroupExplorer extends ExplorerItemDataRecord<Group> {
+        /**
+         *
+         */
+        constructor(r?: Group);
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
     class GroupUserExplorer extends ExplorerItemDataRecord<GroupUser> {
         /**
          *
@@ -1814,41 +1849,6 @@ declare module latte {
          *
          */
         constructor();
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class GroupExplorer extends ExplorerItemDataRecord<Group> {
-        /**
-         *
-         */
-        constructor(r?: Group);
         /**
          * Gets the loader of children items
          *
@@ -2684,32 +2684,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PlainTextFragmentAdapter extends FragmentAdapter<IFragment> {
-        /**
-         * Override. Raises the <c>createEditorItem</c> event
-         */
-        onCreateEditorItem(): void;
-        /**
-         * Field for textbox property
-         */
-        private _textbox;
-        private baseScrollHeight;
-        private heightCheck;
-        /**
-         * Gets the textbox element
-         *
-         * @returns {Element<HTMLTextAreaElement>}
-         */
-        textbox: Element<HTMLTextAreaElement>;
-    }
-}
-/**
  * Created by josemanuel on 7/29/16.
  */
 declare module latte {
@@ -2936,6 +2910,32 @@ declare module latte {
          * @returns {TabItem}
          */
         tabImage: TabItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PlainTextFragmentAdapter extends FragmentAdapter<IFragment> {
+        /**
+         * Override. Raises the <c>createEditorItem</c> event
+         */
+        onCreateEditorItem(): void;
+        /**
+         * Field for textbox property
+         */
+        private _textbox;
+        private baseScrollHeight;
+        private heightCheck;
+        /**
+         * Gets the textbox element
+         *
+         * @returns {Element<HTMLTextAreaElement>}
+         */
+        textbox: Element<HTMLTextAreaElement>;
     }
 }
 /**
@@ -3341,6 +3341,16 @@ declare module latte {
  */
 declare module latte {
     /**
+     * Record for table fragment
+     */
+    class Fragment extends fragmentBase {
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
      * Record for table group
      */
     class Group extends groupBase {
@@ -3409,16 +3419,6 @@ declare module latte {
  */
 declare module latte {
     /**
-     * Record for table fragment
-     */
-    class Fragment extends fragmentBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
      * Record for table page
      */
     class Page extends pageBase {
@@ -3463,6 +3463,20 @@ declare module latte {
          * @param form
          */
         onFormCreated(form: DataRecordFormItem): void;
+        /**
+         * Raises the <c>onlineSwitched</c> event
+         */
+        onOnlineSwitched(): void;
+        /**
+         * Back field for event
+         */
+        private _onlineSwitched;
+        /**
+         * Gets an event raised when the online attribute has been switched
+         *
+         * @returns {LatteEvent}
+         */
+        onlineSwitched: LatteEvent;
         /**
          * Gets a value indicating if user has WRITE permission
          *
@@ -3844,6 +3858,10 @@ declare module latte {
          * Opens the editor
          */
         openEditor(): void;
+        /**
+         * Override.
+         * @returns {any[]}
+         */
         getSaveCalls(): ICall[];
         /**
          * @returns {Array}
@@ -4094,6 +4112,7 @@ declare module latte {
      *
      */
     class PageSidebar extends TabView {
+        static lastSelectedTab: string;
         /**
          *
          */

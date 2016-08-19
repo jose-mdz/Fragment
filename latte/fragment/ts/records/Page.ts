@@ -46,7 +46,7 @@ module latte{
 
 		//endregion
 
-		//region Private Methods
+		//region  Methods
         /**
          * Returns a boolean indicating if the user has the specified permission for the page
          * @param permission
@@ -156,7 +156,7 @@ module latte{
 						category: 'advanced',
 						text: strings.pageSortIndex,
 						type: 'number',
-						visible: this.idparent > 0
+						visible: this.sort == 'custom'
 					},
                     idgroup: {
 						category: 'advanced',
@@ -252,6 +252,8 @@ module latte{
                                 [
                                     new ButtonItem(strings.yesMakeOnline, null, () => {
                                         this.setOnline(true).send(() => {
+                                        	this.online = 1;
+											this.onOnlineSwitched();
                                             log("Has been set online.");
                                         });
                                     }),
@@ -268,10 +270,37 @@ module latte{
             }
 
 		}
+
+		/**
+		 * Raises the <c>onlineSwitched</c> event
+		 */
+		onOnlineSwitched(){
+			if(this._onlineSwitched){
+				this._onlineSwitched.raise();
+			}
+		}
 		
 		//endregion
 
 		//region Events
+
+		/**
+		 * Back field for event
+		 */
+		private _onlineSwitched: LatteEvent;
+
+		/**
+		 * Gets an event raised when the online attribute has been switched
+		 *
+		 * @returns {LatteEvent}
+		 */
+		get onlineSwitched(): LatteEvent{
+		    if(!this._onlineSwitched){
+		        this._onlineSwitched = new LatteEvent(this);
+		    }
+		    return this._onlineSwitched;
+		}
+
 		//endregion
 
 		//region Properties

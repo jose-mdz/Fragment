@@ -10,6 +10,11 @@ module latte {
 
         //region Static
         static goMainView(){
+
+            let body = new Element<HTMLBodyElement>(document.body);
+
+            body.clear();
+
             View.mainView = new CmsMainView();
         }
 

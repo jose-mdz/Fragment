@@ -942,8 +942,8 @@ module latte{
 
 
 		 */
-		getPages(page: number = 1): RemoteCall<PageResult<Page>>{
-			return new RemoteCall<PageResult<Page>>('fragment', 'Page', 'getPages', {page: page} , this.recordId);
+		getPages(page: number = 1, options: any = null): RemoteCall<PageResult<Page>>{
+			return new RemoteCall<PageResult<Page>>('fragment', 'Page', 'getPages', {page: page, options: options} , this.recordId);
 		}
 
 		/*
@@ -1691,201 +1691,6 @@ module latte{
 		}
 	}
 
-	export class fragmentBase extends DataRecord{
-
-		/* Name of Php record */
-		_recordType: string = 'Fragment';
-
-		/* Name of Module where record lives */
-		_moduleName: string = 'fragment';
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idfragment: any = null;
-
-		/**
-		 * Gets or sets the value of the idfragment field of type int(11)
-		 */
-		get idfragment(): any{
-			return this._idfragment;
-		}
-
-		/**
-		 * Gets or sets the value of the idfragment field of type int(11)
-		 */
-		set idfragment(value: any){
-			var changed: boolean = value !== this._idfragment
-			this._idfragment = value;
-			if(changed){ this.onIdfragmentChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idfragmentChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idfragment property changes
-		 */
-		get idfragmentChanged(): LatteEvent{
-			if(!this._idfragmentChanged){ this._idfragmentChanged = new LatteEvent(this); }
-			return this._idfragmentChanged;
-		}
-
-		/**
-		 * Raises the <c>idfragmentChanged</c> event
-		 */
-		onIdfragmentChanged(){
-			if(this._idfragmentChanged){
-				this._idfragmentChanged.raise()
-			}
-			this.onFieldValueChanged('idfragment', this.idfragment)
-		}
-
-		/**
-		* Gets the name of the autoincrement field
-		**/
-		onGetRecordIdName(): string { return 'idfragment'; }
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idpage: any = null;
-
-		/**
-		 * Gets or sets the value of the idpage field of type int(11)
-		 */
-		get idpage(): any{
-			return this._idpage;
-		}
-
-		/**
-		 * Gets or sets the value of the idpage field of type int(11)
-		 */
-		set idpage(value: any){
-			var changed: boolean = value !== this._idpage
-			this._idpage = value;
-			if(changed){ this.onIdpageChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idpageChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idpage property changes
-		 */
-		get idpageChanged(): LatteEvent{
-			if(!this._idpageChanged){ this._idpageChanged = new LatteEvent(this); }
-			return this._idpageChanged;
-		}
-
-		/**
-		 * Raises the <c>idpageChanged</c> event
-		 */
-		onIdpageChanged(){
-			if(this._idpageChanged){
-				this._idpageChanged.raise()
-			}
-			this.onFieldValueChanged('idpage', this.idpage)
-		}
-
-		/**
-		 * Database field: longtext
-		 */
-		_value: any = null;
-
-		/**
-		 * Gets or sets the value of the value field of type longtext
-		 */
-		get value(): any{
-			return this._value;
-		}
-
-		/**
-		 * Gets or sets the value of the value field of type longtext
-		 */
-		set value(value: any){
-			var changed: boolean = value !== this._value
-			this._value = value;
-			if(changed){ this.onValueChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_valueChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the value property changes
-		 */
-		get valueChanged(): LatteEvent{
-			if(!this._valueChanged){ this._valueChanged = new LatteEvent(this); }
-			return this._valueChanged;
-		}
-
-		/**
-		 * Raises the <c>valueChanged</c> event
-		 */
-		onValueChanged(){
-			if(this._valueChanged){
-				this._valueChanged.raise()
-			}
-			this.onFieldValueChanged('value', this.value)
-		}
-
-		/**
-		 * Database field: varchar(50)
-		 */
-		_name: any = null;
-
-		/**
-		 * Gets or sets the value of the name field of type varchar(50)
-		 */
-		get name(): any{
-			return this._name;
-		}
-
-		/**
-		 * Gets or sets the value of the name field of type varchar(50)
-		 */
-		set name(value: any){
-			var changed: boolean = value !== this._name
-			this._name = value;
-			if(changed){ this.onNameChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_nameChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the name property changes
-		 */
-		get nameChanged(): LatteEvent{
-			if(!this._nameChanged){ this._nameChanged = new LatteEvent(this); }
-			return this._nameChanged;
-		}
-
-		/**
-		 * Raises the <c>nameChanged</c> event
-		 */
-		onNameChanged(){
-			if(this._nameChanged){
-				this._nameChanged.raise()
-			}
-			this.onFieldValueChanged('name', this.name)
-		}
-
-		/**
-		* Override. Gets data about the fields of the record.
-		**/
-		onGetFields(): any { return {'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name}; }
-	}
-
 	export class settingBase extends DataRecord{
 
 		/* Name of Php record */
@@ -2133,6 +1938,201 @@ module latte{
 		static getGlobal(): RemoteCall<Setting[]>{
 			return new RemoteCall<Setting[]>('fragment', 'Setting', 'getGlobal', {} );
 		}
+	}
+
+	export class fragmentBase extends DataRecord{
+
+		/* Name of Php record */
+		_recordType: string = 'Fragment';
+
+		/* Name of Module where record lives */
+		_moduleName: string = 'fragment';
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idfragment: any = null;
+
+		/**
+		 * Gets or sets the value of the idfragment field of type int(11)
+		 */
+		get idfragment(): any{
+			return this._idfragment;
+		}
+
+		/**
+		 * Gets or sets the value of the idfragment field of type int(11)
+		 */
+		set idfragment(value: any){
+			var changed: boolean = value !== this._idfragment
+			this._idfragment = value;
+			if(changed){ this.onIdfragmentChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idfragmentChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idfragment property changes
+		 */
+		get idfragmentChanged(): LatteEvent{
+			if(!this._idfragmentChanged){ this._idfragmentChanged = new LatteEvent(this); }
+			return this._idfragmentChanged;
+		}
+
+		/**
+		 * Raises the <c>idfragmentChanged</c> event
+		 */
+		onIdfragmentChanged(){
+			if(this._idfragmentChanged){
+				this._idfragmentChanged.raise()
+			}
+			this.onFieldValueChanged('idfragment', this.idfragment)
+		}
+
+		/**
+		* Gets the name of the autoincrement field
+		**/
+		onGetRecordIdName(): string { return 'idfragment'; }
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idpage: any = null;
+
+		/**
+		 * Gets or sets the value of the idpage field of type int(11)
+		 */
+		get idpage(): any{
+			return this._idpage;
+		}
+
+		/**
+		 * Gets or sets the value of the idpage field of type int(11)
+		 */
+		set idpage(value: any){
+			var changed: boolean = value !== this._idpage
+			this._idpage = value;
+			if(changed){ this.onIdpageChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idpageChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idpage property changes
+		 */
+		get idpageChanged(): LatteEvent{
+			if(!this._idpageChanged){ this._idpageChanged = new LatteEvent(this); }
+			return this._idpageChanged;
+		}
+
+		/**
+		 * Raises the <c>idpageChanged</c> event
+		 */
+		onIdpageChanged(){
+			if(this._idpageChanged){
+				this._idpageChanged.raise()
+			}
+			this.onFieldValueChanged('idpage', this.idpage)
+		}
+
+		/**
+		 * Database field: longtext
+		 */
+		_value: any = null;
+
+		/**
+		 * Gets or sets the value of the value field of type longtext
+		 */
+		get value(): any{
+			return this._value;
+		}
+
+		/**
+		 * Gets or sets the value of the value field of type longtext
+		 */
+		set value(value: any){
+			var changed: boolean = value !== this._value
+			this._value = value;
+			if(changed){ this.onValueChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_valueChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the value property changes
+		 */
+		get valueChanged(): LatteEvent{
+			if(!this._valueChanged){ this._valueChanged = new LatteEvent(this); }
+			return this._valueChanged;
+		}
+
+		/**
+		 * Raises the <c>valueChanged</c> event
+		 */
+		onValueChanged(){
+			if(this._valueChanged){
+				this._valueChanged.raise()
+			}
+			this.onFieldValueChanged('value', this.value)
+		}
+
+		/**
+		 * Database field: varchar(50)
+		 */
+		_name: any = null;
+
+		/**
+		 * Gets or sets the value of the name field of type varchar(50)
+		 */
+		get name(): any{
+			return this._name;
+		}
+
+		/**
+		 * Gets or sets the value of the name field of type varchar(50)
+		 */
+		set name(value: any){
+			var changed: boolean = value !== this._name
+			this._name = value;
+			if(changed){ this.onNameChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_nameChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the name property changes
+		 */
+		get nameChanged(): LatteEvent{
+			if(!this._nameChanged){ this._nameChanged = new LatteEvent(this); }
+			return this._nameChanged;
+		}
+
+		/**
+		 * Raises the <c>nameChanged</c> event
+		 */
+		onNameChanged(){
+			if(this._nameChanged){
+				this._nameChanged.raise()
+			}
+			this.onFieldValueChanged('name', this.name)
+		}
+
+		/**
+		* Override. Gets data about the fields of the record.
+		**/
+		onGetFields(): any { return {'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name}; }
 	}
 
 	export class groupBase extends DataRecord{

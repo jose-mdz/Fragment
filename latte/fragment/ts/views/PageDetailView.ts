@@ -100,11 +100,23 @@ module latte {
                 this._pageChanged.raise();
             }
 
+            this.page.onlineChanged.add(() => {
+                if(!this.page.canIWrite){
+                    for (let i = 0; i < this.dataForm.inputs.length; i++) {
+                        this.dataForm.inputs[i].readOnly = true;
+                    }
+                    for (let i = 0; i < this.settingsForm.inputs.length; i++) {
+                        this.settingsForm.inputs[i].readOnly = true;
+                    }
+                    this.unsavedChanges = false;
+                }
+            });
+
             // Set record on form
             this.dataForm.record = this.page;
 
-            // Check write permissiuon
-            this.dataForm.readOnly = !this.page.canIWrite;
+            // Check write permission
+            this.dataForm.readOnly = this.settingsForm.readOnly = !this.page.canIWrite;
 
             // Load settings
             this.loadSettings();
@@ -128,13 +140,19 @@ module latte {
             });
         }
 
+        /**
+         * Override.
+         * @returns {any[]}
+         */
         getSaveCalls(): ICall[]{
             let all =[]
                 .concat(this.dataForm.getSaveCalls())
-                .concat(this.saveSettingsCalls())
+                .concat(this.saveSettingsCalls());
 
             return all;
         }
+
+
 
         /**
          * @returns {Array}
@@ -150,7 +168,10 @@ module latte {
                 let call = setting.saveCall();
 
                 if(i == 0){
-                    call.withHandlers(() => this.unsavedChanges = false )
+                    call.withHandlers(() => {
+                        this.unsavedChanges = false;
+                        this.onPageChanged();
+                    })
                 }
 
                 r.push(call);
@@ -162,6 +183,7 @@ module latte {
         //endregion
 
         //region Events
+
         /**
          * Back field for event
          */

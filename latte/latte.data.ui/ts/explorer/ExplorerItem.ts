@@ -44,7 +44,7 @@ module latte {
          */
         createListViewItem(): ListViewItem{
 
-            var item = new ListViewItem();
+            var item = new ListViewItem(this.explorer.listView);
             var columns: string[] = this.getColumns();
 
             item.icon = this.getIcon();

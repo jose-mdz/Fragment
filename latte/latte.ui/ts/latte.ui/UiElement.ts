@@ -840,19 +840,20 @@ module latte{
          **/
         set focusable(value: boolean){
 
-
             if(value){
+                this.addClass('focusable');
                 this.element.attr('tabindex', 0);// TabIndexManager.subscribe(this));
 
                 this.element.get(0).addEventListener('focus', () => {
                     this.onFocused();
-                })
+                });
 
                 this.element.get(0).addEventListener('blur', () => {
                     this.onBlur();
-                })
+                });
 
             }else{
+                this.removeClass('focusable');
                 this.element.removeAttr('tabindex');
             }
 

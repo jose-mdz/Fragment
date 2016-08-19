@@ -90,6 +90,24 @@ module latte{
         }
 
         /**
+         * Raises the <c>readOnly</c> event
+         */
+        onReadOnlyChanged(){
+            if(this._readOnlyChanged){
+                this._readOnlyChanged.raise();
+            }
+
+            for (let i = 0; i < this.inputs.length; i++) {
+                let input = this.inputs[i];
+
+                if(input.readOnly === null && this.readOnly !== null) {
+                    input.readOnly = this.readOnly;
+                }
+
+            }
+        }
+
+        /**
          * Raises the <c>unsavedChanges</c> event
          */
         onUnsavedChangesChanged(){
@@ -150,6 +168,23 @@ module latte{
                 this._directionChanged = new LatteEvent(this);
             }
             return this._directionChanged;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _readOnlyChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the readOnly property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get readOnlyChanged(): LatteEvent{
+            if(!this._readOnlyChanged){
+                this._readOnlyChanged = new LatteEvent(this);
+            }
+            return this._readOnlyChanged;
         }
 
         /**
@@ -273,9 +308,15 @@ module latte{
                         this.items.add(input);
 
                         input.valueChanged.add(this.onValueChanged, this);
+
                         if(this.direction){
                             input.direction = this.direction;
                         }
+
+                        if(input.readOnly === null && this.readOnly !== null) {
+                            input.readOnly = this.readOnly;
+                        }
+
                         input.textVisible = true;
                     },
                     (input: InputItem) => {
@@ -303,34 +344,36 @@ module latte{
         }
 
         /**
-         *
-         **/
-        private _readOnly: boolean;
+         * Property field
+         */
+        private _readOnly: boolean = null;
 
         /**
-         * Gets or sets a value indicating if the inputs in the form are read-only
-         **/
+         * Gets or sets a value indicating if the inputs should be read-only.
+         *
+         * @returns {boolean}
+         */
         get readOnly(): boolean{
             return this._readOnly;
         }
 
         /**
-         * Gets or sets a value indicating if the inputs in the form are read-only
-         **/
+         * Gets or sets a value indicating if the inputs should be read-only.
+         *
+         * @param {boolean} value
+         */
         set readOnly(value: boolean){
 
+            // Check if value changed
+            let changed: boolean = value !== this._readOnly;
 
-            if(!_isBoolean(value))
-                throw new InvalidArgumentEx('value');
-
-            var i = 0;
-
-            for(i = 0; i < this.inputs.count; i++)
-                this.inputs.item(i).readOnly = value;
-
+            // Set value
             this._readOnly = value;
 
-
+            // Trigger changed event
+            if(changed){
+                this.onReadOnlyChanged();
+            }
         }
 
         /**

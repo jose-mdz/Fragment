@@ -1032,312 +1032,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     *
-     */
-    var Collection = (function () {
-        //endregion
-        /**
-         *
-         */
-        function Collection(addCallback, removeCallback, context) {
-            if (addCallback === void 0) { addCallback = null; }
-            if (removeCallback === void 0) { removeCallback = null; }
-            if (context === void 0) { context = null; }
-            //region Static
-            //endregion
-            //region Fields
-            this.pointer = 0;
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._context = null;
-            /**
-             * Property field
-             */
-            this._length = 0;
-            if (addCallback) {
-                this.addItem.add(addCallback, context);
-            }
-            if (removeCallback) {
-                this.removeItem.add(removeCallback, context);
-            }
-            this.context = context;
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Adds an element to the collection
-         *
-         * @param element
-         * @param raiseEvent
-         */
-        Collection.prototype.add = function (element, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            this[this._length++] = element;
-            if (raiseEvent) {
-                this.onAddItem(element, this.length);
-            }
-        };
-        /**
-         * Adds an array of elements
-         *
-         * @param elements
-         * @param raiseEvent
-         */
-        Collection.prototype.addArray = function (elements, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            for (var i = 0; i < elements.length; i++) {
-                this.add(elements[i]);
-            }
-        };
-        /**
-         * Adds a collection of elements to the collection
-         *
-         * @param collection
-         * @param raiseEvent
-         */
-        Collection.prototype.addCollection = function (collection, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            for (var i = 0; i < collection.length; i++) {
-                this.add(collection[i]);
-            }
-        };
-        /**
-         * Clears the collection
-         */
-        Collection.prototype.clear = function () {
-            while (this.length > 0) {
-                this.removeAt(0);
-            }
-        };
-        /**
-         * Returns a value indicating if the specified element is contained in the collection
-         * @param element
-         */
-        Collection.prototype.contains = function (element) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] == element)
-                    return true;
-            }
-            return false;
-        };
-        /**
-         * Iterates through the collection, executing the handler for each item
-         * @param handler
-         */
-        Collection.prototype.each = function (handler) {
-            for (var i = 0; i < this.count; i++) {
-                handler.call(this.context, this[i], i);
-            }
-        };
-        /**
-         * Gets the index of the specified element if found. -1 if not found.
-         * @param item
-         * @returns {number}
-         */
-        Collection.prototype.indexOf = function (item) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] === item) {
-                    return i;
-                }
-            }
-            return -1;
-        };
-        /**
-         * Gets the item at the specified position
-         * @param index
-         * @returns {*}
-         */
-        Collection.prototype.item = function (index) {
-            return this[index];
-        };
-        /**
-         * Returns the object on current pointer and moves the pointer forward.
-         * It returns null and resets pointer if end of collection reached.
-         * @returns {*}
-         */
-        Collection.prototype.next = function () {
-            if (this.pointer >= this.length) {
-                this.pointer = 0;
-                return null;
-            }
-            var elem = this[this.pointer];
-            this.pointer++;
-            return elem;
-        };
-        /**
-         * Raises the <c>addItem</c> event
-         */
-        Collection.prototype.onAddItem = function (item, index) {
-            if (this._addItem) {
-                this._addItem.raise(item, index);
-            }
-        };
-        /**
-         * Raises the <c>removeItem</c> event
-         */
-        Collection.prototype.onRemoveItem = function (item, index) {
-            if (this._removeItem) {
-                this._removeItem.raise(item, index);
-            }
-        };
-        /**
-         * Removes the specified item from the collection
-         * @param item
-         * @param raiseEvent
-         */
-        Collection.prototype.remove = function (item, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            var buffer = [];
-            var index = -1;
-            //region Clear this
-            for (var i = 0; i < this.length; i++) {
-                var t = this[i];
-                delete this[i];
-                if (t === item) {
-                    index = i;
-                }
-                else {
-                    buffer.push(t);
-                }
-            }
-            //endregion
-            //region Apply buffer
-            for (var i = 0; i < buffer.length; i++) {
-                this[i] = buffer[i];
-            }
-            this._length = buffer.length;
-            //endregion
-            if (index >= 0) {
-                if (raiseEvent) {
-                    this.onRemoveItem(item, index);
-                }
-            }
-            return this;
-        };
-        /**
-         * Removes the item ath the specified index
-         * @param index
-         * @param raiseEvent
-         */
-        Collection.prototype.removeAt = function (index, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            this.remove(this[index], raiseEvent);
-        };
-        /**
-         * Resets the internal pointer for calls to <c>next()</c> method.
-         */
-        Collection.prototype.resetPointer = function () {
-            this.pointer = 0;
-        };
-        Object.defineProperty(Collection.prototype, "addItem", {
-            /**
-             * Gets an event raised when an item is added
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._addItem) {
-                    this._addItem = new latte.LatteEvent(this);
-                    this._addItem.context = this.context;
-                }
-                return this._addItem;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "removeItem", {
-            /**
-             * Gets an event raised when an item is removed
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._removeItem) {
-                    this._removeItem = new latte.LatteEvent(this);
-                    this._addItem.context = this.context;
-                }
-                return this._removeItem;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "context", {
-            /**
-             * Gets or sets the context to execute methods of collection
-             *
-             * @returns {any}
-             */
-            get: function () {
-                return this._context;
-            },
-            /**
-             * Gets or sets the context to execute methods of collection
-             *
-             * @param {any} value
-             */
-            set: function (value) {
-                this._context = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "count", {
-            /**
-             * Gets the count of elements in collection
-             *
-             * @returns {number}
-             */
-            get: function () {
-                return this.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "first", {
-            /**
-             * Gets the first element of the collection
-             * @returns {*}
-             */
-            get: function () {
-                return this.length > 0 ? this[0] : null;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "last", {
-            /**
-             * Gets the last element of the collection
-             * @returns {*}
-             */
-            get: function () {
-                return (this.length > 0 ? this[this.length - 1] : null);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "length", {
-            /**
-             * Gets the length of the collection
-             *
-             * @returns {number}
-             */
-            get: function () {
-                return this._length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Collection;
-    }());
-    latte.Collection = Collection;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * Represents a color
      **/
     var Color = (function () {
@@ -1859,6 +1553,312 @@ var latte;
         return Color;
     }());
     latte.Color = Color;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var Collection = (function () {
+        //endregion
+        /**
+         *
+         */
+        function Collection(addCallback, removeCallback, context) {
+            if (addCallback === void 0) { addCallback = null; }
+            if (removeCallback === void 0) { removeCallback = null; }
+            if (context === void 0) { context = null; }
+            //region Static
+            //endregion
+            //region Fields
+            this.pointer = 0;
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._context = null;
+            /**
+             * Property field
+             */
+            this._length = 0;
+            if (addCallback) {
+                this.addItem.add(addCallback, context);
+            }
+            if (removeCallback) {
+                this.removeItem.add(removeCallback, context);
+            }
+            this.context = context;
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Adds an element to the collection
+         *
+         * @param element
+         * @param raiseEvent
+         */
+        Collection.prototype.add = function (element, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            this[this._length++] = element;
+            if (raiseEvent) {
+                this.onAddItem(element, this.length);
+            }
+        };
+        /**
+         * Adds an array of elements
+         *
+         * @param elements
+         * @param raiseEvent
+         */
+        Collection.prototype.addArray = function (elements, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            for (var i = 0; i < elements.length; i++) {
+                this.add(elements[i]);
+            }
+        };
+        /**
+         * Adds a collection of elements to the collection
+         *
+         * @param collection
+         * @param raiseEvent
+         */
+        Collection.prototype.addCollection = function (collection, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            for (var i = 0; i < collection.length; i++) {
+                this.add(collection[i]);
+            }
+        };
+        /**
+         * Clears the collection
+         */
+        Collection.prototype.clear = function () {
+            while (this.length > 0) {
+                this.removeAt(0);
+            }
+        };
+        /**
+         * Returns a value indicating if the specified element is contained in the collection
+         * @param element
+         */
+        Collection.prototype.contains = function (element) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == element)
+                    return true;
+            }
+            return false;
+        };
+        /**
+         * Iterates through the collection, executing the handler for each item
+         * @param handler
+         */
+        Collection.prototype.each = function (handler) {
+            for (var i = 0; i < this.count; i++) {
+                handler.call(this.context, this[i], i);
+            }
+        };
+        /**
+         * Gets the index of the specified element if found. -1 if not found.
+         * @param item
+         * @returns {number}
+         */
+        Collection.prototype.indexOf = function (item) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] === item) {
+                    return i;
+                }
+            }
+            return -1;
+        };
+        /**
+         * Gets the item at the specified position
+         * @param index
+         * @returns {*}
+         */
+        Collection.prototype.item = function (index) {
+            return this[index];
+        };
+        /**
+         * Returns the object on current pointer and moves the pointer forward.
+         * It returns null and resets pointer if end of collection reached.
+         * @returns {*}
+         */
+        Collection.prototype.next = function () {
+            if (this.pointer >= this.length) {
+                this.pointer = 0;
+                return null;
+            }
+            var elem = this[this.pointer];
+            this.pointer++;
+            return elem;
+        };
+        /**
+         * Raises the <c>addItem</c> event
+         */
+        Collection.prototype.onAddItem = function (item, index) {
+            if (this._addItem) {
+                this._addItem.raise(item, index);
+            }
+        };
+        /**
+         * Raises the <c>removeItem</c> event
+         */
+        Collection.prototype.onRemoveItem = function (item, index) {
+            if (this._removeItem) {
+                this._removeItem.raise(item, index);
+            }
+        };
+        /**
+         * Removes the specified item from the collection
+         * @param item
+         * @param raiseEvent
+         */
+        Collection.prototype.remove = function (item, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            var buffer = [];
+            var index = -1;
+            //region Clear this
+            for (var i = 0; i < this.length; i++) {
+                var t = this[i];
+                delete this[i];
+                if (t === item) {
+                    index = i;
+                }
+                else {
+                    buffer.push(t);
+                }
+            }
+            //endregion
+            //region Apply buffer
+            for (var i = 0; i < buffer.length; i++) {
+                this[i] = buffer[i];
+            }
+            this._length = buffer.length;
+            //endregion
+            if (index >= 0) {
+                if (raiseEvent) {
+                    this.onRemoveItem(item, index);
+                }
+            }
+            return this;
+        };
+        /**
+         * Removes the item ath the specified index
+         * @param index
+         * @param raiseEvent
+         */
+        Collection.prototype.removeAt = function (index, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            this.remove(this[index], raiseEvent);
+        };
+        /**
+         * Resets the internal pointer for calls to <c>next()</c> method.
+         */
+        Collection.prototype.resetPointer = function () {
+            this.pointer = 0;
+        };
+        Object.defineProperty(Collection.prototype, "addItem", {
+            /**
+             * Gets an event raised when an item is added
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._addItem) {
+                    this._addItem = new latte.LatteEvent(this);
+                    this._addItem.context = this.context;
+                }
+                return this._addItem;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "removeItem", {
+            /**
+             * Gets an event raised when an item is removed
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._removeItem) {
+                    this._removeItem = new latte.LatteEvent(this);
+                    this._addItem.context = this.context;
+                }
+                return this._removeItem;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "context", {
+            /**
+             * Gets or sets the context to execute methods of collection
+             *
+             * @returns {any}
+             */
+            get: function () {
+                return this._context;
+            },
+            /**
+             * Gets or sets the context to execute methods of collection
+             *
+             * @param {any} value
+             */
+            set: function (value) {
+                this._context = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "count", {
+            /**
+             * Gets the count of elements in collection
+             *
+             * @returns {number}
+             */
+            get: function () {
+                return this.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "first", {
+            /**
+             * Gets the first element of the collection
+             * @returns {*}
+             */
+            get: function () {
+                return this.length > 0 ? this[0] : null;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "last", {
+            /**
+             * Gets the last element of the collection
+             * @returns {*}
+             */
+            get: function () {
+                return (this.length > 0 ? this[this.length - 1] : null);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "length", {
+            /**
+             * Gets the length of the collection
+             *
+             * @returns {number}
+             */
+            get: function () {
+                return this._length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Collection;
+    }());
+    latte.Collection = Collection;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 2/6/14.
@@ -3934,30 +3934,30 @@ var latte;
     }());
     latte.HEvent = HEvent;
 })(latte || (latte = {}));
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/support/ts-include/datalatte.d.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/support/ts-include/latte.strings.d.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/ICall.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/IInput.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/IMessage.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/ISave.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/ISaveContainer.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Key.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/TriBool.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/WeekDay.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/latte.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Ex.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Ajax.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Collection.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Color.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Culture.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/DateTime.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Event.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/InvaldArgumentEx.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/InvalidCallEx.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/LoadInfo.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Point.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Rectangle.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Size.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/TimeSpan.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/Timer.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte/ts/TypeEvent.ts" /> 
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/support/ts-include/datalatte.d.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/support/ts-include/latte.strings.d.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/ICall.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/IInput.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/IMessage.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/ISave.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/ISaveContainer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Key.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/TriBool.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/WeekDay.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/latte.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Ex.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Ajax.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Color.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Collection.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Culture.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/DateTime.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Event.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/InvaldArgumentEx.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/InvalidCallEx.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/LoadInfo.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Point.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Rectangle.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Size.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/TimeSpan.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Timer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/TypeEvent.ts" /> 

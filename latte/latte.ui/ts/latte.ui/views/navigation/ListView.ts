@@ -50,6 +50,46 @@ module latte{
             var word = function(){ return lipsum[Math.round(Math.random() * (lipsum.length - 1))]; };
             var words = function(){ var r =''; for(var i = 0; i < Math.random() * 8; i++) r+= word() + ' '; return r;  }
 
+            this.element.get(0).addEventListener('keydown', (e) => {
+                if(e.keyCode == Key.ARROW_DOWN || e.keyCode == Key.ARROW_LEFT){
+                    this.selectNextItem();
+
+                }else if(e.keyCode == Key.ARROW_UP || e.keyCode == Key.ARROW_RIGHT) {
+                    this.selectPreviousItem();
+                }
+            });
+        }
+
+        selectNextItem(){
+            let index = this.selectedItem ? this.items.indexOf(this.selectedItem) : -1;
+
+            index++;
+
+            if(index >= this.items.length) {
+                return;
+            }
+
+            if(index >= 0) {
+                log(index)
+                this.items[index].selected = true;
+            }
+        }
+
+        selectPreviousItem(){
+
+            let index = this.selectedItem ? this.items.indexOf(this.selectedItem) : -1;
+
+            index--;
+
+
+            if(index < 0){
+                return;
+            }
+
+            if(index < this.items.length ) {
+                this.items[index].selected = true;
+            }
+
         }
 
         /**
@@ -57,11 +97,10 @@ module latte{
          **/
         public _informSelectedItem(item: ListViewItem){
 
-            if(!(item instanceof ListViewItem))
-                throw new InvalidArgumentEx('item');
-
+            log("Informed!")
             var changed = item !== this._selectedItem;
             this._selectedItem = item;
+            log("Selected item set")
 
             if(changed) {
                 this.onSelectedItemChanged();

@@ -3247,6 +3247,106 @@ declare module latte {
 }
 declare module latte {
     /**
+     * ButtonGroup with pagination information
+     **/
+    class PaginationItem extends ButtonGroupItem {
+        /**
+         *
+         **/
+        private _page;
+        /**
+         *
+         **/
+        private _pages;
+        /**
+         *
+         **/
+        btnCurrent: ButtonItem;
+        /**
+         *
+         **/
+        btnNext: ButtonItem;
+        /**
+         *
+         **/
+        btnPrevious: ButtonItem;
+        /**
+         * Raised when page changes
+         **/
+        pageChanged: LatteEvent;
+        /**
+         *
+         **/
+        constructor();
+        /**
+         * Navigates to next page, if possible.
+         **/
+        nextPage(): void;
+        /**
+         * Raises the <c>pageChanged</c> event
+         **/
+        onPageChanged(): void;
+        /**
+         * Navigates to the previous page, if possible.
+         **/
+        previousPage(): void;
+        txtPage_enterPressed(): void;
+        /**
+         * Gets or sets the current page
+         **/
+        /**
+         * Gets or sets the current page
+         **/
+        page: number;
+        /**
+         * Gets the current page.
+         * @returns {number}
+         */
+        getPage(): number;
+        /**
+         * Sets the current page.
+         * Optionally omits the <c>pageChanged</c> event trigger.
+         * @param value
+         * @param silent
+         */
+        setPage(value: number, silent?: boolean): void;
+        /**
+         * Gets or sets the amount of pages for navigation
+         **/
+        /**
+         * Gets or sets the amount of pages for navigation
+         **/
+        pages: number;
+        private _txtPage;
+        txtPage: TextboxItem;
+        /**
+         * Fields for lblPages property.
+         */
+        private _lblPages;
+        /**
+         * Gets a value indicating
+         */
+        lblPages: LabelItem;
+        /**
+         * Fields for btnGo property.
+         */
+        private _btnGo;
+        /**
+         * Gets a value indicating
+         */
+        btnGo: ButtonItem;
+        /**
+         * Fields for btnOverlay property.
+         */
+        private _btnOverlay;
+        /**
+         * Gets a value indicating
+         */
+        btnOverlay: ButtonItem;
+    }
+}
+declare module latte {
+    /**
      * Represents a selectable tab
      **/
     class TabItem extends ButtonItem {
@@ -3435,275 +3535,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     *
-     **/
-    class FormItem extends ItemStack implements ISave {
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Returns an input by its assigned name
-         **/
-        byName(name: string): InputItem;
-        /**
-         * Implementation. Gets an empty array since the form class itself has no way of knowing what calls should make
-         * the save itself.
-         */
-        getSaveCalls(): ICall[];
-        /**
-         * Gets an object with the values of fields
-         **/
-        getValues(): any;
-        /**
-         * Raises the <c>direction</c> event
-         */
-        onDirectionChanged(): void;
-        /**
-         * Raises the <c>unsavedChanges</c> event
-         */
-        onUnsavedChangesChanged(): void;
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        onValueChanged(): void;
-        /**
-         * Sets the direction of Inputs
-         * @param d
-         */
-        setDirection(d: Direction): void;
-        /**
-         * Gets or sets the with of the text parts.
-         * Value must be percent since it must be leveled with value part. Value size will be adjusted
-         * to 5% less large than it should to avoid edge collisions.
-         * Values lower than 1 accepted.
-         * Note that when horizontal input, layout may become affected.
-         *
-         */
-        setTextWidth(value: number): void;
-        /**
-         * Back field for event
-         */
-        private _directionChanged;
-        /**
-         * Gets an event raised when the value of the direction property changes
-         *
-         * @returns {LatteEvent}
-         */
-        directionChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _unsavedChangesChanged;
-        /**
-         * Gets an event raised when the value of the unsavedChanges property changes
-         *
-         * @returns {LatteEvent}
-         */
-        unsavedChangesChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _valueChanged;
-        /**
-         * Gets an event raised when the value of an input is changed
-         *
-         * @returns {LatteEvent}
-         */
-        valueChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _direction;
-        /**
-         * Gets or sets the direction of the inputs in the form
-         *
-         * @returns {Direction}
-         */
-        /**
-         * Gets or sets the direction of the inputs in the form
-         *
-         * @param {Direction} value
-         */
-        direction: Direction;
-        /**
-         *
-         **/
-        private _faceVisible;
-        /**
-         * Gets or sets a value indicating if the form has a visible face style.
-         **/
-        /**
-         * Gets or sets a value indicating if the form has a visible face style.
-         **/
-        faceVisible: boolean;
-        /**
-         * Field for inputs property
-         */
-        private _inputs;
-        /**
-         * Gets the inputs of the form
-         *
-         * @returns {Collection<Input>}
-         */
-        inputs: Collection<InputItem>;
-        /**
-         * Gets a value indicating if the form is currently valid
-         *
-         * @returns {boolean}
-         */
-        isValid: boolean;
-        /**
-         *
-         **/
-        private _readOnly;
-        /**
-         * Gets or sets a value indicating if the inputs in the form are read-only
-         **/
-        /**
-         * Gets or sets a value indicating if the inputs in the form are read-only
-         **/
-        readOnly: boolean;
-        /**
-         * Gets or sets the title of the form
-         **/
-        /**
-         * Gets or sets the title of the form
-         **/
-        title: string;
-        /**
-         * Property field
-         */
-        private _unsavedChanges;
-        /**
-         * Gets or sets a value indicating if the form has changes
-         *
-         * @returns {boolean}
-         */
-        /**
-         * Gets or sets a value indicating if the form has changes
-         *
-         * @param {boolean} value
-         */
-        unsavedChanges: boolean;
-        /**
-         * Gets a value of checking every input in <c>inputs</c> to be valid
-         **/
-        valid: boolean;
-        /**
-         * Field for titleLabel property
-         */
-        private _titleLabel;
-        /**
-         * Gets the title label
-         *
-         * @returns {LabelItem}
-         */
-        titleLabel: LabelItem;
-    }
-}
-declare module latte {
-    /**
-     * ButtonGroup with pagination information
-     **/
-    class PaginationItem extends ButtonGroupItem {
-        /**
-         *
-         **/
-        private _page;
-        /**
-         *
-         **/
-        private _pages;
-        /**
-         *
-         **/
-        btnCurrent: ButtonItem;
-        /**
-         *
-         **/
-        btnNext: ButtonItem;
-        /**
-         *
-         **/
-        btnPrevious: ButtonItem;
-        /**
-         * Raised when page changes
-         **/
-        pageChanged: LatteEvent;
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Navigates to next page, if possible.
-         **/
-        nextPage(): void;
-        /**
-         * Raises the <c>pageChanged</c> event
-         **/
-        onPageChanged(): void;
-        /**
-         * Navigates to the previous page, if possible.
-         **/
-        previousPage(): void;
-        txtPage_enterPressed(): void;
-        /**
-         * Gets or sets the current page
-         **/
-        /**
-         * Gets or sets the current page
-         **/
-        page: number;
-        /**
-         * Gets the current page.
-         * @returns {number}
-         */
-        getPage(): number;
-        /**
-         * Sets the current page.
-         * Optionally omits the <c>pageChanged</c> event trigger.
-         * @param value
-         * @param silent
-         */
-        setPage(value: number, silent?: boolean): void;
-        /**
-         * Gets or sets the amount of pages for navigation
-         **/
-        /**
-         * Gets or sets the amount of pages for navigation
-         **/
-        pages: number;
-        private _txtPage;
-        txtPage: TextboxItem;
-        /**
-         * Fields for lblPages property.
-         */
-        private _lblPages;
-        /**
-         * Gets a value indicating
-         */
-        lblPages: LabelItem;
-        /**
-         * Fields for btnGo property.
-         */
-        private _btnGo;
-        /**
-         * Gets a value indicating
-         */
-        btnGo: ButtonItem;
-        /**
-         * Fields for btnOverlay property.
-         */
-        private _btnOverlay;
-        /**
-         * Gets a value indicating
-         */
-        btnOverlay: ButtonItem;
-    }
-}
-declare module latte {
-    /**
      * Renders a conversation made of <c>CommentItem</c>s, allowing the user to add comments.
      **/
     class ConversationItem extends Item {
@@ -3825,90 +3656,6 @@ declare module latte {
          * Gets or sets the number of hidden comments in conversation
          **/
         pendentPages: number;
-    }
-}
-declare module latte {
-    class HtmlEditorCommands {
-        /**
-         * Swaps selection boldness
-         */
-        static BOLD: string;
-        /**
-         * Wraps seletion into CODE tag
-         */
-        static CODE: string;
-        /**
-         * Clears all formatting on fonts and colors
-         */
-        static CLEAR_FORMAT: string;
-        /**
-         * Formats the block as something
-         */
-        static FORMAT_BLOCK: string;
-        /**
-         * Swaps selection italics
-         */
-        static ITALIC: string;
-        /**
-         * Makes selectikon super-script
-         */
-        static SUPER_SCRIPT: string;
-        /**
-         * Makes selection sub-script
-         */
-        static SUB_SCRIPT: string;
-        /**
-         * Aligns text to left
-         */
-        static JUSTIFY_LEFT: string;
-        /**
-         * Centers text
-         */
-        static JUSTIFY_CENTER: string;
-        /**
-         * Aligns text to right
-         */
-        static JUSTIFY_RIGHT: string;
-        /**
-         * Justifies text
-         */
-        static JUSTIFY_FULL: string;
-        /**
-         * Decreases indent
-         */
-        static OUTDENT: string;
-        /**
-         * Increases indent
-         */
-        static INDENT: string;
-        /**
-         * Shows a dialog to insert HTML
-         */
-        static INSERT_HTML: string;
-        /**
-         * Inserts an image
-         */
-        static INSERT_IMAGE: string;
-        /**
-         * Inserts a link
-         */
-        static INSERT_LINK: string;
-        /**
-         * Inserts an ordered list
-         */
-        static INSERT_ORDERED_LIST: string;
-        /**
-         * Inserts an unordered list
-         */
-        static INSERT_UNORDERED_LIST: string;
-        /**
-         * Shows a dialog to insert a YouTube video
-         */
-        static INSERT_YOUTUBE: string;
-        /**
-         * Unerlines selection
-         */
-        static UNDERLINE: string;
     }
 }
 declare module latte {
@@ -4100,6 +3847,277 @@ declare module latte {
          * Gets the first day on view
          **/
         viewStart: DateTime;
+    }
+}
+declare module latte {
+    /**
+     *
+     **/
+    class FormItem extends ItemStack implements ISave {
+        /**
+         *
+         **/
+        constructor();
+        /**
+         * Returns an input by its assigned name
+         **/
+        byName(name: string): InputItem;
+        /**
+         * Implementation. Gets an empty array since the form class itself has no way of knowing what calls should make
+         * the save itself.
+         */
+        getSaveCalls(): ICall[];
+        /**
+         * Gets an object with the values of fields
+         **/
+        getValues(): any;
+        /**
+         * Raises the <c>direction</c> event
+         */
+        onDirectionChanged(): void;
+        /**
+         * Raises the <c>readOnly</c> event
+         */
+        onReadOnlyChanged(): void;
+        /**
+         * Raises the <c>unsavedChanges</c> event
+         */
+        onUnsavedChangesChanged(): void;
+        /**
+         * Raises the <c>valueChanged</c> event
+         */
+        onValueChanged(): void;
+        /**
+         * Sets the direction of Inputs
+         * @param d
+         */
+        setDirection(d: Direction): void;
+        /**
+         * Gets or sets the with of the text parts.
+         * Value must be percent since it must be leveled with value part. Value size will be adjusted
+         * to 5% less large than it should to avoid edge collisions.
+         * Values lower than 1 accepted.
+         * Note that when horizontal input, layout may become affected.
+         *
+         */
+        setTextWidth(value: number): void;
+        /**
+         * Back field for event
+         */
+        private _directionChanged;
+        /**
+         * Gets an event raised when the value of the direction property changes
+         *
+         * @returns {LatteEvent}
+         */
+        directionChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _readOnlyChanged;
+        /**
+         * Gets an event raised when the value of the readOnly property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readOnlyChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _unsavedChangesChanged;
+        /**
+         * Gets an event raised when the value of the unsavedChanges property changes
+         *
+         * @returns {LatteEvent}
+         */
+        unsavedChangesChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _valueChanged;
+        /**
+         * Gets an event raised when the value of an input is changed
+         *
+         * @returns {LatteEvent}
+         */
+        valueChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _direction;
+        /**
+         * Gets or sets the direction of the inputs in the form
+         *
+         * @returns {Direction}
+         */
+        /**
+         * Gets or sets the direction of the inputs in the form
+         *
+         * @param {Direction} value
+         */
+        direction: Direction;
+        /**
+         *
+         **/
+        private _faceVisible;
+        /**
+         * Gets or sets a value indicating if the form has a visible face style.
+         **/
+        /**
+         * Gets or sets a value indicating if the form has a visible face style.
+         **/
+        faceVisible: boolean;
+        /**
+         * Field for inputs property
+         */
+        private _inputs;
+        /**
+         * Gets the inputs of the form
+         *
+         * @returns {Collection<Input>}
+         */
+        inputs: Collection<InputItem>;
+        /**
+         * Gets a value indicating if the form is currently valid
+         *
+         * @returns {boolean}
+         */
+        isValid: boolean;
+        /**
+         * Property field
+         */
+        private _readOnly;
+        /**
+         * Gets or sets a value indicating if the inputs should be read-only.
+         *
+         * @returns {boolean}
+         */
+        /**
+         * Gets or sets a value indicating if the inputs should be read-only.
+         *
+         * @param {boolean} value
+         */
+        readOnly: boolean;
+        /**
+         * Gets or sets the title of the form
+         **/
+        /**
+         * Gets or sets the title of the form
+         **/
+        title: string;
+        /**
+         * Property field
+         */
+        private _unsavedChanges;
+        /**
+         * Gets or sets a value indicating if the form has changes
+         *
+         * @returns {boolean}
+         */
+        /**
+         * Gets or sets a value indicating if the form has changes
+         *
+         * @param {boolean} value
+         */
+        unsavedChanges: boolean;
+        /**
+         * Gets a value of checking every input in <c>inputs</c> to be valid
+         **/
+        valid: boolean;
+        /**
+         * Field for titleLabel property
+         */
+        private _titleLabel;
+        /**
+         * Gets the title label
+         *
+         * @returns {LabelItem}
+         */
+        titleLabel: LabelItem;
+    }
+}
+declare module latte {
+    class HtmlEditorCommands {
+        /**
+         * Swaps selection boldness
+         */
+        static BOLD: string;
+        /**
+         * Wraps seletion into CODE tag
+         */
+        static CODE: string;
+        /**
+         * Clears all formatting on fonts and colors
+         */
+        static CLEAR_FORMAT: string;
+        /**
+         * Formats the block as something
+         */
+        static FORMAT_BLOCK: string;
+        /**
+         * Swaps selection italics
+         */
+        static ITALIC: string;
+        /**
+         * Makes selectikon super-script
+         */
+        static SUPER_SCRIPT: string;
+        /**
+         * Makes selection sub-script
+         */
+        static SUB_SCRIPT: string;
+        /**
+         * Aligns text to left
+         */
+        static JUSTIFY_LEFT: string;
+        /**
+         * Centers text
+         */
+        static JUSTIFY_CENTER: string;
+        /**
+         * Aligns text to right
+         */
+        static JUSTIFY_RIGHT: string;
+        /**
+         * Justifies text
+         */
+        static JUSTIFY_FULL: string;
+        /**
+         * Decreases indent
+         */
+        static OUTDENT: string;
+        /**
+         * Increases indent
+         */
+        static INDENT: string;
+        /**
+         * Shows a dialog to insert HTML
+         */
+        static INSERT_HTML: string;
+        /**
+         * Inserts an image
+         */
+        static INSERT_IMAGE: string;
+        /**
+         * Inserts a link
+         */
+        static INSERT_LINK: string;
+        /**
+         * Inserts an ordered list
+         */
+        static INSERT_ORDERED_LIST: string;
+        /**
+         * Inserts an unordered list
+         */
+        static INSERT_UNORDERED_LIST: string;
+        /**
+         * Shows a dialog to insert a YouTube video
+         */
+        static INSERT_YOUTUBE: string;
+        /**
+         * Unerlines selection
+         */
+        static UNDERLINE: string;
     }
 }
 declare module latte {
@@ -4439,6 +4457,54 @@ declare module latte {
     }
 }
 declare module latte {
+    class TabContainer extends ItemStack {
+        tabToolbar: TabToolbar;
+        tabs: Collection<TabItem>;
+        content: Collection<Item>;
+        selectedTabChanged: LatteEvent;
+        constructor();
+        private updateVisibility();
+        /**
+         *
+         **/
+        onTabAdded(tab: TabItem): void;
+        /**
+         *
+         **/
+        onTabRemoved(tab: TabItem): void;
+        /**
+         *
+         * @param item
+         */
+        onContentAdded(item: Item): void;
+        /**
+         *
+         * @param item
+         */
+        onContentRemoved(item: Item): void;
+        /**
+         * Raises the <c>selectedTabChanged</c> event
+         **/
+        onSelectedTabChanged(): void;
+        /**
+         * Gets or sets the selected tab of the view
+         **/
+        /**
+         * Gets or sets the selected tab of the view
+         **/
+        selectedTab: TabItem;
+        /**
+         * Gets the side where content should be relative to the tabs
+         * @returns {Side}
+         */
+        /**
+         * Sets the side where content should be relative to the tabs
+         * @param value
+         */
+        contentSide: Side;
+    }
+}
+declare module latte {
     /**
      * Stack of items. It unselects siblings when a selectable within is selected
      */
@@ -4529,54 +4595,6 @@ declare module latte {
          * @param value
          */
         selectedTab: TabItem;
-    }
-}
-declare module latte {
-    class TabContainer extends ItemStack {
-        tabToolbar: TabToolbar;
-        tabs: Collection<TabItem>;
-        content: Collection<Item>;
-        selectedTabChanged: LatteEvent;
-        constructor();
-        private updateVisibility();
-        /**
-         *
-         **/
-        onTabAdded(tab: TabItem): void;
-        /**
-         *
-         **/
-        onTabRemoved(tab: TabItem): void;
-        /**
-         *
-         * @param item
-         */
-        onContentAdded(item: Item): void;
-        /**
-         *
-         * @param item
-         */
-        onContentRemoved(item: Item): void;
-        /**
-         * Raises the <c>selectedTabChanged</c> event
-         **/
-        onSelectedTabChanged(): void;
-        /**
-         * Gets or sets the selected tab of the view
-         **/
-        /**
-         * Gets or sets the selected tab of the view
-         **/
-        selectedTab: TabItem;
-        /**
-         * Gets the side where content should be relative to the tabs
-         * @returns {Side}
-         */
-        /**
-         * Sets the side where content should be relative to the tabs
-         * @param value
-         */
-        contentSide: Side;
     }
 }
 declare module latte {
@@ -4797,45 +4815,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Label with date time as value. When clicked swaps between relative date
-     and exact date displaying.
-     **/
-    class DateTimeLabel extends LabelItem {
-        /**
-         *
-         **/
-        private _relative;
-        /**
-         *
-         **/
-        private _value;
-        /**
-         * Creates the label. Optionally it may be initialized with a date, passed
-         as a <c>string</c> or a <c>latte.DateTime</c> object.
-         **/
-        constructor(value?: any);
-        /**
-         * Updates the text of the label
-         **/
-        private _updateText();
-        /**
-         * Gets or sets a value indicating if the date is shown as a relative string
-         **/
-        /**
-         * Gets or sets a value indicating if the date is shown as a relative string
-         **/
-        relative: boolean;
-        /**
-         * Gets or sets the value of the label
-         **/
-        /**
-         * Gets or sets the value of the label
-         **/
-        value: any;
-    }
-}
-declare module latte {
-    /**
      * Represents a Comment
      **/
     class CommentItem extends Item {
@@ -4942,6 +4921,45 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Label with date time as value. When clicked swaps between relative date
+     and exact date displaying.
+     **/
+    class DateTimeLabel extends LabelItem {
+        /**
+         *
+         **/
+        private _relative;
+        /**
+         *
+         **/
+        private _value;
+        /**
+         * Creates the label. Optionally it may be initialized with a date, passed
+         as a <c>string</c> or a <c>latte.DateTime</c> object.
+         **/
+        constructor(value?: any);
+        /**
+         * Updates the text of the label
+         **/
+        private _updateText();
+        /**
+         * Gets or sets a value indicating if the date is shown as a relative string
+         **/
+        /**
+         * Gets or sets a value indicating if the date is shown as a relative string
+         **/
+        relative: boolean;
+        /**
+         * Gets or sets the value of the label
+         **/
+        /**
+         * Gets or sets the value of the label
+         **/
+        value: any;
+    }
+}
+declare module latte {
+    /**
      * Single element containing text
      */
     class UiText extends UiElement {
@@ -4970,6 +4988,79 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Represents an item for calendar views
+     **/
+    class CalendarItem extends SelectableLabel {
+        /**
+         *
+         **/
+        private _dateEnd;
+        /**
+         *
+         **/
+        private _dateStart;
+        /**
+         *
+         **/
+        _matrixDepth: number;
+        /**
+         *
+         **/
+        matrixAttributes: any;
+        /**
+         * Gets a collection of rectangles that exist extra to the element of this item
+         **/
+        rectangles: Collection<Rectangle>;
+        /**
+         * Creates the item
+         **/
+        constructor();
+        /**
+         *
+         **/
+        private _onAddRectangle(r);
+        /**
+         *
+         **/
+        private _onRemoveRectangle(r);
+        /**
+         * Clones the item
+         **/
+        clone(): CalendarItem;
+        /**
+         *
+         **/
+        onSelectedChanged(): void;
+        /**
+         * Gets a value indicating if the item is an <c>all-day</c> item.
+         All-day items are those who its time of day both start and end dates are zero minutes
+         **/
+        allDay: boolean;
+        /**
+         * Gets or sets the end date of the item
+         **/
+        /**
+         * Gets or sets the end date of the item
+         **/
+        dateEnd: DateTime;
+        /**
+         * Gets or sets the start date of the item
+         **/
+        /**
+         * Gets or sets the start date of the item
+         **/
+        dateStart: DateTime;
+        /**
+         * Gets or sets the text of the item
+         **/
+        /**
+         * Gets or sets the text of the item
+         **/
+        text: string;
+    }
+}
+declare module latte {
+    /**
      * Represents an item of a ListView
      **/
     class ListViewItem extends SelectableItem {
@@ -4981,10 +5072,6 @@ declare module latte {
          *
          **/
         private _iconPadding;
-        /**
-         *
-         **/
-        private _listView;
         /**
          *
          **/
@@ -5095,115 +5182,20 @@ declare module latte {
          **/
         icon: IconItem;
         /**
-         * Gets the listView of the item
-         **/
+         * Property field
+         */
+        private _listView;
+        /**
+         * Gets or sets the listview of the item
+         *
+         * @returns {ListView}
+         */
+        /**
+         * Gets or sets the listview of the item
+         *
+         * @param {ListView} value
+         */
         listView: ListView;
-    }
-}
-declare module latte {
-    /**
-     * Represents an item for calendar views
-     **/
-    class CalendarItem extends SelectableLabel {
-        /**
-         *
-         **/
-        private _dateEnd;
-        /**
-         *
-         **/
-        private _dateStart;
-        /**
-         *
-         **/
-        _matrixDepth: number;
-        /**
-         *
-         **/
-        matrixAttributes: any;
-        /**
-         * Gets a collection of rectangles that exist extra to the element of this item
-         **/
-        rectangles: Collection<Rectangle>;
-        /**
-         * Creates the item
-         **/
-        constructor();
-        /**
-         *
-         **/
-        private _onAddRectangle(r);
-        /**
-         *
-         **/
-        private _onRemoveRectangle(r);
-        /**
-         * Clones the item
-         **/
-        clone(): CalendarItem;
-        /**
-         *
-         **/
-        onSelectedChanged(): void;
-        /**
-         * Gets a value indicating if the item is an <c>all-day</c> item.
-         All-day items are those who its time of day both start and end dates are zero minutes
-         **/
-        allDay: boolean;
-        /**
-         * Gets or sets the end date of the item
-         **/
-        /**
-         * Gets or sets the end date of the item
-         **/
-        dateEnd: DateTime;
-        /**
-         * Gets or sets the start date of the item
-         **/
-        /**
-         * Gets or sets the start date of the item
-         **/
-        dateStart: DateTime;
-        /**
-         * Gets or sets the text of the item
-         **/
-        /**
-         * Gets or sets the text of the item
-         **/
-        text: string;
-    }
-}
-declare module latte {
-    /**
-     *
-     **/
-    class CheckboxItem extends ValueItem {
-        /**
-         *
-         **/
-        private _value;
-        /**
-         * Label for checkbox
-         **/
-        label: LabelItem;
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Gets or sets the text of the checkbox
-         **/
-        /**
-         * Gets or sets the text of the checkbox
-         **/
-        text: string;
-        /**
-         * Gets or sets the checked state of checkbox
-         **/
-        /**
-         * Gets or sets the checked state of checkbox
-         **/
-        value: boolean;
     }
 }
 declare module latte {
@@ -5402,6 +5394,39 @@ declare module latte {
          * Gets the <c>TreeView</c> item who contains this item, if any
          **/
         treeView: TreeView;
+    }
+}
+declare module latte {
+    /**
+     *
+     **/
+    class CheckboxItem extends ValueItem {
+        /**
+         *
+         **/
+        private _value;
+        /**
+         * Label for checkbox
+         **/
+        label: LabelItem;
+        /**
+         *
+         **/
+        constructor();
+        /**
+         * Gets or sets the text of the checkbox
+         **/
+        /**
+         * Gets or sets the text of the checkbox
+         **/
+        text: string;
+        /**
+         * Gets or sets the checked state of checkbox
+         **/
+        /**
+         * Gets or sets the checked state of checkbox
+         **/
+        value: boolean;
     }
 }
 /**
@@ -5637,28 +5662,6 @@ declare module latte {
          * @returns {ItemStack}
          */
         stack: ItemStack;
-    }
-}
-declare module latte {
-    /**
-     * Label with value property
-     **/
-    class LabelValueItem extends ValueItem {
-        /**
-         * Label for text displaying
-         **/
-        label: LabelItem;
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Gets or sets the value
-         **/
-        /**
-         * Gets or sets the value
-         **/
-        value: any;
     }
 }
 declare module latte {
@@ -5905,6 +5908,28 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Label with value property
+     **/
+    class LabelValueItem extends ValueItem {
+        /**
+         * Label for text displaying
+         **/
+        label: LabelItem;
+        /**
+         *
+         **/
+        constructor();
+        /**
+         * Gets or sets the value
+         **/
+        /**
+         * Gets or sets the value
+         **/
+        value: any;
+    }
+}
+declare module latte {
+    /**
      * Represents a progress bar
      **/
     class ProgressItem extends ValueItem {
@@ -6033,6 +6058,36 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 12/23/13.
+ */
+declare module latte {
+    /**
+     * Shows a selectable radio button
+     */
+    class RadioItem extends ValueItem {
+        private _value;
+        /**
+         * Label for radio
+         **/
+        label: LabelItem;
+        constructor(text?: string, value?: boolean);
+        /**
+         * Gets or sets the text of the checkbox
+         **/
+        /**
+         * Gets or sets the text of the checkbox
+         **/
+        text: string;
+        /**
+         * Gets or sets the checked state of checkbox
+         **/
+        /**
+         * Gets or sets the checked state of checkbox
+         **/
+        value: boolean;
+    }
+}
+/**
  * Created by josemanuel on 8/4/16.
  */
 declare module latte {
@@ -6089,36 +6144,6 @@ declare module latte {
          * @returns {HTMLElement}
          */
         orb: HTMLElement;
-    }
-}
-/**
- * Created by josemanuel on 12/23/13.
- */
-declare module latte {
-    /**
-     * Shows a selectable radio button
-     */
-    class RadioItem extends ValueItem {
-        private _value;
-        /**
-         * Label for radio
-         **/
-        label: LabelItem;
-        constructor(text?: string, value?: boolean);
-        /**
-         * Gets or sets the text of the checkbox
-         **/
-        /**
-         * Gets or sets the text of the checkbox
-         **/
-        text: string;
-        /**
-         * Gets or sets the checked state of checkbox
-         **/
-        /**
-         * Gets or sets the checked state of checkbox
-         **/
-        value: boolean;
     }
 }
 declare module latte {
@@ -7884,6 +7909,8 @@ declare module latte {
          * Creates the ListView
          **/
         constructor();
+        selectNextItem(): void;
+        selectPreviousItem(): void;
         /**
          *
          **/

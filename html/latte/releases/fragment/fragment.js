@@ -983,9 +983,10 @@ var latte;
 
 
          */
-        pageBase.prototype.getPages = function (page) {
+        pageBase.prototype.getPages = function (page, options) {
             if (page === void 0) { page = 1; }
-            return new latte.RemoteCall('fragment', 'Page', 'getPages', { page: page }, this.recordId);
+            if (options === void 0) { options = null; }
+            return new latte.RemoteCall('fragment', 'Page', 'getPages', { page: page, options: options }, this.recordId);
         };
         /*
          * Remote Method.
@@ -1758,210 +1759,6 @@ var latte;
         return fileBase;
     }(latte.DataRecord));
     latte.fileBase = fileBase;
-    var fragmentBase = (function (_super) {
-        __extends(fragmentBase, _super);
-        function fragmentBase() {
-            _super.apply(this, arguments);
-            /* Name of Php record */
-            this._recordType = 'Fragment';
-            /* Name of Module where record lives */
-            this._moduleName = 'fragment';
-            /**
-             * Database field: int(11)
-             */
-            this._idfragment = null;
-            /**
-             * Database field: int(11)
-             */
-            this._idpage = null;
-            /**
-             * Database field: longtext
-             */
-            this._value = null;
-            /**
-             * Database field: varchar(50)
-             */
-            this._name = null;
-        }
-        Object.defineProperty(fragmentBase.prototype, "idfragment", {
-            /**
-             * Gets or sets the value of the idfragment field of type int(11)
-             */
-            get: function () {
-                return this._idfragment;
-            },
-            /**
-             * Gets or sets the value of the idfragment field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idfragment;
-                this._idfragment = value;
-                if (changed) {
-                    this.onIdfragmentChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fragmentBase.prototype, "idfragmentChanged", {
-            /**
-             * Gets an event raised when the value of the idfragment property changes
-             */
-            get: function () {
-                if (!this._idfragmentChanged) {
-                    this._idfragmentChanged = new latte.LatteEvent(this);
-                }
-                return this._idfragmentChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idfragmentChanged</c> event
-         */
-        fragmentBase.prototype.onIdfragmentChanged = function () {
-            if (this._idfragmentChanged) {
-                this._idfragmentChanged.raise();
-            }
-            this.onFieldValueChanged('idfragment', this.idfragment);
-        };
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        fragmentBase.prototype.onGetRecordIdName = function () { return 'idfragment'; };
-        Object.defineProperty(fragmentBase.prototype, "idpage", {
-            /**
-             * Gets or sets the value of the idpage field of type int(11)
-             */
-            get: function () {
-                return this._idpage;
-            },
-            /**
-             * Gets or sets the value of the idpage field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idpage;
-                this._idpage = value;
-                if (changed) {
-                    this.onIdpageChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fragmentBase.prototype, "idpageChanged", {
-            /**
-             * Gets an event raised when the value of the idpage property changes
-             */
-            get: function () {
-                if (!this._idpageChanged) {
-                    this._idpageChanged = new latte.LatteEvent(this);
-                }
-                return this._idpageChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idpageChanged</c> event
-         */
-        fragmentBase.prototype.onIdpageChanged = function () {
-            if (this._idpageChanged) {
-                this._idpageChanged.raise();
-            }
-            this.onFieldValueChanged('idpage', this.idpage);
-        };
-        Object.defineProperty(fragmentBase.prototype, "value", {
-            /**
-             * Gets or sets the value of the value field of type longtext
-             */
-            get: function () {
-                return this._value;
-            },
-            /**
-             * Gets or sets the value of the value field of type longtext
-             */
-            set: function (value) {
-                var changed = value !== this._value;
-                this._value = value;
-                if (changed) {
-                    this.onValueChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fragmentBase.prototype, "valueChanged", {
-            /**
-             * Gets an event raised when the value of the value property changes
-             */
-            get: function () {
-                if (!this._valueChanged) {
-                    this._valueChanged = new latte.LatteEvent(this);
-                }
-                return this._valueChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        fragmentBase.prototype.onValueChanged = function () {
-            if (this._valueChanged) {
-                this._valueChanged.raise();
-            }
-            this.onFieldValueChanged('value', this.value);
-        };
-        Object.defineProperty(fragmentBase.prototype, "name", {
-            /**
-             * Gets or sets the value of the name field of type varchar(50)
-             */
-            get: function () {
-                return this._name;
-            },
-            /**
-             * Gets or sets the value of the name field of type varchar(50)
-             */
-            set: function (value) {
-                var changed = value !== this._name;
-                this._name = value;
-                if (changed) {
-                    this.onNameChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fragmentBase.prototype, "nameChanged", {
-            /**
-             * Gets an event raised when the value of the name property changes
-             */
-            get: function () {
-                if (!this._nameChanged) {
-                    this._nameChanged = new latte.LatteEvent(this);
-                }
-                return this._nameChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        fragmentBase.prototype.onNameChanged = function () {
-            if (this._nameChanged) {
-                this._nameChanged.raise();
-            }
-            this.onFieldValueChanged('name', this.name);
-        };
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        fragmentBase.prototype.onGetFields = function () { return { 'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name }; };
-        return fragmentBase;
-    }(latte.DataRecord));
-    latte.fragmentBase = fragmentBase;
     var settingBase = (function (_super) {
         __extends(settingBase, _super);
         function settingBase() {
@@ -2221,6 +2018,210 @@ var latte;
         return settingBase;
     }(latte.DataRecord));
     latte.settingBase = settingBase;
+    var fragmentBase = (function (_super) {
+        __extends(fragmentBase, _super);
+        function fragmentBase() {
+            _super.apply(this, arguments);
+            /* Name of Php record */
+            this._recordType = 'Fragment';
+            /* Name of Module where record lives */
+            this._moduleName = 'fragment';
+            /**
+             * Database field: int(11)
+             */
+            this._idfragment = null;
+            /**
+             * Database field: int(11)
+             */
+            this._idpage = null;
+            /**
+             * Database field: longtext
+             */
+            this._value = null;
+            /**
+             * Database field: varchar(50)
+             */
+            this._name = null;
+        }
+        Object.defineProperty(fragmentBase.prototype, "idfragment", {
+            /**
+             * Gets or sets the value of the idfragment field of type int(11)
+             */
+            get: function () {
+                return this._idfragment;
+            },
+            /**
+             * Gets or sets the value of the idfragment field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idfragment;
+                this._idfragment = value;
+                if (changed) {
+                    this.onIdfragmentChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fragmentBase.prototype, "idfragmentChanged", {
+            /**
+             * Gets an event raised when the value of the idfragment property changes
+             */
+            get: function () {
+                if (!this._idfragmentChanged) {
+                    this._idfragmentChanged = new latte.LatteEvent(this);
+                }
+                return this._idfragmentChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idfragmentChanged</c> event
+         */
+        fragmentBase.prototype.onIdfragmentChanged = function () {
+            if (this._idfragmentChanged) {
+                this._idfragmentChanged.raise();
+            }
+            this.onFieldValueChanged('idfragment', this.idfragment);
+        };
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        fragmentBase.prototype.onGetRecordIdName = function () { return 'idfragment'; };
+        Object.defineProperty(fragmentBase.prototype, "idpage", {
+            /**
+             * Gets or sets the value of the idpage field of type int(11)
+             */
+            get: function () {
+                return this._idpage;
+            },
+            /**
+             * Gets or sets the value of the idpage field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idpage;
+                this._idpage = value;
+                if (changed) {
+                    this.onIdpageChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fragmentBase.prototype, "idpageChanged", {
+            /**
+             * Gets an event raised when the value of the idpage property changes
+             */
+            get: function () {
+                if (!this._idpageChanged) {
+                    this._idpageChanged = new latte.LatteEvent(this);
+                }
+                return this._idpageChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idpageChanged</c> event
+         */
+        fragmentBase.prototype.onIdpageChanged = function () {
+            if (this._idpageChanged) {
+                this._idpageChanged.raise();
+            }
+            this.onFieldValueChanged('idpage', this.idpage);
+        };
+        Object.defineProperty(fragmentBase.prototype, "value", {
+            /**
+             * Gets or sets the value of the value field of type longtext
+             */
+            get: function () {
+                return this._value;
+            },
+            /**
+             * Gets or sets the value of the value field of type longtext
+             */
+            set: function (value) {
+                var changed = value !== this._value;
+                this._value = value;
+                if (changed) {
+                    this.onValueChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fragmentBase.prototype, "valueChanged", {
+            /**
+             * Gets an event raised when the value of the value property changes
+             */
+            get: function () {
+                if (!this._valueChanged) {
+                    this._valueChanged = new latte.LatteEvent(this);
+                }
+                return this._valueChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>valueChanged</c> event
+         */
+        fragmentBase.prototype.onValueChanged = function () {
+            if (this._valueChanged) {
+                this._valueChanged.raise();
+            }
+            this.onFieldValueChanged('value', this.value);
+        };
+        Object.defineProperty(fragmentBase.prototype, "name", {
+            /**
+             * Gets or sets the value of the name field of type varchar(50)
+             */
+            get: function () {
+                return this._name;
+            },
+            /**
+             * Gets or sets the value of the name field of type varchar(50)
+             */
+            set: function (value) {
+                var changed = value !== this._name;
+                this._name = value;
+                if (changed) {
+                    this.onNameChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fragmentBase.prototype, "nameChanged", {
+            /**
+             * Gets an event raised when the value of the name property changes
+             */
+            get: function () {
+                if (!this._nameChanged) {
+                    this._nameChanged = new latte.LatteEvent(this);
+                }
+                return this._nameChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        fragmentBase.prototype.onNameChanged = function () {
+            if (this._nameChanged) {
+                this._nameChanged.raise();
+            }
+            this.onFieldValueChanged('name', this.name);
+        };
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        fragmentBase.prototype.onGetFields = function () { return { 'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name }; };
+        return fragmentBase;
+    }(latte.DataRecord));
+    latte.fragmentBase = fragmentBase;
     var groupBase = (function (_super) {
         __extends(groupBase, _super);
         function groupBase() {
@@ -3608,6 +3609,8 @@ var latte;
         }
         //region Static
         Main.goMainView = function () {
+            var body = new latte.Element(document.body);
+            body.clear();
             latte.View.mainView = new latte.CmsMainView();
         };
         Main.goSignInView = function () {
@@ -3623,6 +3626,79 @@ var latte;
         return Main;
     }());
     latte.Main = Main;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var GroupExplorer = (function (_super) {
+        __extends(GroupExplorer, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function GroupExplorer(r) {
+            if (r === void 0) { r = null; }
+            _super.call(this);
+            this.loadsChildrenFolders = false;
+            if (r) {
+                this.record = r;
+            }
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        GroupExplorer.prototype.getChildrenLoader = function () {
+            var _this = this;
+            return latte.GroupUser.byGroup(this.record.idgroup).withHandlers(function (records) {
+                for (var i in records) {
+                    _this.children.add(new latte.GroupUserExplorer(records[i]));
+                }
+            });
+        };
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        GroupExplorer.prototype.getName = function () {
+            return this.record.name;
+        };
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        GroupExplorer.prototype.getIcon = function () {
+            return latte.IconItem.fileIcon();
+        };
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        GroupExplorer.prototype.getItems = function () {
+            var _this = this;
+            return [
+                new latte.ButtonItem(strings.addUserToGroup, latte.IconItem.newIcon(), function () {
+                    var r = new latte.GroupUser();
+                    r.idgroup = _this.record.idgroup;
+                    latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.addUserToGroup);
+                })
+            ];
+        };
+        return GroupExplorer;
+    }(latte.ExplorerItemDataRecord));
+    latte.GroupExplorer = GroupExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/5/16.
@@ -3742,79 +3818,6 @@ var latte;
         return GroupsExplorer;
     }(latte.ExplorerItem));
     latte.GroupsExplorer = GroupsExplorer;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 8/5/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var GroupExplorer = (function (_super) {
-        __extends(GroupExplorer, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function GroupExplorer(r) {
-            if (r === void 0) { r = null; }
-            _super.call(this);
-            this.loadsChildrenFolders = false;
-            if (r) {
-                this.record = r;
-            }
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        GroupExplorer.prototype.getChildrenLoader = function () {
-            var _this = this;
-            return latte.GroupUser.byGroup(this.record.idgroup).withHandlers(function (records) {
-                for (var i in records) {
-                    _this.children.add(new latte.GroupUserExplorer(records[i]));
-                }
-            });
-        };
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        GroupExplorer.prototype.getName = function () {
-            return this.record.name;
-        };
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        GroupExplorer.prototype.getIcon = function () {
-            return latte.IconItem.fileIcon();
-        };
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        GroupExplorer.prototype.getItems = function () {
-            var _this = this;
-            return [
-                new latte.ButtonItem(strings.addUserToGroup, latte.IconItem.newIcon(), function () {
-                    var r = new latte.GroupUser();
-                    r.idgroup = _this.record.idgroup;
-                    latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.addUserToGroup);
-                })
-            ];
-        };
-        return GroupExplorer;
-    }(latte.ExplorerItemDataRecord));
-    latte.GroupExplorer = GroupExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/14/16.
@@ -5513,76 +5516,6 @@ var latte;
     latte.HtmlFragmentAdapter = HtmlFragmentAdapter;
 })(latte || (latte = {}));
 /**
- * Created by josemanuel on 7/26/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var PlainTextFragmentAdapter = (function (_super) {
-        __extends(PlainTextFragmentAdapter, _super);
-        function PlainTextFragmentAdapter() {
-            _super.apply(this, arguments);
-            this.heightCheck = false;
-        }
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Override. Raises the <c>createEditorItem</c> event
-         */
-        PlainTextFragmentAdapter.prototype.onCreateEditorItem = function () {
-            _super.prototype.onCreateEditorItem.call(this);
-            this.editorItem = new latte.Item();
-            this.editorItem.element.get(0).appendChild(this.textbox.element);
-            this.textbox.text = this.fragment.value;
-        };
-        Object.defineProperty(PlainTextFragmentAdapter.prototype, "textbox", {
-            /**
-             * Gets the textbox element
-             *
-             * @returns {Element<HTMLTextAreaElement>}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._textbox) {
-                    this._textbox = new latte.Element(document.createElement('textarea'));
-                    this._textbox.addClass('plain-text-fragment');
-                    this._textbox.element.rows = 10;
-                    this._textbox.addEventListener('input', function () {
-                        _this.unsavedChanges = true;
-                        _this.fragment.value = _this.textbox.text;
-                        if (!_this.heightCheck) {
-                            var minRows = 10;
-                            var rows = void 0;
-                            _this._textbox.element.rows = minRows;
-                            rows = Math.ceil((_this._textbox.element.scrollHeight - _this.baseScrollHeight) / 17);
-                            _this._textbox.element.rows = minRows + rows;
-                            _this.heightCheck = true;
-                        }
-                    });
-                    this._textbox.addEventListener('focus', function () {
-                        var savedValue = _this._textbox.text;
-                        _this._textbox.text = '';
-                        _this.baseScrollHeight = _this._textbox.element.scrollHeight;
-                        _this._textbox.text = savedValue;
-                    });
-                }
-                return this._textbox;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return PlainTextFragmentAdapter;
-    }(latte.FragmentAdapter));
-    latte.PlainTextFragmentAdapter = PlainTextFragmentAdapter;
-})(latte || (latte = {}));
-/**
  * Created by josemanuel on 7/29/16.
  */
 var latte;
@@ -6096,6 +6029,76 @@ var latte;
         return ImageGalleryFragmentAdapter;
     }(latte.FragmentAdapter));
     latte.ImageGalleryFragmentAdapter = ImageGalleryFragmentAdapter;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var PlainTextFragmentAdapter = (function (_super) {
+        __extends(PlainTextFragmentAdapter, _super);
+        function PlainTextFragmentAdapter() {
+            _super.apply(this, arguments);
+            this.heightCheck = false;
+        }
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Override. Raises the <c>createEditorItem</c> event
+         */
+        PlainTextFragmentAdapter.prototype.onCreateEditorItem = function () {
+            _super.prototype.onCreateEditorItem.call(this);
+            this.editorItem = new latte.Item();
+            this.editorItem.element.get(0).appendChild(this.textbox.element);
+            this.textbox.text = this.fragment.value;
+        };
+        Object.defineProperty(PlainTextFragmentAdapter.prototype, "textbox", {
+            /**
+             * Gets the textbox element
+             *
+             * @returns {Element<HTMLTextAreaElement>}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._textbox) {
+                    this._textbox = new latte.Element(document.createElement('textarea'));
+                    this._textbox.addClass('plain-text-fragment');
+                    this._textbox.element.rows = 10;
+                    this._textbox.addEventListener('input', function () {
+                        _this.unsavedChanges = true;
+                        _this.fragment.value = _this.textbox.text;
+                        if (!_this.heightCheck) {
+                            var minRows = 10;
+                            var rows = void 0;
+                            _this._textbox.element.rows = minRows;
+                            rows = Math.ceil((_this._textbox.element.scrollHeight - _this.baseScrollHeight) / 17);
+                            _this._textbox.element.rows = minRows + rows;
+                            _this.heightCheck = true;
+                        }
+                    });
+                    this._textbox.addEventListener('focus', function () {
+                        var savedValue = _this._textbox.text;
+                        _this._textbox.text = '';
+                        _this.baseScrollHeight = _this._textbox.element.scrollHeight;
+                        _this._textbox.text = savedValue;
+                    });
+                }
+                return this._textbox;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return PlainTextFragmentAdapter;
+    }(latte.FragmentAdapter));
+    latte.PlainTextFragmentAdapter = PlainTextFragmentAdapter;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/1/16.
@@ -6997,6 +7000,23 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Record for table fragment
+     */
+    var Fragment = (function (_super) {
+        __extends(Fragment, _super);
+        function Fragment() {
+            _super.apply(this, arguments);
+        }
+        return Fragment;
+    }(latte.fragmentBase));
+    latte.Fragment = Fragment;
+})(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
      * Record for table group
      */
     var Group = (function (_super) {
@@ -7159,23 +7179,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Record for table fragment
-     */
-    var Fragment = (function (_super) {
-        __extends(Fragment, _super);
-        function Fragment() {
-            _super.apply(this, arguments);
-        }
-        return Fragment;
-    }(latte.fragmentBase));
-    latte.Fragment = Fragment;
-})(latte || (latte = {}));
-/**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
      * Record for table page
      */
     var Page = (function (_super) {
@@ -7190,7 +7193,7 @@ var latte;
         //endregion
         //region Fields
         //endregion
-        //region Private Methods
+        //region  Methods
         /**
          * Returns a boolean indicating if the user has the specified permission for the page
          * @param permission
@@ -7293,7 +7296,7 @@ var latte;
                         category: 'advanced',
                         text: strings.pageSortIndex,
                         type: 'number',
-                        visible: this.idparent > 0
+                        visible: this.sort == 'custom'
                     },
                     idgroup: {
                         category: 'advanced',
@@ -7383,6 +7386,8 @@ var latte;
                             var d = latte.DialogView.ask(strings.areYouSureSetPageOnline, strings.areYouSureSetPageOnlineDesc, [
                                 new latte.ButtonItem(strings.yesMakeOnline, null, function () {
                                     _this.setOnline(true).send(function () {
+                                        _this.online = 1;
+                                        _this.onOnlineSwitched();
                                         latte.log("Has been set online.");
                                     });
                                 }),
@@ -7396,9 +7401,30 @@ var latte;
                 });
             }
         };
+        /**
+         * Raises the <c>onlineSwitched</c> event
+         */
+        Page.prototype.onOnlineSwitched = function () {
+            if (this._onlineSwitched) {
+                this._onlineSwitched.raise();
+            }
+        };
+        Object.defineProperty(Page.prototype, "onlineSwitched", {
+            /**
+             * Gets an event raised when the online attribute has been switched
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._onlineSwitched) {
+                    this._onlineSwitched = new latte.LatteEvent(this);
+                }
+                return this._onlineSwitched;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(Page.prototype, "canIDelete", {
-            //endregion
-            //region Events
             //endregion
             //region Properties
             /**
@@ -8202,13 +8228,25 @@ var latte;
          * Raises the <c>page</c> event
          */
         PageDetailView.prototype.onPageChanged = function () {
+            var _this = this;
             if (this._pageChanged) {
                 this._pageChanged.raise();
             }
+            this.page.onlineChanged.add(function () {
+                if (!_this.page.canIWrite) {
+                    for (var i = 0; i < _this.dataForm.inputs.length; i++) {
+                        _this.dataForm.inputs[i].readOnly = true;
+                    }
+                    for (var i = 0; i < _this.settingsForm.inputs.length; i++) {
+                        _this.settingsForm.inputs[i].readOnly = true;
+                    }
+                    _this.unsavedChanges = false;
+                }
+            });
             // Set record on form
             this.dataForm.record = this.page;
-            // Check write permissiuon
-            this.dataForm.readOnly = !this.page.canIWrite;
+            // Check write permission
+            this.dataForm.readOnly = this.settingsForm.readOnly = !this.page.canIWrite;
             // Load settings
             this.loadSettings();
         };
@@ -8225,6 +8263,10 @@ var latte;
                 latte.View.mainView = mainView;
             });
         };
+        /**
+         * Override.
+         * @returns {any[]}
+         */
         PageDetailView.prototype.getSaveCalls = function () {
             var all = []
                 .concat(this.dataForm.getSaveCalls())
@@ -8243,7 +8285,10 @@ var latte;
                 setting.value = input.value;
                 var call = setting.saveCall();
                 if (i == 0) {
-                    call.withHandlers(function () { return _this.unsavedChanges = false; });
+                    call.withHandlers(function () {
+                        _this.unsavedChanges = false;
+                        _this.onPageChanged();
+                    });
                 }
                 r.push(call);
             }
@@ -8777,7 +8822,6 @@ var latte;
      */
     var PageSidebar = (function (_super) {
         __extends(PageSidebar, _super);
-        //region Static
         //endregion
         //region Fields
         //endregion
@@ -8806,7 +8850,15 @@ var latte;
                 this.tabConfiguration,
                 this.tabAdvanced
             ]);
-            this.selectedTab = this.tabDetail;
+            if (PageSidebar.lastSelectedTab == this.tabAdvanced.text) {
+                this.selectedTab = this.tabAdvanced;
+            }
+            else if (PageSidebar.lastSelectedTab == this.tabConfiguration.text) {
+                this.selectedTab = this.tabConfiguration;
+            }
+            else {
+                this.selectedTab = this.tabDetail;
+            }
             this.tabsSide = latte.Side.BOTTOM;
         };
         /**
@@ -8814,6 +8866,7 @@ var latte;
          */
         PageSidebar.prototype.onSelectedTabChanged = function () {
             _super.prototype.onSelectedTabChanged.call(this);
+            PageSidebar.lastSelectedTab = this.selectedTab.text;
             if (this.selectedTab == this.tabDetail) {
                 this.view = this.detailView;
             }
@@ -8972,6 +9025,8 @@ var latte;
             enumerable: true,
             configurable: true
         });
+        //region Static
+        PageSidebar.lastSelectedTab = null;
         return PageSidebar;
     }(latte.TabView));
     latte.PageSidebar = PageSidebar;
@@ -9066,9 +9121,9 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Uploader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/Main.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupUserExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupsExplorer.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PageExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PagesExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UserExplorer.ts" />
@@ -9080,14 +9135,14 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Plugin.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/PluginManager.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/HtmlFragmentAdapter.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/PlainTextFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/ImageGalleryFragmentAdapter.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/PlainTextFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FileItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FragmentExpandoItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/File.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Fragment.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Group.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/GroupUser.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Fragment.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Setting.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/User.ts" />

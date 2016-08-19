@@ -990,7 +990,7 @@ var latte;
          * Creates a list view item for the record
          */
         ExplorerItem.prototype.createListViewItem = function () {
-            var item = new latte.ListViewItem();
+            var item = new latte.ListViewItem(this.explorer.listView);
             var columns = this.getColumns();
             item.icon = this.getIcon();
             // Name column
@@ -1449,6 +1449,357 @@ var latte;
      *
      * Children are added using the <c>children</c> collection, when <c>loadChildren</c> method is called.
      */
+    var DataRecordChildrenView = (function (_super) {
+        __extends(DataRecordChildrenView, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         * Creates the widget
+         */
+        function DataRecordChildrenView(loadChildren, childAdd, childEdit, childRemove) {
+            if (loadChildren === void 0) { loadChildren = null; }
+            if (childAdd === void 0) { childAdd = null; }
+            if (childEdit === void 0) { childEdit = null; }
+            if (childRemove === void 0) { childRemove = null; }
+            _super.call(this);
+            /**
+             * Property field
+             */
+            this._record = null;
+            this.toolbar.sideItems.addArray([
+                this.btnRemove,
+                this.btnEdit,
+                this.btnAdd,
+                new latte.SeparatorItem(),
+                this.btnRefresh,
+            ]);
+            this.view = this.listView;
+            if (loadChildren) {
+                this.loadChildren.add(loadChildren);
+            }
+            if (childAdd) {
+                this.childAdd.add(childAdd);
+            }
+            if (childEdit) {
+                this.childEdit.add(childEdit);
+            }
+            if (childRemove) {
+                this.childRemove.add(childRemove);
+            }
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Raises the <c>childAdd</c> event
+         */
+        DataRecordChildrenView.prototype.onChildrenAdd = function () {
+            if (this._childAdd) {
+                this._childAdd.raise();
+            }
+        };
+        /**
+         * Raises the <c>childEdit</c> event
+         */
+        DataRecordChildrenView.prototype.onChildEdit = function () {
+            if (this._childEdit) {
+                this._childEdit.raise();
+            }
+        };
+        /**
+         * Raises the <c>childRemove</c> event
+         */
+        DataRecordChildrenView.prototype.onChildRemove = function () {
+            if (this._childRemove) {
+                this._childRemove.raise();
+            }
+        };
+        /**
+         * Raises the <c>loadChildren</c> event
+         */
+        DataRecordChildrenView.prototype.onLoadChildren = function () {
+            this.btnRemove.enabled = this.btnEdit.enabled = false;
+            this.children.clear();
+            if (this._loadChildren) {
+                this._loadChildren.raise();
+            }
+        };
+        /**
+         * Raises the <c>record</c> event
+         */
+        DataRecordChildrenView.prototype.onRecordChanged = function () {
+            if (this._recordChanged) {
+                this._recordChanged.raise();
+            }
+            this.onLoadChildren();
+        };
+        /**
+         * Reloads children of the view
+         */
+        DataRecordChildrenView.prototype.reloadChildren = function () {
+            this.onLoadChildren();
+        };
+        Object.defineProperty(DataRecordChildrenView.prototype, "childAdd", {
+            /**
+             * Gets an event raised when the user asks to add a new children
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._childAdd) {
+                    this._childAdd = new latte.LatteEvent(this);
+                    this._childAdd.handlerAdded.add(function () { _this.btnAdd.visible = true; });
+                }
+                return this._childAdd;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "childEdit", {
+            /**
+             * Gets an event raised when the user requests to edit the children
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._childEdit) {
+                    this._childEdit = new latte.LatteEvent(this);
+                    this._childEdit.handlerAdded.add(function () { _this.btnEdit.visible = true; });
+                }
+                return this._childEdit;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "childRemove", {
+            /**
+             * Gets an event raised when the user requests to delete the children
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._childRemove) {
+                    this._childRemove = new latte.LatteEvent(this);
+                    this._childRemove.handlerAdded.add(function () { _this.btnRemove.visible = true; });
+                }
+                return this._childRemove;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "loadChildren", {
+            /**
+             * Gets an event raised when the children must be loaded
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._loadChildren) {
+                    this._loadChildren = new latte.LatteEvent(this);
+                }
+                return this._loadChildren;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "recordChanged", {
+            /**
+             * Gets an event raised when the value of the record property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._recordChanged) {
+                    this._recordChanged = new latte.LatteEvent(this);
+                }
+                return this._recordChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "btnAdd", {
+            /**
+             * Gets the add button
+             *
+             * @returns {ButtonItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._btnAdd) {
+                    this._btnAdd = new latte.ButtonItem(null, latte.IconItem.standard(3, 3), function () { _this.onChildrenAdd(); });
+                    this._btnAdd.tooltip = strings.add;
+                    this._btnAdd.visible = false;
+                }
+                return this._btnAdd;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "btnEdit", {
+            /**
+             * Gets the edit button
+             *
+             * @returns {ButtonItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._btnEdit) {
+                    this._btnEdit = new latte.ButtonItem(null, latte.IconItem.standard(14, 8), function () { _this.onChildEdit(); });
+                    this._btnEdit.tooltip = strings.edit;
+                    this._btnEdit.visible = false;
+                    this._btnEdit.enabled = false;
+                }
+                return this._btnEdit;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "btnRefresh", {
+            /**
+             * Gets the refresh button
+             *
+             * @returns {ButtonItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._btnRefresh) {
+                    this._btnRefresh = new latte.ButtonItem(null, latte.IconItem.standard(1, 4), function () { _this.onLoadChildren(); });
+                }
+                return this._btnRefresh;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "btnRemove", {
+            /**
+             * Gets the remove button
+             *
+             * @returns {ButtonItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._btnRemove) {
+                    this._btnRemove = new latte.ButtonItem(null, latte.IconItem.standard(9, 1), function () {
+                        var name = _this.selectedChild.tag ? _this.selectedChild.tag.toString() : _this.selectedChild.toString();
+                        latte.DialogView.confirmDelete(name, function () {
+                            _this.onChildRemove();
+                        });
+                    });
+                    //this._btnRemove.tooltip = strings.remove;
+                    this._btnRemove.visible = false;
+                    this._btnRemove.enabled = false;
+                }
+                return this._btnRemove;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "listView", {
+            /**
+             * Gets the list view of the view
+             *
+             * @returns {ListView}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._listView) {
+                    this._listView = new latte.ListView();
+                    this._listView.selectedItemChanged.add(function () {
+                        _this.btnEdit.enabled = _this.btnRemove.enabled = _this.listView.selectedItem != null;
+                    });
+                }
+                return this._listView;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "pagination", {
+            /**
+             * Gets the pagination item
+             *
+             * @returns {PaginationItem}
+             */
+            get: function () {
+                if (!this._pagination) {
+                    this._pagination = new latte.PaginationItem();
+                }
+                return this._pagination;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "children", {
+            //endregion
+            //region Properties
+            /**
+             * Gets the collection of children of the widget
+             *
+             * @returns {Collection<SelectableItem>}
+             */
+            get: function () {
+                return this.listView.items;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "record", {
+            /**
+             * Gets or sets the record parent of the children
+             *
+             * @returns {DataRecord}
+             */
+            get: function () {
+                return this._record;
+            },
+            /**
+             * Gets or sets the record parent of the children
+             *
+             * @param {DataRecord} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._record;
+                // Set value
+                this._record = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onRecordChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordChildrenView.prototype, "selectedChild", {
+            /**
+             * Gets the selected child of the widget
+             *
+             * @returns {SelectableItem}
+             */
+            get: function () {
+                return this.listView.selectedItem;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return DataRecordChildrenView;
+    }(latte.ToolbarView));
+    latte.DataRecordChildrenView = DataRecordChildrenView;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 10/25/14.
+ */
+var latte;
+(function (latte) {
+    /**
+     * Widget for showing children of a DataRecord.
+     *
+     * Children are added using the <c>children</c> collection, when <c>loadChildren</c> method is called.
+     */
     var DataRecordChildrenWidget = (function (_super) {
         __extends(DataRecordChildrenWidget, _super);
         //region Static
@@ -1880,438 +2231,6 @@ var latte;
     }(latte.DialogView));
     latte.DataRecordDialogView = DataRecordDialogView;
 })(latte || (latte = {}));
-/**
- * Created by josemanuel on 10/25/14.
- */
-var latte;
-(function (latte) {
-    /**
-     * Widget for showing children of a DataRecord.
-     *
-     * Children are added using the <c>children</c> collection, when <c>loadChildren</c> method is called.
-     */
-    var DataRecordChildrenView = (function (_super) {
-        __extends(DataRecordChildrenView, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         * Creates the widget
-         */
-        function DataRecordChildrenView(loadChildren, childAdd, childEdit, childRemove) {
-            if (loadChildren === void 0) { loadChildren = null; }
-            if (childAdd === void 0) { childAdd = null; }
-            if (childEdit === void 0) { childEdit = null; }
-            if (childRemove === void 0) { childRemove = null; }
-            _super.call(this);
-            /**
-             * Property field
-             */
-            this._record = null;
-            this.toolbar.sideItems.addArray([
-                this.btnRemove,
-                this.btnEdit,
-                this.btnAdd,
-                new latte.SeparatorItem(),
-                this.btnRefresh,
-            ]);
-            this.view = this.listView;
-            if (loadChildren) {
-                this.loadChildren.add(loadChildren);
-            }
-            if (childAdd) {
-                this.childAdd.add(childAdd);
-            }
-            if (childEdit) {
-                this.childEdit.add(childEdit);
-            }
-            if (childRemove) {
-                this.childRemove.add(childRemove);
-            }
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Raises the <c>childAdd</c> event
-         */
-        DataRecordChildrenView.prototype.onChildrenAdd = function () {
-            if (this._childAdd) {
-                this._childAdd.raise();
-            }
-        };
-        /**
-         * Raises the <c>childEdit</c> event
-         */
-        DataRecordChildrenView.prototype.onChildEdit = function () {
-            if (this._childEdit) {
-                this._childEdit.raise();
-            }
-        };
-        /**
-         * Raises the <c>childRemove</c> event
-         */
-        DataRecordChildrenView.prototype.onChildRemove = function () {
-            if (this._childRemove) {
-                this._childRemove.raise();
-            }
-        };
-        /**
-         * Raises the <c>loadChildren</c> event
-         */
-        DataRecordChildrenView.prototype.onLoadChildren = function () {
-            this.btnRemove.enabled = this.btnEdit.enabled = false;
-            this.children.clear();
-            if (this._loadChildren) {
-                this._loadChildren.raise();
-            }
-        };
-        /**
-         * Raises the <c>record</c> event
-         */
-        DataRecordChildrenView.prototype.onRecordChanged = function () {
-            if (this._recordChanged) {
-                this._recordChanged.raise();
-            }
-            this.onLoadChildren();
-        };
-        /**
-         * Reloads children of the view
-         */
-        DataRecordChildrenView.prototype.reloadChildren = function () {
-            this.onLoadChildren();
-        };
-        Object.defineProperty(DataRecordChildrenView.prototype, "childAdd", {
-            /**
-             * Gets an event raised when the user asks to add a new children
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._childAdd) {
-                    this._childAdd = new latte.LatteEvent(this);
-                    this._childAdd.handlerAdded.add(function () { _this.btnAdd.visible = true; });
-                }
-                return this._childAdd;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "childEdit", {
-            /**
-             * Gets an event raised when the user requests to edit the children
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._childEdit) {
-                    this._childEdit = new latte.LatteEvent(this);
-                    this._childEdit.handlerAdded.add(function () { _this.btnEdit.visible = true; });
-                }
-                return this._childEdit;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "childRemove", {
-            /**
-             * Gets an event raised when the user requests to delete the children
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._childRemove) {
-                    this._childRemove = new latte.LatteEvent(this);
-                    this._childRemove.handlerAdded.add(function () { _this.btnRemove.visible = true; });
-                }
-                return this._childRemove;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "loadChildren", {
-            /**
-             * Gets an event raised when the children must be loaded
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._loadChildren) {
-                    this._loadChildren = new latte.LatteEvent(this);
-                }
-                return this._loadChildren;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "recordChanged", {
-            /**
-             * Gets an event raised when the value of the record property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._recordChanged) {
-                    this._recordChanged = new latte.LatteEvent(this);
-                }
-                return this._recordChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "btnAdd", {
-            /**
-             * Gets the add button
-             *
-             * @returns {ButtonItem}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._btnAdd) {
-                    this._btnAdd = new latte.ButtonItem(null, latte.IconItem.standard(3, 3), function () { _this.onChildrenAdd(); });
-                    this._btnAdd.tooltip = strings.add;
-                    this._btnAdd.visible = false;
-                }
-                return this._btnAdd;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "btnEdit", {
-            /**
-             * Gets the edit button
-             *
-             * @returns {ButtonItem}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._btnEdit) {
-                    this._btnEdit = new latte.ButtonItem(null, latte.IconItem.standard(14, 8), function () { _this.onChildEdit(); });
-                    this._btnEdit.tooltip = strings.edit;
-                    this._btnEdit.visible = false;
-                    this._btnEdit.enabled = false;
-                }
-                return this._btnEdit;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "btnRefresh", {
-            /**
-             * Gets the refresh button
-             *
-             * @returns {ButtonItem}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._btnRefresh) {
-                    this._btnRefresh = new latte.ButtonItem(null, latte.IconItem.standard(1, 4), function () { _this.onLoadChildren(); });
-                }
-                return this._btnRefresh;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "btnRemove", {
-            /**
-             * Gets the remove button
-             *
-             * @returns {ButtonItem}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._btnRemove) {
-                    this._btnRemove = new latte.ButtonItem(null, latte.IconItem.standard(9, 1), function () {
-                        var name = _this.selectedChild.tag ? _this.selectedChild.tag.toString() : _this.selectedChild.toString();
-                        latte.DialogView.confirmDelete(name, function () {
-                            _this.onChildRemove();
-                        });
-                    });
-                    //this._btnRemove.tooltip = strings.remove;
-                    this._btnRemove.visible = false;
-                    this._btnRemove.enabled = false;
-                }
-                return this._btnRemove;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "listView", {
-            /**
-             * Gets the list view of the view
-             *
-             * @returns {ListView}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._listView) {
-                    this._listView = new latte.ListView();
-                    this._listView.selectedItemChanged.add(function () {
-                        _this.btnEdit.enabled = _this.btnRemove.enabled = _this.listView.selectedItem != null;
-                    });
-                }
-                return this._listView;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "pagination", {
-            /**
-             * Gets the pagination item
-             *
-             * @returns {PaginationItem}
-             */
-            get: function () {
-                if (!this._pagination) {
-                    this._pagination = new latte.PaginationItem();
-                }
-                return this._pagination;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "children", {
-            //endregion
-            //region Properties
-            /**
-             * Gets the collection of children of the widget
-             *
-             * @returns {Collection<SelectableItem>}
-             */
-            get: function () {
-                return this.listView.items;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "record", {
-            /**
-             * Gets or sets the record parent of the children
-             *
-             * @returns {DataRecord}
-             */
-            get: function () {
-                return this._record;
-            },
-            /**
-             * Gets or sets the record parent of the children
-             *
-             * @param {DataRecord} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._record;
-                // Set value
-                this._record = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onRecordChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordChildrenView.prototype, "selectedChild", {
-            /**
-             * Gets the selected child of the widget
-             *
-             * @returns {SelectableItem}
-             */
-            get: function () {
-                return this.listView.selectedItem;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return DataRecordChildrenView;
-    }(latte.ToolbarView));
-    latte.DataRecordChildrenView = DataRecordChildrenView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     *
-     **/
-    var DataRecordFormView = (function (_super) {
-        __extends(DataRecordFormView, _super);
-        /**
-         * Creates the form of the specified record
-         **/
-        function DataRecordFormView(record) {
-            if (record === void 0) { record = null; }
-            _super.call(this);
-            //this.form = new DataRecordFormItem();
-            //this.items.clear();
-            //this.items.add(this.form);
-            if (record)
-                this.record = record;
-        }
-        //region Methods
-        /**
-         * Applies the values on form to the record. Optionally specifies which record
-         is supposed to recieve the values
-         **/
-        DataRecordFormView.prototype.applyValues = function (record) {
-            if (record === void 0) { record = null; }
-            this.form.applyValues(record);
-        };
-        DataRecordFormView.prototype.getSaveCalls = function () {
-            var _this = this;
-            //HACK: I don't think the call to applyValues should be here.
-            this.applyValues(this.record);
-            // Return save call
-            return [this.record.saveCall().withHandlers(function () {
-                    _this.unsavedChanges = false;
-                })];
-        };
-        DataRecordFormView.prototype.printSaveStack = function (view) {
-            latte.log(latte.sprintf("Unsaved changes = %s of view:", view.unsavedChanges));
-            latte.log(view);
-            if (view.parentView)
-                this.printSaveStack(view.parentView);
-        };
-        Object.defineProperty(DataRecordFormView.prototype, "form", {
-            /**
-             * Gets the data record form view
-             *
-             * @returns {DataRecordFormItem}
-             */
-            get: function () {
-                if (!this._dataform) {
-                    this._dataform = new latte.DataRecordFormItem();
-                    this._dataform.valueChanged.add(this.onValueChanged, this);
-                }
-                return this._dataform;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordFormView.prototype, "record", {
-            //endregion
-            //region Properties
-            /**
-             * Gets or sets the record of the form
-             **/
-            get: function () {
-                return this.form.record;
-            },
-            /**
-             * Gets or sets the record of the form
-             **/
-            set: function (record) {
-                this.form.record = record;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return DataRecordFormView;
-    }(latte.FormView));
-    latte.DataRecordFormView = DataRecordFormView;
-})(latte || (latte = {}));
 var latte;
 (function (latte) {
     /**
@@ -2558,6 +2477,87 @@ var latte;
         return DataRecordFormItem;
     }(latte.FormItem));
     latte.DataRecordFormItem = DataRecordFormItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     *
+     **/
+    var DataRecordFormView = (function (_super) {
+        __extends(DataRecordFormView, _super);
+        /**
+         * Creates the form of the specified record
+         **/
+        function DataRecordFormView(record) {
+            if (record === void 0) { record = null; }
+            _super.call(this);
+            //this.form = new DataRecordFormItem();
+            //this.items.clear();
+            //this.items.add(this.form);
+            if (record)
+                this.record = record;
+        }
+        //region Methods
+        /**
+         * Applies the values on form to the record. Optionally specifies which record
+         is supposed to recieve the values
+         **/
+        DataRecordFormView.prototype.applyValues = function (record) {
+            if (record === void 0) { record = null; }
+            this.form.applyValues(record);
+        };
+        DataRecordFormView.prototype.getSaveCalls = function () {
+            var _this = this;
+            //HACK: I don't think the call to applyValues should be here.
+            this.applyValues(this.record);
+            // Return save call
+            return [this.record.saveCall().withHandlers(function () {
+                    _this.unsavedChanges = false;
+                })];
+        };
+        DataRecordFormView.prototype.printSaveStack = function (view) {
+            latte.log(latte.sprintf("Unsaved changes = %s of view:", view.unsavedChanges));
+            latte.log(view);
+            if (view.parentView)
+                this.printSaveStack(view.parentView);
+        };
+        Object.defineProperty(DataRecordFormView.prototype, "form", {
+            /**
+             * Gets the data record form view
+             *
+             * @returns {DataRecordFormItem}
+             */
+            get: function () {
+                if (!this._dataform) {
+                    this._dataform = new latte.DataRecordFormItem();
+                    this._dataform.valueChanged.add(this.onValueChanged, this);
+                }
+                return this._dataform;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordFormView.prototype, "record", {
+            //endregion
+            //region Properties
+            /**
+             * Gets or sets the record of the form
+             **/
+            get: function () {
+                return this.form.record;
+            },
+            /**
+             * Gets or sets the record of the form
+             **/
+            set: function (record) {
+                this.form.record = record;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return DataRecordFormView;
+    }(latte.FormView));
+    latte.DataRecordFormView = DataRecordFormView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -3514,6 +3514,7 @@ var latte;
                 var gitem = item.children[i];
                 // Create listview item
                 var litem = gitem.createListViewItem();
+                litem.listView = this.listView;
                 litem.tag = gitem;
                 // Add handlers to the item
                 this.addListViewItemHandlers(litem);
@@ -3794,6 +3795,7 @@ var latte;
                 if (!this._listView) {
                     this._listView = new latte.ListView();
                     this._listView.columnHeaders.add(new latte.ColumnHeader(''));
+                    this._listView.focusable = true;
                 }
                 return this._listView;
             },
@@ -3840,8 +3842,15 @@ var latte;
              * @returns {TreeView}
              */
             get: function () {
+                var _this = this;
                 if (!this._treeView) {
                     this._treeView = new latte.TreeView();
+                    this._treeView.focusable = true;
+                    this._treeView.focused.add(function () {
+                        if (_this._treeSelectedItem) {
+                            _this.detailViewOf(_this._treeSelectedItem);
+                        }
+                    });
                 }
                 return this._treeView;
             },
@@ -3864,11 +3873,11 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/IDataRecordCustomView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/GridView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/explorer/ExplorerItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenWidget.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordDialogView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordGridView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordWidget.ts" />

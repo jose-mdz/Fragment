@@ -17,11 +17,6 @@ module latte{
         /**
          *
          **/
-        private _listView: ListView;
-
-        /**
-         *
-         **/
         private _text: string;
 
         /**
@@ -187,7 +182,11 @@ module latte{
                 var lv = this.listView;
 
                 // Inform tree view selection
-                if(lv) lv._informSelectedItem(this);
+                if(lv) {
+                    lv._informSelectedItem(this);
+                // }else{
+                //     log("wut? no listview?")
+                }
             }
 
             super.onSelectedChanged();
@@ -332,12 +331,26 @@ module latte{
         }
 
         /**
-         * Gets the listView of the item
-         **/
-        get listView(): ListView{
+         * Property field
+         */
+        private _listView: ListView = null;
 
+        /**
+         * Gets or sets the listview of the item
+         *
+         * @returns {ListView}
+         */
+        get listView(): ListView {
             return this._listView;
+        }
 
+        /**
+         * Gets or sets the listview of the item
+         *
+         * @param {ListView} value
+         */
+        set listView(value: ListView) {
+            this._listView = value;
         }
     }
 }

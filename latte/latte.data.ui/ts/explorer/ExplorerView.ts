@@ -102,7 +102,6 @@ module latte {
 
                     this._treeSelectedItem = item;
 
-
                     this.detailViewOf(item);
 
                     if (item.childrenLoaded) {
@@ -167,6 +166,7 @@ module latte {
 
                 // Create listview item
                 var litem:ListViewItem = gitem.createListViewItem();
+                litem.listView = this.listView;
                 litem.tag = gitem;
 
                 // Add handlers to the item
@@ -516,7 +516,8 @@ module latte {
         public get listView():ListView {
             if (!this._listView) {
                 this._listView = new ListView();
-                this._listView.columnHeaders.add(new ColumnHeader(''))
+                this._listView.columnHeaders.add(new ColumnHeader(''));
+                this._listView.focusable = true;
             }
             return this._listView;
         }
@@ -570,6 +571,12 @@ module latte {
         public get treeView():TreeView {
             if (!this._treeView) {
                 this._treeView = new TreeView();
+                this._treeView.focusable = true;
+                this._treeView.focused.add(() => {
+                    if(this._treeSelectedItem) {
+                        this.detailViewOf(this._treeSelectedItem);
+                    }
+                });
             }
             return this._treeView;
         }

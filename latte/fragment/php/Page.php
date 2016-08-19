@@ -504,8 +504,7 @@ ORDER BY $sortBySQL
             $settingRecords = DL::arrayOf('Setting', "
                 SELECT *
                 FROM fragment
-                WHERE owner = 'Page'
-                AND (idowner = '$sids')
+                WHERE (idpage = '$ids')
                 AND (name = '$snames')
             ");
 

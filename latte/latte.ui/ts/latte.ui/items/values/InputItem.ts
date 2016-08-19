@@ -80,7 +80,7 @@ module latte{
                 input.text || '(no text)',
                 input.type || 'string',
                 value || input.defaultValue || null,
-                input.readOnly || false,
+                input.readOnly || null,
                 name
             );
 
@@ -118,7 +118,7 @@ module latte{
         /**
          *
          **/
-        private _readOnly: boolean;
+        private _readOnly: boolean = null;
 
         /**
          *
@@ -169,7 +169,7 @@ module latte{
         /**
          * Creates the input element
          **/
-        constructor(text: string = '', type: string = '', value: any = null, readOnly: boolean = false, name: string = null){
+        constructor(text: string = '', type: string = '', value: any = null, readOnly: boolean = null, name: string = null){
 
 
             super();
@@ -430,19 +430,12 @@ module latte{
          **/
         set readOnly(value: boolean){
 
-
-            if(!_isBoolean(value))
-                throw new InvalidArgumentEx('value', value);
-
             this._readOnly = value;
 
             // Switch visibility
             this.readOnlyLabel.value = (this.valueItem.valueString);
             this.readOnlyLabel.visible = (value);
             this.valueItem.visible = (!value);
-
-
-
         }
 
         /**
