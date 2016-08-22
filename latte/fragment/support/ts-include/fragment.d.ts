@@ -1402,6 +1402,10 @@ declare module latte {
          */
         onFragmentConfigurationChanged(): void;
         /**
+         * Raises the <c>editorBlur</c> event
+         */
+        onEditorBlur(): void;
+        /**
          * Raises the <c>editorFocus</c> event
          */
         onEditorFocus(): void;
@@ -1452,10 +1456,6 @@ declare module latte {
          */
         editorBlur: LatteEvent;
         /**
-         * Raises the <c>editorBlur</c> event
-         */
-        onEditorBlur(): void;
-        /**
          * Back field for event
          */
         private _editorFocus;
@@ -1505,6 +1505,21 @@ declare module latte {
          * @returns {LatteEvent}
          */
         unsavedChangesChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _expando;
+        /**
+         * Gets or sets the expando where the item lives
+         *
+         * @returns {FragmentExpandoItem}
+         */
+        /**
+         * Gets or sets the expando where the item lives
+         *
+         * @param {FragmentExpandoItem} value
+         */
+        expando: FragmentExpandoItem;
         /**
          * Back field for event
          */
@@ -1780,41 +1795,6 @@ declare module latte {
     /**
      *
      */
-    class GroupExplorer extends ExplorerItemDataRecord<Group> {
-        /**
-         *
-         */
-        constructor(r?: Group);
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
     class GroupUserExplorer extends ExplorerItemDataRecord<GroupUser> {
         /**
          *
@@ -1849,6 +1829,41 @@ declare module latte {
          *
          */
         constructor();
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class GroupExplorer extends ExplorerItemDataRecord<Group> {
+        /**
+         *
+         */
+        constructor(r?: Group);
         /**
          * Gets the loader of children items
          *
@@ -2754,6 +2769,14 @@ declare module latte {
          */
         onCreateEditorItem(): void;
         /**
+         * Raises the <c>draggingFiles</c> event
+         */
+        onDraggingFilesChanged(): void;
+        /**
+         * Raises the <c>filesSelected</c> event
+         */
+        onFilesSelected(files: FileList): void;
+        /**
          * Raises the <c>selectedFile</c> event
          */
         onSelectedFileChanged(): void;
@@ -2768,6 +2791,26 @@ declare module latte {
         /**
          * Back field for event
          */
+        private _draggingFilesChanged;
+        /**
+         * Back field for event
+         */
+        private _filesSelected;
+        /**
+         * Gets an event raised when files are selected for upload
+         *
+         * @returns {LatteEvent}
+         */
+        filesSelected: LatteEvent;
+        /**
+         * Gets an event raised when the value of the draggingFiles property changes
+         *
+         * @returns {LatteEvent}
+         */
+        draggingFilesChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
         private _selectedFileChanged;
         /**
          * Gets an event raised when the value of the selectedFile property changes
@@ -2775,6 +2818,21 @@ declare module latte {
          * @returns {LatteEvent}
          */
         selectedFileChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _draggingFiles;
+        /**
+         * Gets or sets a value indicating if user is currently dragging files around
+         *
+         * @returns {boolean}
+         */
+        /**
+         * Gets or sets a value indicating if user is currently dragging files around
+         *
+         * @param {boolean} value
+         */
+        draggingFiles: boolean;
         /**
          * Field for files property
          */

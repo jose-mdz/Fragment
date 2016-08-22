@@ -119,6 +119,7 @@ module latte {
 
             // Create expando
             let expando = new FragmentExpandoItem();
+            adapter.expando = expando;
             expando.title = PageConfiguration.resolveString(fragmentData.name) || strings.missingName;
             expando.fragmentItem = adapter.editorItem;
 

@@ -8,3 +8,6 @@
 .cms-fragment-expando .expando-title{
     color: #ccc;
 }
+.cms-fragment-expando.focused .expando-title{
+    color: #4285F4;
+}

@@ -1329,7 +1329,6 @@ module latte {
             this.element.style.width = value + 'px';
         }
 
-
         /**
          * Gets or sets the tooltip of the elent
          *

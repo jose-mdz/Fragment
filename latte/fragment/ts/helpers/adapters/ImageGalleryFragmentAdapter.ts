@@ -50,20 +50,7 @@ module latte {
 
             if (this.fileInput.element.files.length > 0) {
 
-                // Get file
-                let f = this.fileInput.element.files[0];
-
-                // Create uploader
-                let u = new FileUploader(f, 'Page', this.fragment.idpage);
-
-                // Add File Item to show upload process
-                let item = new FileItem();
-                item.fileUploader = u;
-                item.thumbCreated.add(() => this.generatePresentableImage(item, () => this.serialize()));
-                this.files.add(item);
-
-                // Start upload
-                u.upload();
+                this.onFilesSelected(this.fileInput.element.files);
 
             }
 
@@ -217,6 +204,9 @@ module latte {
             super.onCreateEditorItem();
 
             this.editorItem = new Item();
+
+            let element = this.editorItem.element.get(0);
+
             this.editorItem.addClass('gallery-fragment-editor');
             this.editorItem.element.get(0).setAttribute('tabindex', 1);
             this.editorItem.element.get(0).addEventListener('click', () => {
@@ -226,7 +216,77 @@ module latte {
             this.editorItem.element.get(0).addEventListener('blur', () => this.onEditorBlur());
             this.editorItem.element.append(this.fileInput.element);
 
+            // Drag & Drop Support
+            element.addEventListener('dragover', (e) => {
+
+                this.draggingFiles = true;
+
+                e.preventDefault();
+
+                return false;
+
+            });
+            element.addEventListener('dragleave', (e) => {
+
+                this.draggingFiles = false;
+
+                e.preventDefault();
+
+                return false;
+
+            });
+            element.addEventListener('drop', (e: any) => {
+
+                e.preventDefault();
+
+                this.draggingFiles = false;
+
+                if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    this.onFilesSelected(e.dataTransfer.files)
+                }
+
+                return false;
+
+            });
+
             this.unserialize();
+        }
+
+        /**
+         * Raises the <c>draggingFiles</c> event
+         */
+        onDraggingFilesChanged(){
+            if(this._draggingFilesChanged){
+                this._draggingFilesChanged.raise();
+            }
+            log("Dragging files: " + this.draggingFiles);
+        }
+
+        /**
+         * Raises the <c>filesSelected</c> event
+         */
+        onFilesSelected(files: FileList){
+            if(this._filesSelected){
+                this._filesSelected.raise(files);
+            }
+
+            for (let i = 0; i < files.length; i++) {
+
+                // Get file
+                let f = files[i];
+
+                // Create uploader
+                let u = new FileUploader(f, 'Page', this.fragment.idpage);
+
+                // Add File Item to show upload process
+                let item = new FileItem();
+                item.fileUploader = u;
+                item.thumbCreated.add(() => this.generatePresentableImage(item, () => this.serialize()));
+                this.files.add(item);
+
+                // Start upload
+                u.upload();
+            }
         }
 
         /**
@@ -326,6 +386,42 @@ module latte {
         //endregion
 
         //region Events
+
+        /**
+         * Back field for event
+         */
+        private _draggingFilesChanged: LatteEvent;
+
+
+        /**
+         * Back field for event
+         */
+        private _filesSelected: LatteEvent;
+
+        /**
+         * Gets an event raised when files are selected for upload
+         *
+         * @returns {LatteEvent}
+         */
+        get filesSelected(): LatteEvent{
+            if(!this._filesSelected){
+                this._filesSelected = new LatteEvent(this);
+            }
+            return this._filesSelected;
+        }
+
+        /**
+         * Gets an event raised when the value of the draggingFiles property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get draggingFilesChanged(): LatteEvent{
+            if(!this._draggingFilesChanged){
+                this._draggingFilesChanged = new LatteEvent(this);
+            }
+            return this._draggingFilesChanged;
+        }
+
         /**
          * Back field for event
          */
@@ -346,6 +442,39 @@ module latte {
         //endregion
 
         //region Properties
+
+        /**
+         * Property field
+         */
+        private _draggingFiles: boolean = null;
+
+        /**
+         * Gets or sets a value indicating if user is currently dragging files around
+         *
+         * @returns {boolean}
+         */
+        get draggingFiles(): boolean{
+            return this._draggingFiles;
+        }
+
+        /**
+         * Gets or sets a value indicating if user is currently dragging files around
+         *
+         * @param {boolean} value
+         */
+        set draggingFiles(value: boolean){
+
+            // Check if value changed
+            let changed: boolean = value !== this._draggingFiles;
+
+            // Set value
+            this._draggingFiles = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onDraggingFilesChanged();
+            }
+        }
 
         /**
          * Field for files property
@@ -565,7 +694,6 @@ module latte {
             return this._btnViewOriginal;
         }
 
-
         /**
          * Field for fileInput property
          */
@@ -580,6 +708,7 @@ module latte {
             if (!this._fileInput) {
                 this._fileInput = new Element<HTMLInputElement>(document.createElement('input'));
                 this._fileInput.element.type = 'file';
+                this._fileInput.element.multiple = true;
                 this._fileInput.addEventListener('change', () => this.fileInputChanged())
             }
             return this._fileInput;

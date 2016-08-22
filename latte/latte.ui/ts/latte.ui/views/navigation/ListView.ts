@@ -97,10 +97,10 @@ module latte{
          **/
         public _informSelectedItem(item: ListViewItem){
 
-            log("Informed!")
+            // log("Informed!")
             var changed = item !== this._selectedItem;
             this._selectedItem = item;
-            log("Selected item set")
+            // log("Selected item set")
 
             if(changed) {
                 this.onSelectedItemChanged();

@@ -82,11 +82,28 @@ module latte {
         }
 
         /**
+         * Raises the <c>editorBlur</c> event
+         */
+        onEditorBlur(){
+            if(this._editorBlur){
+                this._editorBlur.raise();
+            }
+
+            if(this.expando){
+                this.expando.removeClass('focused');
+            }
+        }
+
+        /**
          * Raises the <c>editorFocus</c> event
          */
         onEditorFocus(){
             if(this._editorFocus){
                 this._editorFocus.raise();
+            }
+
+            if(this.expando){
+                this.expando.addClass('focused');
             }
         }
 
@@ -181,15 +198,6 @@ module latte {
         }
 
         /**
-         * Raises the <c>editorBlur</c> event
-         */
-        onEditorBlur(){
-            if(this._editorBlur){
-                this._editorBlur.raise();
-            }
-        }
-
-        /**
          * Back field for event
          */
         private _editorFocus: LatteEvent;
@@ -278,6 +286,30 @@ module latte {
         //endregion
 
         //region Properties
+
+        /**
+         * Property field
+         */
+        private _expando: FragmentExpandoItem = null;
+
+        /**
+         * Gets or sets the expando where the item lives
+         *
+         * @returns {FragmentExpandoItem}
+         */
+        get expando(): FragmentExpandoItem {
+            return this._expando;
+        }
+
+        /**
+         * Gets or sets the expando where the item lives
+         *
+         * @param {FragmentExpandoItem} value
+         */
+        set expando(value: FragmentExpandoItem) {
+            this._expando = value;
+        }
+
         /**
          * Back field for event
          */

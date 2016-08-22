@@ -2890,6 +2890,12 @@ var latte;
          * You should leave empty the constructor
          */
         function FragmentAdapter() {
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._expando = null;
             /**
              * Property field
              */
@@ -2961,11 +2967,25 @@ var latte;
             }
         };
         /**
+         * Raises the <c>editorBlur</c> event
+         */
+        FragmentAdapter.prototype.onEditorBlur = function () {
+            if (this._editorBlur) {
+                this._editorBlur.raise();
+            }
+            if (this.expando) {
+                this.expando.removeClass('focused');
+            }
+        };
+        /**
          * Raises the <c>editorFocus</c> event
          */
         FragmentAdapter.prototype.onEditorFocus = function () {
             if (this._editorFocus) {
                 this._editorFocus.raise();
+            }
+            if (this.expando) {
+                this.expando.addClass('focused');
             }
         };
         /**
@@ -3045,14 +3065,6 @@ var latte;
             enumerable: true,
             configurable: true
         });
-        /**
-         * Raises the <c>editorBlur</c> event
-         */
-        FragmentAdapter.prototype.onEditorBlur = function () {
-            if (this._editorBlur) {
-                this._editorBlur.raise();
-            }
-        };
         Object.defineProperty(FragmentAdapter.prototype, "editorFocus", {
             /**
              * Gets an event raised when the editor item receives the focus
@@ -3124,6 +3136,26 @@ var latte;
                     this._unsavedChangesChanged = new latte.LatteEvent(this);
                 }
                 return this._unsavedChangesChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FragmentAdapter.prototype, "expando", {
+            /**
+             * Gets or sets the expando where the item lives
+             *
+             * @returns {FragmentExpandoItem}
+             */
+            get: function () {
+                return this._expando;
+            },
+            /**
+             * Gets or sets the expando where the item lives
+             *
+             * @param {FragmentExpandoItem} value
+             */
+            set: function (value) {
+                this._expando = value;
             },
             enumerable: true,
             configurable: true
@@ -3635,79 +3667,6 @@ var latte;
     /**
      *
      */
-    var GroupExplorer = (function (_super) {
-        __extends(GroupExplorer, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function GroupExplorer(r) {
-            if (r === void 0) { r = null; }
-            _super.call(this);
-            this.loadsChildrenFolders = false;
-            if (r) {
-                this.record = r;
-            }
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        GroupExplorer.prototype.getChildrenLoader = function () {
-            var _this = this;
-            return latte.GroupUser.byGroup(this.record.idgroup).withHandlers(function (records) {
-                for (var i in records) {
-                    _this.children.add(new latte.GroupUserExplorer(records[i]));
-                }
-            });
-        };
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        GroupExplorer.prototype.getName = function () {
-            return this.record.name;
-        };
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        GroupExplorer.prototype.getIcon = function () {
-            return latte.IconItem.fileIcon();
-        };
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        GroupExplorer.prototype.getItems = function () {
-            var _this = this;
-            return [
-                new latte.ButtonItem(strings.addUserToGroup, latte.IconItem.newIcon(), function () {
-                    var r = new latte.GroupUser();
-                    r.idgroup = _this.record.idgroup;
-                    latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.addUserToGroup);
-                })
-            ];
-        };
-        return GroupExplorer;
-    }(latte.ExplorerItemDataRecord));
-    latte.GroupExplorer = GroupExplorer;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 8/5/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
     var GroupUserExplorer = (function (_super) {
         __extends(GroupUserExplorer, _super);
         //region Static
@@ -3818,6 +3777,79 @@ var latte;
         return GroupsExplorer;
     }(latte.ExplorerItem));
     latte.GroupsExplorer = GroupsExplorer;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var GroupExplorer = (function (_super) {
+        __extends(GroupExplorer, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function GroupExplorer(r) {
+            if (r === void 0) { r = null; }
+            _super.call(this);
+            this.loadsChildrenFolders = false;
+            if (r) {
+                this.record = r;
+            }
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        GroupExplorer.prototype.getChildrenLoader = function () {
+            var _this = this;
+            return latte.GroupUser.byGroup(this.record.idgroup).withHandlers(function (records) {
+                for (var i in records) {
+                    _this.children.add(new latte.GroupUserExplorer(records[i]));
+                }
+            });
+        };
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        GroupExplorer.prototype.getName = function () {
+            return this.record.name;
+        };
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        GroupExplorer.prototype.getIcon = function () {
+            return latte.IconItem.fileIcon();
+        };
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        GroupExplorer.prototype.getItems = function () {
+            var _this = this;
+            return [
+                new latte.ButtonItem(strings.addUserToGroup, latte.IconItem.newIcon(), function () {
+                    var r = new latte.GroupUser();
+                    r.idgroup = _this.record.idgroup;
+                    latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.addUserToGroup);
+                })
+            ];
+        };
+        return GroupExplorer;
+    }(latte.ExplorerItemDataRecord));
+    latte.GroupExplorer = GroupExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/14/16.
@@ -5533,6 +5565,12 @@ var latte;
          */
         function ImageGalleryFragmentAdapter() {
             _super.call(this);
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._draggingFiles = null;
             /**
              * Property field
              */
@@ -5543,19 +5581,8 @@ var latte;
          * Uploads the file on the input
          */
         ImageGalleryFragmentAdapter.prototype.fileInputChanged = function () {
-            var _this = this;
             if (this.fileInput.element.files.length > 0) {
-                // Get file
-                var f = this.fileInput.element.files[0];
-                // Create uploader
-                var u = new latte.FileUploader(f, 'Page', this.fragment.idpage);
-                // Add File Item to show upload process
-                var item_1 = new latte.FileItem();
-                item_1.fileUploader = u;
-                item_1.thumbCreated.add(function () { return _this.generatePresentableImage(item_1, function () { return _this.serialize(); }); });
-                this.files.add(item_1);
-                // Start upload
-                u.upload();
+                this.onFilesSelected(this.fileInput.element.files);
             }
         };
         /**
@@ -5679,6 +5706,7 @@ var latte;
             var _this = this;
             _super.prototype.onCreateEditorItem.call(this);
             this.editorItem = new latte.Item();
+            var element = this.editorItem.element.get(0);
             this.editorItem.addClass('gallery-fragment-editor');
             this.editorItem.element.get(0).setAttribute('tabindex', 1);
             this.editorItem.element.get(0).addEventListener('click', function () {
@@ -5687,7 +5715,61 @@ var latte;
             this.editorItem.element.get(0).addEventListener('focus', function () { return _this.onEditorFocus(); });
             this.editorItem.element.get(0).addEventListener('blur', function () { return _this.onEditorBlur(); });
             this.editorItem.element.append(this.fileInput.element);
+            // Drag & Drop Support
+            element.addEventListener('dragover', function (e) {
+                _this.draggingFiles = true;
+                e.preventDefault();
+                return false;
+            });
+            element.addEventListener('dragleave', function (e) {
+                _this.draggingFiles = false;
+                e.preventDefault();
+                return false;
+            });
+            element.addEventListener('drop', function (e) {
+                e.preventDefault();
+                _this.draggingFiles = false;
+                if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    _this.onFilesSelected(e.dataTransfer.files);
+                }
+                return false;
+            });
             this.unserialize();
+        };
+        /**
+         * Raises the <c>draggingFiles</c> event
+         */
+        ImageGalleryFragmentAdapter.prototype.onDraggingFilesChanged = function () {
+            if (this._draggingFilesChanged) {
+                this._draggingFilesChanged.raise();
+            }
+            latte.log("Dragging files: " + this.draggingFiles);
+        };
+        /**
+         * Raises the <c>filesSelected</c> event
+         */
+        ImageGalleryFragmentAdapter.prototype.onFilesSelected = function (files) {
+            var _this = this;
+            if (this._filesSelected) {
+                this._filesSelected.raise(files);
+            }
+            var _loop_1 = function(i) {
+                // Get file
+                var f = files[i];
+                // Create uploader
+                var u = new latte.FileUploader(f, 'Page', this_1.fragment.idpage);
+                // Add File Item to show upload process
+                var item = new latte.FileItem();
+                item.fileUploader = u;
+                item.thumbCreated.add(function () { return _this.generatePresentableImage(item, function () { return _this.serialize(); }); });
+                this_1.files.add(item);
+                // Start upload
+                u.upload();
+            };
+            var this_1 = this;
+            for (var i = 0; i < files.length; i++) {
+                _loop_1(i);
+            }
         };
         /**
          * Raises the <c>selectedFile</c> event
@@ -5765,6 +5847,36 @@ var latte;
                 });
             });
         };
+        Object.defineProperty(ImageGalleryFragmentAdapter.prototype, "filesSelected", {
+            /**
+             * Gets an event raised when files are selected for upload
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._filesSelected) {
+                    this._filesSelected = new latte.LatteEvent(this);
+                }
+                return this._filesSelected;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ImageGalleryFragmentAdapter.prototype, "draggingFilesChanged", {
+            /**
+             * Gets an event raised when the value of the draggingFiles property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._draggingFilesChanged) {
+                    this._draggingFilesChanged = new latte.LatteEvent(this);
+                }
+                return this._draggingFilesChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ImageGalleryFragmentAdapter.prototype, "selectedFileChanged", {
             /**
              * Gets an event raised when the value of the selectedFile property changes
@@ -5776,6 +5888,33 @@ var latte;
                     this._selectedFileChanged = new latte.LatteEvent(this);
                 }
                 return this._selectedFileChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ImageGalleryFragmentAdapter.prototype, "draggingFiles", {
+            /**
+             * Gets or sets a value indicating if user is currently dragging files around
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return this._draggingFiles;
+            },
+            /**
+             * Gets or sets a value indicating if user is currently dragging files around
+             *
+             * @param {boolean} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._draggingFiles;
+                // Set value
+                this._draggingFiles = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onDraggingFilesChanged();
+                }
             },
             enumerable: true,
             configurable: true
@@ -5983,6 +6122,7 @@ var latte;
                 if (!this._fileInput) {
                     this._fileInput = new latte.Element(document.createElement('input'));
                     this._fileInput.element.type = 'file';
+                    this._fileInput.element.multiple = true;
                     this._fileInput.addEventListener('change', function () { return _this.fileInputChanged(); });
                 }
                 return this._fileInput;
@@ -8494,6 +8634,7 @@ var latte;
             //adapter.editorBlur.add(() => this.clearRibbon());
             // Create expando
             var expando = new latte.FragmentExpandoItem();
+            adapter.expando = expando;
             expando.title = latte.PageConfiguration.resolveString(fragmentData.name) || strings.missingName;
             expando.fragmentItem = adapter.editorItem;
             this.columnView.items.add(expando);
@@ -9121,9 +9262,9 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Uploader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/Main.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupUserExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupsExplorer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PageExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PagesExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UserExplorer.ts" />

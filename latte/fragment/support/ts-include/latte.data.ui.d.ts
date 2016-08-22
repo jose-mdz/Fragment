@@ -674,6 +674,183 @@ declare module latte {
      *
      * Children are added using the <c>children</c> collection, when <c>loadChildren</c> method is called.
      */
+    class DataRecordChildrenView extends ToolbarView {
+        /**
+         * Creates the widget
+         */
+        constructor(loadChildren?: () => any, childAdd?: () => any, childEdit?: () => any, childRemove?: () => any);
+        /**
+         * Raises the <c>childAdd</c> event
+         */
+        onChildrenAdd(): void;
+        /**
+         * Raises the <c>childEdit</c> event
+         */
+        onChildEdit(): void;
+        /**
+         * Raises the <c>childRemove</c> event
+         */
+        onChildRemove(): void;
+        /**
+         * Raises the <c>loadChildren</c> event
+         */
+        onLoadChildren(): void;
+        /**
+         * Raises the <c>record</c> event
+         */
+        onRecordChanged(): void;
+        /**
+         * Reloads children of the view
+         */
+        reloadChildren(): void;
+        /**
+         * Back field for event
+         */
+        private _childAdd;
+        /**
+         * Gets an event raised when the user asks to add a new children
+         *
+         * @returns {LatteEvent}
+         */
+        childAdd: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _childEdit;
+        /**
+         * Gets an event raised when the user requests to edit the children
+         *
+         * @returns {LatteEvent}
+         */
+        childEdit: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _childRemove;
+        /**
+         * Gets an event raised when the user requests to delete the children
+         *
+         * @returns {LatteEvent}
+         */
+        childRemove: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _loadChildren;
+        /**
+         * Gets an event raised when the children must be loaded
+         *
+         * @returns {LatteEvent}
+         */
+        loadChildren: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _recordChanged;
+        /**
+         * Gets an event raised when the value of the record property changes
+         *
+         * @returns {LatteEvent}
+         */
+        recordChanged: LatteEvent;
+        /**
+         * Field for btnAdd property
+         */
+        private _btnAdd;
+        /**
+         * Gets the add button
+         *
+         * @returns {ButtonItem}
+         */
+        btnAdd: ButtonItem;
+        /**
+         * Field for btnEdit property
+         */
+        private _btnEdit;
+        /**
+         * Gets the edit button
+         *
+         * @returns {ButtonItem}
+         */
+        btnEdit: ButtonItem;
+        /**
+         * Field for btnRefresh property
+         */
+        private _btnRefresh;
+        /**
+         * Gets the refresh button
+         *
+         * @returns {ButtonItem}
+         */
+        btnRefresh: ButtonItem;
+        /**
+         * Field for btnRemove property
+         */
+        private _btnRemove;
+        /**
+         * Gets the remove button
+         *
+         * @returns {ButtonItem}
+         */
+        btnRemove: ButtonItem;
+        /**
+         * Field for listView property
+         */
+        private _listView;
+        /**
+         * Gets the list view of the view
+         *
+         * @returns {ListView}
+         */
+        listView: ListView;
+        /**
+         * Field for pagination property
+         */
+        private _pagination;
+        /**
+         * Gets the pagination item
+         *
+         * @returns {PaginationItem}
+         */
+        pagination: PaginationItem;
+        /**
+         * Gets the collection of children of the widget
+         *
+         * @returns {Collection<SelectableItem>}
+         */
+        children: Collection<ListViewItem>;
+        /**
+         * Property field
+         */
+        private _record;
+        /**
+         * Gets or sets the record parent of the children
+         *
+         * @returns {DataRecord}
+         */
+        /**
+         * Gets or sets the record parent of the children
+         *
+         * @param {DataRecord} value
+         */
+        record: DataRecord;
+        /**
+         * Gets the selected child of the widget
+         *
+         * @returns {SelectableItem}
+         */
+        selectedChild: SelectableItem;
+    }
+}
+/**
+ * Created by josemanuel on 10/25/14.
+ */
+declare module latte {
+    /**
+     * Widget for showing children of a DataRecord.
+     *
+     * Children are added using the <c>children</c> collection, when <c>loadChildren</c> method is called.
+     */
     class DataRecordChildrenWidget extends WidgetItem {
         /**
          * Creates the widget
@@ -895,218 +1072,6 @@ declare module latte {
         record: DataRecord;
     }
 }
-/**
- * Created by josemanuel on 10/25/14.
- */
-declare module latte {
-    /**
-     * Widget for showing children of a DataRecord.
-     *
-     * Children are added using the <c>children</c> collection, when <c>loadChildren</c> method is called.
-     */
-    class DataRecordChildrenView extends ToolbarView {
-        /**
-         * Creates the widget
-         */
-        constructor(loadChildren?: () => any, childAdd?: () => any, childEdit?: () => any, childRemove?: () => any);
-        /**
-         * Raises the <c>childAdd</c> event
-         */
-        onChildrenAdd(): void;
-        /**
-         * Raises the <c>childEdit</c> event
-         */
-        onChildEdit(): void;
-        /**
-         * Raises the <c>childRemove</c> event
-         */
-        onChildRemove(): void;
-        /**
-         * Raises the <c>loadChildren</c> event
-         */
-        onLoadChildren(): void;
-        /**
-         * Raises the <c>record</c> event
-         */
-        onRecordChanged(): void;
-        /**
-         * Reloads children of the view
-         */
-        reloadChildren(): void;
-        /**
-         * Back field for event
-         */
-        private _childAdd;
-        /**
-         * Gets an event raised when the user asks to add a new children
-         *
-         * @returns {LatteEvent}
-         */
-        childAdd: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _childEdit;
-        /**
-         * Gets an event raised when the user requests to edit the children
-         *
-         * @returns {LatteEvent}
-         */
-        childEdit: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _childRemove;
-        /**
-         * Gets an event raised when the user requests to delete the children
-         *
-         * @returns {LatteEvent}
-         */
-        childRemove: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _loadChildren;
-        /**
-         * Gets an event raised when the children must be loaded
-         *
-         * @returns {LatteEvent}
-         */
-        loadChildren: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _recordChanged;
-        /**
-         * Gets an event raised when the value of the record property changes
-         *
-         * @returns {LatteEvent}
-         */
-        recordChanged: LatteEvent;
-        /**
-         * Field for btnAdd property
-         */
-        private _btnAdd;
-        /**
-         * Gets the add button
-         *
-         * @returns {ButtonItem}
-         */
-        btnAdd: ButtonItem;
-        /**
-         * Field for btnEdit property
-         */
-        private _btnEdit;
-        /**
-         * Gets the edit button
-         *
-         * @returns {ButtonItem}
-         */
-        btnEdit: ButtonItem;
-        /**
-         * Field for btnRefresh property
-         */
-        private _btnRefresh;
-        /**
-         * Gets the refresh button
-         *
-         * @returns {ButtonItem}
-         */
-        btnRefresh: ButtonItem;
-        /**
-         * Field for btnRemove property
-         */
-        private _btnRemove;
-        /**
-         * Gets the remove button
-         *
-         * @returns {ButtonItem}
-         */
-        btnRemove: ButtonItem;
-        /**
-         * Field for listView property
-         */
-        private _listView;
-        /**
-         * Gets the list view of the view
-         *
-         * @returns {ListView}
-         */
-        listView: ListView;
-        /**
-         * Field for pagination property
-         */
-        private _pagination;
-        /**
-         * Gets the pagination item
-         *
-         * @returns {PaginationItem}
-         */
-        pagination: PaginationItem;
-        /**
-         * Gets the collection of children of the widget
-         *
-         * @returns {Collection<SelectableItem>}
-         */
-        children: Collection<ListViewItem>;
-        /**
-         * Property field
-         */
-        private _record;
-        /**
-         * Gets or sets the record parent of the children
-         *
-         * @returns {DataRecord}
-         */
-        /**
-         * Gets or sets the record parent of the children
-         *
-         * @param {DataRecord} value
-         */
-        record: DataRecord;
-        /**
-         * Gets the selected child of the widget
-         *
-         * @returns {SelectableItem}
-         */
-        selectedChild: SelectableItem;
-    }
-}
-declare module latte {
-    /**
-     *
-     **/
-    class DataRecordFormView extends FormView {
-        /**
-         * Creates the form of the specified record
-         **/
-        constructor(record?: DataRecord);
-        /**
-         * Applies the values on form to the record. Optionally specifies which record
-         is supposed to recieve the values
-         **/
-        applyValues(record?: DataRecord): void;
-        getSaveCalls(): ICall[];
-        printSaveStack(view: View): void;
-        /**
-         * Field for form property
-         */
-        private _dataform;
-        /**
-         * Gets the data record form view
-         *
-         * @returns {DataRecordFormItem}
-         */
-        form: DataRecordFormItem;
-        /**
-         * Gets or sets the record of the form
-         **/
-        /**
-         * Gets or sets the record of the form
-         **/
-        record: DataRecord;
-    }
-}
 declare module latte {
     /**
      * Creates a form for a specific <c>DataRecord</c>
@@ -1182,6 +1147,41 @@ declare module latte {
          *
          * @param {DataRecord} value
          */
+        record: DataRecord;
+    }
+}
+declare module latte {
+    /**
+     *
+     **/
+    class DataRecordFormView extends FormView {
+        /**
+         * Creates the form of the specified record
+         **/
+        constructor(record?: DataRecord);
+        /**
+         * Applies the values on form to the record. Optionally specifies which record
+         is supposed to recieve the values
+         **/
+        applyValues(record?: DataRecord): void;
+        getSaveCalls(): ICall[];
+        printSaveStack(view: View): void;
+        /**
+         * Field for form property
+         */
+        private _dataform;
+        /**
+         * Gets the data record form view
+         *
+         * @returns {DataRecordFormItem}
+         */
+        form: DataRecordFormItem;
+        /**
+         * Gets or sets the record of the form
+         **/
+        /**
+         * Gets or sets the record of the form
+         **/
         record: DataRecord;
     }
 }
