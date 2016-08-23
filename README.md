@@ -1,3 +1,4 @@
+![Fragment Logo](https://github.com/menendezpoo/Fragment/raw/master/latte/fragment/support/imgs/fragment-logo.png)
 # Fragment
 A Full CMS based on Latte
 
