@@ -82,7 +82,12 @@ module latte {
          * @Override
          */
         getIcon(): IconItem{
-            return LinearIcon.file_empty;
+            let icon = LinearIcon.file_empty;
+
+            if(!this.record.isOnline) {
+                icon.css('opacity', 0.2);
+            }
+            return icon;
         }
 
         /**

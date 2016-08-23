@@ -3719,73 +3719,6 @@ var latte;
     /**
      *
      */
-    var GroupsExplorer = (function (_super) {
-        __extends(GroupsExplorer, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function GroupsExplorer() {
-            _super.call(this);
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        GroupsExplorer.prototype.getChildrenLoader = function () {
-            var _this = this;
-            return latte.Group.catalog().withHandlers(function (records) {
-                for (var i in records) {
-                    _this.children.add(new latte.GroupExplorer(records[i]));
-                }
-            });
-        };
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        GroupsExplorer.prototype.getName = function () {
-            return strings.groups;
-        };
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        GroupsExplorer.prototype.getIcon = function () {
-            return latte.LinearIcon.book;
-        };
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        GroupsExplorer.prototype.getItems = function () {
-            var _this = this;
-            return [
-                new latte.ButtonItem(strings.newGroup, latte.LinearIcon.bookmark, function () {
-                    var r = new latte.Group();
-                    latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.newGroup);
-                })
-            ];
-        };
-        return GroupsExplorer;
-    }(latte.ExplorerItem));
-    latte.GroupsExplorer = GroupsExplorer;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 8/5/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
     var GroupExplorer = (function (_super) {
         __extends(GroupExplorer, _super);
         //region Static
@@ -3850,6 +3783,73 @@ var latte;
         return GroupExplorer;
     }(latte.ExplorerItemDataRecord));
     latte.GroupExplorer = GroupExplorer;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var GroupsExplorer = (function (_super) {
+        __extends(GroupsExplorer, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function GroupsExplorer() {
+            _super.call(this);
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        GroupsExplorer.prototype.getChildrenLoader = function () {
+            var _this = this;
+            return latte.Group.catalog().withHandlers(function (records) {
+                for (var i in records) {
+                    _this.children.add(new latte.GroupExplorer(records[i]));
+                }
+            });
+        };
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        GroupsExplorer.prototype.getName = function () {
+            return strings.groups;
+        };
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        GroupsExplorer.prototype.getIcon = function () {
+            return latte.LinearIcon.book;
+        };
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        GroupsExplorer.prototype.getItems = function () {
+            var _this = this;
+            return [
+                new latte.ButtonItem(strings.newGroup, latte.LinearIcon.bookmark, function () {
+                    var r = new latte.Group();
+                    latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.newGroup);
+                })
+            ];
+        };
+        return GroupsExplorer;
+    }(latte.ExplorerItem));
+    latte.GroupsExplorer = GroupsExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/14/16.
@@ -3926,7 +3926,11 @@ var latte;
          * @Override
          */
         PageExplorer.prototype.getIcon = function () {
-            return latte.LinearIcon.file_empty;
+            var icon = latte.LinearIcon.file_empty;
+            if (!this.record.isOnline) {
+                icon.css('opacity', 0.2);
+            }
+            return icon;
         };
         /**
          * Gets the items (actions) of the item
@@ -5549,6 +5553,462 @@ var latte;
     latte.HtmlFragmentAdapter = HtmlFragmentAdapter;
 })(latte || (latte = {}));
 /**
+ * Created by josemanuel on 7/26/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var PlainTextFragmentAdapter = (function (_super) {
+        __extends(PlainTextFragmentAdapter, _super);
+        function PlainTextFragmentAdapter() {
+            _super.apply(this, arguments);
+            this.heightCheck = false;
+        }
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Override. Raises the <c>createEditorItem</c> event
+         */
+        PlainTextFragmentAdapter.prototype.onCreateEditorItem = function () {
+            _super.prototype.onCreateEditorItem.call(this);
+            this.editorItem = new latte.Item();
+            this.editorItem.element.get(0).appendChild(this.textbox.element);
+            this.textbox.text = this.fragment.value;
+        };
+        Object.defineProperty(PlainTextFragmentAdapter.prototype, "textbox", {
+            /**
+             * Gets the textbox element
+             *
+             * @returns {Element<HTMLTextAreaElement>}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._textbox) {
+                    this._textbox = new latte.Element(document.createElement('textarea'));
+                    this._textbox.addClass('plain-text-fragment');
+                    this._textbox.element.rows = 10;
+                    this._textbox.addEventListener('input', function () {
+                        _this.unsavedChanges = true;
+                        _this.fragment.value = _this.textbox.text;
+                        if (!_this.heightCheck) {
+                            var minRows = 10;
+                            var rows = void 0;
+                            _this._textbox.element.rows = minRows;
+                            rows = Math.ceil((_this._textbox.element.scrollHeight - _this.baseScrollHeight) / 17);
+                            _this._textbox.element.rows = minRows + rows;
+                            _this.heightCheck = true;
+                        }
+                    });
+                    this._textbox.addEventListener('focus', function () {
+                        var savedValue = _this._textbox.text;
+                        _this._textbox.text = '';
+                        _this.baseScrollHeight = _this._textbox.element.scrollHeight;
+                        _this._textbox.text = savedValue;
+                    });
+                }
+                return this._textbox;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return PlainTextFragmentAdapter;
+    }(latte.FragmentAdapter));
+    latte.PlainTextFragmentAdapter = PlainTextFragmentAdapter;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 8/1/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var FileItem = (function (_super) {
+        __extends(FileItem, _super);
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function FileItem(f) {
+            if (f === void 0) { f = null; }
+            _super.call(this);
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._file = null;
+            /**
+             * Property field
+             */
+            this._fileUploader = null;
+            /**
+             * Property field
+             */
+            this._thumbSize = null;
+            this.addClass('file');
+            this.divBar.add(this.divName);
+            this.divBar.add(this.divSize);
+            this.element.append(this.divThumb.element);
+            this.element.append(this.divBar.element);
+            if (f) {
+                this.file = f;
+            }
+        }
+        //region Private Methods
+        /**
+         * Updates the thumb of the item.
+         */
+        FileItem.prototype.updateThumb = function () {
+            var _this = this;
+            var thumb = this.file.getChildByKey(FileItem.SYS_THUMB_KEY);
+            if (thumb) {
+                this.img.element.src = thumb.url;
+            }
+            else {
+                this.img.element.src = this.file.url;
+                // Generate thumb
+                this.file.createThumbChild({
+                    size: this.thumbSize || new latte.Size(FileItem.defaultThumbWidth, FileItem.defaultThumbHeight),
+                    fit: latte.ImageFit.AspectFillNear
+                }, FileItem.SYS_THUMB_KEY, function () {
+                    _this.updateThumb();
+                    _this.onThumbCreated();
+                });
+            }
+        };
+        //endregion
+        //region Methods
+        /**
+         * Raises the <c>file</c> event
+         */
+        FileItem.prototype.onFileChanged = function () {
+            if (this._fileChanged) {
+                this._fileChanged.raise();
+            }
+            this.divName.text = this.divName.tooltip = this.file.name;
+            this.divSize.text = this.file.humanSize;
+            if (!this.file.isImage) {
+                this.divExtension.text = this.file.extension.toUpperCase();
+            }
+            else {
+                this.updateThumb();
+            }
+        };
+        /**
+         * Raises the <c>fileUploader</c> event
+         */
+        FileItem.prototype.onFileUploaderChanged = function () {
+            var _this = this;
+            if (this._fileUploaderChanged) {
+                this._fileUploaderChanged.raise();
+            }
+            if (this.fileUploader) {
+                this.divName.text = this.divName.tooltip = this.fileUploader.fileLocal.name;
+                this.divSize.text = latte.File.humanSizeOf(this.fileUploader.fileLocal.size);
+                this.divThumb.element.appendChild(this.progressBar.element.get(0));
+                this.fileUploader.progressChanged.add(function () {
+                    _this.progressBar.value = _this.fileUploader.progress * 100;
+                });
+                this.fileUploader.complete.add(function () {
+                    _this.progressBar.visible = false;
+                    _this.file = _this.fileUploader.fileRecord;
+                });
+            }
+        };
+        /**
+         * Raises the <c>thumbCreated</c> event
+         */
+        FileItem.prototype.onThumbCreated = function () {
+            if (this._thumbCreated) {
+                this._thumbCreated.raise();
+            }
+        };
+        /**
+         * Raises the <c>thumbSize</c> event
+         */
+        FileItem.prototype.onThumbSizeChanged = function () {
+            if (this._thumbSizeChanged) {
+                this._thumbSizeChanged.raise();
+            }
+            if (this.thumbSize) {
+                this.divThumb.width = this.thumbSize.width;
+                this.divThumb.height = this.thumbSize.height;
+            }
+        };
+        Object.defineProperty(FileItem.prototype, "fileChanged", {
+            /**
+             * Gets an event raised when the value of the file property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._fileChanged) {
+                    this._fileChanged = new latte.LatteEvent(this);
+                }
+                return this._fileChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "fileUploaderChanged", {
+            /**
+             * Gets an event raised when the value of the fileUploader property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._fileUploaderChanged) {
+                    this._fileUploaderChanged = new latte.LatteEvent(this);
+                }
+                return this._fileUploaderChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "thumbCreated", {
+            /**
+             * Gets an event raised when the system thumb has been created
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._thumbCreated) {
+                    this._thumbCreated = new latte.LatteEvent(this);
+                }
+                return this._thumbCreated;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "thumbSizeChanged", {
+            /**
+             * Gets an event raised when the value of the thumbSize property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._thumbSizeChanged) {
+                    this._thumbSizeChanged = new latte.LatteEvent(this);
+                }
+                return this._thumbSizeChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "file", {
+            /**
+             * Gets or sets the latte File
+             *
+             * @returns {latte.File}
+             */
+            get: function () {
+                return this._file;
+            },
+            /**
+             * Gets or sets the latte File
+             *
+             * @param {latte.File} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._file;
+                // Set value
+                this._file = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onFileChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "fileUploader", {
+            /**
+             * Gets or sets the file uploader for this item. After uploading the file record will be added.
+             *
+             * @returns {FileUploader}
+             */
+            get: function () {
+                return this._fileUploader;
+            },
+            /**
+             * Gets or sets the file uploader for this item. After uploading the file record will be added.
+             *
+             * @param {FileUploader} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._fileUploader;
+                // Set value
+                this._fileUploader = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onFileUploaderChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "thumbSize", {
+            /**
+             * Gets or sets the size of the thumbnail
+             *
+             * @returns {Size}
+             */
+            get: function () {
+                return this._thumbSize;
+            },
+            /**
+             * Gets or sets the size of the thumbnail
+             *
+             * @param {Size} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._thumbSize;
+                // Set value
+                this._thumbSize = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onThumbSizeChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "divBar", {
+            /**
+             * Gets the info bar element
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._divBar) {
+                    this._divBar = new latte.Element(document.createElement('div'));
+                    this._divBar.addClass('info');
+                }
+                return this._divBar;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "divExtension", {
+            /**
+             * Gets the extension div
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._divExtension) {
+                    this._divExtension = new latte.Element(document.createElement('div'));
+                    this._divExtension.appendTo(this.divThumb.element);
+                    this._divExtension.addClass('extension');
+                }
+                return this._divExtension;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "divName", {
+            /**
+             * Gets the name element
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._divName) {
+                    this._divName = new latte.Element(document.createElement('div'));
+                    this._divName.addClass('name');
+                }
+                return this._divName;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "divSize", {
+            /**
+             * Gets the size element
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._divSize) {
+                    this._divSize = new latte.Element(document.createElement('div'));
+                    this._divSize.addClass('size');
+                }
+                return this._divSize;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "divThumb", {
+            /**
+             * Gets the thumb of the item
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._divThumb) {
+                    this._divThumb = new latte.Element(document.createElement('div'));
+                    this._divThumb.addClass('thumb');
+                }
+                return this._divThumb;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "img", {
+            /**
+             * Gets the image of the thumb
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._img) {
+                    this._img = new latte.Element(document.createElement('img'));
+                    this.divThumb.add(this._img);
+                }
+                return this._img;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FileItem.prototype, "progressBar", {
+            /**
+             * Gets the progress item
+             *
+             * @returns {ProgressItem}
+             */
+            get: function () {
+                if (!this._progressBar) {
+                    this._progressBar = new latte.ProgressItem();
+                    this._progressBar.maxValue = 100;
+                    this._progressBar.animated = false;
+                }
+                return this._progressBar;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        //region Static
+        FileItem.SYS_THUMB_KEY = 'sys-thumb';
+        FileItem.defaultThumbWidth = 200;
+        FileItem.defaultThumbHeight = 200;
+        return FileItem;
+    }(latte.Item));
+    latte.FileItem = FileItem;
+})(latte || (latte = {}));
+/**
  * Created by josemanuel on 7/29/16.
  */
 var latte;
@@ -6170,462 +6630,6 @@ var latte;
         return ImageGalleryFragmentAdapter;
     }(latte.FragmentAdapter));
     latte.ImageGalleryFragmentAdapter = ImageGalleryFragmentAdapter;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 7/26/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var PlainTextFragmentAdapter = (function (_super) {
-        __extends(PlainTextFragmentAdapter, _super);
-        function PlainTextFragmentAdapter() {
-            _super.apply(this, arguments);
-            this.heightCheck = false;
-        }
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Override. Raises the <c>createEditorItem</c> event
-         */
-        PlainTextFragmentAdapter.prototype.onCreateEditorItem = function () {
-            _super.prototype.onCreateEditorItem.call(this);
-            this.editorItem = new latte.Item();
-            this.editorItem.element.get(0).appendChild(this.textbox.element);
-            this.textbox.text = this.fragment.value;
-        };
-        Object.defineProperty(PlainTextFragmentAdapter.prototype, "textbox", {
-            /**
-             * Gets the textbox element
-             *
-             * @returns {Element<HTMLTextAreaElement>}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._textbox) {
-                    this._textbox = new latte.Element(document.createElement('textarea'));
-                    this._textbox.addClass('plain-text-fragment');
-                    this._textbox.element.rows = 10;
-                    this._textbox.addEventListener('input', function () {
-                        _this.unsavedChanges = true;
-                        _this.fragment.value = _this.textbox.text;
-                        if (!_this.heightCheck) {
-                            var minRows = 10;
-                            var rows = void 0;
-                            _this._textbox.element.rows = minRows;
-                            rows = Math.ceil((_this._textbox.element.scrollHeight - _this.baseScrollHeight) / 17);
-                            _this._textbox.element.rows = minRows + rows;
-                            _this.heightCheck = true;
-                        }
-                    });
-                    this._textbox.addEventListener('focus', function () {
-                        var savedValue = _this._textbox.text;
-                        _this._textbox.text = '';
-                        _this.baseScrollHeight = _this._textbox.element.scrollHeight;
-                        _this._textbox.text = savedValue;
-                    });
-                }
-                return this._textbox;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return PlainTextFragmentAdapter;
-    }(latte.FragmentAdapter));
-    latte.PlainTextFragmentAdapter = PlainTextFragmentAdapter;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 8/1/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var FileItem = (function (_super) {
-        __extends(FileItem, _super);
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function FileItem(f) {
-            if (f === void 0) { f = null; }
-            _super.call(this);
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._file = null;
-            /**
-             * Property field
-             */
-            this._fileUploader = null;
-            /**
-             * Property field
-             */
-            this._thumbSize = null;
-            this.addClass('file');
-            this.divBar.add(this.divName);
-            this.divBar.add(this.divSize);
-            this.element.append(this.divThumb.element);
-            this.element.append(this.divBar.element);
-            if (f) {
-                this.file = f;
-            }
-        }
-        //region Private Methods
-        /**
-         * Updates the thumb of the item.
-         */
-        FileItem.prototype.updateThumb = function () {
-            var _this = this;
-            var thumb = this.file.getChildByKey(FileItem.SYS_THUMB_KEY);
-            if (thumb) {
-                this.img.element.src = thumb.url;
-            }
-            else {
-                this.img.element.src = this.file.url;
-                // Generate thumb
-                this.file.createThumbChild({
-                    size: this.thumbSize || new latte.Size(FileItem.defaultThumbWidth, FileItem.defaultThumbHeight),
-                    fit: latte.ImageFit.AspectFillNear
-                }, FileItem.SYS_THUMB_KEY, function () {
-                    _this.updateThumb();
-                    _this.onThumbCreated();
-                });
-            }
-        };
-        //endregion
-        //region Methods
-        /**
-         * Raises the <c>file</c> event
-         */
-        FileItem.prototype.onFileChanged = function () {
-            if (this._fileChanged) {
-                this._fileChanged.raise();
-            }
-            this.divName.text = this.divName.tooltip = this.file.name;
-            this.divSize.text = this.file.humanSize;
-            if (!this.file.isImage) {
-                this.divExtension.text = this.file.extension.toUpperCase();
-            }
-            else {
-                this.updateThumb();
-            }
-        };
-        /**
-         * Raises the <c>fileUploader</c> event
-         */
-        FileItem.prototype.onFileUploaderChanged = function () {
-            var _this = this;
-            if (this._fileUploaderChanged) {
-                this._fileUploaderChanged.raise();
-            }
-            if (this.fileUploader) {
-                this.divName.text = this.divName.tooltip = this.fileUploader.fileLocal.name;
-                this.divSize.text = latte.File.humanSizeOf(this.fileUploader.fileLocal.size);
-                this.divThumb.element.appendChild(this.progressBar.element.get(0));
-                this.fileUploader.progressChanged.add(function () {
-                    _this.progressBar.value = _this.fileUploader.progress * 100;
-                });
-                this.fileUploader.complete.add(function () {
-                    _this.progressBar.visible = false;
-                    _this.file = _this.fileUploader.fileRecord;
-                });
-            }
-        };
-        /**
-         * Raises the <c>thumbCreated</c> event
-         */
-        FileItem.prototype.onThumbCreated = function () {
-            if (this._thumbCreated) {
-                this._thumbCreated.raise();
-            }
-        };
-        /**
-         * Raises the <c>thumbSize</c> event
-         */
-        FileItem.prototype.onThumbSizeChanged = function () {
-            if (this._thumbSizeChanged) {
-                this._thumbSizeChanged.raise();
-            }
-            if (this.thumbSize) {
-                this.divThumb.width = this.thumbSize.width;
-                this.divThumb.height = this.thumbSize.height;
-            }
-        };
-        Object.defineProperty(FileItem.prototype, "fileChanged", {
-            /**
-             * Gets an event raised when the value of the file property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._fileChanged) {
-                    this._fileChanged = new latte.LatteEvent(this);
-                }
-                return this._fileChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "fileUploaderChanged", {
-            /**
-             * Gets an event raised when the value of the fileUploader property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._fileUploaderChanged) {
-                    this._fileUploaderChanged = new latte.LatteEvent(this);
-                }
-                return this._fileUploaderChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "thumbCreated", {
-            /**
-             * Gets an event raised when the system thumb has been created
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._thumbCreated) {
-                    this._thumbCreated = new latte.LatteEvent(this);
-                }
-                return this._thumbCreated;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "thumbSizeChanged", {
-            /**
-             * Gets an event raised when the value of the thumbSize property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._thumbSizeChanged) {
-                    this._thumbSizeChanged = new latte.LatteEvent(this);
-                }
-                return this._thumbSizeChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "file", {
-            /**
-             * Gets or sets the latte File
-             *
-             * @returns {latte.File}
-             */
-            get: function () {
-                return this._file;
-            },
-            /**
-             * Gets or sets the latte File
-             *
-             * @param {latte.File} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._file;
-                // Set value
-                this._file = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onFileChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "fileUploader", {
-            /**
-             * Gets or sets the file uploader for this item. After uploading the file record will be added.
-             *
-             * @returns {FileUploader}
-             */
-            get: function () {
-                return this._fileUploader;
-            },
-            /**
-             * Gets or sets the file uploader for this item. After uploading the file record will be added.
-             *
-             * @param {FileUploader} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._fileUploader;
-                // Set value
-                this._fileUploader = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onFileUploaderChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "thumbSize", {
-            /**
-             * Gets or sets the size of the thumbnail
-             *
-             * @returns {Size}
-             */
-            get: function () {
-                return this._thumbSize;
-            },
-            /**
-             * Gets or sets the size of the thumbnail
-             *
-             * @param {Size} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._thumbSize;
-                // Set value
-                this._thumbSize = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onThumbSizeChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "divBar", {
-            /**
-             * Gets the info bar element
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._divBar) {
-                    this._divBar = new latte.Element(document.createElement('div'));
-                    this._divBar.addClass('info');
-                }
-                return this._divBar;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "divExtension", {
-            /**
-             * Gets the extension div
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._divExtension) {
-                    this._divExtension = new latte.Element(document.createElement('div'));
-                    this._divExtension.appendTo(this.divThumb.element);
-                    this._divExtension.addClass('extension');
-                }
-                return this._divExtension;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "divName", {
-            /**
-             * Gets the name element
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._divName) {
-                    this._divName = new latte.Element(document.createElement('div'));
-                    this._divName.addClass('name');
-                }
-                return this._divName;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "divSize", {
-            /**
-             * Gets the size element
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._divSize) {
-                    this._divSize = new latte.Element(document.createElement('div'));
-                    this._divSize.addClass('size');
-                }
-                return this._divSize;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "divThumb", {
-            /**
-             * Gets the thumb of the item
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._divThumb) {
-                    this._divThumb = new latte.Element(document.createElement('div'));
-                    this._divThumb.addClass('thumb');
-                }
-                return this._divThumb;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "img", {
-            /**
-             * Gets the image of the thumb
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._img) {
-                    this._img = new latte.Element(document.createElement('img'));
-                    this.divThumb.add(this._img);
-                }
-                return this._img;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FileItem.prototype, "progressBar", {
-            /**
-             * Gets the progress item
-             *
-             * @returns {ProgressItem}
-             */
-            get: function () {
-                if (!this._progressBar) {
-                    this._progressBar = new latte.ProgressItem();
-                    this._progressBar.maxValue = 100;
-                    this._progressBar.animated = false;
-                }
-                return this._progressBar;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        //region Static
-        FileItem.SYS_THUMB_KEY = 'sys-thumb';
-        FileItem.defaultThumbWidth = 200;
-        FileItem.defaultThumbHeight = 200;
-        return FileItem;
-    }(latte.Item));
-    latte.FileItem = FileItem;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/26/16.
@@ -8264,226 +8268,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Record for table setting
-     */
-    var Setting = (function (_super) {
-        __extends(Setting, _super);
-        function Setting() {
-            _super.apply(this, arguments);
-        }
-        return Setting;
-    }(latte.settingBase));
-    latte.Setting = Setting;
-})(latte || (latte = {}));
-/**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
-     * Record for table user
-     */
-    var User = (function (_super) {
-        __extends(User, _super);
-        function User() {
-            _super.apply(this, arguments);
-        }
-        /**
-         * Gets the suggestion loader
-         * @returns {*}
-         */
-        User.suggestionLoader = function () {
-            var _this = this;
-            return function (d, callback) {
-                return User.search(d.text).send(function (users) {
-                    var items = [];
-                    users.forEach(function (u) {
-                        var b = new latte.ButtonItem(u.uname);
-                        b.click.add(function () { d.record = u; });
-                        items.push(b);
-                    });
-                    callback.call(_this, items);
-                });
-            };
-        };
-        //endregion
-        //region Fields
-        //endregion
-        //region Methods
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        User.prototype.getMetadata = function () {
-            return {
-                fields: {
-                    uname: {
-                        text: strings.userName,
-                        type: 'string'
-                    },
-                    password: {
-                        text: strings.password,
-                        type: 'password',
-                        visible: 'if-not-inserted'
-                    },
-                    flags: {
-                        text: strings.flags,
-                        type: 'flags',
-                        options: {
-                            1: strings.isRoot,
-                            2: strings.isSysAdmin,
-                            4: strings.isBanned,
-                            8: strings.inTrash
-                        }
-                    }
-                }
-            };
-        };
-        /**
-         * Returns a value indicating if the user belongs to the specified group
-         * @param idgroup
-         * @returns {boolean}
-         */
-        User.prototype.inGroup = function (idgroup) {
-            if (this.groups && this.groups.length) {
-                for (var i in this.groups) {
-                    if (this.groups[i].idgroup == idgroup) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        };
-        /**
-         * Returns a string representation of the object
-         */
-        User.prototype.toString = function () {
-            return this.uname;
-        };
-        Object.defineProperty(User.prototype, "attributes", {
-            //endregion
-            //region Events
-            //endregion
-            //region Properties
-            /**
-             * Gets a string with attributes of the record
-             *
-             * @returns {string}
-             */
-            get: function () {
-                // TODO: Give info like "is root", "is banned" etc
-                var arr = [];
-                if (this.isRoot) {
-                    arr.push(strings.isRoot);
-                }
-                if (this.isBanned) {
-                    arr.push(strings.isBanned);
-                }
-                if (this.isTrash) {
-                    arr.push(strings.inTrash);
-                }
-                return arr.join(", ");
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "flagsString", {
-            /**
-             * Gets the flags as a string
-             *
-             * @returns {string}
-             */
-            get: function () {
-                return latte.InputItem.format(this.flags, 'flags', this.getMetadata().fields['flags'].options);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "groups", {
-            /**
-             * Gets or sets the groups of the record
-             *
-             * @returns {Group[]}
-             */
-            get: function () {
-                return this._groups;
-            },
-            /**
-             * Gets or sets the groups of the record
-             *
-             * @param {Group[]} value
-             */
-            set: function (value) {
-                this._groups = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "isBanned", {
-            /**
-             * Gets a value indicating if the user is banned
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.flags & User.FLAG_BANNED_USER) == User.FLAG_BANNED_USER;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "isRoot", {
-            /**
-             * Gets a value indicating if user is root
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.flags & User.FLAG_ROOT_USER) == User.FLAG_ROOT_USER;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "isSysAdmin", {
-            /**
-             * Gets a value indicating if user is sys-admin
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.flags & User.FLAG_SYS_ADMIN) == User.FLAG_SYS_ADMIN;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "isTrash", {
-            /**
-             * Gets a value indicating if the user is trash
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.flags & User.FLAG_TRASH) == User.FLAG_TRASH;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        //region Static
-        User.FLAG_ROOT_USER = 1;
-        User.FLAG_SYS_ADMIN = 2;
-        User.FLAG_BANNED_USER = 4;
-        User.FLAG_TRASH = 8;
-        User.me = null;
-        return User;
-    }(latte.userBase));
-    latte.User = User;
-})(latte || (latte = {}));
-/**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
      * Record for table page
      */
     var Page = (function (_super) {
@@ -8892,6 +8676,226 @@ var latte;
         return Page;
     }(latte.pageBase));
     latte.Page = Page;
+})(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
+     * Record for table setting
+     */
+    var Setting = (function (_super) {
+        __extends(Setting, _super);
+        function Setting() {
+            _super.apply(this, arguments);
+        }
+        return Setting;
+    }(latte.settingBase));
+    latte.Setting = Setting;
+})(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
+     * Record for table user
+     */
+    var User = (function (_super) {
+        __extends(User, _super);
+        function User() {
+            _super.apply(this, arguments);
+        }
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        User.suggestionLoader = function () {
+            var _this = this;
+            return function (d, callback) {
+                return User.search(d.text).send(function (users) {
+                    var items = [];
+                    users.forEach(function (u) {
+                        var b = new latte.ButtonItem(u.uname);
+                        b.click.add(function () { d.record = u; });
+                        items.push(b);
+                    });
+                    callback.call(_this, items);
+                });
+            };
+        };
+        //endregion
+        //region Fields
+        //endregion
+        //region Methods
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        User.prototype.getMetadata = function () {
+            return {
+                fields: {
+                    uname: {
+                        text: strings.userName,
+                        type: 'string'
+                    },
+                    password: {
+                        text: strings.password,
+                        type: 'password',
+                        visible: 'if-not-inserted'
+                    },
+                    flags: {
+                        text: strings.flags,
+                        type: 'flags',
+                        options: {
+                            1: strings.isRoot,
+                            2: strings.isSysAdmin,
+                            4: strings.isBanned,
+                            8: strings.inTrash
+                        }
+                    }
+                }
+            };
+        };
+        /**
+         * Returns a value indicating if the user belongs to the specified group
+         * @param idgroup
+         * @returns {boolean}
+         */
+        User.prototype.inGroup = function (idgroup) {
+            if (this.groups && this.groups.length) {
+                for (var i in this.groups) {
+                    if (this.groups[i].idgroup == idgroup) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+        /**
+         * Returns a string representation of the object
+         */
+        User.prototype.toString = function () {
+            return this.uname;
+        };
+        Object.defineProperty(User.prototype, "attributes", {
+            //endregion
+            //region Events
+            //endregion
+            //region Properties
+            /**
+             * Gets a string with attributes of the record
+             *
+             * @returns {string}
+             */
+            get: function () {
+                // TODO: Give info like "is root", "is banned" etc
+                var arr = [];
+                if (this.isRoot) {
+                    arr.push(strings.isRoot);
+                }
+                if (this.isBanned) {
+                    arr.push(strings.isBanned);
+                }
+                if (this.isTrash) {
+                    arr.push(strings.inTrash);
+                }
+                return arr.join(", ");
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "flagsString", {
+            /**
+             * Gets the flags as a string
+             *
+             * @returns {string}
+             */
+            get: function () {
+                return latte.InputItem.format(this.flags, 'flags', this.getMetadata().fields['flags'].options);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "groups", {
+            /**
+             * Gets or sets the groups of the record
+             *
+             * @returns {Group[]}
+             */
+            get: function () {
+                return this._groups;
+            },
+            /**
+             * Gets or sets the groups of the record
+             *
+             * @param {Group[]} value
+             */
+            set: function (value) {
+                this._groups = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "isBanned", {
+            /**
+             * Gets a value indicating if the user is banned
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.flags & User.FLAG_BANNED_USER) == User.FLAG_BANNED_USER;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "isRoot", {
+            /**
+             * Gets a value indicating if user is root
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.flags & User.FLAG_ROOT_USER) == User.FLAG_ROOT_USER;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "isSysAdmin", {
+            /**
+             * Gets a value indicating if user is sys-admin
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.flags & User.FLAG_SYS_ADMIN) == User.FLAG_SYS_ADMIN;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "isTrash", {
+            /**
+             * Gets a value indicating if the user is trash
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.flags & User.FLAG_TRASH) == User.FLAG_TRASH;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        //region Static
+        User.FLAG_ROOT_USER = 1;
+        User.FLAG_SYS_ADMIN = 2;
+        User.FLAG_BANNED_USER = 4;
+        User.FLAG_TRASH = 8;
+        User.me = null;
+        return User;
+    }(latte.userBase));
+    latte.User = User;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/14/16.
@@ -10212,8 +10216,8 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Uploader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/Main.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupUserExplorer.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupsExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupsExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PageExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PagesExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UserExplorer.ts" />
@@ -10225,18 +10229,18 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Plugin.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/PluginManager.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/HtmlFragmentAdapter.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/ImageGalleryFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/PlainTextFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FileItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/ImageGalleryFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FragmentExpandoItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/LinearIcon.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/File.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Fragment.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Group.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/GroupUser.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Setting.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/User.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/CmsExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/CmsMainView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageAdvancedView.ts" />

@@ -1824,11 +1824,11 @@ declare module latte {
     /**
      *
      */
-    class GroupsExplorer extends ExplorerItem {
+    class GroupExplorer extends ExplorerItemDataRecord<Group> {
         /**
          *
          */
-        constructor();
+        constructor(r?: Group);
         /**
          * Gets the loader of children items
          *
@@ -1859,11 +1859,11 @@ declare module latte {
     /**
      *
      */
-    class GroupExplorer extends ExplorerItemDataRecord<Group> {
+    class GroupsExplorer extends ExplorerItem {
         /**
          *
          */
-        constructor(r?: Group);
+        constructor();
         /**
          * Gets the loader of children items
          *
@@ -2699,6 +2699,224 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PlainTextFragmentAdapter extends FragmentAdapter<IFragment> {
+        /**
+         * Override. Raises the <c>createEditorItem</c> event
+         */
+        onCreateEditorItem(): void;
+        /**
+         * Field for textbox property
+         */
+        private _textbox;
+        private baseScrollHeight;
+        private heightCheck;
+        /**
+         * Gets the textbox element
+         *
+         * @returns {Element<HTMLTextAreaElement>}
+         */
+        textbox: Element<HTMLTextAreaElement>;
+    }
+}
+/**
+ * Created by josemanuel on 8/1/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class FileItem extends Item {
+        static SYS_THUMB_KEY: string;
+        static defaultThumbWidth: number;
+        static defaultThumbHeight: number;
+        /**
+         *
+         */
+        constructor(f?: latte.File);
+        /**
+         * Updates the thumb of the item.
+         */
+        private updateThumb();
+        /**
+         * Raises the <c>file</c> event
+         */
+        onFileChanged(): void;
+        /**
+         * Raises the <c>fileUploader</c> event
+         */
+        onFileUploaderChanged(): void;
+        /**
+         * Raises the <c>thumbCreated</c> event
+         */
+        onThumbCreated(): void;
+        /**
+         * Raises the <c>thumbSize</c> event
+         */
+        onThumbSizeChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _fileChanged;
+        /**
+         * Gets an event raised when the value of the file property changes
+         *
+         * @returns {LatteEvent}
+         */
+        fileChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _fileUploaderChanged;
+        /**
+         * Gets an event raised when the value of the fileUploader property changes
+         *
+         * @returns {LatteEvent}
+         */
+        fileUploaderChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _thumbCreated;
+        /**
+         * Gets an event raised when the system thumb has been created
+         *
+         * @returns {LatteEvent}
+         */
+        thumbCreated: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _thumbSizeChanged;
+        /**
+         * Gets an event raised when the value of the thumbSize property changes
+         *
+         * @returns {LatteEvent}
+         */
+        thumbSizeChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _file;
+        /**
+         * Gets or sets the latte File
+         *
+         * @returns {latte.File}
+         */
+        /**
+         * Gets or sets the latte File
+         *
+         * @param {latte.File} value
+         */
+        file: latte.File;
+        /**
+         * Property field
+         */
+        private _fileUploader;
+        /**
+         * Gets or sets the file uploader for this item. After uploading the file record will be added.
+         *
+         * @returns {FileUploader}
+         */
+        /**
+         * Gets or sets the file uploader for this item. After uploading the file record will be added.
+         *
+         * @param {FileUploader} value
+         */
+        fileUploader: FileUploader;
+        /**
+         * Property field
+         */
+        private _thumbSize;
+        /**
+         * Gets or sets the size of the thumbnail
+         *
+         * @returns {Size}
+         */
+        /**
+         * Gets or sets the size of the thumbnail
+         *
+         * @param {Size} value
+         */
+        thumbSize: Size;
+        /**
+         * Field for infoBar property
+         */
+        private _divBar;
+        /**
+         * Gets the info bar element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divBar: Element<HTMLDivElement>;
+        /**
+         * Field for divExtension property
+         */
+        private _divExtension;
+        /**
+         * Gets the extension div
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divExtension: Element<HTMLDivElement>;
+        /**
+         * Field for divName property
+         */
+        private _divName;
+        /**
+         * Gets the name element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divName: Element<HTMLDivElement>;
+        /**
+         * Field for divSize property
+         */
+        private _divSize;
+        /**
+         * Gets the size element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divSize: Element<HTMLDivElement>;
+        /**
+         * Field for thumb property
+         */
+        private _divThumb;
+        /**
+         * Gets the thumb of the item
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divThumb: Element<HTMLDivElement>;
+        /**
+         * Field for img property
+         */
+        private _img;
+        /**
+         * Gets the image of the thumb
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        img: Element<HTMLImageElement>;
+        /**
+         * Field for progressBar property
+         */
+        private _progressBar;
+        /**
+         * Gets the progress item
+         *
+         * @returns {ProgressItem}
+         */
+        progressBar: ProgressItem;
+    }
+}
+/**
  * Created by josemanuel on 7/29/16.
  */
 declare module latte {
@@ -2968,224 +3186,6 @@ declare module latte {
          * @returns {TabItem}
          */
         tabImage: TabItem;
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PlainTextFragmentAdapter extends FragmentAdapter<IFragment> {
-        /**
-         * Override. Raises the <c>createEditorItem</c> event
-         */
-        onCreateEditorItem(): void;
-        /**
-         * Field for textbox property
-         */
-        private _textbox;
-        private baseScrollHeight;
-        private heightCheck;
-        /**
-         * Gets the textbox element
-         *
-         * @returns {Element<HTMLTextAreaElement>}
-         */
-        textbox: Element<HTMLTextAreaElement>;
-    }
-}
-/**
- * Created by josemanuel on 8/1/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class FileItem extends Item {
-        static SYS_THUMB_KEY: string;
-        static defaultThumbWidth: number;
-        static defaultThumbHeight: number;
-        /**
-         *
-         */
-        constructor(f?: latte.File);
-        /**
-         * Updates the thumb of the item.
-         */
-        private updateThumb();
-        /**
-         * Raises the <c>file</c> event
-         */
-        onFileChanged(): void;
-        /**
-         * Raises the <c>fileUploader</c> event
-         */
-        onFileUploaderChanged(): void;
-        /**
-         * Raises the <c>thumbCreated</c> event
-         */
-        onThumbCreated(): void;
-        /**
-         * Raises the <c>thumbSize</c> event
-         */
-        onThumbSizeChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _fileChanged;
-        /**
-         * Gets an event raised when the value of the file property changes
-         *
-         * @returns {LatteEvent}
-         */
-        fileChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _fileUploaderChanged;
-        /**
-         * Gets an event raised when the value of the fileUploader property changes
-         *
-         * @returns {LatteEvent}
-         */
-        fileUploaderChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _thumbCreated;
-        /**
-         * Gets an event raised when the system thumb has been created
-         *
-         * @returns {LatteEvent}
-         */
-        thumbCreated: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _thumbSizeChanged;
-        /**
-         * Gets an event raised when the value of the thumbSize property changes
-         *
-         * @returns {LatteEvent}
-         */
-        thumbSizeChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _file;
-        /**
-         * Gets or sets the latte File
-         *
-         * @returns {latte.File}
-         */
-        /**
-         * Gets or sets the latte File
-         *
-         * @param {latte.File} value
-         */
-        file: latte.File;
-        /**
-         * Property field
-         */
-        private _fileUploader;
-        /**
-         * Gets or sets the file uploader for this item. After uploading the file record will be added.
-         *
-         * @returns {FileUploader}
-         */
-        /**
-         * Gets or sets the file uploader for this item. After uploading the file record will be added.
-         *
-         * @param {FileUploader} value
-         */
-        fileUploader: FileUploader;
-        /**
-         * Property field
-         */
-        private _thumbSize;
-        /**
-         * Gets or sets the size of the thumbnail
-         *
-         * @returns {Size}
-         */
-        /**
-         * Gets or sets the size of the thumbnail
-         *
-         * @param {Size} value
-         */
-        thumbSize: Size;
-        /**
-         * Field for infoBar property
-         */
-        private _divBar;
-        /**
-         * Gets the info bar element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divBar: Element<HTMLDivElement>;
-        /**
-         * Field for divExtension property
-         */
-        private _divExtension;
-        /**
-         * Gets the extension div
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divExtension: Element<HTMLDivElement>;
-        /**
-         * Field for divName property
-         */
-        private _divName;
-        /**
-         * Gets the name element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divName: Element<HTMLDivElement>;
-        /**
-         * Field for divSize property
-         */
-        private _divSize;
-        /**
-         * Gets the size element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divSize: Element<HTMLDivElement>;
-        /**
-         * Field for thumb property
-         */
-        private _divThumb;
-        /**
-         * Gets the thumb of the item
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divThumb: Element<HTMLDivElement>;
-        /**
-         * Field for img property
-         */
-        private _img;
-        /**
-         * Gets the image of the thumb
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        img: Element<HTMLImageElement>;
-        /**
-         * Field for progressBar property
-         */
-        private _progressBar;
-        /**
-         * Gets the progress item
-         *
-         * @returns {ProgressItem}
-         */
-        progressBar: ProgressItem;
     }
 }
 /**
@@ -3697,103 +3697,6 @@ declare module latte {
  */
 declare module latte {
     /**
-     * Record for table setting
-     */
-    class Setting extends settingBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table user
-     */
-    class User extends userBase {
-        static FLAG_ROOT_USER: number;
-        static FLAG_SYS_ADMIN: number;
-        static FLAG_BANNED_USER: number;
-        static FLAG_TRASH: number;
-        static me: User;
-        /**
-         * Gets the suggestion loader
-         * @returns {*}
-         */
-        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Returns a value indicating if the user belongs to the specified group
-         * @param idgroup
-         * @returns {boolean}
-         */
-        inGroup(idgroup: number): boolean;
-        /**
-         * Returns a string representation of the object
-         */
-        toString(): string;
-        /**
-         * Gets a string with attributes of the record
-         *
-         * @returns {string}
-         */
-        attributes: string;
-        /**
-         * Gets the flags as a string
-         *
-         * @returns {string}
-         */
-        flagsString: string;
-        /**
-         * Property field
-         */
-        private _groups;
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @returns {Group[]}
-         */
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @param {Group[]} value
-         */
-        groups: Group[];
-        /**
-         * Gets a value indicating if the user is banned
-         *
-         * @returns {boolean}
-         */
-        isBanned: boolean;
-        /**
-         * Gets a value indicating if user is root
-         *
-         * @returns {boolean}
-         */
-        isRoot: boolean;
-        /**
-         * Gets a value indicating if user is sys-admin
-         *
-         * @returns {boolean}
-         */
-        isSysAdmin: boolean;
-        /**
-         * Gets a value indicating if the user is trash
-         *
-         * @returns {boolean}
-         */
-        isTrash: boolean;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
      * Record for table page
      */
     class Page extends pageBase {
@@ -3925,6 +3828,103 @@ declare module latte {
          * @returns {boolean}
          */
         isOnline: boolean;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table setting
+     */
+    class Setting extends settingBase {
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table user
+     */
+    class User extends userBase {
+        static FLAG_ROOT_USER: number;
+        static FLAG_SYS_ADMIN: number;
+        static FLAG_BANNED_USER: number;
+        static FLAG_TRASH: number;
+        static me: User;
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Returns a value indicating if the user belongs to the specified group
+         * @param idgroup
+         * @returns {boolean}
+         */
+        inGroup(idgroup: number): boolean;
+        /**
+         * Returns a string representation of the object
+         */
+        toString(): string;
+        /**
+         * Gets a string with attributes of the record
+         *
+         * @returns {string}
+         */
+        attributes: string;
+        /**
+         * Gets the flags as a string
+         *
+         * @returns {string}
+         */
+        flagsString: string;
+        /**
+         * Property field
+         */
+        private _groups;
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @returns {Group[]}
+         */
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @param {Group[]} value
+         */
+        groups: Group[];
+        /**
+         * Gets a value indicating if the user is banned
+         *
+         * @returns {boolean}
+         */
+        isBanned: boolean;
+        /**
+         * Gets a value indicating if user is root
+         *
+         * @returns {boolean}
+         */
+        isRoot: boolean;
+        /**
+         * Gets a value indicating if user is sys-admin
+         *
+         * @returns {boolean}
+         */
+        isSysAdmin: boolean;
+        /**
+         * Gets a value indicating if the user is trash
+         *
+         * @returns {boolean}
+         */
+        isTrash: boolean;
     }
 }
 /**

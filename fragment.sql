@@ -39,7 +39,7 @@ CREATE TABLE `file` (
   `height` int(11) DEFAULT '0',
   `key` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idfile`)
-) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE `fragment` (
   `value` longtext,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idfragment`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,4 +166,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-22 23:16:10
+-- Dump completed on 2016-08-22 23:28:07
