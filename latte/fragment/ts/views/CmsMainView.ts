@@ -60,6 +60,10 @@ module latte {
         get explorer(): CmsExplorer {
             if (!this._explorer) {
                 this._explorer = new CmsExplorer();
+                this._explorer.btnRefresh.icon = LinearIcon.sync;
+                this._explorer.btnSaveDetail.icon = LinearIcon.enter_down;
+                TreeItem.globalCollapseGlyph = (item) => { return IconItem.empty(16) };
+                TreeItem.globalExpandGlyph= (item) => { return IconItem.empty(16) };
             }
             return this._explorer;
         }

@@ -50,7 +50,8 @@ module latte {
          * @Override
          */
         getIcon(): IconItem{
-            return IconItem.folderIcon()
+            return LinearIcon.home;
+            // return IconItem.folderIcon()
         }
 
         /**
@@ -61,7 +62,7 @@ module latte {
             let items: Item[] = [];
 
             if(User.me.isRoot) {
-                items.push(new ButtonItem(strings.newRootPage, IconItem.newIcon(), () => {
+                items.push(new ButtonItem(strings.newRootPage, LinearIcon.file_add, () => {
                     var p = new Page();
                     DataRecordDialogView.editRecord(p, () => this.onChildrenChanged(), strings.newPage);
                 }));

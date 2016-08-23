@@ -376,7 +376,7 @@ module latte {
          */
         get btnClose(): ButtonItem {
             if (!this._btnClose) {
-                this._btnClose = new ButtonItem(null, IconItem.standard(20, 4), () => this.onCloseRequested());
+                this._btnClose = new ButtonItem(null, LinearIcon.cross, () => this.onCloseRequested());
                 this._btnClose.addClass('page-close');
                 this._btnClose.faceVisible = false;
             }

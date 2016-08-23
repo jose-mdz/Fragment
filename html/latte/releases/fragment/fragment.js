@@ -3705,7 +3705,7 @@ var latte;
          * @Override
          */
         GroupUserExplorer.prototype.getIcon = function () {
-            return latte.IconItem.fileIcon();
+            return latte.LinearIcon.user;
         };
         return GroupUserExplorer;
     }(latte.ExplorerItemDataRecord));
@@ -3759,7 +3759,7 @@ var latte;
          * @Override
          */
         GroupsExplorer.prototype.getIcon = function () {
-            return latte.IconItem.folderIcon();
+            return latte.LinearIcon.book;
         };
         /**
          * Gets the items (actions) of the item
@@ -3768,7 +3768,7 @@ var latte;
         GroupsExplorer.prototype.getItems = function () {
             var _this = this;
             return [
-                new latte.ButtonItem(strings.newGroup, latte.IconItem.newIcon(), function () {
+                new latte.ButtonItem(strings.newGroup, latte.LinearIcon.bookmark, function () {
                     var r = new latte.Group();
                     latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.newGroup);
                 })
@@ -3831,7 +3831,7 @@ var latte;
          * @Override
          */
         GroupExplorer.prototype.getIcon = function () {
-            return latte.IconItem.fileIcon();
+            return latte.LinearIcon.bookmark;
         };
         /**
          * Gets the items (actions) of the item
@@ -3840,7 +3840,7 @@ var latte;
         GroupExplorer.prototype.getItems = function () {
             var _this = this;
             return [
-                new latte.ButtonItem(strings.addUserToGroup, latte.IconItem.newIcon(), function () {
+                new latte.ButtonItem(strings.addUserToGroup, latte.LinearIcon.book, function () {
                     var r = new latte.GroupUser();
                     r.idgroup = _this.record.idgroup;
                     latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.addUserToGroup);
@@ -3926,7 +3926,7 @@ var latte;
          * @Override
          */
         PageExplorer.prototype.getIcon = function () {
-            return latte.IconItem.fileIcon();
+            return latte.LinearIcon.file_empty;
         };
         /**
          * Gets the items (actions) of the item
@@ -3936,7 +3936,7 @@ var latte;
             var _this = this;
             var items = [];
             if (this.record.canIInsertChild) {
-                items.push(new latte.ButtonItem(strings.newPage, latte.IconItem.newIcon(), function () {
+                items.push(new latte.ButtonItem(strings.newPage, latte.LinearIcon.file_add, function () {
                     var p = new latte.Page();
                     p.idparent = _this.record.idpage;
                     latte.DataRecordDialogView.editRecord(p, function () { return _this.onChildrenChanged(); }, strings.newPage);
@@ -3995,7 +3995,8 @@ var latte;
          * @Override
          */
         PagesExplorer.prototype.getIcon = function () {
-            return latte.IconItem.folderIcon();
+            return latte.LinearIcon.home;
+            // return IconItem.folderIcon()
         };
         /**
          * Gets the items (actions) of the item
@@ -4005,7 +4006,7 @@ var latte;
             var _this = this;
             var items = [];
             if (latte.User.me.isRoot) {
-                items.push(new latte.ButtonItem(strings.newRootPage, latte.IconItem.newIcon(), function () {
+                items.push(new latte.ButtonItem(strings.newRootPage, latte.LinearIcon.file_add, function () {
                     var p = new latte.Page();
                     latte.DataRecordDialogView.editRecord(p, function () { return _this.onChildrenChanged(); }, strings.newPage);
                 }));
@@ -4115,7 +4116,7 @@ var latte;
          * @Override
          */
         UserExplorer.prototype.getIcon = function () {
-            return latte.IconItem.fileIcon();
+            return latte.LinearIcon.user;
         };
         Object.defineProperty(UserExplorer.prototype, "btnChangePassword", {
             /**
@@ -4188,7 +4189,7 @@ var latte;
          * @Override
          */
         UsersExplorer.prototype.getIcon = function () {
-            return latte.IconItem.folderIcon();
+            return latte.LinearIcon.users;
         };
         /**
          * Gets the items (actions) of the item
@@ -4197,7 +4198,7 @@ var latte;
         UsersExplorer.prototype.getItems = function () {
             var _this = this;
             return [
-                new latte.ButtonItem(strings.newUser, latte.IconItem.newIcon(), function () {
+                new latte.ButtonItem(strings.newUser, latte.LinearIcon.user, function () {
                     var r = new latte.User();
                     latte.DataRecordDialogView.editRecord(r, function () { return _this.onChildrenChanged(); }, strings.newUser);
                 })
@@ -5504,9 +5505,9 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._formatItems) {
-                    var btn = function (u, v, tooltip, cmd) {
+                    var btn = function (icon, tooltip, cmd) {
                         var b = new latte.ButtonItem();
-                        b.icon = latte.IconItem.standard(u, v);
+                        b.icon = icon;
                         b.tooltip = tooltip;
                         b.click.add(function () { return _this.htmlEditor.execCommand(cmd); });
                         b.tab = _this.tabFormat;
@@ -5518,24 +5519,24 @@ var latte;
                         return s;
                     };
                     this._formatItems = [
-                        btn(5, 2, strings.bold, latte.HtmlEditorCommands.BOLD),
-                        btn(6, 2, strings.italics, latte.HtmlEditorCommands.ITALIC),
+                        btn(latte.LinearIcon.bold, strings.bold, latte.HtmlEditorCommands.BOLD),
+                        btn(latte.LinearIcon.italic, strings.italics, latte.HtmlEditorCommands.ITALIC),
                         sep(),
-                        btn(8, 2, strings.alignLeft, latte.HtmlEditorCommands.JUSTIFY_LEFT),
-                        btn(10, 2, strings.alignCenter, latte.HtmlEditorCommands.JUSTIFY_CENTER),
-                        btn(9, 2, strings.alignRight, latte.HtmlEditorCommands.JUSTIFY_RIGHT),
-                        btn(11, 2, strings.alignJustify, latte.HtmlEditorCommands.JUSTIFY_FULL),
+                        btn(latte.LinearIcon.text_align_left, strings.alignLeft, latte.HtmlEditorCommands.JUSTIFY_LEFT),
+                        btn(latte.LinearIcon.text_align_center, strings.alignCenter, latte.HtmlEditorCommands.JUSTIFY_CENTER),
+                        btn(latte.LinearIcon.text_align_right, strings.alignRight, latte.HtmlEditorCommands.JUSTIFY_RIGHT),
+                        btn(latte.LinearIcon.text_align_justify, strings.alignJustify, latte.HtmlEditorCommands.JUSTIFY_FULL),
                         sep(),
-                        btn(15, 2, strings.indent, latte.HtmlEditorCommands.INDENT),
-                        btn(14, 2, strings.outdent, latte.HtmlEditorCommands.OUTDENT),
+                        btn(latte.LinearIcon.indent_increase, strings.indent, latte.HtmlEditorCommands.INDENT),
+                        btn(latte.LinearIcon.indent_decrease, strings.outdent, latte.HtmlEditorCommands.OUTDENT),
                         sep(),
-                        btn(18, 1, strings.numberedList, latte.HtmlEditorCommands.INSERT_ORDERED_LIST),
-                        btn(19, 1, strings.bulletList, latte.HtmlEditorCommands.INSERT_UNORDERED_LIST),
+                        btn(latte.LinearIcon.menu, strings.numberedList, latte.HtmlEditorCommands.INSERT_ORDERED_LIST),
+                        btn(latte.LinearIcon.list, strings.bulletList, latte.HtmlEditorCommands.INSERT_UNORDERED_LIST),
                         sep(),
-                        btn(16, 2, strings.eraseFormat, latte.HtmlEditorCommands.CLEAR_FORMAT),
+                        btn(latte.LinearIcon.text_format_remove, strings.eraseFormat, latte.HtmlEditorCommands.CLEAR_FORMAT),
                         sep(),
-                        btn(12, 3, strings.insertLink, latte.HtmlEditorCommands.INSERT_LINK),
-                        btn(9, 3, strings.insertImage, latte.HtmlEditorCommands.INSERT_IMAGE)
+                        btn(latte.LinearIcon.link, strings.insertLink, latte.HtmlEditorCommands.INSERT_LINK),
+                        btn(latte.LinearIcon.picture, strings.insertImage, latte.HtmlEditorCommands.INSERT_IMAGE)
                     ];
                 }
                 return this._formatItems;
@@ -6016,7 +6017,7 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._btnInsertImage) {
-                    this._btnInsertImage = new latte.ButtonItem(strings.insertImage, latte.IconItem.standard(8, 7, 32), function () { return _this.activateFileInput(); });
+                    this._btnInsertImage = new latte.ButtonItem(strings.insertImage, latte.LinearIcon.picture.go32(), function () { return _this.activateFileInput(); });
                     this._btnInsertImage.tab = this.tabGallery;
                 }
                 return this._btnInsertImage;
@@ -6033,7 +6034,7 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._btnMoveImageAfter) {
-                    this._btnMoveImageAfter = new latte.ButtonItem(null, latte.Glyph.right, function () { return _this.moveImageAfter(); });
+                    this._btnMoveImageAfter = new latte.ButtonItem(null, latte.LinearIcon.chevron_right, function () { return _this.moveImageAfter(); });
                     this._btnMoveImageAfter.tooltip = strings.moveImageAfter;
                     this._btnMoveImageAfter.tab = this.tabImage;
                 }
@@ -6051,7 +6052,7 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._btnMoveImageBefore) {
-                    this._btnMoveImageBefore = new latte.ButtonItem(null, latte.Glyph.left, function () { return _this.moveImageBefore(); });
+                    this._btnMoveImageBefore = new latte.ButtonItem(null, latte.LinearIcon.chevron_left, function () { return _this.moveImageBefore(); });
                     this._btnMoveImageBefore.tooltip = strings.moveImageBefore;
                     this._btnMoveImageBefore.tab = this.tabImage;
                 }
@@ -6069,7 +6070,7 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._btnRemoveImage) {
-                    this._btnRemoveImage = new latte.ButtonItem(strings.deleteImage, latte.IconItem.standard(10, 6, 32), function () { return _this.removeSelectedImage(); });
+                    this._btnRemoveImage = new latte.ButtonItem(strings.deleteImage, latte.LinearIcon.trash.go32(), function () { return _this.removeSelectedImage(); });
                     this._btnRemoveImage.tab = this.tabImage;
                 }
                 return this._btnRemoveImage;
@@ -6086,7 +6087,7 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._btnViewImage) {
-                    this._btnViewImage = new latte.ButtonItem(strings.viewImage, latte.IconItem.standard(9, 3), function () { return _this.viewSelectedImage(); });
+                    this._btnViewImage = new latte.ButtonItem(strings.viewImage, latte.LinearIcon.picture, function () { return _this.viewSelectedImage(); });
                     this._btnViewImage.tab = this.tabImage;
                 }
                 return this._btnViewImage;
@@ -6103,7 +6104,7 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._btnViewOriginal) {
-                    this._btnViewOriginal = new latte.ButtonItem(strings.viewOriginal, latte.IconItem.standard(2, 1), function () { return _this.viewSelectedOriginal(); });
+                    this._btnViewOriginal = new latte.ButtonItem(strings.viewOriginal, latte.LinearIcon.file_empty, function () { return _this.viewSelectedOriginal(); });
                     this._btnViewOriginal.tab = this.tabImage;
                 }
                 return this._btnViewOriginal;
@@ -6693,10 +6694,10 @@ var latte;
                 this.items[1].visible = this.expanded;
             }
             if (this.expanded) {
-                this.btnFold.icon = latte.Glyph.collapseRibbon;
+                this.btnFold.icon = latte.LinearIcon.chevron_up;
             }
             else {
-                this.btnFold.icon = latte.Glyph.expandWidget;
+                this.btnFold.icon = latte.LinearIcon.chevron_down;
             }
         };
         Object.defineProperty(FragmentExpandoItem.prototype, "expandedChanged", {
@@ -6812,7 +6813,7 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._btnFold) {
-                    this._btnFold = new latte.ButtonItem(null, latte.Glyph.collapseRibbon, function () { return _this.expanded = !_this.expanded; });
+                    this._btnFold = new latte.ButtonItem(null, latte.LinearIcon.chevron_up, function () { return _this.expanded = !_this.expanded; });
                 }
                 return this._btnFold;
             },
@@ -6853,6 +6854,950 @@ var latte;
         return FragmentExpandoItem;
     }(latte.ItemStack));
     latte.FragmentExpandoItem = FragmentExpandoItem;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 8/22/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var LinearIcon = (function (_super) {
+        __extends(LinearIcon, _super);
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function LinearIcon() {
+            _super.call(this);
+            //endregion
+            //region Events
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._linearIconName = null;
+            this.addClass('lnr');
+            this.url = null;
+        }
+        Object.defineProperty(LinearIcon, "home", {
+            //region Static
+            get: function () { return LinearIcon.byStyleName("home"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "apartment", {
+            get: function () { return LinearIcon.byStyleName("apartment"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "pencil", {
+            get: function () { return LinearIcon.byStyleName("pencil"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "magic_wand", {
+            get: function () { return LinearIcon.byStyleName("magic-wand"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "drop", {
+            get: function () { return LinearIcon.byStyleName("drop"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "lighter", {
+            get: function () { return LinearIcon.byStyleName("lighter"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "poop", {
+            get: function () { return LinearIcon.byStyleName("poop"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "sun", {
+            get: function () { return LinearIcon.byStyleName("sun"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "moon", {
+            get: function () { return LinearIcon.byStyleName("moon"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cloud", {
+            get: function () { return LinearIcon.byStyleName("cloud"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cloud_upload", {
+            get: function () { return LinearIcon.byStyleName("cloud-upload"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cloud_download", {
+            get: function () { return LinearIcon.byStyleName("cloud-download"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cloud_sync", {
+            get: function () { return LinearIcon.byStyleName("cloud-sync"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cloud_check", {
+            get: function () { return LinearIcon.byStyleName("cloud-check"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "database", {
+            get: function () { return LinearIcon.byStyleName("database"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "lock", {
+            get: function () { return LinearIcon.byStyleName("lock"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cog", {
+            get: function () { return LinearIcon.byStyleName("cog"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "trash", {
+            get: function () { return LinearIcon.byStyleName("trash"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "dice", {
+            get: function () { return LinearIcon.byStyleName("dice"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "heart", {
+            get: function () { return LinearIcon.byStyleName("heart"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "star", {
+            get: function () { return LinearIcon.byStyleName("star"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "star_half", {
+            get: function () { return LinearIcon.byStyleName("star-half"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "star_empty", {
+            get: function () { return LinearIcon.byStyleName("star-empty"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "flag", {
+            get: function () { return LinearIcon.byStyleName("flag"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "envelope", {
+            get: function () { return LinearIcon.byStyleName("envelope"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "paperclip", {
+            get: function () { return LinearIcon.byStyleName("paperclip"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "inbox", {
+            get: function () { return LinearIcon.byStyleName("inbox"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "eye", {
+            get: function () { return LinearIcon.byStyleName("eye"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "printer", {
+            get: function () { return LinearIcon.byStyleName("printer"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "file_empty", {
+            get: function () { return LinearIcon.byStyleName("file-empty"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "file_add", {
+            get: function () { return LinearIcon.byStyleName("file-add"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "enter", {
+            get: function () { return LinearIcon.byStyleName("enter"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "exit", {
+            get: function () { return LinearIcon.byStyleName("exit"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "graduation_hat", {
+            get: function () { return LinearIcon.byStyleName("graduation-hat"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "license", {
+            get: function () { return LinearIcon.byStyleName("license"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "music_note", {
+            get: function () { return LinearIcon.byStyleName("music-note"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "film_play", {
+            get: function () { return LinearIcon.byStyleName("film-play"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "camera_video", {
+            get: function () { return LinearIcon.byStyleName("camera-video"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "camera", {
+            get: function () { return LinearIcon.byStyleName("camera"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "picture", {
+            get: function () { return LinearIcon.byStyleName("picture"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "book", {
+            get: function () { return LinearIcon.byStyleName("book"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "bookmark", {
+            get: function () { return LinearIcon.byStyleName("bookmark"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "user", {
+            get: function () { return LinearIcon.byStyleName("user"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "users", {
+            get: function () { return LinearIcon.byStyleName("users"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "shirt", {
+            get: function () { return LinearIcon.byStyleName("shirt"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "store", {
+            get: function () { return LinearIcon.byStyleName("store"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cart", {
+            get: function () { return LinearIcon.byStyleName("cart"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "tag", {
+            get: function () { return LinearIcon.byStyleName("tag"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "phone_handset", {
+            get: function () { return LinearIcon.byStyleName("phone-handset"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "phone", {
+            get: function () { return LinearIcon.byStyleName("phone"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "pushpin", {
+            get: function () { return LinearIcon.byStyleName("pushpin"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "map_marker", {
+            get: function () { return LinearIcon.byStyleName("map-marker"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "map", {
+            get: function () { return LinearIcon.byStyleName("map"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "location", {
+            get: function () { return LinearIcon.byStyleName("location"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "calendar_full", {
+            get: function () { return LinearIcon.byStyleName("calendar-full"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "keyboard", {
+            get: function () { return LinearIcon.byStyleName("keyboard"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "spell_check", {
+            get: function () { return LinearIcon.byStyleName("spell-check"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "screen", {
+            get: function () { return LinearIcon.byStyleName("screen"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "smartphone", {
+            get: function () { return LinearIcon.byStyleName("smartphone"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "tablet", {
+            get: function () { return LinearIcon.byStyleName("tablet"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "laptop", {
+            get: function () { return LinearIcon.byStyleName("laptop"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "laptop_phone", {
+            get: function () { return LinearIcon.byStyleName("laptop-phone"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "power_switch", {
+            get: function () { return LinearIcon.byStyleName("power-switch"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "bubble", {
+            get: function () { return LinearIcon.byStyleName("bubble"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "heart_pulse", {
+            get: function () { return LinearIcon.byStyleName("heart-pulse"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "construction", {
+            get: function () { return LinearIcon.byStyleName("construction"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "pie_chart", {
+            get: function () { return LinearIcon.byStyleName("pie-chart"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chart_bars", {
+            get: function () { return LinearIcon.byStyleName("chart-bars"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "gift", {
+            get: function () { return LinearIcon.byStyleName("gift"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "diamond", {
+            get: function () { return LinearIcon.byStyleName("diamond"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "linearicons", {
+            get: function () { return LinearIcon.byStyleName("linearicons"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "dinner", {
+            get: function () { return LinearIcon.byStyleName("dinner"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "coffee_cup", {
+            get: function () { return LinearIcon.byStyleName("coffee-cup"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "leaf", {
+            get: function () { return LinearIcon.byStyleName("leaf"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "paw", {
+            get: function () { return LinearIcon.byStyleName("paw"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "rocket", {
+            get: function () { return LinearIcon.byStyleName("rocket"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "briefcase", {
+            get: function () { return LinearIcon.byStyleName("briefcase"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "bus", {
+            get: function () { return LinearIcon.byStyleName("bus"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "car", {
+            get: function () { return LinearIcon.byStyleName("car"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "train", {
+            get: function () { return LinearIcon.byStyleName("train"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "bicycle", {
+            get: function () { return LinearIcon.byStyleName("bicycle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "wheelchair", {
+            get: function () { return LinearIcon.byStyleName("wheelchair"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "select", {
+            get: function () { return LinearIcon.byStyleName("select"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "earth", {
+            get: function () { return LinearIcon.byStyleName("earth"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "smile", {
+            get: function () { return LinearIcon.byStyleName("smile"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "sad", {
+            get: function () { return LinearIcon.byStyleName("sad"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "neutral", {
+            get: function () { return LinearIcon.byStyleName("neutral"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "mustache", {
+            get: function () { return LinearIcon.byStyleName("mustache"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "alarm", {
+            get: function () { return LinearIcon.byStyleName("alarm"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "bullhorn", {
+            get: function () { return LinearIcon.byStyleName("bullhorn"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "volume_high", {
+            get: function () { return LinearIcon.byStyleName("volume-high"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "volume_medium", {
+            get: function () { return LinearIcon.byStyleName("volume-medium"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "volume_low", {
+            get: function () { return LinearIcon.byStyleName("volume-low"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "volume", {
+            get: function () { return LinearIcon.byStyleName("volume"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "mic", {
+            get: function () { return LinearIcon.byStyleName("mic"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "hourglass", {
+            get: function () { return LinearIcon.byStyleName("hourglass"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "undo", {
+            get: function () { return LinearIcon.byStyleName("undo"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "redo", {
+            get: function () { return LinearIcon.byStyleName("redo"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "sync", {
+            get: function () { return LinearIcon.byStyleName("sync"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "history", {
+            get: function () { return LinearIcon.byStyleName("history"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "clock", {
+            get: function () { return LinearIcon.byStyleName("clock"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "download", {
+            get: function () { return LinearIcon.byStyleName("download"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "upload", {
+            get: function () { return LinearIcon.byStyleName("upload"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "enter_down", {
+            get: function () { return LinearIcon.byStyleName("enter-down"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "exit_up", {
+            get: function () { return LinearIcon.byStyleName("exit-up"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "bug", {
+            get: function () { return LinearIcon.byStyleName("bug"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "code", {
+            get: function () { return LinearIcon.byStyleName("code"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "link", {
+            get: function () { return LinearIcon.byStyleName("link"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "unlink", {
+            get: function () { return LinearIcon.byStyleName("unlink"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "thumbs_up", {
+            get: function () { return LinearIcon.byStyleName("thumbs-up"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "thumbs_down", {
+            get: function () { return LinearIcon.byStyleName("thumbs-down"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "magnifier", {
+            get: function () { return LinearIcon.byStyleName("magnifier"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cross", {
+            get: function () { return LinearIcon.byStyleName("cross"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "menu", {
+            get: function () { return LinearIcon.byStyleName("menu"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "list", {
+            get: function () { return LinearIcon.byStyleName("list"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chevron_up", {
+            get: function () { return LinearIcon.byStyleName("chevron-up"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chevron_down", {
+            get: function () { return LinearIcon.byStyleName("chevron-down"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chevron_left", {
+            get: function () { return LinearIcon.byStyleName("chevron-left"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chevron_right", {
+            get: function () { return LinearIcon.byStyleName("chevron-right"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "arrow_up", {
+            get: function () { return LinearIcon.byStyleName("arrow-up"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "arrow_down", {
+            get: function () { return LinearIcon.byStyleName("arrow-down"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "arrow_left", {
+            get: function () { return LinearIcon.byStyleName("arrow-left"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "arrow_right", {
+            get: function () { return LinearIcon.byStyleName("arrow-right"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "move", {
+            get: function () { return LinearIcon.byStyleName("move"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "warning", {
+            get: function () { return LinearIcon.byStyleName("warning"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "question_circle", {
+            get: function () { return LinearIcon.byStyleName("question-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "menu_circle", {
+            get: function () { return LinearIcon.byStyleName("menu-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "checkmark_circle", {
+            get: function () { return LinearIcon.byStyleName("checkmark-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "cross_circle", {
+            get: function () { return LinearIcon.byStyleName("cross-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "plus_circle", {
+            get: function () { return LinearIcon.byStyleName("plus-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "circle_minus", {
+            get: function () { return LinearIcon.byStyleName("circle-minus"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "arrow_up_circle", {
+            get: function () { return LinearIcon.byStyleName("arrow-up-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "arrow_down_circle", {
+            get: function () { return LinearIcon.byStyleName("arrow-down-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "arrow_left_circle", {
+            get: function () { return LinearIcon.byStyleName("arrow-left-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "arrow_right_circle", {
+            get: function () { return LinearIcon.byStyleName("arrow-right-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chevron_up_circle", {
+            get: function () { return LinearIcon.byStyleName("chevron-up-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chevron_down_circle", {
+            get: function () { return LinearIcon.byStyleName("chevron-down-circle "); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chevron_left_circle", {
+            get: function () { return LinearIcon.byStyleName("chevron-left-circle "); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "chevron_right_circle", {
+            get: function () { return LinearIcon.byStyleName("chevron-right-circle"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "crop", {
+            get: function () { return LinearIcon.byStyleName("crop"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "frame_expand", {
+            get: function () { return LinearIcon.byStyleName("frame-expand"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "frame_contract", {
+            get: function () { return LinearIcon.byStyleName("frame-contract"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "layers", {
+            get: function () { return LinearIcon.byStyleName("layers"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "funnel", {
+            get: function () { return LinearIcon.byStyleName("funnel"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "text_format", {
+            get: function () { return LinearIcon.byStyleName("text-format"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "text_format_remove", {
+            get: function () { return LinearIcon.byStyleName("text-format-remove"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "text_size", {
+            get: function () { return LinearIcon.byStyleName("text-size"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "bold", {
+            get: function () { return LinearIcon.byStyleName("bold"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "italic", {
+            get: function () { return LinearIcon.byStyleName("italic"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "underline", {
+            get: function () { return LinearIcon.byStyleName("underline"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "strikethrough", {
+            get: function () { return LinearIcon.byStyleName("strikethrough"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "highlight", {
+            get: function () { return LinearIcon.byStyleName("highlight"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "text_align_left", {
+            get: function () { return LinearIcon.byStyleName("text-align-left"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "text_align_center", {
+            get: function () { return LinearIcon.byStyleName("text-align-center"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "text_align_right", {
+            get: function () { return LinearIcon.byStyleName("text-align-right"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "text_align_justify", {
+            get: function () { return LinearIcon.byStyleName("text-align-justify"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "line_spacing", {
+            get: function () { return LinearIcon.byStyleName("line-spacing"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "indent_increase", {
+            get: function () { return LinearIcon.byStyleName("indent-increase"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "indent_decrease", {
+            get: function () { return LinearIcon.byStyleName("indent-decrease"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "pilcrow", {
+            get: function () { return LinearIcon.byStyleName("pilcrow"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "direction_ltr", {
+            get: function () { return LinearIcon.byStyleName("direction-ltr"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "direction_rtl", {
+            get: function () { return LinearIcon.byStyleName("direction-rtl"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "page_break", {
+            get: function () { return LinearIcon.byStyleName("page-break"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "sort_alpha_asc", {
+            get: function () { return LinearIcon.byStyleName("sort-alpha-asc"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "sort_amount_asc", {
+            get: function () { return LinearIcon.byStyleName("sort-amount-asc"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "hand", {
+            get: function () { return LinearIcon.byStyleName("hand"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "pointer_up", {
+            get: function () { return LinearIcon.byStyleName("pointer-up"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "pointer_right", {
+            get: function () { return LinearIcon.byStyleName("pointer-right"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "pointer_down", {
+            get: function () { return LinearIcon.byStyleName("pointer-down"); },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(LinearIcon, "pointer_left", {
+            get: function () { return LinearIcon.byStyleName("pointer-left"); },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Gets the icon by name
+         * @param name
+         * @returns {latte.LinearIcon}
+         */
+        LinearIcon.byStyleName = function (name) {
+            var item = new LinearIcon();
+            item.addClass('lnr-' + name);
+            item.linearIconName = name;
+            return item;
+        };
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Returns a clone of the icon
+         **/
+        LinearIcon.prototype.clone = function () {
+            var icon = _super.prototype.clone.call(this);
+            icon.addClass('lnr');
+            icon.addClass('lnr' + this.linearIconName);
+            return icon;
+        };
+        /**
+         * Sets the color and returns the icon for chaining
+         * @param color
+         * @returns {latte.LinearIcon}
+         */
+        LinearIcon.prototype.colorize = function (color) {
+            this.element.css('color', color.toString());
+            return this;
+        };
+        /**
+         * Sets the size to 32 and returns the icon for chaining
+         * @returns {latte.LinearIcon}
+         */
+        LinearIcon.prototype.go32 = function () {
+            this.size = 32;
+            return this;
+        };
+        Object.defineProperty(LinearIcon.prototype, "linearIconName", {
+            /**
+             * Gets or sets the linear icon name
+             *
+             * @returns {string}
+             */
+            get: function () {
+                return this._linearIconName;
+            },
+            /**
+             * Gets or sets the linear icon name
+             *
+             * @param {string} value
+             */
+            set: function (value) {
+                this._linearIconName = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return LinearIcon;
+    }(latte.IconItem));
+    latte.LinearIcon = LinearIcon;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -7319,6 +8264,226 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Record for table setting
+     */
+    var Setting = (function (_super) {
+        __extends(Setting, _super);
+        function Setting() {
+            _super.apply(this, arguments);
+        }
+        return Setting;
+    }(latte.settingBase));
+    latte.Setting = Setting;
+})(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
+     * Record for table user
+     */
+    var User = (function (_super) {
+        __extends(User, _super);
+        function User() {
+            _super.apply(this, arguments);
+        }
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        User.suggestionLoader = function () {
+            var _this = this;
+            return function (d, callback) {
+                return User.search(d.text).send(function (users) {
+                    var items = [];
+                    users.forEach(function (u) {
+                        var b = new latte.ButtonItem(u.uname);
+                        b.click.add(function () { d.record = u; });
+                        items.push(b);
+                    });
+                    callback.call(_this, items);
+                });
+            };
+        };
+        //endregion
+        //region Fields
+        //endregion
+        //region Methods
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        User.prototype.getMetadata = function () {
+            return {
+                fields: {
+                    uname: {
+                        text: strings.userName,
+                        type: 'string'
+                    },
+                    password: {
+                        text: strings.password,
+                        type: 'password',
+                        visible: 'if-not-inserted'
+                    },
+                    flags: {
+                        text: strings.flags,
+                        type: 'flags',
+                        options: {
+                            1: strings.isRoot,
+                            2: strings.isSysAdmin,
+                            4: strings.isBanned,
+                            8: strings.inTrash
+                        }
+                    }
+                }
+            };
+        };
+        /**
+         * Returns a value indicating if the user belongs to the specified group
+         * @param idgroup
+         * @returns {boolean}
+         */
+        User.prototype.inGroup = function (idgroup) {
+            if (this.groups && this.groups.length) {
+                for (var i in this.groups) {
+                    if (this.groups[i].idgroup == idgroup) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+        /**
+         * Returns a string representation of the object
+         */
+        User.prototype.toString = function () {
+            return this.uname;
+        };
+        Object.defineProperty(User.prototype, "attributes", {
+            //endregion
+            //region Events
+            //endregion
+            //region Properties
+            /**
+             * Gets a string with attributes of the record
+             *
+             * @returns {string}
+             */
+            get: function () {
+                // TODO: Give info like "is root", "is banned" etc
+                var arr = [];
+                if (this.isRoot) {
+                    arr.push(strings.isRoot);
+                }
+                if (this.isBanned) {
+                    arr.push(strings.isBanned);
+                }
+                if (this.isTrash) {
+                    arr.push(strings.inTrash);
+                }
+                return arr.join(", ");
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "flagsString", {
+            /**
+             * Gets the flags as a string
+             *
+             * @returns {string}
+             */
+            get: function () {
+                return latte.InputItem.format(this.flags, 'flags', this.getMetadata().fields['flags'].options);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "groups", {
+            /**
+             * Gets or sets the groups of the record
+             *
+             * @returns {Group[]}
+             */
+            get: function () {
+                return this._groups;
+            },
+            /**
+             * Gets or sets the groups of the record
+             *
+             * @param {Group[]} value
+             */
+            set: function (value) {
+                this._groups = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "isBanned", {
+            /**
+             * Gets a value indicating if the user is banned
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.flags & User.FLAG_BANNED_USER) == User.FLAG_BANNED_USER;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "isRoot", {
+            /**
+             * Gets a value indicating if user is root
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.flags & User.FLAG_ROOT_USER) == User.FLAG_ROOT_USER;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "isSysAdmin", {
+            /**
+             * Gets a value indicating if user is sys-admin
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.flags & User.FLAG_SYS_ADMIN) == User.FLAG_SYS_ADMIN;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(User.prototype, "isTrash", {
+            /**
+             * Gets a value indicating if the user is trash
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return (this.flags & User.FLAG_TRASH) == User.FLAG_TRASH;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        //region Static
+        User.FLAG_ROOT_USER = 1;
+        User.FLAG_SYS_ADMIN = 2;
+        User.FLAG_BANNED_USER = 4;
+        User.FLAG_TRASH = 8;
+        User.me = null;
+        return User;
+    }(latte.userBase));
+    latte.User = User;
+})(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
      * Record for table page
      */
     var Page = (function (_super) {
@@ -7729,226 +8894,6 @@ var latte;
     latte.Page = Page;
 })(latte || (latte = {}));
 /**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
-     * Record for table setting
-     */
-    var Setting = (function (_super) {
-        __extends(Setting, _super);
-        function Setting() {
-            _super.apply(this, arguments);
-        }
-        return Setting;
-    }(latte.settingBase));
-    latte.Setting = Setting;
-})(latte || (latte = {}));
-/**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
-     * Record for table user
-     */
-    var User = (function (_super) {
-        __extends(User, _super);
-        function User() {
-            _super.apply(this, arguments);
-        }
-        /**
-         * Gets the suggestion loader
-         * @returns {*}
-         */
-        User.suggestionLoader = function () {
-            var _this = this;
-            return function (d, callback) {
-                return User.search(d.text).send(function (users) {
-                    var items = [];
-                    users.forEach(function (u) {
-                        var b = new latte.ButtonItem(u.uname);
-                        b.click.add(function () { d.record = u; });
-                        items.push(b);
-                    });
-                    callback.call(_this, items);
-                });
-            };
-        };
-        //endregion
-        //region Fields
-        //endregion
-        //region Methods
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        User.prototype.getMetadata = function () {
-            return {
-                fields: {
-                    uname: {
-                        text: strings.userName,
-                        type: 'string'
-                    },
-                    password: {
-                        text: strings.password,
-                        type: 'password',
-                        visible: 'if-not-inserted'
-                    },
-                    flags: {
-                        text: strings.flags,
-                        type: 'flags',
-                        options: {
-                            1: strings.isRoot,
-                            2: strings.isSysAdmin,
-                            4: strings.isBanned,
-                            8: strings.inTrash
-                        }
-                    }
-                }
-            };
-        };
-        /**
-         * Returns a value indicating if the user belongs to the specified group
-         * @param idgroup
-         * @returns {boolean}
-         */
-        User.prototype.inGroup = function (idgroup) {
-            if (this.groups && this.groups.length) {
-                for (var i in this.groups) {
-                    if (this.groups[i].idgroup == idgroup) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        };
-        /**
-         * Returns a string representation of the object
-         */
-        User.prototype.toString = function () {
-            return this.uname;
-        };
-        Object.defineProperty(User.prototype, "attributes", {
-            //endregion
-            //region Events
-            //endregion
-            //region Properties
-            /**
-             * Gets a string with attributes of the record
-             *
-             * @returns {string}
-             */
-            get: function () {
-                // TODO: Give info like "is root", "is banned" etc
-                var arr = [];
-                if (this.isRoot) {
-                    arr.push(strings.isRoot);
-                }
-                if (this.isBanned) {
-                    arr.push(strings.isBanned);
-                }
-                if (this.isTrash) {
-                    arr.push(strings.inTrash);
-                }
-                return arr.join(", ");
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "flagsString", {
-            /**
-             * Gets the flags as a string
-             *
-             * @returns {string}
-             */
-            get: function () {
-                return latte.InputItem.format(this.flags, 'flags', this.getMetadata().fields['flags'].options);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "groups", {
-            /**
-             * Gets or sets the groups of the record
-             *
-             * @returns {Group[]}
-             */
-            get: function () {
-                return this._groups;
-            },
-            /**
-             * Gets or sets the groups of the record
-             *
-             * @param {Group[]} value
-             */
-            set: function (value) {
-                this._groups = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "isBanned", {
-            /**
-             * Gets a value indicating if the user is banned
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.flags & User.FLAG_BANNED_USER) == User.FLAG_BANNED_USER;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "isRoot", {
-            /**
-             * Gets a value indicating if user is root
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.flags & User.FLAG_ROOT_USER) == User.FLAG_ROOT_USER;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "isSysAdmin", {
-            /**
-             * Gets a value indicating if user is sys-admin
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.flags & User.FLAG_SYS_ADMIN) == User.FLAG_SYS_ADMIN;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(User.prototype, "isTrash", {
-            /**
-             * Gets a value indicating if the user is trash
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return (this.flags & User.FLAG_TRASH) == User.FLAG_TRASH;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        //region Static
-        User.FLAG_ROOT_USER = 1;
-        User.FLAG_SYS_ADMIN = 2;
-        User.FLAG_BANNED_USER = 4;
-        User.FLAG_TRASH = 8;
-        User.me = null;
-        return User;
-    }(latte.userBase));
-    latte.User = User;
-})(latte || (latte = {}));
-/**
  * Created by josemanuel on 7/14/16.
  */
 var latte;
@@ -8021,6 +8966,10 @@ var latte;
             get: function () {
                 if (!this._explorer) {
                     this._explorer = new latte.CmsExplorer();
+                    this._explorer.btnRefresh.icon = latte.LinearIcon.sync;
+                    this._explorer.btnSaveDetail.icon = latte.LinearIcon.enter_down;
+                    latte.TreeItem.globalCollapseGlyph = function (item) { return latte.IconItem.empty(16); };
+                    latte.TreeItem.globalExpandGlyph = function (item) { return latte.IconItem.empty(16); };
                 }
                 return this._explorer;
             },
@@ -8834,7 +9783,7 @@ var latte;
             get: function () {
                 var _this = this;
                 if (!this._btnClose) {
-                    this._btnClose = new latte.ButtonItem(null, latte.IconItem.standard(20, 4), function () { return _this.onCloseRequested(); });
+                    this._btnClose = new latte.ButtonItem(null, latte.LinearIcon.cross, function () { return _this.onCloseRequested(); });
                     this._btnClose.addClass('page-close');
                     this._btnClose.faceVisible = false;
                 }
@@ -9280,13 +10229,14 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/PlainTextFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FileItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FragmentExpandoItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/LinearIcon.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/File.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Fragment.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Group.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/GroupUser.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Setting.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/User.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/CmsExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/CmsMainView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageAdvancedView.ts" />

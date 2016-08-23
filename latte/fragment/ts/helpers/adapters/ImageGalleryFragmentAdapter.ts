@@ -596,7 +596,7 @@ module latte {
          */
         get btnInsertImage(): ButtonItem {
             if (!this._btnInsertImage) {
-                this._btnInsertImage = new ButtonItem(strings.insertImage, IconItem.standard(8, 7, 32), () => this.activateFileInput());
+                this._btnInsertImage = new ButtonItem(strings.insertImage, LinearIcon.picture.go32(), () => this.activateFileInput());
                 this._btnInsertImage.tab = this.tabGallery;
             }
             return this._btnInsertImage;
@@ -614,7 +614,7 @@ module latte {
          */
         get btnMoveImageAfter(): ButtonItem {
             if (!this._btnMoveImageAfter) {
-                this._btnMoveImageAfter = new ButtonItem(null, Glyph.right, () => this.moveImageAfter());
+                this._btnMoveImageAfter = new ButtonItem(null, LinearIcon.chevron_right, () => this.moveImageAfter());
                 this._btnMoveImageAfter.tooltip = strings.moveImageAfter;
                 this._btnMoveImageAfter.tab = this.tabImage;
             }
@@ -633,7 +633,7 @@ module latte {
          */
         get btnMoveImageBefore(): ButtonItem {
             if (!this._btnMoveImageBefore) {
-                this._btnMoveImageBefore = new ButtonItem(null, Glyph.left, () => this.moveImageBefore());
+                this._btnMoveImageBefore = new ButtonItem(null, LinearIcon.chevron_left, () => this.moveImageBefore());
                 this._btnMoveImageBefore.tooltip = strings.moveImageBefore
                 this._btnMoveImageBefore.tab = this.tabImage;
             }
@@ -652,7 +652,7 @@ module latte {
          */
         get btnRemoveImage(): ButtonItem {
             if (!this._btnRemoveImage) {
-                this._btnRemoveImage = new ButtonItem(strings.deleteImage, IconItem.standard(10, 6, 32), () => this.removeSelectedImage());
+                this._btnRemoveImage = new ButtonItem(strings.deleteImage, LinearIcon.trash.go32(), () => this.removeSelectedImage());
                 this._btnRemoveImage.tab = this.tabImage;
             }
             return this._btnRemoveImage;
@@ -670,7 +670,7 @@ module latte {
          */
         get btnViewImage(): ButtonItem {
             if (!this._btnViewImage) {
-                this._btnViewImage = new ButtonItem(strings.viewImage, IconItem.standard(9, 3), () => this.viewSelectedImage());
+                this._btnViewImage = new ButtonItem(strings.viewImage, LinearIcon.picture, () => this.viewSelectedImage());
                 this._btnViewImage.tab = this.tabImage;
             }
             return this._btnViewImage;
@@ -688,7 +688,7 @@ module latte {
          */
         get btnViewOriginal(): ButtonItem {
             if (!this._btnViewOriginal) {
-                this._btnViewOriginal = new ButtonItem(strings.viewOriginal, IconItem.standard(2, 1), () => this.viewSelectedOriginal());
+                this._btnViewOriginal = new ButtonItem(strings.viewOriginal, LinearIcon.file_empty, () => this.viewSelectedOriginal());
                 this._btnViewOriginal.tab = this.tabImage;
             }
             return this._btnViewOriginal;

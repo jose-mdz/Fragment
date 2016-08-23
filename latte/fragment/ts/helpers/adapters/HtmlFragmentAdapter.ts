@@ -123,9 +123,9 @@ module latte {
         get formatItems(): Item[] {
             if (!this._formatItems) {
 
-                let btn = (u, v, tooltip, cmd): Item =>{
+                let btn = (icon, tooltip, cmd): Item =>{
                     let b = new ButtonItem();
-                    b.icon = IconItem.standard(u, v);
+                    b.icon = icon;
                     b.tooltip = tooltip;
                     b.click.add(() => this.htmlEditor.execCommand(cmd));
                     b.tab = this.tabFormat;
@@ -139,24 +139,24 @@ module latte {
                 };
 
                 this._formatItems = [
-                    btn(5, 2, strings.bold, HtmlEditorCommands.BOLD),
-                    btn(6, 2, strings.italics, HtmlEditorCommands.ITALIC),
+                    btn(LinearIcon.bold, strings.bold, HtmlEditorCommands.BOLD),
+                    btn(LinearIcon.italic, strings.italics, HtmlEditorCommands.ITALIC),
                     sep(),
-                    btn(8, 2, strings.alignLeft, HtmlEditorCommands.JUSTIFY_LEFT),
-                    btn(10, 2, strings.alignCenter, HtmlEditorCommands.JUSTIFY_CENTER),
-                    btn(9, 2, strings.alignRight, HtmlEditorCommands.JUSTIFY_RIGHT),
-                    btn(11, 2, strings.alignJustify, HtmlEditorCommands.JUSTIFY_FULL),
+                    btn(LinearIcon.text_align_left, strings.alignLeft, HtmlEditorCommands.JUSTIFY_LEFT),
+                    btn(LinearIcon.text_align_center, strings.alignCenter, HtmlEditorCommands.JUSTIFY_CENTER),
+                    btn(LinearIcon.text_align_right, strings.alignRight, HtmlEditorCommands.JUSTIFY_RIGHT),
+                    btn(LinearIcon.text_align_justify, strings.alignJustify, HtmlEditorCommands.JUSTIFY_FULL),
                     sep(),
-                    btn(15, 2, strings.indent, HtmlEditorCommands.INDENT),
-                    btn(14, 2, strings.outdent, HtmlEditorCommands.OUTDENT),
+                    btn(LinearIcon.indent_increase, strings.indent, HtmlEditorCommands.INDENT),
+                    btn(LinearIcon.indent_decrease, strings.outdent, HtmlEditorCommands.OUTDENT),
                     sep(),
-                    btn(18, 1, strings.numberedList, HtmlEditorCommands.INSERT_ORDERED_LIST),
-                    btn(19, 1, strings.bulletList, HtmlEditorCommands.INSERT_UNORDERED_LIST),
+                    btn(LinearIcon.menu, strings.numberedList, HtmlEditorCommands.INSERT_ORDERED_LIST),
+                    btn(LinearIcon.list, strings.bulletList, HtmlEditorCommands.INSERT_UNORDERED_LIST),
                     sep(),
-                    btn(16, 2, strings.eraseFormat, HtmlEditorCommands.CLEAR_FORMAT),
+                    btn(LinearIcon.text_format_remove, strings.eraseFormat, HtmlEditorCommands.CLEAR_FORMAT),
                     sep(),
-                    btn(12, 3, strings.insertLink, HtmlEditorCommands.INSERT_LINK),
-                    btn(9, 3, strings.insertImage, HtmlEditorCommands.INSERT_IMAGE)
+                    btn(LinearIcon.link, strings.insertLink, HtmlEditorCommands.INSERT_LINK),
+                    btn(LinearIcon.picture, strings.insertImage, HtmlEditorCommands.INSERT_IMAGE)
                 ];
 
             }

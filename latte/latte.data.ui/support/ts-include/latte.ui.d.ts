@@ -4457,6 +4457,43 @@ declare module latte {
     }
 }
 declare module latte {
+    /**
+     * Stack of items. It unselects siblings when a selectable within is selected
+     */
+    class SelectableStack extends ItemStack {
+        private _selectedItem;
+        private _selectedItemChanged;
+        /**
+         * Creates the item
+         */
+        constructor();
+        /**
+         * Clears the current selection
+         */
+        clearSelection(): void;
+        /**
+         * Adds selection handlers
+         * @param item
+         */
+        onAddItem(item: Item): void;
+        /**
+         * Raises the <c>selectedItemChanged</c> event
+         */
+        onSelectedItemChanged(): void;
+        /**
+         * Gets the selected item of the stack
+         *
+         * @returns {SelectableItem}
+         */
+        selectedItem: SelectableItem;
+        /**
+         * Gets an event raised when
+         * @returns {LatteEvent}
+         */
+        selectedItemChanged: LatteEvent;
+    }
+}
+declare module latte {
     class TabContainer extends ItemStack {
         tabToolbar: TabToolbar;
         tabs: Collection<TabItem>;
@@ -4502,43 +4539,6 @@ declare module latte {
          * @param value
          */
         contentSide: Side;
-    }
-}
-declare module latte {
-    /**
-     * Stack of items. It unselects siblings when a selectable within is selected
-     */
-    class SelectableStack extends ItemStack {
-        private _selectedItem;
-        private _selectedItemChanged;
-        /**
-         * Creates the item
-         */
-        constructor();
-        /**
-         * Clears the current selection
-         */
-        clearSelection(): void;
-        /**
-         * Adds selection handlers
-         * @param item
-         */
-        onAddItem(item: Item): void;
-        /**
-         * Raises the <c>selectedItemChanged</c> event
-         */
-        onSelectedItemChanged(): void;
-        /**
-         * Gets the selected item of the stack
-         *
-         * @returns {SelectableItem}
-         */
-        selectedItem: SelectableItem;
-        /**
-         * Gets an event raised when
-         * @returns {LatteEvent}
-         */
-        selectedItemChanged: LatteEvent;
     }
 }
 declare module latte {
@@ -5203,6 +5203,16 @@ declare module latte {
      * Renders an Item that may contains more <c>TreeItem</c>s and shows them as a tree.
      **/
     class TreeItem extends Item {
+        /**
+         * Global level expand glyph loader
+         * @type {any}
+         */
+        static globalExpandGlyph: (item: TreeItem) => IconItem;
+        /**
+         * Global level collapse glyph loader
+         * @type {any}
+         */
+        static globalCollapseGlyph: (item: TreeItem) => IconItem;
         /**
          *
          **/

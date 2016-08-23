@@ -3301,6 +3301,226 @@ declare module latte {
         toolbar: Toolbar;
     }
 }
+/**
+ * Created by josemanuel on 8/22/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class LinearIcon extends IconItem {
+        static home: LinearIcon;
+        static apartment: LinearIcon;
+        static pencil: LinearIcon;
+        static magic_wand: LinearIcon;
+        static drop: LinearIcon;
+        static lighter: LinearIcon;
+        static poop: LinearIcon;
+        static sun: LinearIcon;
+        static moon: LinearIcon;
+        static cloud: LinearIcon;
+        static cloud_upload: LinearIcon;
+        static cloud_download: LinearIcon;
+        static cloud_sync: LinearIcon;
+        static cloud_check: LinearIcon;
+        static database: LinearIcon;
+        static lock: LinearIcon;
+        static cog: LinearIcon;
+        static trash: LinearIcon;
+        static dice: LinearIcon;
+        static heart: LinearIcon;
+        static star: LinearIcon;
+        static star_half: LinearIcon;
+        static star_empty: LinearIcon;
+        static flag: LinearIcon;
+        static envelope: LinearIcon;
+        static paperclip: LinearIcon;
+        static inbox: LinearIcon;
+        static eye: LinearIcon;
+        static printer: LinearIcon;
+        static file_empty: LinearIcon;
+        static file_add: LinearIcon;
+        static enter: LinearIcon;
+        static exit: LinearIcon;
+        static graduation_hat: LinearIcon;
+        static license: LinearIcon;
+        static music_note: LinearIcon;
+        static film_play: LinearIcon;
+        static camera_video: LinearIcon;
+        static camera: LinearIcon;
+        static picture: LinearIcon;
+        static book: LinearIcon;
+        static bookmark: LinearIcon;
+        static user: LinearIcon;
+        static users: LinearIcon;
+        static shirt: LinearIcon;
+        static store: LinearIcon;
+        static cart: LinearIcon;
+        static tag: LinearIcon;
+        static phone_handset: LinearIcon;
+        static phone: LinearIcon;
+        static pushpin: LinearIcon;
+        static map_marker: LinearIcon;
+        static map: LinearIcon;
+        static location: LinearIcon;
+        static calendar_full: LinearIcon;
+        static keyboard: LinearIcon;
+        static spell_check: LinearIcon;
+        static screen: LinearIcon;
+        static smartphone: LinearIcon;
+        static tablet: LinearIcon;
+        static laptop: LinearIcon;
+        static laptop_phone: LinearIcon;
+        static power_switch: LinearIcon;
+        static bubble: LinearIcon;
+        static heart_pulse: LinearIcon;
+        static construction: LinearIcon;
+        static pie_chart: LinearIcon;
+        static chart_bars: LinearIcon;
+        static gift: LinearIcon;
+        static diamond: LinearIcon;
+        static linearicons: LinearIcon;
+        static dinner: LinearIcon;
+        static coffee_cup: LinearIcon;
+        static leaf: LinearIcon;
+        static paw: LinearIcon;
+        static rocket: LinearIcon;
+        static briefcase: LinearIcon;
+        static bus: LinearIcon;
+        static car: LinearIcon;
+        static train: LinearIcon;
+        static bicycle: LinearIcon;
+        static wheelchair: LinearIcon;
+        static select: LinearIcon;
+        static earth: LinearIcon;
+        static smile: LinearIcon;
+        static sad: LinearIcon;
+        static neutral: LinearIcon;
+        static mustache: LinearIcon;
+        static alarm: LinearIcon;
+        static bullhorn: LinearIcon;
+        static volume_high: LinearIcon;
+        static volume_medium: LinearIcon;
+        static volume_low: LinearIcon;
+        static volume: LinearIcon;
+        static mic: LinearIcon;
+        static hourglass: LinearIcon;
+        static undo: LinearIcon;
+        static redo: LinearIcon;
+        static sync: LinearIcon;
+        static history: LinearIcon;
+        static clock: LinearIcon;
+        static download: LinearIcon;
+        static upload: LinearIcon;
+        static enter_down: LinearIcon;
+        static exit_up: LinearIcon;
+        static bug: LinearIcon;
+        static code: LinearIcon;
+        static link: LinearIcon;
+        static unlink: LinearIcon;
+        static thumbs_up: LinearIcon;
+        static thumbs_down: LinearIcon;
+        static magnifier: LinearIcon;
+        static cross: LinearIcon;
+        static menu: LinearIcon;
+        static list: LinearIcon;
+        static chevron_up: LinearIcon;
+        static chevron_down: LinearIcon;
+        static chevron_left: LinearIcon;
+        static chevron_right: LinearIcon;
+        static arrow_up: LinearIcon;
+        static arrow_down: LinearIcon;
+        static arrow_left: LinearIcon;
+        static arrow_right: LinearIcon;
+        static move: LinearIcon;
+        static warning: LinearIcon;
+        static question_circle: LinearIcon;
+        static menu_circle: LinearIcon;
+        static checkmark_circle: LinearIcon;
+        static cross_circle: LinearIcon;
+        static plus_circle: LinearIcon;
+        static circle_minus: LinearIcon;
+        static arrow_up_circle: LinearIcon;
+        static arrow_down_circle: LinearIcon;
+        static arrow_left_circle: LinearIcon;
+        static arrow_right_circle: LinearIcon;
+        static chevron_up_circle: LinearIcon;
+        static chevron_down_circle: LinearIcon;
+        static chevron_left_circle: LinearIcon;
+        static chevron_right_circle: LinearIcon;
+        static crop: LinearIcon;
+        static frame_expand: LinearIcon;
+        static frame_contract: LinearIcon;
+        static layers: LinearIcon;
+        static funnel: LinearIcon;
+        static text_format: LinearIcon;
+        static text_format_remove: LinearIcon;
+        static text_size: LinearIcon;
+        static bold: LinearIcon;
+        static italic: LinearIcon;
+        static underline: LinearIcon;
+        static strikethrough: LinearIcon;
+        static highlight: LinearIcon;
+        static text_align_left: LinearIcon;
+        static text_align_center: LinearIcon;
+        static text_align_right: LinearIcon;
+        static text_align_justify: LinearIcon;
+        static line_spacing: LinearIcon;
+        static indent_increase: LinearIcon;
+        static indent_decrease: LinearIcon;
+        static pilcrow: LinearIcon;
+        static direction_ltr: LinearIcon;
+        static direction_rtl: LinearIcon;
+        static page_break: LinearIcon;
+        static sort_alpha_asc: LinearIcon;
+        static sort_amount_asc: LinearIcon;
+        static hand: LinearIcon;
+        static pointer_up: LinearIcon;
+        static pointer_right: LinearIcon;
+        static pointer_down: LinearIcon;
+        static pointer_left: LinearIcon;
+        /**
+         * Gets the icon by name
+         * @param name
+         * @returns {latte.LinearIcon}
+         */
+        static byStyleName(name: string): LinearIcon;
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Returns a clone of the icon
+         **/
+        clone(): IconItem;
+        /**
+         * Sets the color and returns the icon for chaining
+         * @param color
+         * @returns {latte.LinearIcon}
+         */
+        colorize(color: Color): LinearIcon;
+        /**
+         * Sets the size to 32 and returns the icon for chaining
+         * @returns {latte.LinearIcon}
+         */
+        go32(): LinearIcon;
+        /**
+         * Property field
+         */
+        private _linearIconName;
+        /**
+         * Gets or sets the linear icon name
+         *
+         * @returns {string}
+         */
+        /**
+         * Gets or sets the linear icon name
+         *
+         * @param {string} value
+         */
+        linearIconName: string;
+    }
+}
 declare module latte {
     /**
      * File Record
@@ -3477,6 +3697,103 @@ declare module latte {
  */
 declare module latte {
     /**
+     * Record for table setting
+     */
+    class Setting extends settingBase {
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table user
+     */
+    class User extends userBase {
+        static FLAG_ROOT_USER: number;
+        static FLAG_SYS_ADMIN: number;
+        static FLAG_BANNED_USER: number;
+        static FLAG_TRASH: number;
+        static me: User;
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Returns a value indicating if the user belongs to the specified group
+         * @param idgroup
+         * @returns {boolean}
+         */
+        inGroup(idgroup: number): boolean;
+        /**
+         * Returns a string representation of the object
+         */
+        toString(): string;
+        /**
+         * Gets a string with attributes of the record
+         *
+         * @returns {string}
+         */
+        attributes: string;
+        /**
+         * Gets the flags as a string
+         *
+         * @returns {string}
+         */
+        flagsString: string;
+        /**
+         * Property field
+         */
+        private _groups;
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @returns {Group[]}
+         */
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @param {Group[]} value
+         */
+        groups: Group[];
+        /**
+         * Gets a value indicating if the user is banned
+         *
+         * @returns {boolean}
+         */
+        isBanned: boolean;
+        /**
+         * Gets a value indicating if user is root
+         *
+         * @returns {boolean}
+         */
+        isRoot: boolean;
+        /**
+         * Gets a value indicating if user is sys-admin
+         *
+         * @returns {boolean}
+         */
+        isSysAdmin: boolean;
+        /**
+         * Gets a value indicating if the user is trash
+         *
+         * @returns {boolean}
+         */
+        isTrash: boolean;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
      * Record for table page
      */
     class Page extends pageBase {
@@ -3608,103 +3925,6 @@ declare module latte {
          * @returns {boolean}
          */
         isOnline: boolean;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table setting
-     */
-    class Setting extends settingBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table user
-     */
-    class User extends userBase {
-        static FLAG_ROOT_USER: number;
-        static FLAG_SYS_ADMIN: number;
-        static FLAG_BANNED_USER: number;
-        static FLAG_TRASH: number;
-        static me: User;
-        /**
-         * Gets the suggestion loader
-         * @returns {*}
-         */
-        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Returns a value indicating if the user belongs to the specified group
-         * @param idgroup
-         * @returns {boolean}
-         */
-        inGroup(idgroup: number): boolean;
-        /**
-         * Returns a string representation of the object
-         */
-        toString(): string;
-        /**
-         * Gets a string with attributes of the record
-         *
-         * @returns {string}
-         */
-        attributes: string;
-        /**
-         * Gets the flags as a string
-         *
-         * @returns {string}
-         */
-        flagsString: string;
-        /**
-         * Property field
-         */
-        private _groups;
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @returns {Group[]}
-         */
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @param {Group[]} value
-         */
-        groups: Group[];
-        /**
-         * Gets a value indicating if the user is banned
-         *
-         * @returns {boolean}
-         */
-        isBanned: boolean;
-        /**
-         * Gets a value indicating if user is root
-         *
-         * @returns {boolean}
-         */
-        isRoot: boolean;
-        /**
-         * Gets a value indicating if user is sys-admin
-         *
-         * @returns {boolean}
-         */
-        isSysAdmin: boolean;
-        /**
-         * Gets a value indicating if the user is trash
-         *
-         * @returns {boolean}
-         */
-        isTrash: boolean;
     }
 }
 /**

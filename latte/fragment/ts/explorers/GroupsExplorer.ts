@@ -52,7 +52,7 @@ module latte {
          * @Override
          */
         getIcon(): IconItem{
-            return IconItem.folderIcon()
+            return LinearIcon.book;
         }
 
         /**
@@ -61,7 +61,7 @@ module latte {
          */
         getItems(): Item[]{
             return [
-                new ButtonItem(strings.newGroup, IconItem.newIcon(), () => {
+                new ButtonItem(strings.newGroup, LinearIcon.bookmark, () => {
                     var r = new Group();
                     DataRecordDialogView.editRecord(r, () => this.onChildrenChanged(), strings.newGroup);
                 })

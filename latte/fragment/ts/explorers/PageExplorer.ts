@@ -82,7 +82,7 @@ module latte {
          * @Override
          */
         getIcon(): IconItem{
-            return IconItem.fileIcon()
+            return LinearIcon.file_empty;
         }
 
         /**
@@ -93,7 +93,7 @@ module latte {
             let items: Item[] = [];
 
             if (this.record.canIInsertChild) {
-                items.push(new ButtonItem(strings.newPage, IconItem.newIcon(), () => {
+                items.push(new ButtonItem(strings.newPage, LinearIcon.file_add, () => {
                     let p = new Page();
                     p.idparent = this.record.idpage;
                     DataRecordDialogView.editRecord(p, () => this.onChildrenChanged(), strings.newPage);

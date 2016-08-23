@@ -32,6 +32,25 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Possible Directions
+     **/
+    enum Direction {
+        /**
+         * Horizontal direction
+         **/
+        HORIZONTAL = 0,
+        /**
+         * Vertical direction
+         **/
+        VERTICAL = 1,
+        /**
+         * Non established direction
+         */
+        NONE = 2,
+    }
+}
+declare module latte {
+    /**
      * Enumerates sides of objects
      **/
     enum Side {
@@ -55,25 +74,6 @@ declare module latte {
          * Top side of something
          **/
         TOP = 32,
-    }
-}
-declare module latte {
-    /**
-     * Possible Directions
-     **/
-    enum Direction {
-        /**
-         * Horizontal direction
-         **/
-        HORIZONTAL = 0,
-        /**
-         * Vertical direction
-         **/
-        VERTICAL = 1,
-        /**
-         * Non established direction
-         */
-        NONE = 2,
     }
 }
 declare module latte {
@@ -4311,91 +4311,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Stack of items. It unselects siblings when a selectable within is selected
-     */
-    class SelectableStack extends ItemStack {
-        private _selectedItem;
-        private _selectedItemChanged;
-        /**
-         * Creates the item
-         */
-        constructor();
-        /**
-         * Clears the current selection
-         */
-        clearSelection(): void;
-        /**
-         * Adds selection handlers
-         * @param item
-         */
-        onAddItem(item: Item): void;
-        /**
-         * Raises the <c>selectedItemChanged</c> event
-         */
-        onSelectedItemChanged(): void;
-        /**
-         * Gets the selected item of the stack
-         *
-         * @returns {SelectableItem}
-         */
-        selectedItem: SelectableItem;
-        /**
-         * Gets an event raised when
-         * @returns {LatteEvent}
-         */
-        selectedItemChanged: LatteEvent;
-    }
-}
-declare module latte {
-    class TabContainer extends ItemStack {
-        tabToolbar: TabToolbar;
-        tabs: Collection<TabItem>;
-        content: Collection<Item>;
-        selectedTabChanged: LatteEvent;
-        constructor();
-        private updateVisibility();
-        /**
-         *
-         **/
-        onTabAdded(tab: TabItem): void;
-        /**
-         *
-         **/
-        onTabRemoved(tab: TabItem): void;
-        /**
-         *
-         * @param item
-         */
-        onContentAdded(item: Item): void;
-        /**
-         *
-         * @param item
-         */
-        onContentRemoved(item: Item): void;
-        /**
-         * Raises the <c>selectedTabChanged</c> event
-         **/
-        onSelectedTabChanged(): void;
-        /**
-         * Gets or sets the selected tab of the view
-         **/
-        /**
-         * Gets or sets the selected tab of the view
-         **/
-        selectedTab: TabItem;
-        /**
-         * Gets the side where content should be relative to the tabs
-         * @returns {Side}
-         */
-        /**
-         * Sets the side where content should be relative to the tabs
-         * @param value
-         */
-        contentSide: Side;
-    }
-}
-declare module latte {
-    /**
      * Renders a Ribbon.
 
      Ribbons are toolbars with tabbed views of tools and a button called <c>startButton</c>.
@@ -4543,6 +4458,91 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Stack of items. It unselects siblings when a selectable within is selected
+     */
+    class SelectableStack extends ItemStack {
+        private _selectedItem;
+        private _selectedItemChanged;
+        /**
+         * Creates the item
+         */
+        constructor();
+        /**
+         * Clears the current selection
+         */
+        clearSelection(): void;
+        /**
+         * Adds selection handlers
+         * @param item
+         */
+        onAddItem(item: Item): void;
+        /**
+         * Raises the <c>selectedItemChanged</c> event
+         */
+        onSelectedItemChanged(): void;
+        /**
+         * Gets the selected item of the stack
+         *
+         * @returns {SelectableItem}
+         */
+        selectedItem: SelectableItem;
+        /**
+         * Gets an event raised when
+         * @returns {LatteEvent}
+         */
+        selectedItemChanged: LatteEvent;
+    }
+}
+declare module latte {
+    class TabContainer extends ItemStack {
+        tabToolbar: TabToolbar;
+        tabs: Collection<TabItem>;
+        content: Collection<Item>;
+        selectedTabChanged: LatteEvent;
+        constructor();
+        private updateVisibility();
+        /**
+         *
+         **/
+        onTabAdded(tab: TabItem): void;
+        /**
+         *
+         **/
+        onTabRemoved(tab: TabItem): void;
+        /**
+         *
+         * @param item
+         */
+        onContentAdded(item: Item): void;
+        /**
+         *
+         * @param item
+         */
+        onContentRemoved(item: Item): void;
+        /**
+         * Raises the <c>selectedTabChanged</c> event
+         **/
+        onSelectedTabChanged(): void;
+        /**
+         * Gets or sets the selected tab of the view
+         **/
+        /**
+         * Gets or sets the selected tab of the view
+         **/
+        selectedTab: TabItem;
+        /**
+         * Gets the side where content should be relative to the tabs
+         * @returns {Side}
+         */
+        /**
+         * Sets the side where content should be relative to the tabs
+         * @param value
+         */
+        contentSide: Side;
+    }
+}
+declare module latte {
+    /**
      * Toolbar specialized on showing tabs.
      *
      * This toolbar is necessary because of the rendering styles applied to tabs to make the
@@ -4641,28 +4641,6 @@ declare module latte {
          * Gets or sets the View inside this item
          **/
         view: View;
-    }
-}
-declare module latte {
-    /**
-     * Represents a column header
-     **/
-    class ColumnHeader extends LabelItem {
-        /**
-         *
-         **/
-        private _width;
-        /**
-         * Creates the Column Header
-         **/
-        constructor(text?: string, width?: number);
-        /**
-         * Gets or sets the width of the column
-         **/
-        /**
-         * Gets or sets the width of the column
-         **/
-        width: number;
     }
 }
 declare module latte {
@@ -4811,6 +4789,28 @@ declare module latte {
          * Gets or sets the title of the widget
          **/
         title: string;
+    }
+}
+declare module latte {
+    /**
+     * Represents a column header
+     **/
+    class ColumnHeader extends LabelItem {
+        /**
+         *
+         **/
+        private _width;
+        /**
+         * Creates the Column Header
+         **/
+        constructor(text?: string, width?: number);
+        /**
+         * Gets or sets the width of the column
+         **/
+        /**
+         * Gets or sets the width of the column
+         **/
+        width: number;
     }
 }
 declare module latte {
@@ -5203,6 +5203,16 @@ declare module latte {
      * Renders an Item that may contains more <c>TreeItem</c>s and shows them as a tree.
      **/
     class TreeItem extends Item {
+        /**
+         * Global level expand glyph loader
+         * @type {any}
+         */
+        static globalExpandGlyph: (item: TreeItem) => IconItem;
+        /**
+         * Global level collapse glyph loader
+         * @type {any}
+         */
+        static globalCollapseGlyph: (item: TreeItem) => IconItem;
         /**
          *
          **/
@@ -5666,28 +5676,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Label with value property
-     **/
-    class LabelValueItem extends ValueItem {
-        /**
-         * Label for text displaying
-         **/
-        label: LabelItem;
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Gets or sets the value
-         **/
-        /**
-         * Gets or sets the value
-         **/
-        value: any;
-    }
-}
-declare module latte {
-    /**
      * Renders an item to input data from user.
      **/
     class InputItem extends ValueItem {
@@ -5930,6 +5918,28 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Label with value property
+     **/
+    class LabelValueItem extends ValueItem {
+        /**
+         * Label for text displaying
+         **/
+        label: LabelItem;
+        /**
+         *
+         **/
+        constructor();
+        /**
+         * Gets or sets the value
+         **/
+        /**
+         * Gets or sets the value
+         **/
+        value: any;
+    }
+}
+declare module latte {
+    /**
      * Represents a progress bar
      **/
     class ProgressItem extends ValueItem {
@@ -6144,22 +6154,6 @@ declare module latte {
          * @returns {HTMLElement}
          */
         orb: HTMLElement;
-    }
-}
-declare module latte {
-    /**
-     * Allows user to pick a time
-     **/
-    class TimePickerItem extends DatePickerItem {
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Gets or sets the value of the item
-         **/
-        getValue(): TimeSpan;
-        setValue(value: TimeSpan): void;
     }
 }
 declare module latte {
@@ -6475,6 +6469,22 @@ declare module latte {
          * Gets or sets the width of the textbox.
          **/
         width: number;
+    }
+}
+declare module latte {
+    /**
+     * Allows user to pick a time
+     **/
+    class TimePickerItem extends DatePickerItem {
+        /**
+         *
+         **/
+        constructor();
+        /**
+         * Gets or sets the value of the item
+         **/
+        getValue(): TimeSpan;
+        setValue(value: TimeSpan): void;
     }
 }
 /**
@@ -7327,63 +7337,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * View for choosing dates or date ranges.
-
-     The <c>DateItem</c> used inside the view adapts its <c>rows</c> and <c>columns</c> to take advantage of the view area.
-     **/
-    class DateView extends View {
-        /**
-         *
-         **/
-        private _useWorkWeek;
-        /**
-         * DateItem for date choosing.
-         **/
-        dateItem: DateItem;
-        /**
-         * Button for activating day selection mode.
-         **/
-        dayButton: ButtonItem;
-        /**
-         * Button for activating month selection mode.
-         **/
-        monthButton: ButtonItem;
-        /**
-         * Button for activating week selection mode.
-         **/
-        weekButton: ButtonItem;
-        /**
-         * Button for activating work week selection mode.
-         **/
-        workWeekButton: ButtonItem;
-        /**
-         * Creates the view
-         **/
-        constructor();
-        /**
-         * Hides the selection mode buttons
-         **/
-        hideButtons(): void;
-        /**
-         * Overriden
-         **/
-        onLayout(): void;
-        /**
-         * Layout of buttons
-         **/
-        onLayoutButtons(): void;
-        /**
-         * Shows the selection mode buttons
-         **/
-        showButtons(): void;
-        /**
-         * Updates the selection mode indicators
-         **/
-        updateSelectionMode(): void;
-    }
-}
-declare module latte {
-    /**
      * Shows items in calendar arrangement views
      **/
     class CalendarView extends SplitView {
@@ -7607,28 +7560,59 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Provides a view that contains just HTML
-     <example><code><span style="color: #000000">
-     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
-     </span>
-     </code></example>
+     * View for choosing dates or date ranges.
+
+     The <c>DateItem</c> used inside the view adapts its <c>rows</c> and <c>columns</c> to take advantage of the view area.
      **/
-    class HtmlView extends View {
+    class DateView extends View {
         /**
-         * Creates the view with HTML or jQuery elements
+         *
          **/
-        constructor(html: any);
+        private _useWorkWeek;
         /**
-         * Appends elements to the HTML view DOM
+         * DateItem for date choosing.
          **/
-        append(element: JQuery): void;
+        dateItem: DateItem;
         /**
-         * Gets or sets the html of the view
+         * Button for activating day selection mode.
          **/
+        dayButton: ButtonItem;
         /**
-         * Gets or sets the html of the view
+         * Button for activating month selection mode.
          **/
-        html: string;
+        monthButton: ButtonItem;
+        /**
+         * Button for activating week selection mode.
+         **/
+        weekButton: ButtonItem;
+        /**
+         * Button for activating work week selection mode.
+         **/
+        workWeekButton: ButtonItem;
+        /**
+         * Creates the view
+         **/
+        constructor();
+        /**
+         * Hides the selection mode buttons
+         **/
+        hideButtons(): void;
+        /**
+         * Overriden
+         **/
+        onLayout(): void;
+        /**
+         * Layout of buttons
+         **/
+        onLayoutButtons(): void;
+        /**
+         * Shows the selection mode buttons
+         **/
+        showButtons(): void;
+        /**
+         * Updates the selection mode indicators
+         **/
+        updateSelectionMode(): void;
     }
 }
 declare module latte {
@@ -7721,6 +7705,32 @@ declare module latte {
          * @returns {LabelItem}
          */
         titleLabel: LabelItem;
+    }
+}
+declare module latte {
+    /**
+     * Provides a view that contains just HTML
+     <example><code><span style="color: #000000">
+     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
+     </span>
+     </code></example>
+     **/
+    class HtmlView extends View {
+        /**
+         * Creates the view with HTML or jQuery elements
+         **/
+        constructor(html: any);
+        /**
+         * Appends elements to the HTML view DOM
+         **/
+        append(element: JQuery): void;
+        /**
+         * Gets or sets the html of the view
+         **/
+        /**
+         * Gets or sets the html of the view
+         **/
+        html: string;
     }
 }
 declare module latte {

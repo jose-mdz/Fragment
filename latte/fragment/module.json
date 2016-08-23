@@ -30,6 +30,11 @@
   , "actions/launcher.php"
   , "actions/upload64.php"
   , "fonts/avenir-next-thin.woff"
+  , "fonts/Linearicons-Free.eot"
+  , "fonts/Linearicons-Free.svg"
+  , "fonts/Linearicons-Free.ttf"
+  , "fonts/Linearicons-Free.woff"
+  , "fonts/Linearicons-Free.woff2"
   , "imgs/fragment-logo.png"
   , "imgs/triangle-white.png"
   ]

@@ -3,35 +3,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var latte;
-(function (latte) {
-    /**
-     * Represents selection modes for DateItem
-     **/
-    (function (DateSelectionMode) {
-        /**
-         * Single day
-         **/
-        DateSelectionMode[DateSelectionMode["DAY"] = 0] = "DAY";
-        /**
-         * No side specified so let to user selection
-         **/
-        DateSelectionMode[DateSelectionMode["MANUAL"] = 1] = "MANUAL";
-        /**
-         * Month
-         **/
-        DateSelectionMode[DateSelectionMode["MONTH"] = 2] = "MONTH";
-        /**
-         * Week
-         **/
-        DateSelectionMode[DateSelectionMode["WEEK"] = 3] = "WEEK";
-        /**
-         * Work week
-         **/
-        DateSelectionMode[DateSelectionMode["WORKWEEK"] = 4] = "WORKWEEK";
-    })(latte.DateSelectionMode || (latte.DateSelectionMode = {}));
-    var DateSelectionMode = latte.DateSelectionMode;
-})(latte || (latte = {}));
 /// jQuery Rectangle plugin
 (function ($) {
     $['fn'].rectangle = function (rect, relative) {
@@ -78,6 +49,56 @@ $.fn.instance = function () { return this.data('instance'); };
 var latte;
 (function (latte) {
     /**
+     * Represents selection modes for DateItem
+     **/
+    (function (DateSelectionMode) {
+        /**
+         * Single day
+         **/
+        DateSelectionMode[DateSelectionMode["DAY"] = 0] = "DAY";
+        /**
+         * No side specified so let to user selection
+         **/
+        DateSelectionMode[DateSelectionMode["MANUAL"] = 1] = "MANUAL";
+        /**
+         * Month
+         **/
+        DateSelectionMode[DateSelectionMode["MONTH"] = 2] = "MONTH";
+        /**
+         * Week
+         **/
+        DateSelectionMode[DateSelectionMode["WEEK"] = 3] = "WEEK";
+        /**
+         * Work week
+         **/
+        DateSelectionMode[DateSelectionMode["WORKWEEK"] = 4] = "WORKWEEK";
+    })(latte.DateSelectionMode || (latte.DateSelectionMode = {}));
+    var DateSelectionMode = latte.DateSelectionMode;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Possible Directions
+     **/
+    (function (Direction) {
+        /**
+         * Horizontal direction
+         **/
+        Direction[Direction["HORIZONTAL"] = 0] = "HORIZONTAL";
+        /**
+         * Vertical direction
+         **/
+        Direction[Direction["VERTICAL"] = 1] = "VERTICAL";
+        /**
+         * Non established direction
+         */
+        Direction[Direction["NONE"] = 2] = "NONE";
+    })(latte.Direction || (latte.Direction = {}));
+    var Direction = latte.Direction;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * Enumerates sides of objects
      **/
     (function (Side) {
@@ -103,27 +124,6 @@ var latte;
         Side[Side["TOP"] = 32] = "TOP";
     })(latte.Side || (latte.Side = {}));
     var Side = latte.Side;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Possible Directions
-     **/
-    (function (Direction) {
-        /**
-         * Horizontal direction
-         **/
-        Direction[Direction["HORIZONTAL"] = 0] = "HORIZONTAL";
-        /**
-         * Vertical direction
-         **/
-        Direction[Direction["VERTICAL"] = 1] = "VERTICAL";
-        /**
-         * Non established direction
-         */
-        Direction[Direction["NONE"] = 2] = "NONE";
-    })(latte.Direction || (latte.Direction = {}));
-    var Direction = latte.Direction;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -3208,6 +3208,7 @@ var latte;
                     this.u = this.u;
                 if (latte._isNumber(this.v))
                     this.v = this.v;
+                this.addClass('size-' + value);
             },
             enumerable: true,
             configurable: true
@@ -9410,239 +9411,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Stack of items. It unselects siblings when a selectable within is selected
-     */
-    var SelectableStack = (function (_super) {
-        __extends(SelectableStack, _super);
-        /**
-         * Creates the item
-         */
-        function SelectableStack() {
-            _super.call(this);
-            this._selectedItem = null;
-            this.element.addClass('selectable');
-        }
-        /**
-         * Clears the current selection
-         */
-        SelectableStack.prototype.clearSelection = function () {
-            for (var i = 0; i < this.items.length; i++) {
-                if (this.items[i] instanceof latte.SelectableItem) {
-                    this.items[i].selected = false;
-                }
-            }
-            this._selectedItem = null;
-            this.onSelectedItemChanged();
-        };
-        /**
-         * Adds selection handlers
-         * @param item
-         */
-        SelectableStack.prototype.onAddItem = function (item) {
-            var _this = this;
-            _super.prototype.onAddItem.call(this, item);
-            // Add seleciton hook
-            if (item instanceof latte.SelectableItem) {
-                var sel = item;
-                sel.selectedChanged.add(function () {
-                    if (sel.selected) {
-                        _this._selectedItem = sel;
-                        _this.onSelectedItemChanged();
-                        for (var i = 0; i < _this.items.length; i++) {
-                            if (_this.items[i] !== item && _this.items[i] instanceof latte.SelectableItem) {
-                                _this.items[i].selected = false;
-                            }
-                        }
-                    }
-                });
-            }
-        };
-        /**
-         * Raises the <c>selectedItemChanged</c> event
-         */
-        SelectableStack.prototype.onSelectedItemChanged = function () {
-            if (this._selectedItemChanged instanceof latte.LatteEvent) {
-                this._selectedItemChanged.raise();
-            }
-        };
-        Object.defineProperty(SelectableStack.prototype, "selectedItem", {
-            /**
-             * Gets the selected item of the stack
-             *
-             * @returns {SelectableItem}
-             */
-            get: function () {
-                return this._selectedItem;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(SelectableStack.prototype, "selectedItemChanged", {
-            /**
-             * Gets an event raised when
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._selectedItemChanged) {
-                    this._selectedItemChanged = new latte.LatteEvent(this);
-                }
-                return this._selectedItemChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return SelectableStack;
-    }(latte.ItemStack));
-    latte.SelectableStack = SelectableStack;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    var TabContainer = (function (_super) {
-        __extends(TabContainer, _super);
-        function TabContainer() {
-            var _this = this;
-            _super.call(this);
-            this.element.addClass('tab-container');
-            // Create elements
-            this.tabToolbar = new latte.TabToolbar();
-            this.tabToolbar.faceVisible = false;
-            // Init collections
-            this.tabs = new latte.Collection(this.onTabAdded, this.onTabRemoved, this);
-            this.content = new latte.Collection(this.onContentAdded, this.onContentRemoved, this);
-            // Init events
-            this.selectedTabChanged = new latte.LatteEvent(this);
-            this.tabToolbar.selectedTabChanged.add(function () {
-                _this.onSelectedTabChanged();
-            });
-        }
-        TabContainer.prototype.updateVisibility = function () {
-            var index = this.tabs.indexOf(this.selectedTab);
-            var item = this.content[index];
-            for (var i = 0; i < this.content.length; i++) {
-                var checker = this.content[i];
-                if (checker === item) {
-                    checker.element.show();
-                }
-                else {
-                    checker.element.hide();
-                }
-            }
-        };
-        /**
-         *
-         **/
-        TabContainer.prototype.onTabAdded = function (tab) {
-            this.tabToolbar.tabs.add(tab);
-            this.onLayout();
-        };
-        /**
-         *
-         **/
-        TabContainer.prototype.onTabRemoved = function (tab) {
-            this.tabToolbar.tabs.remove(tab);
-        };
-        /**
-         *
-         * @param item
-         */
-        TabContainer.prototype.onContentAdded = function (item) {
-            this.contentSide = this.contentSide;
-            item.addClass('content');
-        };
-        /**
-         *
-         * @param item
-         */
-        TabContainer.prototype.onContentRemoved = function (item) {
-            //            this.contentSide = this.contentSide;
-        };
-        /**
-         * Raises the <c>selectedTabChanged</c> event
-         **/
-        TabContainer.prototype.onSelectedTabChanged = function () {
-            this.updateVisibility();
-            this.selectedTabChanged.raise();
-        };
-        Object.defineProperty(TabContainer.prototype, "selectedTab", {
-            /**
-             * Gets or sets the selected tab of the view
-             **/
-            get: function () {
-                return this.tabToolbar.selectedTab;
-            },
-            /**
-             * Gets or sets the selected tab of the view
-             **/
-            set: function (value) {
-                this.tabToolbar.selectedTab = value;
-                this.onSelectedTabChanged();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TabContainer.prototype, "contentSide", {
-            /**
-             * Gets the side where content should be relative to the tabs
-             * @returns {Side}
-             */
-            get: function () {
-                return this.tabToolbar.contentSide;
-            },
-            /**
-             * Sets the side where content should be relative to the tabs
-             * @param value
-             */
-            set: function (value) {
-                var _this = this;
-                this.tabToolbar.contentSide = value;
-                // Clear classes
-                this.element.removeClass('content-at-top content-at-bottom content-at-left content-at-right');
-                // Set class
-                switch (value) {
-                    case latte.Side.TOP:
-                        this.element.addClass('content-at-top');
-                        break;
-                    case latte.Side.BOTTOM:
-                        this.element.addClass('content-at-bottom');
-                        break;
-                    case latte.Side.LEFT:
-                        this.element.addClass('content-at-left');
-                        break;
-                    case latte.Side.RIGHT:
-                        this.element.addClass('content-at-right');
-                        break;
-                }
-                // Clear stack items
-                this.items.clear();
-                var addViews = function () {
-                    for (var i = 0; i < _this.content.length; i++) {
-                        _this.items.add(_this.content[i]);
-                    }
-                };
-                if (value == latte.Side.BOTTOM) {
-                    // Toolbar first
-                    this.items.add(this.tabToolbar);
-                    // Add views
-                    addViews();
-                }
-                else if (value == latte.Side.TOP) {
-                    // Views first
-                    addViews();
-                    // Toolbar last
-                    this.items.add(this.tabToolbar);
-                }
-                this.updateVisibility();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return TabContainer;
-    }(latte.ItemStack));
-    latte.TabContainer = TabContainer;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * Renders a Ribbon.
 
      Ribbons are toolbars with tabbed views of tools and a button called <c>startButton</c>.
@@ -10000,6 +9768,239 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Stack of items. It unselects siblings when a selectable within is selected
+     */
+    var SelectableStack = (function (_super) {
+        __extends(SelectableStack, _super);
+        /**
+         * Creates the item
+         */
+        function SelectableStack() {
+            _super.call(this);
+            this._selectedItem = null;
+            this.element.addClass('selectable');
+        }
+        /**
+         * Clears the current selection
+         */
+        SelectableStack.prototype.clearSelection = function () {
+            for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i] instanceof latte.SelectableItem) {
+                    this.items[i].selected = false;
+                }
+            }
+            this._selectedItem = null;
+            this.onSelectedItemChanged();
+        };
+        /**
+         * Adds selection handlers
+         * @param item
+         */
+        SelectableStack.prototype.onAddItem = function (item) {
+            var _this = this;
+            _super.prototype.onAddItem.call(this, item);
+            // Add seleciton hook
+            if (item instanceof latte.SelectableItem) {
+                var sel = item;
+                sel.selectedChanged.add(function () {
+                    if (sel.selected) {
+                        _this._selectedItem = sel;
+                        _this.onSelectedItemChanged();
+                        for (var i = 0; i < _this.items.length; i++) {
+                            if (_this.items[i] !== item && _this.items[i] instanceof latte.SelectableItem) {
+                                _this.items[i].selected = false;
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        /**
+         * Raises the <c>selectedItemChanged</c> event
+         */
+        SelectableStack.prototype.onSelectedItemChanged = function () {
+            if (this._selectedItemChanged instanceof latte.LatteEvent) {
+                this._selectedItemChanged.raise();
+            }
+        };
+        Object.defineProperty(SelectableStack.prototype, "selectedItem", {
+            /**
+             * Gets the selected item of the stack
+             *
+             * @returns {SelectableItem}
+             */
+            get: function () {
+                return this._selectedItem;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SelectableStack.prototype, "selectedItemChanged", {
+            /**
+             * Gets an event raised when
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._selectedItemChanged) {
+                    this._selectedItemChanged = new latte.LatteEvent(this);
+                }
+                return this._selectedItemChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return SelectableStack;
+    }(latte.ItemStack));
+    latte.SelectableStack = SelectableStack;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    var TabContainer = (function (_super) {
+        __extends(TabContainer, _super);
+        function TabContainer() {
+            var _this = this;
+            _super.call(this);
+            this.element.addClass('tab-container');
+            // Create elements
+            this.tabToolbar = new latte.TabToolbar();
+            this.tabToolbar.faceVisible = false;
+            // Init collections
+            this.tabs = new latte.Collection(this.onTabAdded, this.onTabRemoved, this);
+            this.content = new latte.Collection(this.onContentAdded, this.onContentRemoved, this);
+            // Init events
+            this.selectedTabChanged = new latte.LatteEvent(this);
+            this.tabToolbar.selectedTabChanged.add(function () {
+                _this.onSelectedTabChanged();
+            });
+        }
+        TabContainer.prototype.updateVisibility = function () {
+            var index = this.tabs.indexOf(this.selectedTab);
+            var item = this.content[index];
+            for (var i = 0; i < this.content.length; i++) {
+                var checker = this.content[i];
+                if (checker === item) {
+                    checker.element.show();
+                }
+                else {
+                    checker.element.hide();
+                }
+            }
+        };
+        /**
+         *
+         **/
+        TabContainer.prototype.onTabAdded = function (tab) {
+            this.tabToolbar.tabs.add(tab);
+            this.onLayout();
+        };
+        /**
+         *
+         **/
+        TabContainer.prototype.onTabRemoved = function (tab) {
+            this.tabToolbar.tabs.remove(tab);
+        };
+        /**
+         *
+         * @param item
+         */
+        TabContainer.prototype.onContentAdded = function (item) {
+            this.contentSide = this.contentSide;
+            item.addClass('content');
+        };
+        /**
+         *
+         * @param item
+         */
+        TabContainer.prototype.onContentRemoved = function (item) {
+            //            this.contentSide = this.contentSide;
+        };
+        /**
+         * Raises the <c>selectedTabChanged</c> event
+         **/
+        TabContainer.prototype.onSelectedTabChanged = function () {
+            this.updateVisibility();
+            this.selectedTabChanged.raise();
+        };
+        Object.defineProperty(TabContainer.prototype, "selectedTab", {
+            /**
+             * Gets or sets the selected tab of the view
+             **/
+            get: function () {
+                return this.tabToolbar.selectedTab;
+            },
+            /**
+             * Gets or sets the selected tab of the view
+             **/
+            set: function (value) {
+                this.tabToolbar.selectedTab = value;
+                this.onSelectedTabChanged();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TabContainer.prototype, "contentSide", {
+            /**
+             * Gets the side where content should be relative to the tabs
+             * @returns {Side}
+             */
+            get: function () {
+                return this.tabToolbar.contentSide;
+            },
+            /**
+             * Sets the side where content should be relative to the tabs
+             * @param value
+             */
+            set: function (value) {
+                var _this = this;
+                this.tabToolbar.contentSide = value;
+                // Clear classes
+                this.element.removeClass('content-at-top content-at-bottom content-at-left content-at-right');
+                // Set class
+                switch (value) {
+                    case latte.Side.TOP:
+                        this.element.addClass('content-at-top');
+                        break;
+                    case latte.Side.BOTTOM:
+                        this.element.addClass('content-at-bottom');
+                        break;
+                    case latte.Side.LEFT:
+                        this.element.addClass('content-at-left');
+                        break;
+                    case latte.Side.RIGHT:
+                        this.element.addClass('content-at-right');
+                        break;
+                }
+                // Clear stack items
+                this.items.clear();
+                var addViews = function () {
+                    for (var i = 0; i < _this.content.length; i++) {
+                        _this.items.add(_this.content[i]);
+                    }
+                };
+                if (value == latte.Side.BOTTOM) {
+                    // Toolbar first
+                    this.items.add(this.tabToolbar);
+                    // Add views
+                    addViews();
+                }
+                else if (value == latte.Side.TOP) {
+                    // Views first
+                    addViews();
+                    // Toolbar last
+                    this.items.add(this.tabToolbar);
+                }
+                this.updateVisibility();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return TabContainer;
+    }(latte.ItemStack));
+    latte.TabContainer = TabContainer;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * Toolbar specialized on showing tabs.
      *
      * This toolbar is necessary because of the rendering styles applied to tabs to make the
@@ -10204,49 +10205,6 @@ var latte;
         return ViewItem;
     }(latte.Item));
     latte.ViewItem = ViewItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Represents a column header
-     **/
-    var ColumnHeader = (function (_super) {
-        __extends(ColumnHeader, _super);
-        /**
-         * Creates the Column Header
-         **/
-        function ColumnHeader(text, width) {
-            if (text === void 0) { text = ''; }
-            if (width === void 0) { width = 150; }
-            _super.call(this);
-            /**
-             *
-             **/
-            this._width = 150;
-            this.element.addClass('column-header');
-            this.width = width;
-            this.text = text;
-        }
-        Object.defineProperty(ColumnHeader.prototype, "width", {
-            /**
-             * Gets or sets the width of the column
-             **/
-            get: function () {
-                return this._width;
-            },
-            /**
-             * Gets or sets the width of the column
-             **/
-            set: function (value) {
-                this._width = value;
-                this.element.width(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ColumnHeader;
-    }(latte.LabelItem));
-    latte.ColumnHeader = ColumnHeader;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -10478,6 +10436,49 @@ var latte;
         return WidgetItem;
     }(latte.Item));
     latte.WidgetItem = WidgetItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Represents a column header
+     **/
+    var ColumnHeader = (function (_super) {
+        __extends(ColumnHeader, _super);
+        /**
+         * Creates the Column Header
+         **/
+        function ColumnHeader(text, width) {
+            if (text === void 0) { text = ''; }
+            if (width === void 0) { width = 150; }
+            _super.call(this);
+            /**
+             *
+             **/
+            this._width = 150;
+            this.element.addClass('column-header');
+            this.width = width;
+            this.text = text;
+        }
+        Object.defineProperty(ColumnHeader.prototype, "width", {
+            /**
+             * Gets or sets the width of the column
+             **/
+            get: function () {
+                return this._width;
+            },
+            /**
+             * Gets or sets the width of the column
+             **/
+            set: function (value) {
+                this._width = value;
+                this.element.width(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ColumnHeader;
+    }(latte.LabelItem));
+    latte.ColumnHeader = ColumnHeader;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -11187,6 +11188,7 @@ var latte;
         function TreeItem() {
             var _this = this;
             _super.call(this);
+            //endregion
             /**
              *
              **/
@@ -11202,7 +11204,10 @@ var latte;
             this.loadItems = new latte.LatteEvent(this);
             this.selectedChanged = new latte.LatteEvent(this);
             // Update glyph when loadItems handler is added
-            this.loadItems.handlerAdded.add(function () { _this.glyph = latte.Glyph.expand; });
+            this.loadItems.handlerAdded.add(function () {
+                //this.glyph = Glyph.expand;
+                _this._updateGlyph();
+            });
             this.element.addClass('tree-item');
             this.faceElement = latte.Item.selectable().appendTo(this.element);
             this.levelElement = $('<div>').addClass('level').appendTo(this.faceElement);
@@ -11245,25 +11250,37 @@ var latte;
         TreeItem.prototype._updateGlyph = function () {
             if (this.hasItems) {
                 if (this.expanded) {
-                    if (this.treeView && this.treeView.defaultGlyphCollapse) {
-                        if (this.selected && this.treeView.defaultGlyphCollapseSelected)
-                            this.glyph = this.treeView.defaultGlyphCollapseSelected.clone();
-                        else
-                            this.glyph = this.treeView.defaultGlyphCollapse.clone();
+                    if (TreeItem.globalCollapseGlyph) {
+                        this.glyph = TreeItem.globalCollapseGlyph(this);
                     }
                     else {
-                        this.glyph = latte.Glyph.collapse;
+                        if (this.treeView && this.treeView.defaultGlyphCollapse) {
+                            if (this.selected && this.treeView.defaultGlyphCollapseSelected)
+                                this.glyph = this.treeView.defaultGlyphCollapseSelected.clone();
+                            else
+                                this.glyph = this.treeView.defaultGlyphCollapse.clone();
+                        }
+                        else {
+                            this.glyph = latte.Glyph.collapse;
+                        }
                     }
                 }
                 else {
-                    if (this.treeView && this.treeView.defaultGlyphExpand) {
-                        if (this.selected && this.treeView.defaultGlyphExpandSelected)
-                            this.glyph = this.treeView.defaultGlyphExpandSelected.clone();
-                        else
-                            this.glyph = this.treeView.defaultGlyphExpand.clone();
+                    if (TreeItem.globalExpandGlyph) {
+                        this.glyph = TreeItem.globalExpandGlyph(this);
                     }
                     else {
-                        this.glyph = latte.Glyph.expand;
+                        if (this.treeView && this.treeView.defaultGlyphExpand) {
+                            if (this.selected && this.treeView.defaultGlyphExpandSelected)
+                                this.glyph = this.treeView.defaultGlyphExpandSelected.clone();
+                            else
+                                debugger;
+                            this.glyph = this.treeView.defaultGlyphExpand.clone();
+                        }
+                        else {
+                            // debugger;
+                            this.glyph = latte.Glyph.expand;
+                        }
                     }
                 }
             }
@@ -11584,6 +11601,17 @@ var latte;
             enumerable: true,
             configurable: true
         });
+        //region Static
+        /**
+         * Global level expand glyph loader
+         * @type {any}
+         */
+        TreeItem.globalExpandGlyph = null;
+        /**
+         * Global level collapse glyph loader
+         * @type {any}
+         */
+        TreeItem.globalCollapseGlyph = null;
         return TreeItem;
     }(latte.Item));
     latte.TreeItem = TreeItem;
@@ -12169,42 +12197,6 @@ var latte;
         return FlagsValueItem;
     }(latte.ValueItem));
     latte.FlagsValueItem = FlagsValueItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Label with value property
-     **/
-    var LabelValueItem = (function (_super) {
-        __extends(LabelValueItem, _super);
-        /**
-         *
-         **/
-        function LabelValueItem() {
-            _super.call(this);
-            this.element.addClass('label-value');
-            this.label = new latte.LabelItem();
-            this.label.appendTo(this.element);
-        }
-        Object.defineProperty(LabelValueItem.prototype, "value", {
-            /**
-             * Gets or sets the value
-             **/
-            get: function () {
-                return this.label.text;
-            },
-            /**
-             * Gets or sets the value
-             **/
-            set: function (value) {
-                this.label.text = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return LabelValueItem;
-    }(latte.ValueItem));
-    latte.LabelValueItem = LabelValueItem;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -12840,6 +12832,42 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Label with value property
+     **/
+    var LabelValueItem = (function (_super) {
+        __extends(LabelValueItem, _super);
+        /**
+         *
+         **/
+        function LabelValueItem() {
+            _super.call(this);
+            this.element.addClass('label-value');
+            this.label = new latte.LabelItem();
+            this.label.appendTo(this.element);
+        }
+        Object.defineProperty(LabelValueItem.prototype, "value", {
+            /**
+             * Gets or sets the value
+             **/
+            get: function () {
+                return this.label.text;
+            },
+            /**
+             * Gets or sets the value
+             **/
+            set: function (value) {
+                this.label.text = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return LabelValueItem;
+    }(latte.ValueItem));
+    latte.LabelValueItem = LabelValueItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * Represents a progress bar
      **/
     var ProgressItem = (function (_super) {
@@ -13325,36 +13353,6 @@ var latte;
         return SwitchItem;
     }(latte.ValueItem));
     latte.SwitchItem = SwitchItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Allows user to pick a time
-     **/
-    var TimePickerItem = (function (_super) {
-        __extends(TimePickerItem, _super);
-        /**
-         *
-         **/
-        function TimePickerItem() {
-            _super.call(this);
-            this.element.addClass('time-picker');
-            this.dateVisible = false;
-            this.timeVisible = true;
-        }
-        /**
-         * Gets or sets the value of the item
-         **/
-        TimePickerItem.prototype.getValue = function () {
-            return this.date.timeOfDay;
-        };
-        TimePickerItem.prototype.setValue = function (value) {
-            //var timeVal = TimeSpan.fromString(value);
-            _super.prototype.setValue.call(this, new latte.DateTime(1, 1, 1, value.hours, value.minutes, value.seconds));
-        };
-        return TimePickerItem;
-    }(latte.DatePickerItem));
-    latte.TimePickerItem = TimePickerItem;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -13999,6 +13997,36 @@ var latte;
         return TextboxItem;
     }(latte.ValueItem));
     latte.TextboxItem = TextboxItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Allows user to pick a time
+     **/
+    var TimePickerItem = (function (_super) {
+        __extends(TimePickerItem, _super);
+        /**
+         *
+         **/
+        function TimePickerItem() {
+            _super.call(this);
+            this.element.addClass('time-picker');
+            this.dateVisible = false;
+            this.timeVisible = true;
+        }
+        /**
+         * Gets or sets the value of the item
+         **/
+        TimePickerItem.prototype.getValue = function () {
+            return this.date.timeOfDay;
+        };
+        TimePickerItem.prototype.setValue = function (value) {
+            //var timeVal = TimeSpan.fromString(value);
+            _super.prototype.setValue.call(this, new latte.DateTime(1, 1, 1, value.hours, value.minutes, value.seconds));
+        };
+        return TimePickerItem;
+    }(latte.DatePickerItem));
+    latte.TimePickerItem = TimePickerItem;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 3/22/15.
@@ -16296,131 +16324,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * View for choosing dates or date ranges.
-
-     The <c>DateItem</c> used inside the view adapts its <c>rows</c> and <c>columns</c> to take advantage of the view area.
-     **/
-    var DateView = (function (_super) {
-        __extends(DateView, _super);
-        /**
-         * Creates the view
-         **/
-        function DateView() {
-            //            var __this = this;
-            var _this = this;
-            // Init
-            _super.call(this);
-            this.element.addClass('date');
-            // Init items
-            this.dateItem = new latte.DateItem();
-            this.dayButton = new latte.ButtonItem();
-            this.dayButton.text = strings.day;
-            this.workWeekButton = new latte.ButtonItem();
-            this.workWeekButton.text = strings.week;
-            this.weekButton = new latte.ButtonItem();
-            this.weekButton.text = strings.fullWeek;
-            this.monthButton = new latte.ButtonItem();
-            this.monthButton.text = strings.month;
-            // Initprops
-            this.dayButton.faceVisible = false;
-            this.weekButton.faceVisible = false;
-            this.monthButton.faceVisible = false;
-            this.workWeekButton.faceVisible = false;
-            this.dayButton.element.css('opacity', .5);
-            this.weekButton.element.css('opacity', .5);
-            this.monthButton.element.css('opacity', .5);
-            this.workWeekButton.element.css('opacity', .5);
-            this.weekButton.visible = false;
-            // Init struct
-            this.dateItem.appendTo(this.container);
-            this.dayButton.appendTo(this.element);
-            this.weekButton.appendTo(this.element);
-            this.workWeekButton.appendTo(this.element);
-            this.monthButton.appendTo(this.element);
-            // Wire handlers
-            this.dateItem.selectionModeChanged.add(function () { _this.updateSelectionMode(); });
-            this.dayButton.click.add(function () { _this.dateItem.selectionMode = latte.DateSelectionMode.DAY; });
-            this.weekButton.click.add(function () { _this.dateItem.selectionMode = latte.DateSelectionMode.WEEK; });
-            this.workWeekButton.click.add(function () { _this.dateItem.selectionMode = latte.DateSelectionMode.WORKWEEK; });
-            this.monthButton.click.add(function () { _this.dateItem.selectionMode = latte.DateSelectionMode.MONTH; });
-            this.dayButton.visibleChanged.add(function () { _this.onLayout(); });
-            this.weekButton.visibleChanged.add(function () { _this.onLayout(); });
-            this.workWeekButton.visibleChanged.add(function () { _this.onLayout(); });
-            this.monthButton.visibleChanged.add(function () { _this.onLayout(); });
-        }
-        /**
-         * Hides the selection mode buttons
-         **/
-        DateView.prototype.hideButtons = function () {
-            this.weekButton.visible = false;
-            this.workWeekButton.visible = false;
-            this.monthButton.visible = false;
-            this.dayButton.visible = false;
-        };
-        /**
-         * Overriden
-         **/
-        DateView.prototype.onLayout = function () {
-            _super.prototype.onLayout.call(this);
-            this.container.css('bottom', this.dayButton.element.height() + 2);
-            var size = this.dateItem.monthSize;
-            var cols = Math.floor(this.container.width() / size.width);
-            var rows = Math.floor(this.container.height() / size.height);
-            var cont = this.container.rectangle();
-            cont.top = 0;
-            cont.left = 0;
-            var elem = this.dateItem.element;
-            if (this.dateItem.columns != cols && cols > 0)
-                this.dateItem.columns = cols;
-            if (this.dateItem.rows != rows && rows > 0)
-                this.dateItem.rows = rows;
-            if (this.dateItem.table)
-                elem.rectangle(this.dateItem.table.rectangle().center(cont));
-            this.onLayoutButtons();
-        };
-        /**
-         * Layout of buttons
-         **/
-        DateView.prototype.onLayoutButtons = function () {
-            var btns = [];
-            if (this.dayButton.visible)
-                btns.push(this.dayButton);
-            if (this.workWeekButton.visible)
-                btns.push(this.workWeekButton);
-            if (this.weekButton.visible)
-                btns.push(this.weekButton);
-            if (this.monthButton.visible)
-                btns.push(this.monthButton);
-            var w = Math.floor(this.element.width() / btns.length);
-            for (var i = 0; i < btns.length; i++)
-                // 22 accounts for padding
-                btns[i].element.width(w - 22).css('left', w * i);
-        };
-        /**
-         * Shows the selection mode buttons
-         **/
-        DateView.prototype.showButtons = function () {
-            this.weekButton.visible = true;
-            this.workWeekButton.visible = true;
-            this.monthButton.visible = true;
-            this.dayButton.visible = true;
-        };
-        /**
-         * Updates the selection mode indicators
-         **/
-        DateView.prototype.updateSelectionMode = function () {
-            this.dayButton.checked = (this.dateItem.selectionMode == latte.DateSelectionMode.DAY);
-            this.workWeekButton.checked = (this.dateItem.selectionMode == latte.DateSelectionMode.WORKWEEK);
-            this.weekButton.checked = (this.dateItem.selectionMode == latte.DateSelectionMode.WEEK);
-            this.monthButton.checked = (this.dateItem.selectionMode == latte.DateSelectionMode.MONTH);
-        };
-        return DateView;
-    }(latte.View));
-    latte.DateView = DateView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * Shows items in calendar arrangement views
      **/
     var CalendarView = (function (_super) {
@@ -16894,50 +16797,127 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Provides a view that contains just HTML
-     <example><code><span style="color: #000000">
-     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
-     </span>
-     </code></example>
+     * View for choosing dates or date ranges.
+
+     The <c>DateItem</c> used inside the view adapts its <c>rows</c> and <c>columns</c> to take advantage of the view area.
      **/
-    var HtmlView = (function (_super) {
-        __extends(HtmlView, _super);
+    var DateView = (function (_super) {
+        __extends(DateView, _super);
         /**
-         * Creates the view with HTML or jQuery elements
+         * Creates the view
          **/
-        function HtmlView(html) {
+        function DateView() {
+            //            var __this = this;
+            var _this = this;
+            // Init
             _super.call(this);
-            this.element.addClass('html');
-            if (html instanceof jQuery)
-                this.append(html);
-            else if (typeof html == 'string')
-                this.html = html;
+            this.element.addClass('date');
+            // Init items
+            this.dateItem = new latte.DateItem();
+            this.dayButton = new latte.ButtonItem();
+            this.dayButton.text = strings.day;
+            this.workWeekButton = new latte.ButtonItem();
+            this.workWeekButton.text = strings.week;
+            this.weekButton = new latte.ButtonItem();
+            this.weekButton.text = strings.fullWeek;
+            this.monthButton = new latte.ButtonItem();
+            this.monthButton.text = strings.month;
+            // Initprops
+            this.dayButton.faceVisible = false;
+            this.weekButton.faceVisible = false;
+            this.monthButton.faceVisible = false;
+            this.workWeekButton.faceVisible = false;
+            this.dayButton.element.css('opacity', .5);
+            this.weekButton.element.css('opacity', .5);
+            this.monthButton.element.css('opacity', .5);
+            this.workWeekButton.element.css('opacity', .5);
+            this.weekButton.visible = false;
+            // Init struct
+            this.dateItem.appendTo(this.container);
+            this.dayButton.appendTo(this.element);
+            this.weekButton.appendTo(this.element);
+            this.workWeekButton.appendTo(this.element);
+            this.monthButton.appendTo(this.element);
+            // Wire handlers
+            this.dateItem.selectionModeChanged.add(function () { _this.updateSelectionMode(); });
+            this.dayButton.click.add(function () { _this.dateItem.selectionMode = latte.DateSelectionMode.DAY; });
+            this.weekButton.click.add(function () { _this.dateItem.selectionMode = latte.DateSelectionMode.WEEK; });
+            this.workWeekButton.click.add(function () { _this.dateItem.selectionMode = latte.DateSelectionMode.WORKWEEK; });
+            this.monthButton.click.add(function () { _this.dateItem.selectionMode = latte.DateSelectionMode.MONTH; });
+            this.dayButton.visibleChanged.add(function () { _this.onLayout(); });
+            this.weekButton.visibleChanged.add(function () { _this.onLayout(); });
+            this.workWeekButton.visibleChanged.add(function () { _this.onLayout(); });
+            this.monthButton.visibleChanged.add(function () { _this.onLayout(); });
         }
         /**
-         * Appends elements to the HTML view DOM
+         * Hides the selection mode buttons
          **/
-        HtmlView.prototype.append = function (element) {
-            this.container.append(element);
+        DateView.prototype.hideButtons = function () {
+            this.weekButton.visible = false;
+            this.workWeekButton.visible = false;
+            this.monthButton.visible = false;
+            this.dayButton.visible = false;
         };
-        Object.defineProperty(HtmlView.prototype, "html", {
-            /**
-             * Gets or sets the html of the view
-             **/
-            get: function () {
-                return this.container.html();
-            },
-            /**
-             * Gets or sets the html of the view
-             **/
-            set: function (value) {
-                this.container.html(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return HtmlView;
+        /**
+         * Overriden
+         **/
+        DateView.prototype.onLayout = function () {
+            _super.prototype.onLayout.call(this);
+            this.container.css('bottom', this.dayButton.element.height() + 2);
+            var size = this.dateItem.monthSize;
+            var cols = Math.floor(this.container.width() / size.width);
+            var rows = Math.floor(this.container.height() / size.height);
+            var cont = this.container.rectangle();
+            cont.top = 0;
+            cont.left = 0;
+            var elem = this.dateItem.element;
+            if (this.dateItem.columns != cols && cols > 0)
+                this.dateItem.columns = cols;
+            if (this.dateItem.rows != rows && rows > 0)
+                this.dateItem.rows = rows;
+            if (this.dateItem.table)
+                elem.rectangle(this.dateItem.table.rectangle().center(cont));
+            this.onLayoutButtons();
+        };
+        /**
+         * Layout of buttons
+         **/
+        DateView.prototype.onLayoutButtons = function () {
+            var btns = [];
+            if (this.dayButton.visible)
+                btns.push(this.dayButton);
+            if (this.workWeekButton.visible)
+                btns.push(this.workWeekButton);
+            if (this.weekButton.visible)
+                btns.push(this.weekButton);
+            if (this.monthButton.visible)
+                btns.push(this.monthButton);
+            var w = Math.floor(this.element.width() / btns.length);
+            for (var i = 0; i < btns.length; i++)
+                // 22 accounts for padding
+                btns[i].element.width(w - 22).css('left', w * i);
+        };
+        /**
+         * Shows the selection mode buttons
+         **/
+        DateView.prototype.showButtons = function () {
+            this.weekButton.visible = true;
+            this.workWeekButton.visible = true;
+            this.monthButton.visible = true;
+            this.dayButton.visible = true;
+        };
+        /**
+         * Updates the selection mode indicators
+         **/
+        DateView.prototype.updateSelectionMode = function () {
+            this.dayButton.checked = (this.dateItem.selectionMode == latte.DateSelectionMode.DAY);
+            this.workWeekButton.checked = (this.dateItem.selectionMode == latte.DateSelectionMode.WORKWEEK);
+            this.weekButton.checked = (this.dateItem.selectionMode == latte.DateSelectionMode.WEEK);
+            this.monthButton.checked = (this.dateItem.selectionMode == latte.DateSelectionMode.MONTH);
+        };
+        return DateView;
     }(latte.View));
-    latte.HtmlView = HtmlView;
+    latte.DateView = DateView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -17111,6 +17091,54 @@ var latte;
         return FormView;
     }(latte.ColumnView));
     latte.FormView = FormView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Provides a view that contains just HTML
+     <example><code><span style="color: #000000">
+     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
+     </span>
+     </code></example>
+     **/
+    var HtmlView = (function (_super) {
+        __extends(HtmlView, _super);
+        /**
+         * Creates the view with HTML or jQuery elements
+         **/
+        function HtmlView(html) {
+            _super.call(this);
+            this.element.addClass('html');
+            if (html instanceof jQuery)
+                this.append(html);
+            else if (typeof html == 'string')
+                this.html = html;
+        }
+        /**
+         * Appends elements to the HTML view DOM
+         **/
+        HtmlView.prototype.append = function (element) {
+            this.container.append(element);
+        };
+        Object.defineProperty(HtmlView.prototype, "html", {
+            /**
+             * Gets or sets the html of the view
+             **/
+            get: function () {
+                return this.container.html();
+            },
+            /**
+             * Gets or sets the html of the view
+             **/
+            set: function (value) {
+                this.container.html(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return HtmlView;
+    }(latte.View));
+    latte.HtmlView = HtmlView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -17906,10 +17934,10 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/latte.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/latte.strings.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/latte.ui.strings.d.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/DateSelectionMode.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/jQuery.functions.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/Side.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/DateSelectionMode.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/Direction.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/Side.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/Transition.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/UiElement.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/base/Item.ts" />
@@ -17947,13 +17975,13 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/FormItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/HtmlEditorCommands.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/HtmlEditorItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/Ribbon.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/SelectableStack.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/TabContainer.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/Ribbon.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/TabToolbar.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/ViewItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/ColumnHeader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/WidgetItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/ColumnHeader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/CommentItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/DateTimeLabel.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/UiText.ts" />
@@ -17965,14 +17993,14 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ComboItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/FileValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/FlagsValueItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/LabelValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/InputItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/LabelValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ProgressItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioGroup.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/SwitchItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TimePickerItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TextboxItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TimePickerItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/ItemOverlay.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/Loader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/MenuOverlay.ts" />
@@ -17982,10 +18010,10 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/anchor/ToolbarView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarDayView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarMonthView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/DateView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/HtmlView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/DateView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/FormView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/HtmlView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/ItemView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/MessageView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/TextView.ts" />

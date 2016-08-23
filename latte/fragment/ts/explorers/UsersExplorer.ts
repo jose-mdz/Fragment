@@ -53,7 +53,7 @@ module latte {
          * @Override
          */
         getIcon(): IconItem{
-            return IconItem.folderIcon()
+            return LinearIcon.users
         }
 
         /**
@@ -62,7 +62,7 @@ module latte {
          */
         getItems(): Item[]{
             return [
-                new ButtonItem(strings.newUser, IconItem.newIcon(), () => {
+                new ButtonItem(strings.newUser, LinearIcon.user, () => {
                     var r = new User();
                     DataRecordDialogView.editRecord(r, () => this.onChildrenChanged(), strings.newUser);
                 })

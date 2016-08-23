@@ -71,9 +71,9 @@ module latte {
             }
 
             if(this.expanded) {
-                this.btnFold.icon = Glyph.collapseRibbon;
+                this.btnFold.icon = LinearIcon.chevron_up;
             }else {
-                this.btnFold.icon = Glyph.expandWidget;
+                this.btnFold.icon = LinearIcon.chevron_down;
             }
         }
 
@@ -216,7 +216,7 @@ module latte {
          */
         get btnFold(): ButtonItem {
             if (!this._btnFold) {
-                this._btnFold = new ButtonItem(null, Glyph.collapseRibbon, () => this.expanded = !this.expanded);
+                this._btnFold = new ButtonItem(null, LinearIcon.chevron_up, () => this.expanded = !this.expanded);
             }
             return this._btnFold;
         }

@@ -105,17 +105,6 @@ module latte{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
         /**
          * Creates the icon
          **/
@@ -206,6 +195,7 @@ module latte{
             if(_isNumber(this.u)) this.u = this.u;
             if(_isNumber(this.v)) this.v = this.v;
 
+            this.addClass('size-' + value);
 
         }
 

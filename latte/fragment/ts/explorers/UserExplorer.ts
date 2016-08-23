@@ -121,7 +121,7 @@ module latte {
          * @Override
          */
         getIcon(): IconItem{
-            return IconItem.fileIcon()
+            return LinearIcon.user
         }
 
         //endregion
