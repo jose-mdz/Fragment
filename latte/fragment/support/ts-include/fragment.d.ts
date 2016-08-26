@@ -485,8 +485,9 @@ declare module latte {
         getConfiguration(): RemoteCall<string>;
         setConfiguration(json: string): RemoteCall<Setting>;
         getFragments(): RemoteCall<Fragment[]>;
-        getPages(page?: number, options?: any): RemoteCall<PageResult<Page>>;
+        getPages(page?: number): RemoteCall<PageResult<Page>>;
         getSettingsPack(): RemoteCall<any>;
+        sendToTrash(): RemoteCall<any>;
         setOnline(online: boolean): RemoteCall<any>;
     }
     class fileBase extends DataRecord {
@@ -979,6 +980,88 @@ declare module latte {
         onGetFields(): any;
         static getGlobal(): RemoteCall<Setting[]>;
     }
+    class groupUserBase extends DataRecord {
+        _recordType: string;
+        _moduleName: string;
+        /**
+         * Database field: int(11)
+         */
+        _idgroupuser: any;
+        /**
+         * Gets or sets the value of the idgroupuser field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idgroupuser field of type int(11)
+         */
+        idgroupuser: any;
+        /**
+         * Back field for event
+         */
+        _idgroupuserChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idgroupuser property changes
+         */
+        idgroupuserChanged: LatteEvent;
+        /**
+         * Raises the <c>idgroupuserChanged</c> event
+         */
+        onIdgroupuserChanged(): void;
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        onGetRecordIdName(): string;
+        /**
+         * Database field: int(11)
+         */
+        _idgroup: any;
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        idgroup: any;
+        /**
+         * Back field for event
+         */
+        _idgroupChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idgroup property changes
+         */
+        idgroupChanged: LatteEvent;
+        /**
+         * Raises the <c>idgroupChanged</c> event
+         */
+        onIdgroupChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _iduser: any;
+        /**
+         * Gets or sets the value of the iduser field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the iduser field of type int(11)
+         */
+        iduser: any;
+        /**
+         * Back field for event
+         */
+        _iduserChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the iduser property changes
+         */
+        iduserChanged: LatteEvent;
+        /**
+         * Raises the <c>iduserChanged</c> event
+         */
+        onIduserChanged(): void;
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        onGetFields(): any;
+        static byGroup(idgroup: number): RemoteCall<GroupUser[]>;
+    }
     class fragmentBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
@@ -1142,88 +1225,6 @@ declare module latte {
         onGetFields(): any;
         static catalog(): RemoteCall<Group[]>;
         static search(text: string): RemoteCall<Group[]>;
-    }
-    class groupUserBase extends DataRecord {
-        _recordType: string;
-        _moduleName: string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroupuser: any;
-        /**
-         * Gets or sets the value of the idgroupuser field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroupuser field of type int(11)
-         */
-        idgroupuser: any;
-        /**
-         * Back field for event
-         */
-        _idgroupuserChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroupuser property changes
-         */
-        idgroupuserChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupuserChanged</c> event
-         */
-        onIdgroupuserChanged(): void;
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        onGetRecordIdName(): string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroup: any;
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        idgroup: any;
-        /**
-         * Back field for event
-         */
-        _idgroupChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroup property changes
-         */
-        idgroupChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        onIdgroupChanged(): void;
-        /**
-         * Database field: int(11)
-         */
-        _iduser: any;
-        /**
-         * Gets or sets the value of the iduser field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the iduser field of type int(11)
-         */
-        iduser: any;
-        /**
-         * Back field for event
-         */
-        _iduserChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the iduser property changes
-         */
-        iduserChanged: LatteEvent;
-        /**
-         * Raises the <c>iduserChanged</c> event
-         */
-        onIduserChanged(): void;
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        onGetFields(): any;
-        static byGroup(idgroup: number): RemoteCall<GroupUser[]>;
     }
     class userBase extends DataRecord {
         _recordType: string;
@@ -1772,52 +1773,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Main {
-        static goMainView(): void;
-        static goSignInView(): void;
-        static logOut(): void;
-        /**
-         *
-         */
-        constructor();
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class GroupUserExplorer extends ExplorerItemDataRecord<GroupUser> {
-        /**
-         *
-         */
-        constructor(r?: GroupUser);
-        /**
-         * Gets the columns of the item
-         * @Override
-         */
-        getColumns(): string[];
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-    }
-}
-/**
  * Created by josemanuel on 8/5/16.
  */
 declare module latte {
@@ -1850,6 +1805,35 @@ declare module latte {
          * @Override
          */
         getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class GroupUserExplorer extends ExplorerItemDataRecord<GroupUser> {
+        /**
+         *
+         */
+        constructor(r?: GroupUser);
+        /**
+         * Gets the columns of the item
+         * @Override
+         */
+        getColumns(): string[];
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
     }
 }
 /**
@@ -1937,40 +1921,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PagesExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Gets the loader of children items
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
  * Created by josemanuel on 8/5/16.
  */
 declare module latte {
@@ -2013,6 +1963,57 @@ declare module latte {
          * @returns {ButtonItem}
          */
         btnChangePassword: ButtonItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PagesExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Main {
+        static goMainView(): void;
+        static goSignInView(): void;
+        static logOut(): void;
+        /**
+         *
+         */
+        constructor();
     }
 }
 /**
@@ -2576,6 +2577,34 @@ declare module latte {
  */
 declare module latte {
     /**
+     * Manages the plugins of the program
+     */
+    class PluginManager {
+        private static _plugins;
+        /**
+         * Gets the list of loaded plugins
+         *
+         * @returns {Plugin[]}
+         */
+        static getLoadedPlugins(): Plugin[];
+        /**
+         * Loads the specified plugin. If the plugin is already loaded, it will ignore it.
+         * @param p
+         */
+        static load(p: Plugin): void;
+        /**
+         * Unloads the specified plugin. Ignored if plugin wasn't loaded
+         *
+         * @param plugin
+         */
+        static unload(plugin: Plugin): void;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
+    /**
      *
      */
     class Plugin {
@@ -2611,34 +2640,6 @@ declare module latte {
          * @returns {LatteEvent}
          */
         unload: LatteEvent;
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     * Manages the plugins of the program
-     */
-    class PluginManager {
-        private static _plugins;
-        /**
-         * Gets the list of loaded plugins
-         *
-         * @returns {Plugin[]}
-         */
-        static getLoadedPlugins(): Plugin[];
-        /**
-         * Loads the specified plugin. If the plugin is already loaded, it will ignore it.
-         * @param p
-         */
-        static load(p: Plugin): void;
-        /**
-         * Unloads the specified plugin. Ignored if plugin wasn't loaded
-         *
-         * @param plugin
-         */
-        static unload(plugin: Plugin): void;
     }
 }
 /**
@@ -2722,198 +2723,6 @@ declare module latte {
          * @returns {Element<HTMLTextAreaElement>}
          */
         textbox: Element<HTMLTextAreaElement>;
-    }
-}
-/**
- * Created by josemanuel on 8/1/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class FileItem extends Item {
-        static SYS_THUMB_KEY: string;
-        static defaultThumbWidth: number;
-        static defaultThumbHeight: number;
-        /**
-         *
-         */
-        constructor(f?: latte.File);
-        /**
-         * Updates the thumb of the item.
-         */
-        private updateThumb();
-        /**
-         * Raises the <c>file</c> event
-         */
-        onFileChanged(): void;
-        /**
-         * Raises the <c>fileUploader</c> event
-         */
-        onFileUploaderChanged(): void;
-        /**
-         * Raises the <c>thumbCreated</c> event
-         */
-        onThumbCreated(): void;
-        /**
-         * Raises the <c>thumbSize</c> event
-         */
-        onThumbSizeChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _fileChanged;
-        /**
-         * Gets an event raised when the value of the file property changes
-         *
-         * @returns {LatteEvent}
-         */
-        fileChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _fileUploaderChanged;
-        /**
-         * Gets an event raised when the value of the fileUploader property changes
-         *
-         * @returns {LatteEvent}
-         */
-        fileUploaderChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _thumbCreated;
-        /**
-         * Gets an event raised when the system thumb has been created
-         *
-         * @returns {LatteEvent}
-         */
-        thumbCreated: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _thumbSizeChanged;
-        /**
-         * Gets an event raised when the value of the thumbSize property changes
-         *
-         * @returns {LatteEvent}
-         */
-        thumbSizeChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _file;
-        /**
-         * Gets or sets the latte File
-         *
-         * @returns {latte.File}
-         */
-        /**
-         * Gets or sets the latte File
-         *
-         * @param {latte.File} value
-         */
-        file: latte.File;
-        /**
-         * Property field
-         */
-        private _fileUploader;
-        /**
-         * Gets or sets the file uploader for this item. After uploading the file record will be added.
-         *
-         * @returns {FileUploader}
-         */
-        /**
-         * Gets or sets the file uploader for this item. After uploading the file record will be added.
-         *
-         * @param {FileUploader} value
-         */
-        fileUploader: FileUploader;
-        /**
-         * Property field
-         */
-        private _thumbSize;
-        /**
-         * Gets or sets the size of the thumbnail
-         *
-         * @returns {Size}
-         */
-        /**
-         * Gets or sets the size of the thumbnail
-         *
-         * @param {Size} value
-         */
-        thumbSize: Size;
-        /**
-         * Field for infoBar property
-         */
-        private _divBar;
-        /**
-         * Gets the info bar element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divBar: Element<HTMLDivElement>;
-        /**
-         * Field for divExtension property
-         */
-        private _divExtension;
-        /**
-         * Gets the extension div
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divExtension: Element<HTMLDivElement>;
-        /**
-         * Field for divName property
-         */
-        private _divName;
-        /**
-         * Gets the name element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divName: Element<HTMLDivElement>;
-        /**
-         * Field for divSize property
-         */
-        private _divSize;
-        /**
-         * Gets the size element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divSize: Element<HTMLDivElement>;
-        /**
-         * Field for thumb property
-         */
-        private _divThumb;
-        /**
-         * Gets the thumb of the item
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        divThumb: Element<HTMLDivElement>;
-        /**
-         * Field for img property
-         */
-        private _img;
-        /**
-         * Gets the image of the thumb
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        img: Element<HTMLImageElement>;
-        /**
-         * Field for progressBar property
-         */
-        private _progressBar;
-        /**
-         * Gets the progress item
-         *
-         * @returns {ProgressItem}
-         */
-        progressBar: ProgressItem;
     }
 }
 /**
@@ -3521,6 +3330,198 @@ declare module latte {
         linearIconName: string;
     }
 }
+/**
+ * Created by josemanuel on 8/1/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class FileItem extends Item {
+        static SYS_THUMB_KEY: string;
+        static defaultThumbWidth: number;
+        static defaultThumbHeight: number;
+        /**
+         *
+         */
+        constructor(f?: latte.File);
+        /**
+         * Updates the thumb of the item.
+         */
+        private updateThumb();
+        /**
+         * Raises the <c>file</c> event
+         */
+        onFileChanged(): void;
+        /**
+         * Raises the <c>fileUploader</c> event
+         */
+        onFileUploaderChanged(): void;
+        /**
+         * Raises the <c>thumbCreated</c> event
+         */
+        onThumbCreated(): void;
+        /**
+         * Raises the <c>thumbSize</c> event
+         */
+        onThumbSizeChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _fileChanged;
+        /**
+         * Gets an event raised when the value of the file property changes
+         *
+         * @returns {LatteEvent}
+         */
+        fileChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _fileUploaderChanged;
+        /**
+         * Gets an event raised when the value of the fileUploader property changes
+         *
+         * @returns {LatteEvent}
+         */
+        fileUploaderChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _thumbCreated;
+        /**
+         * Gets an event raised when the system thumb has been created
+         *
+         * @returns {LatteEvent}
+         */
+        thumbCreated: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _thumbSizeChanged;
+        /**
+         * Gets an event raised when the value of the thumbSize property changes
+         *
+         * @returns {LatteEvent}
+         */
+        thumbSizeChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _file;
+        /**
+         * Gets or sets the latte File
+         *
+         * @returns {latte.File}
+         */
+        /**
+         * Gets or sets the latte File
+         *
+         * @param {latte.File} value
+         */
+        file: latte.File;
+        /**
+         * Property field
+         */
+        private _fileUploader;
+        /**
+         * Gets or sets the file uploader for this item. After uploading the file record will be added.
+         *
+         * @returns {FileUploader}
+         */
+        /**
+         * Gets or sets the file uploader for this item. After uploading the file record will be added.
+         *
+         * @param {FileUploader} value
+         */
+        fileUploader: FileUploader;
+        /**
+         * Property field
+         */
+        private _thumbSize;
+        /**
+         * Gets or sets the size of the thumbnail
+         *
+         * @returns {Size}
+         */
+        /**
+         * Gets or sets the size of the thumbnail
+         *
+         * @param {Size} value
+         */
+        thumbSize: Size;
+        /**
+         * Field for infoBar property
+         */
+        private _divBar;
+        /**
+         * Gets the info bar element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divBar: Element<HTMLDivElement>;
+        /**
+         * Field for divExtension property
+         */
+        private _divExtension;
+        /**
+         * Gets the extension div
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divExtension: Element<HTMLDivElement>;
+        /**
+         * Field for divName property
+         */
+        private _divName;
+        /**
+         * Gets the name element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divName: Element<HTMLDivElement>;
+        /**
+         * Field for divSize property
+         */
+        private _divSize;
+        /**
+         * Gets the size element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divSize: Element<HTMLDivElement>;
+        /**
+         * Field for thumb property
+         */
+        private _divThumb;
+        /**
+         * Gets the thumb of the item
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        divThumb: Element<HTMLDivElement>;
+        /**
+         * Field for img property
+         */
+        private _img;
+        /**
+         * Gets the image of the thumb
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        img: Element<HTMLImageElement>;
+        /**
+         * Field for progressBar property
+         */
+        private _progressBar;
+        /**
+         * Gets the progress item
+         *
+         * @returns {ProgressItem}
+         */
+        progressBar: ProgressItem;
+    }
+}
 declare module latte {
     /**
      * File Record
@@ -3622,74 +3623,6 @@ declare module latte {
      * Record for table fragment
      */
     class Fragment extends fragmentBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table group
-     */
-    class Group extends groupBase {
-        /**
-         * Gets the suggestion loader
-         * @returns {*}
-         */
-        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Returns a string representation of the object
-         */
-        toString(): string;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table group_user
-     */
-    class GroupUser extends groupUserBase {
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Property field
-         */
-        private _user;
-        /**
-         * Gets or sets the user of the relationship
-         *
-         * @returns {User}
-         */
-        /**
-         * Gets or sets the user of the relationship
-         *
-         * @param {User} value
-         */
-        user: User;
-        /**
-         * Gets the users name
-         *
-         * @returns {string}
-         */
-        userName: string;
-        /**
-         * Gets the user attributes string
-         *
-         * @returns {string}
-         */
-        userAttributes: string;
     }
 }
 /**
@@ -3835,24 +3768,9 @@ declare module latte {
  */
 declare module latte {
     /**
-     * Record for table setting
+     * Record for table group
      */
-    class Setting extends settingBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table user
-     */
-    class User extends userBase {
-        static FLAG_ROOT_USER: number;
-        static FLAG_SYS_ADMIN: number;
-        static FLAG_BANNED_USER: number;
-        static FLAG_TRASH: number;
-        static me: User;
+    class Group extends groupBase {
         /**
          * Gets the suggestion loader
          * @returns {*}
@@ -3865,80 +3783,147 @@ declare module latte {
          */
         getMetadata(): IRecordMeta;
         /**
-         * Returns a value indicating if the user belongs to the specified group
-         * @param idgroup
-         * @returns {boolean}
-         */
-        inGroup(idgroup: number): boolean;
-        /**
          * Returns a string representation of the object
          */
         toString(): string;
-        /**
-         * Gets a string with attributes of the record
-         *
-         * @returns {string}
-         */
-        attributes: string;
-        /**
-         * Gets the flags as a string
-         *
-         * @returns {string}
-         */
-        flagsString: string;
-        /**
-         * Property field
-         */
-        private _groups;
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @returns {Group[]}
-         */
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @param {Group[]} value
-         */
-        groups: Group[];
-        /**
-         * Gets a value indicating if the user is banned
-         *
-         * @returns {boolean}
-         */
-        isBanned: boolean;
-        /**
-         * Gets a value indicating if user is root
-         *
-         * @returns {boolean}
-         */
-        isRoot: boolean;
-        /**
-         * Gets a value indicating if user is sys-admin
-         *
-         * @returns {boolean}
-         */
-        isSysAdmin: boolean;
-        /**
-         * Gets a value indicating if the user is trash
-         *
-         * @returns {boolean}
-         */
-        isTrash: boolean;
     }
 }
 /**
- * Created by josemanuel on 7/14/16.
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table group_user
+     */
+    class GroupUser extends groupUserBase {
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Property field
+         */
+        private _user;
+        /**
+         * Gets or sets the user of the relationship
+         *
+         * @returns {User}
+         */
+        /**
+         * Gets or sets the user of the relationship
+         *
+         * @param {User} value
+         */
+        user: User;
+        /**
+         * Gets the users name
+         *
+         * @returns {string}
+         */
+        userName: string;
+        /**
+         * Gets the user attributes string
+         *
+         * @returns {string}
+         */
+        userAttributes: string;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table setting
+     */
+    class Setting extends settingBase {
+    }
+}
+/**
+ * Created by josemanuel on 8/7/16.
  */
 declare module latte {
     /**
      *
      */
-    class CmsExplorer extends ExplorerView {
+    class PageAdvancedView extends ColumnView {
         /**
          *
          */
-        constructor();
+        constructor(r?: Page);
+        /**
+         * Override
+         */
+        onLoad(): void;
+        /**
+         * Raises the <c>page</c> event
+         */
+        onPageChanged(): void;
+        /**
+         * Raises the <c>sentToTrash</c> event
+         */
+        onSentToTrash(): void;
+        /**
+         * Sends the page to trash
+         */
+        sendToTrash(): void;
+        /**
+         * Back field for event
+         */
+        private _pageChanged;
+        /**
+         * Gets an event raised when the value of the page property changes
+         *
+         * @returns {LatteEvent}
+         */
+        pageChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _sentToTrash;
+        /**
+         * Gets an event raised when the page is sent to trash
+         *
+         * @returns {LatteEvent}
+         */
+        sentToTrash: LatteEvent;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the page of the view
+         *
+         * @returns {Page}
+         */
+        /**
+         * Gets or sets the page of the view
+         *
+         * @param {Page} value
+         */
+        page: Page;
+        /**
+         * Field for btnDelete property
+         */
+        private _btnDelete;
+        /**
+         * Gets the delete button
+         *
+         * @returns {ButtonItem}
+         */
+        btnDelete: ButtonItem;
+        /**
+         * Field for form property
+         */
+        private _form;
+        /**
+         * Gets the form item
+         *
+         * @returns {DataRecordFormItem}
+         */
+        form: DataRecordFormItem;
     }
 }
 /**
@@ -3997,107 +3982,6 @@ declare module latte {
          * @returns {Element<HTMLDivElement>}
          */
         logout: Element<HTMLDivElement>;
-    }
-}
-/**
- * Created by josemanuel on 8/7/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageAdvancedView extends ColumnView {
-        /**
-         *
-         */
-        constructor(r?: Page);
-        /**
-         * Override
-         */
-        onLoad(): void;
-        /**
-         * Raises the <c>page</c> event
-         */
-        onPageChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _pageChanged;
-        /**
-         * Gets an event raised when the value of the page property changes
-         *
-         * @returns {LatteEvent}
-         */
-        pageChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of the view
-         *
-         * @returns {Page}
-         */
-        /**
-         * Gets or sets the page of the view
-         *
-         * @param {Page} value
-         */
-        page: Page;
-        /**
-         * Field for form property
-         */
-        private _form;
-        /**
-         * Gets the form item
-         *
-         * @returns {DataRecordFormItem}
-         */
-        form: DataRecordFormItem;
-    }
-}
-/**
- * Created by josemanuel on 7/16/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageConfigurationView extends View {
-        /**
-         * Creates the view
-         */
-        constructor(r: Page);
-        /**
-         * Loads data
-         */
-        onLoad(): void;
-        getSaveCalls(): ICall[];
-        /**
-         * Field for textbox property
-         */
-        private _textbox;
-        /**
-         * Gets the textbox
-         *
-         * @returns {Textbox}
-         */
-        textbox: Element<HTMLTextAreaElement>;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of theview
-         *
-         * @returns {Page}
-         */
-        /**
-         * Gets or sets the page of theview
-         *
-         * @param {Page} value
-         */
-        page: Page;
     }
 }
 /**
@@ -4394,7 +4278,7 @@ declare module latte {
         /**
          *
          */
-        constructor(r: Page);
+        constructor(r: PageExplorer);
         /**
          * Override.
          */
@@ -4432,6 +4316,21 @@ declare module latte {
          * @param {Page} value
          */
         page: Page;
+        /**
+         * Property field
+         */
+        private _pageExplorer;
+        /**
+         * Gets or sets the page explorer
+         *
+         * @returns {PageExplorer}
+         */
+        /**
+         * Gets or sets the page explorer
+         *
+         * @param {PageExplorer} value
+         */
+        pageExplorer: PageExplorer;
         /**
          * Field for advancedView property
          */
@@ -4492,6 +4391,151 @@ declare module latte {
          * @returns {TabItem}
          */
         tabConfiguration: TabItem;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table user
+     */
+    class User extends userBase {
+        static FLAG_ROOT_USER: number;
+        static FLAG_SYS_ADMIN: number;
+        static FLAG_BANNED_USER: number;
+        static FLAG_TRASH: number;
+        static me: User;
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Returns a value indicating if the user belongs to the specified group
+         * @param idgroup
+         * @returns {boolean}
+         */
+        inGroup(idgroup: number): boolean;
+        /**
+         * Returns a string representation of the object
+         */
+        toString(): string;
+        /**
+         * Gets a string with attributes of the record
+         *
+         * @returns {string}
+         */
+        attributes: string;
+        /**
+         * Gets the flags as a string
+         *
+         * @returns {string}
+         */
+        flagsString: string;
+        /**
+         * Property field
+         */
+        private _groups;
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @returns {Group[]}
+         */
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @param {Group[]} value
+         */
+        groups: Group[];
+        /**
+         * Gets a value indicating if the user is banned
+         *
+         * @returns {boolean}
+         */
+        isBanned: boolean;
+        /**
+         * Gets a value indicating if user is root
+         *
+         * @returns {boolean}
+         */
+        isRoot: boolean;
+        /**
+         * Gets a value indicating if user is sys-admin
+         *
+         * @returns {boolean}
+         */
+        isSysAdmin: boolean;
+        /**
+         * Gets a value indicating if the user is trash
+         *
+         * @returns {boolean}
+         */
+        isTrash: boolean;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class CmsExplorer extends ExplorerView {
+        /**
+         *
+         */
+        constructor();
+    }
+}
+/**
+ * Created by josemanuel on 7/16/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageConfigurationView extends View {
+        /**
+         * Creates the view
+         */
+        constructor(r: Page);
+        /**
+         * Loads data
+         */
+        onLoad(): void;
+        getSaveCalls(): ICall[];
+        /**
+         * Field for textbox property
+         */
+        private _textbox;
+        /**
+         * Gets the textbox
+         *
+         * @returns {Textbox}
+         */
+        textbox: Element<HTMLTextAreaElement>;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the page of theview
+         *
+         * @returns {Page}
+         */
+        /**
+         * Gets or sets the page of theview
+         *
+         * @param {Page} value
+         */
+        page: Page;
     }
 }
 /**

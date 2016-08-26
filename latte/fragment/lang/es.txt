@@ -79,3 +79,4 @@ areYouSureSetPageOnline ¿Deseas poner la página en línea?
 areYouSureSetPageOnlineDesc Debido a tu nivel de permisos no te será posible hacer más cambios tras establecerla como disponible en línea.
 yesMakeOnline Sí, poner en línea
 signOut Cerrar Sesión
+sendToTrash Enviar a Basurero

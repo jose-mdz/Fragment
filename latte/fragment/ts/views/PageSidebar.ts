@@ -18,10 +18,11 @@ module latte {
         /**
          *
          */
-        constructor(r: Page) {
+        constructor(r: PageExplorer) {
             super();
 
-            this.page = r;
+            this.pageExplorer = r;
+            this.page = r.record;
 
         }
 
@@ -150,6 +151,29 @@ module latte {
             }
         }
 
+        /**
+         * Property field
+         */
+        private _pageExplorer: PageExplorer = null;
+
+        /**
+         * Gets or sets the page explorer
+         *
+         * @returns {PageExplorer}
+         */
+        get pageExplorer(): PageExplorer {
+            return this._pageExplorer;
+        }
+
+        /**
+         * Gets or sets the page explorer
+         *
+         * @param {PageExplorer} value
+         */
+        set pageExplorer(value: PageExplorer) {
+            this._pageExplorer = value;
+        }
+
         //endregion
 
         //region Components
@@ -167,6 +191,9 @@ module latte {
         get advancedView(): PageAdvancedView {
             if (!this._advancedView) {
                 this._advancedView = new PageAdvancedView(this.page);
+                this._advancedView.sentToTrash.add(() => {
+                    this.pageExplorer.explorer.refreshList();
+                });
             }
             return this._advancedView;
         }

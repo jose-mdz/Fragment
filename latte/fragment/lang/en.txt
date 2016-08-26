@@ -79,3 +79,4 @@ areYouSureSetPageOnline ¿Do you want to make the page available online?
 areYouSureSetPageOnlineDesc Because of your permissions you will not be able to make further changes.
 yesMakeOnline Yes, make available online
 signOut Sign Out
+sendToTrash Send to Trash

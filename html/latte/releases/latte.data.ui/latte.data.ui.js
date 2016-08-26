@@ -3604,8 +3604,8 @@ var latte;
          * Refreshes the children of the list
          */
         ExplorerView.prototype.refreshList = function () {
-            var item = this.listSelectedItem;
             var treeItem = this.treeView.selectedItem;
+            var item = treeItem.tag;
             item.childrenPage = this.paginator.page;
             item.onChildrenChanged();
             //this.listSelectedItem.loadChildren(() => {
@@ -3779,6 +3779,7 @@ var latte;
             get: function () {
                 if (!this._detailView) {
                     this._detailView = new latte.View();
+                    this._detailView.addClass('explorer-detail-view');
                 }
                 return this._detailView;
             },

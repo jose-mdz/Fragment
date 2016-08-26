@@ -35,6 +35,9 @@ module latte {
          */
         onLoad(){
             this.items.add(this.form);
+            if(this.page.canIWrite) {
+                this.items.add(this.btnDelete);
+            }
         }
 
         /**
@@ -47,6 +50,25 @@ module latte {
 
             this.form.record = this.page;
             this.form.readOnly = !this.page.canI(Page.PERMISSION_WRITE);
+        }
+
+        /**
+         * Raises the <c>sentToTrash</c> event
+         */
+        onSentToTrash(){
+            if(this._sentToTrash){
+                this._sentToTrash.raise();
+            }
+        }
+        /**
+         * Sends the page to trash
+         */
+        sendToTrash(){
+            DialogView.confirmDelete(this.page.title, () => {
+                this.page.sendToTrash().send(() => {
+                    this.onSentToTrash();
+                });
+            });
         }
         //endregion
 
@@ -66,6 +88,24 @@ module latte {
                 this._pageChanged = new LatteEvent(this);
             }
             return this._pageChanged;
+        }
+
+
+        /**
+         * Back field for event
+         */
+        private _sentToTrash: LatteEvent;
+
+        /**
+         * Gets an event raised when the page is sent to trash
+         *
+         * @returns {LatteEvent}
+         */
+        get sentToTrash(): LatteEvent{
+            if(!this._sentToTrash){
+                this._sentToTrash = new LatteEvent(this);
+            }
+            return this._sentToTrash;
         }
 
         //endregion
@@ -107,6 +147,26 @@ module latte {
         //endregion
 
         //region Components
+
+        /**
+         * Field for btnDelete property
+         */
+        private _btnDelete: ButtonItem;
+
+        /**
+         * Gets the delete button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnDelete(): ButtonItem {
+            if (!this._btnDelete) {
+                this._btnDelete = new ButtonItem(strings.sendToTrash, null, () => this.sendToTrash());
+                this._btnDelete.addClass('danger');
+            }
+            return this._btnDelete;
+        }
+
+
         /**
          * Field for form property
          */

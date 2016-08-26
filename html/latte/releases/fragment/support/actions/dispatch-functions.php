@@ -20,7 +20,7 @@ function fragment($key){
         $tag->addClass('fragment');
 
         // Key class
-        $tag->addClass('key');
+        $tag->addClass($key);
 
         // Content of Fragment
         if($fragment['record']){
@@ -59,7 +59,6 @@ function head(){
         ";
     }
 }
-
 
 function page(){
     global $page, $fragments;

@@ -80,3 +80,4 @@ strings.areYouSureSetPageOnline = "¿Do you want to make the page available onli
 strings.areYouSureSetPageOnlineDesc = "Because of your permissions you will not be able to make further changes.";
 strings.yesMakeOnline = "Yes, make available online";
 strings.signOut = "Sign Out";
+strings.sendToTrash = "Send to Trash";

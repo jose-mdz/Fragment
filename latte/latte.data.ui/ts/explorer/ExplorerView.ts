@@ -292,8 +292,10 @@ module latte {
          */
         refreshList(){
 
-            var item = this.listSelectedItem;
             var treeItem = this.treeView.selectedItem;
+            var item:ExplorerItem = <any>treeItem.tag;
+
+
 
             item.childrenPage = this.paginator.page;
             item.onChildrenChanged();
@@ -499,6 +501,7 @@ module latte {
         public get detailView():View {
             if (!this._detailView) {
                 this._detailView = new View();
+                this._detailView.addClass('explorer-detail-view');
             }
             return this._detailView;
         }

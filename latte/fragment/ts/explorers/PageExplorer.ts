@@ -66,7 +66,7 @@ module latte {
          * @Override
          */
         getDetailView(): View{
-            return new PageSidebar(<Page>this.record);
+            return new PageSidebar(this);
         }
 
         /**

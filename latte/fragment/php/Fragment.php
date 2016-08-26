@@ -4,4 +4,121 @@
  */
 class Fragment extends fragmentBase{
 
+    /**
+     * Gets the attributes of a DOM element like: <element attr="something">
+     * @param string $html
+     * @return mixed
+     */
+    public static function elementAttributes($html) {
+        if (!$html) {
+            return false;
+        }
+
+        // Grab the string of attributes inside an element tag.
+        $found = preg_match('#'.
+            '\s+([^>]+(?:"|\'))#',
+            $html, $matches);
+        if ($found == 1) {
+            $attribute_array = array();
+            $attribute_string = $matches[1];
+            // Match attribute-name attribute-value pairs.
+            $found = preg_match_all(
+                '#([^\s=]+)\s*=\s*(\'[^<\']*\'|"[^<"]*")#',
+                $attribute_string, $matches, PREG_SET_ORDER);
+            if ($found != 0) {
+                // Create an associative array that matches attribute
+                // names to attribute values.
+                foreach ($matches as $attribute) {
+                    $attribute_array[$attribute[1]] =
+                        substr($attribute[2], 1, -1);
+                }
+                return $attribute_array;
+            }
+        }
+        // Attributes either weren't found, or couldn't be extracted
+        // by the regular expression.
+        return false;
+    }
+
+    /**
+     * Finds the position of the first ocourrence of specified tag
+     * @param string $tagname
+     * @param string $haystack
+     * @return array
+     */
+    public static function findTagIn($tagname, $haystack){
+
+        $group = array();
+
+        preg_match("/<" . $tagname . '[\w]*[^>]*>/', $haystack, $group, PREG_OFFSET_CAPTURE);
+
+        if(sizeof($group))
+            return $group[0];
+
+        return array();
+    }
+
+    /**
+     * Finds the position of the first ocourrence of specified tag
+     * @param string $tagname
+     * @param string $haystack
+     * @return array
+     */
+    public static function findTagsIn($tagname, $haystack){
+
+        $group = array();
+
+        preg_match_all("/<" . $tagname . '[\w]*[^>]*>/', $haystack, $group);
+
+
+        if(sizeof($group))
+            return $group[0];
+
+        return array();
+    }
+
+    public function getTagsByName($name){
+        return self::findTagsIn($name, $this->value);
+    }
+
+    public function getImages(){
+        return $this->getTagsByName('img');
+    }
+
+    public function getImagesSrc(){
+        $imgs = $this->getImages();
+        $r = array();
+
+        foreach($imgs as $img){
+            $attr = self::elementAttributes($img);
+            $src = $attr['src'];
+            if($src){
+                $r[] = $src;
+            }
+        }
+
+        return $r;
+    }
+
+    public function getFirstImage(){
+        $img = self::findTagsIn('img', $this->value);
+
+        if (sizeof($img)){
+            return $img[0];
+        }else{
+            return false;
+        }
+    }
+
+    public function getFirstImageSrc(){
+        $img = $this->getFirstImage();
+
+        if ($img){
+            $atts = self::elementAttributes($img);
+            return $atts['src'];
+        }
+
+        return false;
+    }
+
 }

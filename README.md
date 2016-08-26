@@ -13,8 +13,11 @@ We are currently working on this project. Feel free to take a look around. You s
 
 ##On Development
 Next to build: 
-- Front End Support
 - Settings Zone
 - Configuration Checker
-- Install System
+- Install Wizard
 
+###Details Backend
+- Move pages to be children of other pages
+- Automatically reflect changes on both ListView and TreeView
+- Validate data of settings and other input items

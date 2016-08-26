@@ -95,8 +95,8 @@ class Page extends pageBase{
         return DL::oneOf('Page', "
             SELECT #COLUMNS
             FROM page
-            WHERE guid = '$q'
-            OR `key` = '$q'
+            WHERE (guid = '$q' OR `key` = '$q')
+            AND (flags & 1024) != 1024
         ");
     }
 
@@ -414,6 +414,7 @@ class Page extends pageBase{
 
         // Tie together sentences
         $sentencesSQL = implode("\nAND ", $sentences);
+        $sentencesSQL = $sentencesSQL ? 'AND ' . $sentencesSQL : $sentencesSQL;
         //endregion
 
         //region Convert sortBys into SQL
@@ -450,7 +451,8 @@ SELECT #COLUMNS
 FROM page
  LEFT JOIN setting on (setting.owner = 'Page' AND setting.idowner = page.idpage)
 WHERE (pworld & 1) = 1
-AND $sentencesSQL
+AND (page.flags & 1024) != 1024
+$sentencesSQL
 GROUP BY page.idpage
 ORDER BY $sortBySQL
         ";
@@ -494,19 +496,30 @@ ORDER BY $sortBySQL
         //region Retrieve Settings
         if(!is_array($settings))
             $settings = array($settings);
+
         // Get settings
         if(sizeof($settings) > 0){
 
             // Gather ids
-            $sids = implode("' OR idowner = '", $pagesIds);
+            $ids = implode("' OR idowner = '", $pagesIds);
             $snames = implode("' OR name = '", $settings);
+
+//            die("
+//                SELECT *
+//                FROM fragment
+//                WHERE (idpage = '$ids')
+//                AND (name = '$snames')
+//            ");
 
             $settingRecords = DL::arrayOf('Setting', "
                 SELECT *
-                FROM fragment
-                WHERE (idpage = '$ids')
-                AND (name = '$snames')
+                FROM setting
+                WHERE owner = 'Page'  
+                AND (idowner = '$ids')
+                AND  (name = '$snames')
             ");
+
+//            die(var_export($settingRecords));
 
             // Attach settings to pages
             foreach($settingRecords as $s){
@@ -809,10 +822,9 @@ ORDER BY $sortBySQL
      *
      * @remote
      * @param int $page Index of page
-     * @param * $options Options to load
      * @return PageResult<Page>
      */
-    public function getPages($page = 1, $options = null){
+    public function getPages($page = 1){
 
         //TODO: AQUI ME QUEDE. Implementa un search() como el de product
         // para traer Pages con Settings, Fragments,
@@ -820,6 +832,7 @@ ORDER BY $sortBySQL
 
         $ownerAnd = '';
         $orderBy = 'page.created ASC';
+        $flag_trash = self::FLAG_TRASH;
 
         // If no permission to read chilren, return only the ones where user is owner
         if(!$this->canI(self::PERMISSION_READ_CHILDREN)){
@@ -850,6 +863,7 @@ ORDER BY $sortBySQL
             FROM page
              INNER JOIN setting configurationSetting ON (configurationSetting.idowner = page.idpage AND owner = 'Page' AND configurationSetting.name = 'page-configuration')
             WHERE idparent = '$this->idpage'
+            AND flags & $flag_trash != $flag_trash
             $ownerAnd
             ORDER BY $orderBy
         ", $page);
@@ -978,6 +992,15 @@ ORDER BY $sortBySQL
      */
     public function onSaving(){
         $this->modified = DL::dateTime();
+    }
+
+    /**
+     * Sends the page to trash
+     * @remote
+     */
+    public function sendToTrash(){
+        $flags = $this->flags | self::FLAG_TRASH;
+        DL::update("UPDATE page SET flags = '$flags' WHERE idpage = '$this->idpage'");
     }
 
     /**

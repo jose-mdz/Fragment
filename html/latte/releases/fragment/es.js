@@ -80,3 +80,4 @@ strings.areYouSureSetPageOnline = "¿Deseas poner la página en línea?";
 strings.areYouSureSetPageOnlineDesc = "Debido a tu nivel de permisos no te será posible hacer más cambios tras establecerla como disponible en línea.";
 strings.yesMakeOnline = "Sí, poner en línea";
 strings.signOut = "Cerrar Sesión";
+strings.sendToTrash = "Enviar a Basurero";

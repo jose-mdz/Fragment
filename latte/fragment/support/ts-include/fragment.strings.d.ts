@@ -80,4 +80,5 @@ declare module latte{ interface Strings{
 	areYouSureSetPageOnlineDesc: string;
 	yesMakeOnline: string;
 	signOut: string;
+	sendToTrash: string;
 }}
