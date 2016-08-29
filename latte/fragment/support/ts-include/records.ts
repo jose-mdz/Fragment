@@ -10,19 +10,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idpage: any = null;
+		_idpage: number = null;
 
 		/**
 		 * Gets or sets the value of the idpage field of type int(11)
 		 */
-		get idpage(): any{
+		get idpage(): number{
 			return this._idpage;
 		}
 
 		/**
 		 * Gets or sets the value of the idpage field of type int(11)
 		 */
-		set idpage(value: any){
+		set idpage(value: number){
 			var changed: boolean = value !== this._idpage
 			this._idpage = value;
 			if(changed){ this.onIdpageChanged(); }
@@ -59,19 +59,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idparent: any = null;
+		_idparent: number = null;
 
 		/**
 		 * Gets or sets the value of the idparent field of type int(11)
 		 */
-		get idparent(): any{
+		get idparent(): number{
 			return this._idparent;
 		}
 
 		/**
 		 * Gets or sets the value of the idparent field of type int(11)
 		 */
-		set idparent(value: any){
+		set idparent(value: number){
 			var changed: boolean = value !== this._idparent
 			this._idparent = value;
 			if(changed){ this.onIdparentChanged(); }
@@ -103,19 +103,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idgroup: any = null;
+		_idgroup: number = null;
 
 		/**
 		 * Gets or sets the value of the idgroup field of type int(11)
 		 */
-		get idgroup(): any{
+		get idgroup(): number{
 			return this._idgroup;
 		}
 
 		/**
 		 * Gets or sets the value of the idgroup field of type int(11)
 		 */
-		set idgroup(value: any){
+		set idgroup(value: number){
 			var changed: boolean = value !== this._idgroup
 			this._idgroup = value;
 			if(changed){ this.onIdgroupChanged(); }
@@ -147,19 +147,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_iduser: any = null;
+		_iduser: number = null;
 
 		/**
 		 * Gets or sets the value of the iduser field of type int(11)
 		 */
-		get iduser(): any{
+		get iduser(): number{
 			return this._iduser;
 		}
 
 		/**
 		 * Gets or sets the value of the iduser field of type int(11)
 		 */
-		set iduser(value: any){
+		set iduser(value: number){
 			var changed: boolean = value !== this._iduser
 			this._iduser = value;
 			if(changed){ this.onIduserChanged(); }
@@ -191,19 +191,19 @@ module latte{
 		/**
 		 * Database field: varchar(50)
 		 */
-		_guid: any = null;
+		_guid: string = null;
 
 		/**
 		 * Gets or sets the value of the guid field of type varchar(50)
 		 */
-		get guid(): any{
+		get guid(): string{
 			return this._guid;
 		}
 
 		/**
 		 * Gets or sets the value of the guid field of type varchar(50)
 		 */
-		set guid(value: any){
+		set guid(value: string){
 			var changed: boolean = value !== this._guid
 			this._guid = value;
 			if(changed){ this.onGuidChanged(); }
@@ -235,19 +235,19 @@ module latte{
 		/**
 		 * Database field: varchar(200)
 		 */
-		_key: any = null;
+		_key: string = null;
 
 		/**
 		 * Gets or sets the value of the key field of type varchar(200)
 		 */
-		get key(): any{
+		get key(): string{
 			return this._key;
 		}
 
 		/**
 		 * Gets or sets the value of the key field of type varchar(200)
 		 */
-		set key(value: any){
+		set key(value: string){
 			var changed: boolean = value !== this._key
 			this._key = value;
 			if(changed){ this.onKeyChanged(); }
@@ -279,19 +279,19 @@ module latte{
 		/**
 		 * Database field: int(1)
 		 */
-		_trash: any = null;
+		_trash: boolean = null;
 
 		/**
 		 * Gets or sets the value of the trash field of type int(1)
 		 */
-		get trash(): any{
+		get trash(): boolean{
 			return this._trash;
 		}
 
 		/**
 		 * Gets or sets the value of the trash field of type int(1)
 		 */
-		set trash(value: any){
+		set trash(value: boolean){
 			var changed: boolean = value !== this._trash
 			this._trash = value;
 			if(changed){ this.onTrashChanged(); }
@@ -323,19 +323,19 @@ module latte{
 		/**
 		 * Database field: int(1)
 		 */
-		_online: any = null;
+		_online: boolean = null;
 
 		/**
 		 * Gets or sets the value of the online field of type int(1)
 		 */
-		get online(): any{
+		get online(): boolean{
 			return this._online;
 		}
 
 		/**
 		 * Gets or sets the value of the online field of type int(1)
 		 */
-		set online(value: any){
+		set online(value: boolean){
 			var changed: boolean = value !== this._online
 			this._online = value;
 			if(changed){ this.onOnlineChanged(); }
@@ -367,19 +367,19 @@ module latte{
 		/**
 		 * Database field: varchar(20)
 		 */
-		_template: any = null;
+		_template: string = null;
 
 		/**
 		 * Gets or sets the value of the template field of type varchar(20)
 		 */
-		get template(): any{
+		get template(): string{
 			return this._template;
 		}
 
 		/**
 		 * Gets or sets the value of the template field of type varchar(20)
 		 */
-		set template(value: any){
+		set template(value: string){
 			var changed: boolean = value !== this._template
 			this._template = value;
 			if(changed){ this.onTemplateChanged(); }
@@ -411,19 +411,19 @@ module latte{
 		/**
 		 * Database field: datetime
 		 */
-		_created: any = null;
+		_created: DateTime = null;
 
 		/**
 		 * Gets or sets the value of the created field of type datetime
 		 */
-		get created(): any{
+		get created(): DateTime{
 			return this._created;
 		}
 
 		/**
 		 * Gets or sets the value of the created field of type datetime
 		 */
-		set created(value: any){
+		set created(value: DateTime){
 			var changed: boolean = value !== this._created
 			this._created = value;
 			if(changed){ this.onCreatedChanged(); }
@@ -455,19 +455,19 @@ module latte{
 		/**
 		 * Database field: datetime
 		 */
-		_modified: any = null;
+		_modified: DateTime = null;
 
 		/**
 		 * Gets or sets the value of the modified field of type datetime
 		 */
-		get modified(): any{
+		get modified(): DateTime{
 			return this._modified;
 		}
 
 		/**
 		 * Gets or sets the value of the modified field of type datetime
 		 */
-		set modified(value: any){
+		set modified(value: DateTime){
 			var changed: boolean = value !== this._modified
 			this._modified = value;
 			if(changed){ this.onModifiedChanged(); }
@@ -499,19 +499,19 @@ module latte{
 		/**
 		 * Database field: varchar(128)
 		 */
-		_title: any = null;
+		_title: string = null;
 
 		/**
 		 * Gets or sets the value of the title field of type varchar(128)
 		 */
-		get title(): any{
+		get title(): string{
 			return this._title;
 		}
 
 		/**
 		 * Gets or sets the value of the title field of type varchar(128)
 		 */
-		set title(value: any){
+		set title(value: string){
 			var changed: boolean = value !== this._title
 			this._title = value;
 			if(changed){ this.onTitleChanged(); }
@@ -543,19 +543,19 @@ module latte{
 		/**
 		 * Database field: varchar(255)
 		 */
-		_description: any = null;
+		_description: string = null;
 
 		/**
 		 * Gets or sets the value of the description field of type varchar(255)
 		 */
-		get description(): any{
+		get description(): string{
 			return this._description;
 		}
 
 		/**
 		 * Gets or sets the value of the description field of type varchar(255)
 		 */
-		set description(value: any){
+		set description(value: string){
 			var changed: boolean = value !== this._description
 			this._description = value;
 			if(changed){ this.onDescriptionChanged(); }
@@ -587,19 +587,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_order: any = null;
+		_order: number = null;
 
 		/**
 		 * Gets or sets the value of the order field of type int(11)
 		 */
-		get order(): any{
+		get order(): number{
 			return this._order;
 		}
 
 		/**
 		 * Gets or sets the value of the order field of type int(11)
 		 */
-		set order(value: any){
+		set order(value: number){
 			var changed: boolean = value !== this._order
 			this._order = value;
 			if(changed){ this.onOrderChanged(); }
@@ -631,19 +631,19 @@ module latte{
 		/**
 		 * Database field: varchar(20)
 		 */
-		_sort: any = null;
+		_sort: string = null;
 
 		/**
 		 * Gets or sets the value of the sort field of type varchar(20)
 		 */
-		get sort(): any{
+		get sort(): string{
 			return this._sort;
 		}
 
 		/**
 		 * Gets or sets the value of the sort field of type varchar(20)
 		 */
-		set sort(value: any){
+		set sort(value: string){
 			var changed: boolean = value !== this._sort
 			this._sort = value;
 			if(changed){ this.onSortChanged(); }
@@ -675,19 +675,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_powner: any = null;
+		_powner: number = null;
 
 		/**
 		 * Gets or sets the value of the powner field of type int(11)
 		 */
-		get powner(): any{
+		get powner(): number{
 			return this._powner;
 		}
 
 		/**
 		 * Gets or sets the value of the powner field of type int(11)
 		 */
-		set powner(value: any){
+		set powner(value: number){
 			var changed: boolean = value !== this._powner
 			this._powner = value;
 			if(changed){ this.onPownerChanged(); }
@@ -719,19 +719,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_pgroup: any = null;
+		_pgroup: number = null;
 
 		/**
 		 * Gets or sets the value of the pgroup field of type int(11)
 		 */
-		get pgroup(): any{
+		get pgroup(): number{
 			return this._pgroup;
 		}
 
 		/**
 		 * Gets or sets the value of the pgroup field of type int(11)
 		 */
-		set pgroup(value: any){
+		set pgroup(value: number){
 			var changed: boolean = value !== this._pgroup
 			this._pgroup = value;
 			if(changed){ this.onPgroupChanged(); }
@@ -763,19 +763,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_pother: any = null;
+		_pother: number = null;
 
 		/**
 		 * Gets or sets the value of the pother field of type int(11)
 		 */
-		get pother(): any{
+		get pother(): number{
 			return this._pother;
 		}
 
 		/**
 		 * Gets or sets the value of the pother field of type int(11)
 		 */
-		set pother(value: any){
+		set pother(value: number){
 			var changed: boolean = value !== this._pother
 			this._pother = value;
 			if(changed){ this.onPotherChanged(); }
@@ -807,19 +807,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_pworld: any = null;
+		_pworld: number = null;
 
 		/**
 		 * Gets or sets the value of the pworld field of type int(11)
 		 */
-		get pworld(): any{
+		get pworld(): number{
 			return this._pworld;
 		}
 
 		/**
 		 * Gets or sets the value of the pworld field of type int(11)
 		 */
-		set pworld(value: any){
+		set pworld(value: number){
 			var changed: boolean = value !== this._pworld
 			this._pworld = value;
 			if(changed){ this.onPworldChanged(); }
@@ -851,19 +851,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_flags: any = null;
+		_flags: number = null;
 
 		/**
 		 * Gets or sets the value of the flags field of type int(11)
 		 */
-		get flags(): any{
+		get flags(): number{
 			return this._flags;
 		}
 
 		/**
 		 * Gets or sets the value of the flags field of type int(11)
 		 */
-		set flags(value: any){
+		set flags(value: number){
 			var changed: boolean = value !== this._flags
 			this._flags = value;
 			if(changed){ this.onFlagsChanged(); }
@@ -896,6 +896,12 @@ module latte{
 		* Override. Gets data about the fields of the record.
 		**/
 		onGetFields(): any { return {'idpage': this.idpage, 'idparent': this.idparent, 'idgroup': this.idgroup, 'iduser': this.iduser, 'guid': this.guid, 'key': this.key, 'trash': this.trash, 'online': this.online, 'template': this.template, 'created': this.created, 'modified': this.modified, 'title': this.title, 'description': this.description, 'order': this.order, 'sort': this.sort, 'powner': this.powner, 'pgroup': this.pgroup, 'pother': this.pother, 'pworld': this.pworld, 'flags': this.flags}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idpage":"int(11)","idparent":"int(11)","idgroup":"int(11)","iduser":"int(11)","guid":"varchar(50)","key":"varchar(200)","trash":"int(1)","online":"int(1)","template":"varchar(20)","created":"datetime","modified":"datetime","title":"varchar(128)","description":"varchar(255)","order":"int(11)","sort":"varchar(20)","powner":"int(11)","pgroup":"int(11)","pother":"int(11)","pworld":"int(11)","flags":"int(11)"};
 
 		/*
 		 * Remote Method. 
@@ -984,19 +990,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idfile: any = null;
+		_idfile: number = null;
 
 		/**
 		 * Gets or sets the value of the idfile field of type int(11)
 		 */
-		get idfile(): any{
+		get idfile(): number{
 			return this._idfile;
 		}
 
 		/**
 		 * Gets or sets the value of the idfile field of type int(11)
 		 */
-		set idfile(value: any){
+		set idfile(value: number){
 			var changed: boolean = value !== this._idfile
 			this._idfile = value;
 			if(changed){ this.onIdfileChanged(); }
@@ -1033,19 +1039,19 @@ module latte{
 		/**
 		 * Database field: varchar(50)
 		 */
-		_guid: any = null;
+		_guid: string = null;
 
 		/**
 		 * Gets or sets the value of the guid field of type varchar(50)
 		 */
-		get guid(): any{
+		get guid(): string{
 			return this._guid;
 		}
 
 		/**
 		 * Gets or sets the value of the guid field of type varchar(50)
 		 */
-		set guid(value: any){
+		set guid(value: string){
 			var changed: boolean = value !== this._guid
 			this._guid = value;
 			if(changed){ this.onGuidChanged(); }
@@ -1077,19 +1083,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_iduser: any = null;
+		_iduser: number = null;
 
 		/**
 		 * Gets or sets the value of the iduser field of type int(11)
 		 */
-		get iduser(): any{
+		get iduser(): number{
 			return this._iduser;
 		}
 
 		/**
 		 * Gets or sets the value of the iduser field of type int(11)
 		 */
-		set iduser(value: any){
+		set iduser(value: number){
 			var changed: boolean = value !== this._iduser
 			this._iduser = value;
 			if(changed){ this.onIduserChanged(); }
@@ -1121,19 +1127,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idowner: any = null;
+		_idowner: number = null;
 
 		/**
 		 * Gets or sets the value of the idowner field of type int(11)
 		 */
-		get idowner(): any{
+		get idowner(): number{
 			return this._idowner;
 		}
 
 		/**
 		 * Gets or sets the value of the idowner field of type int(11)
 		 */
-		set idowner(value: any){
+		set idowner(value: number){
 			var changed: boolean = value !== this._idowner
 			this._idowner = value;
 			if(changed){ this.onIdownerChanged(); }
@@ -1165,19 +1171,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idparent: any = null;
+		_idparent: number = null;
 
 		/**
 		 * Gets or sets the value of the idparent field of type int(11)
 		 */
-		get idparent(): any{
+		get idparent(): number{
 			return this._idparent;
 		}
 
 		/**
 		 * Gets or sets the value of the idparent field of type int(11)
 		 */
-		set idparent(value: any){
+		set idparent(value: number){
 			var changed: boolean = value !== this._idparent
 			this._idparent = value;
 			if(changed){ this.onIdparentChanged(); }
@@ -1209,19 +1215,19 @@ module latte{
 		/**
 		 * Database field: varchar(50)
 		 */
-		_owner: any = null;
+		_owner: string = null;
 
 		/**
 		 * Gets or sets the value of the owner field of type varchar(50)
 		 */
-		get owner(): any{
+		get owner(): string{
 			return this._owner;
 		}
 
 		/**
 		 * Gets or sets the value of the owner field of type varchar(50)
 		 */
-		set owner(value: any){
+		set owner(value: string){
 			var changed: boolean = value !== this._owner
 			this._owner = value;
 			if(changed){ this.onOwnerChanged(); }
@@ -1253,19 +1259,19 @@ module latte{
 		/**
 		 * Database field: varchar(128)
 		 */
-		_name: any = null;
+		_name: string = null;
 
 		/**
 		 * Gets or sets the value of the name field of type varchar(128)
 		 */
-		get name(): any{
+		get name(): string{
 			return this._name;
 		}
 
 		/**
 		 * Gets or sets the value of the name field of type varchar(128)
 		 */
-		set name(value: any){
+		set name(value: string){
 			var changed: boolean = value !== this._name
 			this._name = value;
 			if(changed){ this.onNameChanged(); }
@@ -1297,19 +1303,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_size: any = null;
+		_size: number = null;
 
 		/**
 		 * Gets or sets the value of the size field of type int(11)
 		 */
-		get size(): any{
+		get size(): number{
 			return this._size;
 		}
 
 		/**
 		 * Gets or sets the value of the size field of type int(11)
 		 */
-		set size(value: any){
+		set size(value: number){
 			var changed: boolean = value !== this._size
 			this._size = value;
 			if(changed){ this.onSizeChanged(); }
@@ -1341,19 +1347,19 @@ module latte{
 		/**
 		 * Database field: varchar(30)
 		 */
-		_bucket: any = null;
+		_bucket: string = null;
 
 		/**
 		 * Gets or sets the value of the bucket field of type varchar(30)
 		 */
-		get bucket(): any{
+		get bucket(): string{
 			return this._bucket;
 		}
 
 		/**
 		 * Gets or sets the value of the bucket field of type varchar(30)
 		 */
-		set bucket(value: any){
+		set bucket(value: string){
 			var changed: boolean = value !== this._bucket
 			this._bucket = value;
 			if(changed){ this.onBucketChanged(); }
@@ -1385,19 +1391,19 @@ module latte{
 		/**
 		 * Database field: varchar(128)
 		 */
-		_path: any = null;
+		_path: string = null;
 
 		/**
 		 * Gets or sets the value of the path field of type varchar(128)
 		 */
-		get path(): any{
+		get path(): string{
 			return this._path;
 		}
 
 		/**
 		 * Gets or sets the value of the path field of type varchar(128)
 		 */
-		set path(value: any){
+		set path(value: string){
 			var changed: boolean = value !== this._path
 			this._path = value;
 			if(changed){ this.onPathChanged(); }
@@ -1429,19 +1435,19 @@ module latte{
 		/**
 		 * Database field: datetime
 		 */
-		_uploaded: any = null;
+		_uploaded: DateTime = null;
 
 		/**
 		 * Gets or sets the value of the uploaded field of type datetime
 		 */
-		get uploaded(): any{
+		get uploaded(): DateTime{
 			return this._uploaded;
 		}
 
 		/**
 		 * Gets or sets the value of the uploaded field of type datetime
 		 */
-		set uploaded(value: any){
+		set uploaded(value: DateTime){
 			var changed: boolean = value !== this._uploaded
 			this._uploaded = value;
 			if(changed){ this.onUploadedChanged(); }
@@ -1473,19 +1479,19 @@ module latte{
 		/**
 		 * Database field: varchar(200)
 		 */
-		_description: any = null;
+		_description: string = null;
 
 		/**
 		 * Gets or sets the value of the description field of type varchar(200)
 		 */
-		get description(): any{
+		get description(): string{
 			return this._description;
 		}
 
 		/**
 		 * Gets or sets the value of the description field of type varchar(200)
 		 */
-		set description(value: any){
+		set description(value: string){
 			var changed: boolean = value !== this._description
 			this._description = value;
 			if(changed){ this.onDescriptionChanged(); }
@@ -1517,19 +1523,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_width: any = null;
+		_width: number = null;
 
 		/**
 		 * Gets or sets the value of the width field of type int(11)
 		 */
-		get width(): any{
+		get width(): number{
 			return this._width;
 		}
 
 		/**
 		 * Gets or sets the value of the width field of type int(11)
 		 */
-		set width(value: any){
+		set width(value: number){
 			var changed: boolean = value !== this._width
 			this._width = value;
 			if(changed){ this.onWidthChanged(); }
@@ -1561,19 +1567,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_height: any = null;
+		_height: number = null;
 
 		/**
 		 * Gets or sets the value of the height field of type int(11)
 		 */
-		get height(): any{
+		get height(): number{
 			return this._height;
 		}
 
 		/**
 		 * Gets or sets the value of the height field of type int(11)
 		 */
-		set height(value: any){
+		set height(value: number){
 			var changed: boolean = value !== this._height
 			this._height = value;
 			if(changed){ this.onHeightChanged(); }
@@ -1605,19 +1611,19 @@ module latte{
 		/**
 		 * Database field: varchar(50)
 		 */
-		_key: any = null;
+		_key: string = null;
 
 		/**
 		 * Gets or sets the value of the key field of type varchar(50)
 		 */
-		get key(): any{
+		get key(): string{
 			return this._key;
 		}
 
 		/**
 		 * Gets or sets the value of the key field of type varchar(50)
 		 */
-		set key(value: any){
+		set key(value: string){
 			var changed: boolean = value !== this._key
 			this._key = value;
 			if(changed){ this.onKeyChanged(); }
@@ -1650,6 +1656,12 @@ module latte{
 		* Override. Gets data about the fields of the record.
 		**/
 		onGetFields(): any { return {'idfile': this.idfile, 'guid': this.guid, 'iduser': this.iduser, 'idowner': this.idowner, 'idparent': this.idparent, 'owner': this.owner, 'name': this.name, 'size': this.size, 'bucket': this.bucket, 'path': this.path, 'uploaded': this.uploaded, 'description': this.description, 'width': this.width, 'height': this.height, 'key': this.key}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idfile":"int(11)","guid":"varchar(50)","iduser":"int(11)","idowner":"int(11)","idparent":"int(11)","owner":"varchar(50)","name":"varchar(128)","size":"int(11)","bucket":"varchar(30)","path":"varchar(128)","uploaded":"datetime","description":"varchar(200)","width":"int(11)","height":"int(11)","key":"varchar(50)"};
 
 		/*
 		 * Remote Method. 
@@ -1711,19 +1723,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idsetting: any = null;
+		_idsetting: number = null;
 
 		/**
 		 * Gets or sets the value of the idsetting field of type int(11)
 		 */
-		get idsetting(): any{
+		get idsetting(): number{
 			return this._idsetting;
 		}
 
 		/**
 		 * Gets or sets the value of the idsetting field of type int(11)
 		 */
-		set idsetting(value: any){
+		set idsetting(value: number){
 			var changed: boolean = value !== this._idsetting
 			this._idsetting = value;
 			if(changed){ this.onIdsettingChanged(); }
@@ -1760,19 +1772,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idowner: any = null;
+		_idowner: number = null;
 
 		/**
 		 * Gets or sets the value of the idowner field of type int(11)
 		 */
-		get idowner(): any{
+		get idowner(): number{
 			return this._idowner;
 		}
 
 		/**
 		 * Gets or sets the value of the idowner field of type int(11)
 		 */
-		set idowner(value: any){
+		set idowner(value: number){
 			var changed: boolean = value !== this._idowner
 			this._idowner = value;
 			if(changed){ this.onIdownerChanged(); }
@@ -1804,19 +1816,19 @@ module latte{
 		/**
 		 * Database field: varchar(50)
 		 */
-		_owner: any = null;
+		_owner: string = null;
 
 		/**
 		 * Gets or sets the value of the owner field of type varchar(50)
 		 */
-		get owner(): any{
+		get owner(): string{
 			return this._owner;
 		}
 
 		/**
 		 * Gets or sets the value of the owner field of type varchar(50)
 		 */
-		set owner(value: any){
+		set owner(value: string){
 			var changed: boolean = value !== this._owner
 			this._owner = value;
 			if(changed){ this.onOwnerChanged(); }
@@ -1848,19 +1860,19 @@ module latte{
 		/**
 		 * Database field: varchar(255)
 		 */
-		_name: any = null;
+		_name: string = null;
 
 		/**
 		 * Gets or sets the value of the name field of type varchar(255)
 		 */
-		get name(): any{
+		get name(): string{
 			return this._name;
 		}
 
 		/**
 		 * Gets or sets the value of the name field of type varchar(255)
 		 */
-		set name(value: any){
+		set name(value: string){
 			var changed: boolean = value !== this._name
 			this._name = value;
 			if(changed){ this.onNameChanged(); }
@@ -1892,19 +1904,19 @@ module latte{
 		/**
 		 * Database field: longtext
 		 */
-		_value: any = null;
+		_value: string = null;
 
 		/**
 		 * Gets or sets the value of the value field of type longtext
 		 */
-		get value(): any{
+		get value(): string{
 			return this._value;
 		}
 
 		/**
 		 * Gets or sets the value of the value field of type longtext
 		 */
-		set value(value: any){
+		set value(value: string){
 			var changed: boolean = value !== this._value
 			this._value = value;
 			if(changed){ this.onValueChanged(); }
@@ -1938,6 +1950,12 @@ module latte{
 		**/
 		onGetFields(): any { return {'idsetting': this.idsetting, 'idowner': this.idowner, 'owner': this.owner, 'name': this.name, 'value': this.value}; }
 
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idsetting":"int(11)","idowner":"int(11)","owner":"varchar(50)","name":"varchar(255)","value":"longtext"};
+
 		/*
 		 * Remote Method. 
  Gets the global settings of the app
@@ -1946,165 +1964,6 @@ module latte{
 		 */
 		static getGlobal(): RemoteCall<Setting[]>{
 			return new RemoteCall<Setting[]>('fragment', 'Setting', 'getGlobal', {} );
-		}
-	}
-
-	export class groupUserBase extends DataRecord{
-
-		/* Name of Php record */
-		_recordType: string = 'GroupUser';
-
-		/* Name of Module where record lives */
-		_moduleName: string = 'fragment';
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idgroupuser: any = null;
-
-		/**
-		 * Gets or sets the value of the idgroupuser field of type int(11)
-		 */
-		get idgroupuser(): any{
-			return this._idgroupuser;
-		}
-
-		/**
-		 * Gets or sets the value of the idgroupuser field of type int(11)
-		 */
-		set idgroupuser(value: any){
-			var changed: boolean = value !== this._idgroupuser
-			this._idgroupuser = value;
-			if(changed){ this.onIdgroupuserChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idgroupuserChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idgroupuser property changes
-		 */
-		get idgroupuserChanged(): LatteEvent{
-			if(!this._idgroupuserChanged){ this._idgroupuserChanged = new LatteEvent(this); }
-			return this._idgroupuserChanged;
-		}
-
-		/**
-		 * Raises the <c>idgroupuserChanged</c> event
-		 */
-		onIdgroupuserChanged(){
-			if(this._idgroupuserChanged){
-				this._idgroupuserChanged.raise()
-			}
-			this.onFieldValueChanged('idgroupuser', this.idgroupuser)
-		}
-
-		/**
-		* Gets the name of the autoincrement field
-		**/
-		onGetRecordIdName(): string { return 'idgroupuser'; }
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idgroup: any = null;
-
-		/**
-		 * Gets or sets the value of the idgroup field of type int(11)
-		 */
-		get idgroup(): any{
-			return this._idgroup;
-		}
-
-		/**
-		 * Gets or sets the value of the idgroup field of type int(11)
-		 */
-		set idgroup(value: any){
-			var changed: boolean = value !== this._idgroup
-			this._idgroup = value;
-			if(changed){ this.onIdgroupChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idgroupChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idgroup property changes
-		 */
-		get idgroupChanged(): LatteEvent{
-			if(!this._idgroupChanged){ this._idgroupChanged = new LatteEvent(this); }
-			return this._idgroupChanged;
-		}
-
-		/**
-		 * Raises the <c>idgroupChanged</c> event
-		 */
-		onIdgroupChanged(){
-			if(this._idgroupChanged){
-				this._idgroupChanged.raise()
-			}
-			this.onFieldValueChanged('idgroup', this.idgroup)
-		}
-
-		/**
-		 * Database field: int(11)
-		 */
-		_iduser: any = null;
-
-		/**
-		 * Gets or sets the value of the iduser field of type int(11)
-		 */
-		get iduser(): any{
-			return this._iduser;
-		}
-
-		/**
-		 * Gets or sets the value of the iduser field of type int(11)
-		 */
-		set iduser(value: any){
-			var changed: boolean = value !== this._iduser
-			this._iduser = value;
-			if(changed){ this.onIduserChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_iduserChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the iduser property changes
-		 */
-		get iduserChanged(): LatteEvent{
-			if(!this._iduserChanged){ this._iduserChanged = new LatteEvent(this); }
-			return this._iduserChanged;
-		}
-
-		/**
-		 * Raises the <c>iduserChanged</c> event
-		 */
-		onIduserChanged(){
-			if(this._iduserChanged){
-				this._iduserChanged.raise()
-			}
-			this.onFieldValueChanged('iduser', this.iduser)
-		}
-
-		/**
-		* Override. Gets data about the fields of the record.
-		**/
-		onGetFields(): any { return {'idgroupuser': this.idgroupuser, 'idgroup': this.idgroup, 'iduser': this.iduser}; }
-
-		/*
-		 * Remote Method. 
-
-		 */
-		static byGroup(idgroup: number): RemoteCall<GroupUser[]>{
-			return new RemoteCall<GroupUser[]>('fragment', 'GroupUser', 'byGroup', {idgroup: idgroup} );
 		}
 	}
 
@@ -2119,19 +1978,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idfragment: any = null;
+		_idfragment: number = null;
 
 		/**
 		 * Gets or sets the value of the idfragment field of type int(11)
 		 */
-		get idfragment(): any{
+		get idfragment(): number{
 			return this._idfragment;
 		}
 
 		/**
 		 * Gets or sets the value of the idfragment field of type int(11)
 		 */
-		set idfragment(value: any){
+		set idfragment(value: number){
 			var changed: boolean = value !== this._idfragment
 			this._idfragment = value;
 			if(changed){ this.onIdfragmentChanged(); }
@@ -2168,19 +2027,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idpage: any = null;
+		_idpage: number = null;
 
 		/**
 		 * Gets or sets the value of the idpage field of type int(11)
 		 */
-		get idpage(): any{
+		get idpage(): number{
 			return this._idpage;
 		}
 
 		/**
 		 * Gets or sets the value of the idpage field of type int(11)
 		 */
-		set idpage(value: any){
+		set idpage(value: number){
 			var changed: boolean = value !== this._idpage
 			this._idpage = value;
 			if(changed){ this.onIdpageChanged(); }
@@ -2212,19 +2071,19 @@ module latte{
 		/**
 		 * Database field: longtext
 		 */
-		_value: any = null;
+		_value: string = null;
 
 		/**
 		 * Gets or sets the value of the value field of type longtext
 		 */
-		get value(): any{
+		get value(): string{
 			return this._value;
 		}
 
 		/**
 		 * Gets or sets the value of the value field of type longtext
 		 */
-		set value(value: any){
+		set value(value: string){
 			var changed: boolean = value !== this._value
 			this._value = value;
 			if(changed){ this.onValueChanged(); }
@@ -2256,19 +2115,19 @@ module latte{
 		/**
 		 * Database field: varchar(50)
 		 */
-		_name: any = null;
+		_name: string = null;
 
 		/**
 		 * Gets or sets the value of the name field of type varchar(50)
 		 */
-		get name(): any{
+		get name(): string{
 			return this._name;
 		}
 
 		/**
 		 * Gets or sets the value of the name field of type varchar(50)
 		 */
-		set name(value: any){
+		set name(value: string){
 			var changed: boolean = value !== this._name
 			this._name = value;
 			if(changed){ this.onNameChanged(); }
@@ -2301,6 +2160,12 @@ module latte{
 		* Override. Gets data about the fields of the record.
 		**/
 		onGetFields(): any { return {'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idfragment":"int(11)","idpage":"int(11)","value":"longtext","name":"varchar(50)"};
 	}
 
 	export class groupBase extends DataRecord{
@@ -2314,19 +2179,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idgroup: any = null;
+		_idgroup: number = null;
 
 		/**
 		 * Gets or sets the value of the idgroup field of type int(11)
 		 */
-		get idgroup(): any{
+		get idgroup(): number{
 			return this._idgroup;
 		}
 
 		/**
 		 * Gets or sets the value of the idgroup field of type int(11)
 		 */
-		set idgroup(value: any){
+		set idgroup(value: number){
 			var changed: boolean = value !== this._idgroup
 			this._idgroup = value;
 			if(changed){ this.onIdgroupChanged(); }
@@ -2363,19 +2228,19 @@ module latte{
 		/**
 		 * Database field: varchar(128)
 		 */
-		_name: any = null;
+		_name: string = null;
 
 		/**
 		 * Gets or sets the value of the name field of type varchar(128)
 		 */
-		get name(): any{
+		get name(): string{
 			return this._name;
 		}
 
 		/**
 		 * Gets or sets the value of the name field of type varchar(128)
 		 */
-		set name(value: any){
+		set name(value: string){
 			var changed: boolean = value !== this._name
 			this._name = value;
 			if(changed){ this.onNameChanged(); }
@@ -2409,6 +2274,12 @@ module latte{
 		**/
 		onGetFields(): any { return {'idgroup': this.idgroup, 'name': this.name}; }
 
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idgroup":"int(11)","name":"varchar(128)"};
+
 		/*
 		 * Remote Method. 
 
@@ -2427,6 +2298,171 @@ module latte{
 		}
 	}
 
+	export class groupUserBase extends DataRecord{
+
+		/* Name of Php record */
+		_recordType: string = 'GroupUser';
+
+		/* Name of Module where record lives */
+		_moduleName: string = 'fragment';
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idgroupuser: number = null;
+
+		/**
+		 * Gets or sets the value of the idgroupuser field of type int(11)
+		 */
+		get idgroupuser(): number{
+			return this._idgroupuser;
+		}
+
+		/**
+		 * Gets or sets the value of the idgroupuser field of type int(11)
+		 */
+		set idgroupuser(value: number){
+			var changed: boolean = value !== this._idgroupuser
+			this._idgroupuser = value;
+			if(changed){ this.onIdgroupuserChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idgroupuserChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idgroupuser property changes
+		 */
+		get idgroupuserChanged(): LatteEvent{
+			if(!this._idgroupuserChanged){ this._idgroupuserChanged = new LatteEvent(this); }
+			return this._idgroupuserChanged;
+		}
+
+		/**
+		 * Raises the <c>idgroupuserChanged</c> event
+		 */
+		onIdgroupuserChanged(){
+			if(this._idgroupuserChanged){
+				this._idgroupuserChanged.raise()
+			}
+			this.onFieldValueChanged('idgroupuser', this.idgroupuser)
+		}
+
+		/**
+		* Gets the name of the autoincrement field
+		**/
+		onGetRecordIdName(): string { return 'idgroupuser'; }
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idgroup: number = null;
+
+		/**
+		 * Gets or sets the value of the idgroup field of type int(11)
+		 */
+		get idgroup(): number{
+			return this._idgroup;
+		}
+
+		/**
+		 * Gets or sets the value of the idgroup field of type int(11)
+		 */
+		set idgroup(value: number){
+			var changed: boolean = value !== this._idgroup
+			this._idgroup = value;
+			if(changed){ this.onIdgroupChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idgroupChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idgroup property changes
+		 */
+		get idgroupChanged(): LatteEvent{
+			if(!this._idgroupChanged){ this._idgroupChanged = new LatteEvent(this); }
+			return this._idgroupChanged;
+		}
+
+		/**
+		 * Raises the <c>idgroupChanged</c> event
+		 */
+		onIdgroupChanged(){
+			if(this._idgroupChanged){
+				this._idgroupChanged.raise()
+			}
+			this.onFieldValueChanged('idgroup', this.idgroup)
+		}
+
+		/**
+		 * Database field: int(11)
+		 */
+		_iduser: number = null;
+
+		/**
+		 * Gets or sets the value of the iduser field of type int(11)
+		 */
+		get iduser(): number{
+			return this._iduser;
+		}
+
+		/**
+		 * Gets or sets the value of the iduser field of type int(11)
+		 */
+		set iduser(value: number){
+			var changed: boolean = value !== this._iduser
+			this._iduser = value;
+			if(changed){ this.onIduserChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_iduserChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the iduser property changes
+		 */
+		get iduserChanged(): LatteEvent{
+			if(!this._iduserChanged){ this._iduserChanged = new LatteEvent(this); }
+			return this._iduserChanged;
+		}
+
+		/**
+		 * Raises the <c>iduserChanged</c> event
+		 */
+		onIduserChanged(){
+			if(this._iduserChanged){
+				this._iduserChanged.raise()
+			}
+			this.onFieldValueChanged('iduser', this.iduser)
+		}
+
+		/**
+		* Override. Gets data about the fields of the record.
+		**/
+		onGetFields(): any { return {'idgroupuser': this.idgroupuser, 'idgroup': this.idgroup, 'iduser': this.iduser}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idgroupuser":"int(11)","idgroup":"int(11)","iduser":"int(11)"};
+
+		/*
+		 * Remote Method. 
+
+		 */
+		static byGroup(idgroup: number): RemoteCall<GroupUser[]>{
+			return new RemoteCall<GroupUser[]>('fragment', 'GroupUser', 'byGroup', {idgroup: idgroup} );
+		}
+	}
+
 	export class userBase extends DataRecord{
 
 		/* Name of Php record */
@@ -2438,19 +2474,19 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_iduser: any = null;
+		_iduser: number = null;
 
 		/**
 		 * Gets or sets the value of the iduser field of type int(11)
 		 */
-		get iduser(): any{
+		get iduser(): number{
 			return this._iduser;
 		}
 
 		/**
 		 * Gets or sets the value of the iduser field of type int(11)
 		 */
-		set iduser(value: any){
+		set iduser(value: number){
 			var changed: boolean = value !== this._iduser
 			this._iduser = value;
 			if(changed){ this.onIduserChanged(); }
@@ -2487,19 +2523,19 @@ module latte{
 		/**
 		 * Database field: varchar(128)
 		 */
-		_uname: any = null;
+		_uname: string = null;
 
 		/**
 		 * Gets or sets the value of the uname field of type varchar(128)
 		 */
-		get uname(): any{
+		get uname(): string{
 			return this._uname;
 		}
 
 		/**
 		 * Gets or sets the value of the uname field of type varchar(128)
 		 */
-		set uname(value: any){
+		set uname(value: string){
 			var changed: boolean = value !== this._uname
 			this._uname = value;
 			if(changed){ this.onUnameChanged(); }
@@ -2531,19 +2567,19 @@ module latte{
 		/**
 		 * Database field: varchar(128)
 		 */
-		_password: any = null;
+		_password: string = null;
 
 		/**
 		 * Gets or sets the value of the password field of type varchar(128)
 		 */
-		get password(): any{
+		get password(): string{
 			return this._password;
 		}
 
 		/**
 		 * Gets or sets the value of the password field of type varchar(128)
 		 */
-		set password(value: any){
+		set password(value: string){
 			var changed: boolean = value !== this._password
 			this._password = value;
 			if(changed){ this.onPasswordChanged(); }
@@ -2573,21 +2609,21 @@ module latte{
 		}
 
 		/**
-		 * Database field: varchar(128)
+		 * Database field: int(50)
 		 */
-		_flags: any = null;
+		_flags: number = null;
 
 		/**
-		 * Gets or sets the value of the flags field of type varchar(128)
+		 * Gets or sets the value of the flags field of type int(50)
 		 */
-		get flags(): any{
+		get flags(): number{
 			return this._flags;
 		}
 
 		/**
-		 * Gets or sets the value of the flags field of type varchar(128)
+		 * Gets or sets the value of the flags field of type int(50)
 		 */
-		set flags(value: any){
+		set flags(value: number){
 			var changed: boolean = value !== this._flags
 			this._flags = value;
 			if(changed){ this.onFlagsChanged(); }
@@ -2620,6 +2656,12 @@ module latte{
 		* Override. Gets data about the fields of the record.
 		**/
 		onGetFields(): any { return {'iduser': this.iduser, 'uname': this.uname, 'password': this.password, 'flags': this.flags}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"iduser":"int(11)","uname":"varchar(128)","password":"varchar(128)","flags":"int(50)"};
 
 		/*
 		 * Remote Method. 

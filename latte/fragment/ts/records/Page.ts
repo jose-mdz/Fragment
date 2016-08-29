@@ -125,7 +125,7 @@ module latte{
 					created: {
 						category: 'advanced',
 						text: strings.created,
-						type: 'string',
+						type: 'datetime',
 						readOnly: true,
 						visible: 'if-inserted'
 					},
@@ -252,7 +252,7 @@ module latte{
                                 [
                                     new ButtonItem(strings.yesMakeOnline, null, () => {
                                         this.setOnline(true).send(() => {
-                                        	this.online = 1;
+                                        	this.online = true;
 											this.onOnlineSwitched();
                                             log("Has been set online.");
                                         });
@@ -417,7 +417,7 @@ module latte{
          * @returns {boolean}
          */
         get isOnline(): boolean {
-            return parseInt(this.online) > 0;
+            return this.online;
         }
 
 

@@ -78,7 +78,7 @@ module latte {
             if (!this._htmlEditor) {
                 this._htmlEditor = new HtmlEditorItem();
                 this._htmlEditor.toolbar.visible = false;
-                this._htmlEditor.focus.add(() => this.onEditorFocus());
+                this._htmlEditor.focused.add(() => this.onEditorFocus());
                 this._htmlEditor.blur.add(() => this.onEditorBlur());
                 this._htmlEditor.addClass('html-fragment-adapter');
                 this._htmlEditor.valueChanged.add(() => {

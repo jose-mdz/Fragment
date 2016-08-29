@@ -651,6 +651,133 @@ ORDER BY $sortBySQL
     }
 
     /**
+     * Gets the applicable fragments (including specified by parent) with records
+     * @return array
+     */
+    public function getAllFragments(){
+        $result = array();
+        $fragments = DL::associativeArray($this->getFragments(), 'name');
+        $config = $this->getConfigurationArr();
+        $parentConfig = $this->getParent() ? $this->getParent()->getConfigurationArr() : array();
+
+        // Get all fragments
+//        $all_frags = array_merge(
+//            (is_array($config['fragments']) ? $config['fragments'] : array()),
+//            (is_array($parentConfig['children']) && is_array($parentConfig['children']['fragments']) ? $parentConfig['children']['fragments'] : array())
+//        );
+
+        $all_frags = array();
+
+        if (is_array($config['fragments'])){
+            foreach($config['fragments'] as $i => $f){
+
+                $key = '';
+
+                if($f['key']){
+                    $key = $f['key'];
+
+                }else if(!is_numeric($i)){
+                    $key = $i;
+
+                }else{
+                    $key = 'MISSING_KEY';
+                }
+
+                $f['key'] = $key;
+                $all_frags[] = $f;
+            }
+        }
+
+        if (is_array($parentConfig['children']) && is_array($parentConfig['children']['fragments'])){
+            foreach($parentConfig['children']['fragments'] as $i => $f){
+                $key = '';
+
+                if($f['key']){
+                    $key = $f['key'];
+
+                }else if(!is_numeric($i)){
+                    $key = $i;
+
+                }else{
+                    $key = 'MISSING_KEY';
+                }
+
+                $f['key'] = $key;
+                $all_frags[] = $f;
+            }
+        }
+//        echo "[PRENT]";
+//        print_r($parentConfig);
+//        echo "[/PARENT]";
+//
+//        echo "[FRAGS]";
+//        print_r($all_frags);
+//        echo "[/FRAGS]";
+
+        foreach($all_frags as $f){
+            $key = $f['key'];
+
+            if($fragments[$key])
+                $f['record'] = $fragments[$key];
+
+            $result[$key] = $f;
+        }
+
+        return $result;
+
+    }
+
+    /**
+     * Gets the applicable segments (including specified by parent) with values.
+     * Even If setting has no value present, an empty new record will be created.
+     *
+     * @return Setting[]
+     */
+    public function getAllSettings(){
+        $result = array();
+
+        $records = Setting::byRecordAll($this);
+        $config = $this->getConfigurationArr();
+        $parentConfig = $this->getParent()->getConfigurationArr();
+
+        // Gather parent settings in result
+        if(isset($parentConfig['children']['settings'])){
+            foreach($parentConfig['children']['settings'] as $key => $setting){
+                $k = $key;
+                if($setting['key']) $k = $setting['key'];
+                $result[$k] = null;
+            }
+        }
+
+        // Gather config settings in result
+        if(isset($config['settings'])){
+            foreach($config['settings'] as $key => $setting){
+                $k = $key;
+                if($setting['key']) $k = $setting['key'];
+                $result[$k] = null;
+            }
+        }
+
+        // Assign records to keys
+        foreach($records as $s){
+            $result[$s->name] = $s;
+        }
+
+        // Create empty volatile - storable records
+        foreach($result as $key => $s){
+            if(!$s){
+                $r = new Setting();
+                $r->owner = 'Page';
+                $r->idowner = $this->idpage;
+                $r->name = $key;
+                $result[$key] = $r;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * @neverRemote
      * @return Setting
      */
@@ -737,83 +864,6 @@ ORDER BY $sortBySQL
             FROM fragment
             WHERE idpage = '$this->idpage'
         ");
-    }
-
-    /**
-     * Gets the appliable fragments (including specified by parent) with records
-     * @return array
-     */
-    public function getFragmentsWithRecords(){
-        $result = array();
-        $fragments = DL::associativeArray($this->getFragments(), 'name');
-        $config = $this->getConfigurationArr();
-        $parentConfig = $this->getParent() ? $this->getParent()->getConfigurationArr() : array();
-
-        // Get all fragments
-//        $all_frags = array_merge(
-//            (is_array($config['fragments']) ? $config['fragments'] : array()),
-//            (is_array($parentConfig['children']) && is_array($parentConfig['children']['fragments']) ? $parentConfig['children']['fragments'] : array())
-//        );
-
-        $all_frags = array();
-
-        if (is_array($config['fragments'])){
-            foreach($config['fragments'] as $i => $f){
-
-                $key = '';
-
-                if($f['key']){
-                    $key = $f['key'];
-
-                }else if(!is_numeric($i)){
-                    $key = $i;
-
-                }else{
-                    $key = 'MISSING_KEY';
-                }
-
-                $f['key'] = $key;
-                $all_frags[] = $f;
-            }
-        }
-
-        if (is_array($parentConfig['children']) && is_array($parentConfig['children']['fragments'])){
-            foreach($parentConfig['children']['fragments'] as $i => $f){
-                $key = '';
-
-                if($f['key']){
-                    $key = $f['key'];
-
-                }else if(!is_numeric($i)){
-                    $key = $i;
-
-                }else{
-                    $key = 'MISSING_KEY';
-                }
-
-                $f['key'] = $key;
-                $all_frags[] = $f;
-            }
-        }
-//        echo "[PRENT]";
-//        print_r($parentConfig);
-//        echo "[/PARENT]";
-//
-//        echo "[FRAGS]";
-//        print_r($all_frags);
-//        echo "[/FRAGS]";
-
-        foreach($all_frags as $f){
-            $key = $f['key'];
-
-            if($fragments[$key])
-                $f['record'] = $fragments[$key];
-
-            $result[$key] = $f;
-        }
-
-        return $result;
-
     }
 
     /**

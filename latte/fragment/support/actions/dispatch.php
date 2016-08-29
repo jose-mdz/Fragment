@@ -37,10 +37,10 @@ if ($page){
     $GLOBALS['parent'] = $page->getParent();
 
     // Load fragments
-    $GLOBALS['fragments'] = $page->getFragmentsWithRecords();
+    $GLOBALS['fragments'] = $page->getAllFragments();
 
     // Load settings
-    $GLOBALS['settings'] = Setting::byRecordAll($page);
+    $GLOBALS['settings'] = $page->getAllSettings();
 
     // Load global settings
     $GLOBALS['settings'] = array_merge($GLOBALS['settings'], Setting::getGlobal());

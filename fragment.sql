@@ -39,7 +39,7 @@ CREATE TABLE `file` (
   `height` int(11) DEFAULT '0',
   `key` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idfile`)
-) ENGINE=MyISAM AUTO_INCREMENT=447 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=450 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE `fragment` (
   `value` longtext,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idfragment`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `setting` (
   PRIMARY KEY (`idsetting`),
   KEY `i_name` (`name`) USING BTREE,
   KEY `i_owner` (`idowner`,`owner`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=929 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=932 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +151,7 @@ CREATE TABLE `user` (
   `iduser` int(11) NOT NULL AUTO_INCREMENT,
   `uname` varchar(128) DEFAULT NULL,
   `password` varchar(128) DEFAULT NULL,
-  `flags` varchar(128) DEFAULT NULL,
+  `flags` int(50) DEFAULT '0',
   PRIMARY KEY (`iduser`),
   KEY `i_uname` (`uname`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
@@ -166,4 +166,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-25 22:05:04
+-- Dump completed on 2016-08-29  0:04:34

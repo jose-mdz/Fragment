@@ -2,7 +2,7 @@ module latte{
     /**
      * Renders an item to input data from user.
      **/
-    export class InputItem extends ValueItem{
+    export class InputItem extends ValueItem<any>{
 
 
         //region Static
@@ -60,7 +60,7 @@ module latte{
          * @param text
          * @param item
          */
-        static fromItem(text: string, item: ValueItem): InputItem{
+        static fromItem(text: string, item: ValueItem<any>): InputItem{
 
             var input = new InputItem(text, 'custom');
 
@@ -138,7 +138,7 @@ module latte{
         /**
          *
          **/
-        private _valueItem: ValueItem;
+        private _valueItem: ValueItem<any>;
 
         /**
          * Points to the label where text is stored
@@ -248,6 +248,18 @@ module latte{
         }
 
         /**
+         * Override.
+         * @returns {string}
+         */
+        onGetValueString(): string{
+            if(this.valueItem) {
+                return this.valueItem.valueString;
+            }else {
+                return super.onGetValueString();
+            }
+        }
+
+        /**
          * Override
          * @returns {string}
          */
@@ -255,7 +267,7 @@ module latte{
             if(this.valueItem){
                 return this.valueItem.valueString;
             }else{
-                return super.getValueString();
+                return super.onGetValueString();
             }
         }
 
@@ -406,7 +418,7 @@ module latte{
             }
 
             if(this.valueItem instanceof RadioGroup){
-                (<RadioGroup>this.valueItem).options = value;
+                (<any>this.valueItem).options = value;
             }
 
             if(this.valueItem instanceof FlagsValueItem) {
@@ -722,14 +734,14 @@ module latte{
         /**
          * Gets or sets the valueItem of the input
          **/
-        get valueItem(): ValueItem{
+        get valueItem(): ValueItem<any>{
             return this._valueItem;
         }
 
         /**
          * Gets or sets the valueItem of the input
          **/
-        set valueItem(value: ValueItem){
+        set valueItem(value: ValueItem<any>){
 
 
             if(!(value instanceof ValueItem))
@@ -779,8 +791,6 @@ module latte{
                 this.onValidChanged();
             }
         }
-
-
 
         //endregion
 

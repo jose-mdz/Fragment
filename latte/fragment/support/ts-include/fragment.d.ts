@@ -16,14 +16,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idpage: any;
+        _idpage: number;
         /**
          * Gets or sets the value of the idpage field of type int(11)
          */
         /**
          * Gets or sets the value of the idpage field of type int(11)
          */
-        idpage: any;
+        idpage: number;
         /**
          * Back field for event
          */
@@ -43,14 +43,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idparent: any;
+        _idparent: number;
         /**
          * Gets or sets the value of the idparent field of type int(11)
          */
         /**
          * Gets or sets the value of the idparent field of type int(11)
          */
-        idparent: any;
+        idparent: number;
         /**
          * Back field for event
          */
@@ -66,14 +66,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idgroup: any;
+        _idgroup: number;
         /**
          * Gets or sets the value of the idgroup field of type int(11)
          */
         /**
          * Gets or sets the value of the idgroup field of type int(11)
          */
-        idgroup: any;
+        idgroup: number;
         /**
          * Back field for event
          */
@@ -89,14 +89,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _iduser: any;
+        _iduser: number;
         /**
          * Gets or sets the value of the iduser field of type int(11)
          */
         /**
          * Gets or sets the value of the iduser field of type int(11)
          */
-        iduser: any;
+        iduser: number;
         /**
          * Back field for event
          */
@@ -112,14 +112,14 @@ declare module latte {
         /**
          * Database field: varchar(50)
          */
-        _guid: any;
+        _guid: string;
         /**
          * Gets or sets the value of the guid field of type varchar(50)
          */
         /**
          * Gets or sets the value of the guid field of type varchar(50)
          */
-        guid: any;
+        guid: string;
         /**
          * Back field for event
          */
@@ -135,14 +135,14 @@ declare module latte {
         /**
          * Database field: varchar(200)
          */
-        _key: any;
+        _key: string;
         /**
          * Gets or sets the value of the key field of type varchar(200)
          */
         /**
          * Gets or sets the value of the key field of type varchar(200)
          */
-        key: any;
+        key: string;
         /**
          * Back field for event
          */
@@ -158,14 +158,14 @@ declare module latte {
         /**
          * Database field: int(1)
          */
-        _trash: any;
+        _trash: boolean;
         /**
          * Gets or sets the value of the trash field of type int(1)
          */
         /**
          * Gets or sets the value of the trash field of type int(1)
          */
-        trash: any;
+        trash: boolean;
         /**
          * Back field for event
          */
@@ -181,14 +181,14 @@ declare module latte {
         /**
          * Database field: int(1)
          */
-        _online: any;
+        _online: boolean;
         /**
          * Gets or sets the value of the online field of type int(1)
          */
         /**
          * Gets or sets the value of the online field of type int(1)
          */
-        online: any;
+        online: boolean;
         /**
          * Back field for event
          */
@@ -204,14 +204,14 @@ declare module latte {
         /**
          * Database field: varchar(20)
          */
-        _template: any;
+        _template: string;
         /**
          * Gets or sets the value of the template field of type varchar(20)
          */
         /**
          * Gets or sets the value of the template field of type varchar(20)
          */
-        template: any;
+        template: string;
         /**
          * Back field for event
          */
@@ -227,14 +227,14 @@ declare module latte {
         /**
          * Database field: datetime
          */
-        _created: any;
+        _created: DateTime;
         /**
          * Gets or sets the value of the created field of type datetime
          */
         /**
          * Gets or sets the value of the created field of type datetime
          */
-        created: any;
+        created: DateTime;
         /**
          * Back field for event
          */
@@ -250,14 +250,14 @@ declare module latte {
         /**
          * Database field: datetime
          */
-        _modified: any;
+        _modified: DateTime;
         /**
          * Gets or sets the value of the modified field of type datetime
          */
         /**
          * Gets or sets the value of the modified field of type datetime
          */
-        modified: any;
+        modified: DateTime;
         /**
          * Back field for event
          */
@@ -273,14 +273,14 @@ declare module latte {
         /**
          * Database field: varchar(128)
          */
-        _title: any;
+        _title: string;
         /**
          * Gets or sets the value of the title field of type varchar(128)
          */
         /**
          * Gets or sets the value of the title field of type varchar(128)
          */
-        title: any;
+        title: string;
         /**
          * Back field for event
          */
@@ -296,14 +296,14 @@ declare module latte {
         /**
          * Database field: varchar(255)
          */
-        _description: any;
+        _description: string;
         /**
          * Gets or sets the value of the description field of type varchar(255)
          */
         /**
          * Gets or sets the value of the description field of type varchar(255)
          */
-        description: any;
+        description: string;
         /**
          * Back field for event
          */
@@ -319,14 +319,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _order: any;
+        _order: number;
         /**
          * Gets or sets the value of the order field of type int(11)
          */
         /**
          * Gets or sets the value of the order field of type int(11)
          */
-        order: any;
+        order: number;
         /**
          * Back field for event
          */
@@ -342,14 +342,14 @@ declare module latte {
         /**
          * Database field: varchar(20)
          */
-        _sort: any;
+        _sort: string;
         /**
          * Gets or sets the value of the sort field of type varchar(20)
          */
         /**
          * Gets or sets the value of the sort field of type varchar(20)
          */
-        sort: any;
+        sort: string;
         /**
          * Back field for event
          */
@@ -365,14 +365,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _powner: any;
+        _powner: number;
         /**
          * Gets or sets the value of the powner field of type int(11)
          */
         /**
          * Gets or sets the value of the powner field of type int(11)
          */
-        powner: any;
+        powner: number;
         /**
          * Back field for event
          */
@@ -388,14 +388,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _pgroup: any;
+        _pgroup: number;
         /**
          * Gets or sets the value of the pgroup field of type int(11)
          */
         /**
          * Gets or sets the value of the pgroup field of type int(11)
          */
-        pgroup: any;
+        pgroup: number;
         /**
          * Back field for event
          */
@@ -411,14 +411,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _pother: any;
+        _pother: number;
         /**
          * Gets or sets the value of the pother field of type int(11)
          */
         /**
          * Gets or sets the value of the pother field of type int(11)
          */
-        pother: any;
+        pother: number;
         /**
          * Back field for event
          */
@@ -434,14 +434,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _pworld: any;
+        _pworld: number;
         /**
          * Gets or sets the value of the pworld field of type int(11)
          */
         /**
          * Gets or sets the value of the pworld field of type int(11)
          */
-        pworld: any;
+        pworld: number;
         /**
          * Back field for event
          */
@@ -457,14 +457,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _flags: any;
+        _flags: number;
         /**
          * Gets or sets the value of the flags field of type int(11)
          */
         /**
          * Gets or sets the value of the flags field of type int(11)
          */
-        flags: any;
+        flags: number;
         /**
          * Back field for event
          */
@@ -481,6 +481,31 @@ declare module latte {
         * Override. Gets data about the fields of the record.
         **/
         onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idpage": string;
+            "idparent": string;
+            "idgroup": string;
+            "iduser": string;
+            "guid": string;
+            "key": string;
+            "trash": string;
+            "online": string;
+            "template": string;
+            "created": string;
+            "modified": string;
+            "title": string;
+            "description": string;
+            "order": string;
+            "sort": string;
+            "powner": string;
+            "pgroup": string;
+            "pother": string;
+            "pworld": string;
+            "flags": string;
+        };
         static rootPages(): RemoteCall<Page[]>;
         getConfiguration(): RemoteCall<string>;
         setConfiguration(json: string): RemoteCall<Setting>;
@@ -496,14 +521,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idfile: any;
+        _idfile: number;
         /**
          * Gets or sets the value of the idfile field of type int(11)
          */
         /**
          * Gets or sets the value of the idfile field of type int(11)
          */
-        idfile: any;
+        idfile: number;
         /**
          * Back field for event
          */
@@ -523,14 +548,14 @@ declare module latte {
         /**
          * Database field: varchar(50)
          */
-        _guid: any;
+        _guid: string;
         /**
          * Gets or sets the value of the guid field of type varchar(50)
          */
         /**
          * Gets or sets the value of the guid field of type varchar(50)
          */
-        guid: any;
+        guid: string;
         /**
          * Back field for event
          */
@@ -546,14 +571,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _iduser: any;
+        _iduser: number;
         /**
          * Gets or sets the value of the iduser field of type int(11)
          */
         /**
          * Gets or sets the value of the iduser field of type int(11)
          */
-        iduser: any;
+        iduser: number;
         /**
          * Back field for event
          */
@@ -569,14 +594,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idowner: any;
+        _idowner: number;
         /**
          * Gets or sets the value of the idowner field of type int(11)
          */
         /**
          * Gets or sets the value of the idowner field of type int(11)
          */
-        idowner: any;
+        idowner: number;
         /**
          * Back field for event
          */
@@ -592,14 +617,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idparent: any;
+        _idparent: number;
         /**
          * Gets or sets the value of the idparent field of type int(11)
          */
         /**
          * Gets or sets the value of the idparent field of type int(11)
          */
-        idparent: any;
+        idparent: number;
         /**
          * Back field for event
          */
@@ -615,14 +640,14 @@ declare module latte {
         /**
          * Database field: varchar(50)
          */
-        _owner: any;
+        _owner: string;
         /**
          * Gets or sets the value of the owner field of type varchar(50)
          */
         /**
          * Gets or sets the value of the owner field of type varchar(50)
          */
-        owner: any;
+        owner: string;
         /**
          * Back field for event
          */
@@ -638,14 +663,14 @@ declare module latte {
         /**
          * Database field: varchar(128)
          */
-        _name: any;
+        _name: string;
         /**
          * Gets or sets the value of the name field of type varchar(128)
          */
         /**
          * Gets or sets the value of the name field of type varchar(128)
          */
-        name: any;
+        name: string;
         /**
          * Back field for event
          */
@@ -661,14 +686,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _size: any;
+        _size: number;
         /**
          * Gets or sets the value of the size field of type int(11)
          */
         /**
          * Gets or sets the value of the size field of type int(11)
          */
-        size: any;
+        size: number;
         /**
          * Back field for event
          */
@@ -684,14 +709,14 @@ declare module latte {
         /**
          * Database field: varchar(30)
          */
-        _bucket: any;
+        _bucket: string;
         /**
          * Gets or sets the value of the bucket field of type varchar(30)
          */
         /**
          * Gets or sets the value of the bucket field of type varchar(30)
          */
-        bucket: any;
+        bucket: string;
         /**
          * Back field for event
          */
@@ -707,14 +732,14 @@ declare module latte {
         /**
          * Database field: varchar(128)
          */
-        _path: any;
+        _path: string;
         /**
          * Gets or sets the value of the path field of type varchar(128)
          */
         /**
          * Gets or sets the value of the path field of type varchar(128)
          */
-        path: any;
+        path: string;
         /**
          * Back field for event
          */
@@ -730,14 +755,14 @@ declare module latte {
         /**
          * Database field: datetime
          */
-        _uploaded: any;
+        _uploaded: DateTime;
         /**
          * Gets or sets the value of the uploaded field of type datetime
          */
         /**
          * Gets or sets the value of the uploaded field of type datetime
          */
-        uploaded: any;
+        uploaded: DateTime;
         /**
          * Back field for event
          */
@@ -753,14 +778,14 @@ declare module latte {
         /**
          * Database field: varchar(200)
          */
-        _description: any;
+        _description: string;
         /**
          * Gets or sets the value of the description field of type varchar(200)
          */
         /**
          * Gets or sets the value of the description field of type varchar(200)
          */
-        description: any;
+        description: string;
         /**
          * Back field for event
          */
@@ -776,14 +801,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _width: any;
+        _width: number;
         /**
          * Gets or sets the value of the width field of type int(11)
          */
         /**
          * Gets or sets the value of the width field of type int(11)
          */
-        width: any;
+        width: number;
         /**
          * Back field for event
          */
@@ -799,14 +824,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _height: any;
+        _height: number;
         /**
          * Gets or sets the value of the height field of type int(11)
          */
         /**
          * Gets or sets the value of the height field of type int(11)
          */
-        height: any;
+        height: number;
         /**
          * Back field for event
          */
@@ -822,14 +847,14 @@ declare module latte {
         /**
          * Database field: varchar(50)
          */
-        _key: any;
+        _key: string;
         /**
          * Gets or sets the value of the key field of type varchar(50)
          */
         /**
          * Gets or sets the value of the key field of type varchar(50)
          */
-        key: any;
+        key: string;
         /**
          * Back field for event
          */
@@ -846,6 +871,26 @@ declare module latte {
         * Override. Gets data about the fields of the record.
         **/
         onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idfile": string;
+            "guid": string;
+            "iduser": string;
+            "idowner": string;
+            "idparent": string;
+            "owner": string;
+            "name": string;
+            "size": string;
+            "bucket": string;
+            "path": string;
+            "uploaded": string;
+            "description": string;
+            "width": string;
+            "height": string;
+            "key": string;
+        };
         static byGuids(guids: string): RemoteCall<File[]>;
         static byOwner(name: string, id: number): RemoteCall<Array<File>>;
         static myUnlinked(ownerName: string): RemoteCall<Array<File>>;
@@ -858,14 +903,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idsetting: any;
+        _idsetting: number;
         /**
          * Gets or sets the value of the idsetting field of type int(11)
          */
         /**
          * Gets or sets the value of the idsetting field of type int(11)
          */
-        idsetting: any;
+        idsetting: number;
         /**
          * Back field for event
          */
@@ -885,14 +930,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idowner: any;
+        _idowner: number;
         /**
          * Gets or sets the value of the idowner field of type int(11)
          */
         /**
          * Gets or sets the value of the idowner field of type int(11)
          */
-        idowner: any;
+        idowner: number;
         /**
          * Back field for event
          */
@@ -908,14 +953,14 @@ declare module latte {
         /**
          * Database field: varchar(50)
          */
-        _owner: any;
+        _owner: string;
         /**
          * Gets or sets the value of the owner field of type varchar(50)
          */
         /**
          * Gets or sets the value of the owner field of type varchar(50)
          */
-        owner: any;
+        owner: string;
         /**
          * Back field for event
          */
@@ -931,14 +976,14 @@ declare module latte {
         /**
          * Database field: varchar(255)
          */
-        _name: any;
+        _name: string;
         /**
          * Gets or sets the value of the name field of type varchar(255)
          */
         /**
          * Gets or sets the value of the name field of type varchar(255)
          */
-        name: any;
+        name: string;
         /**
          * Back field for event
          */
@@ -954,14 +999,14 @@ declare module latte {
         /**
          * Database field: longtext
          */
-        _value: any;
+        _value: string;
         /**
          * Gets or sets the value of the value field of type longtext
          */
         /**
          * Gets or sets the value of the value field of type longtext
          */
-        value: any;
+        value: string;
         /**
          * Back field for event
          */
@@ -978,89 +1023,17 @@ declare module latte {
         * Override. Gets data about the fields of the record.
         **/
         onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idsetting": string;
+            "idowner": string;
+            "owner": string;
+            "name": string;
+            "value": string;
+        };
         static getGlobal(): RemoteCall<Setting[]>;
-    }
-    class groupUserBase extends DataRecord {
-        _recordType: string;
-        _moduleName: string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroupuser: any;
-        /**
-         * Gets or sets the value of the idgroupuser field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroupuser field of type int(11)
-         */
-        idgroupuser: any;
-        /**
-         * Back field for event
-         */
-        _idgroupuserChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroupuser property changes
-         */
-        idgroupuserChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupuserChanged</c> event
-         */
-        onIdgroupuserChanged(): void;
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        onGetRecordIdName(): string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroup: any;
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        idgroup: any;
-        /**
-         * Back field for event
-         */
-        _idgroupChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroup property changes
-         */
-        idgroupChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        onIdgroupChanged(): void;
-        /**
-         * Database field: int(11)
-         */
-        _iduser: any;
-        /**
-         * Gets or sets the value of the iduser field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the iduser field of type int(11)
-         */
-        iduser: any;
-        /**
-         * Back field for event
-         */
-        _iduserChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the iduser property changes
-         */
-        iduserChanged: LatteEvent;
-        /**
-         * Raises the <c>iduserChanged</c> event
-         */
-        onIduserChanged(): void;
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        onGetFields(): any;
-        static byGroup(idgroup: number): RemoteCall<GroupUser[]>;
     }
     class fragmentBase extends DataRecord {
         _recordType: string;
@@ -1068,14 +1041,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idfragment: any;
+        _idfragment: number;
         /**
          * Gets or sets the value of the idfragment field of type int(11)
          */
         /**
          * Gets or sets the value of the idfragment field of type int(11)
          */
-        idfragment: any;
+        idfragment: number;
         /**
          * Back field for event
          */
@@ -1095,14 +1068,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idpage: any;
+        _idpage: number;
         /**
          * Gets or sets the value of the idpage field of type int(11)
          */
         /**
          * Gets or sets the value of the idpage field of type int(11)
          */
-        idpage: any;
+        idpage: number;
         /**
          * Back field for event
          */
@@ -1118,14 +1091,14 @@ declare module latte {
         /**
          * Database field: longtext
          */
-        _value: any;
+        _value: string;
         /**
          * Gets or sets the value of the value field of type longtext
          */
         /**
          * Gets or sets the value of the value field of type longtext
          */
-        value: any;
+        value: string;
         /**
          * Back field for event
          */
@@ -1141,14 +1114,14 @@ declare module latte {
         /**
          * Database field: varchar(50)
          */
-        _name: any;
+        _name: string;
         /**
          * Gets or sets the value of the name field of type varchar(50)
          */
         /**
          * Gets or sets the value of the name field of type varchar(50)
          */
-        name: any;
+        name: string;
         /**
          * Back field for event
          */
@@ -1165,6 +1138,15 @@ declare module latte {
         * Override. Gets data about the fields of the record.
         **/
         onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idfragment": string;
+            "idpage": string;
+            "value": string;
+            "name": string;
+        };
     }
     class groupBase extends DataRecord {
         _recordType: string;
@@ -1172,14 +1154,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _idgroup: any;
+        _idgroup: number;
         /**
          * Gets or sets the value of the idgroup field of type int(11)
          */
         /**
          * Gets or sets the value of the idgroup field of type int(11)
          */
-        idgroup: any;
+        idgroup: number;
         /**
          * Back field for event
          */
@@ -1199,14 +1181,14 @@ declare module latte {
         /**
          * Database field: varchar(128)
          */
-        _name: any;
+        _name: string;
         /**
          * Gets or sets the value of the name field of type varchar(128)
          */
         /**
          * Gets or sets the value of the name field of type varchar(128)
          */
-        name: any;
+        name: string;
         /**
          * Back field for event
          */
@@ -1223,8 +1205,105 @@ declare module latte {
         * Override. Gets data about the fields of the record.
         **/
         onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idgroup": string;
+            "name": string;
+        };
         static catalog(): RemoteCall<Group[]>;
         static search(text: string): RemoteCall<Group[]>;
+    }
+    class groupUserBase extends DataRecord {
+        _recordType: string;
+        _moduleName: string;
+        /**
+         * Database field: int(11)
+         */
+        _idgroupuser: number;
+        /**
+         * Gets or sets the value of the idgroupuser field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idgroupuser field of type int(11)
+         */
+        idgroupuser: number;
+        /**
+         * Back field for event
+         */
+        _idgroupuserChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idgroupuser property changes
+         */
+        idgroupuserChanged: LatteEvent;
+        /**
+         * Raises the <c>idgroupuserChanged</c> event
+         */
+        onIdgroupuserChanged(): void;
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        onGetRecordIdName(): string;
+        /**
+         * Database field: int(11)
+         */
+        _idgroup: number;
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        idgroup: number;
+        /**
+         * Back field for event
+         */
+        _idgroupChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idgroup property changes
+         */
+        idgroupChanged: LatteEvent;
+        /**
+         * Raises the <c>idgroupChanged</c> event
+         */
+        onIdgroupChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _iduser: number;
+        /**
+         * Gets or sets the value of the iduser field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the iduser field of type int(11)
+         */
+        iduser: number;
+        /**
+         * Back field for event
+         */
+        _iduserChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the iduser property changes
+         */
+        iduserChanged: LatteEvent;
+        /**
+         * Raises the <c>iduserChanged</c> event
+         */
+        onIduserChanged(): void;
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idgroupuser": string;
+            "idgroup": string;
+            "iduser": string;
+        };
+        static byGroup(idgroup: number): RemoteCall<GroupUser[]>;
     }
     class userBase extends DataRecord {
         _recordType: string;
@@ -1232,14 +1311,14 @@ declare module latte {
         /**
          * Database field: int(11)
          */
-        _iduser: any;
+        _iduser: number;
         /**
          * Gets or sets the value of the iduser field of type int(11)
          */
         /**
          * Gets or sets the value of the iduser field of type int(11)
          */
-        iduser: any;
+        iduser: number;
         /**
          * Back field for event
          */
@@ -1259,14 +1338,14 @@ declare module latte {
         /**
          * Database field: varchar(128)
          */
-        _uname: any;
+        _uname: string;
         /**
          * Gets or sets the value of the uname field of type varchar(128)
          */
         /**
          * Gets or sets the value of the uname field of type varchar(128)
          */
-        uname: any;
+        uname: string;
         /**
          * Back field for event
          */
@@ -1282,14 +1361,14 @@ declare module latte {
         /**
          * Database field: varchar(128)
          */
-        _password: any;
+        _password: string;
         /**
          * Gets or sets the value of the password field of type varchar(128)
          */
         /**
          * Gets or sets the value of the password field of type varchar(128)
          */
-        password: any;
+        password: string;
         /**
          * Back field for event
          */
@@ -1303,16 +1382,16 @@ declare module latte {
          */
         onPasswordChanged(): void;
         /**
-         * Database field: varchar(128)
+         * Database field: int(50)
          */
-        _flags: any;
+        _flags: number;
         /**
-         * Gets or sets the value of the flags field of type varchar(128)
+         * Gets or sets the value of the flags field of type int(50)
          */
         /**
-         * Gets or sets the value of the flags field of type varchar(128)
+         * Gets or sets the value of the flags field of type int(50)
          */
-        flags: any;
+        flags: number;
         /**
          * Back field for event
          */
@@ -1329,6 +1408,15 @@ declare module latte {
         * Override. Gets data about the fields of the record.
         **/
         onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "iduser": string;
+            "uname": string;
+            "password": string;
+            "flags": string;
+        };
         static search(text: string): RemoteCall<User[]>;
         static catalog(): RemoteCall<User[]>;
         changePassword(oldPassword: string, password: string): RemoteCall<boolean>;
@@ -1808,6 +1896,23 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Main {
+        static goMainView(): void;
+        static goSignInView(): void;
+        static logOut(): void;
+        /**
+         *
+         */
+        constructor();
+    }
+}
+/**
  * Created by josemanuel on 8/5/16.
  */
 declare module latte {
@@ -1921,6 +2026,75 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PagesExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class UsersExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
  * Created by josemanuel on 8/5/16.
  */
 declare module latte {
@@ -1963,92 +2137,6 @@ declare module latte {
          * @returns {ButtonItem}
          */
         btnChangePassword: ButtonItem;
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PagesExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Gets the loader of children items
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Main {
-        static goMainView(): void;
-        static goSignInView(): void;
-        static logOut(): void;
-        /**
-         *
-         */
-        constructor();
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class UsersExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
     }
 }
 /**
@@ -2577,34 +2665,6 @@ declare module latte {
  */
 declare module latte {
     /**
-     * Manages the plugins of the program
-     */
-    class PluginManager {
-        private static _plugins;
-        /**
-         * Gets the list of loaded plugins
-         *
-         * @returns {Plugin[]}
-         */
-        static getLoadedPlugins(): Plugin[];
-        /**
-         * Loads the specified plugin. If the plugin is already loaded, it will ignore it.
-         * @param p
-         */
-        static load(p: Plugin): void;
-        /**
-         * Unloads the specified plugin. Ignored if plugin wasn't loaded
-         *
-         * @param plugin
-         */
-        static unload(plugin: Plugin): void;
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
      *
      */
     class Plugin {
@@ -2640,6 +2700,34 @@ declare module latte {
          * @returns {LatteEvent}
          */
         unload: LatteEvent;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
+    /**
+     * Manages the plugins of the program
+     */
+    class PluginManager {
+        private static _plugins;
+        /**
+         * Gets the list of loaded plugins
+         *
+         * @returns {Plugin[]}
+         */
+        static getLoadedPlugins(): Plugin[];
+        /**
+         * Loads the specified plugin. If the plugin is already loaded, it will ignore it.
+         * @param p
+         */
+        static load(p: Plugin): void;
+        /**
+         * Unloads the specified plugin. Ignored if plugin wasn't loaded
+         *
+         * @param plugin
+         */
+        static unload(plugin: Plugin): void;
     }
 }
 /**
@@ -3111,226 +3199,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 8/22/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class LinearIcon extends IconItem {
-        static home: LinearIcon;
-        static apartment: LinearIcon;
-        static pencil: LinearIcon;
-        static magic_wand: LinearIcon;
-        static drop: LinearIcon;
-        static lighter: LinearIcon;
-        static poop: LinearIcon;
-        static sun: LinearIcon;
-        static moon: LinearIcon;
-        static cloud: LinearIcon;
-        static cloud_upload: LinearIcon;
-        static cloud_download: LinearIcon;
-        static cloud_sync: LinearIcon;
-        static cloud_check: LinearIcon;
-        static database: LinearIcon;
-        static lock: LinearIcon;
-        static cog: LinearIcon;
-        static trash: LinearIcon;
-        static dice: LinearIcon;
-        static heart: LinearIcon;
-        static star: LinearIcon;
-        static star_half: LinearIcon;
-        static star_empty: LinearIcon;
-        static flag: LinearIcon;
-        static envelope: LinearIcon;
-        static paperclip: LinearIcon;
-        static inbox: LinearIcon;
-        static eye: LinearIcon;
-        static printer: LinearIcon;
-        static file_empty: LinearIcon;
-        static file_add: LinearIcon;
-        static enter: LinearIcon;
-        static exit: LinearIcon;
-        static graduation_hat: LinearIcon;
-        static license: LinearIcon;
-        static music_note: LinearIcon;
-        static film_play: LinearIcon;
-        static camera_video: LinearIcon;
-        static camera: LinearIcon;
-        static picture: LinearIcon;
-        static book: LinearIcon;
-        static bookmark: LinearIcon;
-        static user: LinearIcon;
-        static users: LinearIcon;
-        static shirt: LinearIcon;
-        static store: LinearIcon;
-        static cart: LinearIcon;
-        static tag: LinearIcon;
-        static phone_handset: LinearIcon;
-        static phone: LinearIcon;
-        static pushpin: LinearIcon;
-        static map_marker: LinearIcon;
-        static map: LinearIcon;
-        static location: LinearIcon;
-        static calendar_full: LinearIcon;
-        static keyboard: LinearIcon;
-        static spell_check: LinearIcon;
-        static screen: LinearIcon;
-        static smartphone: LinearIcon;
-        static tablet: LinearIcon;
-        static laptop: LinearIcon;
-        static laptop_phone: LinearIcon;
-        static power_switch: LinearIcon;
-        static bubble: LinearIcon;
-        static heart_pulse: LinearIcon;
-        static construction: LinearIcon;
-        static pie_chart: LinearIcon;
-        static chart_bars: LinearIcon;
-        static gift: LinearIcon;
-        static diamond: LinearIcon;
-        static linearicons: LinearIcon;
-        static dinner: LinearIcon;
-        static coffee_cup: LinearIcon;
-        static leaf: LinearIcon;
-        static paw: LinearIcon;
-        static rocket: LinearIcon;
-        static briefcase: LinearIcon;
-        static bus: LinearIcon;
-        static car: LinearIcon;
-        static train: LinearIcon;
-        static bicycle: LinearIcon;
-        static wheelchair: LinearIcon;
-        static select: LinearIcon;
-        static earth: LinearIcon;
-        static smile: LinearIcon;
-        static sad: LinearIcon;
-        static neutral: LinearIcon;
-        static mustache: LinearIcon;
-        static alarm: LinearIcon;
-        static bullhorn: LinearIcon;
-        static volume_high: LinearIcon;
-        static volume_medium: LinearIcon;
-        static volume_low: LinearIcon;
-        static volume: LinearIcon;
-        static mic: LinearIcon;
-        static hourglass: LinearIcon;
-        static undo: LinearIcon;
-        static redo: LinearIcon;
-        static sync: LinearIcon;
-        static history: LinearIcon;
-        static clock: LinearIcon;
-        static download: LinearIcon;
-        static upload: LinearIcon;
-        static enter_down: LinearIcon;
-        static exit_up: LinearIcon;
-        static bug: LinearIcon;
-        static code: LinearIcon;
-        static link: LinearIcon;
-        static unlink: LinearIcon;
-        static thumbs_up: LinearIcon;
-        static thumbs_down: LinearIcon;
-        static magnifier: LinearIcon;
-        static cross: LinearIcon;
-        static menu: LinearIcon;
-        static list: LinearIcon;
-        static chevron_up: LinearIcon;
-        static chevron_down: LinearIcon;
-        static chevron_left: LinearIcon;
-        static chevron_right: LinearIcon;
-        static arrow_up: LinearIcon;
-        static arrow_down: LinearIcon;
-        static arrow_left: LinearIcon;
-        static arrow_right: LinearIcon;
-        static move: LinearIcon;
-        static warning: LinearIcon;
-        static question_circle: LinearIcon;
-        static menu_circle: LinearIcon;
-        static checkmark_circle: LinearIcon;
-        static cross_circle: LinearIcon;
-        static plus_circle: LinearIcon;
-        static circle_minus: LinearIcon;
-        static arrow_up_circle: LinearIcon;
-        static arrow_down_circle: LinearIcon;
-        static arrow_left_circle: LinearIcon;
-        static arrow_right_circle: LinearIcon;
-        static chevron_up_circle: LinearIcon;
-        static chevron_down_circle: LinearIcon;
-        static chevron_left_circle: LinearIcon;
-        static chevron_right_circle: LinearIcon;
-        static crop: LinearIcon;
-        static frame_expand: LinearIcon;
-        static frame_contract: LinearIcon;
-        static layers: LinearIcon;
-        static funnel: LinearIcon;
-        static text_format: LinearIcon;
-        static text_format_remove: LinearIcon;
-        static text_size: LinearIcon;
-        static bold: LinearIcon;
-        static italic: LinearIcon;
-        static underline: LinearIcon;
-        static strikethrough: LinearIcon;
-        static highlight: LinearIcon;
-        static text_align_left: LinearIcon;
-        static text_align_center: LinearIcon;
-        static text_align_right: LinearIcon;
-        static text_align_justify: LinearIcon;
-        static line_spacing: LinearIcon;
-        static indent_increase: LinearIcon;
-        static indent_decrease: LinearIcon;
-        static pilcrow: LinearIcon;
-        static direction_ltr: LinearIcon;
-        static direction_rtl: LinearIcon;
-        static page_break: LinearIcon;
-        static sort_alpha_asc: LinearIcon;
-        static sort_amount_asc: LinearIcon;
-        static hand: LinearIcon;
-        static pointer_up: LinearIcon;
-        static pointer_right: LinearIcon;
-        static pointer_down: LinearIcon;
-        static pointer_left: LinearIcon;
-        /**
-         * Gets the icon by name
-         * @param name
-         * @returns {latte.LinearIcon}
-         */
-        static byStyleName(name: string): LinearIcon;
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Returns a clone of the icon
-         **/
-        clone(): IconItem;
-        /**
-         * Sets the color and returns the icon for chaining
-         * @param color
-         * @returns {latte.LinearIcon}
-         */
-        colorize(color: Color): LinearIcon;
-        /**
-         * Sets the size to 32 and returns the icon for chaining
-         * @returns {latte.LinearIcon}
-         */
-        go32(): LinearIcon;
-        /**
-         * Property field
-         */
-        private _linearIconName;
-        /**
-         * Gets or sets the linear icon name
-         *
-         * @returns {string}
-         */
-        /**
-         * Gets or sets the linear icon name
-         *
-         * @param {string} value
-         */
-        linearIconName: string;
-    }
-}
-/**
  * Created by josemanuel on 8/1/16.
  */
 declare module latte {
@@ -3620,16 +3488,6 @@ declare module latte {
  */
 declare module latte {
     /**
-     * Record for table fragment
-     */
-    class Fragment extends fragmentBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
      * Record for table page
      */
     class Page extends pageBase {
@@ -3764,6 +3622,236 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 8/22/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class LinearIcon extends IconItem {
+        static home: LinearIcon;
+        static apartment: LinearIcon;
+        static pencil: LinearIcon;
+        static magic_wand: LinearIcon;
+        static drop: LinearIcon;
+        static lighter: LinearIcon;
+        static poop: LinearIcon;
+        static sun: LinearIcon;
+        static moon: LinearIcon;
+        static cloud: LinearIcon;
+        static cloud_upload: LinearIcon;
+        static cloud_download: LinearIcon;
+        static cloud_sync: LinearIcon;
+        static cloud_check: LinearIcon;
+        static database: LinearIcon;
+        static lock: LinearIcon;
+        static cog: LinearIcon;
+        static trash: LinearIcon;
+        static dice: LinearIcon;
+        static heart: LinearIcon;
+        static star: LinearIcon;
+        static star_half: LinearIcon;
+        static star_empty: LinearIcon;
+        static flag: LinearIcon;
+        static envelope: LinearIcon;
+        static paperclip: LinearIcon;
+        static inbox: LinearIcon;
+        static eye: LinearIcon;
+        static printer: LinearIcon;
+        static file_empty: LinearIcon;
+        static file_add: LinearIcon;
+        static enter: LinearIcon;
+        static exit: LinearIcon;
+        static graduation_hat: LinearIcon;
+        static license: LinearIcon;
+        static music_note: LinearIcon;
+        static film_play: LinearIcon;
+        static camera_video: LinearIcon;
+        static camera: LinearIcon;
+        static picture: LinearIcon;
+        static book: LinearIcon;
+        static bookmark: LinearIcon;
+        static user: LinearIcon;
+        static users: LinearIcon;
+        static shirt: LinearIcon;
+        static store: LinearIcon;
+        static cart: LinearIcon;
+        static tag: LinearIcon;
+        static phone_handset: LinearIcon;
+        static phone: LinearIcon;
+        static pushpin: LinearIcon;
+        static map_marker: LinearIcon;
+        static map: LinearIcon;
+        static location: LinearIcon;
+        static calendar_full: LinearIcon;
+        static keyboard: LinearIcon;
+        static spell_check: LinearIcon;
+        static screen: LinearIcon;
+        static smartphone: LinearIcon;
+        static tablet: LinearIcon;
+        static laptop: LinearIcon;
+        static laptop_phone: LinearIcon;
+        static power_switch: LinearIcon;
+        static bubble: LinearIcon;
+        static heart_pulse: LinearIcon;
+        static construction: LinearIcon;
+        static pie_chart: LinearIcon;
+        static chart_bars: LinearIcon;
+        static gift: LinearIcon;
+        static diamond: LinearIcon;
+        static linearicons: LinearIcon;
+        static dinner: LinearIcon;
+        static coffee_cup: LinearIcon;
+        static leaf: LinearIcon;
+        static paw: LinearIcon;
+        static rocket: LinearIcon;
+        static briefcase: LinearIcon;
+        static bus: LinearIcon;
+        static car: LinearIcon;
+        static train: LinearIcon;
+        static bicycle: LinearIcon;
+        static wheelchair: LinearIcon;
+        static select: LinearIcon;
+        static earth: LinearIcon;
+        static smile: LinearIcon;
+        static sad: LinearIcon;
+        static neutral: LinearIcon;
+        static mustache: LinearIcon;
+        static alarm: LinearIcon;
+        static bullhorn: LinearIcon;
+        static volume_high: LinearIcon;
+        static volume_medium: LinearIcon;
+        static volume_low: LinearIcon;
+        static volume: LinearIcon;
+        static mic: LinearIcon;
+        static hourglass: LinearIcon;
+        static undo: LinearIcon;
+        static redo: LinearIcon;
+        static sync: LinearIcon;
+        static history: LinearIcon;
+        static clock: LinearIcon;
+        static download: LinearIcon;
+        static upload: LinearIcon;
+        static enter_down: LinearIcon;
+        static exit_up: LinearIcon;
+        static bug: LinearIcon;
+        static code: LinearIcon;
+        static link: LinearIcon;
+        static unlink: LinearIcon;
+        static thumbs_up: LinearIcon;
+        static thumbs_down: LinearIcon;
+        static magnifier: LinearIcon;
+        static cross: LinearIcon;
+        static menu: LinearIcon;
+        static list: LinearIcon;
+        static chevron_up: LinearIcon;
+        static chevron_down: LinearIcon;
+        static chevron_left: LinearIcon;
+        static chevron_right: LinearIcon;
+        static arrow_up: LinearIcon;
+        static arrow_down: LinearIcon;
+        static arrow_left: LinearIcon;
+        static arrow_right: LinearIcon;
+        static move: LinearIcon;
+        static warning: LinearIcon;
+        static question_circle: LinearIcon;
+        static menu_circle: LinearIcon;
+        static checkmark_circle: LinearIcon;
+        static cross_circle: LinearIcon;
+        static plus_circle: LinearIcon;
+        static circle_minus: LinearIcon;
+        static arrow_up_circle: LinearIcon;
+        static arrow_down_circle: LinearIcon;
+        static arrow_left_circle: LinearIcon;
+        static arrow_right_circle: LinearIcon;
+        static chevron_up_circle: LinearIcon;
+        static chevron_down_circle: LinearIcon;
+        static chevron_left_circle: LinearIcon;
+        static chevron_right_circle: LinearIcon;
+        static crop: LinearIcon;
+        static frame_expand: LinearIcon;
+        static frame_contract: LinearIcon;
+        static layers: LinearIcon;
+        static funnel: LinearIcon;
+        static text_format: LinearIcon;
+        static text_format_remove: LinearIcon;
+        static text_size: LinearIcon;
+        static bold: LinearIcon;
+        static italic: LinearIcon;
+        static underline: LinearIcon;
+        static strikethrough: LinearIcon;
+        static highlight: LinearIcon;
+        static text_align_left: LinearIcon;
+        static text_align_center: LinearIcon;
+        static text_align_right: LinearIcon;
+        static text_align_justify: LinearIcon;
+        static line_spacing: LinearIcon;
+        static indent_increase: LinearIcon;
+        static indent_decrease: LinearIcon;
+        static pilcrow: LinearIcon;
+        static direction_ltr: LinearIcon;
+        static direction_rtl: LinearIcon;
+        static page_break: LinearIcon;
+        static sort_alpha_asc: LinearIcon;
+        static sort_amount_asc: LinearIcon;
+        static hand: LinearIcon;
+        static pointer_up: LinearIcon;
+        static pointer_right: LinearIcon;
+        static pointer_down: LinearIcon;
+        static pointer_left: LinearIcon;
+        /**
+         * Gets the icon by name
+         * @param name
+         * @returns {latte.LinearIcon}
+         */
+        static byStyleName(name: string): LinearIcon;
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Returns a clone of the icon
+         **/
+        clone(): IconItem;
+        /**
+         * Sets the color and returns the icon for chaining
+         * @param color
+         * @returns {latte.LinearIcon}
+         */
+        colorize(color: Color): LinearIcon;
+        /**
+         * Sets the size to 32 and returns the icon for chaining
+         * @returns {latte.LinearIcon}
+         */
+        go32(): LinearIcon;
+        /**
+         * Property field
+         */
+        private _linearIconName;
+        /**
+         * Gets or sets the linear icon name
+         *
+         * @returns {string}
+         */
+        /**
+         * Gets or sets the linear icon name
+         *
+         * @param {string} value
+         */
+        linearIconName: string;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table fragment
+     */
+    class Fragment extends fragmentBase {
+    }
+}
+/**
  * Generated by xlatte
  */
 declare module latte {
@@ -3839,6 +3927,165 @@ declare module latte {
      * Record for table setting
      */
     class Setting extends settingBase {
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table user
+     */
+    class User extends userBase {
+        static FLAG_ROOT_USER: number;
+        static FLAG_SYS_ADMIN: number;
+        static FLAG_BANNED_USER: number;
+        static FLAG_TRASH: number;
+        static me: User;
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Returns a value indicating if the user belongs to the specified group
+         * @param idgroup
+         * @returns {boolean}
+         */
+        inGroup(idgroup: number): boolean;
+        /**
+         * Returns a string representation of the object
+         */
+        toString(): string;
+        /**
+         * Gets a string with attributes of the record
+         *
+         * @returns {string}
+         */
+        attributes: string;
+        /**
+         * Gets the flags as a string
+         *
+         * @returns {string}
+         */
+        flagsString: string;
+        /**
+         * Property field
+         */
+        private _groups;
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @returns {Group[]}
+         */
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @param {Group[]} value
+         */
+        groups: Group[];
+        /**
+         * Gets a value indicating if the user is banned
+         *
+         * @returns {boolean}
+         */
+        isBanned: boolean;
+        /**
+         * Gets a value indicating if user is root
+         *
+         * @returns {boolean}
+         */
+        isRoot: boolean;
+        /**
+         * Gets a value indicating if user is sys-admin
+         *
+         * @returns {boolean}
+         */
+        isSysAdmin: boolean;
+        /**
+         * Gets a value indicating if the user is trash
+         *
+         * @returns {boolean}
+         */
+        isTrash: boolean;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class CmsExplorer extends ExplorerView {
+        /**
+         *
+         */
+        constructor();
+    }
+}
+/**
+ * Created by josemanuel on 8/11/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class CmsMainView extends View {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Override.
+         */
+        onLoad(): void;
+        /**
+         * Field for explorer property
+         */
+        private _explorer;
+        /**
+         * Gets the explorer
+         *
+         * @returns {CmsExplorer}
+         */
+        explorer: CmsExplorer;
+        /**
+         * Field for topBar property
+         */
+        private _topBar;
+        /**
+         * Gets the top bar
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        topBar: Element<HTMLDivElement>;
+        /**
+         * Field for logo property
+         */
+        private _logo;
+        /**
+         * Gets the logo element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        logo: Element<HTMLDivElement>;
+        /**
+         * Field for logout property
+         */
+        private _logout;
+        /**
+         * Gets the logout element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        logout: Element<HTMLDivElement>;
     }
 }
 /**
@@ -3927,61 +4174,47 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 8/11/16.
+ * Created by josemanuel on 7/16/16.
  */
 declare module latte {
     /**
      *
      */
-    class CmsMainView extends View {
+    class PageConfigurationView extends View {
         /**
-         *
+         * Creates the view
          */
-        constructor();
+        constructor(r: Page);
         /**
-         * Override.
+         * Loads data
          */
         onLoad(): void;
+        getSaveCalls(): ICall[];
         /**
-         * Field for explorer property
+         * Field for textbox property
          */
-        private _explorer;
+        private _textbox;
         /**
-         * Gets the explorer
+         * Gets the textbox
          *
-         * @returns {CmsExplorer}
+         * @returns {Textbox}
          */
-        explorer: CmsExplorer;
+        textbox: Element<HTMLTextAreaElement>;
         /**
-         * Field for topBar property
+         * Property field
          */
-        private _topBar;
+        private _page;
         /**
-         * Gets the top bar
+         * Gets or sets the page of theview
          *
-         * @returns {Element<HTMLDivElement>}
+         * @returns {Page}
          */
-        topBar: Element<HTMLDivElement>;
         /**
-         * Field for logo property
-         */
-        private _logo;
-        /**
-         * Gets the logo element
+         * Gets or sets the page of theview
          *
-         * @returns {Element<HTMLDivElement>}
+         * @param {Page} value
          */
-        logo: Element<HTMLDivElement>;
-        /**
-         * Field for logout property
-         */
-        private _logout;
-        /**
-         * Gets the logout element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        logout: Element<HTMLDivElement>;
+        page: Page;
     }
 }
 /**
@@ -4084,6 +4317,24 @@ declare module latte {
          * @returns {FormItem}
          */
         settingsForm: FormItem;
+    }
+}
+/**
+ * Created by josemanuel on 6/10/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class SignInView extends SignInViewBase {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Handles the form submit
+         */
+        formSubmit(): void;
     }
 }
 /**
@@ -4391,168 +4642,5 @@ declare module latte {
          * @returns {TabItem}
          */
         tabConfiguration: TabItem;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table user
-     */
-    class User extends userBase {
-        static FLAG_ROOT_USER: number;
-        static FLAG_SYS_ADMIN: number;
-        static FLAG_BANNED_USER: number;
-        static FLAG_TRASH: number;
-        static me: User;
-        /**
-         * Gets the suggestion loader
-         * @returns {*}
-         */
-        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Returns a value indicating if the user belongs to the specified group
-         * @param idgroup
-         * @returns {boolean}
-         */
-        inGroup(idgroup: number): boolean;
-        /**
-         * Returns a string representation of the object
-         */
-        toString(): string;
-        /**
-         * Gets a string with attributes of the record
-         *
-         * @returns {string}
-         */
-        attributes: string;
-        /**
-         * Gets the flags as a string
-         *
-         * @returns {string}
-         */
-        flagsString: string;
-        /**
-         * Property field
-         */
-        private _groups;
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @returns {Group[]}
-         */
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @param {Group[]} value
-         */
-        groups: Group[];
-        /**
-         * Gets a value indicating if the user is banned
-         *
-         * @returns {boolean}
-         */
-        isBanned: boolean;
-        /**
-         * Gets a value indicating if user is root
-         *
-         * @returns {boolean}
-         */
-        isRoot: boolean;
-        /**
-         * Gets a value indicating if user is sys-admin
-         *
-         * @returns {boolean}
-         */
-        isSysAdmin: boolean;
-        /**
-         * Gets a value indicating if the user is trash
-         *
-         * @returns {boolean}
-         */
-        isTrash: boolean;
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class CmsExplorer extends ExplorerView {
-        /**
-         *
-         */
-        constructor();
-    }
-}
-/**
- * Created by josemanuel on 7/16/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageConfigurationView extends View {
-        /**
-         * Creates the view
-         */
-        constructor(r: Page);
-        /**
-         * Loads data
-         */
-        onLoad(): void;
-        getSaveCalls(): ICall[];
-        /**
-         * Field for textbox property
-         */
-        private _textbox;
-        /**
-         * Gets the textbox
-         *
-         * @returns {Textbox}
-         */
-        textbox: Element<HTMLTextAreaElement>;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of theview
-         *
-         * @returns {Page}
-         */
-        /**
-         * Gets or sets the page of theview
-         *
-         * @param {Page} value
-         */
-        page: Page;
-    }
-}
-/**
- * Created by josemanuel on 6/10/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class SignInView extends SignInViewBase {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Handles the form submit
-         */
-        formSubmit(): void;
     }
 }

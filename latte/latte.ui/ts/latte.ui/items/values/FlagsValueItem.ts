@@ -10,7 +10,7 @@ module latte {
     /**
      *
      */
-    export class FlagsValueItem extends ValueItem {
+    export class FlagsValueItem extends ValueItem<number> {
 
         //region Static
         //endregion
@@ -77,6 +77,21 @@ module latte {
 
         //region Methods
 
+        /**
+         * Override.
+         */
+        onGetValueString(): string {
+            let list: String[] = [];
+            let f = this.value;
+            for(let i in this.options){
+                let flag = parseInt(i);
+
+                if( (f & flag) == flag){
+                    list.push(this.options[i]);
+                }
+            }
+            return list.join(', ') || strings.flagsNone;
+        }
 
         /**
          * Raises the <c>options</c> event
@@ -104,9 +119,7 @@ module latte {
          * Raises the <c>value</c> event
          */
         onValueChanged(){
-            if(this._valueChanged){
-                this._valueChanged.raise();
-            }
+            super.onValueChanged();
             // log("Value Changed: " + this.value)
 
             if(!this.ignoreUpdateChecks) {
@@ -119,22 +132,6 @@ module latte {
         //endregion
 
         //region Events
-        /**
-         * Back field for event
-         */
-        private _valueChanged: LatteEvent;
-
-        /**
-         * Gets an event raised when the value of the value property changes
-         *
-         * @returns {LatteEvent}
-         */
-        get valueChanged(): LatteEvent{
-            if(!this._valueChanged){
-                this._valueChanged = new LatteEvent(this);
-            }
-            return this._valueChanged;
-        }
 
         /**
          * Back field for event
@@ -182,58 +179,6 @@ module latte {
             }
             return this._checks;
         }
-
-        /**
-         * Property field
-         */
-        private _value: number = 0;
-
-        /**
-         * Gets or sets the value of the flags
-         *
-         * @returns {number}
-         */
-        get value(): number{
-            return this._value;
-        }
-
-        /**
-         * Gets or sets the value of the flags
-         *
-         * @param {number} value
-         */
-        set value(value: number){
-
-            // Check if value changed
-            let changed: boolean = value !== this._value;
-
-            // Set value
-            this._value = value;
-
-            // Trigger changed event
-            if(changed){
-                this.onValueChanged();
-            }
-        }
-
-        /**
-         * Gets the value of the flags as a string
-         *
-         * @returns {string}
-         */
-        get valueString(): string {
-            let list: String[] = [];
-            let f = this.value;
-            for(let i in this.options){
-                let flag = parseInt(i);
-
-                if( (f & flag) == flag){
-                    list.push(this.options[i]);
-                }
-            }
-            return list.join(', ') || strings.flagsNone;
-        }
-
 
         /**
          * Property field

@@ -434,9 +434,9 @@ module latte {
                 this._onlineInput = InputItem.fromIInput({
                     text: strings.online,
                     type: 'switch'
-                }, 'online', this.page.online > 0);
+                }, 'online', this.page.online);
                 this._onlineInput.valueChanged.add(() => {
-                    this.page.online = this.onlineInput.value ? 1 : 0;
+                    this.page.online = this.onlineInput.value
                     this.onlineChanged = true;
                 });
                 this._onlineInput.tab = this.tabPage;

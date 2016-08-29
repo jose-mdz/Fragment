@@ -158,4 +158,8 @@ class Setting extends settingBase{
         }
     }
 
+    public function __toString(){
+        return $this->value;
+    }
+
 }

@@ -1074,6 +1074,41 @@ declare module latte {
 }
 declare module latte {
     /**
+     *
+     **/
+    class DataRecordFormView extends FormView {
+        /**
+         * Creates the form of the specified record
+         **/
+        constructor(record?: DataRecord);
+        /**
+         * Applies the values on form to the record. Optionally specifies which record
+         is supposed to recieve the values
+         **/
+        applyValues(record?: DataRecord): void;
+        getSaveCalls(): ICall[];
+        printSaveStack(view: View): void;
+        /**
+         * Field for form property
+         */
+        private _dataform;
+        /**
+         * Gets the data record form view
+         *
+         * @returns {DataRecordFormItem}
+         */
+        form: DataRecordFormItem;
+        /**
+         * Gets or sets the record of the form
+         **/
+        /**
+         * Gets or sets the record of the form
+         **/
+        record: DataRecord;
+    }
+}
+declare module latte {
+    /**
      * Creates a form for a specific <c>DataRecord</c>
      **/
     class DataRecordFormItem extends FormItem implements ISave {
@@ -1152,41 +1187,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     *
-     **/
-    class DataRecordFormView extends FormView {
-        /**
-         * Creates the form of the specified record
-         **/
-        constructor(record?: DataRecord);
-        /**
-         * Applies the values on form to the record. Optionally specifies which record
-         is supposed to recieve the values
-         **/
-        applyValues(record?: DataRecord): void;
-        getSaveCalls(): ICall[];
-        printSaveStack(view: View): void;
-        /**
-         * Field for form property
-         */
-        private _dataform;
-        /**
-         * Gets the data record form view
-         *
-         * @returns {DataRecordFormItem}
-         */
-        form: DataRecordFormItem;
-        /**
-         * Gets or sets the record of the form
-         **/
-        /**
-         * Gets or sets the record of the form
-         **/
-        record: DataRecord;
-    }
-}
-declare module latte {
-    /**
      * Hanldles insertions, updates and deletion of <c>DataRecords</c>
      **/
     class DataRecordGridView extends GridView {
@@ -1251,12 +1251,12 @@ declare module latte {
      *
      */
     interface DataRecordSuggestionLoader {
-        (d: DataRecordValueItem, callback: (items: Array<Item>) => any): Message;
+        (d: DataRecordValueItem, callback: (items: Item[]) => any): Message;
     }
     /**
      * Value item for representing data records as value item.
      */
-    class DataRecordValueItem extends ValueItem {
+    class DataRecordValueItem extends ValueItem<number> {
         /**
          * Creates the value item
          * @param loader

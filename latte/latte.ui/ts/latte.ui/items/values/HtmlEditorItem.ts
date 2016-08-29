@@ -5,7 +5,7 @@ module latte{
      For specification of <c>rangy</c> objects refer to:
      <a href="http://code.google.com/p/rangy/w/list" target=_blank>http://code.google.com/p/rangy/w/list</a>
      **/
-    export class HtmlEditorItem extends ValueItem{
+    export class HtmlEditorItem extends ValueItem<string>{
 
         static rangyPath: string = '/latte/releases/latte.ui/support/js/rangy.js';
 
@@ -24,7 +24,7 @@ module latte{
         /**
          * Value is stored here while not ready.
          **/
-        private _value: string;
+        private _valueHtml: string;
 
         /**
          * Points to the iframe of the editor
@@ -36,20 +36,6 @@ module latte{
          **/
         toolbar: Toolbar;
 
-        /**
-         * Raised when the editor gets focus
-         **/
-        focus: LatteEvent;
-
-        /**
-         * Raised when the selection of editor changes
-         **/
-        selectionChanged: LatteEvent;
-
-        /**
-         * Raised when an image in the editor is selected
-         **/
-        imageSelected: LatteEvent;
         //endregion
 
         /**
@@ -60,11 +46,6 @@ module latte{
 //            var __this = this;
             super();
             this.addClass('html-editor');
-
-            // Events
-            this.focus = new LatteEvent(this);
-            this.selectionChanged = new LatteEvent(this);
-            this.imageSelected = new LatteEvent(this);
 
             // Elements
             this.toolbar = new Toolbar();
@@ -82,6 +63,7 @@ module latte{
 
         }
 
+        //region Private Methods
         /**
          * Creates default buttons
          **/
@@ -272,8 +254,8 @@ module latte{
             this._ready = true;
 
             // If some value existed, re-assign it.
-            if(this._value){
-                this.body().html(this._value);
+            if(this._valueHtml){
+                this.body().html(this._valueHtml);
                 this._assignElementHandlers();
                 this.onLayout();
             }
@@ -285,11 +267,11 @@ module latte{
                     fontFamily: this.element.css('font-family'),
                     fontSize: 14 //this.element.css('font-size')
                 })
-                .focus(function(){__this.onFocus()})
+                .focus(function(){__this.onFocused()})
                 .blur(function(){__this.onBlur()})
                 .click(function(){__this.onSelectionChanged()})
-                .keyup(function(){__this._value = $(this).html(); __this.onSelectionChanged(); __this.onValueChanged()})
-                .change(function(){__this._value = $(this).html(); __this.onValueChanged()});
+                .keyup(function(){__this._valueHtml = $(this).html(); __this.onSelectionChanged(); __this.onValueChanged()})
+                .change(function(){__this._valueHtml = $(this).html(); __this.onValueChanged()});
 
 
         }
@@ -416,7 +398,9 @@ module latte{
             }
 
         }
+        //endregion
 
+        //region Methods
         /**
          * Gets the body of the iframe
          **/
@@ -499,7 +483,7 @@ module latte{
             if(!this._mustInit()){
                 return this.body().html() || "";
             }else{
-                return this._value || "";
+                return this._valueHtml || "";
             }
 
         }
@@ -529,21 +513,12 @@ module latte{
         }
 
         /**
-         * Raises the <c>focus</c> event
-         **/
-        onFocus(){
-
-            this.focus.raise();
-
-        }
-
-        /**
          * Raises the <c>imageSelected</c> event
-         **/
+         */
         onImageSelected(image: JQuery){
-
-            this.imageSelected.raise(image);
-
+            if(this._imageSelected){
+                return this._imageSelected.raise(image);
+            }
         }
 
         /**
@@ -660,21 +635,6 @@ module latte{
         }
 
         /**
-         * Gets the current selection
-         **/
-        get selection(): RangySelection{
-
-
-            if(window['rangy'] && !rangy.initialized){
-                rangy.init();
-            }
-
-            //return rangy.getIframeSelection(this.iframe.get(0));
-            return rangy.getSelection();
-
-        }
-
-        /**
          * Gets the element where selection ends.
          **/
         selectionEnd(): JQuery{
@@ -739,7 +699,7 @@ module latte{
             if(!_isString(value))
                 throw new InvalidArgumentEx('value', value);
 
-            this._value = value;
+            this._valueHtml = value;
 
             // Update editable if possible
             if(this._ensureReady()){
@@ -774,6 +734,61 @@ module latte{
             }
 
             return jQuery(element);
+
+        }
+        //endregion
+
+        //region Events
+
+        /**
+         * Back field for event
+         */
+        private _selectionChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the selection of the editor changes
+         *
+         * @returns {LatteEvent}
+         */
+        get selectionChanged(): LatteEvent{
+            if(!this._selectionChanged){
+                this._selectionChanged = new LatteEvent(this);
+            }
+            return this._selectionChanged;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _imageSelected: LatteEvent;
+
+        /**
+         * Gets an event raised when an image in the editor is selected
+         *
+         * @returns {LatteEvent}
+         */
+        get imageSelected(): LatteEvent{
+            if(!this._imageSelected){
+                this._imageSelected = new LatteEvent(this);
+            }
+            return this._imageSelected;
+        }
+
+        //endregion
+
+        //region Properties
+        /**
+         * Gets the current selection
+         **/
+        get selection(): RangySelection{
+
+
+            if(window['rangy'] && !rangy.initialized){
+                rangy.init();
+            }
+
+            //return rangy.getIframeSelection(this.iframe.get(0));
+            return rangy.getSelection();
 
         }
 
@@ -814,5 +829,8 @@ module latte{
             return this.iframe.get(0).contentWindow;
 
         }
+        //endregion
+
+
     }
 }

@@ -2234,6 +2234,87 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     *
+     **/
+    var DataRecordFormView = (function (_super) {
+        __extends(DataRecordFormView, _super);
+        /**
+         * Creates the form of the specified record
+         **/
+        function DataRecordFormView(record) {
+            if (record === void 0) { record = null; }
+            _super.call(this);
+            //this.form = new DataRecordFormItem();
+            //this.items.clear();
+            //this.items.add(this.form);
+            if (record)
+                this.record = record;
+        }
+        //region Methods
+        /**
+         * Applies the values on form to the record. Optionally specifies which record
+         is supposed to recieve the values
+         **/
+        DataRecordFormView.prototype.applyValues = function (record) {
+            if (record === void 0) { record = null; }
+            this.form.applyValues(record);
+        };
+        DataRecordFormView.prototype.getSaveCalls = function () {
+            var _this = this;
+            //HACK: I don't think the call to applyValues should be here.
+            this.applyValues(this.record);
+            // Return save call
+            return [this.record.saveCall().withHandlers(function () {
+                    _this.unsavedChanges = false;
+                })];
+        };
+        DataRecordFormView.prototype.printSaveStack = function (view) {
+            latte.log(latte.sprintf("Unsaved changes = %s of view:", view.unsavedChanges));
+            latte.log(view);
+            if (view.parentView)
+                this.printSaveStack(view.parentView);
+        };
+        Object.defineProperty(DataRecordFormView.prototype, "form", {
+            /**
+             * Gets the data record form view
+             *
+             * @returns {DataRecordFormItem}
+             */
+            get: function () {
+                if (!this._dataform) {
+                    this._dataform = new latte.DataRecordFormItem();
+                    this._dataform.valueChanged.add(this.onValueChanged, this);
+                }
+                return this._dataform;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordFormView.prototype, "record", {
+            //endregion
+            //region Properties
+            /**
+             * Gets or sets the record of the form
+             **/
+            get: function () {
+                return this.form.record;
+            },
+            /**
+             * Gets or sets the record of the form
+             **/
+            set: function (record) {
+                this.form.record = record;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return DataRecordFormView;
+    }(latte.FormView));
+    latte.DataRecordFormView = DataRecordFormView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * Creates a form for a specific <c>DataRecord</c>
      **/
     var DataRecordFormItem = (function (_super) {
@@ -2477,87 +2558,6 @@ var latte;
         return DataRecordFormItem;
     }(latte.FormItem));
     latte.DataRecordFormItem = DataRecordFormItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     *
-     **/
-    var DataRecordFormView = (function (_super) {
-        __extends(DataRecordFormView, _super);
-        /**
-         * Creates the form of the specified record
-         **/
-        function DataRecordFormView(record) {
-            if (record === void 0) { record = null; }
-            _super.call(this);
-            //this.form = new DataRecordFormItem();
-            //this.items.clear();
-            //this.items.add(this.form);
-            if (record)
-                this.record = record;
-        }
-        //region Methods
-        /**
-         * Applies the values on form to the record. Optionally specifies which record
-         is supposed to recieve the values
-         **/
-        DataRecordFormView.prototype.applyValues = function (record) {
-            if (record === void 0) { record = null; }
-            this.form.applyValues(record);
-        };
-        DataRecordFormView.prototype.getSaveCalls = function () {
-            var _this = this;
-            //HACK: I don't think the call to applyValues should be here.
-            this.applyValues(this.record);
-            // Return save call
-            return [this.record.saveCall().withHandlers(function () {
-                    _this.unsavedChanges = false;
-                })];
-        };
-        DataRecordFormView.prototype.printSaveStack = function (view) {
-            latte.log(latte.sprintf("Unsaved changes = %s of view:", view.unsavedChanges));
-            latte.log(view);
-            if (view.parentView)
-                this.printSaveStack(view.parentView);
-        };
-        Object.defineProperty(DataRecordFormView.prototype, "form", {
-            /**
-             * Gets the data record form view
-             *
-             * @returns {DataRecordFormItem}
-             */
-            get: function () {
-                if (!this._dataform) {
-                    this._dataform = new latte.DataRecordFormItem();
-                    this._dataform.valueChanged.add(this.onValueChanged, this);
-                }
-                return this._dataform;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordFormView.prototype, "record", {
-            //endregion
-            //region Properties
-            /**
-             * Gets or sets the record of the form
-             **/
-            get: function () {
-                return this.form.record;
-            },
-            /**
-             * Gets or sets the record of the form
-             **/
-            set: function (record) {
-                this.form.record = record;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return DataRecordFormView;
-    }(latte.FormView));
-    latte.DataRecordFormView = DataRecordFormView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -3877,8 +3877,8 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenWidget.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordDialogView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordGridView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordWidget.ts" />

@@ -2,121 +2,22 @@ module latte{
     /**
      *
      **/
-    export class TextboxItem extends ValueItem{
+    export class TextboxItem extends ValueItem<string>{
 
-        /**
-         *
-         **/
-        private _autoGrow: boolean = true;
+        //region Static
 
-        /**
-         *
-         **/
-        private _inputContainer: JQuery;
+        //endregion
 
-        /**
-         *
-         **/
-        private _invisible: JQuery;
-
-        /**
-         *
-         **/
-        private _maxLength: number;
-
-        /**
-         *
-         **/
-        private _minHeight: number;
-
-        /**
-         *
-         **/
-        private _multiline: boolean;
-
-        /**
-         *
-         **/
-        private _password: boolean;
-
-        /**
-         *
-         */
-        private _minLenToSuggest: number = 4 - 1;
-
-        /**
-         *
-         */
-        private _suggestionOverlay: SuggestionOverlay = null;
-
-        /**
-         * Index of Currently selected suggestion
-         */
-        private selectedIndex = -1;
-
-        private _selectedSuggestion: Item;
-
-        private _suggestions: Collection<Item>;
-
-        private _loadingSuggestions: boolean = false;
+        //region Fields
 
         /**
          * Points to the element who receives input
          **/
         input: JQuery;
 
-        /**
-         * Points to the placeholder label
-         **/
-        placeholderLabel: LabelItem;
+        ignorePassToTextbox: boolean = false;
 
-        /**
-         * Points to the label on the side of textbox
-         **/
-        sideLabel: LabelItem;
-
-        /**
-         * Raised when user presses the enter key
-         **/
-        enterPressed: LatteEvent;
-
-        /**
-         * Raised when accessing the value of item.
-         Returning something will override the value returned by the method
-         **/
-        gettingValue: LatteEvent;
-
-        /**
-         * Raised when accessing the value string of item.
-         Returning something will override the value returned by the method
-         **/
-        gettingValueString: LatteEvent;
-
-        /**
-         * Raised when the user presses a key on the textbox
-         */
-        keyPress: LatteEvent;
-
-        /**
-         * Raised when a key goes down
-         */
-        keyDown: LatteEvent;
-
-        /**
-         * Raised when a key goes up
-         */
-        keyUp: LatteEvent;
-
-        /**
-         * Raised when changing the value of the item.
-         * Returning a string will override the value setted to the method
-         **/
-        settingValue: LatteEvent;
-
-        /**
-         * Raised when time to add suggestions.
-         */
-        filterSuggestions: LatteEvent;
+        //endregion
 
         /**
          * Initializes the item
@@ -127,37 +28,15 @@ module latte{
 
             this.element.addClass('textbox');
 
-            // Events
-            this.enterPressed = new LatteEvent(this);
-            this.gettingValue = new LatteEvent(this);
-            this.gettingValueString = new LatteEvent(this);
-            this.keyPress = new LatteEvent(this);
-            this.keyDown = new LatteEvent(this);
-            this.keyUp = new LatteEvent(this);
-            this.settingValue = new LatteEvent(this);
-            this.filterSuggestions = new LatteEvent(this);
-
             // Elements
             this._inputContainer = $('<div>').addClass('input').appendTo(this.element);
             this._invisible = $('<div>').addClass('invisible').appendTo(this.element);
-            this.placeholderLabel = new LabelItem();
-            this.placeholderLabel.addClass('placeholder');
-            this.placeholderLabel.appendTo(this);
-            this.sideLabel = new LabelItem();
-            this.sideLabel.addClass('side-label');
-            this.sideLabel.appendTo(this);
 
             this._updateInput();
 
-            UiElement.disableTextSelection(this.placeholderLabel.element);
-
-            // Pass click to textbox
-            this.placeholderLabel.element.click(() => {
-                this.input.focus();
-            });
-
         }
 
+        //region Methods
         /**
          * Updates the input element
          **/
@@ -187,7 +66,7 @@ module latte{
                 if(evt.keyCode === Key.ENTER){
                     this.onEnterPressed();
                 }
-                this.setValue(this.input.val(), true);
+                this.setValueSilently(this.input.val());
 
                 if(this.onKeyDown(evt) === false){
                     return false;
@@ -196,34 +75,17 @@ module latte{
 
             this.input.keypress((e) => {
                 this.onLayout();
-                this.setValue(this.input.val(), true);
+                this.setValueSilently(this.input.val());
                 this.onKeyPress(e);
 
             });
 
             this.input.keyup((e) => {
                 this.onLayout();
-                this.setValue(this.input.val(), true);
-                if(this.onKeyUp(e) === false) return false;
-                return true;
+                this.setValueSilently(this.input.val());
+                return this.onKeyUp(e) !== false;
             });
 
-
-        }
-
-        /**
-         *
-         **/
-        getValue(): string{
-
-            var getter = this.onGettingValue(this.input.val());
-
-            if(_isString(getter) || _isNumber(getter)){
-                return getter;
-            }
-            else{
-                return this.input.val() || "";
-            }
 
         }
 
@@ -246,48 +108,6 @@ module latte{
             if(item instanceof ButtonItem){
                 (<ButtonItem>item).click.add(( ) => { this.hideSuggestions() });
             }
-        }
-
-        /**
-         * Raises the <c>enterPressed</c> event
-         **/
-        onEnterPressed(){
-
-            this.enterPressed.raise();
-
-        }
-
-        /**
-         * Raises the <c>filterSuggestions</c> event
-         */
-        onFilterSuggestions(){
-            this.filterSuggestions.raise();
-        }
-
-        /**
-         * Raises the <c>gettingValue</c> event
-         **/
-        onGettingValue(value: string): any{
-
-            return this.gettingValue.raise(value);
-
-        }
-
-        /**
-         * Raises the <c>gettingValueString</c> event
-         **/
-        onGettingValueString(value: string): any{
-
-            return this.gettingValueString.raise(value);
-
-        }
-
-        /**
-         * Raises the <c>keyPress</c> event
-         * @param e
-         */
-        onKeyPress(e: JQueryEventObject){
-            this.keyPress.raise(e);
         }
 
         /**
@@ -349,7 +169,7 @@ module latte{
         }
 
         /**
-         * Overriden.
+         * Override.
          **/
         onLayout(){
 
@@ -376,23 +196,22 @@ module latte{
         }
 
         /**
-         * Raises the <c>settingValue</c> event
-         **/
-        onSettingValue(value: string): any{
-
-            return this.settingValue.raise(value);
-
-        }
-
-        /**
-         * Raises the <c>valueChanged</c> event
+         * Override
          **/
         onValueChanged(){
 
-
             super.onValueChanged();
 
-            this.placeholderLabel.visible = this.value.length === 0;
+            // Pass value to textbox
+            if(this.ignorePassToTextbox) {
+                this.ignorePassToTextbox = false;
+            }else {
+                this.input.val(this.value);
+            }
+
+            if(this._placeholderLabel) {
+                this.placeholderLabel.visible = this.value.length === 0;
+            }
 
             if(this.value.length < this.minLengthToActivateSuggestions && this.suggestionsVisible){
                 this.hideSuggestions();
@@ -410,7 +229,7 @@ module latte{
         /**
          * Selects the next suggestion (if possible)
          */
-         selectNextSuggestion(){
+        selectNextSuggestion(){
             if(this.suggestionsVisible && this.selectedIndex < this._suggestionOverlay.items.length){
                 this.selectSuggestion(this.selectedIndex + 1);
             }
@@ -419,7 +238,7 @@ module latte{
         /**
          * Selects the previous suggestion (if possible)
          */
-         selectPreviousSuggestion(){
+        selectPreviousSuggestion(){
             if(this.suggestionsVisible && this.selectedIndex > 0){
                 this.selectSuggestion(this.selectedIndex - 1);
             }
@@ -459,7 +278,6 @@ module latte{
 
         }
 
-
         /**
          * Sets the side label as a "clear text" button, with the specified button
          * @param icon
@@ -483,30 +301,198 @@ module latte{
         }
 
         /**
-         * Sets the value.
-         Optionally it sets the value silently whitout updating the INPUT value.
-         **/
-        setValue(value: string, silentOnInput: boolean = false){
-
-            var changed = value != this.input.val();
-            var setter = this.onSettingValue(value);
-
-            if(silentOnInput !== true){
-                if(_isString(setter) || _isNumber(setter)){
-                    this.input.val(setter);
-                }
-                else{
-                    this.input.val(value);
-                }
-            }
-
-            if(changed || silentOnInput === true){
-                this.onValueChanged();
-            }
-
-            this.onLayout();
-
+         * Sets the value silently without updating the textbox
+         * @param value
+         */
+        setValueSilently(value: string){
+            this.ignorePassToTextbox = true;
+            this.value = value;
         }
+
+        //endregion
+
+        //region Events
+
+        /**
+         * Back field for event
+         */
+        private _enterPressed: LatteEvent;
+
+        /**
+         * Gets an event raised when user presses the enter key
+         *
+         * @returns {LatteEvent}
+         */
+        get enterPressed(): LatteEvent{
+            if(!this._enterPressed){
+                this._enterPressed = new LatteEvent(this);
+            }
+            return this._enterPressed;
+        }
+
+        /**
+         * Raises the <c>enterPressed</c> event
+         */
+        onEnterPressed(){
+            if(this._enterPressed){
+                this._enterPressed.raise();
+            }
+        }
+
+        /**
+         * Back field for event
+         */
+        private _keyPress: LatteEvent;
+
+        /**
+         * Gets an event raised when the user presses a key on the input
+         *
+         * @returns {LatteEvent}
+         */
+        get keyPress(): LatteEvent{
+            if(!this._keyPress){
+                this._keyPress = new LatteEvent(this);
+            }
+            return this._keyPress;
+        }
+
+        /**
+         * Raises the <c>keyPress</c> event
+         */
+        onKeyPress(e){
+            if(this._keyPress){
+                return this._keyPress.raise(e);
+            }
+        }
+
+        /**
+         * Back field for event
+         */
+        private _keyDown: LatteEvent;
+
+        /**
+         * Gets an event raised when a key is pressed
+         *
+         * @returns {LatteEvent}
+         */
+        get keyDown(): LatteEvent{
+            if(!this._keyDown){
+                this._keyDown = new LatteEvent(this);
+            }
+            return this._keyDown;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _keyUp: LatteEvent;
+
+        /**
+         * Gets an event raised when the key is released
+         *
+         * @returns {LatteEvent}
+         */
+        get keyUp(): LatteEvent{
+            if(!this._keyUp){
+                this._keyUp = new LatteEvent(this);
+            }
+            return this._keyUp;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _filterSuggestions: LatteEvent;
+
+        /**
+         * Gets an event raised when its time to add suggestins
+         *
+         * @returns {LatteEvent}
+         */
+        get filterSuggestions(): LatteEvent{
+            if(!this._filterSuggestions){
+                this._filterSuggestions = new LatteEvent(this);
+            }
+            return this._filterSuggestions;
+        }
+
+        /**
+         * Raises the <c>filterSuggestions</c> event
+         */
+        onFilterSuggestions(){
+            if(this._filterSuggestions){
+                this._filterSuggestions.raise();
+            }
+        }
+
+        //endregion
+
+        //region Properties
+
+        /**
+         *
+         **/
+        private _autoGrow: boolean = true;
+
+        /**
+         *
+         **/
+        private _inputContainer: JQuery;
+
+        /**
+         *
+         **/
+        private _invisible: JQuery;
+
+        /**
+         *
+         **/
+        private _maxLength: number;
+
+        /**
+         *
+         **/
+        private _minHeight: number;
+
+        /**
+         *
+         **/
+        private _multiline: boolean;
+
+        /**
+         *
+         **/
+        private _password: boolean;
+
+        /**
+         *
+         */
+        private _minLenToSuggest: number = 4 - 1;
+
+        /**
+         *
+         */
+        private _suggestionOverlay: SuggestionOverlay = null;
+
+        /**
+         * Index of Currently selected suggestion
+         */
+        private selectedIndex = -1;
+
+        /**
+         *
+         */
+        private _selectedSuggestion: Item;
+
+        /**
+         *
+         */
+        private _suggestions: Collection<Item>;
+
+        /**
+         *
+         */
+        private _loadingSuggestions: boolean = false;
 
         /**
          * Gets or sets a value indicating if the textbox height should grow automatically
@@ -774,41 +760,6 @@ module latte{
         }
 
         /**
-         * Gets or sets the value.
-         Optionally it sets the value silently whitout updating the INPUT value.
-         **/
-        get value(): string{
-            return this.getValue();
-        }
-
-        /**
-         * Gets or sets the value.
-         Optionally it sets the value silently whitout updating the INPUT value.
-         **/
-        set value(value: string){
-
-
-            this.setValue(value, false)
-
-
-        }
-
-        /**
-         * Gets the value as a string
-         **/
-        get valueString(): string{
-
-            var getter = this.onGettingValueString(this.value);
-
-            if(_isString(getter) || _isNumber(getter)){
-                return getter;
-            }else{
-                return this.value;
-            }
-
-        }
-
-        /**
          * Gets or sets the width of the textbox.
          **/
         get width(): number{
@@ -824,5 +775,53 @@ module latte{
             this.input.width(value - Math.abs(this.input.width() - this.input.outerWidth()));
 
         }
+
+        //endregion
+
+        //region Components
+
+        /**
+         * Field for placeHolerLabel property
+         */
+        private _placeholderLabel: LabelItem;
+
+        /**
+         * Gets the placeholder label
+         *
+         * @returns {LabelItem}
+         */
+        get placeholderLabel(): LabelItem {
+            if (!this._placeholderLabel) {
+                this._placeholderLabel = new LabelItem();
+                this._placeholderLabel.addClass('placeholder');
+                this._placeholderLabel.appendTo(this);
+                this._placeholderLabel.addEventListener('click', () => this.input.focus());
+                UiElement.disableTextSelection(this.placeholderLabel.element);
+            }
+            return this._placeholderLabel;
+        }
+
+        /**
+         * Field for sideLabel property
+         */
+        private _sideLabel: LabelItem;
+
+        /**
+         * Gets the side label
+         *
+         * @returns {LabelItem}
+         */
+        get sideLabel(): LabelItem {
+            if (!this._sideLabel) {
+                this._sideLabel = new LabelItem();
+                this._sideLabel.addClass('side-label');
+                this._sideLabel.appendTo(this);
+            }
+            return this._sideLabel;
+        }
+
+
+        //endregion
+
     }
 }

@@ -276,7 +276,7 @@ module latte {
                 let f = files[i];
 
                 // Create uploader
-                let u = new FileUploader(f, 'Page', this.fragment.idpage);
+                let u = new FileUploader(f, 'Page', String(this.fragment.idpage));
 
                 // Add File Item to show upload process
                 let item = new FileItem();

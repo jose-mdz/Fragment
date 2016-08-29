@@ -6,86 +6,6 @@ var __extends = (this && this.__extends) || function (d, b) {
 var latte;
 (function (latte) {
     /**
-     * Saves full lists of records in Memory
-     *
-     * <example>
-     * // Load cache of users
-     * Cache.load('User', 'users');
-     *
-     * // After load, now we can use the users cache
-     * // Cache.users is a DataRecordCollection object
-     * for(var i = 0; i < Cache.users.count; i++)
-     *  console.log(Cache.users.item(i));
-     * </example>
-     *
-     */
-    var Cache = (function () {
-        function Cache() {
-        }
-        /**
-         * Loads a cache of the specified name into cache itself.
-         * @param recordType
-         * @param name
-         * @param callback
-         * @returns {null}
-         */
-        Cache.prototype.load = function (recordType, name, callback) {
-            /*
-            DataRecord.fromListing(recordType, '/', {}, function(stages){
-
-                // Add users to cache
-                latte.Cache[name] = new latte.DataRecordCollection();
-                latte.Cache[name].add(stages);
-
-                // Call callback
-                if(_isFunction(callback))
-                    callback.call(this);
-            });*/
-            if (callback === void 0) { callback = null; }
-            return null;
-        };
-        return Cache;
-    }());
-    latte.Cache = Cache;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Represents a collection of records
-     */
-    var DataRecordCollection = (function (_super) {
-        __extends(DataRecordCollection, _super);
-        /**
-         * Creates the collection of the specified type.
-         * Optionally specifies handlers for adding and removing items, and a
-         * context to call as closure of events.
-         *
-         * @param addCallback
-         * @param removeCallback
-         * @param context
-         */
-        function DataRecordCollection(addCallback, removeCallback, context) {
-            if (addCallback === void 0) { addCallback = null; }
-            if (removeCallback === void 0) { removeCallback = null; }
-            if (context === void 0) { context = null; }
-            _super.call(this, addCallback, removeCallback, context);
-        }
-        /**
-         * Finds the record of the specified <c>id</c>
-         *
-         * @param id
-         * @returns {null}
-         */
-        DataRecordCollection.prototype.byId = function (id) {
-            return null;
-        };
-        return DataRecordCollection;
-    }(latte.Collection));
-    latte.DataRecordCollection = DataRecordCollection;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * Represents a DataRecord on App
      **/
     var DataRecord = (function () {
@@ -162,10 +82,12 @@ var latte;
             if (!latte.DataRecord.isPackedRecord(obj)) {
                 throw new latte.Ex();
             }
-            for (i in obj.fields)
-                record[i] = obj.fields[i];
+            for (i in obj.fields) {
+                var nativeType = type['nativeTypes'] ? type['nativeTypes'][i] || 'varchar' : 'varchar';
+                record[i] = DataRecord.unserializeNativeValue(obj.fields[i], nativeType);
+            }
             record.recordType = obj.recordType;
-            record.recordId = obj.recordId;
+            record.recordId = parseInt(obj.recordId);
             if (obj.metadata) {
                 // Metadata, if any
                 record.metadata = obj.metadata || {};
@@ -215,6 +137,98 @@ var latte;
                 && object.type == 'DataRecord'
                 && !latte._undef(object.recordType);
         };
+        /**
+         * Serializes the native value
+         * @param value
+         * @param nativeType
+         * @returns {any}
+         */
+        DataRecord.serializeNativeValue = function (value, nativeType) {
+            var parts = nativeType.split('(');
+            var name = parts[0].toLowerCase();
+            var size = parts.length > 1 ? parseInt(parts[1].replace(')', '')) : -1;
+            var dictionary = {
+                'bit': 'int',
+                'tinyint': 'int',
+                'bool': 'int',
+                'boolean': 'int',
+                'smallint': 'int',
+                'mediumint': 'int',
+                'int': 'int',
+                'integer': 'int',
+                'bigint': 'int',
+                'decimal': 'float',
+                'dec': 'float',
+                'double': 'float',
+                'double precision': 'float',
+                'float': 'float',
+                'year': 'int',
+                'date': 'DateTime',
+                'datetime': 'DateTime',
+                'timestamp': 'TimeSpan',
+                'time': 'TimeSpan',
+                'char': 'string',
+                'varchar': 'string',
+                'text': 'string',
+                'mediumtext': 'string',
+                'enum': 'string'
+            };
+            var t = dictionary[name] || 'string';
+            if (name == 'int' && size == 1) {
+                return value ? "1" : "0";
+            }
+            var v = String(value);
+            return v;
+        };
+        /**
+         * Unserializes the native value
+         * @param value
+         * @param nativeType
+         */
+        DataRecord.unserializeNativeValue = function (value, nativeType) {
+            var parts = nativeType.split('(');
+            var name = parts[0].toLowerCase();
+            var size = parts.length > 1 ? parseInt(parts[1].replace(')', '')) : -1;
+            var dictionary = {
+                'bit': 'int',
+                'tinyint': 'int',
+                'bool': 'int',
+                'boolean': 'int',
+                'smallint': 'int',
+                'mediumint': 'int',
+                'int': 'int',
+                'integer': 'int',
+                'bigint': 'int',
+                'decimal': 'float',
+                'dec': 'float',
+                'double': 'float',
+                'double precision': 'float',
+                'float': 'float',
+                'year': 'int',
+                'date': 'DateTime',
+                'datetime': 'DateTime',
+                'timestamp': 'TimeSpan',
+                'time': 'TimeSpan',
+                'char': 'string',
+                'varchar': 'string',
+                'text': 'string',
+                'mediumtext': 'string',
+                'enum': 'string'
+            };
+            var t = dictionary[name] || 'string';
+            if (name == 'int' && size == 1) {
+                t = 'boolean';
+            }
+            switch (t) {
+                case 'boolean': return !!parseInt(value, 10);
+                case 'int': return parseInt(value, 10);
+                case 'float': return parseFloat(value);
+                case 'DateTime': return latte.DateTime.fromString(value);
+                case 'TimeSpan': return latte.TimeSpan.fromString(value);
+                case 'string': return String(value);
+            }
+            return String(value);
+        };
         //region Methods
         /**
          * Copies the data
@@ -252,6 +266,31 @@ var latte;
             return this.metadata;
         };
         /**
+         * Gets the fields of the record, with values serialized.
+         */
+        DataRecord.prototype.getSerializedFields = function () {
+            var def = this.onGetFields();
+            var rt = latte[this._recordType];
+            if (def) {
+                for (var i in def) {
+                    var nativeType = rt['nativeTypes'] ? rt['nativeTypes'][i] : 'varchar';
+                    def[i] = DataRecord.serializeNativeValue(def[i], nativeType) || null;
+                }
+                return def;
+            }
+            else {
+                var f = {};
+                var metadata = this.getMetadata();
+                if (metadata && metadata.fields) {
+                    for (var i in metadata.fields) {
+                        var nativeType = rt['nativeTypes'] ? rt['nativeTypes'][i] : 'varchar';
+                        f[i] = DataRecord.serializeNativeValue(this[i], nativeType) || null;
+                    }
+                }
+                return f;
+            }
+        };
+        /**
          * Sends an insert message to the server
          **/
         DataRecord.prototype.insert = function (callback) {
@@ -268,7 +307,7 @@ var latte;
          */
         DataRecord.prototype.insertCall = function () {
             var _this = this;
-            var values = this.getFields();
+            var values = this.getSerializedFields();
             // Change null values to empty values
             for (var i in values) {
                 if (values[i] === null) {
@@ -365,7 +404,7 @@ var latte;
          * @returns {latte.RemoteCall<string>}
          */
         DataRecord.prototype.updateCall = function () {
-            var values = this.getFields();
+            var values = this.getSerializedFields();
             // Change null values to empty values
             for (var i in values) {
                 if (values[i] === null) {
@@ -474,6 +513,41 @@ var latte;
         return DataRecord;
     }());
     latte.DataRecord = DataRecord;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Represents a collection of records
+     */
+    var DataRecordCollection = (function (_super) {
+        __extends(DataRecordCollection, _super);
+        /**
+         * Creates the collection of the specified type.
+         * Optionally specifies handlers for adding and removing items, and a
+         * context to call as closure of events.
+         *
+         * @param addCallback
+         * @param removeCallback
+         * @param context
+         */
+        function DataRecordCollection(addCallback, removeCallback, context) {
+            if (addCallback === void 0) { addCallback = null; }
+            if (removeCallback === void 0) { removeCallback = null; }
+            if (context === void 0) { context = null; }
+            _super.call(this, addCallback, removeCallback, context);
+        }
+        /**
+         * Finds the record of the specified <c>id</c>
+         *
+         * @param id
+         * @returns {null}
+         */
+        DataRecordCollection.prototype.byId = function (id) {
+            return null;
+        };
+        return DataRecordCollection;
+    }(latte.Collection));
+    latte.DataRecordCollection = DataRecordCollection;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -784,363 +858,6 @@ var latte;
         return DataSetRow;
     }());
     latte.DataSetRow = DataSetRow;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Represents a call to a remote procedure
-     */
-    var RemoteCall = (function () {
-        //endregion
-        /**
-         * Creates the procedure with optional parameters
-         * @param moduleName
-         * @param className
-         * @param method
-         * @param params
-         * @param id
-         * @param returns
-         */
-        function RemoteCall(moduleName, className, method, params, id, returns) {
-            if (moduleName === void 0) { moduleName = null; }
-            if (className === void 0) { className = null; }
-            if (method === void 0) { method = null; }
-            if (params === void 0) { params = null; }
-            if (id === void 0) { id = 0; }
-            if (returns === void 0) { returns = null; }
-            //region Fields
-            this._className = null;
-            this._method = null;
-            this._id = 0;
-            this._params = null;
-            this._returns = null;
-            this._success = null;
-            this._failure = null;
-            /**
-             * Property field
-             */
-            this._something = null;
-            /**
-             * Property field
-             */
-            this._moduleName = null;
-            if (moduleName)
-                this.moduleName = moduleName;
-            if (className)
-                this.className = className;
-            if (method)
-                this.method = method;
-            if (params)
-                this.params = params;
-            if (id)
-                this.id = id;
-            if (returns)
-                this.returns = returns;
-        }
-        //region Methods
-        /**
-         * Gets the marshalled call
-         */
-        RemoteCall.prototype.marshall = function () {
-            return {
-                moduleName: this.moduleName,
-                className: this.className,
-                method: this.method,
-                id: this.id,
-                params: this.params
-            };
-        };
-        /**
-         * Raises the <c>failure</c> event
-         */
-        RemoteCall.prototype.onFailure = function (errorDescription, errorCode) {
-            if (this._failure instanceof latte.LatteEvent) {
-                this._failure.raise(errorDescription, errorCode);
-            }
-        };
-        /**
-         * Raises the <c>success</c> event
-         * @param data
-         */
-        RemoteCall.prototype.onSuccess = function (data) {
-            if (this._success instanceof latte.LatteEvent) {
-                this._success.raise(data);
-            }
-        };
-        /**
-         * Reports a response from server to the call
-         *
-         * @param responseData
-         */
-        RemoteCall.prototype.respond = function (responseData) {
-            var response = new latte.RemoteResponse(this, responseData);
-            this.response = response;
-        };
-        /**
-         * Creates a Message object and sends the call, additionally handlers for success and failure may be added.
-         */
-        RemoteCall.prototype.send = function (success, failure) {
-            if (success === void 0) { success = null; }
-            if (failure === void 0) { failure = null; }
-            this.withHandlers(success, failure);
-            // Create message
-            var m = new latte.Message();
-            // Add this call to message
-            m.calls.push(this);
-            // Send the message
-            m.send();
-            return m;
-        };
-        /**
-         * Creates a Message object and sends the call, showing a loader with the specified text
-         * @param loaderText
-         * @param success
-         * @param failure
-         */
-        RemoteCall.prototype.sendWithLoader = function (loaderText, success, failure) {
-            if (success === void 0) { success = null; }
-            if (failure === void 0) { failure = null; }
-            var m = this.send(success, failure);
-            latte.LoadInfo.instance.start(loaderText);
-            m.responseArrived.add(function () {
-                latte.LoadInfo.instance.end();
-            });
-            return m;
-        };
-        /**
-         * Gets a string representation of the call
-         * @returns {*|string}
-         */
-        RemoteCall.prototype.toString = function () {
-            var idpart = this.id > 0 ? latte.sprintf("<%s>", this.id) : '';
-            var paramspart = [];
-            for (var i in this.params) {
-                var a = this.params[i];
-                paramspart.push(i + ' = ' + (latte._isArray(a) || latte._isObject(a) ? JSON.stringify(a) : String(a)));
-            }
-            return latte.sprintf("%s%s.%s(%s)", this.className, idpart, this.method, paramspart.join(', '));
-        };
-        /**
-         * Adds handlers for success and/or failure and returns the call object
-         * @param success
-         * @param failure
-         * @returns {latte.RemoteCall}
-         */
-        RemoteCall.prototype.withHandlers = function (success, failure) {
-            if (success === void 0) { success = null; }
-            if (failure === void 0) { failure = null; }
-            // Add success handler
-            if (success) {
-                this.success.add(success);
-            }
-            // Add failed handler
-            if (failure) {
-                this.failure.add(failure);
-            }
-            return this;
-        };
-        Object.defineProperty(RemoteCall.prototype, "className", {
-            //endregion
-            //region Properties
-            /**
-             * Gets or sets the name of the class where the procedure is located
-             * @returns {string}
-             */
-            get: function () {
-                return this._className;
-            },
-            /**
-             * Gets or sets the name of the class where the procedure is located
-             * @param value
-             */
-            set: function (value) {
-                this._className = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "method", {
-            /**
-             * Gets or sets the name of the remote procedure to be called
-             * @returns {string}
-             */
-            get: function () {
-                return this._method;
-            },
-            /**
-             * Gets or sets the name of the remote procedure to be called
-             * @param value
-             */
-            set: function (value) {
-                this._method = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "failure", {
-            /**
-             * Gets an event raised when the call fails
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!(this._failure instanceof latte.LatteEvent)) {
-                    this._failure = new latte.LatteEvent(this);
-                }
-                return this._failure;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "something", {
-            /**
-             * Gets or sets something
-             *
-             * @returns {string}
-             */
-            get: function () {
-                return this._something;
-            },
-            /**
-             * Gets or sets something
-             *
-             * @param {string} value
-             */
-            set: function (value) {
-                this._something = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "moduleName", {
-            /**
-             * Gets or sets the module name
-             *
-             * @returns {string}
-             */
-            get: function () {
-                return this._moduleName;
-            },
-            /**
-             * Gets or sets the module name
-             *
-             * @param {string} value
-             */
-            set: function (value) {
-                this._moduleName = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "id", {
-            /**
-             * Gets or sets the id of the object instance where procedure should be called
-             * @returns {number}
-             */
-            get: function () {
-                return this._id;
-            },
-            /**
-             * Gets or sets the id of the object instance where procedure should be called
-             * @param value
-             */
-            set: function (value) {
-                this._id = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "params", {
-            /**
-             * Gets or sets an object representing the parameters to use when calling the remote procedure
-             * @returns {*}
-             */
-            get: function () {
-                return this._params;
-            },
-            /**
-             * Gets or sets an object representing the parameters to use when calling the remote procedure
-             * @param value
-             */
-            set: function (value) {
-                this._params = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "response", {
-            /**
-             * Gets or sets the response of the message
-             *
-             * @returns {RemoteResponse}
-             */
-            get: function () {
-                return this._response;
-            },
-            /**
-             * Gets or sets the response of the message
-             *
-             * @param value
-             */
-            set: function (value) {
-                this._response = value;
-                if (value.logs.length > 0) {
-                    latte.log(latte.sprintf("Log: " + this.toString()));
-                    for (var i = 0; i < value.logs.length; i++) {
-                        latte.log('    ' + value.logs[i]);
-                    }
-                }
-                if (value.warnings.length > 0) {
-                    latte.log("Warnings: " + latte.sprintf(this.toString()));
-                    for (var i = 0; i < value.warnings.length; i++) {
-                        if (console && console.warn) {
-                            console.warn('    ' + value.warnings[i]);
-                        }
-                        else {
-                            latte.log('    ' + value.warnings[i]);
-                        }
-                    }
-                }
-                if (value.success) {
-                    this.onSuccess(value.data);
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "returns", {
-            /**
-             * Gets or sets the type of data returned by the remote procedure
-             * @param value
-             */
-            get: function () {
-                return this._returns;
-            },
-            /**
-             * Gets or sets the type of data returned by the remote procedure
-             * @param value
-             */
-            set: function (value) {
-                this._returns = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(RemoteCall.prototype, "success", {
-            /**
-             * Gets an event raised when message arrives successfully
-             */
-            get: function () {
-                if (!(this._success instanceof latte.LatteEvent)) {
-                    this._success = new latte.LatteEvent(this);
-                }
-                return this._success;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return RemoteCall;
-    }());
-    latte.RemoteCall = RemoteCall;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -1582,6 +1299,363 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Represents a call to a remote procedure
+     */
+    var RemoteCall = (function () {
+        //endregion
+        /**
+         * Creates the procedure with optional parameters
+         * @param moduleName
+         * @param className
+         * @param method
+         * @param params
+         * @param id
+         * @param returns
+         */
+        function RemoteCall(moduleName, className, method, params, id, returns) {
+            if (moduleName === void 0) { moduleName = null; }
+            if (className === void 0) { className = null; }
+            if (method === void 0) { method = null; }
+            if (params === void 0) { params = null; }
+            if (id === void 0) { id = 0; }
+            if (returns === void 0) { returns = null; }
+            //region Fields
+            this._className = null;
+            this._method = null;
+            this._id = 0;
+            this._params = null;
+            this._returns = null;
+            this._success = null;
+            this._failure = null;
+            /**
+             * Property field
+             */
+            this._something = null;
+            /**
+             * Property field
+             */
+            this._moduleName = null;
+            if (moduleName)
+                this.moduleName = moduleName;
+            if (className)
+                this.className = className;
+            if (method)
+                this.method = method;
+            if (params)
+                this.params = params;
+            if (id)
+                this.id = id;
+            if (returns)
+                this.returns = returns;
+        }
+        //region Methods
+        /**
+         * Gets the marshalled call
+         */
+        RemoteCall.prototype.marshall = function () {
+            return {
+                moduleName: this.moduleName,
+                className: this.className,
+                method: this.method,
+                id: this.id,
+                params: this.params
+            };
+        };
+        /**
+         * Raises the <c>failure</c> event
+         */
+        RemoteCall.prototype.onFailure = function (errorDescription, errorCode) {
+            if (this._failure instanceof latte.LatteEvent) {
+                this._failure.raise(errorDescription, errorCode);
+            }
+        };
+        /**
+         * Raises the <c>success</c> event
+         * @param data
+         */
+        RemoteCall.prototype.onSuccess = function (data) {
+            if (this._success instanceof latte.LatteEvent) {
+                this._success.raise(data);
+            }
+        };
+        /**
+         * Reports a response from server to the call
+         *
+         * @param responseData
+         */
+        RemoteCall.prototype.respond = function (responseData) {
+            var response = new latte.RemoteResponse(this, responseData);
+            this.response = response;
+        };
+        /**
+         * Creates a Message object and sends the call, additionally handlers for success and failure may be added.
+         */
+        RemoteCall.prototype.send = function (success, failure) {
+            if (success === void 0) { success = null; }
+            if (failure === void 0) { failure = null; }
+            this.withHandlers(success, failure);
+            // Create message
+            var m = new latte.Message();
+            // Add this call to message
+            m.calls.push(this);
+            // Send the message
+            m.send();
+            return m;
+        };
+        /**
+         * Creates a Message object and sends the call, showing a loader with the specified text
+         * @param loaderText
+         * @param success
+         * @param failure
+         */
+        RemoteCall.prototype.sendWithLoader = function (loaderText, success, failure) {
+            if (success === void 0) { success = null; }
+            if (failure === void 0) { failure = null; }
+            var m = this.send(success, failure);
+            latte.LoadInfo.instance.start(loaderText);
+            m.responseArrived.add(function () {
+                latte.LoadInfo.instance.end();
+            });
+            return m;
+        };
+        /**
+         * Gets a string representation of the call
+         * @returns {*|string}
+         */
+        RemoteCall.prototype.toString = function () {
+            var idpart = this.id > 0 ? latte.sprintf("<%s>", this.id) : '';
+            var paramspart = [];
+            for (var i in this.params) {
+                var a = this.params[i];
+                paramspart.push(i + ' = ' + (latte._isArray(a) || latte._isObject(a) ? JSON.stringify(a) : String(a)));
+            }
+            return latte.sprintf("%s%s.%s(%s)", this.className, idpart, this.method, paramspart.join(', '));
+        };
+        /**
+         * Adds handlers for success and/or failure and returns the call object
+         * @param success
+         * @param failure
+         * @returns {latte.RemoteCall}
+         */
+        RemoteCall.prototype.withHandlers = function (success, failure) {
+            if (success === void 0) { success = null; }
+            if (failure === void 0) { failure = null; }
+            // Add success handler
+            if (success) {
+                this.success.add(success);
+            }
+            // Add failed handler
+            if (failure) {
+                this.failure.add(failure);
+            }
+            return this;
+        };
+        Object.defineProperty(RemoteCall.prototype, "className", {
+            //endregion
+            //region Properties
+            /**
+             * Gets or sets the name of the class where the procedure is located
+             * @returns {string}
+             */
+            get: function () {
+                return this._className;
+            },
+            /**
+             * Gets or sets the name of the class where the procedure is located
+             * @param value
+             */
+            set: function (value) {
+                this._className = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "method", {
+            /**
+             * Gets or sets the name of the remote procedure to be called
+             * @returns {string}
+             */
+            get: function () {
+                return this._method;
+            },
+            /**
+             * Gets or sets the name of the remote procedure to be called
+             * @param value
+             */
+            set: function (value) {
+                this._method = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "failure", {
+            /**
+             * Gets an event raised when the call fails
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!(this._failure instanceof latte.LatteEvent)) {
+                    this._failure = new latte.LatteEvent(this);
+                }
+                return this._failure;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "something", {
+            /**
+             * Gets or sets something
+             *
+             * @returns {string}
+             */
+            get: function () {
+                return this._something;
+            },
+            /**
+             * Gets or sets something
+             *
+             * @param {string} value
+             */
+            set: function (value) {
+                this._something = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "moduleName", {
+            /**
+             * Gets or sets the module name
+             *
+             * @returns {string}
+             */
+            get: function () {
+                return this._moduleName;
+            },
+            /**
+             * Gets or sets the module name
+             *
+             * @param {string} value
+             */
+            set: function (value) {
+                this._moduleName = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "id", {
+            /**
+             * Gets or sets the id of the object instance where procedure should be called
+             * @returns {number}
+             */
+            get: function () {
+                return this._id;
+            },
+            /**
+             * Gets or sets the id of the object instance where procedure should be called
+             * @param value
+             */
+            set: function (value) {
+                this._id = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "params", {
+            /**
+             * Gets or sets an object representing the parameters to use when calling the remote procedure
+             * @returns {*}
+             */
+            get: function () {
+                return this._params;
+            },
+            /**
+             * Gets or sets an object representing the parameters to use when calling the remote procedure
+             * @param value
+             */
+            set: function (value) {
+                this._params = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "response", {
+            /**
+             * Gets or sets the response of the message
+             *
+             * @returns {RemoteResponse}
+             */
+            get: function () {
+                return this._response;
+            },
+            /**
+             * Gets or sets the response of the message
+             *
+             * @param value
+             */
+            set: function (value) {
+                this._response = value;
+                if (value.logs.length > 0) {
+                    latte.log(latte.sprintf("Log: " + this.toString()));
+                    for (var i = 0; i < value.logs.length; i++) {
+                        latte.log('    ' + value.logs[i]);
+                    }
+                }
+                if (value.warnings.length > 0) {
+                    latte.log("Warnings: " + latte.sprintf(this.toString()));
+                    for (var i = 0; i < value.warnings.length; i++) {
+                        if (console && console.warn) {
+                            console.warn('    ' + value.warnings[i]);
+                        }
+                        else {
+                            latte.log('    ' + value.warnings[i]);
+                        }
+                    }
+                }
+                if (value.success) {
+                    this.onSuccess(value.data);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "returns", {
+            /**
+             * Gets or sets the type of data returned by the remote procedure
+             * @param value
+             */
+            get: function () {
+                return this._returns;
+            },
+            /**
+             * Gets or sets the type of data returned by the remote procedure
+             * @param value
+             */
+            set: function (value) {
+                this._returns = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(RemoteCall.prototype, "success", {
+            /**
+             * Gets an event raised when message arrives successfully
+             */
+            get: function () {
+                if (!(this._success instanceof latte.LatteEvent)) {
+                    this._success = new latte.LatteEvent(this);
+                }
+                return this._success;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return RemoteCall;
+    }());
+    latte.RemoteCall = RemoteCall;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      *
      */
     var RemoteResponse = (function () {
@@ -1740,17 +1814,16 @@ var latte;
     }());
     latte.RemoteResponse = RemoteResponse;
 })(latte || (latte = {}));
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/support/ts-include/datalatte.d.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/support/ts-include/latte.d.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/support/ts-include/latte.data.strings.d.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/support/ts-include/latte.strings.d.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/IRecordMeta.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/Cache.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/DataRecordCollection.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/DataRecord.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/DataSet.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/DataSetColumn.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/DataSetRow.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/RemoteCall.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/Message.ts" />
-/// <reference path="/Users/josemanuel/Sites/LatteCMS/latte/latte.data/ts/latte.data/RemoteResponse.ts" /> 
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/support/ts-include/datalatte.d.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/support/ts-include/latte.d.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/support/ts-include/latte.data.strings.d.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/support/ts-include/latte.strings.d.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/IRecordMeta.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/latte.data/DataRecord.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/latte.data/DataRecordCollection.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/latte.data/DataSet.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/latte.data/DataSetColumn.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/latte.data/DataSetRow.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/latte.data/Message.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/latte.data/RemoteCall.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data/ts/latte.data/RemoteResponse.ts" /> 

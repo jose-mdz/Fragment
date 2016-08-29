@@ -188,7 +188,7 @@ module latte{
 				var img = document.createElement('img');
 
 				img.addEventListener('load', () => {
-					var fu = FileUploader.fromBase64(ImageUtil.getBase64(data), this.name, "File", this.idfile);
+					var fu = FileUploader.fromBase64(ImageUtil.getBase64(data), this.name, "File", String(this.idfile));
 
 					fu.complete.add(() => {
 

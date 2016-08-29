@@ -340,6 +340,15 @@ module latte{
         //endregion
 
         //region Methods
+        /**
+         * Shorthand for the addEventListener of the element
+         * @param event
+         * @param f
+         * @param useCapture
+         */
+        addEventListener(event: string, f: (...any) => any, useCapture = false){
+            this.element.get(0).addEventListener(event, f, useCapture);
+        }
 
         /**
          * Adds classes to the element
@@ -376,6 +385,19 @@ module latte{
             this.element.css(css, value);
             return this;
 
+        }
+
+        /**
+         * Ensures the class is present on the element, depending on the specified condition.
+         * @param className
+         * @param condition
+         */
+        ensureClass(className: string, condition: boolean){
+            if(condition){
+                this.addClass(className);
+            }else {
+                this.removeClass(className);
+            }
         }
 
         /**

@@ -11,56 +11,6 @@ declare module latte {
     }
 }
 declare module latte {
-    /**
-     * Saves full lists of records in Memory
-     *
-     * <example>
-     * // Load cache of users
-     * Cache.load('User', 'users');
-     *
-     * // After load, now we can use the users cache
-     * // Cache.users is a DataRecordCollection object
-     * for(var i = 0; i < Cache.users.count; i++)
-     *  console.log(Cache.users.item(i));
-     * </example>
-     *
-     */
-    class Cache {
-        /**
-         * Loads a cache of the specified name into cache itself.
-         * @param recordType
-         * @param name
-         * @param callback
-         * @returns {null}
-         */
-        load(recordType: string, name: string, callback?: () => any): Message;
-    }
-}
-declare module latte {
-    /**
-     * Represents a collection of records
-     */
-    class DataRecordCollection extends Collection<DataRecord> {
-        /**
-         * Creates the collection of the specified type.
-         * Optionally specifies handlers for adding and removing items, and a
-         * context to call as closure of events.
-         *
-         * @param addCallback
-         * @param removeCallback
-         * @param context
-         */
-        constructor(addCallback?: (DataRecord, number) => any, removeCallback?: (DataRecord, number) => any, context?: any);
-        /**
-         * Finds the record of the specified <c>id</c>
-         *
-         * @param id
-         * @returns {null}
-         */
-        byId(id: number): DataRecord;
-    }
-}
-declare module latte {
     interface DataRecordArrayCallback {
         (records: Array<DataRecord>): void;
     }
@@ -109,6 +59,19 @@ declare module latte {
          **/
         static isPackedRecord(object: any): boolean;
         /**
+         * Serializes the native value
+         * @param value
+         * @param nativeType
+         * @returns {any}
+         */
+        static serializeNativeValue(value: any, nativeType: string): string;
+        /**
+         * Unserializes the native value
+         * @param value
+         * @param nativeType
+         */
+        static unserializeNativeValue(value: string, nativeType: string): any;
+        /**
          *
          **/
         private _recordId;
@@ -145,6 +108,10 @@ declare module latte {
          * Can be overriden to return dynamically generated metadata
          **/
         getMetadata(): IRecordMeta;
+        /**
+         * Gets the fields of the record, with values serialized.
+         */
+        getSerializedFields(): Object;
         /**
          * Sends an insert message to the server
          **/
@@ -250,6 +217,30 @@ declare module latte {
          * Gets or sets an arbitrary value for the record
          **/
         tag: string;
+    }
+}
+declare module latte {
+    /**
+     * Represents a collection of records
+     */
+    class DataRecordCollection extends Collection<DataRecord> {
+        /**
+         * Creates the collection of the specified type.
+         * Optionally specifies handlers for adding and removing items, and a
+         * context to call as closure of events.
+         *
+         * @param addCallback
+         * @param removeCallback
+         * @param context
+         */
+        constructor(addCallback?: (DataRecord, number) => any, removeCallback?: (DataRecord, number) => any, context?: any);
+        /**
+         * Finds the record of the specified <c>id</c>
+         *
+         * @param id
+         * @returns {null}
+         */
+        byId(id: number): DataRecord;
     }
 }
 declare module latte {
@@ -430,178 +421,6 @@ declare module latte {
          * Gets or sets the value at the specified position
          **/
         setValueAt(index: number, value: any): void;
-    }
-}
-declare module latte {
-    /**
-     * Object who contains marshalled call data
-     */
-    interface IDataRemoteCall {
-        moduleName: string;
-        className: string;
-        method: string;
-        id: number;
-        params: any;
-    }
-    /**
-     * Represents a call to a remote procedure
-     */
-    class RemoteCall<T> implements ICall {
-        private _className;
-        private _method;
-        private _id;
-        private _params;
-        private _returns;
-        private _success;
-        private _failure;
-        private _response;
-        /**
-         * Creates the procedure with optional parameters
-         * @param moduleName
-         * @param className
-         * @param method
-         * @param params
-         * @param id
-         * @param returns
-         */
-        constructor(moduleName?: string, className?: string, method?: string, params?: any, id?: number, returns?: T);
-        /**
-         * Gets the marshalled call
-         */
-        marshall(): IDataRemoteCall;
-        /**
-         * Raises the <c>failure</c> event
-         */
-        onFailure(errorDescription: string, errorCode: string): void;
-        /**
-         * Raises the <c>success</c> event
-         * @param data
-         */
-        onSuccess(data: T): void;
-        /**
-         * Reports a response from server to the call
-         *
-         * @param responseData
-         */
-        respond(responseData: IRemoteResponse): void;
-        /**
-         * Creates a Message object and sends the call, additionally handlers for success and failure may be added.
-         */
-        send(success?: (data: T) => void, failure?: (errorDescription: string) => void): Message;
-        /**
-         * Creates a Message object and sends the call, showing a loader with the specified text
-         * @param loaderText
-         * @param success
-         * @param failure
-         */
-        sendWithLoader(loaderText: string, success?: (data: T) => void, failure?: () => void): Message;
-        /**
-         * Gets a string representation of the call
-         * @returns {*|string}
-         */
-        toString(): string;
-        /**
-         * Adds handlers for success and/or failure and returns the call object
-         * @param success
-         * @param failure
-         * @returns {latte.RemoteCall}
-         */
-        withHandlers(success?: (data: T) => void, failure?: (errorDescription: string) => void): RemoteCall<any>;
-        /**
-         * Gets or sets the name of the class where the procedure is located
-         * @returns {string}
-         */
-        /**
-         * Gets or sets the name of the class where the procedure is located
-         * @param value
-         */
-        className: string;
-        /**
-         * Gets or sets the name of the remote procedure to be called
-         * @returns {string}
-         */
-        /**
-         * Gets or sets the name of the remote procedure to be called
-         * @param value
-         */
-        method: string;
-        /**
-         * Gets an event raised when the call fails
-         * @returns {LatteEvent}
-         */
-        failure: LatteEvent;
-        /**
-         * Property field
-         */
-        private _something;
-        /**
-         * Gets or sets something
-         *
-         * @returns {string}
-         */
-        /**
-         * Gets or sets something
-         *
-         * @param {string} value
-         */
-        something: string;
-        /**
-         * Property field
-         */
-        private _moduleName;
-        /**
-         * Gets or sets the module name
-         *
-         * @returns {string}
-         */
-        /**
-         * Gets or sets the module name
-         *
-         * @param {string} value
-         */
-        moduleName: string;
-        /**
-         * Gets or sets the id of the object instance where procedure should be called
-         * @returns {number}
-         */
-        /**
-         * Gets or sets the id of the object instance where procedure should be called
-         * @param value
-         */
-        id: number;
-        /**
-         * Gets or sets an object representing the parameters to use when calling the remote procedure
-         * @returns {*}
-         */
-        /**
-         * Gets or sets an object representing the parameters to use when calling the remote procedure
-         * @param value
-         */
-        params: any;
-        /**
-         * Gets or sets the response of the message
-         *
-         * @returns {RemoteResponse}
-         */
-        /**
-         * Gets or sets the response of the message
-         *
-         * @param value
-         */
-        response: RemoteResponse<T>;
-        /**
-         * Gets or sets the type of data returned by the remote procedure
-         * @param value
-         */
-        /**
-         * Gets or sets the type of data returned by the remote procedure
-         * @param value
-         */
-        returns: T;
-        /**
-         * Gets an event raised when message arrives successfully
-         */
-        success: LatteEvent;
     }
 }
 declare module latte {
@@ -794,6 +613,178 @@ declare module latte {
          * @returns {LatteEvent}
          */
         sent: LatteEvent;
+    }
+}
+declare module latte {
+    /**
+     * Object who contains marshalled call data
+     */
+    interface IDataRemoteCall {
+        moduleName: string;
+        className: string;
+        method: string;
+        id: number;
+        params: any;
+    }
+    /**
+     * Represents a call to a remote procedure
+     */
+    class RemoteCall<T> implements ICall {
+        private _className;
+        private _method;
+        private _id;
+        private _params;
+        private _returns;
+        private _success;
+        private _failure;
+        private _response;
+        /**
+         * Creates the procedure with optional parameters
+         * @param moduleName
+         * @param className
+         * @param method
+         * @param params
+         * @param id
+         * @param returns
+         */
+        constructor(moduleName?: string, className?: string, method?: string, params?: any, id?: number, returns?: T);
+        /**
+         * Gets the marshalled call
+         */
+        marshall(): IDataRemoteCall;
+        /**
+         * Raises the <c>failure</c> event
+         */
+        onFailure(errorDescription: string, errorCode: string): void;
+        /**
+         * Raises the <c>success</c> event
+         * @param data
+         */
+        onSuccess(data: T): void;
+        /**
+         * Reports a response from server to the call
+         *
+         * @param responseData
+         */
+        respond(responseData: IRemoteResponse): void;
+        /**
+         * Creates a Message object and sends the call, additionally handlers for success and failure may be added.
+         */
+        send(success?: (data: T) => void, failure?: (errorDescription: string) => void): Message;
+        /**
+         * Creates a Message object and sends the call, showing a loader with the specified text
+         * @param loaderText
+         * @param success
+         * @param failure
+         */
+        sendWithLoader(loaderText: string, success?: (data: T) => void, failure?: () => void): Message;
+        /**
+         * Gets a string representation of the call
+         * @returns {*|string}
+         */
+        toString(): string;
+        /**
+         * Adds handlers for success and/or failure and returns the call object
+         * @param success
+         * @param failure
+         * @returns {latte.RemoteCall}
+         */
+        withHandlers(success?: (data: T) => void, failure?: (errorDescription: string) => void): RemoteCall<any>;
+        /**
+         * Gets or sets the name of the class where the procedure is located
+         * @returns {string}
+         */
+        /**
+         * Gets or sets the name of the class where the procedure is located
+         * @param value
+         */
+        className: string;
+        /**
+         * Gets or sets the name of the remote procedure to be called
+         * @returns {string}
+         */
+        /**
+         * Gets or sets the name of the remote procedure to be called
+         * @param value
+         */
+        method: string;
+        /**
+         * Gets an event raised when the call fails
+         * @returns {LatteEvent}
+         */
+        failure: LatteEvent;
+        /**
+         * Property field
+         */
+        private _something;
+        /**
+         * Gets or sets something
+         *
+         * @returns {string}
+         */
+        /**
+         * Gets or sets something
+         *
+         * @param {string} value
+         */
+        something: string;
+        /**
+         * Property field
+         */
+        private _moduleName;
+        /**
+         * Gets or sets the module name
+         *
+         * @returns {string}
+         */
+        /**
+         * Gets or sets the module name
+         *
+         * @param {string} value
+         */
+        moduleName: string;
+        /**
+         * Gets or sets the id of the object instance where procedure should be called
+         * @returns {number}
+         */
+        /**
+         * Gets or sets the id of the object instance where procedure should be called
+         * @param value
+         */
+        id: number;
+        /**
+         * Gets or sets an object representing the parameters to use when calling the remote procedure
+         * @returns {*}
+         */
+        /**
+         * Gets or sets an object representing the parameters to use when calling the remote procedure
+         * @param value
+         */
+        params: any;
+        /**
+         * Gets or sets the response of the message
+         *
+         * @returns {RemoteResponse}
+         */
+        /**
+         * Gets or sets the response of the message
+         *
+         * @param value
+         */
+        response: RemoteResponse<T>;
+        /**
+         * Gets or sets the type of data returned by the remote procedure
+         * @param value
+         */
+        /**
+         * Gets or sets the type of data returned by the remote procedure
+         * @param value
+         */
+        returns: T;
+        /**
+         * Gets an event raised when message arrives successfully
+         */
+        success: LatteEvent;
     }
 }
 declare module latte {
