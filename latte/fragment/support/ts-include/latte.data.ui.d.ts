@@ -1074,41 +1074,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     *
-     **/
-    class DataRecordFormView extends FormView {
-        /**
-         * Creates the form of the specified record
-         **/
-        constructor(record?: DataRecord);
-        /**
-         * Applies the values on form to the record. Optionally specifies which record
-         is supposed to recieve the values
-         **/
-        applyValues(record?: DataRecord): void;
-        getSaveCalls(): ICall[];
-        printSaveStack(view: View): void;
-        /**
-         * Field for form property
-         */
-        private _dataform;
-        /**
-         * Gets the data record form view
-         *
-         * @returns {DataRecordFormItem}
-         */
-        form: DataRecordFormItem;
-        /**
-         * Gets or sets the record of the form
-         **/
-        /**
-         * Gets or sets the record of the form
-         **/
-        record: DataRecord;
-    }
-}
-declare module latte {
-    /**
      * Creates a form for a specific <c>DataRecord</c>
      **/
     class DataRecordFormItem extends FormItem implements ISave {
@@ -1182,6 +1147,41 @@ declare module latte {
          *
          * @param {DataRecord} value
          */
+        record: DataRecord;
+    }
+}
+declare module latte {
+    /**
+     *
+     **/
+    class DataRecordFormView extends FormView {
+        /**
+         * Creates the form of the specified record
+         **/
+        constructor(record?: DataRecord);
+        /**
+         * Applies the values on form to the record. Optionally specifies which record
+         is supposed to recieve the values
+         **/
+        applyValues(record?: DataRecord): void;
+        getSaveCalls(): ICall[];
+        printSaveStack(view: View): void;
+        /**
+         * Field for form property
+         */
+        private _dataform;
+        /**
+         * Gets the data record form view
+         *
+         * @returns {DataRecordFormItem}
+         */
+        form: DataRecordFormItem;
+        /**
+         * Gets or sets the record of the form
+         **/
+        /**
+         * Gets or sets the record of the form
+         **/
         record: DataRecord;
     }
 }

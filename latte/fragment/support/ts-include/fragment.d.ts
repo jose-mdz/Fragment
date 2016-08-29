@@ -10,6 +10,144 @@
 /// <reference path="latte.ui.d.ts" />
 /// <reference path="latte.ui.strings.d.ts" />
 declare module latte {
+    class settingBase extends DataRecord {
+        _recordType: string;
+        _moduleName: string;
+        /**
+         * Database field: int(11)
+         */
+        _idsetting: number;
+        /**
+         * Gets or sets the value of the idsetting field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idsetting field of type int(11)
+         */
+        idsetting: number;
+        /**
+         * Back field for event
+         */
+        _idsettingChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idsetting property changes
+         */
+        idsettingChanged: LatteEvent;
+        /**
+         * Raises the <c>idsettingChanged</c> event
+         */
+        onIdsettingChanged(): void;
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        onGetRecordIdName(): string;
+        /**
+         * Database field: int(11)
+         */
+        _idowner: number;
+        /**
+         * Gets or sets the value of the idowner field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idowner field of type int(11)
+         */
+        idowner: number;
+        /**
+         * Back field for event
+         */
+        _idownerChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idowner property changes
+         */
+        idownerChanged: LatteEvent;
+        /**
+         * Raises the <c>idownerChanged</c> event
+         */
+        onIdownerChanged(): void;
+        /**
+         * Database field: varchar(50)
+         */
+        _owner: string;
+        /**
+         * Gets or sets the value of the owner field of type varchar(50)
+         */
+        /**
+         * Gets or sets the value of the owner field of type varchar(50)
+         */
+        owner: string;
+        /**
+         * Back field for event
+         */
+        _ownerChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the owner property changes
+         */
+        ownerChanged: LatteEvent;
+        /**
+         * Raises the <c>ownerChanged</c> event
+         */
+        onOwnerChanged(): void;
+        /**
+         * Database field: varchar(255)
+         */
+        _name: string;
+        /**
+         * Gets or sets the value of the name field of type varchar(255)
+         */
+        /**
+         * Gets or sets the value of the name field of type varchar(255)
+         */
+        name: string;
+        /**
+         * Back field for event
+         */
+        _nameChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the name property changes
+         */
+        nameChanged: LatteEvent;
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        onNameChanged(): void;
+        /**
+         * Database field: longtext
+         */
+        _value: string;
+        /**
+         * Gets or sets the value of the value field of type longtext
+         */
+        /**
+         * Gets or sets the value of the value field of type longtext
+         */
+        value: string;
+        /**
+         * Back field for event
+         */
+        _valueChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the value property changes
+         */
+        valueChanged: LatteEvent;
+        /**
+         * Raises the <c>valueChanged</c> event
+         */
+        onValueChanged(): void;
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idsetting": string;
+            "idowner": string;
+            "owner": string;
+            "name": string;
+            "value": string;
+        };
+        static getGlobal(): RemoteCall<Setting[]>;
+    }
     class pageBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
@@ -897,91 +1035,45 @@ declare module latte {
         static changeNameDescription(idfile: number, name: string, description: string): RemoteCall<any>;
         physicalRemove(): RemoteCall<any>;
     }
-    class settingBase extends DataRecord {
+    class groupBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
         /**
          * Database field: int(11)
          */
-        _idsetting: number;
+        _idgroup: number;
         /**
-         * Gets or sets the value of the idsetting field of type int(11)
+         * Gets or sets the value of the idgroup field of type int(11)
          */
         /**
-         * Gets or sets the value of the idsetting field of type int(11)
+         * Gets or sets the value of the idgroup field of type int(11)
          */
-        idsetting: number;
+        idgroup: number;
         /**
          * Back field for event
          */
-        _idsettingChanged: LatteEvent;
+        _idgroupChanged: LatteEvent;
         /**
-         * Gets an event raised when the value of the idsetting property changes
+         * Gets an event raised when the value of the idgroup property changes
          */
-        idsettingChanged: LatteEvent;
+        idgroupChanged: LatteEvent;
         /**
-         * Raises the <c>idsettingChanged</c> event
+         * Raises the <c>idgroupChanged</c> event
          */
-        onIdsettingChanged(): void;
+        onIdgroupChanged(): void;
         /**
         * Gets the name of the autoincrement field
         **/
         onGetRecordIdName(): string;
         /**
-         * Database field: int(11)
-         */
-        _idowner: number;
-        /**
-         * Gets or sets the value of the idowner field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idowner field of type int(11)
-         */
-        idowner: number;
-        /**
-         * Back field for event
-         */
-        _idownerChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idowner property changes
-         */
-        idownerChanged: LatteEvent;
-        /**
-         * Raises the <c>idownerChanged</c> event
-         */
-        onIdownerChanged(): void;
-        /**
-         * Database field: varchar(50)
-         */
-        _owner: string;
-        /**
-         * Gets or sets the value of the owner field of type varchar(50)
-         */
-        /**
-         * Gets or sets the value of the owner field of type varchar(50)
-         */
-        owner: string;
-        /**
-         * Back field for event
-         */
-        _ownerChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the owner property changes
-         */
-        ownerChanged: LatteEvent;
-        /**
-         * Raises the <c>ownerChanged</c> event
-         */
-        onOwnerChanged(): void;
-        /**
-         * Database field: varchar(255)
+         * Database field: varchar(128)
          */
         _name: string;
         /**
-         * Gets or sets the value of the name field of type varchar(255)
+         * Gets or sets the value of the name field of type varchar(128)
          */
         /**
-         * Gets or sets the value of the name field of type varchar(255)
+         * Gets or sets the value of the name field of type varchar(128)
          */
         name: string;
         /**
@@ -997,29 +1089,6 @@ declare module latte {
          */
         onNameChanged(): void;
         /**
-         * Database field: longtext
-         */
-        _value: string;
-        /**
-         * Gets or sets the value of the value field of type longtext
-         */
-        /**
-         * Gets or sets the value of the value field of type longtext
-         */
-        value: string;
-        /**
-         * Back field for event
-         */
-        _valueChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the value property changes
-         */
-        valueChanged: LatteEvent;
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        onValueChanged(): void;
-        /**
         * Override. Gets data about the fields of the record.
         **/
         onGetFields(): any;
@@ -1027,13 +1096,11 @@ declare module latte {
         * Declares the native types of the record.
         **/
         static nativeTypes: {
-            "idsetting": string;
-            "idowner": string;
-            "owner": string;
+            "idgroup": string;
             "name": string;
-            "value": string;
         };
-        static getGlobal(): RemoteCall<Setting[]>;
+        static catalog(): RemoteCall<Group[]>;
+        static search(text: string): RemoteCall<Group[]>;
     }
     class fragmentBase extends DataRecord {
         _recordType: string;
@@ -1147,73 +1214,6 @@ declare module latte {
             "value": string;
             "name": string;
         };
-    }
-    class groupBase extends DataRecord {
-        _recordType: string;
-        _moduleName: string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroup: number;
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        idgroup: number;
-        /**
-         * Back field for event
-         */
-        _idgroupChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroup property changes
-         */
-        idgroupChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        onIdgroupChanged(): void;
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        onGetRecordIdName(): string;
-        /**
-         * Database field: varchar(128)
-         */
-        _name: string;
-        /**
-         * Gets or sets the value of the name field of type varchar(128)
-         */
-        /**
-         * Gets or sets the value of the name field of type varchar(128)
-         */
-        name: string;
-        /**
-         * Back field for event
-         */
-        _nameChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the name property changes
-         */
-        nameChanged: LatteEvent;
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        onNameChanged(): void;
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        onGetFields(): any;
-        /**
-        * Declares the native types of the record.
-        **/
-        static nativeTypes: {
-            "idgroup": string;
-            "name": string;
-        };
-        static catalog(): RemoteCall<Group[]>;
-        static search(text: string): RemoteCall<Group[]>;
     }
     class groupUserBase extends DataRecord {
         _recordType: string;
@@ -1861,41 +1861,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class GroupExplorer extends ExplorerItemDataRecord<Group> {
-        /**
-         *
-         */
-        constructor(r?: Group);
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
  * Created by josemanuel on 7/14/16.
  */
 declare module latte {
@@ -1948,6 +1913,41 @@ declare module latte {
     /**
      *
      */
+    class GroupExplorer extends ExplorerItemDataRecord<Group> {
+        /**
+         *
+         */
+        constructor(r?: Group);
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
     class GroupsExplorer extends ExplorerItem {
         /**
          *
@@ -1956,6 +1956,40 @@ declare module latte {
         /**
          * Gets the loader of children items
          *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PagesExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Gets the loader of children items
          * @Override
          */
         getChildrenLoader(): RemoteCall<any>;
@@ -2026,75 +2060,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PagesExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Gets the loader of children items
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class UsersExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
  * Created by josemanuel on 8/5/16.
  */
 declare module latte {
@@ -2137,6 +2102,41 @@ declare module latte {
          * @returns {ButtonItem}
          */
         btnChangePassword: ButtonItem;
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class UsersExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
     }
 }
 /**
@@ -2467,6 +2467,48 @@ declare module latte {
  * Created by josemanuel on 7/26/16.
  */
 declare module latte {
+    /**
+     *
+     */
+    class Plugin {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Raises the <c>load</c> event
+         */
+        onLoad(): void;
+        /**
+         * Raises the <c>unload</c> event
+         */
+        onUnload(): void;
+        /**
+         * Back field for event
+         */
+        private _load;
+        /**
+         * Gets an event raised when the plugin is loaded
+         *
+         * @returns {LatteEvent}
+         */
+        load: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _unload;
+        /**
+         * Gets an event raised when the plugin is unloaded
+         *
+         * @returns {LatteEvent}
+         */
+        unload: LatteEvent;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
     interface IPageSettingsPack {
         config: string;
         parentConfig: string;
@@ -2658,48 +2700,6 @@ declare module latte {
         settingsValues: {
             [index: string]: Setting;
         };
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Plugin {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Raises the <c>load</c> event
-         */
-        onLoad(): void;
-        /**
-         * Raises the <c>unload</c> event
-         */
-        onUnload(): void;
-        /**
-         * Back field for event
-         */
-        private _load;
-        /**
-         * Gets an event raised when the plugin is loaded
-         *
-         * @returns {LatteEvent}
-         */
-        load: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _unload;
-        /**
-         * Gets an event raised when the plugin is unloaded
-         *
-         * @returns {LatteEvent}
-         */
-        unload: LatteEvent;
     }
 }
 /**
@@ -3390,237 +3390,6 @@ declare module latte {
         progressBar: ProgressItem;
     }
 }
-declare module latte {
-    /**
-     * File Record
-     **/
-    class File extends fileBase {
-        /**
-         * Gets an array of files belonging to the specified record
-         **/
-        static byRecord(record: DataRecord, callback: (arr: Array<File>) => any): Message;
-        /**
-         * Gets the extension of the file
-         * @param ext
-         * @returns {string}
-         */
-        static extensionOf(ext: string): string;
-        /**
-         * Returns a value indicating if the extension is an image extension
-         * @param e
-         * @returns {boolean}
-         */
-        static isImageExtension(e: string): boolean;
-        /**
-         * Gets the name of the file without extension
-         * @param fileName
-         */
-        static nameWithoutExtensionOf(fileName: string): string;
-        /**
-         * Makes a single upload of a file with the specified record as owner
-         *
-         * @param owner
-         * @param idOwner
-         * @param callback
-         */
-        static singleUpload(owner: string, idOwner: string, callback?: (File) => any): void;
-        /**
-         * Gets the human size of specified amount of bytes
-         * @param size
-         * @returns {string}
-         */
-        static humanSizeOf(size?: number): string;
-        /**
-         * Gets an URL for the specified path, by using the default bucket
-         **/
-        static urlOfPath(path: string): string;
-        children: File[];
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Creates a thumb that fits on the specified size
-         *
-         * @param width
-         * @param height
-         * @param description
-         * @param callback
-         */
-        createThumbChild(options: ImageExportOptions, key: string, callback?: (child: File) => void): void;
-        /**
-         * Searches for the child of the specified description. Returns null if not found.
-         * @param key
-         * @returns {any}
-         */
-        getChildByKey(key: string): File;
-        /**
-         * Override.
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Gets a value indicating if the file can be manipulated
-         **/
-        canManipulate: boolean;
-        /**
-         * Gets the extension of the file, without the dot.
-         The extension is returned always as a lowercase string.
-         If the file has no name set, null will be returned. If the name has no extension,
-         empty string will be returned.
-         **/
-        extension: string;
-        /**
-         * Gets the human size of the file
-         **/
-        humanSize: string;
-        /**
-         * Gets a value indicating if the file is an image
-         **/
-        isImage: boolean;
-        /**
-         * Gets the url for downloading the file
-         **/
-        url: string;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table page
-     */
-    class Page extends pageBase {
-        /**
-         * Allows the user to see the page and access the fragments of the page.
-         * @type {number}
-         */
-        static PERMISSION_READ: number;
-        /**
-         * Allows the user to modify the page after it becomes online.
-         * @type {number}
-         */
-        static PERMISSION_WRITE: number;
-        /**
-         * Allows the user to delete the page.
-         * @type {number}
-         */
-        static PERMISSION_DELETE: number;
-        /**
-         * Allows the user to insert new children to the page.
-         * @type {number}
-         */
-        static PERMISSION_INSERT_CHILD: number;
-        /**
-         * Allows the user to read children of the page. User gets to know the children he owns.
-         * @type {number}
-         */
-        static PERMISSION_READ_CHILDREN: number;
-        /**
-         * Returns a boolean indicating if the user has the specified permission for the page
-         * @param permission
-         */
-        canI(permission: number): boolean;
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Override.
-         * @param form
-         */
-        onFormCreated(form: DataRecordFormItem): void;
-        /**
-         * Raises the <c>onlineSwitched</c> event
-         */
-        onOnlineSwitched(): void;
-        /**
-         * Back field for event
-         */
-        private _onlineSwitched;
-        /**
-         * Gets an event raised when the online attribute has been switched
-         *
-         * @returns {LatteEvent}
-         */
-        onlineSwitched: LatteEvent;
-        /**
-         * Gets a value indicating if user has WRITE permission
-         *
-         * @returns {boolean}
-         */
-        canIDelete: boolean;
-        /**
-         * Gets a value indicating if user has INSERT_CHILD permission
-         *
-         * @returns {boolean}
-         */
-        canIInsertChild: boolean;
-        /**
-         * Gets a value indicating if user has READ permission
-         *
-         * @returns {boolean}
-         */
-        canIRead: boolean;
-        /**
-         * Gets a value indicating if the user has READ_CHILDREN permission
-         *
-         * @returns {boolean}
-         */
-        canIReadChildren: boolean;
-        /**
-         * Gets a value indicating if user has WRITE permission
-         *
-         * @returns {boolean}
-         */
-        canIWrite: boolean;
-        /**
-         * Property field
-         */
-        private _configurationSetting;
-        /**
-         * Gets or sets the configuration of the page
-         *
-         * @returns {Setting}
-         */
-        /**
-         * Gets or sets the configuration of the page
-         *
-         * @param {Setting} value
-         */
-        configurationSetting: Setting;
-        /**
-         * Field for configuration property
-         */
-        private _configuration;
-        /**
-         * Gets the configuration helper for the page
-         *
-         * @returns {PageConfiguration}
-         */
-        configuration: PageConfiguration;
-        /**
-         * Gets a value indicating if the page belongs to the logged user
-         *
-         * @returns {boolean}
-         */
-        isMine: boolean;
-        /**
-         * Gets a value indicating if the user owns the page and has not write permissions
-         *
-         * @returns {boolean}
-         */
-        isMineAndCantWrite: boolean;
-        /**
-         * Gets a value indicating if the page is currently online
-         *
-         * @returns {boolean}
-         */
-        isOnline: boolean;
-    }
-}
 /**
  * Created by josemanuel on 8/22/16.
  */
@@ -3841,6 +3610,99 @@ declare module latte {
         linearIconName: string;
     }
 }
+declare module latte {
+    /**
+     * File Record
+     **/
+    class File extends fileBase {
+        /**
+         * Gets an array of files belonging to the specified record
+         **/
+        static byRecord(record: DataRecord, callback: (arr: Array<File>) => any): Message;
+        /**
+         * Gets the extension of the file
+         * @param ext
+         * @returns {string}
+         */
+        static extensionOf(ext: string): string;
+        /**
+         * Returns a value indicating if the extension is an image extension
+         * @param e
+         * @returns {boolean}
+         */
+        static isImageExtension(e: string): boolean;
+        /**
+         * Gets the name of the file without extension
+         * @param fileName
+         */
+        static nameWithoutExtensionOf(fileName: string): string;
+        /**
+         * Makes a single upload of a file with the specified record as owner
+         *
+         * @param owner
+         * @param idOwner
+         * @param callback
+         */
+        static singleUpload(owner: string, idOwner: string, callback?: (File) => any): void;
+        /**
+         * Gets the human size of specified amount of bytes
+         * @param size
+         * @returns {string}
+         */
+        static humanSizeOf(size?: number): string;
+        /**
+         * Gets an URL for the specified path, by using the default bucket
+         **/
+        static urlOfPath(path: string): string;
+        children: File[];
+        /**
+         *
+         **/
+        constructor();
+        /**
+         * Creates a thumb that fits on the specified size
+         *
+         * @param width
+         * @param height
+         * @param description
+         * @param callback
+         */
+        createThumbChild(options: ImageExportOptions, key: string, callback?: (child: File) => void): void;
+        /**
+         * Searches for the child of the specified description. Returns null if not found.
+         * @param key
+         * @returns {any}
+         */
+        getChildByKey(key: string): File;
+        /**
+         * Override.
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Gets a value indicating if the file can be manipulated
+         **/
+        canManipulate: boolean;
+        /**
+         * Gets the extension of the file, without the dot.
+         The extension is returned always as a lowercase string.
+         If the file has no name set, null will be returned. If the name has no extension,
+         empty string will be returned.
+         **/
+        extension: string;
+        /**
+         * Gets the human size of the file
+         **/
+        humanSize: string;
+        /**
+         * Gets a value indicating if the file is an image
+         **/
+        isImage: boolean;
+        /**
+         * Gets the url for downloading the file
+         **/
+        url: string;
+    }
+}
 /**
  * Generated by xlatte
  */
@@ -3924,6 +3786,144 @@ declare module latte {
  */
 declare module latte {
     /**
+     * Record for table page
+     */
+    class Page extends pageBase {
+        /**
+         * Allows the user to see the page and access the fragments of the page.
+         * @type {number}
+         */
+        static PERMISSION_READ: number;
+        /**
+         * Allows the user to modify the page after it becomes online.
+         * @type {number}
+         */
+        static PERMISSION_WRITE: number;
+        /**
+         * Allows the user to delete the page.
+         * @type {number}
+         */
+        static PERMISSION_DELETE: number;
+        /**
+         * Allows the user to insert new children to the page.
+         * @type {number}
+         */
+        static PERMISSION_INSERT_CHILD: number;
+        /**
+         * Allows the user to read children of the page. User gets to know the children he owns.
+         * @type {number}
+         */
+        static PERMISSION_READ_CHILDREN: number;
+        /**
+         * Returns a boolean indicating if the user has the specified permission for the page
+         * @param permission
+         */
+        canI(permission: number): boolean;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Override.
+         * @param form
+         */
+        onFormCreated(form: DataRecordFormItem): void;
+        /**
+         * Raises the <c>onlineSwitched</c> event
+         */
+        onOnlineSwitched(): void;
+        /**
+         * Back field for event
+         */
+        private _onlineSwitched;
+        /**
+         * Gets an event raised when the online attribute has been switched
+         *
+         * @returns {LatteEvent}
+         */
+        onlineSwitched: LatteEvent;
+        /**
+         * Gets a value indicating if user has WRITE permission
+         *
+         * @returns {boolean}
+         */
+        canIDelete: boolean;
+        /**
+         * Gets a value indicating if user has INSERT_CHILD permission
+         *
+         * @returns {boolean}
+         */
+        canIInsertChild: boolean;
+        /**
+         * Gets a value indicating if user has READ permission
+         *
+         * @returns {boolean}
+         */
+        canIRead: boolean;
+        /**
+         * Gets a value indicating if the user has READ_CHILDREN permission
+         *
+         * @returns {boolean}
+         */
+        canIReadChildren: boolean;
+        /**
+         * Gets a value indicating if user has WRITE permission
+         *
+         * @returns {boolean}
+         */
+        canIWrite: boolean;
+        /**
+         * Property field
+         */
+        private _configurationSetting;
+        /**
+         * Gets or sets the configuration of the page
+         *
+         * @returns {Setting}
+         */
+        /**
+         * Gets or sets the configuration of the page
+         *
+         * @param {Setting} value
+         */
+        configurationSetting: Setting;
+        /**
+         * Field for configuration property
+         */
+        private _configuration;
+        /**
+         * Gets the configuration helper for the page
+         *
+         * @returns {PageConfiguration}
+         */
+        configuration: PageConfiguration;
+        /**
+         * Gets a value indicating if the page belongs to the logged user
+         *
+         * @returns {boolean}
+         */
+        isMine: boolean;
+        /**
+         * Gets a value indicating if the user owns the page and has not write permissions
+         *
+         * @returns {boolean}
+         */
+        isMineAndCantWrite: boolean;
+        /**
+         * Gets a value indicating if the page is currently online
+         *
+         * @returns {boolean}
+         */
+        isOnline: boolean;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
      * Record for table setting
      */
     class Setting extends settingBase {
@@ -3941,6 +3941,7 @@ declare module latte {
         static FLAG_SYS_ADMIN: number;
         static FLAG_BANNED_USER: number;
         static FLAG_TRASH: number;
+        static FLAG_USE_BACKEND: number;
         static me: User;
         /**
          * Gets the suggestion loader
@@ -3969,6 +3970,12 @@ declare module latte {
          * @returns {string}
          */
         attributes: string;
+        /**
+         * Gets a value indicating if the user is able to use the backend
+         *
+         * @returns {boolean}
+         */
+        canUseBackend: boolean;
         /**
          * Gets the flags as a string
          *
@@ -4028,64 +4035,6 @@ declare module latte {
          *
          */
         constructor();
-    }
-}
-/**
- * Created by josemanuel on 8/11/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class CmsMainView extends View {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Override.
-         */
-        onLoad(): void;
-        /**
-         * Field for explorer property
-         */
-        private _explorer;
-        /**
-         * Gets the explorer
-         *
-         * @returns {CmsExplorer}
-         */
-        explorer: CmsExplorer;
-        /**
-         * Field for topBar property
-         */
-        private _topBar;
-        /**
-         * Gets the top bar
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        topBar: Element<HTMLDivElement>;
-        /**
-         * Field for logo property
-         */
-        private _logo;
-        /**
-         * Gets the logo element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        logo: Element<HTMLDivElement>;
-        /**
-         * Field for logout property
-         */
-        private _logout;
-        /**
-         * Gets the logout element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        logout: Element<HTMLDivElement>;
     }
 }
 /**
@@ -4171,6 +4120,64 @@ declare module latte {
          * @returns {DataRecordFormItem}
          */
         form: DataRecordFormItem;
+    }
+}
+/**
+ * Created by josemanuel on 8/11/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class CmsMainView extends View {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Override.
+         */
+        onLoad(): void;
+        /**
+         * Field for explorer property
+         */
+        private _explorer;
+        /**
+         * Gets the explorer
+         *
+         * @returns {CmsExplorer}
+         */
+        explorer: CmsExplorer;
+        /**
+         * Field for topBar property
+         */
+        private _topBar;
+        /**
+         * Gets the top bar
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        topBar: Element<HTMLDivElement>;
+        /**
+         * Field for logo property
+         */
+        private _logo;
+        /**
+         * Gets the logo element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        logo: Element<HTMLDivElement>;
+        /**
+         * Field for logout property
+         */
+        private _logout;
+        /**
+         * Gets the logout element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        logout: Element<HTMLDivElement>;
     }
 }
 /**
@@ -4317,24 +4324,6 @@ declare module latte {
          * @returns {FormItem}
          */
         settingsForm: FormItem;
-    }
-}
-/**
- * Created by josemanuel on 6/10/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class SignInView extends SignInViewBase {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Handles the form submit
-         */
-        formSubmit(): void;
     }
 }
 /**
@@ -4642,5 +4631,23 @@ declare module latte {
          * @returns {TabItem}
          */
         tabConfiguration: TabItem;
+    }
+}
+/**
+ * Created by josemanuel on 6/10/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class SignInView extends SignInViewBase {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Handles the form submit
+         */
+        formSubmit(): void;
     }
 }

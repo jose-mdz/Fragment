@@ -17,6 +17,8 @@ module latte{
 
 		static FLAG_TRASH = 8;
 
+		static FLAG_USE_BACKEND = 16;
+
 		static me: User = null;
 
 		/**
@@ -70,8 +72,9 @@ module latte{
                         options:{
                             1: strings.isRoot,
 							2: strings.isSysAdmin,
-                            4: strings.isBanned,
-                            8: strings.inTrash
+							16: strings.canUseBackend,
+							4: strings.isBanned,
+							8: strings.inTrash
                         }
                     }
 				}
@@ -132,7 +135,16 @@ module latte{
 			return arr.join(", ");
 		}
 
-        /**
+		/**
+		 * Gets a value indicating if the user is able to use the backend
+		 *
+		 * @returns {boolean}
+		 */
+		get canUseBackend(): boolean {
+			return this.isRoot || ((this.flags & User.FLAG_USE_BACKEND) == User.FLAG_USE_BACKEND);
+		}
+
+		/**
          * Gets the flags as a string
          *
          * @returns {string}

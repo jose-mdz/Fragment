@@ -81,3 +81,4 @@ strings.areYouSureSetPageOnlineDesc = "Debido a tu nivel de permisos no te será
 strings.yesMakeOnline = "Sí, poner en línea";
 strings.signOut = "Cerrar Sesión";
 strings.sendToTrash = "Enviar a Basurero";
+strings.canUseBackend = "Puede usar Backend";

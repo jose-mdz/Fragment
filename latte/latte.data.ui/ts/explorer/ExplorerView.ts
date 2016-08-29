@@ -214,6 +214,7 @@ module latte {
 
             listItem.selectedChanged.add(() => {
                 if(listItem.selected) {
+                    this._listSelectedItem = item;
                     this.detailViewOf(item);
                 }
             });
@@ -258,7 +259,7 @@ module latte {
                 // this.btnRemoveDetail.enabled = item.getCanBeDeleted();
             }
 
-            this._listSelectedItem = item;
+            // this._listSelectedItem = item;
 
         }
 
@@ -294,8 +295,6 @@ module latte {
 
             var treeItem = this.treeView.selectedItem;
             var item:ExplorerItem = <any>treeItem.tag;
-
-
 
             item.childrenPage = this.paginator.page;
             item.onChildrenChanged();
@@ -521,6 +520,11 @@ module latte {
                 this._listView = new ListView();
                 this._listView.columnHeaders.add(new ColumnHeader(''));
                 this._listView.focusable = true;
+                this._listView.focused.add(() => {
+                    if(this._listSelectedItem) {
+                        this.detailViewOf(this._listSelectedItem);
+                    }
+                });
             }
             return this._listView;
         }

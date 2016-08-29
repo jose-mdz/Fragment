@@ -1,5 +1,260 @@
 module latte{
-		export class pageBase extends DataRecord{
+		export class settingBase extends DataRecord{
+
+		/* Name of Php record */
+		_recordType: string = 'Setting';
+
+		/* Name of Module where record lives */
+		_moduleName: string = 'fragment';
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idsetting: number = null;
+
+		/**
+		 * Gets or sets the value of the idsetting field of type int(11)
+		 */
+		get idsetting(): number{
+			return this._idsetting;
+		}
+
+		/**
+		 * Gets or sets the value of the idsetting field of type int(11)
+		 */
+		set idsetting(value: number){
+			var changed: boolean = value !== this._idsetting
+			this._idsetting = value;
+			if(changed){ this.onIdsettingChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idsettingChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idsetting property changes
+		 */
+		get idsettingChanged(): LatteEvent{
+			if(!this._idsettingChanged){ this._idsettingChanged = new LatteEvent(this); }
+			return this._idsettingChanged;
+		}
+
+		/**
+		 * Raises the <c>idsettingChanged</c> event
+		 */
+		onIdsettingChanged(){
+			if(this._idsettingChanged){
+				this._idsettingChanged.raise()
+			}
+			this.onFieldValueChanged('idsetting', this.idsetting)
+		}
+
+		/**
+		* Gets the name of the autoincrement field
+		**/
+		onGetRecordIdName(): string { return 'idsetting'; }
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idowner: number = null;
+
+		/**
+		 * Gets or sets the value of the idowner field of type int(11)
+		 */
+		get idowner(): number{
+			return this._idowner;
+		}
+
+		/**
+		 * Gets or sets the value of the idowner field of type int(11)
+		 */
+		set idowner(value: number){
+			var changed: boolean = value !== this._idowner
+			this._idowner = value;
+			if(changed){ this.onIdownerChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idownerChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idowner property changes
+		 */
+		get idownerChanged(): LatteEvent{
+			if(!this._idownerChanged){ this._idownerChanged = new LatteEvent(this); }
+			return this._idownerChanged;
+		}
+
+		/**
+		 * Raises the <c>idownerChanged</c> event
+		 */
+		onIdownerChanged(){
+			if(this._idownerChanged){
+				this._idownerChanged.raise()
+			}
+			this.onFieldValueChanged('idowner', this.idowner)
+		}
+
+		/**
+		 * Database field: varchar(50)
+		 */
+		_owner: string = null;
+
+		/**
+		 * Gets or sets the value of the owner field of type varchar(50)
+		 */
+		get owner(): string{
+			return this._owner;
+		}
+
+		/**
+		 * Gets or sets the value of the owner field of type varchar(50)
+		 */
+		set owner(value: string){
+			var changed: boolean = value !== this._owner
+			this._owner = value;
+			if(changed){ this.onOwnerChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_ownerChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the owner property changes
+		 */
+		get ownerChanged(): LatteEvent{
+			if(!this._ownerChanged){ this._ownerChanged = new LatteEvent(this); }
+			return this._ownerChanged;
+		}
+
+		/**
+		 * Raises the <c>ownerChanged</c> event
+		 */
+		onOwnerChanged(){
+			if(this._ownerChanged){
+				this._ownerChanged.raise()
+			}
+			this.onFieldValueChanged('owner', this.owner)
+		}
+
+		/**
+		 * Database field: varchar(255)
+		 */
+		_name: string = null;
+
+		/**
+		 * Gets or sets the value of the name field of type varchar(255)
+		 */
+		get name(): string{
+			return this._name;
+		}
+
+		/**
+		 * Gets or sets the value of the name field of type varchar(255)
+		 */
+		set name(value: string){
+			var changed: boolean = value !== this._name
+			this._name = value;
+			if(changed){ this.onNameChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_nameChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the name property changes
+		 */
+		get nameChanged(): LatteEvent{
+			if(!this._nameChanged){ this._nameChanged = new LatteEvent(this); }
+			return this._nameChanged;
+		}
+
+		/**
+		 * Raises the <c>nameChanged</c> event
+		 */
+		onNameChanged(){
+			if(this._nameChanged){
+				this._nameChanged.raise()
+			}
+			this.onFieldValueChanged('name', this.name)
+		}
+
+		/**
+		 * Database field: longtext
+		 */
+		_value: string = null;
+
+		/**
+		 * Gets or sets the value of the value field of type longtext
+		 */
+		get value(): string{
+			return this._value;
+		}
+
+		/**
+		 * Gets or sets the value of the value field of type longtext
+		 */
+		set value(value: string){
+			var changed: boolean = value !== this._value
+			this._value = value;
+			if(changed){ this.onValueChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_valueChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the value property changes
+		 */
+		get valueChanged(): LatteEvent{
+			if(!this._valueChanged){ this._valueChanged = new LatteEvent(this); }
+			return this._valueChanged;
+		}
+
+		/**
+		 * Raises the <c>valueChanged</c> event
+		 */
+		onValueChanged(){
+			if(this._valueChanged){
+				this._valueChanged.raise()
+			}
+			this.onFieldValueChanged('value', this.value)
+		}
+
+		/**
+		* Override. Gets data about the fields of the record.
+		**/
+		onGetFields(): any { return {'idsetting': this.idsetting, 'idowner': this.idowner, 'owner': this.owner, 'name': this.name, 'value': this.value}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idsetting":"int(11)","idowner":"int(11)","owner":"varchar(50)","name":"varchar(255)","value":"longtext"};
+
+		/*
+		 * Remote Method. 
+ Gets the global settings of the app
+
+
+		 */
+		static getGlobal(): RemoteCall<Setting[]>{
+			return new RemoteCall<Setting[]>('fragment', 'Setting', 'getGlobal', {} );
+		}
+	}
+
+	export class pageBase extends DataRecord{
 
 		/* Name of Php record */
 		_recordType: string = 'Page';
@@ -1712,10 +1967,10 @@ module latte{
 		}
 	}
 
-	export class settingBase extends DataRecord{
+	export class groupBase extends DataRecord{
 
 		/* Name of Php record */
-		_recordType: string = 'Setting';
+		_recordType: string = 'Group';
 
 		/* Name of Module where record lives */
 		_moduleName: string = 'fragment';
@@ -1723,154 +1978,66 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idsetting: number = null;
+		_idgroup: number = null;
 
 		/**
-		 * Gets or sets the value of the idsetting field of type int(11)
+		 * Gets or sets the value of the idgroup field of type int(11)
 		 */
-		get idsetting(): number{
-			return this._idsetting;
+		get idgroup(): number{
+			return this._idgroup;
 		}
 
 		/**
-		 * Gets or sets the value of the idsetting field of type int(11)
+		 * Gets or sets the value of the idgroup field of type int(11)
 		 */
-		set idsetting(value: number){
-			var changed: boolean = value !== this._idsetting
-			this._idsetting = value;
-			if(changed){ this.onIdsettingChanged(); }
+		set idgroup(value: number){
+			var changed: boolean = value !== this._idgroup
+			this._idgroup = value;
+			if(changed){ this.onIdgroupChanged(); }
 		}
 
 		/**
 		 * Back field for event
 		 */
-		_idsettingChanged: LatteEvent;
+		_idgroupChanged: LatteEvent;
 
 		/**
-		 * Gets an event raised when the value of the idsetting property changes
+		 * Gets an event raised when the value of the idgroup property changes
 		 */
-		get idsettingChanged(): LatteEvent{
-			if(!this._idsettingChanged){ this._idsettingChanged = new LatteEvent(this); }
-			return this._idsettingChanged;
+		get idgroupChanged(): LatteEvent{
+			if(!this._idgroupChanged){ this._idgroupChanged = new LatteEvent(this); }
+			return this._idgroupChanged;
 		}
 
 		/**
-		 * Raises the <c>idsettingChanged</c> event
+		 * Raises the <c>idgroupChanged</c> event
 		 */
-		onIdsettingChanged(){
-			if(this._idsettingChanged){
-				this._idsettingChanged.raise()
+		onIdgroupChanged(){
+			if(this._idgroupChanged){
+				this._idgroupChanged.raise()
 			}
-			this.onFieldValueChanged('idsetting', this.idsetting)
+			this.onFieldValueChanged('idgroup', this.idgroup)
 		}
 
 		/**
 		* Gets the name of the autoincrement field
 		**/
-		onGetRecordIdName(): string { return 'idsetting'; }
+		onGetRecordIdName(): string { return 'idgroup'; }
 
 		/**
-		 * Database field: int(11)
-		 */
-		_idowner: number = null;
-
-		/**
-		 * Gets or sets the value of the idowner field of type int(11)
-		 */
-		get idowner(): number{
-			return this._idowner;
-		}
-
-		/**
-		 * Gets or sets the value of the idowner field of type int(11)
-		 */
-		set idowner(value: number){
-			var changed: boolean = value !== this._idowner
-			this._idowner = value;
-			if(changed){ this.onIdownerChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idownerChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idowner property changes
-		 */
-		get idownerChanged(): LatteEvent{
-			if(!this._idownerChanged){ this._idownerChanged = new LatteEvent(this); }
-			return this._idownerChanged;
-		}
-
-		/**
-		 * Raises the <c>idownerChanged</c> event
-		 */
-		onIdownerChanged(){
-			if(this._idownerChanged){
-				this._idownerChanged.raise()
-			}
-			this.onFieldValueChanged('idowner', this.idowner)
-		}
-
-		/**
-		 * Database field: varchar(50)
-		 */
-		_owner: string = null;
-
-		/**
-		 * Gets or sets the value of the owner field of type varchar(50)
-		 */
-		get owner(): string{
-			return this._owner;
-		}
-
-		/**
-		 * Gets or sets the value of the owner field of type varchar(50)
-		 */
-		set owner(value: string){
-			var changed: boolean = value !== this._owner
-			this._owner = value;
-			if(changed){ this.onOwnerChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_ownerChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the owner property changes
-		 */
-		get ownerChanged(): LatteEvent{
-			if(!this._ownerChanged){ this._ownerChanged = new LatteEvent(this); }
-			return this._ownerChanged;
-		}
-
-		/**
-		 * Raises the <c>ownerChanged</c> event
-		 */
-		onOwnerChanged(){
-			if(this._ownerChanged){
-				this._ownerChanged.raise()
-			}
-			this.onFieldValueChanged('owner', this.owner)
-		}
-
-		/**
-		 * Database field: varchar(255)
+		 * Database field: varchar(128)
 		 */
 		_name: string = null;
 
 		/**
-		 * Gets or sets the value of the name field of type varchar(255)
+		 * Gets or sets the value of the name field of type varchar(128)
 		 */
 		get name(): string{
 			return this._name;
 		}
 
 		/**
-		 * Gets or sets the value of the name field of type varchar(255)
+		 * Gets or sets the value of the name field of type varchar(128)
 		 */
 		set name(value: string){
 			var changed: boolean = value !== this._name
@@ -1902,68 +2069,31 @@ module latte{
 		}
 
 		/**
-		 * Database field: longtext
-		 */
-		_value: string = null;
-
-		/**
-		 * Gets or sets the value of the value field of type longtext
-		 */
-		get value(): string{
-			return this._value;
-		}
-
-		/**
-		 * Gets or sets the value of the value field of type longtext
-		 */
-		set value(value: string){
-			var changed: boolean = value !== this._value
-			this._value = value;
-			if(changed){ this.onValueChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_valueChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the value property changes
-		 */
-		get valueChanged(): LatteEvent{
-			if(!this._valueChanged){ this._valueChanged = new LatteEvent(this); }
-			return this._valueChanged;
-		}
-
-		/**
-		 * Raises the <c>valueChanged</c> event
-		 */
-		onValueChanged(){
-			if(this._valueChanged){
-				this._valueChanged.raise()
-			}
-			this.onFieldValueChanged('value', this.value)
-		}
-
-		/**
 		* Override. Gets data about the fields of the record.
 		**/
-		onGetFields(): any { return {'idsetting': this.idsetting, 'idowner': this.idowner, 'owner': this.owner, 'name': this.name, 'value': this.value}; }
+		onGetFields(): any { return {'idgroup': this.idgroup, 'name': this.name}; }
 
 		/**
 		* Declares the native types of the record.
 		**/
 
-		static nativeTypes = {"idsetting":"int(11)","idowner":"int(11)","owner":"varchar(50)","name":"varchar(255)","value":"longtext"};
+		static nativeTypes = {"idgroup":"int(11)","name":"varchar(128)"};
 
 		/*
 		 * Remote Method. 
- Gets the global settings of the app
 
 
 		 */
-		static getGlobal(): RemoteCall<Setting[]>{
-			return new RemoteCall<Setting[]>('fragment', 'Setting', 'getGlobal', {} );
+		static catalog(): RemoteCall<Group[]>{
+			return new RemoteCall<Group[]>('fragment', 'Group', 'catalog', {} );
+		}
+
+		/*
+		 * Remote Method. 
+
+		 */
+		static search(text: string): RemoteCall<Group[]>{
+			return new RemoteCall<Group[]>('fragment', 'Group', 'search', {text: text} );
 		}
 	}
 
@@ -2166,136 +2296,6 @@ module latte{
 		**/
 
 		static nativeTypes = {"idfragment":"int(11)","idpage":"int(11)","value":"longtext","name":"varchar(50)"};
-	}
-
-	export class groupBase extends DataRecord{
-
-		/* Name of Php record */
-		_recordType: string = 'Group';
-
-		/* Name of Module where record lives */
-		_moduleName: string = 'fragment';
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idgroup: number = null;
-
-		/**
-		 * Gets or sets the value of the idgroup field of type int(11)
-		 */
-		get idgroup(): number{
-			return this._idgroup;
-		}
-
-		/**
-		 * Gets or sets the value of the idgroup field of type int(11)
-		 */
-		set idgroup(value: number){
-			var changed: boolean = value !== this._idgroup
-			this._idgroup = value;
-			if(changed){ this.onIdgroupChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idgroupChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idgroup property changes
-		 */
-		get idgroupChanged(): LatteEvent{
-			if(!this._idgroupChanged){ this._idgroupChanged = new LatteEvent(this); }
-			return this._idgroupChanged;
-		}
-
-		/**
-		 * Raises the <c>idgroupChanged</c> event
-		 */
-		onIdgroupChanged(){
-			if(this._idgroupChanged){
-				this._idgroupChanged.raise()
-			}
-			this.onFieldValueChanged('idgroup', this.idgroup)
-		}
-
-		/**
-		* Gets the name of the autoincrement field
-		**/
-		onGetRecordIdName(): string { return 'idgroup'; }
-
-		/**
-		 * Database field: varchar(128)
-		 */
-		_name: string = null;
-
-		/**
-		 * Gets or sets the value of the name field of type varchar(128)
-		 */
-		get name(): string{
-			return this._name;
-		}
-
-		/**
-		 * Gets or sets the value of the name field of type varchar(128)
-		 */
-		set name(value: string){
-			var changed: boolean = value !== this._name
-			this._name = value;
-			if(changed){ this.onNameChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_nameChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the name property changes
-		 */
-		get nameChanged(): LatteEvent{
-			if(!this._nameChanged){ this._nameChanged = new LatteEvent(this); }
-			return this._nameChanged;
-		}
-
-		/**
-		 * Raises the <c>nameChanged</c> event
-		 */
-		onNameChanged(){
-			if(this._nameChanged){
-				this._nameChanged.raise()
-			}
-			this.onFieldValueChanged('name', this.name)
-		}
-
-		/**
-		* Override. Gets data about the fields of the record.
-		**/
-		onGetFields(): any { return {'idgroup': this.idgroup, 'name': this.name}; }
-
-		/**
-		* Declares the native types of the record.
-		**/
-
-		static nativeTypes = {"idgroup":"int(11)","name":"varchar(128)"};
-
-		/*
-		 * Remote Method. 
-
-
-		 */
-		static catalog(): RemoteCall<Group[]>{
-			return new RemoteCall<Group[]>('fragment', 'Group', 'catalog', {} );
-		}
-
-		/*
-		 * Remote Method. 
-
-		 */
-		static search(text: string): RemoteCall<Group[]>{
-			return new RemoteCall<Group[]>('fragment', 'Group', 'search', {text: text} );
-		}
 	}
 
 	export class groupUserBase extends DataRecord{

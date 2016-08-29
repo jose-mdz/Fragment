@@ -164,7 +164,8 @@ module latte{
                         type: 'record',
                         recordType: 'Group',
                         loaderFunction: Group.suggestionLoader(),
-                        visible: 'if-inserted'
+                        visible: 'if-inserted',
+						readOnly: !User.me.isRoot
                     },
                     iduser: {
 						category: 'advanced',
@@ -172,7 +173,8 @@ module latte{
                         type: 'record',
                         recordType: 'User',
                         loaderFunction: User.suggestionLoader(),
-                        visible: 'if-inserted'
+                        visible: 'if-inserted',
+						readOnly: !User.me.isRoot
                     },
 					powner:{
 						category: 'advanced',

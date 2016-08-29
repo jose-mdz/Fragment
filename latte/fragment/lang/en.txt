@@ -80,3 +80,4 @@ areYouSureSetPageOnlineDesc Because of your permissions you will not be able to 
 yesMakeOnline Yes, make available online
 signOut Sign Out
 sendToTrash Send to Trash
+canUseBackend Can use Backend

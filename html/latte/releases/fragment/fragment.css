@@ -1,6 +1,27 @@
 .latte-item.latte-item.html-editor.html-fragment-adapter{
     border-color: transparent;
-}.gallery-fragment-editor{
+}textarea.plain-text-fragment {
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    display: block;
+    overflow:hidden;
+    box-sizing: padding-box;
+    font-size: 14px;
+    padding:10px;
+    border:6px solid white;
+
+
+    width: 100%;
+    /*border: none;*/
+    margin: 0;
+    /*padding: 0;*/
+    font-family: monospace;
+
+}
+.gallery-fragment-editor{
     min-height: 400px;
     background: #fcfcfc;
     padding: 15px;
@@ -24,28 +45,7 @@
 
 .gallery-fragment-editor .latte-item.file{
     margin: 0 15px 15px 0;
-}textarea.plain-text-fragment {
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*bottom: 0;*/
-    display: block;
-    overflow:hidden;
-    box-sizing: padding-box;
-    font-size: 14px;
-    padding:10px;
-    border:6px solid white;
-
-
-    width: 100%;
-    /*border: none;*/
-    margin: 0;
-    /*padding: 0;*/
-    font-family: monospace;
-
-}
-.latte-item.file{
+}.latte-item.file{
     border: solid 1px #ccc;
     background: #f0f0f0;
     cursor: pointer;
@@ -761,62 +761,6 @@ textarea.page-configuration:focus{
     color: black;
 }
 
-/*.latte-view.page-detail-view .open-editor-button.no-icon{*/
-    /*background-color: white;*/
-    /*border-color: #4285F4;*/
-    /*color: #4285F4;*/
-    /*text-align: center;*/
-    /*padding: 10px;*/
-/*}*/
-
-/*.latte-view.page-detail-view .open-editor-button:hover{*/
-    /*background-color: #4285F4;*/
-    /*border-color: #4285F4;*/
-    /*color: #fff;*/
-/*}*/
-
-.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button{
-    background-color: white;
-    border-color: #4285F4;
-    color: #4285F4;
-    text-align: center;
-    padding: 10px;
-}
-
-.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button:hover{
-    background-color: #4285F4;
-    border-color: #4285F4;
-    color: #fff;
-}
-
-.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button.danger{
-    background-color: white;
-    border-color: orangered;
-    color: orangered;
-    text-align: center;
-    padding: 10px;
-}
-
-.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button.danger:hover{
-    background-color: orangered;
-    border-color: orangered;
-    color: #fff;
-}
-
-.latte-view .action-button.no-icon{
-    background-color: white !important;
-    border-color: #777 !important;
-    color: #777 !important;
-    text-align: center !important;
-    padding: 10px !important;
-}
-
-.latte-view .action-button:hover{
-    background-color: #777 !important;
-    border-color: #777 !important;
-    color: #fff !important;
-}
-
 .page-editor-main-view{
     background: #f7f7f7;
 }
@@ -1104,4 +1048,60 @@ textarea.page-configuration:focus{
 .signin-view footer{
     margin-top: 50px;
     text-align: center;
+}
+
+/*.latte-view.page-detail-view .open-editor-button.no-icon{*/
+    /*background-color: white;*/
+    /*border-color: #4285F4;*/
+    /*color: #4285F4;*/
+    /*text-align: center;*/
+    /*padding: 10px;*/
+/*}*/
+
+/*.latte-view.page-detail-view .open-editor-button:hover{*/
+    /*background-color: #4285F4;*/
+    /*border-color: #4285F4;*/
+    /*color: #fff;*/
+/*}*/
+
+.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button{
+    background-color: white;
+    border-color: #4285F4;
+    color: #4285F4;
+    text-align: center;
+    padding: 10px;
+}
+
+.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button:hover{
+    background-color: #4285F4;
+    border-color: #4285F4;
+    color: #fff;
+}
+
+.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button.danger{
+    background-color: white;
+    border-color: orangered;
+    color: orangered;
+    text-align: center;
+    padding: 10px;
+}
+
+.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button.danger:hover{
+    background-color: orangered;
+    border-color: orangered;
+    color: #fff;
+}
+
+.latte-view .action-button.no-icon{
+    background-color: white !important;
+    border-color: #777 !important;
+    color: #777 !important;
+    text-align: center !important;
+    padding: 10px !important;
+}
+
+.latte-view .action-button:hover{
+    background-color: #777 !important;
+    border-color: #777 !important;
+    color: #fff !important;
 }

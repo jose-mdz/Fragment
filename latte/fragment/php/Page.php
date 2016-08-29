@@ -738,7 +738,7 @@ ORDER BY $sortBySQL
 
         $records = Setting::byRecordAll($this);
         $config = $this->getConfigurationArr();
-        $parentConfig = $this->getParent()->getConfigurationArr();
+        $parentConfig = $this->getParent() ? $this->getParent()->getConfigurationArr() : array();
 
         // Gather parent settings in result
         if(isset($parentConfig['children']['settings'])){
@@ -1015,8 +1015,9 @@ ORDER BY $sortBySQL
             }
         }else{
             $this->idgroup = 1;
-            $this->powner = 59; // Default owner permissions
-            $this->pgroup = 17; // Default group permissions
+            $this->powner = 63; // Default owner permissions
+            $this->pgroup = 19; // Default group permissions
+            $this->pother = 17; // Default other permissions
             $this->pworld = 17; // Default world permissions
         }
     }

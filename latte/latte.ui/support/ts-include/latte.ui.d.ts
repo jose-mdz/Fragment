@@ -6009,37 +6009,6 @@ declare module latte {
         minValue: number;
     }
 }
-/**
- * Created by josemanuel on 12/23/13.
- */
-declare module latte {
-    /**
-     * Shows a selectable radio button
-     */
-    class RadioItem extends ValueItem<boolean> {
-        /**
-         * Label for radio
-         **/
-        label: LabelItem;
-        /**
-         * Creates the RadioItem
-         * @param text
-         * @param value
-         */
-        constructor(text?: string, value?: boolean);
-        /**
-         * Override.
-         */
-        onValueChanged(): void;
-        /**
-         * Gets or sets the text of the checkbox
-         **/
-        /**
-         * Gets or sets the text of the checkbox
-         **/
-        text: string;
-    }
-}
 declare module latte {
     /**
      * Presents a method for choosing options from a combobox.
@@ -6087,6 +6056,37 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 12/23/13.
+ */
+declare module latte {
+    /**
+     * Shows a selectable radio button
+     */
+    class RadioItem extends ValueItem<boolean> {
+        /**
+         * Label for radio
+         **/
+        label: LabelItem;
+        /**
+         * Creates the RadioItem
+         * @param text
+         * @param value
+         */
+        constructor(text?: string, value?: boolean);
+        /**
+         * Override.
+         */
+        onValueChanged(): void;
+        /**
+         * Gets or sets the text of the checkbox
+         **/
+        /**
+         * Gets or sets the text of the checkbox
+         **/
+        text: string;
+    }
+}
+/**
  * Created by josemanuel on 8/4/16.
  */
 declare module latte {
@@ -6127,6 +6127,11 @@ declare module latte {
     }
 }
 declare module latte {
+    enum TextboxFilter {
+        NONE = 0,
+        NUMBER = 1,
+        INTEGER = 2,
+    }
     /**
      *
      **/
@@ -6154,6 +6159,14 @@ declare module latte {
          */
         onAddSuggestion(item: Item): void;
         /**
+         * Raises the <c>enterPressed</c> event
+         */
+        onEnterPressed(): void;
+        /**
+         * Raises the <c>filterSuggestions</c> event
+         */
+        onFilterSuggestions(): void;
+        /**
          * Raises the <c>keyDown</c>
          * @param e
          */
@@ -6164,6 +6177,10 @@ declare module latte {
          */
         onKeyUp(e: JQueryEventObject): any;
         /**
+         * Raises the <c>keyPress</c> event
+         */
+        onKeyPress(e: any): any;
+        /**
          * Override.
          **/
         onLayout(): void;
@@ -6172,6 +6189,10 @@ declare module latte {
          * @param item
          */
         onRemoveSuggestion(item: Item): void;
+        /**
+         * Raises the <c>valid</c> event
+         */
+        onValidChanged(): any;
         /**
          * Override
          **/
@@ -6219,10 +6240,6 @@ declare module latte {
          */
         enterPressed: LatteEvent;
         /**
-         * Raises the <c>enterPressed</c> event
-         */
-        onEnterPressed(): void;
-        /**
          * Back field for event
          */
         private _keyPress;
@@ -6232,10 +6249,6 @@ declare module latte {
          * @returns {LatteEvent}
          */
         keyPress: LatteEvent;
-        /**
-         * Raises the <c>keyPress</c> event
-         */
-        onKeyPress(e: any): any;
         /**
          * Back field for event
          */
@@ -6267,9 +6280,15 @@ declare module latte {
          */
         filterSuggestions: LatteEvent;
         /**
-         * Raises the <c>filterSuggestions</c> event
+         * Back field for event
          */
-        onFilterSuggestions(): void;
+        private _validChanged;
+        /**
+         * Gets an event raised when the value of the valid property changes
+         *
+         * @returns {LatteEvent}
+         */
+        validChanged: LatteEvent;
         /**
          *
          **/
@@ -6323,6 +6342,21 @@ declare module latte {
          */
         private _loadingSuggestions;
         /**
+         * Property field
+         */
+        private _allowedKeys;
+        /**
+         * Gets or sets the allowed keys of the keyboard
+         *
+         * @returns {Key[]}
+         */
+        /**
+         * Gets or sets the allowed keys of the keyboard
+         *
+         * @param {Key[]} value
+         */
+        allowedKeys: Key[];
+        /**
          * Gets or sets a value indicating if the textbox height should grow automatically
          to adjust to fit its text
          **/
@@ -6331,6 +6365,21 @@ declare module latte {
          to adjust to fit its text
          **/
         autoGrow: boolean;
+        /**
+         * Property field
+         */
+        private _filter;
+        /**
+         * Gets or sets the filter for input
+         *
+         * @returns {TextboxFilter}
+         */
+        /**
+         * Gets or sets the filter for input
+         *
+         * @param {TextboxFilter} value
+         */
+        filter: TextboxFilter;
         /**
          * Gets or sets the maximum length for input in the textbox
          **/
@@ -6419,6 +6468,36 @@ declare module latte {
          * @returns {boolean}
          */
         suggestionsVisible: boolean;
+        /**
+         * Property field
+         */
+        private _valid;
+        /**
+         * Gets or sets a value indicating if the control is valid
+         *
+         * @returns {boolean}
+         */
+        /**
+         * Gets or sets a value indicating if the control is valid
+         *
+         * @param {boolean} value
+         */
+        valid: boolean;
+        /**
+         * Property field
+         */
+        private _validationRegex;
+        /**
+         * Gets or sets the regular expression for validating content
+         *
+         * @returns {RegExp}
+         */
+        /**
+         * Gets or sets the regular expression for validating content
+         *
+         * @param {RegExp} value
+         */
+        validationRegex: RegExp;
         /**
          * Gets or sets the width of the textbox.
          **/
@@ -7375,6 +7454,98 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Renders a form to iunput data.
+     **/
+    class FormView extends ColumnView {
+        /**
+         * Creates a new form, using the specified fields
+         and commands
+         **/
+        constructor(inputs?: Array<InputItem>);
+        /**
+         * Checks every input in <c>inputs</c> to be valid
+         **/
+        valid(): boolean;
+        /**
+         * Returns an object with the values of fields
+         **/
+        getValues(): any;
+        /**
+         * Gets or sets the with of the text parts.
+         * Value must be percent since it must be leveled with value part. Value size will be adjusted
+         * to 5% less large than it should to avoid edge collisions.
+         * Values lower than 1 accepted.
+         * Note that when horizontal input, layout may become affected.
+         *
+         */
+        setTextWidth(value: number): void;
+        /**
+         * Back field for event
+         */
+        private _valueChanged;
+        /**
+         * Gets an event raised when a value of the form changes
+         *
+         * @returns {LatteEvent}
+         */
+        valueChanged: LatteEvent;
+        /**
+         * Raises the <c>valueChanged</c> event
+         */
+        onValueChanged(): void;
+        /**
+         * Field for form property
+         */
+        private _form;
+        /**
+         * Gets the form of the view
+         *
+         * @returns {FormItem}
+         */
+        form: FormItem;
+        /**
+         * Gets or sets a value indicating if the form has a visible face style.
+         **/
+        /**
+         * Gets or sets a value indicating if the form has a visible face style.
+         **/
+        faceVisible: boolean;
+        /**
+         * Gets the inputs of the form
+         *
+         * @returns {Collection<InputItem>}
+         */
+        inputs: Collection<InputItem>;
+        /**
+         * Gets a value indicating if the values in the form are valid
+         *
+         * @returns {boolean}
+         */
+        isValid: boolean;
+        /**
+         * Gets or sets a value indicating if the inputs in the form are read-only
+         **/
+        /**
+         * Gets or sets a value indicating if the inputs in the form are read-only
+         **/
+        readOnly: boolean;
+        /**
+         * Gets or sets the title of the form
+         **/
+        /**
+         * Gets or sets the title of the form
+         **/
+        title: string;
+        /**
+         * Gets the title label of the form
+         *
+         * @returns {LabelItem}
+         */
+        titleLabel: LabelItem;
+    }
+}
+declare module latte {
+    /**
      * View for choosing dates or date ranges.
 
      The <c>DateItem</c> used inside the view adapts its <c>rows</c> and <c>columns</c> to take advantage of the view area.
@@ -7428,6 +7599,32 @@ declare module latte {
          * Updates the selection mode indicators
          **/
         updateSelectionMode(): void;
+    }
+}
+declare module latte {
+    /**
+     * Provides a view that contains just HTML
+     <example><code><span style="color: #000000">
+     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
+     </span>
+     </code></example>
+     **/
+    class HtmlView extends View {
+        /**
+         * Creates the view with HTML or jQuery elements
+         **/
+        constructor(html: any);
+        /**
+         * Appends elements to the HTML view DOM
+         **/
+        append(element: JQuery): void;
+        /**
+         * Gets or sets the html of the view
+         **/
+        /**
+         * Gets or sets the html of the view
+         **/
+        html: string;
     }
 }
 declare module latte {
@@ -7655,124 +7852,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Renders a form to iunput data.
-     **/
-    class FormView extends ColumnView {
-        /**
-         * Creates a new form, using the specified fields
-         and commands
-         **/
-        constructor(inputs?: Array<InputItem>);
-        /**
-         * Checks every input in <c>inputs</c> to be valid
-         **/
-        valid(): boolean;
-        /**
-         * Returns an object with the values of fields
-         **/
-        getValues(): any;
-        /**
-         * Gets or sets the with of the text parts.
-         * Value must be percent since it must be leveled with value part. Value size will be adjusted
-         * to 5% less large than it should to avoid edge collisions.
-         * Values lower than 1 accepted.
-         * Note that when horizontal input, layout may become affected.
-         *
-         */
-        setTextWidth(value: number): void;
-        /**
-         * Back field for event
-         */
-        private _valueChanged;
-        /**
-         * Gets an event raised when a value of the form changes
-         *
-         * @returns {LatteEvent}
-         */
-        valueChanged: LatteEvent;
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        onValueChanged(): void;
-        /**
-         * Field for form property
-         */
-        private _form;
-        /**
-         * Gets the form of the view
-         *
-         * @returns {FormItem}
-         */
-        form: FormItem;
-        /**
-         * Gets or sets a value indicating if the form has a visible face style.
-         **/
-        /**
-         * Gets or sets a value indicating if the form has a visible face style.
-         **/
-        faceVisible: boolean;
-        /**
-         * Gets the inputs of the form
-         *
-         * @returns {Collection<InputItem>}
-         */
-        inputs: Collection<InputItem>;
-        /**
-         * Gets a value indicating if the values in the form are valid
-         *
-         * @returns {boolean}
-         */
-        isValid: boolean;
-        /**
-         * Gets or sets a value indicating if the inputs in the form are read-only
-         **/
-        /**
-         * Gets or sets a value indicating if the inputs in the form are read-only
-         **/
-        readOnly: boolean;
-        /**
-         * Gets or sets the title of the form
-         **/
-        /**
-         * Gets or sets the title of the form
-         **/
-        title: string;
-        /**
-         * Gets the title label of the form
-         *
-         * @returns {LabelItem}
-         */
-        titleLabel: LabelItem;
-    }
-}
-declare module latte {
-    /**
-     * Provides a view that contains just HTML
-     <example><code><span style="color: #000000">
-     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
-     </span>
-     </code></example>
-     **/
-    class HtmlView extends View {
-        /**
-         * Creates the view with HTML or jQuery elements
-         **/
-        constructor(html: any);
-        /**
-         * Appends elements to the HTML view DOM
-         **/
-        append(element: JQuery): void;
-        /**
-         * Gets or sets the html of the view
-         **/
-        /**
-         * Gets or sets the html of the view
-         **/
-        html: string;
-    }
-}
-declare module latte {
-    /**
      * A View containing an Item
      **/
     class ItemView extends View {
@@ -7930,6 +8009,25 @@ declare module latte {
          * @returns {ProgressItem}
          */
         progress: ProgressItem;
+    }
+}
+declare module latte {
+    /**
+     *
+     **/
+    class NavigationListView extends NavigationView {
+        /**
+         *
+         **/
+        list: ListView;
+        /**
+         *
+         **/
+        toolbar: Toolbar;
+        /**
+         *
+         **/
+        constructor();
     }
 }
 declare module latte {
@@ -8178,24 +8276,5 @@ declare module latte {
          * @returns {LatteEvent}
          */
         removeItem: LatteEvent;
-    }
-}
-declare module latte {
-    /**
-     *
-     **/
-    class NavigationListView extends NavigationView {
-        /**
-         *
-         **/
-        list: ListView;
-        /**
-         *
-         **/
-        toolbar: Toolbar;
-        /**
-         *
-         **/
-        constructor();
     }
 }

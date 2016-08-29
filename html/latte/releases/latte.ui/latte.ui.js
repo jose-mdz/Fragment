@@ -12685,12 +12685,18 @@ var latte;
                             break;
                         case "number":
                             item = new latte.TextboxItem();
+                            item.filter = latte.TextboxFilter.NUMBER;
+                            item.validationRegex = latte.Culture.current.floatValidator;
                             break;
                         case "integer":
                             item = new latte.TextboxItem();
+                            item.filter = latte.TextboxFilter.INTEGER;
+                            item.validationRegex = latte.Culture.current.intValidator;
                             break;
                         case "float":
                             item = new latte.TextboxItem();
+                            item.filter = latte.TextboxFilter.NUMBER;
+                            item.validationRegex = latte.Culture.current.floatValidator;
                             break;
                         case "boolean":
                             item = new latte.CheckboxItem();
@@ -13003,78 +13009,6 @@ var latte;
     }(latte.ValueItem));
     latte.ProgressItem = ProgressItem;
 })(latte || (latte = {}));
-/**
- * Created by josemanuel on 12/23/13.
- */
-var latte;
-(function (latte) {
-    /**
-     * Shows a selectable radio button
-     */
-    var RadioItem = (function (_super) {
-        __extends(RadioItem, _super);
-        //endregion
-        /**
-         * Creates the RadioItem
-         * @param text
-         * @param value
-         */
-        function RadioItem(text, value) {
-            var _this = this;
-            if (text === void 0) { text = null; }
-            if (value === void 0) { value = null; }
-            _super.call(this);
-            this.element.addClass('radio');
-            // Label
-            this.label = new latte.LabelItem();
-            this.label.appendTo(this);
-            this.addEventListener('click', function () { return _this.value = !_this.value; });
-            // Initialize Value
-            if (latte._isBoolean(value)) {
-                this.value = value;
-            }
-            else {
-                this.value = false;
-            }
-            if (text) {
-                this.text = text;
-            }
-        }
-        //region Methods
-        /**
-         * Override.
-         */
-        RadioItem.prototype.onValueChanged = function () {
-            _super.prototype.onValueChanged.call(this);
-            if (this.value) {
-                this.label.icon = latte.Glyph.checkedRadio;
-            }
-            else {
-                this.label.icon = latte.Glyph.uncheckedRadio;
-            }
-        };
-        Object.defineProperty(RadioItem.prototype, "text", {
-            //endregion
-            //region Properties
-            /**
-             * Gets or sets the text of the checkbox
-             **/
-            get: function () {
-                return this.label.text;
-            },
-            /**
-             * Gets or sets the text of the checkbox
-             **/
-            set: function (value) {
-                this.label.text = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return RadioItem;
-    }(latte.ValueItem));
-    latte.RadioItem = RadioItem;
-})(latte || (latte = {}));
 var latte;
 (function (latte) {
     /**
@@ -13186,6 +13120,78 @@ var latte;
     latte.RadioGroup = RadioGroup;
 })(latte || (latte = {}));
 /**
+ * Created by josemanuel on 12/23/13.
+ */
+var latte;
+(function (latte) {
+    /**
+     * Shows a selectable radio button
+     */
+    var RadioItem = (function (_super) {
+        __extends(RadioItem, _super);
+        //endregion
+        /**
+         * Creates the RadioItem
+         * @param text
+         * @param value
+         */
+        function RadioItem(text, value) {
+            var _this = this;
+            if (text === void 0) { text = null; }
+            if (value === void 0) { value = null; }
+            _super.call(this);
+            this.element.addClass('radio');
+            // Label
+            this.label = new latte.LabelItem();
+            this.label.appendTo(this);
+            this.addEventListener('click', function () { return _this.value = !_this.value; });
+            // Initialize Value
+            if (latte._isBoolean(value)) {
+                this.value = value;
+            }
+            else {
+                this.value = false;
+            }
+            if (text) {
+                this.text = text;
+            }
+        }
+        //region Methods
+        /**
+         * Override.
+         */
+        RadioItem.prototype.onValueChanged = function () {
+            _super.prototype.onValueChanged.call(this);
+            if (this.value) {
+                this.label.icon = latte.Glyph.checkedRadio;
+            }
+            else {
+                this.label.icon = latte.Glyph.uncheckedRadio;
+            }
+        };
+        Object.defineProperty(RadioItem.prototype, "text", {
+            //endregion
+            //region Properties
+            /**
+             * Gets or sets the text of the checkbox
+             **/
+            get: function () {
+                return this.label.text;
+            },
+            /**
+             * Gets or sets the text of the checkbox
+             **/
+            set: function (value) {
+                this.label.text = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return RadioItem;
+    }(latte.ValueItem));
+    latte.RadioItem = RadioItem;
+})(latte || (latte = {}));
+/**
  * Created by josemanuel on 8/4/16.
  */
 var latte;
@@ -13265,6 +13271,12 @@ var latte;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
+    (function (TextboxFilter) {
+        TextboxFilter[TextboxFilter["NONE"] = 0] = "NONE";
+        TextboxFilter[TextboxFilter["NUMBER"] = 1] = "NUMBER";
+        TextboxFilter[TextboxFilter["INTEGER"] = 2] = "INTEGER";
+    })(latte.TextboxFilter || (latte.TextboxFilter = {}));
+    var TextboxFilter = latte.TextboxFilter;
     /**
      *
      **/
@@ -13302,7 +13314,23 @@ var latte;
             /**
              * Property field
              */
+            this._allowedKeys = null;
+            /**
+             * Property field
+             */
+            this._filter = null;
+            /**
+             * Property field
+             */
             this._readOnly = false;
+            /**
+             * Property field
+             */
+            this._valid = true;
+            /**
+             * Property field
+             */
+            this._validationRegex = null;
             this.element.addClass('textbox');
             // Elements
             this._inputContainer = $('<div>').addClass('input').appendTo(this.element);
@@ -13334,6 +13362,25 @@ var latte;
                 return false;
             });
             this.input.keydown(function (evt) {
+                // Allowed keys filter
+                if (latte._isArray(_this.allowedKeys)) {
+                    var found = false;
+                    if (!(evt.ctrlKey || evt.altKey || evt.metaKey || evt.shiftKey)) {
+                        // Search if key is in allowed keys
+                        for (var i in _this.allowedKeys) {
+                            if (evt.keyCode == _this.allowedKeys[i]) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        // If not found, bye
+                        if (!found) {
+                            evt.preventDefault();
+                            evt.stopImmediatePropagation();
+                            return false;
+                        }
+                    }
+                }
                 if (evt.keyCode === latte.Key.ENTER) {
                     _this.onEnterPressed();
                 }
@@ -13370,6 +13417,22 @@ var latte;
             this.suggestionOverlay.items.add(item);
             if (item instanceof latte.ButtonItem) {
                 item.click.add(function () { _this.hideSuggestions(); });
+            }
+        };
+        /**
+         * Raises the <c>enterPressed</c> event
+         */
+        TextboxItem.prototype.onEnterPressed = function () {
+            if (this._enterPressed) {
+                this._enterPressed.raise();
+            }
+        };
+        /**
+         * Raises the <c>filterSuggestions</c> event
+         */
+        TextboxItem.prototype.onFilterSuggestions = function () {
+            if (this._filterSuggestions) {
+                this._filterSuggestions.raise();
             }
         };
         /**
@@ -13425,6 +13488,14 @@ var latte;
             }
         };
         /**
+         * Raises the <c>keyPress</c> event
+         */
+        TextboxItem.prototype.onKeyPress = function (e) {
+            if (this._keyPress) {
+                return this._keyPress.raise(e);
+            }
+        };
+        /**
          * Override.
          **/
         TextboxItem.prototype.onLayout = function () {
@@ -13445,6 +13516,15 @@ var latte;
             this.suggestionOverlay.items.remove(item);
         };
         /**
+         * Raises the <c>valid</c> event
+         */
+        TextboxItem.prototype.onValidChanged = function () {
+            if (this._validChanged) {
+                return this._validChanged.raise();
+            }
+            this.ensureClass('invalid', !this.valid);
+        };
+        /**
          * Override
          **/
         TextboxItem.prototype.onValueChanged = function () {
@@ -13461,6 +13541,9 @@ var latte;
             }
             if (this.value.length < this.minLengthToActivateSuggestions && this.suggestionsVisible) {
                 this.hideSuggestions();
+            }
+            if (this.validationRegex && String(this.value).length > 0) {
+                this.valid = this.validationRegex.test(this.value);
             }
         };
         /**
@@ -13558,14 +13641,6 @@ var latte;
             enumerable: true,
             configurable: true
         });
-        /**
-         * Raises the <c>enterPressed</c> event
-         */
-        TextboxItem.prototype.onEnterPressed = function () {
-            if (this._enterPressed) {
-                this._enterPressed.raise();
-            }
-        };
         Object.defineProperty(TextboxItem.prototype, "keyPress", {
             /**
              * Gets an event raised when the user presses a key on the input
@@ -13581,14 +13656,6 @@ var latte;
             enumerable: true,
             configurable: true
         });
-        /**
-         * Raises the <c>keyPress</c> event
-         */
-        TextboxItem.prototype.onKeyPress = function (e) {
-            if (this._keyPress) {
-                return this._keyPress.raise(e);
-            }
-        };
         Object.defineProperty(TextboxItem.prototype, "keyDown", {
             /**
              * Gets an event raised when a key is pressed
@@ -13634,14 +13701,41 @@ var latte;
             enumerable: true,
             configurable: true
         });
-        /**
-         * Raises the <c>filterSuggestions</c> event
-         */
-        TextboxItem.prototype.onFilterSuggestions = function () {
-            if (this._filterSuggestions) {
-                this._filterSuggestions.raise();
-            }
-        };
+        Object.defineProperty(TextboxItem.prototype, "validChanged", {
+            /**
+             * Gets an event raised when the value of the valid property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._validChanged) {
+                    this._validChanged = new latte.LatteEvent(this);
+                }
+                return this._validChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TextboxItem.prototype, "allowedKeys", {
+            /**
+             * Gets or sets the allowed keys of the keyboard
+             *
+             * @returns {Key[]}
+             */
+            get: function () {
+                return this._allowedKeys;
+            },
+            /**
+             * Gets or sets the allowed keys of the keyboard
+             *
+             * @param {Key[]} value
+             */
+            set: function (value) {
+                this._allowedKeys = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(TextboxItem.prototype, "autoGrow", {
             /**
              * Gets or sets a value indicating if the textbox height should grow automatically
@@ -13656,6 +13750,39 @@ var latte;
              **/
             set: function (value) {
                 this._autoGrow = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TextboxItem.prototype, "filter", {
+            /**
+             * Gets or sets the filter for input
+             *
+             * @returns {TextboxFilter}
+             */
+            get: function () {
+                return this._filter;
+            },
+            /**
+             * Gets or sets the filter for input
+             *
+             * @param {TextboxFilter} value
+             */
+            set: function (value) {
+                this._filter = value;
+                var navs = [latte.Key.ARROW_LEFT, latte.Key.ARROW_RIGHT, latte.Key.TAB,
+                    latte.Key.SHIFT, latte.Key.ALT, latte.Key.DELETE, latte.Key.BACKSPACE];
+                var numbers = [latte.Key.NUMBER_0, latte.Key.NUMBER_1, latte.Key.NUMBER_2, latte.Key.NUMBER_3, latte.Key.NUMBER_4, latte.Key.NUMBER_5,
+                    latte.Key.NUMBER_6, latte.Key.NUMBER_7, latte.Key.NUMBER_8, latte.Key.NUMBER_9, latte.Key.NUMPAD_0, latte.Key.NUMPAD_1, latte.Key.NUMPAD_2,
+                    latte.Key.NUMPAD_3, latte.Key.NUMPAD_4, latte.Key.NUMPAD_5, latte.Key.NUMPAD_6, latte.Key.NUMPAD_7, latte.Key.NUMPAD_8, latte.Key.NUMPAD_9];
+                var period = [latte.Key.PERIOD];
+                var comma = [latte.Key.COMMA];
+                if (value && value == TextboxFilter.NUMBER) {
+                    this.allowedKeys = navs.concat(numbers).concat(period).concat(comma);
+                }
+                else if (value && value == TextboxFilter.INTEGER) {
+                    this.allowedKeys = navs.concat(numbers);
+                }
             },
             enumerable: true,
             configurable: true
@@ -13879,6 +14006,53 @@ var latte;
              */
             get: function () {
                 return this._suggestionOverlay instanceof latte.Overlay;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TextboxItem.prototype, "valid", {
+            /**
+             * Gets or sets a value indicating if the control is valid
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return this._valid;
+            },
+            /**
+             * Gets or sets a value indicating if the control is valid
+             *
+             * @param {boolean} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._valid;
+                // Set value
+                this._valid = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onValidChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TextboxItem.prototype, "validationRegex", {
+            /**
+             * Gets or sets the regular expression for validating content
+             *
+             * @returns {RegExp}
+             */
+            get: function () {
+                return this._validationRegex;
+            },
+            /**
+             * Gets or sets the regular expression for validating content
+             *
+             * @param {RegExp} value
+             */
+            set: function (value) {
+                this._validationRegex = value;
             },
             enumerable: true,
             configurable: true
@@ -16400,6 +16574,179 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Renders a form to iunput data.
+     **/
+    var FormView = (function (_super) {
+        __extends(FormView, _super);
+        /**
+         * Creates a new form, using the specified fields
+         and commands
+         **/
+        function FormView(inputs) {
+            if (inputs === void 0) { inputs = null; }
+            _super.call(this, 1);
+            this.addClass('form');
+            this.items.add(this.form);
+            if (inputs)
+                this.inputs.addArray(inputs);
+        }
+        //region Methods
+        /**
+         * Checks every input in <c>inputs</c> to be valid
+         **/
+        FormView.prototype.valid = function () {
+            return this.form.valid;
+        };
+        /**
+         * Returns an object with the values of fields
+         **/
+        FormView.prototype.getValues = function () {
+            return this.form.getValues();
+        };
+        /**
+         * Gets or sets the with of the text parts.
+         * Value must be percent since it must be leveled with value part. Value size will be adjusted
+         * to 5% less large than it should to avoid edge collisions.
+         * Values lower than 1 accepted.
+         * Note that when horizontal input, layout may become affected.
+         *
+         */
+        FormView.prototype.setTextWidth = function (value) {
+            this.form.setTextWidth(value);
+        };
+        Object.defineProperty(FormView.prototype, "valueChanged", {
+            /**
+             * Gets an event raised when a value of the form changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._valueChanged) {
+                    this._valueChanged = new latte.LatteEvent(this);
+                }
+                return this._valueChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>valueChanged</c> event
+         */
+        FormView.prototype.onValueChanged = function () {
+            if (this._valueChanged) {
+                this._valueChanged.raise();
+            }
+            this.unsavedChanges = true;
+        };
+        Object.defineProperty(FormView.prototype, "form", {
+            /**
+             * Gets the form of the view
+             *
+             * @returns {FormItem}
+             */
+            get: function () {
+                if (!this._form) {
+                    this._form = new latte.FormItem();
+                    this._form.valueChanged.add(this.onValueChanged, this);
+                }
+                return this._form;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormView.prototype, "faceVisible", {
+            //endregion
+            //region Properties
+            /**
+             * Gets or sets a value indicating if the form has a visible face style.
+             **/
+            get: function () {
+                return this.form.faceVisible;
+            },
+            /**
+             * Gets or sets a value indicating if the form has a visible face style.
+             **/
+            set: function (value) {
+                this.form.faceVisible = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormView.prototype, "inputs", {
+            /**
+             * Gets the inputs of the form
+             *
+             * @returns {Collection<InputItem>}
+             */
+            get: function () {
+                return this.form.inputs;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormView.prototype, "isValid", {
+            /**
+             * Gets a value indicating if the values in the form are valid
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return this.form.isValid;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormView.prototype, "readOnly", {
+            /**
+             * Gets or sets a value indicating if the inputs in the form are read-only
+             **/
+            get: function () {
+                return this.form.readOnly;
+            },
+            /**
+             * Gets or sets a value indicating if the inputs in the form are read-only
+             **/
+            set: function (value) {
+                this.form.readOnly = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormView.prototype, "title", {
+            /**
+             * Gets or sets the title of the form
+             **/
+            get: function () {
+                return this.form.title;
+            },
+            /**
+             * Gets or sets the title of the form
+             **/
+            set: function (value) {
+                this.form.title = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FormView.prototype, "titleLabel", {
+            /**
+             * Gets the title label of the form
+             *
+             * @returns {LabelItem}
+             */
+            get: function () {
+                return this.form.titleLabel;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return FormView;
+    }(latte.ColumnView));
+    latte.FormView = FormView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * View for choosing dates or date ranges.
 
      The <c>DateItem</c> used inside the view adapts its <c>rows</c> and <c>columns</c> to take advantage of the view area.
@@ -16521,6 +16868,54 @@ var latte;
         return DateView;
     }(latte.View));
     latte.DateView = DateView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Provides a view that contains just HTML
+     <example><code><span style="color: #000000">
+     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
+     </span>
+     </code></example>
+     **/
+    var HtmlView = (function (_super) {
+        __extends(HtmlView, _super);
+        /**
+         * Creates the view with HTML or jQuery elements
+         **/
+        function HtmlView(html) {
+            _super.call(this);
+            this.element.addClass('html');
+            if (html instanceof jQuery)
+                this.append(html);
+            else if (typeof html == 'string')
+                this.html = html;
+        }
+        /**
+         * Appends elements to the HTML view DOM
+         **/
+        HtmlView.prototype.append = function (element) {
+            this.container.append(element);
+        };
+        Object.defineProperty(HtmlView.prototype, "html", {
+            /**
+             * Gets or sets the html of the view
+             **/
+            get: function () {
+                return this.container.html();
+            },
+            /**
+             * Gets or sets the html of the view
+             **/
+            set: function (value) {
+                this.container.html(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return HtmlView;
+    }(latte.View));
+    latte.HtmlView = HtmlView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -16998,227 +17393,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Renders a form to iunput data.
-     **/
-    var FormView = (function (_super) {
-        __extends(FormView, _super);
-        /**
-         * Creates a new form, using the specified fields
-         and commands
-         **/
-        function FormView(inputs) {
-            if (inputs === void 0) { inputs = null; }
-            _super.call(this, 1);
-            this.addClass('form');
-            this.items.add(this.form);
-            if (inputs)
-                this.inputs.addArray(inputs);
-        }
-        //region Methods
-        /**
-         * Checks every input in <c>inputs</c> to be valid
-         **/
-        FormView.prototype.valid = function () {
-            return this.form.valid;
-        };
-        /**
-         * Returns an object with the values of fields
-         **/
-        FormView.prototype.getValues = function () {
-            return this.form.getValues();
-        };
-        /**
-         * Gets or sets the with of the text parts.
-         * Value must be percent since it must be leveled with value part. Value size will be adjusted
-         * to 5% less large than it should to avoid edge collisions.
-         * Values lower than 1 accepted.
-         * Note that when horizontal input, layout may become affected.
-         *
-         */
-        FormView.prototype.setTextWidth = function (value) {
-            this.form.setTextWidth(value);
-        };
-        Object.defineProperty(FormView.prototype, "valueChanged", {
-            /**
-             * Gets an event raised when a value of the form changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._valueChanged) {
-                    this._valueChanged = new latte.LatteEvent(this);
-                }
-                return this._valueChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        FormView.prototype.onValueChanged = function () {
-            if (this._valueChanged) {
-                this._valueChanged.raise();
-            }
-            this.unsavedChanges = true;
-        };
-        Object.defineProperty(FormView.prototype, "form", {
-            /**
-             * Gets the form of the view
-             *
-             * @returns {FormItem}
-             */
-            get: function () {
-                if (!this._form) {
-                    this._form = new latte.FormItem();
-                    this._form.valueChanged.add(this.onValueChanged, this);
-                }
-                return this._form;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormView.prototype, "faceVisible", {
-            //endregion
-            //region Properties
-            /**
-             * Gets or sets a value indicating if the form has a visible face style.
-             **/
-            get: function () {
-                return this.form.faceVisible;
-            },
-            /**
-             * Gets or sets a value indicating if the form has a visible face style.
-             **/
-            set: function (value) {
-                this.form.faceVisible = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormView.prototype, "inputs", {
-            /**
-             * Gets the inputs of the form
-             *
-             * @returns {Collection<InputItem>}
-             */
-            get: function () {
-                return this.form.inputs;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormView.prototype, "isValid", {
-            /**
-             * Gets a value indicating if the values in the form are valid
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return this.form.isValid;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormView.prototype, "readOnly", {
-            /**
-             * Gets or sets a value indicating if the inputs in the form are read-only
-             **/
-            get: function () {
-                return this.form.readOnly;
-            },
-            /**
-             * Gets or sets a value indicating if the inputs in the form are read-only
-             **/
-            set: function (value) {
-                this.form.readOnly = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormView.prototype, "title", {
-            /**
-             * Gets or sets the title of the form
-             **/
-            get: function () {
-                return this.form.title;
-            },
-            /**
-             * Gets or sets the title of the form
-             **/
-            set: function (value) {
-                this.form.title = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FormView.prototype, "titleLabel", {
-            /**
-             * Gets the title label of the form
-             *
-             * @returns {LabelItem}
-             */
-            get: function () {
-                return this.form.titleLabel;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return FormView;
-    }(latte.ColumnView));
-    latte.FormView = FormView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Provides a view that contains just HTML
-     <example><code><span style="color: #000000">
-     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
-     </span>
-     </code></example>
-     **/
-    var HtmlView = (function (_super) {
-        __extends(HtmlView, _super);
-        /**
-         * Creates the view with HTML or jQuery elements
-         **/
-        function HtmlView(html) {
-            _super.call(this);
-            this.element.addClass('html');
-            if (html instanceof jQuery)
-                this.append(html);
-            else if (typeof html == 'string')
-                this.html = html;
-        }
-        /**
-         * Appends elements to the HTML view DOM
-         **/
-        HtmlView.prototype.append = function (element) {
-            this.container.append(element);
-        };
-        Object.defineProperty(HtmlView.prototype, "html", {
-            /**
-             * Gets or sets the html of the view
-             **/
-            get: function () {
-                return this.container.html();
-            },
-            /**
-             * Gets or sets the html of the view
-             **/
-            set: function (value) {
-                this.container.html(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return HtmlView;
-    }(latte.View));
-    latte.HtmlView = HtmlView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * A View containing an Item
      **/
     var ItemView = (function (_super) {
@@ -17496,6 +17670,31 @@ var latte;
         return ProgressDialogView;
     }(latte.DialogView));
     latte.ProgressDialogView = ProgressDialogView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     *
+     **/
+    var NavigationListView = (function (_super) {
+        __extends(NavigationListView, _super);
+        /**
+         *
+         **/
+        function NavigationListView() {
+            _super.call(this);
+            this.addClass('list');
+            // Initialize view
+            var t = new latte.ToolbarView();
+            this.view = t;
+            // Get toolbar pointer
+            this.toolbar = t.toolbar;
+            // Assign list view as main view of toolbar view
+            this.view.view = this.list = new latte.ListView();
+        }
+        return NavigationListView;
+    }(latte.NavigationView));
+    latte.NavigationListView = NavigationListView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -17980,31 +18179,6 @@ var latte;
     }(latte.View));
     latte.TreeView = TreeView;
 })(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     *
-     **/
-    var NavigationListView = (function (_super) {
-        __extends(NavigationListView, _super);
-        /**
-         *
-         **/
-        function NavigationListView() {
-            _super.call(this);
-            this.addClass('list');
-            // Initialize view
-            var t = new latte.ToolbarView();
-            this.view = t;
-            // Get toolbar pointer
-            this.toolbar = t.toolbar;
-            // Assign list view as main view of toolbar view
-            this.view.view = this.list = new latte.ListView();
-        }
-        return NavigationListView;
-    }(latte.NavigationView));
-    latte.NavigationListView = NavigationListView;
-})(latte || (latte = {}));
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/datalatte.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/jquery.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/latte.d.ts" />
@@ -18072,8 +18246,8 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/InputItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/LabelValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ProgressItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioGroup.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/SwitchItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TextboxItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TimePickerItem.ts" />
@@ -18086,14 +18260,14 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/anchor/ToolbarView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarDayView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarMonthView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/DateView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/FormView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/DateView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/HtmlView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/ItemView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/MessageView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/TextView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/layout/ProgressDialogView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/NavigationListView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/ListView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/TreeView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/NavigationListView.ts" /> 
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/TreeView.ts" /> 

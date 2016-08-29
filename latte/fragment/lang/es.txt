@@ -80,3 +80,4 @@ areYouSureSetPageOnlineDesc Debido a tu nivel de permisos no te será posible ha
 yesMakeOnline Sí, poner en línea
 signOut Cerrar Sesión
 sendToTrash Enviar a Basurero
+canUseBackend Puede usar Backend

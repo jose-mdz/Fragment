@@ -12,6 +12,8 @@ class User extends userBase{
 
     const FLAG_IN_TRASH = 8;
 
+    const FLAG_USE_BACKEND = 16;
+
     /**
      * Gets a user by its uname
      *
@@ -72,6 +74,13 @@ class User extends userBase{
      * @var array
      */
     private $_groups;
+
+    /**
+     * @return bool
+     */
+    public function canUseBackend(){
+        return $this->isRoot() || ($this->flags & self::FLAG_USE_BACKEND) == self::FLAG_USE_BACKEND;
+    }
 
     /**
      * @remote
@@ -167,6 +176,9 @@ class User extends userBase{
         if($this->password){
             $this->password = md5($this->password);
         }
+
+        // Default Flags
+        $this->flags = self::FLAG_USE_BACKEND;
     }
 
     /**

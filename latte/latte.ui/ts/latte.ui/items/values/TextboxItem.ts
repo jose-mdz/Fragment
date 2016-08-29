@@ -1,4 +1,15 @@
 module latte{
+
+    export enum TextboxFilter{
+
+        NONE,
+
+        NUMBER,
+
+        INTEGER
+
+    }
+
     /**
      *
      **/
@@ -63,6 +74,32 @@ module latte{
             });
 
             this.input.keydown((evt) => {
+
+                // Allowed keys filter
+                if(_isArray(this.allowedKeys)) {
+                    let found = false;
+
+                    if(!(evt.ctrlKey || evt.altKey || evt.metaKey || evt.shiftKey)) {
+                        // Search if key is in allowed keys
+                        for(let i in this.allowedKeys){
+                            if(evt.keyCode == this.allowedKeys[i]) {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        // If not found, bye
+                        if(!found) {
+                            evt.preventDefault();
+                            evt.stopImmediatePropagation();
+                            return false;
+                        }
+                    }
+
+
+                }
+
+
                 if(evt.keyCode === Key.ENTER){
                     this.onEnterPressed();
                 }
@@ -107,6 +144,24 @@ module latte{
 
             if(item instanceof ButtonItem){
                 (<ButtonItem>item).click.add(( ) => { this.hideSuggestions() });
+            }
+        }
+
+        /**
+         * Raises the <c>enterPressed</c> event
+         */
+        onEnterPressed(){
+            if(this._enterPressed){
+                this._enterPressed.raise();
+            }
+        }
+
+        /**
+         * Raises the <c>filterSuggestions</c> event
+         */
+        onFilterSuggestions(){
+            if(this._filterSuggestions){
+                this._filterSuggestions.raise();
             }
         }
 
@@ -169,6 +224,15 @@ module latte{
         }
 
         /**
+         * Raises the <c>keyPress</c> event
+         */
+        onKeyPress(e){
+            if(this._keyPress){
+                return this._keyPress.raise(e);
+            }
+        }
+
+        /**
          * Override.
          **/
         onLayout(){
@@ -196,6 +260,16 @@ module latte{
         }
 
         /**
+         * Raises the <c>valid</c> event
+         */
+        onValidChanged(){
+            if(this._validChanged){
+                return this._validChanged.raise();
+            }
+            this.ensureClass('invalid', !this.valid);
+        }
+
+        /**
          * Override
          **/
         onValueChanged(){
@@ -217,6 +291,9 @@ module latte{
                 this.hideSuggestions();
             }
 
+            if(this.validationRegex && String(this.value).length > 0) {
+                this.valid = this.validationRegex.test(this.value);
+            }
         }
 
         /**
@@ -250,7 +327,6 @@ module latte{
          * @param index
          */
         selectSuggestion(index: number){
-
             if(this.suggestionsVisible){
                 if(index < 0 || index >= this._suggestionOverlay.items.length){
                     throw new Ex();
@@ -331,15 +407,6 @@ module latte{
         }
 
         /**
-         * Raises the <c>enterPressed</c> event
-         */
-        onEnterPressed(){
-            if(this._enterPressed){
-                this._enterPressed.raise();
-            }
-        }
-
-        /**
          * Back field for event
          */
         private _keyPress: LatteEvent;
@@ -354,15 +421,6 @@ module latte{
                 this._keyPress = new LatteEvent(this);
             }
             return this._keyPress;
-        }
-
-        /**
-         * Raises the <c>keyPress</c> event
-         */
-        onKeyPress(e){
-            if(this._keyPress){
-                return this._keyPress.raise(e);
-            }
         }
 
         /**
@@ -417,12 +475,20 @@ module latte{
         }
 
         /**
-         * Raises the <c>filterSuggestions</c> event
+         * Back field for event
          */
-        onFilterSuggestions(){
-            if(this._filterSuggestions){
-                this._filterSuggestions.raise();
+        private _validChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the valid property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get validChanged(): LatteEvent{
+            if(!this._validChanged){
+                this._validChanged = new LatteEvent(this);
             }
+            return this._validChanged;
         }
 
         //endregion
@@ -495,6 +561,29 @@ module latte{
         private _loadingSuggestions: boolean = false;
 
         /**
+         * Property field
+         */
+        private _allowedKeys: Key[] = null;
+
+        /**
+         * Gets or sets the allowed keys of the keyboard
+         *
+         * @returns {Key[]}
+         */
+        get allowedKeys(): Key[] {
+            return this._allowedKeys;
+        }
+
+        /**
+         * Gets or sets the allowed keys of the keyboard
+         *
+         * @param {Key[]} value
+         */
+        set allowedKeys(value: Key[]) {
+            this._allowedKeys = value;
+        }
+
+        /**
          * Gets or sets a value indicating if the textbox height should grow automatically
          to adjust to fit its text
          **/
@@ -511,6 +600,45 @@ module latte{
 
             this._autoGrow = value;
 
+
+        }
+
+        /**
+         * Property field
+         */
+        private _filter: TextboxFilter = null;
+
+        /**
+         * Gets or sets the filter for input
+         *
+         * @returns {TextboxFilter}
+         */
+        get filter(): TextboxFilter {
+            return this._filter;
+        }
+
+        /**
+         * Gets or sets the filter for input
+         *
+         * @param {TextboxFilter} value
+         */
+        set filter(value: TextboxFilter) {
+            this._filter = value;
+
+            let navs = [Key.ARROW_LEFT, Key.ARROW_RIGHT, Key.TAB,
+                Key.SHIFT, Key.ALT, Key.DELETE, Key.BACKSPACE];
+            let numbers = [Key.NUMBER_0, Key.NUMBER_1, Key.NUMBER_2, Key.NUMBER_3, Key.NUMBER_4, Key.NUMBER_5,
+                Key.NUMBER_6, Key.NUMBER_7, Key.NUMBER_8, Key.NUMBER_9, Key.NUMPAD_0, Key.NUMPAD_1, Key.NUMPAD_2,
+                Key.NUMPAD_3, Key.NUMPAD_4, Key.NUMPAD_5, Key.NUMPAD_6, Key.NUMPAD_7, Key.NUMPAD_8, Key.NUMPAD_9];
+            let period = [Key.PERIOD];
+            let comma = [Key.COMMA];
+
+            if(value && value == TextboxFilter.NUMBER) {
+                this.allowedKeys = navs.concat(numbers).concat(period).concat(comma);
+
+            }else if(value && value == TextboxFilter.INTEGER) {
+                this.allowedKeys = navs.concat(numbers);
+            }
 
         }
 
@@ -757,6 +885,62 @@ module latte{
          */
         get suggestionsVisible(): boolean{
             return this._suggestionOverlay instanceof Overlay;
+        }
+
+        /**
+         * Property field
+         */
+        private _valid: boolean = true;
+
+        /**
+         * Gets or sets a value indicating if the control is valid
+         *
+         * @returns {boolean}
+         */
+        get valid(): boolean{
+            return this._valid;
+        }
+
+        /**
+         * Gets or sets a value indicating if the control is valid
+         *
+         * @param {boolean} value
+         */
+        set valid(value: boolean){
+
+            // Check if value changed
+            let changed: boolean = value !== this._valid;
+
+            // Set value
+            this._valid = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onValidChanged();
+            }
+        }
+
+        /**
+         * Property field
+         */
+        private _validationRegex: RegExp = null;
+
+        /**
+         * Gets or sets the regular expression for validating content
+         *
+         * @returns {RegExp}
+         */
+        get validationRegex(): RegExp {
+            return this._validationRegex;
+        }
+
+        /**
+         * Gets or sets the regular expression for validating content
+         *
+         * @param {RegExp} value
+         */
+        set validationRegex(value: RegExp) {
+            this._validationRegex = value;
         }
 
         /**

@@ -8,35 +8,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 8/9/16.
- */
-declare module latte {
-    interface IInputOptions {
-        [index: string]: string;
-    }
-    interface IInputFlagOptions {
-        [index: number]: string;
-    }
-    interface IInputList {
-        [field: string]: IInput;
-    }
-    /**
-     * Specifies an input description
-     */
-    interface IInput {
-        type?: 'string' | 'text' | 'html' | 'number' | 'integer' | 'float' | 'boolean' | 'switch' | 'password' | 'date' | 'time' | 'datetime' | 'enumeration' | 'combo' | 'radio' | 'flags' | 'file' | 'image' | 'record' | 'record-combo' | 'custom';
-        options?: IInputOptions | IInputFlagOptions | String[];
-        visible?: boolean | 'if-inserted' | 'if-not-inserted';
-        loaderFunction?: (...any) => any;
-        readOnly?: boolean;
-        recordType?: string;
-        text?: string;
-        defaultValue?: any;
-        category?: string;
-        hint?: string;
-    }
-}
-/**
  * Created by josemanuel on 7/20/16.
  */
 declare module latte {
@@ -74,6 +45,35 @@ declare module latte {
          * in case the save call is successful.
          */
         getSaveCalls(): ICall[];
+    }
+}
+/**
+ * Created by josemanuel on 8/9/16.
+ */
+declare module latte {
+    interface IInputOptions {
+        [index: string]: string;
+    }
+    interface IInputFlagOptions {
+        [index: number]: string;
+    }
+    interface IInputList {
+        [field: string]: IInput;
+    }
+    /**
+     * Specifies an input description
+     */
+    interface IInput {
+        type?: 'string' | 'text' | 'html' | 'number' | 'integer' | 'float' | 'boolean' | 'switch' | 'password' | 'date' | 'time' | 'datetime' | 'enumeration' | 'combo' | 'radio' | 'flags' | 'file' | 'image' | 'record' | 'record-combo' | 'custom';
+        options?: IInputOptions | IInputFlagOptions | String[];
+        visible?: boolean | 'if-inserted' | 'if-not-inserted';
+        loaderFunction?: (...any) => any;
+        readOnly?: boolean;
+        recordType?: string;
+        text?: string;
+        defaultValue?: any;
+        category?: string;
+        hint?: string;
     }
 }
 /**
@@ -690,16 +690,6 @@ declare module latte {
         SPACEBAR = 32,
     }
 }
-/**
- * Created by josemanuel on 12/12/13.
- */
-declare module latte {
-    enum TriBool {
-        UNKNOWN = 0,
-        TRUE = 1,
-        FALSE = 2,
-    }
-}
 declare module latte {
     /**
      * Enumerates week days
@@ -747,6 +737,16 @@ declare module latte {
          * @type {number}
          */
         SATURDAY = 6,
+    }
+}
+/**
+ * Created by josemanuel on 12/12/13.
+ */
+declare module latte {
+    enum TriBool {
+        UNKNOWN = 0,
+        TRUE = 1,
+        FALSE = 2,
     }
 }
 declare module latte {
@@ -867,6 +867,146 @@ declare module latte {
          * @returns {string}
          */
         toString(): string;
+    }
+}
+/**
+ * Created by josemanuel on 2/6/14.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Culture {
+        /**
+         * Property field
+         */
+        private static _current;
+        /**
+         * Gets or sets the current culture of the system
+         *
+         * @returns {Culture}
+         */
+        /**
+         * Gets or sets the current culture of the system
+         *
+         * @param {Culture} value
+         */
+        static current: Culture;
+        /**
+         * Field for esMX property
+         */
+        private static _esEs;
+        /**
+         * Gets the Español-Mexico Culture
+         *
+         * @returns {Culture}
+         */
+        static esEs: Culture;
+        /**
+         * Field for esMX property
+         */
+        private static _esMx;
+        /**
+         * Gets the Español-Mexico Culture
+         *
+         * @returns {Culture}
+         */
+        static esMx: Culture;
+        /**
+         * Field for enUs property
+         */
+        private static _enUs;
+        /**
+         * Gets the English-USA Culture
+         *
+         * @returns {Culture}
+         */
+        static enUs: Culture;
+        /**
+         * Formats currency using the current culture
+         * @param n
+         * @returns {string}
+         */
+        static formatCurrency(n: number): string;
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        static formatShortDate(d: DateTime): string;
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        static formatLongDate(d: DateTime): string;
+        /**
+         * Formats a number using the current Culture
+         * @param n
+         * @param decimals
+         * @param symbol
+         * @returns {string}
+         */
+        static formatNumber(n: number, decimals?: number, symbol?: string): string;
+        /**
+         * Short date format
+         */
+        shortDateFormat: string;
+        /**
+         * Long date format
+         */
+        longDateFormat: string;
+        /**
+         * Amount of decimals to show in currency format
+         */
+        currencyDecimals: number;
+        /**
+         * Separator of decimals for currency
+         */
+        numberDecimalsSeparator: string;
+        /**
+         * Thousands separator for currency
+         */
+        numberThousandsSeparator: string;
+        /**
+         * Symbol to use in currency
+         */
+        currencySymbol: string;
+        /**
+         * Regular expression for validating floating point numbers
+         * @type {RegExp}
+         */
+        floatValidator: RegExp;
+        /**
+         * Regular expression for validating integer numbers
+         * @type {RegExp}
+         */
+        intValidator: RegExp;
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Returns the specified number as a currency
+         * @param n
+         */
+        onFormatCurrency(n: number): string;
+        /**
+         * Formats the specified number
+         * @param n
+         * @param decimals
+         * @param symbol
+         * @returns {string}
+         */
+        onFormatNumber(n: number, decimals?: number, symbol?: string): string;
+        /**
+         * Returns the date as a long format
+         * @param d
+         */
+        onFormatLongDate(d: DateTime): string;
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        onFormatShortDate(d: DateTime): string;
     }
 }
 /**
@@ -1109,276 +1249,6 @@ declare module latte {
          * Gets or sets the Red component of color, from 0 to 255.
          **/
         r: number;
-    }
-}
-declare module latte {
-    /**
-     *
-     */
-    class Collection<T> {
-        private pointer;
-        /**
-         *
-         */
-        constructor(addCallback?: (T, number) => void, removeCallback?: (T, number) => any, context?: any);
-        /**
-         * Adds an element to the collection
-         *
-         * @param element
-         * @param raiseEvent
-         */
-        add(element: T, raiseEvent?: boolean): void;
-        /**
-         * Adds an array of elements
-         *
-         * @param elements
-         * @param raiseEvent
-         */
-        addArray(elements: Array<T>, raiseEvent?: boolean): void;
-        /**
-         * Adds a collection of elements to the collection
-         *
-         * @param collection
-         * @param raiseEvent
-         */
-        addCollection(collection: Collection<T>, raiseEvent?: boolean): void;
-        /**
-         * Clears the collection
-         */
-        clear(): void;
-        /**
-         * Returns a value indicating if the specified element is contained in the collection
-         * @param element
-         */
-        contains(element: T): boolean;
-        /**
-         * Iterates through the collection, executing the handler for each item
-         * @param handler
-         */
-        each(handler: (item: T, index: number) => any): void;
-        /**
-         * Gets the index of the specified element if found. -1 if not found.
-         * @param item
-         * @returns {number}
-         */
-        indexOf(item: T): number;
-        /**
-         * Gets the item at the specified position
-         * @param index
-         * @returns {*}
-         */
-        item(index: number): T;
-        /**
-         * Returns the object on current pointer and moves the pointer forward.
-         * It returns null and resets pointer if end of collection reached.
-         * @returns {*}
-         */
-        next(): T;
-        /**
-         * Raises the <c>addItem</c> event
-         */
-        onAddItem(item: T, index: number): void;
-        /**
-         * Raises the <c>removeItem</c> event
-         */
-        onRemoveItem(item: T, index: number): void;
-        /**
-         * Removes the specified item from the collection
-         * @param item
-         * @param raiseEvent
-         */
-        remove(item: T, raiseEvent?: boolean): this;
-        /**
-         * Removes the item ath the specified index
-         * @param index
-         * @param raiseEvent
-         */
-        removeAt(index: number, raiseEvent?: boolean): void;
-        /**
-         * Resets the internal pointer for calls to <c>next()</c> method.
-         */
-        resetPointer(): void;
-        /**
-         * Back field for event
-         */
-        private _addItem;
-        /**
-         * Gets an event raised when an item is added
-         *
-         * @returns {LatteEvent}
-         */
-        addItem: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _removeItem;
-        /**
-         * Gets an event raised when an item is removed
-         *
-         * @returns {LatteEvent}
-         */
-        removeItem: LatteEvent;
-        /**
-         * Property field
-         */
-        private _context;
-        /**
-         * Gets or sets the context to execute methods of collection
-         *
-         * @returns {any}
-         */
-        /**
-         * Gets or sets the context to execute methods of collection
-         *
-         * @param {any} value
-         */
-        context: any;
-        /**
-         * Gets the count of elements in collection
-         *
-         * @returns {number}
-         */
-        count: number;
-        /**
-         * Gets the first element of the collection
-         * @returns {*}
-         */
-        first: T;
-        /**
-         * Gets the last element of the collection
-         * @returns {*}
-         */
-        last: T;
-        /**
-         * Property field
-         */
-        private _length;
-        /**
-         * Gets the length of the collection
-         *
-         * @returns {number}
-         */
-        length: number;
-    }
-}
-/**
- * Created by josemanuel on 2/6/14.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Culture {
-        /**
-         * Property field
-         */
-        private static _current;
-        /**
-         * Gets or sets the current culture of the system
-         *
-         * @returns {Culture}
-         */
-        /**
-         * Gets or sets the current culture of the system
-         *
-         * @param {Culture} value
-         */
-        static current: Culture;
-        /**
-         * Field for esMX property
-         */
-        private static _esMx;
-        /**
-         * Gets the Español-Mexico Culture
-         *
-         * @returns {Culture}
-         */
-        static esMx: Culture;
-        /**
-         * Field for enUs property
-         */
-        private static _enUs;
-        /**
-         * Gets the English-USA Culture
-         *
-         * @returns {Culture}
-         */
-        static enUs: Culture;
-        /**
-         * Formats currency using the current culture
-         * @param n
-         * @returns {string}
-         */
-        static formatCurrency(n: number): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        static formatShortDate(d: DateTime): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        static formatLongDate(d: DateTime): string;
-        /**
-         * Formats a number using the current Culture
-         * @param n
-         * @param decimals
-         * @param symbol
-         * @returns {string}
-         */
-        static formatNumber(n: number, decimals?: number, symbol?: string): string;
-        /**
-         * Short date format
-         */
-        shortDateFormat: string;
-        /**
-         * Long date format
-         */
-        longDateFormat: string;
-        /**
-         * Amount of decimals to show in currency format
-         */
-        currencyDecimals: number;
-        /**
-         * Separator of decimals for currency
-         */
-        numberDecimalsSeparator: string;
-        /**
-         * Thousands separator for currency
-         */
-        numberThousandsSeparator: string;
-        /**
-         * Symbol to use in currency
-         */
-        currencySymbol: string;
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Returns the specified number as a currency
-         * @param n
-         */
-        onFormatCurrency(n: number): string;
-        /**
-         * Formats the specified number
-         * @param n
-         * @param decimals
-         * @param symbol
-         * @returns {string}
-         */
-        onFormatNumber(n: number, decimals?: number, symbol?: string): string;
-        /**
-         * Returns the date as a long format
-         * @param d
-         */
-        onFormatLongDate(d: DateTime): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        onFormatShortDate(d: DateTime): string;
     }
 }
 declare module latte {
@@ -2297,5 +2167,155 @@ declare module latte {
 }
 declare module latte {
     class HEvent<T> {
+    }
+}
+declare module latte {
+    /**
+     *
+     */
+    class Collection<T> {
+        private pointer;
+        /**
+         *
+         */
+        constructor(addCallback?: (T, number) => void, removeCallback?: (T, number) => any, context?: any);
+        /**
+         * Adds an element to the collection
+         *
+         * @param element
+         * @param raiseEvent
+         */
+        add(element: T, raiseEvent?: boolean): void;
+        /**
+         * Adds an array of elements
+         *
+         * @param elements
+         * @param raiseEvent
+         */
+        addArray(elements: Array<T>, raiseEvent?: boolean): void;
+        /**
+         * Adds a collection of elements to the collection
+         *
+         * @param collection
+         * @param raiseEvent
+         */
+        addCollection(collection: Collection<T>, raiseEvent?: boolean): void;
+        /**
+         * Clears the collection
+         */
+        clear(): void;
+        /**
+         * Returns a value indicating if the specified element is contained in the collection
+         * @param element
+         */
+        contains(element: T): boolean;
+        /**
+         * Iterates through the collection, executing the handler for each item
+         * @param handler
+         */
+        each(handler: (item: T, index: number) => any): void;
+        /**
+         * Gets the index of the specified element if found. -1 if not found.
+         * @param item
+         * @returns {number}
+         */
+        indexOf(item: T): number;
+        /**
+         * Gets the item at the specified position
+         * @param index
+         * @returns {*}
+         */
+        item(index: number): T;
+        /**
+         * Returns the object on current pointer and moves the pointer forward.
+         * It returns null and resets pointer if end of collection reached.
+         * @returns {*}
+         */
+        next(): T;
+        /**
+         * Raises the <c>addItem</c> event
+         */
+        onAddItem(item: T, index: number): void;
+        /**
+         * Raises the <c>removeItem</c> event
+         */
+        onRemoveItem(item: T, index: number): void;
+        /**
+         * Removes the specified item from the collection
+         * @param item
+         * @param raiseEvent
+         */
+        remove(item: T, raiseEvent?: boolean): this;
+        /**
+         * Removes the item ath the specified index
+         * @param index
+         * @param raiseEvent
+         */
+        removeAt(index: number, raiseEvent?: boolean): void;
+        /**
+         * Resets the internal pointer for calls to <c>next()</c> method.
+         */
+        resetPointer(): void;
+        /**
+         * Back field for event
+         */
+        private _addItem;
+        /**
+         * Gets an event raised when an item is added
+         *
+         * @returns {LatteEvent}
+         */
+        addItem: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _removeItem;
+        /**
+         * Gets an event raised when an item is removed
+         *
+         * @returns {LatteEvent}
+         */
+        removeItem: LatteEvent;
+        /**
+         * Property field
+         */
+        private _context;
+        /**
+         * Gets or sets the context to execute methods of collection
+         *
+         * @returns {any}
+         */
+        /**
+         * Gets or sets the context to execute methods of collection
+         *
+         * @param {any} value
+         */
+        context: any;
+        /**
+         * Gets the count of elements in collection
+         *
+         * @returns {number}
+         */
+        count: number;
+        /**
+         * Gets the first element of the collection
+         * @returns {*}
+         */
+        first: T;
+        /**
+         * Gets the last element of the collection
+         * @returns {*}
+         */
+        last: T;
+        /**
+         * Property field
+         */
+        private _length;
+        /**
+         * Gets the length of the collection
+         *
+         * @returns {number}
+         */
+        length: number;
     }
 }

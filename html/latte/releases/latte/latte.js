@@ -605,18 +605,6 @@ var latte;
     })(latte.Key || (latte.Key = {}));
     var Key = latte.Key;
 })(latte || (latte = {}));
-/**
- * Created by josemanuel on 12/12/13.
- */
-var latte;
-(function (latte) {
-    (function (TriBool) {
-        TriBool[TriBool["UNKNOWN"] = 0] = "UNKNOWN";
-        TriBool[TriBool["TRUE"] = 1] = "TRUE";
-        TriBool[TriBool["FALSE"] = 2] = "FALSE";
-    })(latte.TriBool || (latte.TriBool = {}));
-    var TriBool = latte.TriBool;
-})(latte || (latte = {}));
 var latte;
 (function (latte) {
     /**
@@ -667,6 +655,18 @@ var latte;
         WeekDay[WeekDay["SATURDAY"] = 6] = "SATURDAY";
     })(latte.WeekDay || (latte.WeekDay = {}));
     var WeekDay = latte.WeekDay;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 12/12/13.
+ */
+var latte;
+(function (latte) {
+    (function (TriBool) {
+        TriBool[TriBool["UNKNOWN"] = 0] = "UNKNOWN";
+        TriBool[TriBool["TRUE"] = 1] = "TRUE";
+        TriBool[TriBool["FALSE"] = 2] = "FALSE";
+    })(latte.TriBool || (latte.TriBool = {}));
+    var TriBool = latte.TriBool;
 })(latte || (latte = {}));
 /*
  * DataLatte Runtime
@@ -934,6 +934,259 @@ var latte;
         return Ex;
     }());
     latte.Ex = Ex;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 2/6/14.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var Culture = (function () {
+        //endregion
+        /**
+         *
+         */
+        function Culture() {
+            //endregion
+            //region Fields
+            /**
+             * Short date format
+             */
+            this.shortDateFormat = 'dd/MM/yyyy';
+            /**
+             * Long date format
+             */
+            this.longDateFormat = 'dddd, d de MMMM de YYYY';
+            /**
+             * Amount of decimals to show in currency format
+             */
+            this.currencyDecimals = 2;
+            /**
+             * Separator of decimals for currency
+             */
+            this.numberDecimalsSeparator = '.';
+            /**
+             * Thousands separator for currency
+             */
+            this.numberThousandsSeparator = ',';
+            /**
+             * Symbol to use in currency
+             */
+            this.currencySymbol = '$';
+            /**
+             * Regular expression for validating floating point numbers
+             * @type {RegExp}
+             */
+            this.floatValidator = /^[\d,]+([.][\d]+)?$/;
+            /**
+             * Regular expression for validating integer numbers
+             * @type {RegExp}
+             */
+            this.intValidator = /^[\d,]+$/;
+        }
+        Object.defineProperty(Culture, "current", {
+            /**
+             * Gets or sets the current culture of the system
+             *
+             * @returns {Culture}
+             */
+            get: function () {
+                if (!Culture._current) {
+                    Culture._current = Culture.enUs;
+                }
+                return this._current;
+            },
+            /**
+             * Gets or sets the current culture of the system
+             *
+             * @param {Culture} value
+             */
+            set: function (value) {
+                this._current = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Culture, "esEs", {
+            /**
+             * Gets the Español-Mexico Culture
+             *
+             * @returns {Culture}
+             */
+            get: function () {
+                if (!Culture._esEs) {
+                    var _zeroPad = function (n) { return n <= 9 ? '0' + n.toString() : n.toString(); };
+                    Culture._esEs = new Culture();
+                    Culture._esEs.currencyDecimals = 2;
+                    Culture._esEs.numberDecimalsSeparator = ',';
+                    Culture._esEs.numberThousandsSeparator = '.';
+                    Culture._esEs.currencySymbol = '$';
+                    Culture._esEs.shortDateFormat = 'dd/MMM/yyyy';
+                    Culture._esEs.longDateFormat = 'dddd, d de MMMM de yyyy';
+                    Culture._esEs.floatValidator = /^[\d.]+([,][\d]+)?$/;
+                    Culture._esEs.intValidator = /^[\d.]+$/;
+                    Culture._esEs.onFormatShortDate = function (d) {
+                        return latte.sprintf("%s/%s/%s", _zeroPad(d.day), d.monthStringShort, d.year);
+                    };
+                    Culture._esEs.onFormatLongDate = function (d) {
+                        return latte.sprintf("%s, %s de %s de %s", d.dayOfWeekString, d.day, d.monthString, d.year);
+                    };
+                }
+                return Culture._esEs;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Culture, "esMx", {
+            /**
+             * Gets the Español-Mexico Culture
+             *
+             * @returns {Culture}
+             */
+            get: function () {
+                if (!Culture._esMx) {
+                    var _zeroPad = function (n) { return n <= 9 ? '0' + n.toString() : n.toString(); };
+                    Culture._esMx = new Culture();
+                    Culture._esMx.currencyDecimals = 2;
+                    Culture._esMx.numberDecimalsSeparator = '.';
+                    Culture._esMx.numberThousandsSeparator = ',';
+                    Culture._esMx.currencySymbol = '$';
+                    Culture._esMx.shortDateFormat = 'dd/MMM/yyyy';
+                    Culture._esMx.longDateFormat = 'dddd, d de MMMM de yyyy';
+                    Culture._esMx.onFormatShortDate = function (d) {
+                        return latte.sprintf("%s/%s/%s", _zeroPad(d.day), d.monthStringShort, d.year);
+                    };
+                    Culture._esMx.onFormatLongDate = function (d) {
+                        return latte.sprintf("%s, %s de %s de %s", d.dayOfWeekString, d.day, d.monthString, d.year);
+                    };
+                }
+                return Culture._esMx;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Culture, "enUs", {
+            /**
+             * Gets the English-USA Culture
+             *
+             * @returns {Culture}
+             */
+            get: function () {
+                if (!Culture._enUs) {
+                    var _zeroPad = function (n) { return n <= 9 ? '0' + n.toString() : n.toString(); };
+                    Culture._enUs = new Culture();
+                    Culture._enUs.currencyDecimals = 2;
+                    Culture._enUs.numberDecimalsSeparator = '.';
+                    Culture._enUs.numberThousandsSeparator = ',';
+                    Culture._enUs.currencySymbol = '$';
+                    Culture._enUs.shortDateFormat = 'MMM/dd/yyyy';
+                    Culture._enUs.longDateFormat = 'dddd, MMMM d yyyy';
+                    Culture._enUs.onFormatShortDate = function (d) {
+                        return latte.sprintf("%s/%s/%s", d.monthStringShort, _zeroPad(d.day), d.year);
+                    };
+                    Culture._enUs.onFormatLongDate = function (d) {
+                        return latte.sprintf("%s, %s %s %s", d.dayOfWeekString, d.monthString, d.day, d.year);
+                    };
+                }
+                return Culture._enUs;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Formats currency using the current culture
+         * @param n
+         * @returns {string}
+         */
+        Culture.formatCurrency = function (n) {
+            return Culture.current.onFormatCurrency(n);
+        };
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        Culture.formatShortDate = function (d) {
+            return Culture.current.onFormatShortDate(d);
+        };
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        Culture.formatLongDate = function (d) {
+            return Culture.current.onFormatLongDate(d);
+        };
+        /**
+         * Formats a number using the current Culture
+         * @param n
+         * @param decimals
+         * @param symbol
+         * @returns {string}
+         */
+        Culture.formatNumber = function (n, decimals, symbol) {
+            if (decimals === void 0) { decimals = 0; }
+            if (symbol === void 0) { symbol = ''; }
+            return Culture.current.onFormatNumber(n, decimals, symbol);
+        };
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Returns the specified number as a currency
+         * @param n
+         */
+        Culture.prototype.onFormatCurrency = function (n) {
+            return this.onFormatNumber(n, this.currencyDecimals, this.currencySymbol);
+        };
+        /**
+         * Formats the specified number
+         * @param n
+         * @param decimals
+         * @param symbol
+         * @returns {string}
+         */
+        Culture.prototype.onFormatNumber = function (n, decimals, symbol) {
+            if (decimals === void 0) { decimals = 0; }
+            if (symbol === void 0) { symbol = ''; }
+            var point = this.numberDecimalsSeparator; //if no decimal separator is passed we use the dot as default decimal separator (we MUST use a decimal separator)
+            //if you don't want to use a thousands separator you can pass empty string as thousands_sep value
+            var separator = this.numberThousandsSeparator;
+            var sign = (n < 0) ? '-' : '';
+            //extracting the absolute value of the integer part of the number and converting to string
+            var round = parseInt(Math.abs(n).toFixed(decimals)) + '';
+            var length = round.length;
+            var offset = ((length) > 3) ? length % 3 : 0;
+            var a = sign;
+            var b = symbol;
+            var c = (offset ? round.substr(0, offset) + separator : '');
+            var d = round.substr(offset).replace(/(\d{3})(?=\d)/g, "$1" + separator);
+            //[Hack]
+            var e = (decimals ? point + (Math.abs(n) - parseInt(round)).toFixed(decimals).slice(2) : '');
+            return a + b + c + d + e;
+        };
+        /**
+         * Returns the date as a long format
+         * @param d
+         */
+        Culture.prototype.onFormatLongDate = function (d) {
+            return "NotImplemented";
+        };
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        Culture.prototype.onFormatShortDate = function (d) {
+            return "NotImplemented";
+        };
+        //region Static
+        /**
+         * Property field
+         */
+        Culture._current = null;
+        return Culture;
+    }());
+    latte.Culture = Culture;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 5/4/15.
@@ -1553,525 +1806,6 @@ var latte;
         return Color;
     }());
     latte.Color = Color;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var Collection = (function () {
-        //endregion
-        /**
-         *
-         */
-        function Collection(addCallback, removeCallback, context) {
-            if (addCallback === void 0) { addCallback = null; }
-            if (removeCallback === void 0) { removeCallback = null; }
-            if (context === void 0) { context = null; }
-            //region Static
-            //endregion
-            //region Fields
-            this.pointer = 0;
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._context = null;
-            /**
-             * Property field
-             */
-            this._length = 0;
-            if (addCallback) {
-                this.addItem.add(addCallback, context);
-            }
-            if (removeCallback) {
-                this.removeItem.add(removeCallback, context);
-            }
-            this.context = context;
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Adds an element to the collection
-         *
-         * @param element
-         * @param raiseEvent
-         */
-        Collection.prototype.add = function (element, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            this[this._length++] = element;
-            if (raiseEvent) {
-                this.onAddItem(element, this.length);
-            }
-        };
-        /**
-         * Adds an array of elements
-         *
-         * @param elements
-         * @param raiseEvent
-         */
-        Collection.prototype.addArray = function (elements, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            for (var i = 0; i < elements.length; i++) {
-                this.add(elements[i]);
-            }
-        };
-        /**
-         * Adds a collection of elements to the collection
-         *
-         * @param collection
-         * @param raiseEvent
-         */
-        Collection.prototype.addCollection = function (collection, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            for (var i = 0; i < collection.length; i++) {
-                this.add(collection[i]);
-            }
-        };
-        /**
-         * Clears the collection
-         */
-        Collection.prototype.clear = function () {
-            while (this.length > 0) {
-                this.removeAt(0);
-            }
-        };
-        /**
-         * Returns a value indicating if the specified element is contained in the collection
-         * @param element
-         */
-        Collection.prototype.contains = function (element) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] == element)
-                    return true;
-            }
-            return false;
-        };
-        /**
-         * Iterates through the collection, executing the handler for each item
-         * @param handler
-         */
-        Collection.prototype.each = function (handler) {
-            for (var i = 0; i < this.count; i++) {
-                handler.call(this.context, this[i], i);
-            }
-        };
-        /**
-         * Gets the index of the specified element if found. -1 if not found.
-         * @param item
-         * @returns {number}
-         */
-        Collection.prototype.indexOf = function (item) {
-            for (var i = 0; i < this.length; i++) {
-                if (this[i] === item) {
-                    return i;
-                }
-            }
-            return -1;
-        };
-        /**
-         * Gets the item at the specified position
-         * @param index
-         * @returns {*}
-         */
-        Collection.prototype.item = function (index) {
-            return this[index];
-        };
-        /**
-         * Returns the object on current pointer and moves the pointer forward.
-         * It returns null and resets pointer if end of collection reached.
-         * @returns {*}
-         */
-        Collection.prototype.next = function () {
-            if (this.pointer >= this.length) {
-                this.pointer = 0;
-                return null;
-            }
-            var elem = this[this.pointer];
-            this.pointer++;
-            return elem;
-        };
-        /**
-         * Raises the <c>addItem</c> event
-         */
-        Collection.prototype.onAddItem = function (item, index) {
-            if (this._addItem) {
-                this._addItem.raise(item, index);
-            }
-        };
-        /**
-         * Raises the <c>removeItem</c> event
-         */
-        Collection.prototype.onRemoveItem = function (item, index) {
-            if (this._removeItem) {
-                this._removeItem.raise(item, index);
-            }
-        };
-        /**
-         * Removes the specified item from the collection
-         * @param item
-         * @param raiseEvent
-         */
-        Collection.prototype.remove = function (item, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            var buffer = [];
-            var index = -1;
-            //region Clear this
-            for (var i = 0; i < this.length; i++) {
-                var t = this[i];
-                delete this[i];
-                if (t === item) {
-                    index = i;
-                }
-                else {
-                    buffer.push(t);
-                }
-            }
-            //endregion
-            //region Apply buffer
-            for (var i = 0; i < buffer.length; i++) {
-                this[i] = buffer[i];
-            }
-            this._length = buffer.length;
-            //endregion
-            if (index >= 0) {
-                if (raiseEvent) {
-                    this.onRemoveItem(item, index);
-                }
-            }
-            return this;
-        };
-        /**
-         * Removes the item ath the specified index
-         * @param index
-         * @param raiseEvent
-         */
-        Collection.prototype.removeAt = function (index, raiseEvent) {
-            if (raiseEvent === void 0) { raiseEvent = true; }
-            this.remove(this[index], raiseEvent);
-        };
-        /**
-         * Resets the internal pointer for calls to <c>next()</c> method.
-         */
-        Collection.prototype.resetPointer = function () {
-            this.pointer = 0;
-        };
-        Object.defineProperty(Collection.prototype, "addItem", {
-            /**
-             * Gets an event raised when an item is added
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._addItem) {
-                    this._addItem = new latte.LatteEvent(this);
-                    this._addItem.context = this.context;
-                }
-                return this._addItem;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "removeItem", {
-            /**
-             * Gets an event raised when an item is removed
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._removeItem) {
-                    this._removeItem = new latte.LatteEvent(this);
-                    this._addItem.context = this.context;
-                }
-                return this._removeItem;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "context", {
-            /**
-             * Gets or sets the context to execute methods of collection
-             *
-             * @returns {any}
-             */
-            get: function () {
-                return this._context;
-            },
-            /**
-             * Gets or sets the context to execute methods of collection
-             *
-             * @param {any} value
-             */
-            set: function (value) {
-                this._context = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "count", {
-            /**
-             * Gets the count of elements in collection
-             *
-             * @returns {number}
-             */
-            get: function () {
-                return this.length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "first", {
-            /**
-             * Gets the first element of the collection
-             * @returns {*}
-             */
-            get: function () {
-                return this.length > 0 ? this[0] : null;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "last", {
-            /**
-             * Gets the last element of the collection
-             * @returns {*}
-             */
-            get: function () {
-                return (this.length > 0 ? this[this.length - 1] : null);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Collection.prototype, "length", {
-            /**
-             * Gets the length of the collection
-             *
-             * @returns {number}
-             */
-            get: function () {
-                return this._length;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Collection;
-    }());
-    latte.Collection = Collection;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 2/6/14.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var Culture = (function () {
-        //endregion
-        /**
-         *
-         */
-        function Culture() {
-            //endregion
-            //region Fields
-            /**
-             * Short date format
-             */
-            this.shortDateFormat = 'dd/MM/yyyy';
-            /**
-             * Long date format
-             */
-            this.longDateFormat = 'dddd, d de MMMM de YYYY';
-            /**
-             * Amount of decimals to show in currency format
-             */
-            this.currencyDecimals = 2;
-            /**
-             * Separator of decimals for currency
-             */
-            this.numberDecimalsSeparator = '.';
-            /**
-             * Thousands separator for currency
-             */
-            this.numberThousandsSeparator = ',';
-            /**
-             * Symbol to use in currency
-             */
-            this.currencySymbol = '$';
-        }
-        Object.defineProperty(Culture, "current", {
-            /**
-             * Gets or sets the current culture of the system
-             *
-             * @returns {Culture}
-             */
-            get: function () {
-                if (!Culture._current) {
-                    Culture._current = Culture.enUs;
-                }
-                return this._current;
-            },
-            /**
-             * Gets or sets the current culture of the system
-             *
-             * @param {Culture} value
-             */
-            set: function (value) {
-                this._current = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Culture, "esMx", {
-            /**
-             * Gets the Español-Mexico Culture
-             *
-             * @returns {Culture}
-             */
-            get: function () {
-                if (!Culture._esMx) {
-                    var _zeroPad = function (n) { return n <= 9 ? '0' + n.toString() : n.toString(); };
-                    Culture._esMx = new Culture();
-                    Culture._esMx.currencyDecimals = 2;
-                    Culture._esMx.numberDecimalsSeparator = '.';
-                    Culture._esMx.numberThousandsSeparator = ',';
-                    Culture._esMx.currencySymbol = '$';
-                    Culture._esMx.shortDateFormat = 'dd/MMM/yyyy';
-                    Culture._esMx.longDateFormat = 'dddd, d de MMMM de yyyy';
-                    Culture._esMx.onFormatShortDate = function (d) {
-                        return latte.sprintf("%s/%s/%s", _zeroPad(d.day), d.monthStringShort, d.year);
-                    };
-                    Culture._esMx.onFormatLongDate = function (d) {
-                        return latte.sprintf("%s, %s de %s de %s", d.dayOfWeekString, d.day, d.monthString, d.year);
-                    };
-                }
-                return Culture._esMx;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Culture, "enUs", {
-            /**
-             * Gets the English-USA Culture
-             *
-             * @returns {Culture}
-             */
-            get: function () {
-                if (!Culture._enUs) {
-                    var _zeroPad = function (n) { return n <= 9 ? '0' + n.toString() : n.toString(); };
-                    Culture._enUs = new Culture();
-                    Culture._enUs.currencyDecimals = 2;
-                    Culture._enUs.numberDecimalsSeparator = '.';
-                    Culture._enUs.numberThousandsSeparator = ',';
-                    Culture._enUs.currencySymbol = '$';
-                    Culture._enUs.shortDateFormat = 'MMM/dd/yyyy';
-                    Culture._enUs.longDateFormat = 'dddd, MMMM d yyyy';
-                    Culture._enUs.onFormatShortDate = function (d) {
-                        return latte.sprintf("%s/%s/%s", d.monthStringShort, _zeroPad(d.day), d.year);
-                    };
-                    Culture._enUs.onFormatLongDate = function (d) {
-                        return latte.sprintf("%s, %s %s %s", d.dayOfWeekString, d.monthString, d.day, d.year);
-                    };
-                }
-                return Culture._enUs;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Formats currency using the current culture
-         * @param n
-         * @returns {string}
-         */
-        Culture.formatCurrency = function (n) {
-            return Culture.current.onFormatCurrency(n);
-        };
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        Culture.formatShortDate = function (d) {
-            return Culture.current.onFormatShortDate(d);
-        };
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        Culture.formatLongDate = function (d) {
-            return Culture.current.onFormatLongDate(d);
-        };
-        /**
-         * Formats a number using the current Culture
-         * @param n
-         * @param decimals
-         * @param symbol
-         * @returns {string}
-         */
-        Culture.formatNumber = function (n, decimals, symbol) {
-            if (decimals === void 0) { decimals = 0; }
-            if (symbol === void 0) { symbol = ''; }
-            return Culture.current.onFormatNumber(n, decimals, symbol);
-        };
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Returns the specified number as a currency
-         * @param n
-         */
-        Culture.prototype.onFormatCurrency = function (n) {
-            return this.onFormatNumber(n, this.currencyDecimals, this.currencySymbol);
-        };
-        /**
-         * Formats the specified number
-         * @param n
-         * @param decimals
-         * @param symbol
-         * @returns {string}
-         */
-        Culture.prototype.onFormatNumber = function (n, decimals, symbol) {
-            if (decimals === void 0) { decimals = 0; }
-            if (symbol === void 0) { symbol = ''; }
-            var point = this.numberDecimalsSeparator; //if no decimal separator is passed we use the dot as default decimal separator (we MUST use a decimal separator)
-            //if you don't want to use a thousands separator you can pass empty string as thousands_sep value
-            var separator = this.numberThousandsSeparator;
-            var sign = (n < 0) ? '-' : '';
-            //extracting the absolute value of the integer part of the number and converting to string
-            var round = parseInt(Math.abs(n).toFixed(decimals)) + '';
-            var length = round.length;
-            var offset = ((length) > 3) ? length % 3 : 0;
-            var a = sign;
-            var b = symbol;
-            var c = (offset ? round.substr(0, offset) + separator : '');
-            var d = round.substr(offset).replace(/(\d{3})(?=\d)/g, "$1" + separator);
-            //[Hack]
-            var e = (decimals ? point + (Math.abs(n) - parseInt(round)).toFixed(decimals).slice(2) : '');
-            return a + b + c + d + e;
-        };
-        /**
-         * Returns the date as a long format
-         * @param d
-         */
-        Culture.prototype.onFormatLongDate = function (d) {
-            return "NotImplemented";
-        };
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        Culture.prototype.onFormatShortDate = function (d) {
-            return "NotImplemented";
-        };
-        //region Static
-        /**
-         * Property field
-         */
-        Culture._current = null;
-        return Culture;
-    }());
-    latte.Culture = Culture;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -3934,22 +3668,327 @@ var latte;
     }());
     latte.HEvent = HEvent;
 })(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var Collection = (function () {
+        //endregion
+        /**
+         *
+         */
+        function Collection(addCallback, removeCallback, context) {
+            if (addCallback === void 0) { addCallback = null; }
+            if (removeCallback === void 0) { removeCallback = null; }
+            if (context === void 0) { context = null; }
+            //region Static
+            //endregion
+            //region Fields
+            this.pointer = 0;
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._context = null;
+            /**
+             * Property field
+             */
+            this._length = 0;
+            if (addCallback) {
+                this.addItem.add(addCallback, context);
+            }
+            if (removeCallback) {
+                this.removeItem.add(removeCallback, context);
+            }
+            this.context = context;
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Adds an element to the collection
+         *
+         * @param element
+         * @param raiseEvent
+         */
+        Collection.prototype.add = function (element, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            this[this._length++] = element;
+            if (raiseEvent) {
+                this.onAddItem(element, this.length);
+            }
+        };
+        /**
+         * Adds an array of elements
+         *
+         * @param elements
+         * @param raiseEvent
+         */
+        Collection.prototype.addArray = function (elements, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            for (var i = 0; i < elements.length; i++) {
+                this.add(elements[i]);
+            }
+        };
+        /**
+         * Adds a collection of elements to the collection
+         *
+         * @param collection
+         * @param raiseEvent
+         */
+        Collection.prototype.addCollection = function (collection, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            for (var i = 0; i < collection.length; i++) {
+                this.add(collection[i]);
+            }
+        };
+        /**
+         * Clears the collection
+         */
+        Collection.prototype.clear = function () {
+            while (this.length > 0) {
+                this.removeAt(0);
+            }
+        };
+        /**
+         * Returns a value indicating if the specified element is contained in the collection
+         * @param element
+         */
+        Collection.prototype.contains = function (element) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] == element)
+                    return true;
+            }
+            return false;
+        };
+        /**
+         * Iterates through the collection, executing the handler for each item
+         * @param handler
+         */
+        Collection.prototype.each = function (handler) {
+            for (var i = 0; i < this.count; i++) {
+                handler.call(this.context, this[i], i);
+            }
+        };
+        /**
+         * Gets the index of the specified element if found. -1 if not found.
+         * @param item
+         * @returns {number}
+         */
+        Collection.prototype.indexOf = function (item) {
+            for (var i = 0; i < this.length; i++) {
+                if (this[i] === item) {
+                    return i;
+                }
+            }
+            return -1;
+        };
+        /**
+         * Gets the item at the specified position
+         * @param index
+         * @returns {*}
+         */
+        Collection.prototype.item = function (index) {
+            return this[index];
+        };
+        /**
+         * Returns the object on current pointer and moves the pointer forward.
+         * It returns null and resets pointer if end of collection reached.
+         * @returns {*}
+         */
+        Collection.prototype.next = function () {
+            if (this.pointer >= this.length) {
+                this.pointer = 0;
+                return null;
+            }
+            var elem = this[this.pointer];
+            this.pointer++;
+            return elem;
+        };
+        /**
+         * Raises the <c>addItem</c> event
+         */
+        Collection.prototype.onAddItem = function (item, index) {
+            if (this._addItem) {
+                this._addItem.raise(item, index);
+            }
+        };
+        /**
+         * Raises the <c>removeItem</c> event
+         */
+        Collection.prototype.onRemoveItem = function (item, index) {
+            if (this._removeItem) {
+                this._removeItem.raise(item, index);
+            }
+        };
+        /**
+         * Removes the specified item from the collection
+         * @param item
+         * @param raiseEvent
+         */
+        Collection.prototype.remove = function (item, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            var buffer = [];
+            var index = -1;
+            //region Clear this
+            for (var i = 0; i < this.length; i++) {
+                var t = this[i];
+                delete this[i];
+                if (t === item) {
+                    index = i;
+                }
+                else {
+                    buffer.push(t);
+                }
+            }
+            //endregion
+            //region Apply buffer
+            for (var i = 0; i < buffer.length; i++) {
+                this[i] = buffer[i];
+            }
+            this._length = buffer.length;
+            //endregion
+            if (index >= 0) {
+                if (raiseEvent) {
+                    this.onRemoveItem(item, index);
+                }
+            }
+            return this;
+        };
+        /**
+         * Removes the item ath the specified index
+         * @param index
+         * @param raiseEvent
+         */
+        Collection.prototype.removeAt = function (index, raiseEvent) {
+            if (raiseEvent === void 0) { raiseEvent = true; }
+            this.remove(this[index], raiseEvent);
+        };
+        /**
+         * Resets the internal pointer for calls to <c>next()</c> method.
+         */
+        Collection.prototype.resetPointer = function () {
+            this.pointer = 0;
+        };
+        Object.defineProperty(Collection.prototype, "addItem", {
+            /**
+             * Gets an event raised when an item is added
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._addItem) {
+                    this._addItem = new latte.LatteEvent(this);
+                    this._addItem.context = this.context;
+                }
+                return this._addItem;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "removeItem", {
+            /**
+             * Gets an event raised when an item is removed
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._removeItem) {
+                    this._removeItem = new latte.LatteEvent(this);
+                    this._addItem.context = this.context;
+                }
+                return this._removeItem;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "context", {
+            /**
+             * Gets or sets the context to execute methods of collection
+             *
+             * @returns {any}
+             */
+            get: function () {
+                return this._context;
+            },
+            /**
+             * Gets or sets the context to execute methods of collection
+             *
+             * @param {any} value
+             */
+            set: function (value) {
+                this._context = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "count", {
+            /**
+             * Gets the count of elements in collection
+             *
+             * @returns {number}
+             */
+            get: function () {
+                return this.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "first", {
+            /**
+             * Gets the first element of the collection
+             * @returns {*}
+             */
+            get: function () {
+                return this.length > 0 ? this[0] : null;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "last", {
+            /**
+             * Gets the last element of the collection
+             * @returns {*}
+             */
+            get: function () {
+                return (this.length > 0 ? this[this.length - 1] : null);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Collection.prototype, "length", {
+            /**
+             * Gets the length of the collection
+             *
+             * @returns {number}
+             */
+            get: function () {
+                return this._length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Collection;
+    }());
+    latte.Collection = Collection;
+})(latte || (latte = {}));
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/support/ts-include/datalatte.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/support/ts-include/latte.strings.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/ICall.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/IInput.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/IMessage.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/ISave.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/IInput.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/ISaveContainer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Key.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/TriBool.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/WeekDay.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/TriBool.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/latte.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Ex.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Culture.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Ajax.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Color.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Collection.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Culture.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/DateTime.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Event.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/InvaldArgumentEx.ts" />
@@ -3960,4 +3999,5 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Size.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/TimeSpan.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Timer.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/TypeEvent.ts" /> 
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/TypeEvent.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte/ts/Collection.ts" /> 

@@ -619,14 +619,20 @@ module latte{
 
                     case "number":
                         item = new TextboxItem();
+                        (<TextboxItem>item).filter = TextboxFilter.NUMBER;
+                        (<TextboxItem>item).validationRegex = Culture.current.floatValidator;
                         break;
 
                     case "integer":
                         item = new TextboxItem();
+                        (<TextboxItem>item).filter = TextboxFilter.INTEGER;
+                        (<TextboxItem>item).validationRegex = Culture.current.intValidator;
                         break;
 
                     case "float":
                         item = new TextboxItem();
+                        (<TextboxItem>item).filter = TextboxFilter.NUMBER;
+                        (<TextboxItem>item).validationRegex = Culture.current.floatValidator;
                         break;
 
                     case "boolean":
