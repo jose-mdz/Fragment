@@ -46,10 +46,16 @@ module latte {
                 }
 
                 let input = PageConfiguration.inputFromSetting(settings[key]);
-                input.tag = setting;
+                input.tag = {
+                    data: settings[key],
+                    record: setting
+                };
+
+                //TODO: CHECK HERE TO VALIDATE REQUIRED
                 if(setting.idsetting > 0){
                     input.value = setting.value;
                 }
+
                 this.settingsForm.inputs.add(input);
             }
         }
@@ -162,7 +168,8 @@ module latte {
 
             for (let i = 0; i < this.settingsForm.inputs.length; i++) {
                 let input = this.settingsForm.inputs[i];
-                let setting: Setting = <Setting>input.tag;
+                let tag: any = <Setting>input.tag;
+                let setting: Setting = tag.record;
                 setting.value = input.value;
 
                 let call = setting.saveCall();

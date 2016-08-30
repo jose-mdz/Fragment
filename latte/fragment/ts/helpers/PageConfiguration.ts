@@ -25,6 +25,7 @@ module latte {
         type?: 'string' | 'boolean' | 'enumeration';
         defaultValue?: any;
         options?: any;
+        required?: boolean;
     }
 
     export interface IPageConfigurationSettings{
