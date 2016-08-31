@@ -1035,73 +1035,6 @@ declare module latte {
         static changeNameDescription(idfile: number, name: string, description: string): RemoteCall<any>;
         physicalRemove(): RemoteCall<any>;
     }
-    class groupBase extends DataRecord {
-        _recordType: string;
-        _moduleName: string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroup: number;
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        idgroup: number;
-        /**
-         * Back field for event
-         */
-        _idgroupChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroup property changes
-         */
-        idgroupChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        onIdgroupChanged(): void;
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        onGetRecordIdName(): string;
-        /**
-         * Database field: varchar(128)
-         */
-        _name: string;
-        /**
-         * Gets or sets the value of the name field of type varchar(128)
-         */
-        /**
-         * Gets or sets the value of the name field of type varchar(128)
-         */
-        name: string;
-        /**
-         * Back field for event
-         */
-        _nameChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the name property changes
-         */
-        nameChanged: LatteEvent;
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        onNameChanged(): void;
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        onGetFields(): any;
-        /**
-        * Declares the native types of the record.
-        **/
-        static nativeTypes: {
-            "idgroup": string;
-            "name": string;
-        };
-        static catalog(): RemoteCall<Group[]>;
-        static search(text: string): RemoteCall<Group[]>;
-    }
     class fragmentBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
@@ -1304,6 +1237,73 @@ declare module latte {
             "iduser": string;
         };
         static byGroup(idgroup: number): RemoteCall<GroupUser[]>;
+    }
+    class groupBase extends DataRecord {
+        _recordType: string;
+        _moduleName: string;
+        /**
+         * Database field: int(11)
+         */
+        _idgroup: number;
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        idgroup: number;
+        /**
+         * Back field for event
+         */
+        _idgroupChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idgroup property changes
+         */
+        idgroupChanged: LatteEvent;
+        /**
+         * Raises the <c>idgroupChanged</c> event
+         */
+        onIdgroupChanged(): void;
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        onGetRecordIdName(): string;
+        /**
+         * Database field: varchar(128)
+         */
+        _name: string;
+        /**
+         * Gets or sets the value of the name field of type varchar(128)
+         */
+        /**
+         * Gets or sets the value of the name field of type varchar(128)
+         */
+        name: string;
+        /**
+         * Back field for event
+         */
+        _nameChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the name property changes
+         */
+        nameChanged: LatteEvent;
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        onNameChanged(): void;
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idgroup": string;
+            "name": string;
+        };
+        static catalog(): RemoteCall<Group[]>;
+        static search(text: string): RemoteCall<Group[]>;
     }
     class userBase extends DataRecord {
         _recordType: string;
@@ -1861,23 +1861,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Main {
-        static goMainView(): void;
-        static goSignInView(): void;
-        static logOut(): void;
-        /**
-         *
-         */
-        constructor();
-    }
-}
-/**
  * Created by josemanuel on 8/5/16.
  */
 declare module latte {
@@ -1942,6 +1925,23 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Main {
+        static goMainView(): void;
+        static goSignInView(): void;
+        static logOut(): void;
+        /**
+         *
+         */
+        constructor();
+    }
+}
+/**
  * Created by josemanuel on 8/5/16.
  */
 declare module latte {
@@ -1956,40 +1956,6 @@ declare module latte {
         /**
          * Gets the loader of children items
          *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PagesExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Gets the loader of children items
          * @Override
          */
         getChildrenLoader(): RemoteCall<any>;
@@ -2102,6 +2068,40 @@ declare module latte {
          * @returns {ButtonItem}
          */
         btnChangePassword: ButtonItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PagesExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
     }
 }
 /**
@@ -2363,107 +2363,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 4/29/15.
- */
-declare module latte {
-    enum ImageFit {
-        AspectFit = 0,
-        AspectFill = 1,
-        AspectFillNear = 2,
-        AspectFillFar = 3,
-    }
-    interface ImageExportOptions {
-        size: Size;
-        type?: string;
-        quality?: number;
-        background?: Color;
-        fit: ImageFit;
-    }
-    /**
-     *
-     */
-    class ImageUtil {
-        /**
-         * Parses ImageFit from specified string
-         * @param fit
-         * @returns {any}
-         */
-        static imageFitFromString(fit: string): ImageFit;
-        /**
-         * Creates an icon of the specified file, assuming it's an image file.
-         *
-         * @param file
-         * @param size
-         * @param callback
-         */
-        static createThumbOfFile(file: any, options: ImageExportOptions, callback?: (dataUrl: string) => any): void;
-        /**
-         * Creates an icon of the specified image.
-         * This algorithm is stored under the name _Steps because it makes n steps
-         * to scale down the image. It proved to be ineficient and results unwanted.
-         * @param image
-         * @param size
-         * @returns {string}
-         */
-        static createThumbOfImage_Steps(image: HTMLImageElement, size: Size): string;
-        static resizeImage(image: HTMLImageElement, options: ImageExportOptions): string;
-        /**
-         * Creates a smaller version of the image.
-         * @param image
-         * @param size
-         * @param type Mime type of the image
-         * @param quality Quality 0 - 1, if jpg
-         */
-        static createThumbOfImage(image: HTMLImageElement, options: ImageExportOptions): string;
-        private static resample_hermite(canvas, W, H, W2, H2);
-        /**
-         * Creates an icon of the specified url image
-         *
-         * @param url
-         * @param size
-         * @param type
-         * @param quality
-         * @param callback
-         */
-        static createThumbOfUrl(url: string, options: ImageExportOptions, callback?: (dataUrl: string) => any): void;
-        /**
-         * Gets the base64 data of the specified data url
-         * @param dataUrl
-         */
-        static getBase64(dataUrl: string): string;
-        /**
-         * Reads the file and returns de data as dataUrl in the callback
-         * @param url
-         * @param callback
-         */
-        static readFileAsDataUrl(file: any, callback: (dataUrl: string) => any): void;
-        /**
-         * Gets the image encoded as base64 data
-         * @param image
-         * @returns {string}
-         */
-        static getImageAsBase64(image: HTMLImageElement): string;
-        /**
-         * Gets the mimetype of the specified extension.
-         * Pass extension either with or without dot at the first character.
-         * @param extension
-         */
-        static mimeTypeOf(extension: string): string;
-        /**
-         * Returns a value indicating if the specified mimetype is compressabel
-         * @param mimeType
-         * @returns {boolean}
-         */
-        static mimeTypeCompressable(mimeType: string): boolean;
-        /**
-         * Returns a value indicating if the specified mimetype is compressabel
-         * @param mimeType
-         * @returns {boolean}
-         */
-        static mimeTypeTransparent(mimeType: string): boolean;
-    }
-}
-/**
  * Created by josemanuel on 7/26/16.
  */
 declare module latte {
@@ -2528,6 +2427,7 @@ declare module latte {
         type?: 'string' | 'boolean' | 'enumeration';
         defaultValue?: any;
         options?: any;
+        required?: boolean;
     }
     interface IPageConfigurationSettings {
         [index: string]: IPageConfigurationSetting;
@@ -2731,6 +2631,107 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 4/29/15.
+ */
+declare module latte {
+    enum ImageFit {
+        AspectFit = 0,
+        AspectFill = 1,
+        AspectFillNear = 2,
+        AspectFillFar = 3,
+    }
+    interface ImageExportOptions {
+        size: Size;
+        type?: string;
+        quality?: number;
+        background?: Color;
+        fit: ImageFit;
+    }
+    /**
+     *
+     */
+    class ImageUtil {
+        /**
+         * Parses ImageFit from specified string
+         * @param fit
+         * @returns {any}
+         */
+        static imageFitFromString(fit: string): ImageFit;
+        /**
+         * Creates an icon of the specified file, assuming it's an image file.
+         *
+         * @param file
+         * @param size
+         * @param callback
+         */
+        static createThumbOfFile(file: any, options: ImageExportOptions, callback?: (dataUrl: string) => any): void;
+        /**
+         * Creates an icon of the specified image.
+         * This algorithm is stored under the name _Steps because it makes n steps
+         * to scale down the image. It proved to be ineficient and results unwanted.
+         * @param image
+         * @param size
+         * @returns {string}
+         */
+        static createThumbOfImage_Steps(image: HTMLImageElement, size: Size): string;
+        static resizeImage(image: HTMLImageElement, options: ImageExportOptions): string;
+        /**
+         * Creates a smaller version of the image.
+         * @param image
+         * @param size
+         * @param type Mime type of the image
+         * @param quality Quality 0 - 1, if jpg
+         */
+        static createThumbOfImage(image: HTMLImageElement, options: ImageExportOptions): string;
+        private static resample_hermite(canvas, W, H, W2, H2);
+        /**
+         * Creates an icon of the specified url image
+         *
+         * @param url
+         * @param size
+         * @param type
+         * @param quality
+         * @param callback
+         */
+        static createThumbOfUrl(url: string, options: ImageExportOptions, callback?: (dataUrl: string) => any): void;
+        /**
+         * Gets the base64 data of the specified data url
+         * @param dataUrl
+         */
+        static getBase64(dataUrl: string): string;
+        /**
+         * Reads the file and returns de data as dataUrl in the callback
+         * @param url
+         * @param callback
+         */
+        static readFileAsDataUrl(file: any, callback: (dataUrl: string) => any): void;
+        /**
+         * Gets the image encoded as base64 data
+         * @param image
+         * @returns {string}
+         */
+        static getImageAsBase64(image: HTMLImageElement): string;
+        /**
+         * Gets the mimetype of the specified extension.
+         * Pass extension either with or without dot at the first character.
+         * @param extension
+         */
+        static mimeTypeOf(extension: string): string;
+        /**
+         * Returns a value indicating if the specified mimetype is compressabel
+         * @param mimeType
+         * @returns {boolean}
+         */
+        static mimeTypeCompressable(mimeType: string): boolean;
+        /**
+         * Returns a value indicating if the specified mimetype is compressabel
+         * @param mimeType
+         * @returns {boolean}
+         */
+        static mimeTypeTransparent(mimeType: string): boolean;
+    }
+}
+/**
  * Created by josemanuel on 7/27/16.
  */
 declare module latte {
@@ -2785,32 +2786,6 @@ declare module latte {
          * @returns {Item[]}
          */
         formatItems: Item[];
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PlainTextFragmentAdapter extends FragmentAdapter<IFragment> {
-        /**
-         * Override. Raises the <c>createEditorItem</c> event
-         */
-        onCreateEditorItem(): void;
-        /**
-         * Field for textbox property
-         */
-        private _textbox;
-        private baseScrollHeight;
-        private heightCheck;
-        /**
-         * Gets the textbox element
-         *
-         * @returns {Element<HTMLTextAreaElement>}
-         */
-        textbox: Element<HTMLTextAreaElement>;
     }
 }
 /**
@@ -3092,110 +3067,23 @@ declare module latte {
     /**
      *
      */
-    class FragmentExpandoItem extends ItemStack {
+    class PlainTextFragmentAdapter extends FragmentAdapter<IFragment> {
         /**
+         * Override. Raises the <c>createEditorItem</c> event
+         */
+        onCreateEditorItem(): void;
+        /**
+         * Field for textbox property
+         */
+        private _textbox;
+        private baseScrollHeight;
+        private heightCheck;
+        /**
+         * Gets the textbox element
          *
+         * @returns {Element<HTMLTextAreaElement>}
          */
-        constructor();
-        /**
-         * Raises the <c>fragmentItem</c> event
-         */
-        onFragmentItemChanged(): void;
-        /**
-         * Raises the <c>expanded</c> event
-         */
-        onExpandedChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _expandedChanged;
-        /**
-         * Gets an event raised when the value of the expanded property changes
-         *
-         * @returns {LatteEvent}
-         */
-        expandedChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _fragmentItemChanged;
-        /**
-         * Gets an event raised when the value of the fragmentItem property changes
-         *
-         * @returns {LatteEvent}
-         */
-        fragmentItemChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _expanded;
-        /**
-         * Gets or sets a value indicating if the expando is expanded
-         *
-         * @returns {boolean}
-         */
-        /**
-         * Gets or sets a value indicating if the expando is expanded
-         *
-         * @param {boolean} value
-         */
-        expanded: boolean;
-        /**
-         * Property field
-         */
-        private _fragmentItem;
-        /**
-         * Gets or sets the fragment item of the expando
-         *
-         * @returns {Item}
-         */
-        /**
-         * Gets or sets the fragment item of the expando
-         *
-         * @param {Item} value
-         */
-        fragmentItem: Item;
-        /**
-         * Gets or sets the title of the expando
-         *
-         * @returns {string}
-         */
-        /**
-         * Gets or sets the title of the expando
-         *
-         * @param {string} value
-         */
-        title: string;
-        /**
-         * Field for btnFold property
-         */
-        private _btnFold;
-        /**
-         * Gets the fold button
-         *
-         * @returns {ButtonItem}
-         */
-        btnFold: ButtonItem;
-        /**
-         * Field for lblTitle property
-         */
-        private _lblTitle;
-        /**
-         * Gets the title label
-         *
-         * @returns {LabelItem}
-         */
-        lblTitle: LabelItem;
-        /**
-         * Field for toolbar property
-         */
-        private _toolbar;
-        /**
-         * Gets the toolbar of the expando
-         *
-         * @returns {Toolbar}
-         */
-        toolbar: Toolbar;
+        textbox: Element<HTMLTextAreaElement>;
     }
 }
 /**
@@ -3388,6 +3276,119 @@ declare module latte {
          * @returns {ProgressItem}
          */
         progressBar: ProgressItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class FragmentExpandoItem extends ItemStack {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Raises the <c>fragmentItem</c> event
+         */
+        onFragmentItemChanged(): void;
+        /**
+         * Raises the <c>expanded</c> event
+         */
+        onExpandedChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _expandedChanged;
+        /**
+         * Gets an event raised when the value of the expanded property changes
+         *
+         * @returns {LatteEvent}
+         */
+        expandedChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _fragmentItemChanged;
+        /**
+         * Gets an event raised when the value of the fragmentItem property changes
+         *
+         * @returns {LatteEvent}
+         */
+        fragmentItemChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _expanded;
+        /**
+         * Gets or sets a value indicating if the expando is expanded
+         *
+         * @returns {boolean}
+         */
+        /**
+         * Gets or sets a value indicating if the expando is expanded
+         *
+         * @param {boolean} value
+         */
+        expanded: boolean;
+        /**
+         * Property field
+         */
+        private _fragmentItem;
+        /**
+         * Gets or sets the fragment item of the expando
+         *
+         * @returns {Item}
+         */
+        /**
+         * Gets or sets the fragment item of the expando
+         *
+         * @param {Item} value
+         */
+        fragmentItem: Item;
+        /**
+         * Gets or sets the title of the expando
+         *
+         * @returns {string}
+         */
+        /**
+         * Gets or sets the title of the expando
+         *
+         * @param {string} value
+         */
+        title: string;
+        /**
+         * Field for btnFold property
+         */
+        private _btnFold;
+        /**
+         * Gets the fold button
+         *
+         * @returns {ButtonItem}
+         */
+        btnFold: ButtonItem;
+        /**
+         * Field for lblTitle property
+         */
+        private _lblTitle;
+        /**
+         * Gets the title label
+         *
+         * @returns {LabelItem}
+         */
+        lblTitle: LabelItem;
+        /**
+         * Field for toolbar property
+         */
+        private _toolbar;
+        /**
+         * Gets the toolbar of the expando
+         *
+         * @returns {Toolbar}
+         */
+        toolbar: Toolbar;
     }
 }
 /**
@@ -3610,6 +3611,16 @@ declare module latte {
         linearIconName: string;
     }
 }
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table fragment
+     */
+    class Fragment extends fragmentBase {
+    }
+}
 declare module latte {
     /**
      * File Record
@@ -3708,16 +3719,6 @@ declare module latte {
  */
 declare module latte {
     /**
-     * Record for table fragment
-     */
-    class Fragment extends fragmentBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
      * Record for table group
      */
     class Group extends groupBase {
@@ -3779,6 +3780,16 @@ declare module latte {
          * @returns {string}
          */
         userAttributes: string;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table setting
+     */
+    class Setting extends settingBase {
     }
 }
 /**
@@ -3924,16 +3935,6 @@ declare module latte {
  */
 declare module latte {
     /**
-     * Record for table setting
-     */
-    class Setting extends settingBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
      * Record for table user
      */
     class User extends userBase {
@@ -4038,6 +4039,64 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 8/11/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class CmsMainView extends View {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Override.
+         */
+        onLoad(): void;
+        /**
+         * Field for explorer property
+         */
+        private _explorer;
+        /**
+         * Gets the explorer
+         *
+         * @returns {CmsExplorer}
+         */
+        explorer: CmsExplorer;
+        /**
+         * Field for topBar property
+         */
+        private _topBar;
+        /**
+         * Gets the top bar
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        topBar: Element<HTMLDivElement>;
+        /**
+         * Field for logo property
+         */
+        private _logo;
+        /**
+         * Gets the logo element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        logo: Element<HTMLDivElement>;
+        /**
+         * Field for logout property
+         */
+        private _logout;
+        /**
+         * Gets the logout element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        logout: Element<HTMLDivElement>;
+    }
+}
+/**
  * Created by josemanuel on 8/7/16.
  */
 declare module latte {
@@ -4120,64 +4179,6 @@ declare module latte {
          * @returns {DataRecordFormItem}
          */
         form: DataRecordFormItem;
-    }
-}
-/**
- * Created by josemanuel on 8/11/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class CmsMainView extends View {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Override.
-         */
-        onLoad(): void;
-        /**
-         * Field for explorer property
-         */
-        private _explorer;
-        /**
-         * Gets the explorer
-         *
-         * @returns {CmsExplorer}
-         */
-        explorer: CmsExplorer;
-        /**
-         * Field for topBar property
-         */
-        private _topBar;
-        /**
-         * Gets the top bar
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        topBar: Element<HTMLDivElement>;
-        /**
-         * Field for logo property
-         */
-        private _logo;
-        /**
-         * Gets the logo element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        logo: Element<HTMLDivElement>;
-        /**
-         * Field for logout property
-         */
-        private _logout;
-        /**
-         * Gets the logout element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        logout: Element<HTMLDivElement>;
     }
 }
 /**
@@ -4507,6 +4508,24 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 6/10/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class SignInView extends SignInViewBase {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Handles the form submit
+         */
+        formSubmit(): void;
+    }
+}
+/**
  * Created by josemanuel on 7/14/16.
  */
 declare module latte {
@@ -4631,23 +4650,5 @@ declare module latte {
          * @returns {TabItem}
          */
         tabConfiguration: TabItem;
-    }
-}
-/**
- * Created by josemanuel on 6/10/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class SignInView extends SignInViewBase {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Handles the form submit
-         */
-        formSubmit(): void;
     }
 }

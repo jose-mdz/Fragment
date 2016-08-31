@@ -356,7 +356,7 @@ class Page extends pageBase{
         $pageFields = array_keys((new Page())->getFields());
         $sentences = array();
         $page = isset($options['page']) ? $options['page'] : 1;
-        $pageSize = isset($options['pageSize']) ? $options['page'] : 50;
+        $pageSize = isset($options['pageSize']) ? $options['pageSize'] : 50;
         $sortBy = isset($options['sortBy']) ? $options['sortBy'] : 'created DESC';
 
         //region Create Filters for idparent
@@ -419,30 +419,35 @@ class Page extends pageBase{
 
         //region Convert sortBys into SQL
         // Sort result (Because of SQL
-        if(!is_array($sortBy)) $sortBy = array($sortBy);
-        $sorts = array();
+        if(isset($options['randomize']) && $options['randomize']){
+            $sortBySQL = 'RAND()';
+        }else{
+            if(!is_array($sortBy)) $sortBy = array($sortBy);
+            $sorts = array();
 
-        foreach($sortBy as $instruction){
-            $parts = explode(' ', $instruction);
-            $field = $parts[0];
-            $direction = sizeof($parts) > 1 ? $parts[1] : 'ASC';
-            $casting = sizeof($parts) > 2 ? $parts[2] : null;
-            $isSetting = !in_array($field, $pageFields);
-            $casts = self::$search_casts;
+            foreach($sortBy as $instruction){
+                $parts = explode(' ', $instruction);
+                $field = $parts[0];
+                $direction = sizeof($parts) > 1 ? $parts[1] : 'ASC';
+                $casting = sizeof($parts) > 2 ? $parts[2] : null;
+                $isSetting = !in_array($field, $pageFields);
+                $casts = self::$search_casts;
 
-            if($isSetting){
-                $sorts[] = "setting.name = '$field'";
+                if($isSetting){
+                    $sorts[] = "setting.name = '$field'";
+                }
+
+                if($casting && $casts[$casting]){
+                    $castType = $casts[$casting];
+                    $sorts[] = "CAST(setting.value AS $castType) $direction";
+                }else{
+                    $sorts[] = "page.$field $direction";
+                }
+
             }
-
-            if($casting && $casts[$casting]){
-                $castType = $casts[$casting];
-                $sorts[] = "CAST(setting.value AS $castType) $direction";
-            }else{
-                $sorts[] = "page.$field $direction";
-            }
-
+            $sortBySQL = implode(", ", $sorts);
         }
-        $sortBySQL = implode(", ", $sorts);
+
         //endregion
 
         //region Generate SQL Query for retrieving pages
@@ -775,6 +780,19 @@ ORDER BY $sortBySQL
         }
 
         return $result;
+    }
+
+    /**
+     * Gets the settings (including parents) JSON configuration
+     */
+    public function getAllSettingsJSON(){
+        $config = $this->getConfigurationArr();
+        $parentConfig = $this->getParent() ? $this->getParent()->getConfigurationArr() : array();
+
+        $all = array_merge(isset($config['settings']) ? $config['settings'] : array(),
+            isset($parentConfig['children']['settings']) ? $parentConfig['children']['settings'] : array());
+
+        return $all;
     }
 
     /**

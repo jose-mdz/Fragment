@@ -159,7 +159,7 @@ class Setting extends settingBase{
     }
 
     public function __toString(){
-        return $this->value;
+        return $this->value ? $this->value : '';
     }
 
 }

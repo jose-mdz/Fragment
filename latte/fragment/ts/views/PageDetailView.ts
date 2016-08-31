@@ -51,7 +51,7 @@ module latte {
                     record: setting
                 };
 
-                //TODO: CHECK HERE TO VALIDATE REQUIRED
+                //TODO: CHECK HERE TO VALIDATE REQUIRED ATTRIBUTE
                 if(setting.idsetting > 0){
                     input.value = setting.value;
                 }

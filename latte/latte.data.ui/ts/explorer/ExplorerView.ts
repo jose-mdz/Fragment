@@ -14,6 +14,9 @@ module latte {
         //region Fields
 
         private ignorePageChange: boolean = false;
+
+        private detailViewItem: ExplorerItem = null;
+
         //endregion
 
         /**
@@ -259,6 +262,7 @@ module latte {
                 // this.btnRemoveDetail.enabled = item.getCanBeDeleted();
             }
 
+            this.detailViewItem = item;
             // this._listSelectedItem = item;
 
         }
@@ -521,7 +525,7 @@ module latte {
                 this._listView.columnHeaders.add(new ColumnHeader(''));
                 this._listView.focusable = true;
                 this._listView.focused.add(() => {
-                    if(this._listSelectedItem) {
+                    if(this._listSelectedItem && this._listSelectedItem != this.detailViewItem) {
                         this.detailViewOf(this._listSelectedItem);
                     }
                 });
@@ -580,7 +584,7 @@ module latte {
                 this._treeView = new TreeView();
                 this._treeView.focusable = true;
                 this._treeView.focused.add(() => {
-                    if(this._treeSelectedItem) {
+                    if(this._treeSelectedItem && this._treeSelectedItem != this.detailViewItem) {
                         this.detailViewOf(this._treeSelectedItem);
                     }
                 });

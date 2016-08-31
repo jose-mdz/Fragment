@@ -1439,6 +1439,87 @@ var latte;
     }());
     latte.ExplorerItem = ExplorerItem;
 })(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     *
+     **/
+    var DataRecordFormView = (function (_super) {
+        __extends(DataRecordFormView, _super);
+        /**
+         * Creates the form of the specified record
+         **/
+        function DataRecordFormView(record) {
+            if (record === void 0) { record = null; }
+            _super.call(this);
+            //this.form = new DataRecordFormItem();
+            //this.items.clear();
+            //this.items.add(this.form);
+            if (record)
+                this.record = record;
+        }
+        //region Methods
+        /**
+         * Applies the values on form to the record. Optionally specifies which record
+         is supposed to recieve the values
+         **/
+        DataRecordFormView.prototype.applyValues = function (record) {
+            if (record === void 0) { record = null; }
+            this.form.applyValues(record);
+        };
+        DataRecordFormView.prototype.getSaveCalls = function () {
+            var _this = this;
+            //HACK: I don't think the call to applyValues should be here.
+            this.applyValues(this.record);
+            // Return save call
+            return [this.record.saveCall().withHandlers(function () {
+                    _this.unsavedChanges = false;
+                })];
+        };
+        DataRecordFormView.prototype.printSaveStack = function (view) {
+            latte.log(latte.sprintf("Unsaved changes = %s of view:", view.unsavedChanges));
+            latte.log(view);
+            if (view.parentView)
+                this.printSaveStack(view.parentView);
+        };
+        Object.defineProperty(DataRecordFormView.prototype, "form", {
+            /**
+             * Gets the data record form view
+             *
+             * @returns {DataRecordFormItem}
+             */
+            get: function () {
+                if (!this._dataform) {
+                    this._dataform = new latte.DataRecordFormItem();
+                    this._dataform.valueChanged.add(this.onValueChanged, this);
+                }
+                return this._dataform;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordFormView.prototype, "record", {
+            //endregion
+            //region Properties
+            /**
+             * Gets or sets the record of the form
+             **/
+            get: function () {
+                return this.form.record;
+            },
+            /**
+             * Gets or sets the record of the form
+             **/
+            set: function (record) {
+                this.form.record = record;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return DataRecordFormView;
+    }(latte.FormView));
+    latte.DataRecordFormView = DataRecordFormView;
+})(latte || (latte = {}));
 /**
  * Created by josemanuel on 10/25/14.
  */
@@ -1790,6 +1871,253 @@ var latte;
     }(latte.ToolbarView));
     latte.DataRecordChildrenView = DataRecordChildrenView;
 })(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Creates a form for a specific <c>DataRecord</c>
+     **/
+    var DataRecordFormItem = (function (_super) {
+        __extends(DataRecordFormItem, _super);
+        /**
+         * Creates the form of the specified record
+         **/
+        function DataRecordFormItem(record) {
+            if (record === void 0) { record = null; }
+            _super.call(this);
+            /**
+             * Property field
+             */
+            this._category = null;
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._record = null;
+            if (record)
+                this.record = record;
+        }
+        //region Methods
+        /**
+         * Applies the values on form to the record. Optionally specifies which record
+         is supposed to receive the values
+         **/
+        DataRecordFormItem.prototype.applyValues = function (record) {
+            if (record === void 0) { record = null; }
+            var input;
+            var r = record || this.record;
+            while ((input = this.inputs.next())) {
+                if (input.readOnly === true)
+                    continue;
+                r[input.tag] = input.value;
+            }
+        };
+        Object.defineProperty(DataRecordFormItem.prototype, "category", {
+            /**
+             * Gets or sets the category of fields to show
+             *
+             * @returns {string}
+             */
+            get: function () {
+                return this._category;
+            },
+            /**
+             * Gets or sets the category of fields to show
+             *
+             * @param {string} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._category;
+                // Set value
+                this._category = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onCategoryChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Override.
+         */
+        DataRecordFormItem.prototype.getSaveCalls = function () {
+            var _this = this;
+            if (this.record) {
+                this.applyValues(this.record);
+            }
+            return [this.record.saveCall().withHandlers(function () { return _this.unsavedChanges = false; })];
+        };
+        /**
+         * Raises the <c>category</c> event
+         */
+        DataRecordFormItem.prototype.onCategoryChanged = function () {
+            if (this._categoryChanged) {
+                this._categoryChanged.raise();
+            }
+            if (this.record) {
+                this.onRecordChanged();
+            }
+        };
+        /**
+         * Raises the <c>record</c> event
+         */
+        DataRecordFormItem.prototype.onRecordChanged = function () {
+            var record = this.record;
+            // Calls to get foreign key records
+            var calls = [];
+            // Clear inputs
+            this.inputs.clear();
+            if (record) {
+                // Call form creating
+                //TODO: onFormCreating should com from an interface or something
+                if (record['onFormCreating']) {
+                    record['onFormCreating'](this);
+                }
+                // Extract metadata
+                var metadata = record.getMetadata();
+                // Scan metadata
+                if (metadata && metadata.fields) {
+                    for (var i in metadata.fields) {
+                        var field = metadata.fields[i];
+                        if (latte._isString(this.category) && this.category.length == 0 && !field['category']) {
+                        }
+                        else if (latte._isString(this.category) && (field['category'] != this.category)) {
+                            // debugger;
+                            continue;
+                        }
+                        var input = latte.InputItem.fromIInput(field, i);
+                        var value = latte._undef(record[i]) ? null : record[i];
+                        // input.text = field.text ? field.text : i;
+                        // input.type = field.type ? field.type : 'string';
+                        // input.name = i;
+                        // input.readOnly = field['readonly'] === true || field['readOnly'] === true;
+                        // input.options = field['options'];
+                        input.tag = i;
+                        input.visible = field['visible'] !== false;
+                        input.separator = field['separator'] === true;
+                        if (latte._isString(field['visible'])) {
+                            if (field['visible'] === 'if-inserted') {
+                                input.visible = record.inserted();
+                            }
+                            else if (field['visible'] === 'if-not-inserted') {
+                                input.visible = !record.inserted();
+                            }
+                        }
+                        // Check for fieldString declaration when read-only
+                        if (input.readOnly && record[i + 'String']) {
+                            input.value = record[i + 'String'];
+                        }
+                        else {
+                            input.value = value; //value !== null ? value : field['defaultValue'];
+                        }
+                        if (field.type == 'record') {
+                            // Get record value item
+                            var d = input.valueItem;
+                            // Assign loader function
+                            d.loaderFunction = field.loaderFunction;
+                            // If not record as value, load it in call
+                            if (value && field['recordType'] && !(value instanceof latte.DataRecord)) {
+                                (function (d, input) {
+                                    var params = {
+                                        name: field['recordType'],
+                                        id: value
+                                    };
+                                    var dummy = new latte[params.name]();
+                                    if (latte._isString(dummy['_moduleName'])) {
+                                        params['module'] = dummy['_moduleName'];
+                                    }
+                                    calls.push(new latte.RemoteCall('latte.data', 'DataLatteUa', 'recordSelect', params).withHandlers(function (r) {
+                                        //log("Arrived foreign key record:")
+                                        //log(r)
+                                        if (r && r.recordId) {
+                                            d.setRecordSilent(r);
+                                            input.value = input.value;
+                                        }
+                                    }));
+                                })(d, input);
+                            }
+                        }
+                        this.inputs.add(input);
+                    }
+                }
+                //TODO: onFormCreated should come from an interface or something
+                if (record['onFormCreated']) {
+                    record['onFormCreated'](this);
+                }
+                /**
+                 * Send calls if any
+                 */
+                if (calls.length > 0) {
+                    latte.Message.sendCalls(calls);
+                }
+            }
+            if (this._recordChanged) {
+                this._recordChanged.raise();
+            }
+        };
+        Object.defineProperty(DataRecordFormItem.prototype, "categoryChanged", {
+            /**
+             * Gets an event raised when the value of the category property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._categoryChanged) {
+                    this._categoryChanged = new latte.LatteEvent(this);
+                }
+                return this._categoryChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordFormItem.prototype, "recordChanged", {
+            /**
+             * Gets an event raised when the value of the record property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._recordChanged) {
+                    this._recordChanged = new latte.LatteEvent(this);
+                }
+                return this._recordChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordFormItem.prototype, "record", {
+            /**
+             * Gets or sets the record of the form
+             *
+             * @returns {DataRecord}
+             */
+            get: function () {
+                return this._record;
+            },
+            /**
+             * Gets or sets the record of the form
+             *
+             * @param {DataRecord} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._record;
+                // Set value
+                this._record = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onRecordChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return DataRecordFormItem;
+    }(latte.FormItem));
+    latte.DataRecordFormItem = DataRecordFormItem;
+})(latte || (latte = {}));
 /**
  * Created by josemanuel on 10/25/14.
  */
@@ -2128,436 +2456,6 @@ var latte;
         return DataRecordChildrenWidget;
     }(latte.WidgetItem));
     latte.DataRecordChildrenWidget = DataRecordChildrenWidget;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Shows a dialog to edit the specified <c>DataRecord</c>
-     **/
-    var DataRecordDialogView = (function (_super) {
-        __extends(DataRecordDialogView, _super);
-        /**
-         *
-         **/
-        function DataRecordDialogView(record) {
-            var _this = this;
-            if (record === void 0) { record = null; }
-            _super.call(this);
-            var dialog = this;
-            this.saving = new latte.LatteEvent(this);
-            this.saved = new latte.LatteEvent(this);
-            this.formView = new latte.DataRecordFormView(record);
-            this.saveButton = new latte.ButtonItem();
-            this.saveButton.text = strings.save;
-            this.saveButton.click.add(function () { dialog.formView.saveChanges(); _this.onSaved(); });
-            this.cancelButton = new latte.ButtonItem();
-            this.cancelButton.text = strings.cancel;
-            this.view = this.formView;
-            this.items.add(this.saveButton);
-            this.items.add(this.cancelButton);
-        }
-        //region Static
-        /**
-         * Shows a dialog to edit the specified record
-         * @param r
-         * @param onSaved
-         * @param title
-         */
-        DataRecordDialogView.editRecord = function (r, onSaved, title) {
-            if (onSaved === void 0) { onSaved = null; }
-            if (title === void 0) { title = ''; }
-            var d = new DataRecordDialogView(r);
-            d.title = title;
-            d.saved.add(onSaved);
-            d.show();
-            return d;
-        };
-        /**
-         * Raises the <c>saved</c> event
-         **/
-        DataRecordDialogView.prototype.onSaved = function () {
-            this.saved.raise();
-        };
-        /**
-         * Raises the <c>saving</c> event
-         **/
-        DataRecordDialogView.prototype.onSaving = function () {
-            var ptr = this;
-            this.formView.applyValues();
-            this.record.save(function () {
-                ptr.onSaved();
-            });
-            this.saving.raise();
-        };
-        Object.defineProperty(DataRecordDialogView.prototype, "readOnly", {
-            /**
-             * Gets or sets a value indicating if the form is for read-only
-             **/
-            get: function () {
-                return this._readOnly;
-            },
-            /**
-             * Gets or sets a value indicating if the form is for read-only
-             **/
-            set: function (value) {
-                this._readOnly = value;
-                for (var i = 0; i < this.formView.inputs.count; i++)
-                    this.formView.inputs.item(i).readOnly = value;
-                if (value) {
-                    this.saveButton.visible = false;
-                    this.cancelButton.text = strings.close;
-                }
-                else {
-                    this.saveButton.visible = true;
-                    this.cancelButton.text = strings.cancel;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordDialogView.prototype, "record", {
-            /**
-             * Gets the record of the view
-             *
-             * @returns {DataRecord}
-             */
-            get: function () {
-                return this.formView.record;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return DataRecordDialogView;
-    }(latte.DialogView));
-    latte.DataRecordDialogView = DataRecordDialogView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Creates a form for a specific <c>DataRecord</c>
-     **/
-    var DataRecordFormItem = (function (_super) {
-        __extends(DataRecordFormItem, _super);
-        /**
-         * Creates the form of the specified record
-         **/
-        function DataRecordFormItem(record) {
-            if (record === void 0) { record = null; }
-            _super.call(this);
-            /**
-             * Property field
-             */
-            this._category = null;
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._record = null;
-            if (record)
-                this.record = record;
-        }
-        //region Methods
-        /**
-         * Applies the values on form to the record. Optionally specifies which record
-         is supposed to receive the values
-         **/
-        DataRecordFormItem.prototype.applyValues = function (record) {
-            if (record === void 0) { record = null; }
-            var input;
-            var r = record || this.record;
-            while ((input = this.inputs.next())) {
-                if (input.readOnly === true)
-                    continue;
-                r[input.tag] = input.value;
-            }
-        };
-        Object.defineProperty(DataRecordFormItem.prototype, "category", {
-            /**
-             * Gets or sets the category of fields to show
-             *
-             * @returns {string}
-             */
-            get: function () {
-                return this._category;
-            },
-            /**
-             * Gets or sets the category of fields to show
-             *
-             * @param {string} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._category;
-                // Set value
-                this._category = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onCategoryChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Override.
-         */
-        DataRecordFormItem.prototype.getSaveCalls = function () {
-            var _this = this;
-            if (this.record) {
-                this.applyValues(this.record);
-            }
-            return [this.record.saveCall().withHandlers(function () { return _this.unsavedChanges = false; })];
-        };
-        /**
-         * Raises the <c>category</c> event
-         */
-        DataRecordFormItem.prototype.onCategoryChanged = function () {
-            if (this._categoryChanged) {
-                this._categoryChanged.raise();
-            }
-            if (this.record) {
-                this.onRecordChanged();
-            }
-        };
-        /**
-         * Raises the <c>record</c> event
-         */
-        DataRecordFormItem.prototype.onRecordChanged = function () {
-            var record = this.record;
-            // Calls to get foreign key records
-            var calls = [];
-            // Clear inputs
-            this.inputs.clear();
-            if (record) {
-                // Call form creating
-                //TODO: onFormCreating should com from an interface or something
-                if (record['onFormCreating']) {
-                    record['onFormCreating'](this);
-                }
-                // Extract metadata
-                var metadata = record.getMetadata();
-                // Scan metadata
-                if (metadata && metadata.fields) {
-                    for (var i in metadata.fields) {
-                        var field = metadata.fields[i];
-                        if (latte._isString(this.category) && this.category.length == 0 && !field['category']) {
-                        }
-                        else if (latte._isString(this.category) && (field['category'] != this.category)) {
-                            // debugger;
-                            continue;
-                        }
-                        var input = latte.InputItem.fromIInput(field, i);
-                        var value = latte._undef(record[i]) ? null : record[i];
-                        // input.text = field.text ? field.text : i;
-                        // input.type = field.type ? field.type : 'string';
-                        // input.name = i;
-                        // input.readOnly = field['readonly'] === true || field['readOnly'] === true;
-                        // input.options = field['options'];
-                        input.tag = i;
-                        input.visible = field['visible'] !== false;
-                        input.separator = field['separator'] === true;
-                        if (latte._isString(field['visible'])) {
-                            if (field['visible'] === 'if-inserted') {
-                                input.visible = record.inserted();
-                            }
-                            else if (field['visible'] === 'if-not-inserted') {
-                                input.visible = !record.inserted();
-                            }
-                        }
-                        // Check for fieldString declaration when read-only
-                        if (input.readOnly && record[i + 'String']) {
-                            input.value = record[i + 'String'];
-                        }
-                        else {
-                            input.value = value; //value !== null ? value : field['defaultValue'];
-                        }
-                        if (field.type == 'record') {
-                            // Get record value item
-                            var d = input.valueItem;
-                            // Assign loader function
-                            d.loaderFunction = field.loaderFunction;
-                            // If not record as value, load it in call
-                            if (value && field['recordType'] && !(value instanceof latte.DataRecord)) {
-                                (function (d, input) {
-                                    var params = {
-                                        name: field['recordType'],
-                                        id: value
-                                    };
-                                    var dummy = new latte[params.name]();
-                                    if (latte._isString(dummy['_moduleName'])) {
-                                        params['module'] = dummy['_moduleName'];
-                                    }
-                                    calls.push(new latte.RemoteCall('latte.data', 'DataLatteUa', 'recordSelect', params).withHandlers(function (r) {
-                                        //log("Arrived foreign key record:")
-                                        //log(r)
-                                        if (r && r.recordId) {
-                                            d.setRecordSilent(r);
-                                            input.value = input.value;
-                                        }
-                                    }));
-                                })(d, input);
-                            }
-                        }
-                        this.inputs.add(input);
-                    }
-                }
-                //TODO: onFormCreated should come from an interface or something
-                if (record['onFormCreated']) {
-                    record['onFormCreated'](this);
-                }
-                /**
-                 * Send calls if any
-                 */
-                if (calls.length > 0) {
-                    latte.Message.sendCalls(calls);
-                }
-            }
-            if (this._recordChanged) {
-                this._recordChanged.raise();
-            }
-        };
-        Object.defineProperty(DataRecordFormItem.prototype, "categoryChanged", {
-            /**
-             * Gets an event raised when the value of the category property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._categoryChanged) {
-                    this._categoryChanged = new latte.LatteEvent(this);
-                }
-                return this._categoryChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordFormItem.prototype, "recordChanged", {
-            /**
-             * Gets an event raised when the value of the record property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._recordChanged) {
-                    this._recordChanged = new latte.LatteEvent(this);
-                }
-                return this._recordChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordFormItem.prototype, "record", {
-            /**
-             * Gets or sets the record of the form
-             *
-             * @returns {DataRecord}
-             */
-            get: function () {
-                return this._record;
-            },
-            /**
-             * Gets or sets the record of the form
-             *
-             * @param {DataRecord} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._record;
-                // Set value
-                this._record = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onRecordChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return DataRecordFormItem;
-    }(latte.FormItem));
-    latte.DataRecordFormItem = DataRecordFormItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     *
-     **/
-    var DataRecordFormView = (function (_super) {
-        __extends(DataRecordFormView, _super);
-        /**
-         * Creates the form of the specified record
-         **/
-        function DataRecordFormView(record) {
-            if (record === void 0) { record = null; }
-            _super.call(this);
-            //this.form = new DataRecordFormItem();
-            //this.items.clear();
-            //this.items.add(this.form);
-            if (record)
-                this.record = record;
-        }
-        //region Methods
-        /**
-         * Applies the values on form to the record. Optionally specifies which record
-         is supposed to recieve the values
-         **/
-        DataRecordFormView.prototype.applyValues = function (record) {
-            if (record === void 0) { record = null; }
-            this.form.applyValues(record);
-        };
-        DataRecordFormView.prototype.getSaveCalls = function () {
-            var _this = this;
-            //HACK: I don't think the call to applyValues should be here.
-            this.applyValues(this.record);
-            // Return save call
-            return [this.record.saveCall().withHandlers(function () {
-                    _this.unsavedChanges = false;
-                })];
-        };
-        DataRecordFormView.prototype.printSaveStack = function (view) {
-            latte.log(latte.sprintf("Unsaved changes = %s of view:", view.unsavedChanges));
-            latte.log(view);
-            if (view.parentView)
-                this.printSaveStack(view.parentView);
-        };
-        Object.defineProperty(DataRecordFormView.prototype, "form", {
-            /**
-             * Gets the data record form view
-             *
-             * @returns {DataRecordFormItem}
-             */
-            get: function () {
-                if (!this._dataform) {
-                    this._dataform = new latte.DataRecordFormItem();
-                    this._dataform.valueChanged.add(this.onValueChanged, this);
-                }
-                return this._dataform;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(DataRecordFormView.prototype, "record", {
-            //endregion
-            //region Properties
-            /**
-             * Gets or sets the record of the form
-             **/
-            get: function () {
-                return this.form.record;
-            },
-            /**
-             * Gets or sets the record of the form
-             **/
-            set: function (record) {
-                this.form.record = record;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return DataRecordFormView;
-    }(latte.FormView));
-    latte.DataRecordFormView = DataRecordFormView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -3137,6 +3035,24 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Represents a row of data on the <c>GridView</c>
+     **/
+    var GridViewRow = (function (_super) {
+        __extends(GridViewRow, _super);
+        /**
+         * Creates the row
+         **/
+        function GridViewRow(data) {
+            if (data === void 0) { data = []; }
+            _super.call(this, data);
+        }
+        return GridViewRow;
+    }(latte.DataSetRow));
+    latte.GridViewRow = GridViewRow;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * Represents a column of data in the GridView
      **/
     var GridViewColumn = (function (_super) {
@@ -3192,24 +3108,6 @@ var latte;
         return GridViewColumn;
     }(latte.DataSetColumn));
     latte.GridViewColumn = GridViewColumn;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Represents a row of data on the <c>GridView</c>
-     **/
-    var GridViewRow = (function (_super) {
-        __extends(GridViewRow, _super);
-        /**
-         * Creates the row
-         **/
-        function GridViewRow(data) {
-            if (data === void 0) { data = []; }
-            _super.call(this, data);
-        }
-        return GridViewRow;
-    }(latte.DataSetRow));
-    latte.GridViewRow = GridViewRow;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/11/14.
@@ -3335,61 +3233,6 @@ var latte;
     latte.ExplorerItemDataRecord = ExplorerItemDataRecord;
 })(latte || (latte = {}));
 /**
- * Created by josemanuel on 8/8/14.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var ExplorerTreeItem = (function (_super) {
-        __extends(ExplorerTreeItem, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function ExplorerTreeItem() {
-            _super.call(this);
-            //region Private Methods
-            //endregion
-            //region Methods
-            //endregion
-            //region Events
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._record = null;
-        }
-        Object.defineProperty(ExplorerTreeItem.prototype, "record", {
-            /**
-             * Gets or sets the record of the tree item
-             *
-             * @returns {DataRecord}
-             */
-            get: function () {
-                return this._record;
-            },
-            /**
-             * Gets or sets the record of the tree item
-             *
-             * @param {DataRecord} value
-             */
-            set: function (value) {
-                this._record = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ExplorerTreeItem;
-    }(latte.TreeItem));
-    latte.ExplorerTreeItem = ExplorerTreeItem;
-})(latte || (latte = {}));
-/**
  * Created by josemanuel on 8/6/14.
  */
 var latte;
@@ -3410,6 +3253,7 @@ var latte;
             //endregion
             //region Fields
             this.ignorePageChange = false;
+            this.detailViewItem = null;
             /**
              * Property field
              */
@@ -3583,6 +3427,7 @@ var latte;
                 // TODO: Temproarily removed delete button
                 this.btnRemoveDetail.visible = false;
             }
+            this.detailViewItem = item;
             // this._listSelectedItem = item;
         };
         //endregion
@@ -3800,7 +3645,7 @@ var latte;
                     this._listView.columnHeaders.add(new latte.ColumnHeader(''));
                     this._listView.focusable = true;
                     this._listView.focused.add(function () {
-                        if (_this._listSelectedItem) {
+                        if (_this._listSelectedItem && _this._listSelectedItem != _this.detailViewItem) {
                             _this.detailViewOf(_this._listSelectedItem);
                         }
                     });
@@ -3855,7 +3700,7 @@ var latte;
                     this._treeView = new latte.TreeView();
                     this._treeView.focusable = true;
                     this._treeView.focused.add(function () {
-                        if (_this._treeSelectedItem) {
+                        if (_this._treeSelectedItem && _this._treeSelectedItem != _this.detailViewItem) {
                             _this.detailViewOf(_this._treeSelectedItem);
                         }
                     });
@@ -3869,6 +3714,163 @@ var latte;
     }(latte.SplitView));
     latte.ExplorerView = ExplorerView;
 })(latte || (latte = {}));
+/**
+ * Created by josemanuel on 8/8/14.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var ExplorerTreeItem = (function (_super) {
+        __extends(ExplorerTreeItem, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function ExplorerTreeItem() {
+            _super.call(this);
+            //region Private Methods
+            //endregion
+            //region Methods
+            //endregion
+            //region Events
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._record = null;
+        }
+        Object.defineProperty(ExplorerTreeItem.prototype, "record", {
+            /**
+             * Gets or sets the record of the tree item
+             *
+             * @returns {DataRecord}
+             */
+            get: function () {
+                return this._record;
+            },
+            /**
+             * Gets or sets the record of the tree item
+             *
+             * @param {DataRecord} value
+             */
+            set: function (value) {
+                this._record = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ExplorerTreeItem;
+    }(latte.TreeItem));
+    latte.ExplorerTreeItem = ExplorerTreeItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Shows a dialog to edit the specified <c>DataRecord</c>
+     **/
+    var DataRecordDialogView = (function (_super) {
+        __extends(DataRecordDialogView, _super);
+        /**
+         *
+         **/
+        function DataRecordDialogView(record) {
+            var _this = this;
+            if (record === void 0) { record = null; }
+            _super.call(this);
+            var dialog = this;
+            this.saving = new latte.LatteEvent(this);
+            this.saved = new latte.LatteEvent(this);
+            this.formView = new latte.DataRecordFormView(record);
+            this.saveButton = new latte.ButtonItem();
+            this.saveButton.text = strings.save;
+            this.saveButton.click.add(function () { dialog.formView.saveChanges(); _this.onSaved(); });
+            this.cancelButton = new latte.ButtonItem();
+            this.cancelButton.text = strings.cancel;
+            this.view = this.formView;
+            this.items.add(this.saveButton);
+            this.items.add(this.cancelButton);
+        }
+        //region Static
+        /**
+         * Shows a dialog to edit the specified record
+         * @param r
+         * @param onSaved
+         * @param title
+         */
+        DataRecordDialogView.editRecord = function (r, onSaved, title) {
+            if (onSaved === void 0) { onSaved = null; }
+            if (title === void 0) { title = ''; }
+            var d = new DataRecordDialogView(r);
+            d.title = title;
+            d.saved.add(onSaved);
+            d.show();
+            return d;
+        };
+        /**
+         * Raises the <c>saved</c> event
+         **/
+        DataRecordDialogView.prototype.onSaved = function () {
+            this.saved.raise();
+        };
+        /**
+         * Raises the <c>saving</c> event
+         **/
+        DataRecordDialogView.prototype.onSaving = function () {
+            var ptr = this;
+            this.formView.applyValues();
+            this.record.save(function () {
+                ptr.onSaved();
+            });
+            this.saving.raise();
+        };
+        Object.defineProperty(DataRecordDialogView.prototype, "readOnly", {
+            /**
+             * Gets or sets a value indicating if the form is for read-only
+             **/
+            get: function () {
+                return this._readOnly;
+            },
+            /**
+             * Gets or sets a value indicating if the form is for read-only
+             **/
+            set: function (value) {
+                this._readOnly = value;
+                for (var i = 0; i < this.formView.inputs.count; i++)
+                    this.formView.inputs.item(i).readOnly = value;
+                if (value) {
+                    this.saveButton.visible = false;
+                    this.cancelButton.text = strings.close;
+                }
+                else {
+                    this.saveButton.visible = true;
+                    this.cancelButton.text = strings.cancel;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(DataRecordDialogView.prototype, "record", {
+            /**
+             * Gets the record of the view
+             *
+             * @returns {DataRecord}
+             */
+            get: function () {
+                return this.formView.record;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return DataRecordDialogView;
+    }(latte.DialogView));
+    latte.DataRecordDialogView = DataRecordDialogView;
+})(latte || (latte = {}));
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/support/ts-include/datalatte.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/support/ts-include/jquery.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/support/ts-include/latte.d.ts" />
@@ -3881,16 +3883,16 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/IDataRecordCustomView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/GridView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/explorer/ExplorerItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenWidget.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordDialogView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordFormItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordChildrenWidget.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordGridView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordWidget.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/GridViewColumn.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/GridViewRow.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/GridViewColumn.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/explorer/ExplorerItemDataRecord.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/explorer/ExplorerView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/explorer/ExplorerTreeItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/explorer/ExplorerView.ts" /> 
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.data.ui/ts/DataRecordDialogView.ts" /> 

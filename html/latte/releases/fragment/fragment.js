@@ -2037,137 +2037,6 @@ var latte;
         return fileBase;
     }(latte.DataRecord));
     latte.fileBase = fileBase;
-    var groupBase = (function (_super) {
-        __extends(groupBase, _super);
-        function groupBase() {
-            _super.apply(this, arguments);
-            /* Name of Php record */
-            this._recordType = 'Group';
-            /* Name of Module where record lives */
-            this._moduleName = 'fragment';
-            /**
-             * Database field: int(11)
-             */
-            this._idgroup = null;
-            /**
-             * Database field: varchar(128)
-             */
-            this._name = null;
-        }
-        Object.defineProperty(groupBase.prototype, "idgroup", {
-            /**
-             * Gets or sets the value of the idgroup field of type int(11)
-             */
-            get: function () {
-                return this._idgroup;
-            },
-            /**
-             * Gets or sets the value of the idgroup field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idgroup;
-                this._idgroup = value;
-                if (changed) {
-                    this.onIdgroupChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(groupBase.prototype, "idgroupChanged", {
-            /**
-             * Gets an event raised when the value of the idgroup property changes
-             */
-            get: function () {
-                if (!this._idgroupChanged) {
-                    this._idgroupChanged = new latte.LatteEvent(this);
-                }
-                return this._idgroupChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        groupBase.prototype.onIdgroupChanged = function () {
-            if (this._idgroupChanged) {
-                this._idgroupChanged.raise();
-            }
-            this.onFieldValueChanged('idgroup', this.idgroup);
-        };
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        groupBase.prototype.onGetRecordIdName = function () { return 'idgroup'; };
-        Object.defineProperty(groupBase.prototype, "name", {
-            /**
-             * Gets or sets the value of the name field of type varchar(128)
-             */
-            get: function () {
-                return this._name;
-            },
-            /**
-             * Gets or sets the value of the name field of type varchar(128)
-             */
-            set: function (value) {
-                var changed = value !== this._name;
-                this._name = value;
-                if (changed) {
-                    this.onNameChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(groupBase.prototype, "nameChanged", {
-            /**
-             * Gets an event raised when the value of the name property changes
-             */
-            get: function () {
-                if (!this._nameChanged) {
-                    this._nameChanged = new latte.LatteEvent(this);
-                }
-                return this._nameChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        groupBase.prototype.onNameChanged = function () {
-            if (this._nameChanged) {
-                this._nameChanged.raise();
-            }
-            this.onFieldValueChanged('name', this.name);
-        };
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        groupBase.prototype.onGetFields = function () { return { 'idgroup': this.idgroup, 'name': this.name }; };
-        /*
-         * Remote Method.
-
-
-         */
-        groupBase.catalog = function () {
-            return new latte.RemoteCall('fragment', 'Group', 'catalog', {});
-        };
-        /*
-         * Remote Method.
-
-         */
-        groupBase.search = function (text) {
-            return new latte.RemoteCall('fragment', 'Group', 'search', { text: text });
-        };
-        /**
-        * Declares the native types of the record.
-        **/
-        groupBase.nativeTypes = { "idgroup": "int(11)", "name": "varchar(128)" };
-        return groupBase;
-    }(latte.DataRecord));
-    latte.groupBase = groupBase;
     var fragmentBase = (function (_super) {
         __extends(fragmentBase, _super);
         function fragmentBase() {
@@ -2545,6 +2414,137 @@ var latte;
         return groupUserBase;
     }(latte.DataRecord));
     latte.groupUserBase = groupUserBase;
+    var groupBase = (function (_super) {
+        __extends(groupBase, _super);
+        function groupBase() {
+            _super.apply(this, arguments);
+            /* Name of Php record */
+            this._recordType = 'Group';
+            /* Name of Module where record lives */
+            this._moduleName = 'fragment';
+            /**
+             * Database field: int(11)
+             */
+            this._idgroup = null;
+            /**
+             * Database field: varchar(128)
+             */
+            this._name = null;
+        }
+        Object.defineProperty(groupBase.prototype, "idgroup", {
+            /**
+             * Gets or sets the value of the idgroup field of type int(11)
+             */
+            get: function () {
+                return this._idgroup;
+            },
+            /**
+             * Gets or sets the value of the idgroup field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idgroup;
+                this._idgroup = value;
+                if (changed) {
+                    this.onIdgroupChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(groupBase.prototype, "idgroupChanged", {
+            /**
+             * Gets an event raised when the value of the idgroup property changes
+             */
+            get: function () {
+                if (!this._idgroupChanged) {
+                    this._idgroupChanged = new latte.LatteEvent(this);
+                }
+                return this._idgroupChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idgroupChanged</c> event
+         */
+        groupBase.prototype.onIdgroupChanged = function () {
+            if (this._idgroupChanged) {
+                this._idgroupChanged.raise();
+            }
+            this.onFieldValueChanged('idgroup', this.idgroup);
+        };
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        groupBase.prototype.onGetRecordIdName = function () { return 'idgroup'; };
+        Object.defineProperty(groupBase.prototype, "name", {
+            /**
+             * Gets or sets the value of the name field of type varchar(128)
+             */
+            get: function () {
+                return this._name;
+            },
+            /**
+             * Gets or sets the value of the name field of type varchar(128)
+             */
+            set: function (value) {
+                var changed = value !== this._name;
+                this._name = value;
+                if (changed) {
+                    this.onNameChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(groupBase.prototype, "nameChanged", {
+            /**
+             * Gets an event raised when the value of the name property changes
+             */
+            get: function () {
+                if (!this._nameChanged) {
+                    this._nameChanged = new latte.LatteEvent(this);
+                }
+                return this._nameChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        groupBase.prototype.onNameChanged = function () {
+            if (this._nameChanged) {
+                this._nameChanged.raise();
+            }
+            this.onFieldValueChanged('name', this.name);
+        };
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        groupBase.prototype.onGetFields = function () { return { 'idgroup': this.idgroup, 'name': this.name }; };
+        /*
+         * Remote Method.
+
+
+         */
+        groupBase.catalog = function () {
+            return new latte.RemoteCall('fragment', 'Group', 'catalog', {});
+        };
+        /*
+         * Remote Method.
+
+         */
+        groupBase.search = function (text) {
+            return new latte.RemoteCall('fragment', 'Group', 'search', { text: text });
+        };
+        /**
+        * Declares the native types of the record.
+        **/
+        groupBase.nativeTypes = { "idgroup": "int(11)", "name": "varchar(128)" };
+        return groupBase;
+    }(latte.DataRecord));
+    latte.groupBase = groupBase;
     var userBase = (function (_super) {
         __extends(userBase, _super);
         function userBase() {
@@ -3645,56 +3645,6 @@ var latte;
     latte.Uploader = Uploader;
 })(latte || (latte = {}));
 /**
- * Created by josemanuel on 7/14/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var Main = (function () {
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function Main() {
-            console.log('%cFRAGMENT', 'font-size: 30px; color: #ff4d4d; text-shadow: 3px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;');
-            console.log('http://github.com/menendezpoo/Fragment');
-            latte.FragmentAdapterManager.register('text', 'PlainTextFragmentAdapter');
-            latte.FragmentAdapterManager.register('html', 'HtmlFragmentAdapter');
-            latte.FragmentAdapterManager.register('gallery', 'ImageGalleryFragmentAdapter');
-            // View.mainView = new CmsExplorer();
-            if (window['loggedFragmentUser']) {
-                latte.User.me = latte.DataRecord.fromServerObject(window['loggedFragmentUser']);
-                Main.goMainView();
-            }
-            else {
-                Main.goSignInView();
-            }
-        }
-        //region Static
-        Main.goMainView = function () {
-            var body = new latte.Element(document.body);
-            body.clear();
-            latte.View.mainView = new latte.CmsMainView();
-        };
-        Main.goSignInView = function () {
-            var v = new latte.SignInView();
-            document.body.appendChild(v.element);
-        };
-        Main.logOut = function () {
-            latte.View.mainView = null;
-            latte.Session.logOut().send(function () {
-                document.location.reload();
-            });
-        };
-        return Main;
-    }());
-    latte.Main = Main;
-})(latte || (latte = {}));
-/**
  * Created by josemanuel on 8/5/16.
  */
 var latte;
@@ -3820,6 +3770,56 @@ var latte;
     latte.GroupExplorer = GroupExplorer;
 })(latte || (latte = {}));
 /**
+ * Created by josemanuel on 7/14/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var Main = (function () {
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function Main() {
+            console.log('%cFRAGMENT', 'font-size: 30px; color: #ff4d4d; text-shadow: 3px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;');
+            console.log('http://github.com/menendezpoo/Fragment');
+            latte.FragmentAdapterManager.register('text', 'PlainTextFragmentAdapter');
+            latte.FragmentAdapterManager.register('html', 'HtmlFragmentAdapter');
+            latte.FragmentAdapterManager.register('gallery', 'ImageGalleryFragmentAdapter');
+            // View.mainView = new CmsExplorer();
+            if (window['loggedFragmentUser']) {
+                latte.User.me = latte.DataRecord.fromServerObject(window['loggedFragmentUser']);
+                Main.goMainView();
+            }
+            else {
+                Main.goSignInView();
+            }
+        }
+        //region Static
+        Main.goMainView = function () {
+            var body = new latte.Element(document.body);
+            body.clear();
+            latte.View.mainView = new latte.CmsMainView();
+        };
+        Main.goSignInView = function () {
+            var v = new latte.SignInView();
+            document.body.appendChild(v.element);
+        };
+        Main.logOut = function () {
+            latte.View.mainView = null;
+            latte.Session.logOut().send(function () {
+                document.location.reload();
+            });
+        };
+        return Main;
+    }());
+    latte.Main = Main;
+})(latte || (latte = {}));
+/**
  * Created by josemanuel on 8/5/16.
  */
 var latte;
@@ -3885,75 +3885,6 @@ var latte;
         return GroupsExplorer;
     }(latte.ExplorerItem));
     latte.GroupsExplorer = GroupsExplorer;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 7/14/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var PagesExplorer = (function (_super) {
-        __extends(PagesExplorer, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function PagesExplorer() {
-            _super.call(this);
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Gets the loader of children items
-         * @Override
-         */
-        PagesExplorer.prototype.getChildrenLoader = function () {
-            var _this = this;
-            return latte.Page.rootPages().withHandlers(function (records) {
-                for (var i in records) {
-                    _this.children.add(new latte.PageExplorer(records[i]));
-                }
-            });
-        };
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        PagesExplorer.prototype.getName = function () {
-            return strings.pages;
-        };
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        PagesExplorer.prototype.getIcon = function () {
-            return latte.LinearIcon.home;
-            // return IconItem.folderIcon()
-        };
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        PagesExplorer.prototype.getItems = function () {
-            var _this = this;
-            var items = [];
-            if (latte.User.me.isRoot) {
-                items.push(new latte.ButtonItem(strings.newRootPage, latte.LinearIcon.file_add, function () {
-                    var p = new latte.Page();
-                    latte.DataRecordDialogView.editRecord(p, function () { return _this.onChildrenChanged(); }, strings.newPage);
-                }));
-            }
-            return items;
-        };
-        return PagesExplorer;
-    }(latte.ExplorerItem));
-    latte.PagesExplorer = PagesExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/14/16.
@@ -4178,6 +4109,75 @@ var latte;
         return UserExplorer;
     }(latte.ExplorerItemDataRecord));
     latte.UserExplorer = UserExplorer;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var PagesExplorer = (function (_super) {
+        __extends(PagesExplorer, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function PagesExplorer() {
+            _super.call(this);
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        PagesExplorer.prototype.getChildrenLoader = function () {
+            var _this = this;
+            return latte.Page.rootPages().withHandlers(function (records) {
+                for (var i in records) {
+                    _this.children.add(new latte.PageExplorer(records[i]));
+                }
+            });
+        };
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        PagesExplorer.prototype.getName = function () {
+            return strings.pages;
+        };
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        PagesExplorer.prototype.getIcon = function () {
+            return latte.LinearIcon.home;
+            // return IconItem.folderIcon()
+        };
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        PagesExplorer.prototype.getItems = function () {
+            var _this = this;
+            var items = [];
+            if (latte.User.me.isRoot) {
+                items.push(new latte.ButtonItem(strings.newRootPage, latte.LinearIcon.file_add, function () {
+                    var p = new latte.Page();
+                    latte.DataRecordDialogView.editRecord(p, function () { return _this.onChildrenChanged(); }, strings.newPage);
+                }));
+            }
+            return items;
+        };
+        return PagesExplorer;
+    }(latte.ExplorerItem));
+    latte.PagesExplorer = PagesExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/5/16.
@@ -4623,397 +4623,6 @@ var latte;
     latte.FragmentAdapterManager = FragmentAdapterManager;
 })(latte || (latte = {}));
 /**
- * Created by josemanuel on 4/29/15.
- */
-var latte;
-(function (latte) {
-    (function (ImageFit) {
-        ImageFit[ImageFit["AspectFit"] = 0] = "AspectFit";
-        ImageFit[ImageFit["AspectFill"] = 1] = "AspectFill";
-        ImageFit[ImageFit["AspectFillNear"] = 2] = "AspectFillNear";
-        ImageFit[ImageFit["AspectFillFar"] = 3] = "AspectFillFar";
-    })(latte.ImageFit || (latte.ImageFit = {}));
-    var ImageFit = latte.ImageFit;
-    ;
-    /**
-     *
-     */
-    var ImageUtil = (function () {
-        function ImageUtil() {
-        }
-        //region Static
-        /**
-         * Parses ImageFit from specified string
-         * @param fit
-         * @returns {any}
-         */
-        ImageUtil.imageFitFromString = function (fit) {
-            if (fit == 'aspect-fit') {
-                return ImageFit.AspectFit;
-            }
-            else if (fit == 'aspect-fill') {
-                return ImageFit.AspectFill;
-            }
-            else if (fit == 'aspect-fill-near') {
-                return ImageFit.AspectFillNear;
-            }
-            else if (fit == 'aspect-fill-far') {
-                return ImageFit.AspectFillFar;
-            }
-            return null;
-        };
-        /**
-         * Creates an icon of the specified file, assuming it's an image file.
-         *
-         * @param file
-         * @param size
-         * @param callback
-         */
-        ImageUtil.createThumbOfFile = function (file, options, callback) {
-            if (callback === void 0) { callback = null; }
-            ImageUtil.readFileAsDataUrl(file, function (dataUrl) {
-                // Create icon
-                ImageUtil.createThumbOfUrl(dataUrl, options, function (dataUrl) {
-                    // Return result
-                    callback(dataUrl);
-                });
-            });
-        };
-        /**
-         * Creates an icon of the specified image.
-         * This algorithm is stored under the name _Steps because it makes n steps
-         * to scale down the image. It proved to be ineficient and results unwanted.
-         * @param image
-         * @param size
-         * @returns {string}
-         */
-        ImageUtil.createThumbOfImage_Steps = function (image, size) {
-            var w = image.width;
-            var h = image.height;
-            var scale = Math.min(size.width / w, size.height / h);
-            var targW = w * scale;
-            var steps = Math.ceil(Math.log(w / targW) / Math.log(2)) + 1;
-            var stepWidth = Math.round(Math.abs(targW - w) / steps);
-            //console.log(w + " X " + h + "-> scale: " + scale + " steps: " + steps + " of " + stepWidth)
-            //console.log("Target: " + targW + " x " + targH);
-            var oc = document.createElement('canvas'), octx = oc.getContext('2d');
-            var curW = w;
-            var curH = h;
-            var curImg = image;
-            for (var i = 0; i < steps; i++) {
-                curW -= stepWidth;
-                curH = Math.round(curW * h / w);
-                //console.log("Step: " + curW + " x " + curH);
-                oc.width = curW;
-                oc.height = curH;
-                octx.drawImage(curImg, 0, 0, curW, curH);
-                curImg = document.createElement('img');
-                curImg.src = oc.toDataURL();
-            }
-            //log(sprintf("Scaled image of (%s x %s) asked to (%s x %s) scaled to (%s x %s) scale of %s %s steps of %s",
-            //    w, h, size.width, size.height, curImg.width, curImg.height, scale, steps, stepWidth));
-            // Capture DataURL
-            var result = curImg.src;
-            // Free memory
-            curImg = null;
-            oc = null;
-            octx = null;
-            return result;
-        };
-        ImageUtil.resizeImage = function (image, options) {
-            var w = image.width;
-            var h = image.height;
-            var original = new latte.Size(w, h);
-            var size = options.size;
-            var type = options.type || "image/png";
-            var quality = options.quality || 0.9;
-            var bg = options.background || null;
-            var canvas = document.createElement('canvas');
-            var cx = canvas.getContext('2d');
-            var target;
-            var fit = options.fit || ImageFit.AspectFit;
-            if (fit == ImageFit.AspectFit) {
-                target = original.scaleToFit(size);
-            }
-            else {
-                target = original.scaleToFill(size);
-            }
-            canvas.width = image.width;
-            canvas.height = image.height;
-            if (bg instanceof latte.Color) {
-                cx.fillStyle = bg.toHexString();
-                cx.fillRect(0, 0, w, h);
-            }
-            cx.drawImage(image, 0, 0, w, h);
-            ImageUtil.resample_hermite(canvas, w, h, target.width, target.height);
-            // Trim extra edges
-            if (fit == ImageFit.AspectFill || fit == ImageFit.AspectFillNear || fit == ImageFit.AspectFillFar) {
-                var offsetx = 0;
-                var offsety = 0;
-                if (target.height > size.height) {
-                    if (fit == ImageFit.AspectFill) {
-                        offsety = (target.height - size.height) / 2;
-                    }
-                    else if (fit == ImageFit.AspectFillFar) {
-                        offsety = target.height - size.height;
-                    }
-                }
-                if (target.width > size.width) {
-                    if (fit == ImageFit.AspectFill) {
-                        offsetx = (target.width - size.width) / 2;
-                    }
-                    else if (fit == ImageFit.AspectFillFar) {
-                        offsetx = target.width - size.width;
-                    }
-                }
-                var canvasex = document.createElement('canvas');
-                canvasex.width = size.width;
-                canvasex.height = size.height;
-                var cx_1 = canvasex.getContext('2d');
-                cx_1.drawImage(canvas, offsetx, offsety, size.width, size.height, 0, 0, size.width, size.height);
-                canvas = canvasex;
-            }
-            var result = '';
-            if (ImageUtil.mimeTypeCompressable(type)) {
-                result = canvas.toDataURL(type, quality);
-            }
-            else {
-                result = canvas.toDataURL(type);
-            }
-            // Explicitly free memory
-            canvas = null;
-            return result;
-        };
-        /**
-         * Creates a smaller version of the image.
-         * @param image
-         * @param size
-         * @param type Mime type of the image
-         * @param quality Quality 0 - 1, if jpg
-         */
-        ImageUtil.createThumbOfImage = function (image, options) {
-            return ImageUtil.resizeImage(image, options);
-            //
-            // let w = image.width;
-            // let h = image.height;
-            // let size = options.size;
-            // let type = options.type || "image/png";
-            // let quality = options.quality || 0.9;
-            // let bg: Color = options.background || null;
-            // let canvas: HTMLCanvasElement = document.createElement('canvas');
-            // let fit = options.fit || ImageFit.AspectFit;
-            // let cx = canvas.getContext('2d');
-            // let scale = 0;
-            // let targW = 0;
-            // let targH = 0;
-            //
-            // if(fit == ImageFit.AspectFit) {
-            //     scale = Math.min(size.width / w, size.height / h);
-            //     targW = w * scale;
-            //     targH = targW * h / w;
-            //
-            // }else if(fit == ImageFit.AspectFill) {
-            //
-            // }
-            //
-            // // Prepare canvas with original image
-            // canvas.width = image.width;
-            // canvas.height = image.height;
-            //
-            // // Draw background
-            // if(bg instanceof Color){
-            //     cx.fillStyle = bg.toHexString();
-            //     cx.fillRect(0, 0, w, h);
-            // }
-            //
-            // // Draw original image
-            // cx.drawImage(image, 0, 0, w, h);
-            //
-            // ImageUtil.resample_hermite(canvas, w, h, targW, targH);
-            //
-            // var result = '';
-            //
-            // if(ImageUtil.mimeTypeCompressable(type)){
-            //     result = canvas.toDataURL(type, quality);
-            // }else {
-            //     result = canvas.toDataURL(type);
-            // }
-            //
-            // // Explicitly free memory
-            // canvas = null;
-            //
-            // return result;
-        };
-        ImageUtil.resample_hermite = function (canvas, W, H, W2, H2) {
-            var time1 = Date.now();
-            W2 = Math.round(W2);
-            H2 = Math.round(H2);
-            var img = canvas.getContext("2d").getImageData(0, 0, W, H);
-            var img2 = canvas.getContext("2d").getImageData(0, 0, W2, H2);
-            var data = img.data;
-            var data2 = img2.data;
-            var ratio_w = W / W2;
-            var ratio_h = H / H2;
-            var ratio_w_half = Math.ceil(ratio_w / 2);
-            var ratio_h_half = Math.ceil(ratio_h / 2);
-            for (var j = 0; j < H2; j++) {
-                for (var i = 0; i < W2; i++) {
-                    var x2 = (i + j * W2) * 4;
-                    var weight = 0;
-                    var weights = 0;
-                    var weights_alpha = 0;
-                    var gx_r = 0, gx_g = 0, gx_b = 0, gx_a = 0;
-                    var center_y = (j + 0.5) * ratio_h;
-                    for (var yy = Math.floor(j * ratio_h); yy < (j + 1) * ratio_h; yy++) {
-                        var dy = Math.abs(center_y - (yy + 0.5)) / ratio_h_half;
-                        var center_x = (i + 0.5) * ratio_w;
-                        var w0 = dy * dy; //pre-calc part of w
-                        for (var xx = Math.floor(i * ratio_w); xx < (i + 1) * ratio_w; xx++) {
-                            var dx = Math.abs(center_x - (xx + 0.5)) / ratio_w_half;
-                            var w = Math.sqrt(w0 + dx * dx);
-                            if (w >= -1 && w <= 1) {
-                                //hermite filter
-                                weight = 2 * w * w * w - 3 * w * w + 1;
-                                if (weight > 0) {
-                                    dx = 4 * (xx + yy * W);
-                                    //alpha
-                                    gx_a += weight * data[dx + 3];
-                                    weights_alpha += weight;
-                                    //colors
-                                    if (data[dx + 3] < 255)
-                                        weight = weight * data[dx + 3] / 250;
-                                    gx_r += weight * data[dx];
-                                    gx_g += weight * data[dx + 1];
-                                    gx_b += weight * data[dx + 2];
-                                    weights += weight;
-                                }
-                            }
-                        }
-                    }
-                    data2[x2] = gx_r / weights;
-                    data2[x2 + 1] = gx_g / weights;
-                    data2[x2 + 2] = gx_b / weights;
-                    data2[x2 + 3] = gx_a / weights_alpha;
-                }
-            }
-            console.log("hermite = " + (Math.round(Date.now() - time1) / 1000) + " s");
-            canvas.getContext("2d").clearRect(0, 0, Math.max(W, W2), Math.max(H, H2));
-            canvas.width = W2;
-            canvas.height = H2;
-            canvas.getContext("2d").putImageData(img2, 0, 0);
-        };
-        /**
-         * Creates an icon of the specified url image
-         *
-         * @param url
-         * @param size
-         * @param type
-         * @param quality
-         * @param callback
-         */
-        ImageUtil.createThumbOfUrl = function (url, options, callback) {
-            if (callback === void 0) { callback = null; }
-            // Create image
-            var img = new Image();
-            // Handle load
-            img.onload = function () {
-                // Create icon of image
-                callback(ImageUtil.createThumbOfImage(img, options));
-            };
-            // Start loading image
-            img.crossOrigin = '';
-            img.src = url;
-        };
-        /**
-         * Gets the base64 data of the specified data url
-         * @param dataUrl
-         */
-        ImageUtil.getBase64 = function (dataUrl) {
-            var indicator = 'base64,';
-            var index = dataUrl.indexOf(indicator);
-            if (index > 0) {
-                return dataUrl.substr(index + indicator.length);
-            }
-            return null;
-        };
-        /**
-         * Reads the file and returns de data as dataUrl in the callback
-         * @param url
-         * @param callback
-         */
-        ImageUtil.readFileAsDataUrl = function (file, callback) {
-            // Craete file reader
-            var reader = new FileReader();
-            // Handle load of file
-            reader.onload = function (e) {
-                // Gets the data url
-                var dataUrl = e.target.result;
-                // Callback
-                callback(dataUrl);
-            };
-            // Start reading file
-            reader.readAsDataURL(file);
-        };
-        /**
-         * Gets the image encoded as base64 data
-         * @param image
-         * @returns {string}
-         */
-        ImageUtil.getImageAsBase64 = function (image) {
-            var canvas = document.createElement('canvas');
-            canvas.width = image.width;
-            canvas.height = image.height;
-            var c = canvas.getContext('2d');
-            c.drawImage(image, 0, 0);
-            return ImageUtil.getBase64(canvas.toDataURL('image/png'));
-        };
-        /**
-         * Gets the mimetype of the specified extension.
-         * Pass extension either with or without dot at the first character.
-         * @param extension
-         */
-        ImageUtil.mimeTypeOf = function (extension) {
-            var e = String(extension).toLowerCase().trim();
-            if (e.charAt(0) == '.')
-                e = e.substr(1);
-            switch (e) {
-                case "jpg":
-                    return "image/jpeg";
-                case "jpeg":
-                    return "image/jpeg";
-                case "gif":
-                    return "image/gif";
-                case "webp":
-                    return "image/webp";
-                case "png":
-                    return "image/png";
-                default:
-                    return "image/png";
-            }
-        };
-        /**
-         * Returns a value indicating if the specified mimetype is compressabel
-         * @param mimeType
-         * @returns {boolean}
-         */
-        ImageUtil.mimeTypeCompressable = function (mimeType) {
-            var m = String(mimeType).toLocaleLowerCase();
-            return m == "image/jpg" || m == "image/jpeg" || m == "image/webp";
-        };
-        /**
-         * Returns a value indicating if the specified mimetype is compressabel
-         * @param mimeType
-         * @returns {boolean}
-         */
-        ImageUtil.mimeTypeTransparent = function (mimeType) {
-            var m = String(mimeType).toLocaleLowerCase();
-            return m == "image/png" || m == "image/gif";
-        };
-        return ImageUtil;
-    }());
-    latte.ImageUtil = ImageUtil;
-})(latte || (latte = {}));
-/**
  * Created by josemanuel on 7/26/16.
  */
 var latte;
@@ -5451,6 +5060,397 @@ var latte;
     latte.PluginManager = PluginManager;
 })(latte || (latte = {}));
 /**
+ * Created by josemanuel on 4/29/15.
+ */
+var latte;
+(function (latte) {
+    (function (ImageFit) {
+        ImageFit[ImageFit["AspectFit"] = 0] = "AspectFit";
+        ImageFit[ImageFit["AspectFill"] = 1] = "AspectFill";
+        ImageFit[ImageFit["AspectFillNear"] = 2] = "AspectFillNear";
+        ImageFit[ImageFit["AspectFillFar"] = 3] = "AspectFillFar";
+    })(latte.ImageFit || (latte.ImageFit = {}));
+    var ImageFit = latte.ImageFit;
+    ;
+    /**
+     *
+     */
+    var ImageUtil = (function () {
+        function ImageUtil() {
+        }
+        //region Static
+        /**
+         * Parses ImageFit from specified string
+         * @param fit
+         * @returns {any}
+         */
+        ImageUtil.imageFitFromString = function (fit) {
+            if (fit == 'aspect-fit') {
+                return ImageFit.AspectFit;
+            }
+            else if (fit == 'aspect-fill') {
+                return ImageFit.AspectFill;
+            }
+            else if (fit == 'aspect-fill-near') {
+                return ImageFit.AspectFillNear;
+            }
+            else if (fit == 'aspect-fill-far') {
+                return ImageFit.AspectFillFar;
+            }
+            return null;
+        };
+        /**
+         * Creates an icon of the specified file, assuming it's an image file.
+         *
+         * @param file
+         * @param size
+         * @param callback
+         */
+        ImageUtil.createThumbOfFile = function (file, options, callback) {
+            if (callback === void 0) { callback = null; }
+            ImageUtil.readFileAsDataUrl(file, function (dataUrl) {
+                // Create icon
+                ImageUtil.createThumbOfUrl(dataUrl, options, function (dataUrl) {
+                    // Return result
+                    callback(dataUrl);
+                });
+            });
+        };
+        /**
+         * Creates an icon of the specified image.
+         * This algorithm is stored under the name _Steps because it makes n steps
+         * to scale down the image. It proved to be ineficient and results unwanted.
+         * @param image
+         * @param size
+         * @returns {string}
+         */
+        ImageUtil.createThumbOfImage_Steps = function (image, size) {
+            var w = image.width;
+            var h = image.height;
+            var scale = Math.min(size.width / w, size.height / h);
+            var targW = w * scale;
+            var steps = Math.ceil(Math.log(w / targW) / Math.log(2)) + 1;
+            var stepWidth = Math.round(Math.abs(targW - w) / steps);
+            //console.log(w + " X " + h + "-> scale: " + scale + " steps: " + steps + " of " + stepWidth)
+            //console.log("Target: " + targW + " x " + targH);
+            var oc = document.createElement('canvas'), octx = oc.getContext('2d');
+            var curW = w;
+            var curH = h;
+            var curImg = image;
+            for (var i = 0; i < steps; i++) {
+                curW -= stepWidth;
+                curH = Math.round(curW * h / w);
+                //console.log("Step: " + curW + " x " + curH);
+                oc.width = curW;
+                oc.height = curH;
+                octx.drawImage(curImg, 0, 0, curW, curH);
+                curImg = document.createElement('img');
+                curImg.src = oc.toDataURL();
+            }
+            //log(sprintf("Scaled image of (%s x %s) asked to (%s x %s) scaled to (%s x %s) scale of %s %s steps of %s",
+            //    w, h, size.width, size.height, curImg.width, curImg.height, scale, steps, stepWidth));
+            // Capture DataURL
+            var result = curImg.src;
+            // Free memory
+            curImg = null;
+            oc = null;
+            octx = null;
+            return result;
+        };
+        ImageUtil.resizeImage = function (image, options) {
+            var w = image.width;
+            var h = image.height;
+            var original = new latte.Size(w, h);
+            var size = options.size;
+            var type = options.type || "image/png";
+            var quality = options.quality || 0.9;
+            var bg = options.background || null;
+            var canvas = document.createElement('canvas');
+            var cx = canvas.getContext('2d');
+            var target;
+            var fit = options.fit || ImageFit.AspectFit;
+            if (fit == ImageFit.AspectFit) {
+                target = original.scaleToFit(size);
+            }
+            else {
+                target = original.scaleToFill(size);
+            }
+            canvas.width = image.width;
+            canvas.height = image.height;
+            if (bg instanceof latte.Color) {
+                cx.fillStyle = bg.toHexString();
+                cx.fillRect(0, 0, w, h);
+            }
+            cx.drawImage(image, 0, 0, w, h);
+            ImageUtil.resample_hermite(canvas, w, h, target.width, target.height);
+            // Trim extra edges
+            if (fit == ImageFit.AspectFill || fit == ImageFit.AspectFillNear || fit == ImageFit.AspectFillFar) {
+                var offsetx = 0;
+                var offsety = 0;
+                if (target.height > size.height) {
+                    if (fit == ImageFit.AspectFill) {
+                        offsety = (target.height - size.height) / 2;
+                    }
+                    else if (fit == ImageFit.AspectFillFar) {
+                        offsety = target.height - size.height;
+                    }
+                }
+                if (target.width > size.width) {
+                    if (fit == ImageFit.AspectFill) {
+                        offsetx = (target.width - size.width) / 2;
+                    }
+                    else if (fit == ImageFit.AspectFillFar) {
+                        offsetx = target.width - size.width;
+                    }
+                }
+                var canvasex = document.createElement('canvas');
+                canvasex.width = size.width;
+                canvasex.height = size.height;
+                var cx_1 = canvasex.getContext('2d');
+                cx_1.drawImage(canvas, offsetx, offsety, size.width, size.height, 0, 0, size.width, size.height);
+                canvas = canvasex;
+            }
+            var result = '';
+            if (ImageUtil.mimeTypeCompressable(type)) {
+                result = canvas.toDataURL(type, quality);
+            }
+            else {
+                result = canvas.toDataURL(type);
+            }
+            // Explicitly free memory
+            canvas = null;
+            return result;
+        };
+        /**
+         * Creates a smaller version of the image.
+         * @param image
+         * @param size
+         * @param type Mime type of the image
+         * @param quality Quality 0 - 1, if jpg
+         */
+        ImageUtil.createThumbOfImage = function (image, options) {
+            return ImageUtil.resizeImage(image, options);
+            //
+            // let w = image.width;
+            // let h = image.height;
+            // let size = options.size;
+            // let type = options.type || "image/png";
+            // let quality = options.quality || 0.9;
+            // let bg: Color = options.background || null;
+            // let canvas: HTMLCanvasElement = document.createElement('canvas');
+            // let fit = options.fit || ImageFit.AspectFit;
+            // let cx = canvas.getContext('2d');
+            // let scale = 0;
+            // let targW = 0;
+            // let targH = 0;
+            //
+            // if(fit == ImageFit.AspectFit) {
+            //     scale = Math.min(size.width / w, size.height / h);
+            //     targW = w * scale;
+            //     targH = targW * h / w;
+            //
+            // }else if(fit == ImageFit.AspectFill) {
+            //
+            // }
+            //
+            // // Prepare canvas with original image
+            // canvas.width = image.width;
+            // canvas.height = image.height;
+            //
+            // // Draw background
+            // if(bg instanceof Color){
+            //     cx.fillStyle = bg.toHexString();
+            //     cx.fillRect(0, 0, w, h);
+            // }
+            //
+            // // Draw original image
+            // cx.drawImage(image, 0, 0, w, h);
+            //
+            // ImageUtil.resample_hermite(canvas, w, h, targW, targH);
+            //
+            // var result = '';
+            //
+            // if(ImageUtil.mimeTypeCompressable(type)){
+            //     result = canvas.toDataURL(type, quality);
+            // }else {
+            //     result = canvas.toDataURL(type);
+            // }
+            //
+            // // Explicitly free memory
+            // canvas = null;
+            //
+            // return result;
+        };
+        ImageUtil.resample_hermite = function (canvas, W, H, W2, H2) {
+            var time1 = Date.now();
+            W2 = Math.round(W2);
+            H2 = Math.round(H2);
+            var img = canvas.getContext("2d").getImageData(0, 0, W, H);
+            var img2 = canvas.getContext("2d").getImageData(0, 0, W2, H2);
+            var data = img.data;
+            var data2 = img2.data;
+            var ratio_w = W / W2;
+            var ratio_h = H / H2;
+            var ratio_w_half = Math.ceil(ratio_w / 2);
+            var ratio_h_half = Math.ceil(ratio_h / 2);
+            for (var j = 0; j < H2; j++) {
+                for (var i = 0; i < W2; i++) {
+                    var x2 = (i + j * W2) * 4;
+                    var weight = 0;
+                    var weights = 0;
+                    var weights_alpha = 0;
+                    var gx_r = 0, gx_g = 0, gx_b = 0, gx_a = 0;
+                    var center_y = (j + 0.5) * ratio_h;
+                    for (var yy = Math.floor(j * ratio_h); yy < (j + 1) * ratio_h; yy++) {
+                        var dy = Math.abs(center_y - (yy + 0.5)) / ratio_h_half;
+                        var center_x = (i + 0.5) * ratio_w;
+                        var w0 = dy * dy; //pre-calc part of w
+                        for (var xx = Math.floor(i * ratio_w); xx < (i + 1) * ratio_w; xx++) {
+                            var dx = Math.abs(center_x - (xx + 0.5)) / ratio_w_half;
+                            var w = Math.sqrt(w0 + dx * dx);
+                            if (w >= -1 && w <= 1) {
+                                //hermite filter
+                                weight = 2 * w * w * w - 3 * w * w + 1;
+                                if (weight > 0) {
+                                    dx = 4 * (xx + yy * W);
+                                    //alpha
+                                    gx_a += weight * data[dx + 3];
+                                    weights_alpha += weight;
+                                    //colors
+                                    if (data[dx + 3] < 255)
+                                        weight = weight * data[dx + 3] / 250;
+                                    gx_r += weight * data[dx];
+                                    gx_g += weight * data[dx + 1];
+                                    gx_b += weight * data[dx + 2];
+                                    weights += weight;
+                                }
+                            }
+                        }
+                    }
+                    data2[x2] = gx_r / weights;
+                    data2[x2 + 1] = gx_g / weights;
+                    data2[x2 + 2] = gx_b / weights;
+                    data2[x2 + 3] = gx_a / weights_alpha;
+                }
+            }
+            console.log("hermite = " + (Math.round(Date.now() - time1) / 1000) + " s");
+            canvas.getContext("2d").clearRect(0, 0, Math.max(W, W2), Math.max(H, H2));
+            canvas.width = W2;
+            canvas.height = H2;
+            canvas.getContext("2d").putImageData(img2, 0, 0);
+        };
+        /**
+         * Creates an icon of the specified url image
+         *
+         * @param url
+         * @param size
+         * @param type
+         * @param quality
+         * @param callback
+         */
+        ImageUtil.createThumbOfUrl = function (url, options, callback) {
+            if (callback === void 0) { callback = null; }
+            // Create image
+            var img = new Image();
+            // Handle load
+            img.onload = function () {
+                // Create icon of image
+                callback(ImageUtil.createThumbOfImage(img, options));
+            };
+            // Start loading image
+            img.crossOrigin = '';
+            img.src = url;
+        };
+        /**
+         * Gets the base64 data of the specified data url
+         * @param dataUrl
+         */
+        ImageUtil.getBase64 = function (dataUrl) {
+            var indicator = 'base64,';
+            var index = dataUrl.indexOf(indicator);
+            if (index > 0) {
+                return dataUrl.substr(index + indicator.length);
+            }
+            return null;
+        };
+        /**
+         * Reads the file and returns de data as dataUrl in the callback
+         * @param url
+         * @param callback
+         */
+        ImageUtil.readFileAsDataUrl = function (file, callback) {
+            // Craete file reader
+            var reader = new FileReader();
+            // Handle load of file
+            reader.onload = function (e) {
+                // Gets the data url
+                var dataUrl = e.target.result;
+                // Callback
+                callback(dataUrl);
+            };
+            // Start reading file
+            reader.readAsDataURL(file);
+        };
+        /**
+         * Gets the image encoded as base64 data
+         * @param image
+         * @returns {string}
+         */
+        ImageUtil.getImageAsBase64 = function (image) {
+            var canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            var c = canvas.getContext('2d');
+            c.drawImage(image, 0, 0);
+            return ImageUtil.getBase64(canvas.toDataURL('image/png'));
+        };
+        /**
+         * Gets the mimetype of the specified extension.
+         * Pass extension either with or without dot at the first character.
+         * @param extension
+         */
+        ImageUtil.mimeTypeOf = function (extension) {
+            var e = String(extension).toLowerCase().trim();
+            if (e.charAt(0) == '.')
+                e = e.substr(1);
+            switch (e) {
+                case "jpg":
+                    return "image/jpeg";
+                case "jpeg":
+                    return "image/jpeg";
+                case "gif":
+                    return "image/gif";
+                case "webp":
+                    return "image/webp";
+                case "png":
+                    return "image/png";
+                default:
+                    return "image/png";
+            }
+        };
+        /**
+         * Returns a value indicating if the specified mimetype is compressabel
+         * @param mimeType
+         * @returns {boolean}
+         */
+        ImageUtil.mimeTypeCompressable = function (mimeType) {
+            var m = String(mimeType).toLocaleLowerCase();
+            return m == "image/jpg" || m == "image/jpeg" || m == "image/webp";
+        };
+        /**
+         * Returns a value indicating if the specified mimetype is compressabel
+         * @param mimeType
+         * @returns {boolean}
+         */
+        ImageUtil.mimeTypeTransparent = function (mimeType) {
+            var m = String(mimeType).toLocaleLowerCase();
+            return m == "image/png" || m == "image/gif";
+        };
+        return ImageUtil;
+    }());
+    latte.ImageUtil = ImageUtil;
+})(latte || (latte = {}));
+/**
  * Created by josemanuel on 7/27/16.
  */
 var latte;
@@ -5586,76 +5586,6 @@ var latte;
         return HtmlFragmentAdapter;
     }(latte.FragmentAdapter));
     latte.HtmlFragmentAdapter = HtmlFragmentAdapter;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 7/26/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var PlainTextFragmentAdapter = (function (_super) {
-        __extends(PlainTextFragmentAdapter, _super);
-        function PlainTextFragmentAdapter() {
-            _super.apply(this, arguments);
-            this.heightCheck = false;
-        }
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Override. Raises the <c>createEditorItem</c> event
-         */
-        PlainTextFragmentAdapter.prototype.onCreateEditorItem = function () {
-            _super.prototype.onCreateEditorItem.call(this);
-            this.editorItem = new latte.Item();
-            this.editorItem.element.get(0).appendChild(this.textbox.element);
-            this.textbox.text = this.fragment.value;
-        };
-        Object.defineProperty(PlainTextFragmentAdapter.prototype, "textbox", {
-            /**
-             * Gets the textbox element
-             *
-             * @returns {Element<HTMLTextAreaElement>}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._textbox) {
-                    this._textbox = new latte.Element(document.createElement('textarea'));
-                    this._textbox.addClass('plain-text-fragment');
-                    this._textbox.element.rows = 10;
-                    this._textbox.addEventListener('input', function () {
-                        _this.unsavedChanges = true;
-                        _this.fragment.value = _this.textbox.text;
-                        if (!_this.heightCheck) {
-                            var minRows = 10;
-                            var rows = void 0;
-                            _this._textbox.element.rows = minRows;
-                            rows = Math.ceil((_this._textbox.element.scrollHeight - _this.baseScrollHeight) / 17);
-                            _this._textbox.element.rows = minRows + rows;
-                            _this.heightCheck = true;
-                        }
-                    });
-                    this._textbox.addEventListener('focus', function () {
-                        var savedValue = _this._textbox.text;
-                        _this._textbox.text = '';
-                        _this.baseScrollHeight = _this._textbox.element.scrollHeight;
-                        _this._textbox.text = savedValue;
-                    });
-                }
-                return this._textbox;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return PlainTextFragmentAdapter;
-    }(latte.FragmentAdapter));
-    latte.PlainTextFragmentAdapter = PlainTextFragmentAdapter;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/29/16.
@@ -6288,225 +6218,67 @@ var latte;
     /**
      *
      */
-    var FragmentExpandoItem = (function (_super) {
-        __extends(FragmentExpandoItem, _super);
+    var PlainTextFragmentAdapter = (function (_super) {
+        __extends(PlainTextFragmentAdapter, _super);
+        function PlainTextFragmentAdapter() {
+            _super.apply(this, arguments);
+            this.heightCheck = false;
+        }
         //region Static
         //endregion
         //region Fields
         //endregion
-        /**
-         *
-         */
-        function FragmentExpandoItem() {
-            _super.call(this);
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._expanded = true;
-            /**
-             * Property field
-             */
-            this._fragmentItem = null;
-            this.addClass('cms-fragment-expando');
-            this.padding = 0;
-            this.items.add(this.toolbar);
-            this.toolbar.items.addArray([
-                this.lblTitle
-            ]);
-            this.toolbar.sideItems.addArray([
-                this.btnFold
-            ]);
-        }
         //region Private Methods
         //endregion
         //region Methods
         /**
-         * Raises the <c>fragmentItem</c> event
+         * Override. Raises the <c>createEditorItem</c> event
          */
-        FragmentExpandoItem.prototype.onFragmentItemChanged = function () {
-            if (this._fragmentItemChanged) {
-                this._fragmentItemChanged.raise();
-            }
-            // Remove items
-            while (this.items.length > 1) {
-                this.items.remove(this.items[1]);
-            }
-            // Add current item
-            this.items.add(this.fragmentItem);
+        PlainTextFragmentAdapter.prototype.onCreateEditorItem = function () {
+            _super.prototype.onCreateEditorItem.call(this);
+            this.editorItem = new latte.Item();
+            this.editorItem.element.get(0).appendChild(this.textbox.element);
+            this.textbox.text = this.fragment.value;
         };
-        /**
-         * Raises the <c>expanded</c> event
-         */
-        FragmentExpandoItem.prototype.onExpandedChanged = function () {
-            if (this._expandedChanged) {
-                this._expandedChanged.raise();
-            }
-            if (this.items.length > 1) {
-                this.items[1].visible = this.expanded;
-            }
-            if (this.expanded) {
-                this.btnFold.icon = latte.LinearIcon.chevron_up;
-            }
-            else {
-                this.btnFold.icon = latte.LinearIcon.chevron_down;
-            }
-        };
-        Object.defineProperty(FragmentExpandoItem.prototype, "expandedChanged", {
+        Object.defineProperty(PlainTextFragmentAdapter.prototype, "textbox", {
             /**
-             * Gets an event raised when the value of the expanded property changes
+             * Gets the textbox element
              *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._expandedChanged) {
-                    this._expandedChanged = new latte.LatteEvent(this);
-                }
-                return this._expandedChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FragmentExpandoItem.prototype, "fragmentItemChanged", {
-            /**
-             * Gets an event raised when the value of the fragmentItem property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._fragmentItemChanged) {
-                    this._fragmentItemChanged = new latte.LatteEvent(this);
-                }
-                return this._fragmentItemChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FragmentExpandoItem.prototype, "expanded", {
-            /**
-             * Gets or sets a value indicating if the expando is expanded
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return this._expanded;
-            },
-            /**
-             * Gets or sets a value indicating if the expando is expanded
-             *
-             * @param {boolean} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._expanded;
-                // Set value
-                this._expanded = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onExpandedChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FragmentExpandoItem.prototype, "fragmentItem", {
-            /**
-             * Gets or sets the fragment item of the expando
-             *
-             * @returns {Item}
-             */
-            get: function () {
-                return this._fragmentItem;
-            },
-            /**
-             * Gets or sets the fragment item of the expando
-             *
-             * @param {Item} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._fragmentItem;
-                // Set value
-                this._fragmentItem = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onFragmentItemChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FragmentExpandoItem.prototype, "title", {
-            /**
-             * Gets or sets the title of the expando
-             *
-             * @returns {string}
-             */
-            get: function () {
-                return this.lblTitle.text;
-            },
-            /**
-             * Gets or sets the title of the expando
-             *
-             * @param {string} value
-             */
-            set: function (value) {
-                this.lblTitle.text = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FragmentExpandoItem.prototype, "btnFold", {
-            /**
-             * Gets the fold button
-             *
-             * @returns {ButtonItem}
+             * @returns {Element<HTMLTextAreaElement>}
              */
             get: function () {
                 var _this = this;
-                if (!this._btnFold) {
-                    this._btnFold = new latte.ButtonItem(null, latte.LinearIcon.chevron_up, function () { return _this.expanded = !_this.expanded; });
+                if (!this._textbox) {
+                    this._textbox = new latte.Element(document.createElement('textarea'));
+                    this._textbox.addClass('plain-text-fragment');
+                    this._textbox.element.rows = 10;
+                    this._textbox.addEventListener('input', function () {
+                        _this.unsavedChanges = true;
+                        _this.fragment.value = _this.textbox.text;
+                        if (!_this.heightCheck) {
+                            var minRows = 10;
+                            var rows = void 0;
+                            _this._textbox.element.rows = minRows;
+                            rows = Math.ceil((_this._textbox.element.scrollHeight - _this.baseScrollHeight) / 17);
+                            _this._textbox.element.rows = minRows + rows;
+                            _this.heightCheck = true;
+                        }
+                    });
+                    this._textbox.addEventListener('focus', function () {
+                        var savedValue = _this._textbox.text;
+                        _this._textbox.text = '';
+                        _this.baseScrollHeight = _this._textbox.element.scrollHeight;
+                        _this._textbox.text = savedValue;
+                    });
                 }
-                return this._btnFold;
+                return this._textbox;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(FragmentExpandoItem.prototype, "lblTitle", {
-            /**
-             * Gets the title label
-             *
-             * @returns {LabelItem}
-             */
-            get: function () {
-                if (!this._lblTitle) {
-                    this._lblTitle = new latte.LabelItem();
-                    this._lblTitle.addClass('expando-title');
-                }
-                return this._lblTitle;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FragmentExpandoItem.prototype, "toolbar", {
-            /**
-             * Gets the toolbar of the expando
-             *
-             * @returns {Toolbar}
-             */
-            get: function () {
-                if (!this._toolbar) {
-                    this._toolbar = new latte.Toolbar();
-                }
-                return this._toolbar;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return FragmentExpandoItem;
-    }(latte.ItemStack));
-    latte.FragmentExpandoItem = FragmentExpandoItem;
+        return PlainTextFragmentAdapter;
+    }(latte.FragmentAdapter));
+    latte.PlainTextFragmentAdapter = PlainTextFragmentAdapter;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/1/16.
@@ -6893,6 +6665,234 @@ var latte;
         return FileItem;
     }(latte.Item));
     latte.FileItem = FileItem;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var FragmentExpandoItem = (function (_super) {
+        __extends(FragmentExpandoItem, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function FragmentExpandoItem() {
+            _super.call(this);
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._expanded = true;
+            /**
+             * Property field
+             */
+            this._fragmentItem = null;
+            this.addClass('cms-fragment-expando');
+            this.padding = 0;
+            this.items.add(this.toolbar);
+            this.toolbar.items.addArray([
+                this.lblTitle
+            ]);
+            this.toolbar.sideItems.addArray([
+                this.btnFold
+            ]);
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Raises the <c>fragmentItem</c> event
+         */
+        FragmentExpandoItem.prototype.onFragmentItemChanged = function () {
+            if (this._fragmentItemChanged) {
+                this._fragmentItemChanged.raise();
+            }
+            // Remove items
+            while (this.items.length > 1) {
+                this.items.remove(this.items[1]);
+            }
+            // Add current item
+            this.items.add(this.fragmentItem);
+        };
+        /**
+         * Raises the <c>expanded</c> event
+         */
+        FragmentExpandoItem.prototype.onExpandedChanged = function () {
+            if (this._expandedChanged) {
+                this._expandedChanged.raise();
+            }
+            if (this.items.length > 1) {
+                this.items[1].visible = this.expanded;
+            }
+            if (this.expanded) {
+                this.btnFold.icon = latte.LinearIcon.chevron_up;
+            }
+            else {
+                this.btnFold.icon = latte.LinearIcon.chevron_down;
+            }
+        };
+        Object.defineProperty(FragmentExpandoItem.prototype, "expandedChanged", {
+            /**
+             * Gets an event raised when the value of the expanded property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._expandedChanged) {
+                    this._expandedChanged = new latte.LatteEvent(this);
+                }
+                return this._expandedChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FragmentExpandoItem.prototype, "fragmentItemChanged", {
+            /**
+             * Gets an event raised when the value of the fragmentItem property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._fragmentItemChanged) {
+                    this._fragmentItemChanged = new latte.LatteEvent(this);
+                }
+                return this._fragmentItemChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FragmentExpandoItem.prototype, "expanded", {
+            /**
+             * Gets or sets a value indicating if the expando is expanded
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return this._expanded;
+            },
+            /**
+             * Gets or sets a value indicating if the expando is expanded
+             *
+             * @param {boolean} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._expanded;
+                // Set value
+                this._expanded = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onExpandedChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FragmentExpandoItem.prototype, "fragmentItem", {
+            /**
+             * Gets or sets the fragment item of the expando
+             *
+             * @returns {Item}
+             */
+            get: function () {
+                return this._fragmentItem;
+            },
+            /**
+             * Gets or sets the fragment item of the expando
+             *
+             * @param {Item} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._fragmentItem;
+                // Set value
+                this._fragmentItem = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onFragmentItemChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FragmentExpandoItem.prototype, "title", {
+            /**
+             * Gets or sets the title of the expando
+             *
+             * @returns {string}
+             */
+            get: function () {
+                return this.lblTitle.text;
+            },
+            /**
+             * Gets or sets the title of the expando
+             *
+             * @param {string} value
+             */
+            set: function (value) {
+                this.lblTitle.text = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FragmentExpandoItem.prototype, "btnFold", {
+            /**
+             * Gets the fold button
+             *
+             * @returns {ButtonItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._btnFold) {
+                    this._btnFold = new latte.ButtonItem(null, latte.LinearIcon.chevron_up, function () { return _this.expanded = !_this.expanded; });
+                }
+                return this._btnFold;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FragmentExpandoItem.prototype, "lblTitle", {
+            /**
+             * Gets the title label
+             *
+             * @returns {LabelItem}
+             */
+            get: function () {
+                if (!this._lblTitle) {
+                    this._lblTitle = new latte.LabelItem();
+                    this._lblTitle.addClass('expando-title');
+                }
+                return this._lblTitle;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FragmentExpandoItem.prototype, "toolbar", {
+            /**
+             * Gets the toolbar of the expando
+             *
+             * @returns {Toolbar}
+             */
+            get: function () {
+                if (!this._toolbar) {
+                    this._toolbar = new latte.Toolbar();
+                }
+                return this._toolbar;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return FragmentExpandoItem;
+    }(latte.ItemStack));
+    latte.FragmentExpandoItem = FragmentExpandoItem;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/22/16.
@@ -7838,6 +7838,23 @@ var latte;
     }(latte.IconItem));
     latte.LinearIcon = LinearIcon;
 })(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
+     * Record for table fragment
+     */
+    var Fragment = (function (_super) {
+        __extends(Fragment, _super);
+        function Fragment() {
+            _super.apply(this, arguments);
+        }
+        return Fragment;
+    }(latte.fragmentBase));
+    latte.Fragment = Fragment;
+})(latte || (latte = {}));
 var latte;
 (function (latte) {
     /**
@@ -8124,23 +8141,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Record for table fragment
-     */
-    var Fragment = (function (_super) {
-        __extends(Fragment, _super);
-        function Fragment() {
-            _super.apply(this, arguments);
-        }
-        return Fragment;
-    }(latte.fragmentBase));
-    latte.Fragment = Fragment;
-})(latte || (latte = {}));
-/**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
      * Record for table group
      */
     var Group = (function (_super) {
@@ -8296,6 +8296,23 @@ var latte;
         return GroupUser;
     }(latte.groupUserBase));
     latte.GroupUser = GroupUser;
+})(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
+     * Record for table setting
+     */
+    var Setting = (function (_super) {
+        __extends(Setting, _super);
+        function Setting() {
+            _super.apply(this, arguments);
+        }
+        return Setting;
+    }(latte.settingBase));
+    latte.Setting = Setting;
 })(latte || (latte = {}));
 /**
  * Generated by xlatte
@@ -8720,23 +8737,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Record for table setting
-     */
-    var Setting = (function (_super) {
-        __extends(Setting, _super);
-        function Setting() {
-            _super.apply(this, arguments);
-        }
-        return Setting;
-    }(latte.settingBase));
-    latte.Setting = Setting;
-})(latte || (latte = {}));
-/**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
      * Record for table user
      */
     var User = (function (_super) {
@@ -8979,6 +8979,113 @@ var latte;
     latte.CmsExplorer = CmsExplorer;
 })(latte || (latte = {}));
 /**
+ * Created by josemanuel on 8/11/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var CmsMainView = (function (_super) {
+        __extends(CmsMainView, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function CmsMainView() {
+            _super.call(this);
+            this.addClass('cms-main-view');
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Override.
+         */
+        CmsMainView.prototype.onLoad = function () {
+            _super.prototype.onLoad.call(this);
+            this.element.append(this.topBar.element);
+            this.topBar.add(this.logo);
+            this.topBar.add(this.logout);
+            this.view = this.explorer;
+        };
+        Object.defineProperty(CmsMainView.prototype, "explorer", {
+            /**
+             * Gets the explorer
+             *
+             * @returns {CmsExplorer}
+             */
+            get: function () {
+                if (!this._explorer) {
+                    this._explorer = new latte.CmsExplorer();
+                    this._explorer.btnRefresh.icon = latte.LinearIcon.sync;
+                    this._explorer.btnSaveDetail.icon = latte.LinearIcon.enter_down;
+                    latte.TreeItem.globalCollapseGlyph = function (item) { return latte.IconItem.empty(16); };
+                    latte.TreeItem.globalExpandGlyph = function (item) { return latte.IconItem.empty(16); };
+                }
+                return this._explorer;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CmsMainView.prototype, "topBar", {
+            /**
+             * Gets the top bar
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._topBar) {
+                    this._topBar = new latte.Element(document.createElement('div'));
+                    this._topBar.addClass('top-bar');
+                }
+                return this._topBar;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CmsMainView.prototype, "logo", {
+            /**
+             * Gets the logo element
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._logo) {
+                    this._logo = new latte.Element(document.createElement('div'));
+                    this._logo.addClass('logo');
+                }
+                return this._logo;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CmsMainView.prototype, "logout", {
+            /**
+             * Gets the logout element
+             *
+             * @returns {Element<HTMLDivElement>}
+             */
+            get: function () {
+                if (!this._logout) {
+                    this._logout = new latte.Element(document.createElement('div'));
+                    this._logout.text = latte.sprintf('(%s) %s', latte.User.me.uname, strings.signOut);
+                    this._logout.addClass('logout');
+                    this._logout.addEventListener('click', function () { return latte.Main.logOut(); });
+                }
+                return this._logout;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return CmsMainView;
+    }(latte.View));
+    latte.CmsMainView = CmsMainView;
+})(latte || (latte = {}));
+/**
  * Created by josemanuel on 8/7/16.
  */
 var latte;
@@ -9145,113 +9252,6 @@ var latte;
     latte.PageAdvancedView = PageAdvancedView;
 })(latte || (latte = {}));
 /**
- * Created by josemanuel on 8/11/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var CmsMainView = (function (_super) {
-        __extends(CmsMainView, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function CmsMainView() {
-            _super.call(this);
-            this.addClass('cms-main-view');
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Override.
-         */
-        CmsMainView.prototype.onLoad = function () {
-            _super.prototype.onLoad.call(this);
-            this.element.append(this.topBar.element);
-            this.topBar.add(this.logo);
-            this.topBar.add(this.logout);
-            this.view = this.explorer;
-        };
-        Object.defineProperty(CmsMainView.prototype, "explorer", {
-            /**
-             * Gets the explorer
-             *
-             * @returns {CmsExplorer}
-             */
-            get: function () {
-                if (!this._explorer) {
-                    this._explorer = new latte.CmsExplorer();
-                    this._explorer.btnRefresh.icon = latte.LinearIcon.sync;
-                    this._explorer.btnSaveDetail.icon = latte.LinearIcon.enter_down;
-                    latte.TreeItem.globalCollapseGlyph = function (item) { return latte.IconItem.empty(16); };
-                    latte.TreeItem.globalExpandGlyph = function (item) { return latte.IconItem.empty(16); };
-                }
-                return this._explorer;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CmsMainView.prototype, "topBar", {
-            /**
-             * Gets the top bar
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._topBar) {
-                    this._topBar = new latte.Element(document.createElement('div'));
-                    this._topBar.addClass('top-bar');
-                }
-                return this._topBar;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CmsMainView.prototype, "logo", {
-            /**
-             * Gets the logo element
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._logo) {
-                    this._logo = new latte.Element(document.createElement('div'));
-                    this._logo.addClass('logo');
-                }
-                return this._logo;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CmsMainView.prototype, "logout", {
-            /**
-             * Gets the logout element
-             *
-             * @returns {Element<HTMLDivElement>}
-             */
-            get: function () {
-                if (!this._logout) {
-                    this._logout = new latte.Element(document.createElement('div'));
-                    this._logout.text = latte.sprintf('(%s) %s', latte.User.me.uname, strings.signOut);
-                    this._logout.addClass('logout');
-                    this._logout.addEventListener('click', function () { return latte.Main.logOut(); });
-                }
-                return this._logout;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return CmsMainView;
-    }(latte.View));
-    latte.CmsMainView = CmsMainView;
-})(latte || (latte = {}));
-/**
  * Created by josemanuel on 7/16/16.
  */
 var latte;
@@ -9386,7 +9386,11 @@ var latte;
                     setting.name = key;
                 }
                 var input = latte.PageConfiguration.inputFromSetting(settings[key]);
-                input.tag = setting;
+                input.tag = {
+                    data: settings[key],
+                    record: setting
+                };
+                //TODO: CHECK HERE TO VALIDATE REQUIRED ATTRIBUTE
                 if (setting.idsetting > 0) {
                     input.value = setting.value;
                 }
@@ -9479,7 +9483,8 @@ var latte;
             var r = [];
             for (var i = 0; i < this.settingsForm.inputs.length; i++) {
                 var input = this.settingsForm.inputs[i];
-                var setting = input.tag;
+                var tag = input.tag;
+                var setting = tag.record;
                 setting.value = input.value;
                 var call = setting.saveCall();
                 if (i == 0) {
@@ -10012,6 +10017,79 @@ var latte;
     latte.PageEditorView = PageEditorView;
 })(latte || (latte = {}));
 /**
+ * Created by josemanuel on 6/10/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var SignInView = (function (_super) {
+        __extends(SignInView, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function SignInView() {
+            var _this = this;
+            _super.call(this);
+            // FX handlers
+            this.txtEmail.addEventListener('focus', function () {
+                _this.combo.ensureClass('focus', true);
+                _this.fieldEmail.ensureClass('focus', true);
+                _this.fieldPassword.ensureClass('focus', false);
+            });
+            this.txtPassword.addEventListener('focus', function () {
+                _this.combo.ensureClass('focus', true);
+                _this.fieldEmail.ensureClass('focus', false);
+                _this.fieldPassword.ensureClass('focus', true);
+            });
+            this.txtEmail.addEventListener('blur', function () {
+                _this.combo.ensureClass('focus', false);
+                _this.fieldEmail.ensureClass('focus', false);
+            });
+            this.txtPassword.addEventListener('blur', function () {
+                _this.combo.ensureClass('focus', false);
+                _this.fieldPassword.ensureClass('focus', false);
+            });
+            this.form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                _this.formSubmit();
+            });
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Handles the form submit
+         */
+        SignInView.prototype.formSubmit = function () {
+            var _this = this;
+            var call = latte.Session.logIn(this.txtEmail.text, this.txtPassword.text).withHandlers(function (user) {
+                latte.User.me = user;
+                latte.Main.goMainView();
+            });
+            call.failure.add(function (err) {
+                if (err) {
+                    if (strings[err]) {
+                        _this.error.text = strings[err];
+                    }
+                    else {
+                        _this.error.text = err;
+                    }
+                }
+                _this.error.visible = true;
+            });
+            call.send();
+        };
+        return SignInView;
+    }(latte.SignInViewBase));
+    latte.SignInView = SignInView;
+})(latte || (latte = {}));
+/**
  * Created by josemanuel on 7/14/16.
  */
 var latte;
@@ -10259,79 +10337,6 @@ var latte;
     }(latte.TabView));
     latte.PageSidebar = PageSidebar;
 })(latte || (latte = {}));
-/**
- * Created by josemanuel on 6/10/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var SignInView = (function (_super) {
-        __extends(SignInView, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function SignInView() {
-            var _this = this;
-            _super.call(this);
-            // FX handlers
-            this.txtEmail.addEventListener('focus', function () {
-                _this.combo.ensureClass('focus', true);
-                _this.fieldEmail.ensureClass('focus', true);
-                _this.fieldPassword.ensureClass('focus', false);
-            });
-            this.txtPassword.addEventListener('focus', function () {
-                _this.combo.ensureClass('focus', true);
-                _this.fieldEmail.ensureClass('focus', false);
-                _this.fieldPassword.ensureClass('focus', true);
-            });
-            this.txtEmail.addEventListener('blur', function () {
-                _this.combo.ensureClass('focus', false);
-                _this.fieldEmail.ensureClass('focus', false);
-            });
-            this.txtPassword.addEventListener('blur', function () {
-                _this.combo.ensureClass('focus', false);
-                _this.fieldPassword.ensureClass('focus', false);
-            });
-            this.form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                _this.formSubmit();
-            });
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Handles the form submit
-         */
-        SignInView.prototype.formSubmit = function () {
-            var _this = this;
-            var call = latte.Session.logIn(this.txtEmail.text, this.txtPassword.text).withHandlers(function (user) {
-                latte.User.me = user;
-                latte.Main.goMainView();
-            });
-            call.failure.add(function (err) {
-                if (err) {
-                    if (strings[err]) {
-                        _this.error.text = strings[err];
-                    }
-                    else {
-                        _this.error.text = err;
-                    }
-                }
-                _this.error.visible = true;
-            });
-            call.send();
-        };
-        return SignInView;
-    }(latte.SignInViewBase));
-    latte.SignInView = SignInView;
-})(latte || (latte = {}));
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/support/ts-include/datalatte.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/support/ts-include/fragment.strings.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/support/ts-include/jquery.d.ts" />
@@ -10348,38 +10353,38 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/support/ts-include/views_bank.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Uploader.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/Main.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupUserExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/Main.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupsExplorer.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PagesExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PageExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UserExplorer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PagesExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UsersExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FileUploader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FragmentAdapterManager.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/ImageUtil.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Plugin.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/PageConfiguration.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/PluginManager.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/ImageUtil.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/HtmlFragmentAdapter.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/PlainTextFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/ImageGalleryFragmentAdapter.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FragmentExpandoItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/PlainTextFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FileItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FragmentExpandoItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/LinearIcon.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/File.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Fragment.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/File.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Group.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/GroupUser.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Setting.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/User.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/CmsExplorer.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageAdvancedView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/CmsMainView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageAdvancedView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageConfigurationView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageDetailView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageEditorView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageSidebar.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/SignInView.ts" /> 
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/SignInView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageSidebar.ts" /> 

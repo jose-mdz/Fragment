@@ -48,6 +48,9 @@ if ($page){
     // Convert to AssociativeArray
     $GLOBALS['settings'] = DL::associativeArray($GLOBALS['settings'], 'name');
 
+    // Gather settings specification
+    $GLOBALS['settings_json'] = $page->getAllSettingsJSON();
+
     // Load configuration
     $GLOBALS['config'] = $page->getConfigurationArr();
 

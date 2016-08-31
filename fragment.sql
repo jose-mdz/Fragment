@@ -137,7 +137,7 @@ CREATE TABLE `setting` (
   PRIMARY KEY (`idsetting`),
   KEY `i_name` (`name`) USING BTREE,
   KEY `i_owner` (`idowner`,`owner`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=932 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=933 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,4 +166,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-29 11:41:54
+-- Dump completed on 2016-08-30 16:12:01

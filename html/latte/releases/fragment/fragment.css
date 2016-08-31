@@ -1,27 +1,6 @@
 .latte-item.latte-item.html-editor.html-fragment-adapter{
     border-color: transparent;
-}textarea.plain-text-fragment {
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*bottom: 0;*/
-    display: block;
-    overflow:hidden;
-    box-sizing: padding-box;
-    font-size: 14px;
-    padding:10px;
-    border:6px solid white;
-
-
-    width: 100%;
-    /*border: none;*/
-    margin: 0;
-    /*padding: 0;*/
-    font-family: monospace;
-
-}
-.gallery-fragment-editor{
+}.gallery-fragment-editor{
     min-height: 400px;
     background: #fcfcfc;
     padding: 15px;
@@ -122,7 +101,28 @@
 .latte-item.file .info .size{
     float: right;
     margin-right: 3px;
-}.cms-fragment-expando .latte-item.toolbar.with-face > .face{
+}textarea.plain-text-fragment {
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    display: block;
+    overflow:hidden;
+    box-sizing: padding-box;
+    font-size: 14px;
+    padding:10px;
+    border:6px solid white;
+
+
+    width: 100%;
+    /*border: none;*/
+    margin: 0;
+    /*padding: 0;*/
+    font-family: monospace;
+
+}
+.cms-fragment-expando .latte-item.toolbar.with-face > .face{
     background: white;
 }
 .cms-fragment-expando{
@@ -134,7 +134,60 @@
 }
 .cms-fragment-expando.focused .expando-title{
     color: #4285F4;
-}/**
+}.cms-explorer.explorer.split > .latte-view.side > .container{
+    background: #f0f0f0;
+}
+.cms-main-view.latte-view > .top-bar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    overflow: hidden;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f6383e+0,f67638+100 */
+    background: #f6383e; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f6383e 0%, #f67638 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #f6383e 0%,#f67638 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #f6383e 0%,#f67638 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6383e', endColorstr='#f67638',GradientType=0 ); /* IE6-9 */
+
+}
+
+.cms-main-view.latte-view > .top-bar > .logo:hover{
+    animation: spin 0.3s linear;
+}
+.cms-main-view.latte-view > .top-bar > .logo{
+    background: url(/latte/releases/fragment/support/imgs/triangle-white.png) no-repeat;
+    background-size: 100% auto;
+    width: 25px;
+    height: 25px;
+    left: 20px;
+    margin-top: -12.5px;
+    top: 50%;
+    position: absolute;
+}
+
+.cms-main-view.latte-view > .top-bar > .logout{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom:0;
+    color: white;
+    cursor: pointer;
+    padding: 20px 20px;
+}
+
+.cms-main-view.latte-view > .top-bar > .logout:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.cms-main-view.latte-view > .container{
+    top: 50px;
+}
+
+@keyframes spin { 100% { transform:rotate(120deg); } }
+/**
 https://linearicons.com/free
 https://perxis.com
 **/
@@ -680,59 +733,6 @@ https://perxis.com
 .lnr-pointer-left:before {
     content: "\e8a9";
 }
-.cms-explorer.explorer.split > .latte-view.side > .container{
-    background: #f0f0f0;
-}
-.cms-main-view.latte-view > .top-bar{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    overflow: hidden;
-
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f6383e+0,f67638+100 */
-    background: #f6383e; /* Old browsers */
-    background: -moz-linear-gradient(top,  #f6383e 0%, #f67638 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  #f6383e 0%,#f67638 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  #f6383e 0%,#f67638 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6383e', endColorstr='#f67638',GradientType=0 ); /* IE6-9 */
-
-}
-
-.cms-main-view.latte-view > .top-bar > .logo:hover{
-    animation: spin 0.3s linear;
-}
-.cms-main-view.latte-view > .top-bar > .logo{
-    background: url(/latte/releases/fragment/support/imgs/triangle-white.png) no-repeat;
-    background-size: 100% auto;
-    width: 25px;
-    height: 25px;
-    left: 20px;
-    margin-top: -12.5px;
-    top: 50%;
-    position: absolute;
-}
-
-.cms-main-view.latte-view > .top-bar > .logout{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom:0;
-    color: white;
-    cursor: pointer;
-    padding: 20px 20px;
-}
-
-.cms-main-view.latte-view > .top-bar > .logout:hover{
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.cms-main-view.latte-view > .container{
-    top: 50px;
-}
-
-@keyframes spin { 100% { transform:rotate(120deg); } }
 textarea.page-configuration {
     position: absolute;
     top: 0;
@@ -759,6 +759,62 @@ textarea.page-configuration:focus{
     outline: none;
     background: white;
     color: black;
+}
+
+/*.latte-view.page-detail-view .open-editor-button.no-icon{*/
+    /*background-color: white;*/
+    /*border-color: #4285F4;*/
+    /*color: #4285F4;*/
+    /*text-align: center;*/
+    /*padding: 10px;*/
+/*}*/
+
+/*.latte-view.page-detail-view .open-editor-button:hover{*/
+    /*background-color: #4285F4;*/
+    /*border-color: #4285F4;*/
+    /*color: #fff;*/
+/*}*/
+
+.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button{
+    background-color: white;
+    border-color: #4285F4;
+    color: #4285F4;
+    text-align: center;
+    padding: 10px;
+}
+
+.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button:hover{
+    background-color: #4285F4;
+    border-color: #4285F4;
+    color: #fff;
+}
+
+.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button.danger{
+    background-color: white;
+    border-color: orangered;
+    color: orangered;
+    text-align: center;
+    padding: 10px;
+}
+
+.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button.danger:hover{
+    background-color: orangered;
+    border-color: orangered;
+    color: #fff;
+}
+
+.latte-view .action-button.no-icon{
+    background-color: white !important;
+    border-color: #777 !important;
+    color: #777 !important;
+    text-align: center !important;
+    padding: 10px !important;
+}
+
+.latte-view .action-button:hover{
+    background-color: #777 !important;
+    border-color: #777 !important;
+    color: #fff !important;
 }
 
 .page-editor-main-view{
@@ -1048,60 +1104,4 @@ textarea.page-configuration:focus{
 .signin-view footer{
     margin-top: 50px;
     text-align: center;
-}
-
-/*.latte-view.page-detail-view .open-editor-button.no-icon{*/
-    /*background-color: white;*/
-    /*border-color: #4285F4;*/
-    /*color: #4285F4;*/
-    /*text-align: center;*/
-    /*padding: 10px;*/
-/*}*/
-
-/*.latte-view.page-detail-view .open-editor-button:hover{*/
-    /*background-color: #4285F4;*/
-    /*border-color: #4285F4;*/
-    /*color: #fff;*/
-/*}*/
-
-.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button{
-    background-color: white;
-    border-color: #4285F4;
-    color: #4285F4;
-    text-align: center;
-    padding: 10px;
-}
-
-.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button:hover{
-    background-color: #4285F4;
-    border-color: #4285F4;
-    color: #fff;
-}
-
-.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button.danger{
-    background-color: white;
-    border-color: orangered;
-    color: orangered;
-    text-align: center;
-    padding: 10px;
-}
-
-.latte-view.explorer .latte-view.explorer-detail-view .latte-view.column .column-content > .latte-item.button.danger:hover{
-    background-color: orangered;
-    border-color: orangered;
-    color: #fff;
-}
-
-.latte-view .action-button.no-icon{
-    background-color: white !important;
-    border-color: #777 !important;
-    color: #777 !important;
-    text-align: center !important;
-    padding: 10px !important;
-}
-
-.latte-view .action-button:hover{
-    background-color: #777 !important;
-    border-color: #777 !important;
-    color: #fff !important;
 }
