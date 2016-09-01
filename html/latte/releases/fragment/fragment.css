@@ -24,7 +24,28 @@
 
 .gallery-fragment-editor .latte-item.file{
     margin: 0 15px 15px 0;
-}.latte-item.file{
+}textarea.plain-text-fragment {
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    display: block;
+    overflow:hidden;
+    box-sizing: padding-box;
+    font-size: 14px;
+    padding:10px;
+    border:6px solid white;
+
+
+    width: 100%;
+    /*border: none;*/
+    margin: 0;
+    /*padding: 0;*/
+    font-family: monospace;
+
+}
+.latte-item.file{
     border: solid 1px #ccc;
     background: #f0f0f0;
     cursor: pointer;
@@ -101,28 +122,7 @@
 .latte-item.file .info .size{
     float: right;
     margin-right: 3px;
-}textarea.plain-text-fragment {
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*bottom: 0;*/
-    display: block;
-    overflow:hidden;
-    box-sizing: padding-box;
-    font-size: 14px;
-    padding:10px;
-    border:6px solid white;
-
-
-    width: 100%;
-    /*border: none;*/
-    margin: 0;
-    /*padding: 0;*/
-    font-family: monospace;
-
-}
-.cms-fragment-expando .latte-item.toolbar.with-face > .face{
+}.cms-fragment-expando .latte-item.toolbar.with-face > .face{
     background: white;
 }
 .cms-fragment-expando{
@@ -134,60 +134,7 @@
 }
 .cms-fragment-expando.focused .expando-title{
     color: #4285F4;
-}.cms-explorer.explorer.split > .latte-view.side > .container{
-    background: #f0f0f0;
-}
-.cms-main-view.latte-view > .top-bar{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50px;
-    overflow: hidden;
-
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f6383e+0,f67638+100 */
-    background: #f6383e; /* Old browsers */
-    background: -moz-linear-gradient(top,  #f6383e 0%, #f67638 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top,  #f6383e 0%,#f67638 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  #f6383e 0%,#f67638 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6383e', endColorstr='#f67638',GradientType=0 ); /* IE6-9 */
-
-}
-
-.cms-main-view.latte-view > .top-bar > .logo:hover{
-    animation: spin 0.3s linear;
-}
-.cms-main-view.latte-view > .top-bar > .logo{
-    background: url(/latte/releases/fragment/support/imgs/triangle-white.png) no-repeat;
-    background-size: 100% auto;
-    width: 25px;
-    height: 25px;
-    left: 20px;
-    margin-top: -12.5px;
-    top: 50%;
-    position: absolute;
-}
-
-.cms-main-view.latte-view > .top-bar > .logout{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom:0;
-    color: white;
-    cursor: pointer;
-    padding: 20px 20px;
-}
-
-.cms-main-view.latte-view > .top-bar > .logout:hover{
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.cms-main-view.latte-view > .container{
-    top: 50px;
-}
-
-@keyframes spin { 100% { transform:rotate(120deg); } }
-/**
+}/**
 https://linearicons.com/free
 https://perxis.com
 **/
@@ -733,6 +680,59 @@ https://perxis.com
 .lnr-pointer-left:before {
     content: "\e8a9";
 }
+.cms-explorer.explorer.split > .latte-view.side > .container{
+    background: #f0f0f0;
+}
+.cms-main-view.latte-view > .top-bar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    overflow: hidden;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f6383e+0,f67638+100 */
+    background: #f6383e; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f6383e 0%, #f67638 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #f6383e 0%,#f67638 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #f6383e 0%,#f67638 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6383e', endColorstr='#f67638',GradientType=0 ); /* IE6-9 */
+
+}
+
+.cms-main-view.latte-view > .top-bar > .logo:hover{
+    animation: spin 0.3s linear;
+}
+.cms-main-view.latte-view > .top-bar > .logo{
+    background: url(/latte/releases/fragment/support/imgs/triangle-white.png) no-repeat;
+    background-size: 100% auto;
+    width: 25px;
+    height: 25px;
+    left: 20px;
+    margin-top: -12.5px;
+    top: 50%;
+    position: absolute;
+}
+
+.cms-main-view.latte-view > .top-bar > .logout{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom:0;
+    color: white;
+    cursor: pointer;
+    padding: 20px 20px;
+}
+
+.cms-main-view.latte-view > .top-bar > .logout:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.cms-main-view.latte-view > .container{
+    top: 50px;
+}
+
+@keyframes spin { 100% { transform:rotate(120deg); } }
 textarea.page-configuration {
     position: absolute;
     top: 0;

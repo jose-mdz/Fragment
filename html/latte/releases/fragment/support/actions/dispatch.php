@@ -25,6 +25,9 @@ $q = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
 if (!$q){
     $q = 'Jr2YAI_SYP'; // TODO: This is the C I T Y G A T E home
 }
+// Choose theme
+//TODO: Mechanism for theme configuration
+$theme = $GLOBALS['fragment-theme'] = 'citygate';
 
 // Load page
 $page = $GLOBALS['page'] = Page::byUrlQ($q);
@@ -59,10 +62,6 @@ if ($page){
 
     // Include support of functions
     include __DIR__ . '/dispatch-functions.php';
-
-    // Choose theme
-    //TODO: Mechanism for theme configuration
-    $theme = 'citygate';
 
     // Include template now
     include __DIR__ . "/../../../../../fragment/themes/$theme/$template.php";

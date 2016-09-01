@@ -177,7 +177,7 @@ var latte;
             if (name == 'int' && size == 1) {
                 return value ? "1" : "0";
             }
-            var v = String(value);
+            var v = value === null ? '' : String(value);
             return v;
         };
         /**

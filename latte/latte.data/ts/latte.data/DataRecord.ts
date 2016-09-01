@@ -207,13 +207,11 @@ module latte{
 
             let t = dictionary[name] || 'string';
 
-
-
             if(name == 'int' && size == 1) {
                 return value ? "1" : "0";
             }
 
-            let v = String(value);
+            let v = value === null ? '' : String(value);
             return v;
         }
 

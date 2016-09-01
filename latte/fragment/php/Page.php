@@ -711,13 +711,13 @@ ORDER BY $sortBySQL
                 $all_frags[] = $f;
             }
         }
-//        echo "[PRENT]";
-//        print_r($parentConfig);
-//        echo "[/PARENT]";
-//
-//        echo "[FRAGS]";
-//        print_r($all_frags);
-//        echo "[/FRAGS]";
+
+        if (sizeof($all_frags) == 0){
+            $all_frags[] = array(
+                "key" => "body",
+                "name" => "strings.body"
+            );
+        }
 
         foreach($all_frags as $f){
             $key = $f['key'];

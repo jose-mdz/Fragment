@@ -43,6 +43,7 @@ function head(){
     echo "<title>$title</title>";
     echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
 
+    // Dump analytics
     if ($settings['analytics-account']){
         $ua = $settings['analytics-account']->value;
         echo "
@@ -58,6 +59,14 @@ function head(){
         </script>
         ";
     }
+
+    // Dump stylesheets
+    if(isset($GLOBALS['fragment-stylesheets'])){
+        foreach($GLOBALS['fragment-stylesheets'] as $path){
+            echo "<link href=\"$path\" rel=\"stylesheet\">";
+        }
+    }
+
 }
 
 function page(){
@@ -71,4 +80,18 @@ function page(){
         fragment($key);
     }
 
+}
+
+/**
+ * Registers the specified stylesheet
+ * @param $path
+ */
+function register_stylesheet($path, $relativeToTheme = true){
+    if(!isset($GLOBALS['fragment-stylesheets'])){
+        $GLOBALS['fragment-stylesheets'] = array();
+    }
+    if (array_search($path, $GLOBALS['fragment-stylesheets']) === false){
+        $theme = $GLOBALS['fragment-theme'];
+        $GLOBALS['fragment-stylesheets'][] = $relativeToTheme ? "/fragment/themes/$theme/$path" : $path;
+    }
 }
