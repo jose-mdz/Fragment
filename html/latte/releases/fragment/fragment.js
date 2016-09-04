@@ -5,340 +5,170 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var latte;
 (function (latte) {
-    var fileBase = (function (_super) {
-        __extends(fileBase, _super);
-        function fileBase() {
+    var fragmentBase = (function (_super) {
+        __extends(fragmentBase, _super);
+        function fragmentBase() {
             _super.apply(this, arguments);
             /* Name of Php record */
-            this._recordType = 'File';
+            this._recordType = 'Fragment';
             /* Name of Module where record lives */
             this._moduleName = 'fragment';
             /**
              * Database field: int(11)
              */
-            this._idfile = null;
+            this._idfragment = null;
+            /**
+             * Database field: int(11)
+             */
+            this._idpage = null;
+            /**
+             * Database field: longtext
+             */
+            this._value = null;
             /**
              * Database field: varchar(50)
-             */
-            this._guid = null;
-            /**
-             * Database field: int(11)
-             */
-            this._iduser = null;
-            /**
-             * Database field: int(11)
-             */
-            this._idowner = null;
-            /**
-             * Database field: int(11)
-             */
-            this._idparent = null;
-            /**
-             * Database field: varchar(50)
-             */
-            this._owner = null;
-            /**
-             * Database field: varchar(128)
              */
             this._name = null;
-            /**
-             * Database field: int(11)
-             */
-            this._size = null;
-            /**
-             * Database field: varchar(30)
-             */
-            this._bucket = null;
-            /**
-             * Database field: varchar(128)
-             */
-            this._path = null;
-            /**
-             * Database field: datetime
-             */
-            this._uploaded = null;
-            /**
-             * Database field: varchar(200)
-             */
-            this._description = null;
-            /**
-             * Database field: int(11)
-             */
-            this._width = null;
-            /**
-             * Database field: int(11)
-             */
-            this._height = null;
-            /**
-             * Database field: varchar(50)
-             */
-            this._key = null;
         }
-        Object.defineProperty(fileBase.prototype, "idfile", {
+        Object.defineProperty(fragmentBase.prototype, "idfragment", {
             /**
-             * Gets or sets the value of the idfile field of type int(11)
+             * Gets or sets the value of the idfragment field of type int(11)
              */
             get: function () {
-                return this._idfile;
+                return this._idfragment;
             },
             /**
-             * Gets or sets the value of the idfile field of type int(11)
+             * Gets or sets the value of the idfragment field of type int(11)
              */
             set: function (value) {
-                var changed = value !== this._idfile;
-                this._idfile = value;
+                var changed = value !== this._idfragment;
+                this._idfragment = value;
                 if (changed) {
-                    this.onIdfileChanged();
+                    this.onIdfragmentChanged();
                 }
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(fileBase.prototype, "idfileChanged", {
+        Object.defineProperty(fragmentBase.prototype, "idfragmentChanged", {
             /**
-             * Gets an event raised when the value of the idfile property changes
+             * Gets an event raised when the value of the idfragment property changes
              */
             get: function () {
-                if (!this._idfileChanged) {
-                    this._idfileChanged = new latte.LatteEvent(this);
+                if (!this._idfragmentChanged) {
+                    this._idfragmentChanged = new latte.LatteEvent(this);
                 }
-                return this._idfileChanged;
+                return this._idfragmentChanged;
             },
             enumerable: true,
             configurable: true
         });
         /**
-         * Raises the <c>idfileChanged</c> event
+         * Raises the <c>idfragmentChanged</c> event
          */
-        fileBase.prototype.onIdfileChanged = function () {
-            if (this._idfileChanged) {
-                this._idfileChanged.raise();
+        fragmentBase.prototype.onIdfragmentChanged = function () {
+            if (this._idfragmentChanged) {
+                this._idfragmentChanged.raise();
             }
-            this.onFieldValueChanged('idfile', this.idfile);
+            this.onFieldValueChanged('idfragment', this.idfragment);
         };
         /**
         * Gets the name of the autoincrement field
         **/
-        fileBase.prototype.onGetRecordIdName = function () { return 'idfile'; };
-        Object.defineProperty(fileBase.prototype, "guid", {
+        fragmentBase.prototype.onGetRecordIdName = function () { return 'idfragment'; };
+        Object.defineProperty(fragmentBase.prototype, "idpage", {
             /**
-             * Gets or sets the value of the guid field of type varchar(50)
+             * Gets or sets the value of the idpage field of type int(11)
              */
             get: function () {
-                return this._guid;
+                return this._idpage;
             },
             /**
-             * Gets or sets the value of the guid field of type varchar(50)
+             * Gets or sets the value of the idpage field of type int(11)
              */
             set: function (value) {
-                var changed = value !== this._guid;
-                this._guid = value;
+                var changed = value !== this._idpage;
+                this._idpage = value;
                 if (changed) {
-                    this.onGuidChanged();
+                    this.onIdpageChanged();
                 }
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(fileBase.prototype, "guidChanged", {
+        Object.defineProperty(fragmentBase.prototype, "idpageChanged", {
             /**
-             * Gets an event raised when the value of the guid property changes
+             * Gets an event raised when the value of the idpage property changes
              */
             get: function () {
-                if (!this._guidChanged) {
-                    this._guidChanged = new latte.LatteEvent(this);
+                if (!this._idpageChanged) {
+                    this._idpageChanged = new latte.LatteEvent(this);
                 }
-                return this._guidChanged;
+                return this._idpageChanged;
             },
             enumerable: true,
             configurable: true
         });
         /**
-         * Raises the <c>guidChanged</c> event
+         * Raises the <c>idpageChanged</c> event
          */
-        fileBase.prototype.onGuidChanged = function () {
-            if (this._guidChanged) {
-                this._guidChanged.raise();
+        fragmentBase.prototype.onIdpageChanged = function () {
+            if (this._idpageChanged) {
+                this._idpageChanged.raise();
             }
-            this.onFieldValueChanged('guid', this.guid);
+            this.onFieldValueChanged('idpage', this.idpage);
         };
-        Object.defineProperty(fileBase.prototype, "iduser", {
+        Object.defineProperty(fragmentBase.prototype, "value", {
             /**
-             * Gets or sets the value of the iduser field of type int(11)
+             * Gets or sets the value of the value field of type longtext
              */
             get: function () {
-                return this._iduser;
+                return this._value;
             },
             /**
-             * Gets or sets the value of the iduser field of type int(11)
+             * Gets or sets the value of the value field of type longtext
              */
             set: function (value) {
-                var changed = value !== this._iduser;
-                this._iduser = value;
+                var changed = value !== this._value;
+                this._value = value;
                 if (changed) {
-                    this.onIduserChanged();
+                    this.onValueChanged();
                 }
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(fileBase.prototype, "iduserChanged", {
+        Object.defineProperty(fragmentBase.prototype, "valueChanged", {
             /**
-             * Gets an event raised when the value of the iduser property changes
+             * Gets an event raised when the value of the value property changes
              */
             get: function () {
-                if (!this._iduserChanged) {
-                    this._iduserChanged = new latte.LatteEvent(this);
+                if (!this._valueChanged) {
+                    this._valueChanged = new latte.LatteEvent(this);
                 }
-                return this._iduserChanged;
+                return this._valueChanged;
             },
             enumerable: true,
             configurable: true
         });
         /**
-         * Raises the <c>iduserChanged</c> event
+         * Raises the <c>valueChanged</c> event
          */
-        fileBase.prototype.onIduserChanged = function () {
-            if (this._iduserChanged) {
-                this._iduserChanged.raise();
+        fragmentBase.prototype.onValueChanged = function () {
+            if (this._valueChanged) {
+                this._valueChanged.raise();
             }
-            this.onFieldValueChanged('iduser', this.iduser);
+            this.onFieldValueChanged('value', this.value);
         };
-        Object.defineProperty(fileBase.prototype, "idowner", {
+        Object.defineProperty(fragmentBase.prototype, "name", {
             /**
-             * Gets or sets the value of the idowner field of type int(11)
-             */
-            get: function () {
-                return this._idowner;
-            },
-            /**
-             * Gets or sets the value of the idowner field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idowner;
-                this._idowner = value;
-                if (changed) {
-                    this.onIdownerChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "idownerChanged", {
-            /**
-             * Gets an event raised when the value of the idowner property changes
-             */
-            get: function () {
-                if (!this._idownerChanged) {
-                    this._idownerChanged = new latte.LatteEvent(this);
-                }
-                return this._idownerChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idownerChanged</c> event
-         */
-        fileBase.prototype.onIdownerChanged = function () {
-            if (this._idownerChanged) {
-                this._idownerChanged.raise();
-            }
-            this.onFieldValueChanged('idowner', this.idowner);
-        };
-        Object.defineProperty(fileBase.prototype, "idparent", {
-            /**
-             * Gets or sets the value of the idparent field of type int(11)
-             */
-            get: function () {
-                return this._idparent;
-            },
-            /**
-             * Gets or sets the value of the idparent field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idparent;
-                this._idparent = value;
-                if (changed) {
-                    this.onIdparentChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "idparentChanged", {
-            /**
-             * Gets an event raised when the value of the idparent property changes
-             */
-            get: function () {
-                if (!this._idparentChanged) {
-                    this._idparentChanged = new latte.LatteEvent(this);
-                }
-                return this._idparentChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idparentChanged</c> event
-         */
-        fileBase.prototype.onIdparentChanged = function () {
-            if (this._idparentChanged) {
-                this._idparentChanged.raise();
-            }
-            this.onFieldValueChanged('idparent', this.idparent);
-        };
-        Object.defineProperty(fileBase.prototype, "owner", {
-            /**
-             * Gets or sets the value of the owner field of type varchar(50)
-             */
-            get: function () {
-                return this._owner;
-            },
-            /**
-             * Gets or sets the value of the owner field of type varchar(50)
-             */
-            set: function (value) {
-                var changed = value !== this._owner;
-                this._owner = value;
-                if (changed) {
-                    this.onOwnerChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "ownerChanged", {
-            /**
-             * Gets an event raised when the value of the owner property changes
-             */
-            get: function () {
-                if (!this._ownerChanged) {
-                    this._ownerChanged = new latte.LatteEvent(this);
-                }
-                return this._ownerChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>ownerChanged</c> event
-         */
-        fileBase.prototype.onOwnerChanged = function () {
-            if (this._ownerChanged) {
-                this._ownerChanged.raise();
-            }
-            this.onFieldValueChanged('owner', this.owner);
-        };
-        Object.defineProperty(fileBase.prototype, "name", {
-            /**
-             * Gets or sets the value of the name field of type varchar(128)
+             * Gets or sets the value of the name field of type varchar(50)
              */
             get: function () {
                 return this._name;
             },
             /**
-             * Gets or sets the value of the name field of type varchar(128)
+             * Gets or sets the value of the name field of type varchar(50)
              */
             set: function (value) {
                 var changed = value !== this._name;
@@ -350,7 +180,7 @@ var latte;
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(fileBase.prototype, "nameChanged", {
+        Object.defineProperty(fragmentBase.prototype, "nameChanged", {
             /**
              * Gets an event raised when the value of the name property changes
              */
@@ -366,402 +196,23 @@ var latte;
         /**
          * Raises the <c>nameChanged</c> event
          */
-        fileBase.prototype.onNameChanged = function () {
+        fragmentBase.prototype.onNameChanged = function () {
             if (this._nameChanged) {
                 this._nameChanged.raise();
             }
             this.onFieldValueChanged('name', this.name);
         };
-        Object.defineProperty(fileBase.prototype, "size", {
-            /**
-             * Gets or sets the value of the size field of type int(11)
-             */
-            get: function () {
-                return this._size;
-            },
-            /**
-             * Gets or sets the value of the size field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._size;
-                this._size = value;
-                if (changed) {
-                    this.onSizeChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "sizeChanged", {
-            /**
-             * Gets an event raised when the value of the size property changes
-             */
-            get: function () {
-                if (!this._sizeChanged) {
-                    this._sizeChanged = new latte.LatteEvent(this);
-                }
-                return this._sizeChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>sizeChanged</c> event
-         */
-        fileBase.prototype.onSizeChanged = function () {
-            if (this._sizeChanged) {
-                this._sizeChanged.raise();
-            }
-            this.onFieldValueChanged('size', this.size);
-        };
-        Object.defineProperty(fileBase.prototype, "bucket", {
-            /**
-             * Gets or sets the value of the bucket field of type varchar(30)
-             */
-            get: function () {
-                return this._bucket;
-            },
-            /**
-             * Gets or sets the value of the bucket field of type varchar(30)
-             */
-            set: function (value) {
-                var changed = value !== this._bucket;
-                this._bucket = value;
-                if (changed) {
-                    this.onBucketChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "bucketChanged", {
-            /**
-             * Gets an event raised when the value of the bucket property changes
-             */
-            get: function () {
-                if (!this._bucketChanged) {
-                    this._bucketChanged = new latte.LatteEvent(this);
-                }
-                return this._bucketChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>bucketChanged</c> event
-         */
-        fileBase.prototype.onBucketChanged = function () {
-            if (this._bucketChanged) {
-                this._bucketChanged.raise();
-            }
-            this.onFieldValueChanged('bucket', this.bucket);
-        };
-        Object.defineProperty(fileBase.prototype, "path", {
-            /**
-             * Gets or sets the value of the path field of type varchar(128)
-             */
-            get: function () {
-                return this._path;
-            },
-            /**
-             * Gets or sets the value of the path field of type varchar(128)
-             */
-            set: function (value) {
-                var changed = value !== this._path;
-                this._path = value;
-                if (changed) {
-                    this.onPathChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "pathChanged", {
-            /**
-             * Gets an event raised when the value of the path property changes
-             */
-            get: function () {
-                if (!this._pathChanged) {
-                    this._pathChanged = new latte.LatteEvent(this);
-                }
-                return this._pathChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>pathChanged</c> event
-         */
-        fileBase.prototype.onPathChanged = function () {
-            if (this._pathChanged) {
-                this._pathChanged.raise();
-            }
-            this.onFieldValueChanged('path', this.path);
-        };
-        Object.defineProperty(fileBase.prototype, "uploaded", {
-            /**
-             * Gets or sets the value of the uploaded field of type datetime
-             */
-            get: function () {
-                return this._uploaded;
-            },
-            /**
-             * Gets or sets the value of the uploaded field of type datetime
-             */
-            set: function (value) {
-                var changed = value !== this._uploaded;
-                this._uploaded = value;
-                if (changed) {
-                    this.onUploadedChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "uploadedChanged", {
-            /**
-             * Gets an event raised when the value of the uploaded property changes
-             */
-            get: function () {
-                if (!this._uploadedChanged) {
-                    this._uploadedChanged = new latte.LatteEvent(this);
-                }
-                return this._uploadedChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>uploadedChanged</c> event
-         */
-        fileBase.prototype.onUploadedChanged = function () {
-            if (this._uploadedChanged) {
-                this._uploadedChanged.raise();
-            }
-            this.onFieldValueChanged('uploaded', this.uploaded);
-        };
-        Object.defineProperty(fileBase.prototype, "description", {
-            /**
-             * Gets or sets the value of the description field of type varchar(200)
-             */
-            get: function () {
-                return this._description;
-            },
-            /**
-             * Gets or sets the value of the description field of type varchar(200)
-             */
-            set: function (value) {
-                var changed = value !== this._description;
-                this._description = value;
-                if (changed) {
-                    this.onDescriptionChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "descriptionChanged", {
-            /**
-             * Gets an event raised when the value of the description property changes
-             */
-            get: function () {
-                if (!this._descriptionChanged) {
-                    this._descriptionChanged = new latte.LatteEvent(this);
-                }
-                return this._descriptionChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>descriptionChanged</c> event
-         */
-        fileBase.prototype.onDescriptionChanged = function () {
-            if (this._descriptionChanged) {
-                this._descriptionChanged.raise();
-            }
-            this.onFieldValueChanged('description', this.description);
-        };
-        Object.defineProperty(fileBase.prototype, "width", {
-            /**
-             * Gets or sets the value of the width field of type int(11)
-             */
-            get: function () {
-                return this._width;
-            },
-            /**
-             * Gets or sets the value of the width field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._width;
-                this._width = value;
-                if (changed) {
-                    this.onWidthChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "widthChanged", {
-            /**
-             * Gets an event raised when the value of the width property changes
-             */
-            get: function () {
-                if (!this._widthChanged) {
-                    this._widthChanged = new latte.LatteEvent(this);
-                }
-                return this._widthChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>widthChanged</c> event
-         */
-        fileBase.prototype.onWidthChanged = function () {
-            if (this._widthChanged) {
-                this._widthChanged.raise();
-            }
-            this.onFieldValueChanged('width', this.width);
-        };
-        Object.defineProperty(fileBase.prototype, "height", {
-            /**
-             * Gets or sets the value of the height field of type int(11)
-             */
-            get: function () {
-                return this._height;
-            },
-            /**
-             * Gets or sets the value of the height field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._height;
-                this._height = value;
-                if (changed) {
-                    this.onHeightChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "heightChanged", {
-            /**
-             * Gets an event raised when the value of the height property changes
-             */
-            get: function () {
-                if (!this._heightChanged) {
-                    this._heightChanged = new latte.LatteEvent(this);
-                }
-                return this._heightChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>heightChanged</c> event
-         */
-        fileBase.prototype.onHeightChanged = function () {
-            if (this._heightChanged) {
-                this._heightChanged.raise();
-            }
-            this.onFieldValueChanged('height', this.height);
-        };
-        Object.defineProperty(fileBase.prototype, "key", {
-            /**
-             * Gets or sets the value of the key field of type varchar(50)
-             */
-            get: function () {
-                return this._key;
-            },
-            /**
-             * Gets or sets the value of the key field of type varchar(50)
-             */
-            set: function (value) {
-                var changed = value !== this._key;
-                this._key = value;
-                if (changed) {
-                    this.onKeyChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fileBase.prototype, "keyChanged", {
-            /**
-             * Gets an event raised when the value of the key property changes
-             */
-            get: function () {
-                if (!this._keyChanged) {
-                    this._keyChanged = new latte.LatteEvent(this);
-                }
-                return this._keyChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>keyChanged</c> event
-         */
-        fileBase.prototype.onKeyChanged = function () {
-            if (this._keyChanged) {
-                this._keyChanged.raise();
-            }
-            this.onFieldValueChanged('key', this.key);
-        };
         /**
         * Override. Gets data about the fields of the record.
         **/
-        fileBase.prototype.onGetFields = function () { return { 'idfile': this.idfile, 'guid': this.guid, 'iduser': this.iduser, 'idowner': this.idowner, 'idparent': this.idparent, 'owner': this.owner, 'name': this.name, 'size': this.size, 'bucket': this.bucket, 'path': this.path, 'uploaded': this.uploaded, 'description': this.description, 'width': this.width, 'height': this.height, 'key': this.key }; };
-        /*
-         * Remote Method.
- Retrieves a list of files by searching by the specified, comma separated guids
-
-
-         */
-        fileBase.byGuids = function (guids) {
-            return new latte.RemoteCall('fragment', 'File', 'byGuids', { guids: guids });
-        };
-        /*
-         * Remote Method.
- Gets the files of the specified records.  Files contains all children.
-
-
-         */
-        fileBase.byOwner = function (name, id) {
-            return new latte.RemoteCall('fragment', 'File', 'byOwner', { name: name, id: id });
-        };
-        /*
-         * Remote Method.
- Gets an array unlinked File objects inserted by the logged user.
-
-
-         */
-        fileBase.myUnlinked = function (ownerName) {
-            return new latte.RemoteCall('fragment', 'File', 'myUnlinked', { ownerName: ownerName });
-        };
-        /*
-         * Remote Method.
-
-         */
-        fileBase.changeNameDescription = function (idfile, name, description) {
-            return new latte.RemoteCall('fragment', 'File', 'changeNameDescription', { idfile: idfile, name: name, description: description });
-        };
-        /*
-         * Remote Method.
- Removes the registry of file and its contents from S3.
-
-
-         */
-        fileBase.prototype.physicalRemove = function () {
-            return new latte.RemoteCall('fragment', 'File', 'physicalRemove', {}, this.recordId);
-        };
+        fragmentBase.prototype.onGetFields = function () { return { 'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name }; };
         /**
         * Declares the native types of the record.
         **/
-        fileBase.nativeTypes = { "idfile": "int(11)", "guid": "varchar(50)", "iduser": "int(11)", "idowner": "int(11)", "idparent": "int(11)", "owner": "varchar(50)", "name": "varchar(128)", "size": "int(11)", "bucket": "varchar(30)", "path": "varchar(128)", "uploaded": "datetime", "description": "varchar(200)", "width": "int(11)", "height": "int(11)", "key": "varchar(50)" };
-        return fileBase;
+        fragmentBase.nativeTypes = { "idfragment": "int(11)", "idpage": "int(11)", "value": "longtext", "name": "varchar(50)" };
+        return fragmentBase;
     }(latte.DataRecord));
-    latte.fileBase = fileBase;
+    latte.fragmentBase = fragmentBase;
     var pageBase = (function (_super) {
         __extends(pageBase, _super);
         function pageBase() {
@@ -1774,6 +1225,763 @@ var latte;
         return pageBase;
     }(latte.DataRecord));
     latte.pageBase = pageBase;
+    var fileBase = (function (_super) {
+        __extends(fileBase, _super);
+        function fileBase() {
+            _super.apply(this, arguments);
+            /* Name of Php record */
+            this._recordType = 'File';
+            /* Name of Module where record lives */
+            this._moduleName = 'fragment';
+            /**
+             * Database field: int(11)
+             */
+            this._idfile = null;
+            /**
+             * Database field: varchar(50)
+             */
+            this._guid = null;
+            /**
+             * Database field: int(11)
+             */
+            this._iduser = null;
+            /**
+             * Database field: int(11)
+             */
+            this._idowner = null;
+            /**
+             * Database field: int(11)
+             */
+            this._idparent = null;
+            /**
+             * Database field: varchar(50)
+             */
+            this._owner = null;
+            /**
+             * Database field: varchar(128)
+             */
+            this._name = null;
+            /**
+             * Database field: int(11)
+             */
+            this._size = null;
+            /**
+             * Database field: varchar(30)
+             */
+            this._bucket = null;
+            /**
+             * Database field: varchar(128)
+             */
+            this._path = null;
+            /**
+             * Database field: datetime
+             */
+            this._uploaded = null;
+            /**
+             * Database field: varchar(200)
+             */
+            this._description = null;
+            /**
+             * Database field: int(11)
+             */
+            this._width = null;
+            /**
+             * Database field: int(11)
+             */
+            this._height = null;
+            /**
+             * Database field: varchar(50)
+             */
+            this._key = null;
+        }
+        Object.defineProperty(fileBase.prototype, "idfile", {
+            /**
+             * Gets or sets the value of the idfile field of type int(11)
+             */
+            get: function () {
+                return this._idfile;
+            },
+            /**
+             * Gets or sets the value of the idfile field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idfile;
+                this._idfile = value;
+                if (changed) {
+                    this.onIdfileChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "idfileChanged", {
+            /**
+             * Gets an event raised when the value of the idfile property changes
+             */
+            get: function () {
+                if (!this._idfileChanged) {
+                    this._idfileChanged = new latte.LatteEvent(this);
+                }
+                return this._idfileChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idfileChanged</c> event
+         */
+        fileBase.prototype.onIdfileChanged = function () {
+            if (this._idfileChanged) {
+                this._idfileChanged.raise();
+            }
+            this.onFieldValueChanged('idfile', this.idfile);
+        };
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        fileBase.prototype.onGetRecordIdName = function () { return 'idfile'; };
+        Object.defineProperty(fileBase.prototype, "guid", {
+            /**
+             * Gets or sets the value of the guid field of type varchar(50)
+             */
+            get: function () {
+                return this._guid;
+            },
+            /**
+             * Gets or sets the value of the guid field of type varchar(50)
+             */
+            set: function (value) {
+                var changed = value !== this._guid;
+                this._guid = value;
+                if (changed) {
+                    this.onGuidChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "guidChanged", {
+            /**
+             * Gets an event raised when the value of the guid property changes
+             */
+            get: function () {
+                if (!this._guidChanged) {
+                    this._guidChanged = new latte.LatteEvent(this);
+                }
+                return this._guidChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>guidChanged</c> event
+         */
+        fileBase.prototype.onGuidChanged = function () {
+            if (this._guidChanged) {
+                this._guidChanged.raise();
+            }
+            this.onFieldValueChanged('guid', this.guid);
+        };
+        Object.defineProperty(fileBase.prototype, "iduser", {
+            /**
+             * Gets or sets the value of the iduser field of type int(11)
+             */
+            get: function () {
+                return this._iduser;
+            },
+            /**
+             * Gets or sets the value of the iduser field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._iduser;
+                this._iduser = value;
+                if (changed) {
+                    this.onIduserChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "iduserChanged", {
+            /**
+             * Gets an event raised when the value of the iduser property changes
+             */
+            get: function () {
+                if (!this._iduserChanged) {
+                    this._iduserChanged = new latte.LatteEvent(this);
+                }
+                return this._iduserChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>iduserChanged</c> event
+         */
+        fileBase.prototype.onIduserChanged = function () {
+            if (this._iduserChanged) {
+                this._iduserChanged.raise();
+            }
+            this.onFieldValueChanged('iduser', this.iduser);
+        };
+        Object.defineProperty(fileBase.prototype, "idowner", {
+            /**
+             * Gets or sets the value of the idowner field of type int(11)
+             */
+            get: function () {
+                return this._idowner;
+            },
+            /**
+             * Gets or sets the value of the idowner field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idowner;
+                this._idowner = value;
+                if (changed) {
+                    this.onIdownerChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "idownerChanged", {
+            /**
+             * Gets an event raised when the value of the idowner property changes
+             */
+            get: function () {
+                if (!this._idownerChanged) {
+                    this._idownerChanged = new latte.LatteEvent(this);
+                }
+                return this._idownerChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idownerChanged</c> event
+         */
+        fileBase.prototype.onIdownerChanged = function () {
+            if (this._idownerChanged) {
+                this._idownerChanged.raise();
+            }
+            this.onFieldValueChanged('idowner', this.idowner);
+        };
+        Object.defineProperty(fileBase.prototype, "idparent", {
+            /**
+             * Gets or sets the value of the idparent field of type int(11)
+             */
+            get: function () {
+                return this._idparent;
+            },
+            /**
+             * Gets or sets the value of the idparent field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idparent;
+                this._idparent = value;
+                if (changed) {
+                    this.onIdparentChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "idparentChanged", {
+            /**
+             * Gets an event raised when the value of the idparent property changes
+             */
+            get: function () {
+                if (!this._idparentChanged) {
+                    this._idparentChanged = new latte.LatteEvent(this);
+                }
+                return this._idparentChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idparentChanged</c> event
+         */
+        fileBase.prototype.onIdparentChanged = function () {
+            if (this._idparentChanged) {
+                this._idparentChanged.raise();
+            }
+            this.onFieldValueChanged('idparent', this.idparent);
+        };
+        Object.defineProperty(fileBase.prototype, "owner", {
+            /**
+             * Gets or sets the value of the owner field of type varchar(50)
+             */
+            get: function () {
+                return this._owner;
+            },
+            /**
+             * Gets or sets the value of the owner field of type varchar(50)
+             */
+            set: function (value) {
+                var changed = value !== this._owner;
+                this._owner = value;
+                if (changed) {
+                    this.onOwnerChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "ownerChanged", {
+            /**
+             * Gets an event raised when the value of the owner property changes
+             */
+            get: function () {
+                if (!this._ownerChanged) {
+                    this._ownerChanged = new latte.LatteEvent(this);
+                }
+                return this._ownerChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>ownerChanged</c> event
+         */
+        fileBase.prototype.onOwnerChanged = function () {
+            if (this._ownerChanged) {
+                this._ownerChanged.raise();
+            }
+            this.onFieldValueChanged('owner', this.owner);
+        };
+        Object.defineProperty(fileBase.prototype, "name", {
+            /**
+             * Gets or sets the value of the name field of type varchar(128)
+             */
+            get: function () {
+                return this._name;
+            },
+            /**
+             * Gets or sets the value of the name field of type varchar(128)
+             */
+            set: function (value) {
+                var changed = value !== this._name;
+                this._name = value;
+                if (changed) {
+                    this.onNameChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "nameChanged", {
+            /**
+             * Gets an event raised when the value of the name property changes
+             */
+            get: function () {
+                if (!this._nameChanged) {
+                    this._nameChanged = new latte.LatteEvent(this);
+                }
+                return this._nameChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        fileBase.prototype.onNameChanged = function () {
+            if (this._nameChanged) {
+                this._nameChanged.raise();
+            }
+            this.onFieldValueChanged('name', this.name);
+        };
+        Object.defineProperty(fileBase.prototype, "size", {
+            /**
+             * Gets or sets the value of the size field of type int(11)
+             */
+            get: function () {
+                return this._size;
+            },
+            /**
+             * Gets or sets the value of the size field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._size;
+                this._size = value;
+                if (changed) {
+                    this.onSizeChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "sizeChanged", {
+            /**
+             * Gets an event raised when the value of the size property changes
+             */
+            get: function () {
+                if (!this._sizeChanged) {
+                    this._sizeChanged = new latte.LatteEvent(this);
+                }
+                return this._sizeChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>sizeChanged</c> event
+         */
+        fileBase.prototype.onSizeChanged = function () {
+            if (this._sizeChanged) {
+                this._sizeChanged.raise();
+            }
+            this.onFieldValueChanged('size', this.size);
+        };
+        Object.defineProperty(fileBase.prototype, "bucket", {
+            /**
+             * Gets or sets the value of the bucket field of type varchar(30)
+             */
+            get: function () {
+                return this._bucket;
+            },
+            /**
+             * Gets or sets the value of the bucket field of type varchar(30)
+             */
+            set: function (value) {
+                var changed = value !== this._bucket;
+                this._bucket = value;
+                if (changed) {
+                    this.onBucketChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "bucketChanged", {
+            /**
+             * Gets an event raised when the value of the bucket property changes
+             */
+            get: function () {
+                if (!this._bucketChanged) {
+                    this._bucketChanged = new latte.LatteEvent(this);
+                }
+                return this._bucketChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>bucketChanged</c> event
+         */
+        fileBase.prototype.onBucketChanged = function () {
+            if (this._bucketChanged) {
+                this._bucketChanged.raise();
+            }
+            this.onFieldValueChanged('bucket', this.bucket);
+        };
+        Object.defineProperty(fileBase.prototype, "path", {
+            /**
+             * Gets or sets the value of the path field of type varchar(128)
+             */
+            get: function () {
+                return this._path;
+            },
+            /**
+             * Gets or sets the value of the path field of type varchar(128)
+             */
+            set: function (value) {
+                var changed = value !== this._path;
+                this._path = value;
+                if (changed) {
+                    this.onPathChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "pathChanged", {
+            /**
+             * Gets an event raised when the value of the path property changes
+             */
+            get: function () {
+                if (!this._pathChanged) {
+                    this._pathChanged = new latte.LatteEvent(this);
+                }
+                return this._pathChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>pathChanged</c> event
+         */
+        fileBase.prototype.onPathChanged = function () {
+            if (this._pathChanged) {
+                this._pathChanged.raise();
+            }
+            this.onFieldValueChanged('path', this.path);
+        };
+        Object.defineProperty(fileBase.prototype, "uploaded", {
+            /**
+             * Gets or sets the value of the uploaded field of type datetime
+             */
+            get: function () {
+                return this._uploaded;
+            },
+            /**
+             * Gets or sets the value of the uploaded field of type datetime
+             */
+            set: function (value) {
+                var changed = value !== this._uploaded;
+                this._uploaded = value;
+                if (changed) {
+                    this.onUploadedChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "uploadedChanged", {
+            /**
+             * Gets an event raised when the value of the uploaded property changes
+             */
+            get: function () {
+                if (!this._uploadedChanged) {
+                    this._uploadedChanged = new latte.LatteEvent(this);
+                }
+                return this._uploadedChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>uploadedChanged</c> event
+         */
+        fileBase.prototype.onUploadedChanged = function () {
+            if (this._uploadedChanged) {
+                this._uploadedChanged.raise();
+            }
+            this.onFieldValueChanged('uploaded', this.uploaded);
+        };
+        Object.defineProperty(fileBase.prototype, "description", {
+            /**
+             * Gets or sets the value of the description field of type varchar(200)
+             */
+            get: function () {
+                return this._description;
+            },
+            /**
+             * Gets or sets the value of the description field of type varchar(200)
+             */
+            set: function (value) {
+                var changed = value !== this._description;
+                this._description = value;
+                if (changed) {
+                    this.onDescriptionChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "descriptionChanged", {
+            /**
+             * Gets an event raised when the value of the description property changes
+             */
+            get: function () {
+                if (!this._descriptionChanged) {
+                    this._descriptionChanged = new latte.LatteEvent(this);
+                }
+                return this._descriptionChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>descriptionChanged</c> event
+         */
+        fileBase.prototype.onDescriptionChanged = function () {
+            if (this._descriptionChanged) {
+                this._descriptionChanged.raise();
+            }
+            this.onFieldValueChanged('description', this.description);
+        };
+        Object.defineProperty(fileBase.prototype, "width", {
+            /**
+             * Gets or sets the value of the width field of type int(11)
+             */
+            get: function () {
+                return this._width;
+            },
+            /**
+             * Gets or sets the value of the width field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._width;
+                this._width = value;
+                if (changed) {
+                    this.onWidthChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "widthChanged", {
+            /**
+             * Gets an event raised when the value of the width property changes
+             */
+            get: function () {
+                if (!this._widthChanged) {
+                    this._widthChanged = new latte.LatteEvent(this);
+                }
+                return this._widthChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>widthChanged</c> event
+         */
+        fileBase.prototype.onWidthChanged = function () {
+            if (this._widthChanged) {
+                this._widthChanged.raise();
+            }
+            this.onFieldValueChanged('width', this.width);
+        };
+        Object.defineProperty(fileBase.prototype, "height", {
+            /**
+             * Gets or sets the value of the height field of type int(11)
+             */
+            get: function () {
+                return this._height;
+            },
+            /**
+             * Gets or sets the value of the height field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._height;
+                this._height = value;
+                if (changed) {
+                    this.onHeightChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "heightChanged", {
+            /**
+             * Gets an event raised when the value of the height property changes
+             */
+            get: function () {
+                if (!this._heightChanged) {
+                    this._heightChanged = new latte.LatteEvent(this);
+                }
+                return this._heightChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>heightChanged</c> event
+         */
+        fileBase.prototype.onHeightChanged = function () {
+            if (this._heightChanged) {
+                this._heightChanged.raise();
+            }
+            this.onFieldValueChanged('height', this.height);
+        };
+        Object.defineProperty(fileBase.prototype, "key", {
+            /**
+             * Gets or sets the value of the key field of type varchar(50)
+             */
+            get: function () {
+                return this._key;
+            },
+            /**
+             * Gets or sets the value of the key field of type varchar(50)
+             */
+            set: function (value) {
+                var changed = value !== this._key;
+                this._key = value;
+                if (changed) {
+                    this.onKeyChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(fileBase.prototype, "keyChanged", {
+            /**
+             * Gets an event raised when the value of the key property changes
+             */
+            get: function () {
+                if (!this._keyChanged) {
+                    this._keyChanged = new latte.LatteEvent(this);
+                }
+                return this._keyChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>keyChanged</c> event
+         */
+        fileBase.prototype.onKeyChanged = function () {
+            if (this._keyChanged) {
+                this._keyChanged.raise();
+            }
+            this.onFieldValueChanged('key', this.key);
+        };
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        fileBase.prototype.onGetFields = function () { return { 'idfile': this.idfile, 'guid': this.guid, 'iduser': this.iduser, 'idowner': this.idowner, 'idparent': this.idparent, 'owner': this.owner, 'name': this.name, 'size': this.size, 'bucket': this.bucket, 'path': this.path, 'uploaded': this.uploaded, 'description': this.description, 'width': this.width, 'height': this.height, 'key': this.key }; };
+        /*
+         * Remote Method.
+ Retrieves a list of files by searching by the specified, comma separated guids
+
+
+         */
+        fileBase.byGuids = function (guids) {
+            return new latte.RemoteCall('fragment', 'File', 'byGuids', { guids: guids });
+        };
+        /*
+         * Remote Method.
+ Gets the files of the specified records.  Files contains all children.
+
+
+         */
+        fileBase.byOwner = function (name, id) {
+            return new latte.RemoteCall('fragment', 'File', 'byOwner', { name: name, id: id });
+        };
+        /*
+         * Remote Method.
+ Gets an array unlinked File objects inserted by the logged user.
+
+
+         */
+        fileBase.myUnlinked = function (ownerName) {
+            return new latte.RemoteCall('fragment', 'File', 'myUnlinked', { ownerName: ownerName });
+        };
+        /*
+         * Remote Method.
+
+         */
+        fileBase.changeNameDescription = function (idfile, name, description) {
+            return new latte.RemoteCall('fragment', 'File', 'changeNameDescription', { idfile: idfile, name: name, description: description });
+        };
+        /*
+         * Remote Method.
+ Removes the registry of file and its contents from S3.
+
+
+         */
+        fileBase.prototype.physicalRemove = function () {
+            return new latte.RemoteCall('fragment', 'File', 'physicalRemove', {}, this.recordId);
+        };
+        /**
+        * Declares the native types of the record.
+        **/
+        fileBase.nativeTypes = { "idfile": "int(11)", "guid": "varchar(50)", "iduser": "int(11)", "idowner": "int(11)", "idparent": "int(11)", "owner": "varchar(50)", "name": "varchar(128)", "size": "int(11)", "bucket": "varchar(30)", "path": "varchar(128)", "uploaded": "datetime", "description": "varchar(200)", "width": "int(11)", "height": "int(11)", "key": "varchar(50)" };
+        return fileBase;
+    }(latte.DataRecord));
+    latte.fileBase = fileBase;
     var settingBase = (function (_super) {
         __extends(settingBase, _super);
         function settingBase() {
@@ -2168,214 +2376,6 @@ var latte;
         return groupBase;
     }(latte.DataRecord));
     latte.groupBase = groupBase;
-    var fragmentBase = (function (_super) {
-        __extends(fragmentBase, _super);
-        function fragmentBase() {
-            _super.apply(this, arguments);
-            /* Name of Php record */
-            this._recordType = 'Fragment';
-            /* Name of Module where record lives */
-            this._moduleName = 'fragment';
-            /**
-             * Database field: int(11)
-             */
-            this._idfragment = null;
-            /**
-             * Database field: int(11)
-             */
-            this._idpage = null;
-            /**
-             * Database field: longtext
-             */
-            this._value = null;
-            /**
-             * Database field: varchar(50)
-             */
-            this._name = null;
-        }
-        Object.defineProperty(fragmentBase.prototype, "idfragment", {
-            /**
-             * Gets or sets the value of the idfragment field of type int(11)
-             */
-            get: function () {
-                return this._idfragment;
-            },
-            /**
-             * Gets or sets the value of the idfragment field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idfragment;
-                this._idfragment = value;
-                if (changed) {
-                    this.onIdfragmentChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fragmentBase.prototype, "idfragmentChanged", {
-            /**
-             * Gets an event raised when the value of the idfragment property changes
-             */
-            get: function () {
-                if (!this._idfragmentChanged) {
-                    this._idfragmentChanged = new latte.LatteEvent(this);
-                }
-                return this._idfragmentChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idfragmentChanged</c> event
-         */
-        fragmentBase.prototype.onIdfragmentChanged = function () {
-            if (this._idfragmentChanged) {
-                this._idfragmentChanged.raise();
-            }
-            this.onFieldValueChanged('idfragment', this.idfragment);
-        };
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        fragmentBase.prototype.onGetRecordIdName = function () { return 'idfragment'; };
-        Object.defineProperty(fragmentBase.prototype, "idpage", {
-            /**
-             * Gets or sets the value of the idpage field of type int(11)
-             */
-            get: function () {
-                return this._idpage;
-            },
-            /**
-             * Gets or sets the value of the idpage field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idpage;
-                this._idpage = value;
-                if (changed) {
-                    this.onIdpageChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fragmentBase.prototype, "idpageChanged", {
-            /**
-             * Gets an event raised when the value of the idpage property changes
-             */
-            get: function () {
-                if (!this._idpageChanged) {
-                    this._idpageChanged = new latte.LatteEvent(this);
-                }
-                return this._idpageChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idpageChanged</c> event
-         */
-        fragmentBase.prototype.onIdpageChanged = function () {
-            if (this._idpageChanged) {
-                this._idpageChanged.raise();
-            }
-            this.onFieldValueChanged('idpage', this.idpage);
-        };
-        Object.defineProperty(fragmentBase.prototype, "value", {
-            /**
-             * Gets or sets the value of the value field of type longtext
-             */
-            get: function () {
-                return this._value;
-            },
-            /**
-             * Gets or sets the value of the value field of type longtext
-             */
-            set: function (value) {
-                var changed = value !== this._value;
-                this._value = value;
-                if (changed) {
-                    this.onValueChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fragmentBase.prototype, "valueChanged", {
-            /**
-             * Gets an event raised when the value of the value property changes
-             */
-            get: function () {
-                if (!this._valueChanged) {
-                    this._valueChanged = new latte.LatteEvent(this);
-                }
-                return this._valueChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        fragmentBase.prototype.onValueChanged = function () {
-            if (this._valueChanged) {
-                this._valueChanged.raise();
-            }
-            this.onFieldValueChanged('value', this.value);
-        };
-        Object.defineProperty(fragmentBase.prototype, "name", {
-            /**
-             * Gets or sets the value of the name field of type varchar(50)
-             */
-            get: function () {
-                return this._name;
-            },
-            /**
-             * Gets or sets the value of the name field of type varchar(50)
-             */
-            set: function (value) {
-                var changed = value !== this._name;
-                this._name = value;
-                if (changed) {
-                    this.onNameChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(fragmentBase.prototype, "nameChanged", {
-            /**
-             * Gets an event raised when the value of the name property changes
-             */
-            get: function () {
-                if (!this._nameChanged) {
-                    this._nameChanged = new latte.LatteEvent(this);
-                }
-                return this._nameChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        fragmentBase.prototype.onNameChanged = function () {
-            if (this._nameChanged) {
-                this._nameChanged.raise();
-            }
-            this.onFieldValueChanged('name', this.name);
-        };
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        fragmentBase.prototype.onGetFields = function () { return { 'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name }; };
-        /**
-        * Declares the native types of the record.
-        **/
-        fragmentBase.nativeTypes = { "idfragment": "int(11)", "idpage": "int(11)", "value": "longtext", "name": "varchar(50)" };
-        return fragmentBase;
-    }(latte.DataRecord));
-    latte.fragmentBase = fragmentBase;
     var groupUserBase = (function (_super) {
         __extends(groupUserBase, _super);
         function groupUserBase() {
@@ -4064,6 +4064,129 @@ var latte;
     /**
      *
      */
+    var UserExplorer = (function (_super) {
+        __extends(UserExplorer, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function UserExplorer(r) {
+            _super.call(this);
+            if (r) {
+                this.record = r;
+            }
+        }
+        //region Private Methods
+        UserExplorer.prototype.changePassword = function () {
+            var _this = this;
+            var fields = {
+                old: {
+                    text: strings.oldPassword,
+                    type: 'password'
+                },
+                choose: {
+                    text: strings.newPassword,
+                    type: 'password',
+                    hint: strings.passwordRules
+                },
+                confirm: {
+                    text: strings.confirmNewPassword,
+                    type: 'password'
+                }
+            };
+            if (latte.User.me.isRoot) {
+                delete fields['old'];
+            }
+            latte.DialogView.input(strings.changePassword, fields, function (values, inputs) {
+                inputs['choose'].valid = String(values['choose']).length >= 5;
+                if (values['choose'] != values['confirm']) {
+                    inputs['confirm'].valid = false;
+                    inputs['confirm'].setHint(strings.passwordsDontMatch);
+                }
+                else {
+                    inputs['confirm'].valid = true;
+                    inputs['confirm'].hintItem = null;
+                }
+                if (!latte.User.me.isRoot) {
+                    return function (callback) {
+                        _this.record.passwordCorrect(values['old']).send(function (result) {
+                            inputs['old'].valid = result;
+                            inputs['old'].setHint(result ? null : strings.currentPasswordNotValid);
+                            callback();
+                        });
+                    };
+                }
+            }, function (values) {
+                _this.record.changePassword(values['old'] || '', values['choose']).send(function () {
+                    latte.DialogView.inform(strings.passwordChangeSuccess).addOkButton();
+                });
+            });
+        };
+        //endregion
+        //region Methods
+        /**
+        * Gets the columns of the item
+        * @Override
+        */
+        UserExplorer.prototype.getColumns = function () {
+            return ['uname', 'flags'];
+        };
+        /**
+         * Gets the detail view of the item
+         * @Override
+         */
+        UserExplorer.prototype.getDetailView = function () {
+            var v = _super.prototype.getDetailView.call(this);
+            v.items.add(this.btnChangePassword);
+            return v;
+        };
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        UserExplorer.prototype.getName = function () {
+            return this.record.uname;
+        };
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        UserExplorer.prototype.getIcon = function () {
+            return latte.LinearIcon.user;
+        };
+        Object.defineProperty(UserExplorer.prototype, "btnChangePassword", {
+            /**
+             * Gets the change password button
+             *
+             * @returns {ButtonItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._btnChangePassword) {
+                    this._btnChangePassword = new latte.ButtonItem(strings.changePassword);
+                    this._btnChangePassword.addClass('action-button');
+                    this._btnChangePassword.click.add(function () { return _this.changePassword(); });
+                }
+                return this._btnChangePassword;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return UserExplorer;
+    }(latte.ExplorerItemDataRecord));
+    latte.UserExplorer = UserExplorer;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
     var UsersExplorer = (function (_super) {
         __extends(UsersExplorer, _super);
         //region Static
@@ -4434,129 +4557,6 @@ var latte;
         return FileUploader;
     }(latte.Uploader));
     latte.FileUploader = FileUploader;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 8/5/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var UserExplorer = (function (_super) {
-        __extends(UserExplorer, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function UserExplorer(r) {
-            _super.call(this);
-            if (r) {
-                this.record = r;
-            }
-        }
-        //region Private Methods
-        UserExplorer.prototype.changePassword = function () {
-            var _this = this;
-            var fields = {
-                old: {
-                    text: strings.oldPassword,
-                    type: 'password'
-                },
-                choose: {
-                    text: strings.newPassword,
-                    type: 'password',
-                    hint: strings.passwordRules
-                },
-                confirm: {
-                    text: strings.confirmNewPassword,
-                    type: 'password'
-                }
-            };
-            if (latte.User.me.isRoot) {
-                delete fields['old'];
-            }
-            latte.DialogView.input(strings.changePassword, fields, function (values, inputs) {
-                inputs['choose'].valid = String(values['choose']).length >= 5;
-                if (values['choose'] != values['confirm']) {
-                    inputs['confirm'].valid = false;
-                    inputs['confirm'].setHint(strings.passwordsDontMatch);
-                }
-                else {
-                    inputs['confirm'].valid = true;
-                    inputs['confirm'].hintItem = null;
-                }
-                if (!latte.User.me.isRoot) {
-                    return function (callback) {
-                        _this.record.passwordCorrect(values['old']).send(function (result) {
-                            inputs['old'].valid = result;
-                            inputs['old'].setHint(result ? null : strings.currentPasswordNotValid);
-                            callback();
-                        });
-                    };
-                }
-            }, function (values) {
-                _this.record.changePassword(values['old'] || '', values['choose']).send(function () {
-                    latte.DialogView.inform(strings.passwordChangeSuccess).addOkButton();
-                });
-            });
-        };
-        //endregion
-        //region Methods
-        /**
-        * Gets the columns of the item
-        * @Override
-        */
-        UserExplorer.prototype.getColumns = function () {
-            return ['uname', 'flags'];
-        };
-        /**
-         * Gets the detail view of the item
-         * @Override
-         */
-        UserExplorer.prototype.getDetailView = function () {
-            var v = _super.prototype.getDetailView.call(this);
-            v.items.add(this.btnChangePassword);
-            return v;
-        };
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        UserExplorer.prototype.getName = function () {
-            return this.record.uname;
-        };
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        UserExplorer.prototype.getIcon = function () {
-            return latte.LinearIcon.user;
-        };
-        Object.defineProperty(UserExplorer.prototype, "btnChangePassword", {
-            /**
-             * Gets the change password button
-             *
-             * @returns {ButtonItem}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._btnChangePassword) {
-                    this._btnChangePassword = new latte.ButtonItem(strings.changePassword);
-                    this._btnChangePassword.addClass('action-button');
-                    this._btnChangePassword.click.add(function () { return _this.changePassword(); });
-                }
-                return this._btnChangePassword;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return UserExplorer;
-    }(latte.ExplorerItemDataRecord));
-    latte.UserExplorer = UserExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/26/16.
@@ -8303,6 +8303,23 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Record for table setting
+     */
+    var Setting = (function (_super) {
+        __extends(Setting, _super);
+        function Setting() {
+            _super.apply(this, arguments);
+        }
+        return Setting;
+    }(latte.settingBase));
+    latte.Setting = Setting;
+})(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
      * Record for table page
      */
     var Page = (function (_super) {
@@ -8713,23 +8730,6 @@ var latte;
         return Page;
     }(latte.pageBase));
     latte.Page = Page;
-})(latte || (latte = {}));
-/**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
-     * Record for table setting
-     */
-    var Setting = (function (_super) {
-        __extends(Setting, _super);
-        function Setting() {
-            _super.apply(this, arguments);
-        }
-        return Setting;
-    }(latte.settingBase));
-    latte.Setting = Setting;
 })(latte || (latte = {}));
 /**
  * Generated by xlatte
@@ -9252,96 +9252,6 @@ var latte;
     latte.PageAdvancedView = PageAdvancedView;
 })(latte || (latte = {}));
 /**
- * Created by josemanuel on 7/16/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var PageConfigurationView = (function (_super) {
-        __extends(PageConfigurationView, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         * Creates the view
-         */
-        function PageConfigurationView(r) {
-            _super.call(this);
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._page = null;
-            this.container.get(0).appendChild(this.textbox.element);
-            this.page = r;
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Loads data
-         */
-        PageConfigurationView.prototype.onLoad = function () {
-            var _this = this;
-            this.page.getConfiguration().send(function (config) {
-                _this.textbox.text = config;
-            });
-        };
-        PageConfigurationView.prototype.getSaveCalls = function () {
-            var _this = this;
-            return [
-                this.page.setConfiguration(this.textbox.text).withHandlers(function (s) {
-                    _this.page.configurationSetting = s;
-                    _this.unsavedChanges = false;
-                })];
-        };
-        Object.defineProperty(PageConfigurationView.prototype, "textbox", {
-            /**
-             * Gets the textbox
-             *
-             * @returns {Textbox}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._textbox) {
-                    this._textbox = new latte.Element(document.createElement('textarea'));
-                    this._textbox.addClass('page-configuration');
-                    this._textbox.addEventListener('input', function () { return _this.unsavedChanges = true; });
-                }
-                return this._textbox;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageConfigurationView.prototype, "page", {
-            /**
-             * Gets or sets the page of theview
-             *
-             * @returns {Page}
-             */
-            get: function () {
-                return this._page;
-            },
-            /**
-             * Gets or sets the page of theview
-             *
-             * @param {Page} value
-             */
-            set: function (value) {
-                this._page = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return PageConfigurationView;
-    }(latte.View));
-    latte.PageConfigurationView = PageConfigurationView;
-})(latte || (latte = {}));
-/**
  * Created by josemanuel on 7/18/16.
  */
 var latte;
@@ -9593,6 +9503,344 @@ var latte;
         return PageDetailView;
     }(latte.ColumnView));
     latte.PageDetailView = PageDetailView;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 7/16/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var PageConfigurationView = (function (_super) {
+        __extends(PageConfigurationView, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         * Creates the view
+         */
+        function PageConfigurationView(r) {
+            _super.call(this);
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._page = null;
+            this.container.get(0).appendChild(this.textbox.element);
+            this.page = r;
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Loads data
+         */
+        PageConfigurationView.prototype.onLoad = function () {
+            var _this = this;
+            this.page.getConfiguration().send(function (config) {
+                _this.textbox.text = config;
+            });
+        };
+        PageConfigurationView.prototype.getSaveCalls = function () {
+            var _this = this;
+            return [
+                this.page.setConfiguration(this.textbox.text).withHandlers(function (s) {
+                    _this.page.configurationSetting = s;
+                    _this.unsavedChanges = false;
+                })];
+        };
+        Object.defineProperty(PageConfigurationView.prototype, "textbox", {
+            /**
+             * Gets the textbox
+             *
+             * @returns {Textbox}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._textbox) {
+                    this._textbox = new latte.Element(document.createElement('textarea'));
+                    this._textbox.addClass('page-configuration');
+                    this._textbox.addEventListener('input', function () { return _this.unsavedChanges = true; });
+                }
+                return this._textbox;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageConfigurationView.prototype, "page", {
+            /**
+             * Gets or sets the page of theview
+             *
+             * @returns {Page}
+             */
+            get: function () {
+                return this._page;
+            },
+            /**
+             * Gets or sets the page of theview
+             *
+             * @param {Page} value
+             */
+            set: function (value) {
+                this._page = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return PageConfigurationView;
+    }(latte.View));
+    latte.PageConfigurationView = PageConfigurationView;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var PageSidebar = (function (_super) {
+        __extends(PageSidebar, _super);
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function PageSidebar(r) {
+            _super.call(this);
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._page = null;
+            /**
+             * Property field
+             */
+            this._pageExplorer = null;
+            this.pageExplorer = r;
+            this.page = r.record;
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Override.
+         */
+        PageSidebar.prototype.onLoad = function () {
+            this.tabs.addArray([
+                this.tabDetail,
+                this.tabConfiguration,
+                this.tabAdvanced
+            ]);
+            if (PageSidebar.lastSelectedTab == this.tabAdvanced.text) {
+                this.selectedTab = this.tabAdvanced;
+            }
+            else if (PageSidebar.lastSelectedTab == this.tabConfiguration.text) {
+                this.selectedTab = this.tabConfiguration;
+            }
+            else {
+                this.selectedTab = this.tabDetail;
+            }
+            this.tabsSide = latte.Side.BOTTOM;
+        };
+        /**
+         * Override.
+         */
+        PageSidebar.prototype.onSelectedTabChanged = function () {
+            _super.prototype.onSelectedTabChanged.call(this);
+            PageSidebar.lastSelectedTab = this.selectedTab.text;
+            if (this.selectedTab == this.tabDetail) {
+                this.view = this.detailView;
+            }
+            else if (this.selectedTab == this.tabConfiguration) {
+                this.view = this.configurationView;
+            }
+            else if (this.selectedTab == this.tabAdvanced) {
+                this.view = this.advancedView;
+            }
+        };
+        /**
+         * Raises the <c>page</c> event
+         */
+        PageSidebar.prototype.onPageChanged = function () {
+            if (this._pageChanged) {
+                this._pageChanged.raise();
+            }
+            if (this._configurationView) {
+                this.configurationView.page = this.page;
+            }
+            if (this._advancedView) {
+                this.advancedView.page = this.page;
+            }
+            this.detailView.page = this.page;
+            this.tabConfiguration.visible = latte.User.me.isSysAdmin;
+        };
+        Object.defineProperty(PageSidebar.prototype, "pageChanged", {
+            /**
+             * Gets an event raised when the value of the page property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._pageChanged) {
+                    this._pageChanged = new latte.LatteEvent(this);
+                }
+                return this._pageChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageSidebar.prototype, "page", {
+            /**
+             * Gets or sets the page of the sidebar
+             *
+             * @returns {Page}
+             */
+            get: function () {
+                return this._page;
+            },
+            /**
+             * Gets or sets the page of the sidebar
+             *
+             * @param {Page} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._page;
+                // Set value
+                this._page = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onPageChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageSidebar.prototype, "pageExplorer", {
+            /**
+             * Gets or sets the page explorer
+             *
+             * @returns {PageExplorer}
+             */
+            get: function () {
+                return this._pageExplorer;
+            },
+            /**
+             * Gets or sets the page explorer
+             *
+             * @param {PageExplorer} value
+             */
+            set: function (value) {
+                this._pageExplorer = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageSidebar.prototype, "advancedView", {
+            /**
+             * Gets the advanced view
+             *
+             * @returns {PageAdvancedView}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._advancedView) {
+                    this._advancedView = new latte.PageAdvancedView(this.page);
+                    this._advancedView.sentToTrash.add(function () {
+                        _this.pageExplorer.explorer.refreshList();
+                    });
+                }
+                return this._advancedView;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageSidebar.prototype, "configurationView", {
+            /**
+             * Gets the configuration view
+             *
+             * @returns {PageConfigurationView}
+             */
+            get: function () {
+                if (!this._configurationView) {
+                    this._configurationView = new latte.PageConfigurationView(this.page);
+                }
+                return this._configurationView;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageSidebar.prototype, "detailView", {
+            /**
+             * Gets the detail view
+             *
+             * @returns {PageDetailView}
+             */
+            get: function () {
+                if (!this._detailView) {
+                    this._detailView = new latte.PageDetailView();
+                }
+                return this._detailView;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageSidebar.prototype, "tabAdvanced", {
+            /**
+             * Gets the advanced tab
+             *
+             * @returns {TabItem}
+             */
+            get: function () {
+                if (!this._tabAdvanced) {
+                    this._tabAdvanced = new latte.TabItem(strings.advanced);
+                }
+                return this._tabAdvanced;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageSidebar.prototype, "tabDetail", {
+            /**
+             * Gets the detail tab
+             *
+             * @returns {TabItem}
+             */
+            get: function () {
+                if (!this._tabDetail) {
+                    this._tabDetail = new latte.TabItem(strings.detail);
+                }
+                return this._tabDetail;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageSidebar.prototype, "tabConfiguration", {
+            /**
+             * Gets the configuration tab
+             *
+             * @returns {TabItem}
+             */
+            get: function () {
+                if (!this._tabConfiguration) {
+                    this._tabConfiguration = new latte.TabItem(strings.configuration);
+                }
+                return this._tabConfiguration;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        //region Static
+        PageSidebar.lastSelectedTab = null;
+        return PageSidebar;
+    }(latte.TabView));
+    latte.PageSidebar = PageSidebar;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/23/16.
@@ -10017,254 +10265,6 @@ var latte;
     latte.PageEditorView = PageEditorView;
 })(latte || (latte = {}));
 /**
- * Created by josemanuel on 7/14/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var PageSidebar = (function (_super) {
-        __extends(PageSidebar, _super);
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function PageSidebar(r) {
-            _super.call(this);
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._page = null;
-            /**
-             * Property field
-             */
-            this._pageExplorer = null;
-            this.pageExplorer = r;
-            this.page = r.record;
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Override.
-         */
-        PageSidebar.prototype.onLoad = function () {
-            this.tabs.addArray([
-                this.tabDetail,
-                this.tabConfiguration,
-                this.tabAdvanced
-            ]);
-            if (PageSidebar.lastSelectedTab == this.tabAdvanced.text) {
-                this.selectedTab = this.tabAdvanced;
-            }
-            else if (PageSidebar.lastSelectedTab == this.tabConfiguration.text) {
-                this.selectedTab = this.tabConfiguration;
-            }
-            else {
-                this.selectedTab = this.tabDetail;
-            }
-            this.tabsSide = latte.Side.BOTTOM;
-        };
-        /**
-         * Override.
-         */
-        PageSidebar.prototype.onSelectedTabChanged = function () {
-            _super.prototype.onSelectedTabChanged.call(this);
-            PageSidebar.lastSelectedTab = this.selectedTab.text;
-            if (this.selectedTab == this.tabDetail) {
-                this.view = this.detailView;
-            }
-            else if (this.selectedTab == this.tabConfiguration) {
-                this.view = this.configurationView;
-            }
-            else if (this.selectedTab == this.tabAdvanced) {
-                this.view = this.advancedView;
-            }
-        };
-        /**
-         * Raises the <c>page</c> event
-         */
-        PageSidebar.prototype.onPageChanged = function () {
-            if (this._pageChanged) {
-                this._pageChanged.raise();
-            }
-            if (this._configurationView) {
-                this.configurationView.page = this.page;
-            }
-            if (this._advancedView) {
-                this.advancedView.page = this.page;
-            }
-            this.detailView.page = this.page;
-            this.tabConfiguration.visible = latte.User.me.isSysAdmin;
-        };
-        Object.defineProperty(PageSidebar.prototype, "pageChanged", {
-            /**
-             * Gets an event raised when the value of the page property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._pageChanged) {
-                    this._pageChanged = new latte.LatteEvent(this);
-                }
-                return this._pageChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageSidebar.prototype, "page", {
-            /**
-             * Gets or sets the page of the sidebar
-             *
-             * @returns {Page}
-             */
-            get: function () {
-                return this._page;
-            },
-            /**
-             * Gets or sets the page of the sidebar
-             *
-             * @param {Page} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._page;
-                // Set value
-                this._page = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onPageChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageSidebar.prototype, "pageExplorer", {
-            /**
-             * Gets or sets the page explorer
-             *
-             * @returns {PageExplorer}
-             */
-            get: function () {
-                return this._pageExplorer;
-            },
-            /**
-             * Gets or sets the page explorer
-             *
-             * @param {PageExplorer} value
-             */
-            set: function (value) {
-                this._pageExplorer = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageSidebar.prototype, "advancedView", {
-            /**
-             * Gets the advanced view
-             *
-             * @returns {PageAdvancedView}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._advancedView) {
-                    this._advancedView = new latte.PageAdvancedView(this.page);
-                    this._advancedView.sentToTrash.add(function () {
-                        _this.pageExplorer.explorer.refreshList();
-                    });
-                }
-                return this._advancedView;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageSidebar.prototype, "configurationView", {
-            /**
-             * Gets the configuration view
-             *
-             * @returns {PageConfigurationView}
-             */
-            get: function () {
-                if (!this._configurationView) {
-                    this._configurationView = new latte.PageConfigurationView(this.page);
-                }
-                return this._configurationView;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageSidebar.prototype, "detailView", {
-            /**
-             * Gets the detail view
-             *
-             * @returns {PageDetailView}
-             */
-            get: function () {
-                if (!this._detailView) {
-                    this._detailView = new latte.PageDetailView();
-                }
-                return this._detailView;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageSidebar.prototype, "tabAdvanced", {
-            /**
-             * Gets the advanced tab
-             *
-             * @returns {TabItem}
-             */
-            get: function () {
-                if (!this._tabAdvanced) {
-                    this._tabAdvanced = new latte.TabItem(strings.advanced);
-                }
-                return this._tabAdvanced;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageSidebar.prototype, "tabDetail", {
-            /**
-             * Gets the detail tab
-             *
-             * @returns {TabItem}
-             */
-            get: function () {
-                if (!this._tabDetail) {
-                    this._tabDetail = new latte.TabItem(strings.detail);
-                }
-                return this._tabDetail;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PageSidebar.prototype, "tabConfiguration", {
-            /**
-             * Gets the configuration tab
-             *
-             * @returns {TabItem}
-             */
-            get: function () {
-                if (!this._tabConfiguration) {
-                    this._tabConfiguration = new latte.TabItem(strings.configuration);
-                }
-                return this._tabConfiguration;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        //region Static
-        PageSidebar.lastSelectedTab = null;
-        return PageSidebar;
-    }(latte.TabView));
-    latte.PageSidebar = PageSidebar;
-})(latte || (latte = {}));
-/**
  * Created by josemanuel on 6/10/16.
  */
 var latte;
@@ -10359,9 +10359,9 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PageExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PagesExplorer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UserExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UsersExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FileUploader.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UserExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FragmentAdapterManager.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/ImageUtil.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/PageConfiguration.ts" />
@@ -10377,14 +10377,14 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Fragment.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Group.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/GroupUser.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Setting.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/User.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/CmsExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/CmsMainView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageAdvancedView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageConfigurationView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageDetailView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageEditorView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageConfigurationView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageSidebar.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/PageEditorView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/views/SignInView.ts" /> 

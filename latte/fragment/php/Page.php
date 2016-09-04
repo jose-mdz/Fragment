@@ -461,7 +461,10 @@ $sentencesSQL
 GROUP BY page.idpage
 ORDER BY $sortBySQL
         ";
+//        print_r($options);
+//        var_dump(debug_backtrace());
 //        die($pagesSQL);
+
         //endregion
 
         // Go for pages

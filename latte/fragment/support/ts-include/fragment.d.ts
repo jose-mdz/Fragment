@@ -10,160 +10,91 @@
 /// <reference path="latte.ui.d.ts" />
 /// <reference path="latte.ui.strings.d.ts" />
 declare module latte {
-    class fileBase extends DataRecord {
+    class fragmentBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
         /**
          * Database field: int(11)
          */
-        _idfile: number;
+        _idfragment: number;
         /**
-         * Gets or sets the value of the idfile field of type int(11)
+         * Gets or sets the value of the idfragment field of type int(11)
          */
         /**
-         * Gets or sets the value of the idfile field of type int(11)
+         * Gets or sets the value of the idfragment field of type int(11)
          */
-        idfile: number;
+        idfragment: number;
         /**
          * Back field for event
          */
-        _idfileChanged: LatteEvent;
+        _idfragmentChanged: LatteEvent;
         /**
-         * Gets an event raised when the value of the idfile property changes
+         * Gets an event raised when the value of the idfragment property changes
          */
-        idfileChanged: LatteEvent;
+        idfragmentChanged: LatteEvent;
         /**
-         * Raises the <c>idfileChanged</c> event
+         * Raises the <c>idfragmentChanged</c> event
          */
-        onIdfileChanged(): void;
+        onIdfragmentChanged(): void;
         /**
         * Gets the name of the autoincrement field
         **/
         onGetRecordIdName(): string;
         /**
-         * Database field: varchar(50)
-         */
-        _guid: string;
-        /**
-         * Gets or sets the value of the guid field of type varchar(50)
-         */
-        /**
-         * Gets or sets the value of the guid field of type varchar(50)
-         */
-        guid: string;
-        /**
-         * Back field for event
-         */
-        _guidChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the guid property changes
-         */
-        guidChanged: LatteEvent;
-        /**
-         * Raises the <c>guidChanged</c> event
-         */
-        onGuidChanged(): void;
-        /**
          * Database field: int(11)
          */
-        _iduser: number;
+        _idpage: number;
         /**
-         * Gets or sets the value of the iduser field of type int(11)
+         * Gets or sets the value of the idpage field of type int(11)
          */
         /**
-         * Gets or sets the value of the iduser field of type int(11)
+         * Gets or sets the value of the idpage field of type int(11)
          */
-        iduser: number;
-        /**
-         * Back field for event
-         */
-        _iduserChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the iduser property changes
-         */
-        iduserChanged: LatteEvent;
-        /**
-         * Raises the <c>iduserChanged</c> event
-         */
-        onIduserChanged(): void;
-        /**
-         * Database field: int(11)
-         */
-        _idowner: number;
-        /**
-         * Gets or sets the value of the idowner field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idowner field of type int(11)
-         */
-        idowner: number;
+        idpage: number;
         /**
          * Back field for event
          */
-        _idownerChanged: LatteEvent;
+        _idpageChanged: LatteEvent;
         /**
-         * Gets an event raised when the value of the idowner property changes
+         * Gets an event raised when the value of the idpage property changes
          */
-        idownerChanged: LatteEvent;
+        idpageChanged: LatteEvent;
         /**
-         * Raises the <c>idownerChanged</c> event
+         * Raises the <c>idpageChanged</c> event
          */
-        onIdownerChanged(): void;
+        onIdpageChanged(): void;
         /**
-         * Database field: int(11)
+         * Database field: longtext
          */
-        _idparent: number;
+        _value: string;
         /**
-         * Gets or sets the value of the idparent field of type int(11)
+         * Gets or sets the value of the value field of type longtext
          */
         /**
-         * Gets or sets the value of the idparent field of type int(11)
+         * Gets or sets the value of the value field of type longtext
          */
-        idparent: number;
+        value: string;
         /**
          * Back field for event
          */
-        _idparentChanged: LatteEvent;
+        _valueChanged: LatteEvent;
         /**
-         * Gets an event raised when the value of the idparent property changes
+         * Gets an event raised when the value of the value property changes
          */
-        idparentChanged: LatteEvent;
+        valueChanged: LatteEvent;
         /**
-         * Raises the <c>idparentChanged</c> event
+         * Raises the <c>valueChanged</c> event
          */
-        onIdparentChanged(): void;
+        onValueChanged(): void;
         /**
          * Database field: varchar(50)
-         */
-        _owner: string;
-        /**
-         * Gets or sets the value of the owner field of type varchar(50)
-         */
-        /**
-         * Gets or sets the value of the owner field of type varchar(50)
-         */
-        owner: string;
-        /**
-         * Back field for event
-         */
-        _ownerChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the owner property changes
-         */
-        ownerChanged: LatteEvent;
-        /**
-         * Raises the <c>ownerChanged</c> event
-         */
-        onOwnerChanged(): void;
-        /**
-         * Database field: varchar(128)
          */
         _name: string;
         /**
-         * Gets or sets the value of the name field of type varchar(128)
+         * Gets or sets the value of the name field of type varchar(50)
          */
         /**
-         * Gets or sets the value of the name field of type varchar(128)
+         * Gets or sets the value of the name field of type varchar(50)
          */
         name: string;
         /**
@@ -179,190 +110,6 @@ declare module latte {
          */
         onNameChanged(): void;
         /**
-         * Database field: int(11)
-         */
-        _size: number;
-        /**
-         * Gets or sets the value of the size field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the size field of type int(11)
-         */
-        size: number;
-        /**
-         * Back field for event
-         */
-        _sizeChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the size property changes
-         */
-        sizeChanged: LatteEvent;
-        /**
-         * Raises the <c>sizeChanged</c> event
-         */
-        onSizeChanged(): void;
-        /**
-         * Database field: varchar(30)
-         */
-        _bucket: string;
-        /**
-         * Gets or sets the value of the bucket field of type varchar(30)
-         */
-        /**
-         * Gets or sets the value of the bucket field of type varchar(30)
-         */
-        bucket: string;
-        /**
-         * Back field for event
-         */
-        _bucketChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the bucket property changes
-         */
-        bucketChanged: LatteEvent;
-        /**
-         * Raises the <c>bucketChanged</c> event
-         */
-        onBucketChanged(): void;
-        /**
-         * Database field: varchar(128)
-         */
-        _path: string;
-        /**
-         * Gets or sets the value of the path field of type varchar(128)
-         */
-        /**
-         * Gets or sets the value of the path field of type varchar(128)
-         */
-        path: string;
-        /**
-         * Back field for event
-         */
-        _pathChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the path property changes
-         */
-        pathChanged: LatteEvent;
-        /**
-         * Raises the <c>pathChanged</c> event
-         */
-        onPathChanged(): void;
-        /**
-         * Database field: datetime
-         */
-        _uploaded: DateTime;
-        /**
-         * Gets or sets the value of the uploaded field of type datetime
-         */
-        /**
-         * Gets or sets the value of the uploaded field of type datetime
-         */
-        uploaded: DateTime;
-        /**
-         * Back field for event
-         */
-        _uploadedChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the uploaded property changes
-         */
-        uploadedChanged: LatteEvent;
-        /**
-         * Raises the <c>uploadedChanged</c> event
-         */
-        onUploadedChanged(): void;
-        /**
-         * Database field: varchar(200)
-         */
-        _description: string;
-        /**
-         * Gets or sets the value of the description field of type varchar(200)
-         */
-        /**
-         * Gets or sets the value of the description field of type varchar(200)
-         */
-        description: string;
-        /**
-         * Back field for event
-         */
-        _descriptionChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the description property changes
-         */
-        descriptionChanged: LatteEvent;
-        /**
-         * Raises the <c>descriptionChanged</c> event
-         */
-        onDescriptionChanged(): void;
-        /**
-         * Database field: int(11)
-         */
-        _width: number;
-        /**
-         * Gets or sets the value of the width field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the width field of type int(11)
-         */
-        width: number;
-        /**
-         * Back field for event
-         */
-        _widthChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the width property changes
-         */
-        widthChanged: LatteEvent;
-        /**
-         * Raises the <c>widthChanged</c> event
-         */
-        onWidthChanged(): void;
-        /**
-         * Database field: int(11)
-         */
-        _height: number;
-        /**
-         * Gets or sets the value of the height field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the height field of type int(11)
-         */
-        height: number;
-        /**
-         * Back field for event
-         */
-        _heightChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the height property changes
-         */
-        heightChanged: LatteEvent;
-        /**
-         * Raises the <c>heightChanged</c> event
-         */
-        onHeightChanged(): void;
-        /**
-         * Database field: varchar(50)
-         */
-        _key: string;
-        /**
-         * Gets or sets the value of the key field of type varchar(50)
-         */
-        /**
-         * Gets or sets the value of the key field of type varchar(50)
-         */
-        key: string;
-        /**
-         * Back field for event
-         */
-        _keyChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the key property changes
-         */
-        keyChanged: LatteEvent;
-        /**
-         * Raises the <c>keyChanged</c> event
-         */
-        onKeyChanged(): void;
-        /**
         * Override. Gets data about the fields of the record.
         **/
         onGetFields(): any;
@@ -370,27 +117,11 @@ declare module latte {
         * Declares the native types of the record.
         **/
         static nativeTypes: {
-            "idfile": string;
-            "guid": string;
-            "iduser": string;
-            "idowner": string;
-            "idparent": string;
-            "owner": string;
+            "idfragment": string;
+            "idpage": string;
+            "value": string;
             "name": string;
-            "size": string;
-            "bucket": string;
-            "path": string;
-            "uploaded": string;
-            "description": string;
-            "width": string;
-            "height": string;
-            "key": string;
         };
-        static byGuids(guids: string): RemoteCall<File[]>;
-        static byOwner(name: string, id: number): RemoteCall<Array<File>>;
-        static myUnlinked(ownerName: string): RemoteCall<Array<File>>;
-        static changeNameDescription(idfile: number, name: string, description: string): RemoteCall<any>;
-        physicalRemove(): RemoteCall<any>;
     }
     class pageBase extends DataRecord {
         _recordType: string;
@@ -897,6 +628,388 @@ declare module latte {
         sendToTrash(): RemoteCall<any>;
         setOnline(online: boolean): RemoteCall<any>;
     }
+    class fileBase extends DataRecord {
+        _recordType: string;
+        _moduleName: string;
+        /**
+         * Database field: int(11)
+         */
+        _idfile: number;
+        /**
+         * Gets or sets the value of the idfile field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idfile field of type int(11)
+         */
+        idfile: number;
+        /**
+         * Back field for event
+         */
+        _idfileChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idfile property changes
+         */
+        idfileChanged: LatteEvent;
+        /**
+         * Raises the <c>idfileChanged</c> event
+         */
+        onIdfileChanged(): void;
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        onGetRecordIdName(): string;
+        /**
+         * Database field: varchar(50)
+         */
+        _guid: string;
+        /**
+         * Gets or sets the value of the guid field of type varchar(50)
+         */
+        /**
+         * Gets or sets the value of the guid field of type varchar(50)
+         */
+        guid: string;
+        /**
+         * Back field for event
+         */
+        _guidChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the guid property changes
+         */
+        guidChanged: LatteEvent;
+        /**
+         * Raises the <c>guidChanged</c> event
+         */
+        onGuidChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _iduser: number;
+        /**
+         * Gets or sets the value of the iduser field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the iduser field of type int(11)
+         */
+        iduser: number;
+        /**
+         * Back field for event
+         */
+        _iduserChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the iduser property changes
+         */
+        iduserChanged: LatteEvent;
+        /**
+         * Raises the <c>iduserChanged</c> event
+         */
+        onIduserChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _idowner: number;
+        /**
+         * Gets or sets the value of the idowner field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idowner field of type int(11)
+         */
+        idowner: number;
+        /**
+         * Back field for event
+         */
+        _idownerChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idowner property changes
+         */
+        idownerChanged: LatteEvent;
+        /**
+         * Raises the <c>idownerChanged</c> event
+         */
+        onIdownerChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _idparent: number;
+        /**
+         * Gets or sets the value of the idparent field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idparent field of type int(11)
+         */
+        idparent: number;
+        /**
+         * Back field for event
+         */
+        _idparentChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idparent property changes
+         */
+        idparentChanged: LatteEvent;
+        /**
+         * Raises the <c>idparentChanged</c> event
+         */
+        onIdparentChanged(): void;
+        /**
+         * Database field: varchar(50)
+         */
+        _owner: string;
+        /**
+         * Gets or sets the value of the owner field of type varchar(50)
+         */
+        /**
+         * Gets or sets the value of the owner field of type varchar(50)
+         */
+        owner: string;
+        /**
+         * Back field for event
+         */
+        _ownerChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the owner property changes
+         */
+        ownerChanged: LatteEvent;
+        /**
+         * Raises the <c>ownerChanged</c> event
+         */
+        onOwnerChanged(): void;
+        /**
+         * Database field: varchar(128)
+         */
+        _name: string;
+        /**
+         * Gets or sets the value of the name field of type varchar(128)
+         */
+        /**
+         * Gets or sets the value of the name field of type varchar(128)
+         */
+        name: string;
+        /**
+         * Back field for event
+         */
+        _nameChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the name property changes
+         */
+        nameChanged: LatteEvent;
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        onNameChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _size: number;
+        /**
+         * Gets or sets the value of the size field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the size field of type int(11)
+         */
+        size: number;
+        /**
+         * Back field for event
+         */
+        _sizeChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the size property changes
+         */
+        sizeChanged: LatteEvent;
+        /**
+         * Raises the <c>sizeChanged</c> event
+         */
+        onSizeChanged(): void;
+        /**
+         * Database field: varchar(30)
+         */
+        _bucket: string;
+        /**
+         * Gets or sets the value of the bucket field of type varchar(30)
+         */
+        /**
+         * Gets or sets the value of the bucket field of type varchar(30)
+         */
+        bucket: string;
+        /**
+         * Back field for event
+         */
+        _bucketChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the bucket property changes
+         */
+        bucketChanged: LatteEvent;
+        /**
+         * Raises the <c>bucketChanged</c> event
+         */
+        onBucketChanged(): void;
+        /**
+         * Database field: varchar(128)
+         */
+        _path: string;
+        /**
+         * Gets or sets the value of the path field of type varchar(128)
+         */
+        /**
+         * Gets or sets the value of the path field of type varchar(128)
+         */
+        path: string;
+        /**
+         * Back field for event
+         */
+        _pathChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the path property changes
+         */
+        pathChanged: LatteEvent;
+        /**
+         * Raises the <c>pathChanged</c> event
+         */
+        onPathChanged(): void;
+        /**
+         * Database field: datetime
+         */
+        _uploaded: DateTime;
+        /**
+         * Gets or sets the value of the uploaded field of type datetime
+         */
+        /**
+         * Gets or sets the value of the uploaded field of type datetime
+         */
+        uploaded: DateTime;
+        /**
+         * Back field for event
+         */
+        _uploadedChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the uploaded property changes
+         */
+        uploadedChanged: LatteEvent;
+        /**
+         * Raises the <c>uploadedChanged</c> event
+         */
+        onUploadedChanged(): void;
+        /**
+         * Database field: varchar(200)
+         */
+        _description: string;
+        /**
+         * Gets or sets the value of the description field of type varchar(200)
+         */
+        /**
+         * Gets or sets the value of the description field of type varchar(200)
+         */
+        description: string;
+        /**
+         * Back field for event
+         */
+        _descriptionChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the description property changes
+         */
+        descriptionChanged: LatteEvent;
+        /**
+         * Raises the <c>descriptionChanged</c> event
+         */
+        onDescriptionChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _width: number;
+        /**
+         * Gets or sets the value of the width field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the width field of type int(11)
+         */
+        width: number;
+        /**
+         * Back field for event
+         */
+        _widthChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the width property changes
+         */
+        widthChanged: LatteEvent;
+        /**
+         * Raises the <c>widthChanged</c> event
+         */
+        onWidthChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _height: number;
+        /**
+         * Gets or sets the value of the height field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the height field of type int(11)
+         */
+        height: number;
+        /**
+         * Back field for event
+         */
+        _heightChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the height property changes
+         */
+        heightChanged: LatteEvent;
+        /**
+         * Raises the <c>heightChanged</c> event
+         */
+        onHeightChanged(): void;
+        /**
+         * Database field: varchar(50)
+         */
+        _key: string;
+        /**
+         * Gets or sets the value of the key field of type varchar(50)
+         */
+        /**
+         * Gets or sets the value of the key field of type varchar(50)
+         */
+        key: string;
+        /**
+         * Back field for event
+         */
+        _keyChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the key property changes
+         */
+        keyChanged: LatteEvent;
+        /**
+         * Raises the <c>keyChanged</c> event
+         */
+        onKeyChanged(): void;
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idfile": string;
+            "guid": string;
+            "iduser": string;
+            "idowner": string;
+            "idparent": string;
+            "owner": string;
+            "name": string;
+            "size": string;
+            "bucket": string;
+            "path": string;
+            "uploaded": string;
+            "description": string;
+            "width": string;
+            "height": string;
+            "key": string;
+        };
+        static byGuids(guids: string): RemoteCall<File[]>;
+        static byOwner(name: string, id: number): RemoteCall<Array<File>>;
+        static myUnlinked(ownerName: string): RemoteCall<Array<File>>;
+        static changeNameDescription(idfile: number, name: string, description: string): RemoteCall<any>;
+        physicalRemove(): RemoteCall<any>;
+    }
     class settingBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
@@ -1101,119 +1214,6 @@ declare module latte {
         };
         static catalog(): RemoteCall<Group[]>;
         static search(text: string): RemoteCall<Group[]>;
-    }
-    class fragmentBase extends DataRecord {
-        _recordType: string;
-        _moduleName: string;
-        /**
-         * Database field: int(11)
-         */
-        _idfragment: number;
-        /**
-         * Gets or sets the value of the idfragment field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idfragment field of type int(11)
-         */
-        idfragment: number;
-        /**
-         * Back field for event
-         */
-        _idfragmentChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idfragment property changes
-         */
-        idfragmentChanged: LatteEvent;
-        /**
-         * Raises the <c>idfragmentChanged</c> event
-         */
-        onIdfragmentChanged(): void;
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        onGetRecordIdName(): string;
-        /**
-         * Database field: int(11)
-         */
-        _idpage: number;
-        /**
-         * Gets or sets the value of the idpage field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idpage field of type int(11)
-         */
-        idpage: number;
-        /**
-         * Back field for event
-         */
-        _idpageChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idpage property changes
-         */
-        idpageChanged: LatteEvent;
-        /**
-         * Raises the <c>idpageChanged</c> event
-         */
-        onIdpageChanged(): void;
-        /**
-         * Database field: longtext
-         */
-        _value: string;
-        /**
-         * Gets or sets the value of the value field of type longtext
-         */
-        /**
-         * Gets or sets the value of the value field of type longtext
-         */
-        value: string;
-        /**
-         * Back field for event
-         */
-        _valueChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the value property changes
-         */
-        valueChanged: LatteEvent;
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        onValueChanged(): void;
-        /**
-         * Database field: varchar(50)
-         */
-        _name: string;
-        /**
-         * Gets or sets the value of the name field of type varchar(50)
-         */
-        /**
-         * Gets or sets the value of the name field of type varchar(50)
-         */
-        name: string;
-        /**
-         * Back field for event
-         */
-        _nameChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the name property changes
-         */
-        nameChanged: LatteEvent;
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        onNameChanged(): void;
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        onGetFields(): any;
-        /**
-        * Declares the native types of the record.
-        **/
-        static nativeTypes: {
-            "idfragment": string;
-            "idpage": string;
-            "value": string;
-            "name": string;
-        };
     }
     class groupUserBase extends DataRecord {
         _recordType: string;
@@ -2066,6 +2066,51 @@ declare module latte {
     /**
      *
      */
+    class UserExplorer extends ExplorerItemDataRecord<User> {
+        /**
+         *
+         */
+        constructor(r: User);
+        private changePassword();
+        /**
+        * Gets the columns of the item
+        * @Override
+        */
+        getColumns(): string[];
+        /**
+         * Gets the detail view of the item
+         * @Override
+         */
+        getDetailView(): View;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Field for btnChangePassword property
+         */
+        private _btnChangePassword;
+        /**
+         * Gets the change password button
+         *
+         * @returns {ButtonItem}
+         */
+        btnChangePassword: ButtonItem;
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
     class UsersExplorer extends ExplorerItem {
         /**
          *
@@ -2273,51 +2318,6 @@ declare module latte {
          * @param {number} value
          */
         width: number;
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class UserExplorer extends ExplorerItemDataRecord<User> {
-        /**
-         *
-         */
-        constructor(r: User);
-        private changePassword();
-        /**
-        * Gets the columns of the item
-        * @Override
-        */
-        getColumns(): string[];
-        /**
-         * Gets the detail view of the item
-         * @Override
-         */
-        getDetailView(): View;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Field for btnChangePassword property
-         */
-        private _btnChangePassword;
-        /**
-         * Gets the change password button
-         *
-         * @returns {ButtonItem}
-         */
-        btnChangePassword: ButtonItem;
     }
 }
 /**
@@ -3787,6 +3787,16 @@ declare module latte {
  */
 declare module latte {
     /**
+     * Record for table setting
+     */
+    class Setting extends settingBase {
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
      * Record for table page
      */
     class Page extends pageBase {
@@ -3918,16 +3928,6 @@ declare module latte {
          * @returns {boolean}
          */
         isOnline: boolean;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table setting
-     */
-    class Setting extends settingBase {
     }
 }
 /**
@@ -4182,50 +4182,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 7/16/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageConfigurationView extends View {
-        /**
-         * Creates the view
-         */
-        constructor(r: Page);
-        /**
-         * Loads data
-         */
-        onLoad(): void;
-        getSaveCalls(): ICall[];
-        /**
-         * Field for textbox property
-         */
-        private _textbox;
-        /**
-         * Gets the textbox
-         *
-         * @returns {Textbox}
-         */
-        textbox: Element<HTMLTextAreaElement>;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of theview
-         *
-         * @returns {Page}
-         */
-        /**
-         * Gets or sets the page of theview
-         *
-         * @param {Page} value
-         */
-        page: Page;
-    }
-}
-/**
  * Created by josemanuel on 7/18/16.
  */
 declare module latte {
@@ -4325,6 +4281,177 @@ declare module latte {
          * @returns {FormItem}
          */
         settingsForm: FormItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/16/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageConfigurationView extends View {
+        /**
+         * Creates the view
+         */
+        constructor(r: Page);
+        /**
+         * Loads data
+         */
+        onLoad(): void;
+        getSaveCalls(): ICall[];
+        /**
+         * Field for textbox property
+         */
+        private _textbox;
+        /**
+         * Gets the textbox
+         *
+         * @returns {Textbox}
+         */
+        textbox: Element<HTMLTextAreaElement>;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the page of theview
+         *
+         * @returns {Page}
+         */
+        /**
+         * Gets or sets the page of theview
+         *
+         * @param {Page} value
+         */
+        page: Page;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageSidebar extends TabView {
+        static lastSelectedTab: string;
+        /**
+         *
+         */
+        constructor(r: PageExplorer);
+        /**
+         * Override.
+         */
+        onLoad(): void;
+        /**
+         * Override.
+         */
+        onSelectedTabChanged(): void;
+        /**
+         * Raises the <c>page</c> event
+         */
+        onPageChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _pageChanged;
+        /**
+         * Gets an event raised when the value of the page property changes
+         *
+         * @returns {LatteEvent}
+         */
+        pageChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the page of the sidebar
+         *
+         * @returns {Page}
+         */
+        /**
+         * Gets or sets the page of the sidebar
+         *
+         * @param {Page} value
+         */
+        page: Page;
+        /**
+         * Property field
+         */
+        private _pageExplorer;
+        /**
+         * Gets or sets the page explorer
+         *
+         * @returns {PageExplorer}
+         */
+        /**
+         * Gets or sets the page explorer
+         *
+         * @param {PageExplorer} value
+         */
+        pageExplorer: PageExplorer;
+        /**
+         * Field for advancedView property
+         */
+        private _advancedView;
+        /**
+         * Gets the advanced view
+         *
+         * @returns {PageAdvancedView}
+         */
+        advancedView: PageAdvancedView;
+        /**
+         * Field for configurationView property
+         */
+        private _configurationView;
+        /**
+         * Gets the configuration view
+         *
+         * @returns {PageConfigurationView}
+         */
+        configurationView: PageConfigurationView;
+        /**
+         * Field for detailView property
+         */
+        private _detailView;
+        /**
+         * Gets the detail view
+         *
+         * @returns {PageDetailView}
+         */
+        detailView: PageDetailView;
+        /**
+         * Field for tabAdvanced property
+         */
+        private _tabAdvanced;
+        /**
+         * Gets the advanced tab
+         *
+         * @returns {TabItem}
+         */
+        tabAdvanced: TabItem;
+        /**
+         * Field for tabDetail property
+         */
+        private _tabDetail;
+        /**
+         * Gets the detail tab
+         *
+         * @returns {TabItem}
+         */
+        tabDetail: TabItem;
+        /**
+         * Field for tabConfiguration property
+         */
+        private _tabConfiguration;
+        /**
+         * Gets the configuration tab
+         *
+         * @returns {TabItem}
+         */
+        tabConfiguration: TabItem;
     }
 }
 /**
@@ -4505,133 +4632,6 @@ declare module latte {
          * @returns {Element<HTMLDivElement>}
          */
         titleElement: Element<HTMLDivElement>;
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageSidebar extends TabView {
-        static lastSelectedTab: string;
-        /**
-         *
-         */
-        constructor(r: PageExplorer);
-        /**
-         * Override.
-         */
-        onLoad(): void;
-        /**
-         * Override.
-         */
-        onSelectedTabChanged(): void;
-        /**
-         * Raises the <c>page</c> event
-         */
-        onPageChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _pageChanged;
-        /**
-         * Gets an event raised when the value of the page property changes
-         *
-         * @returns {LatteEvent}
-         */
-        pageChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of the sidebar
-         *
-         * @returns {Page}
-         */
-        /**
-         * Gets or sets the page of the sidebar
-         *
-         * @param {Page} value
-         */
-        page: Page;
-        /**
-         * Property field
-         */
-        private _pageExplorer;
-        /**
-         * Gets or sets the page explorer
-         *
-         * @returns {PageExplorer}
-         */
-        /**
-         * Gets or sets the page explorer
-         *
-         * @param {PageExplorer} value
-         */
-        pageExplorer: PageExplorer;
-        /**
-         * Field for advancedView property
-         */
-        private _advancedView;
-        /**
-         * Gets the advanced view
-         *
-         * @returns {PageAdvancedView}
-         */
-        advancedView: PageAdvancedView;
-        /**
-         * Field for configurationView property
-         */
-        private _configurationView;
-        /**
-         * Gets the configuration view
-         *
-         * @returns {PageConfigurationView}
-         */
-        configurationView: PageConfigurationView;
-        /**
-         * Field for detailView property
-         */
-        private _detailView;
-        /**
-         * Gets the detail view
-         *
-         * @returns {PageDetailView}
-         */
-        detailView: PageDetailView;
-        /**
-         * Field for tabAdvanced property
-         */
-        private _tabAdvanced;
-        /**
-         * Gets the advanced tab
-         *
-         * @returns {TabItem}
-         */
-        tabAdvanced: TabItem;
-        /**
-         * Field for tabDetail property
-         */
-        private _tabDetail;
-        /**
-         * Gets the detail tab
-         *
-         * @returns {TabItem}
-         */
-        tabDetail: TabItem;
-        /**
-         * Field for tabConfiguration property
-         */
-        private _tabConfiguration;
-        /**
-         * Gets the configuration tab
-         *
-         * @returns {TabItem}
-         */
-        tabConfiguration: TabItem;
     }
 }
 /**

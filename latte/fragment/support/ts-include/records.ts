@@ -1,8 +1,8 @@
 module latte{
-		export class fileBase extends DataRecord{
+		export class fragmentBase extends DataRecord{
 
 		/* Name of Php record */
-		_recordType: string = 'File';
+		_recordType: string = 'Fragment';
 
 		/* Name of Module where record lives */
 		_moduleName: string = 'fragment';
@@ -10,286 +10,154 @@ module latte{
 		/**
 		 * Database field: int(11)
 		 */
-		_idfile: number = null;
+		_idfragment: number = null;
 
 		/**
-		 * Gets or sets the value of the idfile field of type int(11)
+		 * Gets or sets the value of the idfragment field of type int(11)
 		 */
-		get idfile(): number{
-			return this._idfile;
+		get idfragment(): number{
+			return this._idfragment;
 		}
 
 		/**
-		 * Gets or sets the value of the idfile field of type int(11)
+		 * Gets or sets the value of the idfragment field of type int(11)
 		 */
-		set idfile(value: number){
-			var changed: boolean = value !== this._idfile
-			this._idfile = value;
-			if(changed){ this.onIdfileChanged(); }
+		set idfragment(value: number){
+			var changed: boolean = value !== this._idfragment
+			this._idfragment = value;
+			if(changed){ this.onIdfragmentChanged(); }
 		}
 
 		/**
 		 * Back field for event
 		 */
-		_idfileChanged: LatteEvent;
+		_idfragmentChanged: LatteEvent;
 
 		/**
-		 * Gets an event raised when the value of the idfile property changes
+		 * Gets an event raised when the value of the idfragment property changes
 		 */
-		get idfileChanged(): LatteEvent{
-			if(!this._idfileChanged){ this._idfileChanged = new LatteEvent(this); }
-			return this._idfileChanged;
+		get idfragmentChanged(): LatteEvent{
+			if(!this._idfragmentChanged){ this._idfragmentChanged = new LatteEvent(this); }
+			return this._idfragmentChanged;
 		}
 
 		/**
-		 * Raises the <c>idfileChanged</c> event
+		 * Raises the <c>idfragmentChanged</c> event
 		 */
-		onIdfileChanged(){
-			if(this._idfileChanged){
-				this._idfileChanged.raise()
+		onIdfragmentChanged(){
+			if(this._idfragmentChanged){
+				this._idfragmentChanged.raise()
 			}
-			this.onFieldValueChanged('idfile', this.idfile)
+			this.onFieldValueChanged('idfragment', this.idfragment)
 		}
 
 		/**
 		* Gets the name of the autoincrement field
 		**/
-		onGetRecordIdName(): string { return 'idfile'; }
-
-		/**
-		 * Database field: varchar(50)
-		 */
-		_guid: string = null;
-
-		/**
-		 * Gets or sets the value of the guid field of type varchar(50)
-		 */
-		get guid(): string{
-			return this._guid;
-		}
-
-		/**
-		 * Gets or sets the value of the guid field of type varchar(50)
-		 */
-		set guid(value: string){
-			var changed: boolean = value !== this._guid
-			this._guid = value;
-			if(changed){ this.onGuidChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_guidChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the guid property changes
-		 */
-		get guidChanged(): LatteEvent{
-			if(!this._guidChanged){ this._guidChanged = new LatteEvent(this); }
-			return this._guidChanged;
-		}
-
-		/**
-		 * Raises the <c>guidChanged</c> event
-		 */
-		onGuidChanged(){
-			if(this._guidChanged){
-				this._guidChanged.raise()
-			}
-			this.onFieldValueChanged('guid', this.guid)
-		}
+		onGetRecordIdName(): string { return 'idfragment'; }
 
 		/**
 		 * Database field: int(11)
 		 */
-		_iduser: number = null;
+		_idpage: number = null;
 
 		/**
-		 * Gets or sets the value of the iduser field of type int(11)
+		 * Gets or sets the value of the idpage field of type int(11)
 		 */
-		get iduser(): number{
-			return this._iduser;
+		get idpage(): number{
+			return this._idpage;
 		}
 
 		/**
-		 * Gets or sets the value of the iduser field of type int(11)
+		 * Gets or sets the value of the idpage field of type int(11)
 		 */
-		set iduser(value: number){
-			var changed: boolean = value !== this._iduser
-			this._iduser = value;
-			if(changed){ this.onIduserChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_iduserChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the iduser property changes
-		 */
-		get iduserChanged(): LatteEvent{
-			if(!this._iduserChanged){ this._iduserChanged = new LatteEvent(this); }
-			return this._iduserChanged;
-		}
-
-		/**
-		 * Raises the <c>iduserChanged</c> event
-		 */
-		onIduserChanged(){
-			if(this._iduserChanged){
-				this._iduserChanged.raise()
-			}
-			this.onFieldValueChanged('iduser', this.iduser)
-		}
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idowner: number = null;
-
-		/**
-		 * Gets or sets the value of the idowner field of type int(11)
-		 */
-		get idowner(): number{
-			return this._idowner;
-		}
-
-		/**
-		 * Gets or sets the value of the idowner field of type int(11)
-		 */
-		set idowner(value: number){
-			var changed: boolean = value !== this._idowner
-			this._idowner = value;
-			if(changed){ this.onIdownerChanged(); }
+		set idpage(value: number){
+			var changed: boolean = value !== this._idpage
+			this._idpage = value;
+			if(changed){ this.onIdpageChanged(); }
 		}
 
 		/**
 		 * Back field for event
 		 */
-		_idownerChanged: LatteEvent;
+		_idpageChanged: LatteEvent;
 
 		/**
-		 * Gets an event raised when the value of the idowner property changes
+		 * Gets an event raised when the value of the idpage property changes
 		 */
-		get idownerChanged(): LatteEvent{
-			if(!this._idownerChanged){ this._idownerChanged = new LatteEvent(this); }
-			return this._idownerChanged;
+		get idpageChanged(): LatteEvent{
+			if(!this._idpageChanged){ this._idpageChanged = new LatteEvent(this); }
+			return this._idpageChanged;
 		}
 
 		/**
-		 * Raises the <c>idownerChanged</c> event
+		 * Raises the <c>idpageChanged</c> event
 		 */
-		onIdownerChanged(){
-			if(this._idownerChanged){
-				this._idownerChanged.raise()
+		onIdpageChanged(){
+			if(this._idpageChanged){
+				this._idpageChanged.raise()
 			}
-			this.onFieldValueChanged('idowner', this.idowner)
+			this.onFieldValueChanged('idpage', this.idpage)
 		}
 
 		/**
-		 * Database field: int(11)
+		 * Database field: longtext
 		 */
-		_idparent: number = null;
+		_value: string = null;
 
 		/**
-		 * Gets or sets the value of the idparent field of type int(11)
+		 * Gets or sets the value of the value field of type longtext
 		 */
-		get idparent(): number{
-			return this._idparent;
+		get value(): string{
+			return this._value;
 		}
 
 		/**
-		 * Gets or sets the value of the idparent field of type int(11)
+		 * Gets or sets the value of the value field of type longtext
 		 */
-		set idparent(value: number){
-			var changed: boolean = value !== this._idparent
-			this._idparent = value;
-			if(changed){ this.onIdparentChanged(); }
+		set value(value: string){
+			var changed: boolean = value !== this._value
+			this._value = value;
+			if(changed){ this.onValueChanged(); }
 		}
 
 		/**
 		 * Back field for event
 		 */
-		_idparentChanged: LatteEvent;
+		_valueChanged: LatteEvent;
 
 		/**
-		 * Gets an event raised when the value of the idparent property changes
+		 * Gets an event raised when the value of the value property changes
 		 */
-		get idparentChanged(): LatteEvent{
-			if(!this._idparentChanged){ this._idparentChanged = new LatteEvent(this); }
-			return this._idparentChanged;
+		get valueChanged(): LatteEvent{
+			if(!this._valueChanged){ this._valueChanged = new LatteEvent(this); }
+			return this._valueChanged;
 		}
 
 		/**
-		 * Raises the <c>idparentChanged</c> event
+		 * Raises the <c>valueChanged</c> event
 		 */
-		onIdparentChanged(){
-			if(this._idparentChanged){
-				this._idparentChanged.raise()
+		onValueChanged(){
+			if(this._valueChanged){
+				this._valueChanged.raise()
 			}
-			this.onFieldValueChanged('idparent', this.idparent)
+			this.onFieldValueChanged('value', this.value)
 		}
 
 		/**
 		 * Database field: varchar(50)
-		 */
-		_owner: string = null;
-
-		/**
-		 * Gets or sets the value of the owner field of type varchar(50)
-		 */
-		get owner(): string{
-			return this._owner;
-		}
-
-		/**
-		 * Gets or sets the value of the owner field of type varchar(50)
-		 */
-		set owner(value: string){
-			var changed: boolean = value !== this._owner
-			this._owner = value;
-			if(changed){ this.onOwnerChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_ownerChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the owner property changes
-		 */
-		get ownerChanged(): LatteEvent{
-			if(!this._ownerChanged){ this._ownerChanged = new LatteEvent(this); }
-			return this._ownerChanged;
-		}
-
-		/**
-		 * Raises the <c>ownerChanged</c> event
-		 */
-		onOwnerChanged(){
-			if(this._ownerChanged){
-				this._ownerChanged.raise()
-			}
-			this.onFieldValueChanged('owner', this.owner)
-		}
-
-		/**
-		 * Database field: varchar(128)
 		 */
 		_name: string = null;
 
 		/**
-		 * Gets or sets the value of the name field of type varchar(128)
+		 * Gets or sets the value of the name field of type varchar(50)
 		 */
 		get name(): string{
 			return this._name;
 		}
 
 		/**
-		 * Gets or sets the value of the name field of type varchar(128)
+		 * Gets or sets the value of the name field of type varchar(50)
 		 */
 		set name(value: string){
 			var changed: boolean = value !== this._name
@@ -321,415 +189,15 @@ module latte{
 		}
 
 		/**
-		 * Database field: int(11)
-		 */
-		_size: number = null;
-
-		/**
-		 * Gets or sets the value of the size field of type int(11)
-		 */
-		get size(): number{
-			return this._size;
-		}
-
-		/**
-		 * Gets or sets the value of the size field of type int(11)
-		 */
-		set size(value: number){
-			var changed: boolean = value !== this._size
-			this._size = value;
-			if(changed){ this.onSizeChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_sizeChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the size property changes
-		 */
-		get sizeChanged(): LatteEvent{
-			if(!this._sizeChanged){ this._sizeChanged = new LatteEvent(this); }
-			return this._sizeChanged;
-		}
-
-		/**
-		 * Raises the <c>sizeChanged</c> event
-		 */
-		onSizeChanged(){
-			if(this._sizeChanged){
-				this._sizeChanged.raise()
-			}
-			this.onFieldValueChanged('size', this.size)
-		}
-
-		/**
-		 * Database field: varchar(30)
-		 */
-		_bucket: string = null;
-
-		/**
-		 * Gets or sets the value of the bucket field of type varchar(30)
-		 */
-		get bucket(): string{
-			return this._bucket;
-		}
-
-		/**
-		 * Gets or sets the value of the bucket field of type varchar(30)
-		 */
-		set bucket(value: string){
-			var changed: boolean = value !== this._bucket
-			this._bucket = value;
-			if(changed){ this.onBucketChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_bucketChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the bucket property changes
-		 */
-		get bucketChanged(): LatteEvent{
-			if(!this._bucketChanged){ this._bucketChanged = new LatteEvent(this); }
-			return this._bucketChanged;
-		}
-
-		/**
-		 * Raises the <c>bucketChanged</c> event
-		 */
-		onBucketChanged(){
-			if(this._bucketChanged){
-				this._bucketChanged.raise()
-			}
-			this.onFieldValueChanged('bucket', this.bucket)
-		}
-
-		/**
-		 * Database field: varchar(128)
-		 */
-		_path: string = null;
-
-		/**
-		 * Gets or sets the value of the path field of type varchar(128)
-		 */
-		get path(): string{
-			return this._path;
-		}
-
-		/**
-		 * Gets or sets the value of the path field of type varchar(128)
-		 */
-		set path(value: string){
-			var changed: boolean = value !== this._path
-			this._path = value;
-			if(changed){ this.onPathChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_pathChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the path property changes
-		 */
-		get pathChanged(): LatteEvent{
-			if(!this._pathChanged){ this._pathChanged = new LatteEvent(this); }
-			return this._pathChanged;
-		}
-
-		/**
-		 * Raises the <c>pathChanged</c> event
-		 */
-		onPathChanged(){
-			if(this._pathChanged){
-				this._pathChanged.raise()
-			}
-			this.onFieldValueChanged('path', this.path)
-		}
-
-		/**
-		 * Database field: datetime
-		 */
-		_uploaded: DateTime = null;
-
-		/**
-		 * Gets or sets the value of the uploaded field of type datetime
-		 */
-		get uploaded(): DateTime{
-			return this._uploaded;
-		}
-
-		/**
-		 * Gets or sets the value of the uploaded field of type datetime
-		 */
-		set uploaded(value: DateTime){
-			var changed: boolean = value !== this._uploaded
-			this._uploaded = value;
-			if(changed){ this.onUploadedChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_uploadedChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the uploaded property changes
-		 */
-		get uploadedChanged(): LatteEvent{
-			if(!this._uploadedChanged){ this._uploadedChanged = new LatteEvent(this); }
-			return this._uploadedChanged;
-		}
-
-		/**
-		 * Raises the <c>uploadedChanged</c> event
-		 */
-		onUploadedChanged(){
-			if(this._uploadedChanged){
-				this._uploadedChanged.raise()
-			}
-			this.onFieldValueChanged('uploaded', this.uploaded)
-		}
-
-		/**
-		 * Database field: varchar(200)
-		 */
-		_description: string = null;
-
-		/**
-		 * Gets or sets the value of the description field of type varchar(200)
-		 */
-		get description(): string{
-			return this._description;
-		}
-
-		/**
-		 * Gets or sets the value of the description field of type varchar(200)
-		 */
-		set description(value: string){
-			var changed: boolean = value !== this._description
-			this._description = value;
-			if(changed){ this.onDescriptionChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_descriptionChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the description property changes
-		 */
-		get descriptionChanged(): LatteEvent{
-			if(!this._descriptionChanged){ this._descriptionChanged = new LatteEvent(this); }
-			return this._descriptionChanged;
-		}
-
-		/**
-		 * Raises the <c>descriptionChanged</c> event
-		 */
-		onDescriptionChanged(){
-			if(this._descriptionChanged){
-				this._descriptionChanged.raise()
-			}
-			this.onFieldValueChanged('description', this.description)
-		}
-
-		/**
-		 * Database field: int(11)
-		 */
-		_width: number = null;
-
-		/**
-		 * Gets or sets the value of the width field of type int(11)
-		 */
-		get width(): number{
-			return this._width;
-		}
-
-		/**
-		 * Gets or sets the value of the width field of type int(11)
-		 */
-		set width(value: number){
-			var changed: boolean = value !== this._width
-			this._width = value;
-			if(changed){ this.onWidthChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_widthChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the width property changes
-		 */
-		get widthChanged(): LatteEvent{
-			if(!this._widthChanged){ this._widthChanged = new LatteEvent(this); }
-			return this._widthChanged;
-		}
-
-		/**
-		 * Raises the <c>widthChanged</c> event
-		 */
-		onWidthChanged(){
-			if(this._widthChanged){
-				this._widthChanged.raise()
-			}
-			this.onFieldValueChanged('width', this.width)
-		}
-
-		/**
-		 * Database field: int(11)
-		 */
-		_height: number = null;
-
-		/**
-		 * Gets or sets the value of the height field of type int(11)
-		 */
-		get height(): number{
-			return this._height;
-		}
-
-		/**
-		 * Gets or sets the value of the height field of type int(11)
-		 */
-		set height(value: number){
-			var changed: boolean = value !== this._height
-			this._height = value;
-			if(changed){ this.onHeightChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_heightChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the height property changes
-		 */
-		get heightChanged(): LatteEvent{
-			if(!this._heightChanged){ this._heightChanged = new LatteEvent(this); }
-			return this._heightChanged;
-		}
-
-		/**
-		 * Raises the <c>heightChanged</c> event
-		 */
-		onHeightChanged(){
-			if(this._heightChanged){
-				this._heightChanged.raise()
-			}
-			this.onFieldValueChanged('height', this.height)
-		}
-
-		/**
-		 * Database field: varchar(50)
-		 */
-		_key: string = null;
-
-		/**
-		 * Gets or sets the value of the key field of type varchar(50)
-		 */
-		get key(): string{
-			return this._key;
-		}
-
-		/**
-		 * Gets or sets the value of the key field of type varchar(50)
-		 */
-		set key(value: string){
-			var changed: boolean = value !== this._key
-			this._key = value;
-			if(changed){ this.onKeyChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_keyChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the key property changes
-		 */
-		get keyChanged(): LatteEvent{
-			if(!this._keyChanged){ this._keyChanged = new LatteEvent(this); }
-			return this._keyChanged;
-		}
-
-		/**
-		 * Raises the <c>keyChanged</c> event
-		 */
-		onKeyChanged(){
-			if(this._keyChanged){
-				this._keyChanged.raise()
-			}
-			this.onFieldValueChanged('key', this.key)
-		}
-
-		/**
 		* Override. Gets data about the fields of the record.
 		**/
-		onGetFields(): any { return {'idfile': this.idfile, 'guid': this.guid, 'iduser': this.iduser, 'idowner': this.idowner, 'idparent': this.idparent, 'owner': this.owner, 'name': this.name, 'size': this.size, 'bucket': this.bucket, 'path': this.path, 'uploaded': this.uploaded, 'description': this.description, 'width': this.width, 'height': this.height, 'key': this.key}; }
+		onGetFields(): any { return {'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name}; }
 
 		/**
 		* Declares the native types of the record.
 		**/
 
-		static nativeTypes = {"idfile":"int(11)","guid":"varchar(50)","iduser":"int(11)","idowner":"int(11)","idparent":"int(11)","owner":"varchar(50)","name":"varchar(128)","size":"int(11)","bucket":"varchar(30)","path":"varchar(128)","uploaded":"datetime","description":"varchar(200)","width":"int(11)","height":"int(11)","key":"varchar(50)"};
-
-		/*
-		 * Remote Method. 
- Retrieves a list of files by searching by the specified, comma separated guids
-
-
-		 */
-		static byGuids(guids: string): RemoteCall<File[]>{
-			return new RemoteCall<File[]>('fragment', 'File', 'byGuids', {guids: guids} );
-		}
-
-		/*
-		 * Remote Method. 
- Gets the files of the specified records.  Files contains all children.
-
-
-		 */
-		static byOwner(name: string, id: number): RemoteCall<Array<File>>{
-			return new RemoteCall<Array<File>>('fragment', 'File', 'byOwner', {name: name, id: id} );
-		}
-
-		/*
-		 * Remote Method. 
- Gets an array unlinked File objects inserted by the logged user.
-
-
-		 */
-		static myUnlinked(ownerName: string): RemoteCall<Array<File>>{
-			return new RemoteCall<Array<File>>('fragment', 'File', 'myUnlinked', {ownerName: ownerName} );
-		}
-
-		/*
-		 * Remote Method. 
-
-		 */
-		static changeNameDescription(idfile: number, name: string, description: string): RemoteCall<any>{
-			return new RemoteCall<any>('fragment', 'File', 'changeNameDescription', {idfile: idfile, name: name, description: description} );
-		}
-
-		/*
-		 * Remote Method. 
- Removes the registry of file and its contents from S3.
-
-
-		 */
-		physicalRemove(): RemoteCall<any>{
-			return new RemoteCall<any>('fragment', 'File', 'physicalRemove', {} , this.recordId);
-		}
+		static nativeTypes = {"idfragment":"int(11)","idpage":"int(11)","value":"longtext","name":"varchar(50)"};
 	}
 
 	export class pageBase extends DataRecord{
@@ -1712,6 +1180,739 @@ module latte{
 		}
 	}
 
+	export class fileBase extends DataRecord{
+
+		/* Name of Php record */
+		_recordType: string = 'File';
+
+		/* Name of Module where record lives */
+		_moduleName: string = 'fragment';
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idfile: number = null;
+
+		/**
+		 * Gets or sets the value of the idfile field of type int(11)
+		 */
+		get idfile(): number{
+			return this._idfile;
+		}
+
+		/**
+		 * Gets or sets the value of the idfile field of type int(11)
+		 */
+		set idfile(value: number){
+			var changed: boolean = value !== this._idfile
+			this._idfile = value;
+			if(changed){ this.onIdfileChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idfileChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idfile property changes
+		 */
+		get idfileChanged(): LatteEvent{
+			if(!this._idfileChanged){ this._idfileChanged = new LatteEvent(this); }
+			return this._idfileChanged;
+		}
+
+		/**
+		 * Raises the <c>idfileChanged</c> event
+		 */
+		onIdfileChanged(){
+			if(this._idfileChanged){
+				this._idfileChanged.raise()
+			}
+			this.onFieldValueChanged('idfile', this.idfile)
+		}
+
+		/**
+		* Gets the name of the autoincrement field
+		**/
+		onGetRecordIdName(): string { return 'idfile'; }
+
+		/**
+		 * Database field: varchar(50)
+		 */
+		_guid: string = null;
+
+		/**
+		 * Gets or sets the value of the guid field of type varchar(50)
+		 */
+		get guid(): string{
+			return this._guid;
+		}
+
+		/**
+		 * Gets or sets the value of the guid field of type varchar(50)
+		 */
+		set guid(value: string){
+			var changed: boolean = value !== this._guid
+			this._guid = value;
+			if(changed){ this.onGuidChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_guidChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the guid property changes
+		 */
+		get guidChanged(): LatteEvent{
+			if(!this._guidChanged){ this._guidChanged = new LatteEvent(this); }
+			return this._guidChanged;
+		}
+
+		/**
+		 * Raises the <c>guidChanged</c> event
+		 */
+		onGuidChanged(){
+			if(this._guidChanged){
+				this._guidChanged.raise()
+			}
+			this.onFieldValueChanged('guid', this.guid)
+		}
+
+		/**
+		 * Database field: int(11)
+		 */
+		_iduser: number = null;
+
+		/**
+		 * Gets or sets the value of the iduser field of type int(11)
+		 */
+		get iduser(): number{
+			return this._iduser;
+		}
+
+		/**
+		 * Gets or sets the value of the iduser field of type int(11)
+		 */
+		set iduser(value: number){
+			var changed: boolean = value !== this._iduser
+			this._iduser = value;
+			if(changed){ this.onIduserChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_iduserChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the iduser property changes
+		 */
+		get iduserChanged(): LatteEvent{
+			if(!this._iduserChanged){ this._iduserChanged = new LatteEvent(this); }
+			return this._iduserChanged;
+		}
+
+		/**
+		 * Raises the <c>iduserChanged</c> event
+		 */
+		onIduserChanged(){
+			if(this._iduserChanged){
+				this._iduserChanged.raise()
+			}
+			this.onFieldValueChanged('iduser', this.iduser)
+		}
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idowner: number = null;
+
+		/**
+		 * Gets or sets the value of the idowner field of type int(11)
+		 */
+		get idowner(): number{
+			return this._idowner;
+		}
+
+		/**
+		 * Gets or sets the value of the idowner field of type int(11)
+		 */
+		set idowner(value: number){
+			var changed: boolean = value !== this._idowner
+			this._idowner = value;
+			if(changed){ this.onIdownerChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idownerChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idowner property changes
+		 */
+		get idownerChanged(): LatteEvent{
+			if(!this._idownerChanged){ this._idownerChanged = new LatteEvent(this); }
+			return this._idownerChanged;
+		}
+
+		/**
+		 * Raises the <c>idownerChanged</c> event
+		 */
+		onIdownerChanged(){
+			if(this._idownerChanged){
+				this._idownerChanged.raise()
+			}
+			this.onFieldValueChanged('idowner', this.idowner)
+		}
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idparent: number = null;
+
+		/**
+		 * Gets or sets the value of the idparent field of type int(11)
+		 */
+		get idparent(): number{
+			return this._idparent;
+		}
+
+		/**
+		 * Gets or sets the value of the idparent field of type int(11)
+		 */
+		set idparent(value: number){
+			var changed: boolean = value !== this._idparent
+			this._idparent = value;
+			if(changed){ this.onIdparentChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idparentChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idparent property changes
+		 */
+		get idparentChanged(): LatteEvent{
+			if(!this._idparentChanged){ this._idparentChanged = new LatteEvent(this); }
+			return this._idparentChanged;
+		}
+
+		/**
+		 * Raises the <c>idparentChanged</c> event
+		 */
+		onIdparentChanged(){
+			if(this._idparentChanged){
+				this._idparentChanged.raise()
+			}
+			this.onFieldValueChanged('idparent', this.idparent)
+		}
+
+		/**
+		 * Database field: varchar(50)
+		 */
+		_owner: string = null;
+
+		/**
+		 * Gets or sets the value of the owner field of type varchar(50)
+		 */
+		get owner(): string{
+			return this._owner;
+		}
+
+		/**
+		 * Gets or sets the value of the owner field of type varchar(50)
+		 */
+		set owner(value: string){
+			var changed: boolean = value !== this._owner
+			this._owner = value;
+			if(changed){ this.onOwnerChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_ownerChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the owner property changes
+		 */
+		get ownerChanged(): LatteEvent{
+			if(!this._ownerChanged){ this._ownerChanged = new LatteEvent(this); }
+			return this._ownerChanged;
+		}
+
+		/**
+		 * Raises the <c>ownerChanged</c> event
+		 */
+		onOwnerChanged(){
+			if(this._ownerChanged){
+				this._ownerChanged.raise()
+			}
+			this.onFieldValueChanged('owner', this.owner)
+		}
+
+		/**
+		 * Database field: varchar(128)
+		 */
+		_name: string = null;
+
+		/**
+		 * Gets or sets the value of the name field of type varchar(128)
+		 */
+		get name(): string{
+			return this._name;
+		}
+
+		/**
+		 * Gets or sets the value of the name field of type varchar(128)
+		 */
+		set name(value: string){
+			var changed: boolean = value !== this._name
+			this._name = value;
+			if(changed){ this.onNameChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_nameChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the name property changes
+		 */
+		get nameChanged(): LatteEvent{
+			if(!this._nameChanged){ this._nameChanged = new LatteEvent(this); }
+			return this._nameChanged;
+		}
+
+		/**
+		 * Raises the <c>nameChanged</c> event
+		 */
+		onNameChanged(){
+			if(this._nameChanged){
+				this._nameChanged.raise()
+			}
+			this.onFieldValueChanged('name', this.name)
+		}
+
+		/**
+		 * Database field: int(11)
+		 */
+		_size: number = null;
+
+		/**
+		 * Gets or sets the value of the size field of type int(11)
+		 */
+		get size(): number{
+			return this._size;
+		}
+
+		/**
+		 * Gets or sets the value of the size field of type int(11)
+		 */
+		set size(value: number){
+			var changed: boolean = value !== this._size
+			this._size = value;
+			if(changed){ this.onSizeChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_sizeChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the size property changes
+		 */
+		get sizeChanged(): LatteEvent{
+			if(!this._sizeChanged){ this._sizeChanged = new LatteEvent(this); }
+			return this._sizeChanged;
+		}
+
+		/**
+		 * Raises the <c>sizeChanged</c> event
+		 */
+		onSizeChanged(){
+			if(this._sizeChanged){
+				this._sizeChanged.raise()
+			}
+			this.onFieldValueChanged('size', this.size)
+		}
+
+		/**
+		 * Database field: varchar(30)
+		 */
+		_bucket: string = null;
+
+		/**
+		 * Gets or sets the value of the bucket field of type varchar(30)
+		 */
+		get bucket(): string{
+			return this._bucket;
+		}
+
+		/**
+		 * Gets or sets the value of the bucket field of type varchar(30)
+		 */
+		set bucket(value: string){
+			var changed: boolean = value !== this._bucket
+			this._bucket = value;
+			if(changed){ this.onBucketChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_bucketChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the bucket property changes
+		 */
+		get bucketChanged(): LatteEvent{
+			if(!this._bucketChanged){ this._bucketChanged = new LatteEvent(this); }
+			return this._bucketChanged;
+		}
+
+		/**
+		 * Raises the <c>bucketChanged</c> event
+		 */
+		onBucketChanged(){
+			if(this._bucketChanged){
+				this._bucketChanged.raise()
+			}
+			this.onFieldValueChanged('bucket', this.bucket)
+		}
+
+		/**
+		 * Database field: varchar(128)
+		 */
+		_path: string = null;
+
+		/**
+		 * Gets or sets the value of the path field of type varchar(128)
+		 */
+		get path(): string{
+			return this._path;
+		}
+
+		/**
+		 * Gets or sets the value of the path field of type varchar(128)
+		 */
+		set path(value: string){
+			var changed: boolean = value !== this._path
+			this._path = value;
+			if(changed){ this.onPathChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_pathChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the path property changes
+		 */
+		get pathChanged(): LatteEvent{
+			if(!this._pathChanged){ this._pathChanged = new LatteEvent(this); }
+			return this._pathChanged;
+		}
+
+		/**
+		 * Raises the <c>pathChanged</c> event
+		 */
+		onPathChanged(){
+			if(this._pathChanged){
+				this._pathChanged.raise()
+			}
+			this.onFieldValueChanged('path', this.path)
+		}
+
+		/**
+		 * Database field: datetime
+		 */
+		_uploaded: DateTime = null;
+
+		/**
+		 * Gets or sets the value of the uploaded field of type datetime
+		 */
+		get uploaded(): DateTime{
+			return this._uploaded;
+		}
+
+		/**
+		 * Gets or sets the value of the uploaded field of type datetime
+		 */
+		set uploaded(value: DateTime){
+			var changed: boolean = value !== this._uploaded
+			this._uploaded = value;
+			if(changed){ this.onUploadedChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_uploadedChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the uploaded property changes
+		 */
+		get uploadedChanged(): LatteEvent{
+			if(!this._uploadedChanged){ this._uploadedChanged = new LatteEvent(this); }
+			return this._uploadedChanged;
+		}
+
+		/**
+		 * Raises the <c>uploadedChanged</c> event
+		 */
+		onUploadedChanged(){
+			if(this._uploadedChanged){
+				this._uploadedChanged.raise()
+			}
+			this.onFieldValueChanged('uploaded', this.uploaded)
+		}
+
+		/**
+		 * Database field: varchar(200)
+		 */
+		_description: string = null;
+
+		/**
+		 * Gets or sets the value of the description field of type varchar(200)
+		 */
+		get description(): string{
+			return this._description;
+		}
+
+		/**
+		 * Gets or sets the value of the description field of type varchar(200)
+		 */
+		set description(value: string){
+			var changed: boolean = value !== this._description
+			this._description = value;
+			if(changed){ this.onDescriptionChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_descriptionChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the description property changes
+		 */
+		get descriptionChanged(): LatteEvent{
+			if(!this._descriptionChanged){ this._descriptionChanged = new LatteEvent(this); }
+			return this._descriptionChanged;
+		}
+
+		/**
+		 * Raises the <c>descriptionChanged</c> event
+		 */
+		onDescriptionChanged(){
+			if(this._descriptionChanged){
+				this._descriptionChanged.raise()
+			}
+			this.onFieldValueChanged('description', this.description)
+		}
+
+		/**
+		 * Database field: int(11)
+		 */
+		_width: number = null;
+
+		/**
+		 * Gets or sets the value of the width field of type int(11)
+		 */
+		get width(): number{
+			return this._width;
+		}
+
+		/**
+		 * Gets or sets the value of the width field of type int(11)
+		 */
+		set width(value: number){
+			var changed: boolean = value !== this._width
+			this._width = value;
+			if(changed){ this.onWidthChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_widthChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the width property changes
+		 */
+		get widthChanged(): LatteEvent{
+			if(!this._widthChanged){ this._widthChanged = new LatteEvent(this); }
+			return this._widthChanged;
+		}
+
+		/**
+		 * Raises the <c>widthChanged</c> event
+		 */
+		onWidthChanged(){
+			if(this._widthChanged){
+				this._widthChanged.raise()
+			}
+			this.onFieldValueChanged('width', this.width)
+		}
+
+		/**
+		 * Database field: int(11)
+		 */
+		_height: number = null;
+
+		/**
+		 * Gets or sets the value of the height field of type int(11)
+		 */
+		get height(): number{
+			return this._height;
+		}
+
+		/**
+		 * Gets or sets the value of the height field of type int(11)
+		 */
+		set height(value: number){
+			var changed: boolean = value !== this._height
+			this._height = value;
+			if(changed){ this.onHeightChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_heightChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the height property changes
+		 */
+		get heightChanged(): LatteEvent{
+			if(!this._heightChanged){ this._heightChanged = new LatteEvent(this); }
+			return this._heightChanged;
+		}
+
+		/**
+		 * Raises the <c>heightChanged</c> event
+		 */
+		onHeightChanged(){
+			if(this._heightChanged){
+				this._heightChanged.raise()
+			}
+			this.onFieldValueChanged('height', this.height)
+		}
+
+		/**
+		 * Database field: varchar(50)
+		 */
+		_key: string = null;
+
+		/**
+		 * Gets or sets the value of the key field of type varchar(50)
+		 */
+		get key(): string{
+			return this._key;
+		}
+
+		/**
+		 * Gets or sets the value of the key field of type varchar(50)
+		 */
+		set key(value: string){
+			var changed: boolean = value !== this._key
+			this._key = value;
+			if(changed){ this.onKeyChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_keyChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the key property changes
+		 */
+		get keyChanged(): LatteEvent{
+			if(!this._keyChanged){ this._keyChanged = new LatteEvent(this); }
+			return this._keyChanged;
+		}
+
+		/**
+		 * Raises the <c>keyChanged</c> event
+		 */
+		onKeyChanged(){
+			if(this._keyChanged){
+				this._keyChanged.raise()
+			}
+			this.onFieldValueChanged('key', this.key)
+		}
+
+		/**
+		* Override. Gets data about the fields of the record.
+		**/
+		onGetFields(): any { return {'idfile': this.idfile, 'guid': this.guid, 'iduser': this.iduser, 'idowner': this.idowner, 'idparent': this.idparent, 'owner': this.owner, 'name': this.name, 'size': this.size, 'bucket': this.bucket, 'path': this.path, 'uploaded': this.uploaded, 'description': this.description, 'width': this.width, 'height': this.height, 'key': this.key}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idfile":"int(11)","guid":"varchar(50)","iduser":"int(11)","idowner":"int(11)","idparent":"int(11)","owner":"varchar(50)","name":"varchar(128)","size":"int(11)","bucket":"varchar(30)","path":"varchar(128)","uploaded":"datetime","description":"varchar(200)","width":"int(11)","height":"int(11)","key":"varchar(50)"};
+
+		/*
+		 * Remote Method. 
+ Retrieves a list of files by searching by the specified, comma separated guids
+
+
+		 */
+		static byGuids(guids: string): RemoteCall<File[]>{
+			return new RemoteCall<File[]>('fragment', 'File', 'byGuids', {guids: guids} );
+		}
+
+		/*
+		 * Remote Method. 
+ Gets the files of the specified records.  Files contains all children.
+
+
+		 */
+		static byOwner(name: string, id: number): RemoteCall<Array<File>>{
+			return new RemoteCall<Array<File>>('fragment', 'File', 'byOwner', {name: name, id: id} );
+		}
+
+		/*
+		 * Remote Method. 
+ Gets an array unlinked File objects inserted by the logged user.
+
+
+		 */
+		static myUnlinked(ownerName: string): RemoteCall<Array<File>>{
+			return new RemoteCall<Array<File>>('fragment', 'File', 'myUnlinked', {ownerName: ownerName} );
+		}
+
+		/*
+		 * Remote Method. 
+
+		 */
+		static changeNameDescription(idfile: number, name: string, description: string): RemoteCall<any>{
+			return new RemoteCall<any>('fragment', 'File', 'changeNameDescription', {idfile: idfile, name: name, description: description} );
+		}
+
+		/*
+		 * Remote Method. 
+ Removes the registry of file and its contents from S3.
+
+
+		 */
+		physicalRemove(): RemoteCall<any>{
+			return new RemoteCall<any>('fragment', 'File', 'physicalRemove', {} , this.recordId);
+		}
+	}
+
 	export class settingBase extends DataRecord{
 
 		/* Name of Php record */
@@ -2095,207 +2296,6 @@ module latte{
 		static search(text: string): RemoteCall<Group[]>{
 			return new RemoteCall<Group[]>('fragment', 'Group', 'search', {text: text} );
 		}
-	}
-
-	export class fragmentBase extends DataRecord{
-
-		/* Name of Php record */
-		_recordType: string = 'Fragment';
-
-		/* Name of Module where record lives */
-		_moduleName: string = 'fragment';
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idfragment: number = null;
-
-		/**
-		 * Gets or sets the value of the idfragment field of type int(11)
-		 */
-		get idfragment(): number{
-			return this._idfragment;
-		}
-
-		/**
-		 * Gets or sets the value of the idfragment field of type int(11)
-		 */
-		set idfragment(value: number){
-			var changed: boolean = value !== this._idfragment
-			this._idfragment = value;
-			if(changed){ this.onIdfragmentChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idfragmentChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idfragment property changes
-		 */
-		get idfragmentChanged(): LatteEvent{
-			if(!this._idfragmentChanged){ this._idfragmentChanged = new LatteEvent(this); }
-			return this._idfragmentChanged;
-		}
-
-		/**
-		 * Raises the <c>idfragmentChanged</c> event
-		 */
-		onIdfragmentChanged(){
-			if(this._idfragmentChanged){
-				this._idfragmentChanged.raise()
-			}
-			this.onFieldValueChanged('idfragment', this.idfragment)
-		}
-
-		/**
-		* Gets the name of the autoincrement field
-		**/
-		onGetRecordIdName(): string { return 'idfragment'; }
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idpage: number = null;
-
-		/**
-		 * Gets or sets the value of the idpage field of type int(11)
-		 */
-		get idpage(): number{
-			return this._idpage;
-		}
-
-		/**
-		 * Gets or sets the value of the idpage field of type int(11)
-		 */
-		set idpage(value: number){
-			var changed: boolean = value !== this._idpage
-			this._idpage = value;
-			if(changed){ this.onIdpageChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idpageChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idpage property changes
-		 */
-		get idpageChanged(): LatteEvent{
-			if(!this._idpageChanged){ this._idpageChanged = new LatteEvent(this); }
-			return this._idpageChanged;
-		}
-
-		/**
-		 * Raises the <c>idpageChanged</c> event
-		 */
-		onIdpageChanged(){
-			if(this._idpageChanged){
-				this._idpageChanged.raise()
-			}
-			this.onFieldValueChanged('idpage', this.idpage)
-		}
-
-		/**
-		 * Database field: longtext
-		 */
-		_value: string = null;
-
-		/**
-		 * Gets or sets the value of the value field of type longtext
-		 */
-		get value(): string{
-			return this._value;
-		}
-
-		/**
-		 * Gets or sets the value of the value field of type longtext
-		 */
-		set value(value: string){
-			var changed: boolean = value !== this._value
-			this._value = value;
-			if(changed){ this.onValueChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_valueChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the value property changes
-		 */
-		get valueChanged(): LatteEvent{
-			if(!this._valueChanged){ this._valueChanged = new LatteEvent(this); }
-			return this._valueChanged;
-		}
-
-		/**
-		 * Raises the <c>valueChanged</c> event
-		 */
-		onValueChanged(){
-			if(this._valueChanged){
-				this._valueChanged.raise()
-			}
-			this.onFieldValueChanged('value', this.value)
-		}
-
-		/**
-		 * Database field: varchar(50)
-		 */
-		_name: string = null;
-
-		/**
-		 * Gets or sets the value of the name field of type varchar(50)
-		 */
-		get name(): string{
-			return this._name;
-		}
-
-		/**
-		 * Gets or sets the value of the name field of type varchar(50)
-		 */
-		set name(value: string){
-			var changed: boolean = value !== this._name
-			this._name = value;
-			if(changed){ this.onNameChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_nameChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the name property changes
-		 */
-		get nameChanged(): LatteEvent{
-			if(!this._nameChanged){ this._nameChanged = new LatteEvent(this); }
-			return this._nameChanged;
-		}
-
-		/**
-		 * Raises the <c>nameChanged</c> event
-		 */
-		onNameChanged(){
-			if(this._nameChanged){
-				this._nameChanged.raise()
-			}
-			this.onFieldValueChanged('name', this.name)
-		}
-
-		/**
-		* Override. Gets data about the fields of the record.
-		**/
-		onGetFields(): any { return {'idfragment': this.idfragment, 'idpage': this.idpage, 'value': this.value, 'name': this.name}; }
-
-		/**
-		* Declares the native types of the record.
-		**/
-
-		static nativeTypes = {"idfragment":"int(11)","idpage":"int(11)","value":"longtext","name":"varchar(50)"};
 	}
 
 	export class groupUserBase extends DataRecord{

@@ -21,13 +21,24 @@ LatteModule::loadMain('fragment');
 // Name of item should come in a $q variable
 $q = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
 
-//TODO: Home page should be loaded by configuration
+// Load global settings
+$GLOBALS['settings'] = DL::associativeArray(Setting::getGlobal(), 'name');
+
+// If no q passed.
 if (!$q){
-    $q = 'Jr2YAI_SYP'; // TODO: This is the C I T Y G A T E home
+    if(isset($settings['home'])){
+        $q = $settings['home'];
+    }else{
+        die("No home");
+    }
 }
+
 // Choose theme
-//TODO: Mechanism for theme configuration
-$theme = $GLOBALS['fragment-theme'] = 'citygate';
+if(isset($settings['theme'])){
+    $theme = $GLOBALS['fragment-theme'] = $settings['theme'];
+}else{
+    die("No theme");
+}
 
 // Load page
 $page = $GLOBALS['page'] = Page::byUrlQ($q);
@@ -42,11 +53,8 @@ if ($page){
     // Load fragments
     $GLOBALS['fragments'] = $page->getAllFragments();
 
-    // Load settings
-    $GLOBALS['settings'] = $page->getAllSettings();
-
-    // Load global settings
-    $GLOBALS['settings'] = array_merge($GLOBALS['settings'], Setting::getGlobal());
+    // Load page settings
+    $GLOBALS['settings'] = array_merge($GLOBALS['settings'], $page->getAllSettings());
 
     // Convert to AssociativeArray
     $GLOBALS['settings'] = DL::associativeArray($GLOBALS['settings'], 'name');
@@ -67,7 +75,8 @@ if ($page){
     include __DIR__ . "/../../../../../fragment/themes/$theme/$template.php";
 
 }else{
-    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+
     //TODO: This should include the error template
     die("Page not found: $q");
 }
