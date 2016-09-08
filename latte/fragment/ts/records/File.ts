@@ -317,6 +317,7 @@ module latte{
 		get url(): string{
 
 			if(this.bucket) {
+				log(this)
 				let p = document.location.protocol == 'https:' ? 'https://' : 'http://';
 				return p +  this.bucket + ".s3.amazonaws.com/" + this.path;
 			}else {

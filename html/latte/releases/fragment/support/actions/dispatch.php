@@ -75,7 +75,8 @@ if ($page){
     include __DIR__ . "/../../../../../fragment/themes/$theme/$template.php";
 
 }else{
-    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+    header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+
     //TODO: This should include the error template
     die("Page not found: $q");
 }

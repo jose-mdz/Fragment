@@ -131,4 +131,18 @@
 .latte-view.grid .latte-item.input > .value{
     width: auto !important;  
     float: none !important;
+}.latte-view.explorer .load-bar{
+    position: absolute;
+
+    width: 100px;
+    height: 2px;
+
+    display: none;
+
+    background-color: #4285F4;
+
+}
+
+.latte-view.explorer .load-bar.visible{
+    display: block;
 }

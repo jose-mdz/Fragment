@@ -82,4 +82,5 @@ declare module latte{ interface Strings{
 	signOut: string;
 	sendToTrash: string;
 	canUseBackend: string;
+	urlKeyInUse: string;
 }}

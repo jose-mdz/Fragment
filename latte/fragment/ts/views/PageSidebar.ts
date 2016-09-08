@@ -58,6 +58,16 @@ module latte {
         /**
          * Override.
          */
+        onSavingChanges(){
+            if(this.view) {
+                return this.view.onSavingChanges();
+            }
+            return super.onSavingChanges();
+        }
+
+        /**
+         * Override.
+         */
         onSelectedTabChanged(){
             super.onSelectedTabChanged();
 

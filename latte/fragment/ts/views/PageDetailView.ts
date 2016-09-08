@@ -12,6 +12,7 @@ module latte {
         //endregion
 
         //region Fields
+        private validated: boolean = true;
         //endregion
 
         /**
@@ -46,15 +47,24 @@ module latte {
                 }
 
                 let input = PageConfiguration.inputFromSetting(settings[key]);
+
                 input.tag = {
                     data: settings[key],
-                    record: setting
+                    record: setting,
+                    changes: false
                 };
 
                 //TODO: CHECK HERE TO VALIDATE REQUIRED ATTRIBUTE
                 if(setting.idsetting > 0){
                     input.value = setting.value;
                 }
+
+                // When changes value, activate changes flag
+                ((input) => {
+                    input.valueChanged.add(() => {
+                        input.tag.changes = true
+                    });
+                })(input);
 
                 this.settingsForm.inputs.add(input);
             }
@@ -127,7 +137,40 @@ module latte {
             // Load settings
             this.loadSettings();
 
+            let pageKey = this._dataForm.byName('key');
 
+            if(pageKey){
+                // Invalidate if user changes the URL key
+                pageKey.valueChanged.add(() => {
+                    this.validated = false
+                });
+            }
+
+
+        }
+
+        /**
+         * Override.
+         */
+        onSavingChanges(){
+            if(!this.validated) {
+
+                let k: InputItem = this.dataForm.byName('key');
+
+                Page.isValidURLKey(this.page.idpage, k.value).send((isValid: boolean) => {
+                    this.validated = k.valid = isValid;
+                    k.setHint(isValid ? null : strings.urlKeyInUse);
+
+                    if(isValid) {
+                        // Call saveChanges again to continue save procedure
+                        this.saveChanges();
+                    }
+                });
+
+                return false;
+            }else{
+                return super.onSavingChanges();
+            }
         }
 
         /**
@@ -158,27 +201,31 @@ module latte {
             return all;
         }
 
-
-
         /**
          * @returns {Array}
          */
         saveSettingsCalls(): ICall[]{
             let r = [];
+            let checker = 0;
 
             for (let i = 0; i < this.settingsForm.inputs.length; i++) {
-                let input = this.settingsForm.inputs[i];
+                let input: InputItem = this.settingsForm.inputs[i];
                 let tag: any = <Setting>input.tag;
                 let setting: Setting = tag.record;
+
+                if(!input.tag.changes) {
+                    continue;
+                }
+
                 setting.value = input.value;
 
                 let call = setting.saveCall();
 
-                if(i == 0){
+                if(++checker == 1){
                     call.withHandlers(() => {
                         this.unsavedChanges = false;
                         this.onPageChanged();
-                    })
+                    });
                 }
 
                 r.push(call);

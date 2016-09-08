@@ -301,7 +301,7 @@ module latte{
          *
          * @returns {Array<JQuery>}
          */
-        public get columns():Array<JQuery> {
+        get columns():JQuery[] {
             return this._columns;
         }
 

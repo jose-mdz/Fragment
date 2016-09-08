@@ -1,3 +1,7 @@
 .cms-explorer.explorer.split > .latte-view.side > .container{
     background: #f0f0f0;
 }
+
+.cms-explorer.latte-view.explorer .load-bar{
+    background-color: #F67538;
+}

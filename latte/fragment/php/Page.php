@@ -120,6 +120,33 @@ class Page extends pageBase{
     }
 
     /**
+     * Return a value indicating if the key is valid for the specified page
+     *
+     * @remote
+     * @param int $idpage
+     * @param string $key
+     * @return boolean
+     */
+    public static function isValidURLKey($idpage, $key){
+        // Pages
+        $pages = DL::arrayOf('Page', "
+            SELECT *
+            FROM page
+            WHERE `key` = '$key'
+        ");
+
+        if (sizeof($pages) > 1){
+            return false;
+        }else if (sizeof($pages) == 0){
+            return true;
+        }else{
+            return $pages[0]->idpage == $idpage;
+        }
+
+
+    }
+
+    /**
      * Cleans a string to be used in an URL
      *
      * @param string $toClean
@@ -159,10 +186,18 @@ class Page extends pageBase{
         ");
     }
 
+    /**
+     * Support for search method
+     * @param $field
+     */
     private static function search_validate_field($field){
 
     }
 
+    /**
+     * Support for search method
+     * @param $field
+     */
     private static function search_validate_constant($field){
 
     }

@@ -3096,275 +3096,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Represents a square Icon.
-
-     Icons may be come from a single image, or from a sprite image with several icons.
-     <c>IconItem</c> comes with a default sprite built in with a wide variety of icons.
-     **/
-    var IconItem = (function (_super) {
-        __extends(IconItem, _super);
-        //endregion
-        /**
-         * Creates the icon
-         **/
-        function IconItem() {
-            _super.call(this);
-            //endregion
-            //region Properties
-            /**
-             *
-             **/
-            this._name = '';
-            /**
-             *
-             **/
-            this._size = 16;
-            this.element.addClass('icon');
-            if (IconItem.defaultUrl !== null)
-                this.url = IconItem.defaultUrl;
-            // Initalize size
-            this.size = this._size;
-        }
-        /**
-         * Creates an empty icon of the specified size
-         **/
-        IconItem.empty = function (size) {
-            var icon = new IconItem();
-            icon.size = size;
-            icon.url = null;
-            return icon;
-        };
-        /**
-         * Gets a standard icon of the specified u and v coordinates. Size 16.
-         **/
-        IconItem.standard = function (u, v, size) {
-            if (size === void 0) { size = 16; }
-            var icon = new IconItem();
-            icon.u = u;
-            icon.v = v;
-            icon.size = size;
-            return icon;
-        };
-        /**
-         *
-         * @returns {IconItem}
-         */
-        IconItem.fileIcon = function () {
-            return IconItem.standard(2, 1);
-        };
-        /**
-         *
-         * @returns {IconItem}
-         */
-        IconItem.folderIcon = function () {
-            return IconItem.standard(5, 1);
-        };
-        /**
-         *
-         * @returns {IconItem}
-         */
-        IconItem.homeIcon = function () {
-            return IconItem.standard(11, 1);
-        };
-        /**
-         *
-         * @returns {IconItem}
-         */
-        IconItem.newIcon = function () {
-            return IconItem.standard(3, 3);
-        };
-        /**
-         *
-         * @returns {IconItem}
-         */
-        IconItem.saveIcon = function () {
-            return IconItem.standard(4, 2);
-        };
-        /**
-         *
-         * @returns {IconItem}
-         */
-        IconItem.refreshIcon = function () {
-            return IconItem.standard(1, 4);
-        };
-        /**
-         *
-         * @returns {IconItem}
-         */
-        IconItem.editIcon = function () {
-            return IconItem.standard(14, 8);
-        };
-        /**
-         *
-         * @returns {IconItem}
-         */
-        IconItem.deleteIcon = function () {
-            return IconItem.standard(9, 1);
-        };
-        //region Methods
-        /**
-         * Returns a clone of the icon
-         **/
-        IconItem.prototype.clone = function () {
-            var icon = new IconItem();
-            icon.name = this.name;
-            icon.size = this.size;
-            icon.url = this.url;
-            icon.x = this.x;
-            icon.y = this.y;
-            return icon;
-        };
-        Object.defineProperty(IconItem.prototype, "name", {
-            /**
-             * Gets or sets the name of the icon
-             **/
-            get: function () {
-                return this._name;
-            },
-            /**
-             * Gets or sets the name of the icon
-             **/
-            set: function (value) {
-                this._name = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(IconItem.prototype, "size", {
-            /**
-             * Gets or sets the size of the icon
-             The only possible values are: <c>16</c> | <c>32</c> | <c>48</c>
-             **/
-            get: function () {
-                return this._size;
-            },
-            /**
-             * Gets or sets the size of the icon
-             The only possible values are: <c>16</c> | <c>32</c> | <c>48</c>
-             **/
-            set: function (value) {
-                //if(value != 16 && value != 32 && value != 48)
-                //    throw "Icon.size(" + value + ") size not supported";
-                // Set size attributes
-                this.element.width(value).height(value);
-                this._size = value;
-                if (latte._isNumber(this.u))
-                    this.u = this.u;
-                if (latte._isNumber(this.v))
-                    this.v = this.v;
-                this.addClass('size-' + value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(IconItem.prototype, "u", {
-            /**
-             * Gets or sets the U coordiante of the icon inside image
-             **/
-            get: function () {
-                return this._u;
-            },
-            /**
-             * Gets or sets the U coordiante of the icon inside image
-             **/
-            set: function (value) {
-                this._u = value;
-                this.x = (value - 1) * this.size;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(IconItem.prototype, "url", {
-            /**
-             * Gets or sets the URL of the icon's image URL
-             **/
-            get: function () {
-                return this._url;
-            },
-            /**
-             * Gets or sets the URL of the icon's image URL
-             **/
-            set: function (value) {
-                if (latte._isString(value) && value.length > 0) {
-                    this.element.css({
-                        backgroundImage: 'url(' + value + ')',
-                        backgroundRepeat: 'no-repeat'
-                    });
-                }
-                else {
-                    this.element.css({
-                        backgroundImage: '',
-                        backgroundRepeat: ''
-                    });
-                }
-                this._url = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(IconItem.prototype, "v", {
-            /**
-             * Gets or sets the U coordiante of the icon inside image
-             **/
-            get: function () {
-                return this._v;
-            },
-            /**
-             * Gets or sets the U coordiante of the icon inside image
-             **/
-            set: function (value) {
-                this._v = value;
-                this.y = (value - 1) * this.size;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(IconItem.prototype, "x", {
-            /**
-             * Gets or sets the X coordinate of icon inside image (As a sprite)
-             **/
-            get: function () {
-                return this._x;
-            },
-            /**
-             * Gets or sets the X coordinate of icon inside image (As a sprite)
-             **/
-            set: function (value) {
-                this._x = value;
-                this.element.css('background-position', (this._x !== null ? '-' + this._x : '0') + "px " + (this._y !== null ? '-' + this._y : '0') + "px");
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(IconItem.prototype, "y", {
-            /**
-             * Gets or sets the Y coordinate of icon inside image (As a sprite)
-             **/
-            get: function () {
-                return this._y;
-            },
-            /**
-             * Gets or sets the Y coordinate of icon inside image (As a sprite)
-             **/
-            set: function (value) {
-                this._y = value;
-                this.element.css('background-position', (this._x !== null ? '-' + this._x : '0') + "px " + (this._y !== null ? '-' + this._y : '0') + "px");
-            },
-            enumerable: true,
-            configurable: true
-        });
-        //region Static
-        /**
-         * Default URL of sprite used if coordinates are specified, and no <c>url</c> is provided.
-         **/
-        IconItem.defaultUrl = '/latte/releases/latte.ui/support/imgs/std-icons.png';
-        return IconItem;
-    }(latte.Item));
-    latte.IconItem = IconItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * Represents an item which can be apparently clicked.
 
      - Item may be checked, event automatically if <c>checked()</c> value is <c>true</c>
@@ -3894,6 +3625,275 @@ var latte;
         return ClickableItem;
     }(latte.Item));
     latte.ClickableItem = ClickableItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Represents a square Icon.
+
+     Icons may be come from a single image, or from a sprite image with several icons.
+     <c>IconItem</c> comes with a default sprite built in with a wide variety of icons.
+     **/
+    var IconItem = (function (_super) {
+        __extends(IconItem, _super);
+        //endregion
+        /**
+         * Creates the icon
+         **/
+        function IconItem() {
+            _super.call(this);
+            //endregion
+            //region Properties
+            /**
+             *
+             **/
+            this._name = '';
+            /**
+             *
+             **/
+            this._size = 16;
+            this.element.addClass('icon');
+            if (IconItem.defaultUrl !== null)
+                this.url = IconItem.defaultUrl;
+            // Initalize size
+            this.size = this._size;
+        }
+        /**
+         * Creates an empty icon of the specified size
+         **/
+        IconItem.empty = function (size) {
+            var icon = new IconItem();
+            icon.size = size;
+            icon.url = null;
+            return icon;
+        };
+        /**
+         * Gets a standard icon of the specified u and v coordinates. Size 16.
+         **/
+        IconItem.standard = function (u, v, size) {
+            if (size === void 0) { size = 16; }
+            var icon = new IconItem();
+            icon.u = u;
+            icon.v = v;
+            icon.size = size;
+            return icon;
+        };
+        /**
+         *
+         * @returns {IconItem}
+         */
+        IconItem.fileIcon = function () {
+            return IconItem.standard(2, 1);
+        };
+        /**
+         *
+         * @returns {IconItem}
+         */
+        IconItem.folderIcon = function () {
+            return IconItem.standard(5, 1);
+        };
+        /**
+         *
+         * @returns {IconItem}
+         */
+        IconItem.homeIcon = function () {
+            return IconItem.standard(11, 1);
+        };
+        /**
+         *
+         * @returns {IconItem}
+         */
+        IconItem.newIcon = function () {
+            return IconItem.standard(3, 3);
+        };
+        /**
+         *
+         * @returns {IconItem}
+         */
+        IconItem.saveIcon = function () {
+            return IconItem.standard(4, 2);
+        };
+        /**
+         *
+         * @returns {IconItem}
+         */
+        IconItem.refreshIcon = function () {
+            return IconItem.standard(1, 4);
+        };
+        /**
+         *
+         * @returns {IconItem}
+         */
+        IconItem.editIcon = function () {
+            return IconItem.standard(14, 8);
+        };
+        /**
+         *
+         * @returns {IconItem}
+         */
+        IconItem.deleteIcon = function () {
+            return IconItem.standard(9, 1);
+        };
+        //region Methods
+        /**
+         * Returns a clone of the icon
+         **/
+        IconItem.prototype.clone = function () {
+            var icon = new IconItem();
+            icon.name = this.name;
+            icon.size = this.size;
+            icon.url = this.url;
+            icon.x = this.x;
+            icon.y = this.y;
+            return icon;
+        };
+        Object.defineProperty(IconItem.prototype, "name", {
+            /**
+             * Gets or sets the name of the icon
+             **/
+            get: function () {
+                return this._name;
+            },
+            /**
+             * Gets or sets the name of the icon
+             **/
+            set: function (value) {
+                this._name = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(IconItem.prototype, "size", {
+            /**
+             * Gets or sets the size of the icon
+             The only possible values are: <c>16</c> | <c>32</c> | <c>48</c>
+             **/
+            get: function () {
+                return this._size;
+            },
+            /**
+             * Gets or sets the size of the icon
+             The only possible values are: <c>16</c> | <c>32</c> | <c>48</c>
+             **/
+            set: function (value) {
+                //if(value != 16 && value != 32 && value != 48)
+                //    throw "Icon.size(" + value + ") size not supported";
+                // Set size attributes
+                this.element.width(value).height(value);
+                this._size = value;
+                if (latte._isNumber(this.u))
+                    this.u = this.u;
+                if (latte._isNumber(this.v))
+                    this.v = this.v;
+                this.addClass('size-' + value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(IconItem.prototype, "u", {
+            /**
+             * Gets or sets the U coordiante of the icon inside image
+             **/
+            get: function () {
+                return this._u;
+            },
+            /**
+             * Gets or sets the U coordiante of the icon inside image
+             **/
+            set: function (value) {
+                this._u = value;
+                this.x = (value - 1) * this.size;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(IconItem.prototype, "url", {
+            /**
+             * Gets or sets the URL of the icon's image URL
+             **/
+            get: function () {
+                return this._url;
+            },
+            /**
+             * Gets or sets the URL of the icon's image URL
+             **/
+            set: function (value) {
+                if (latte._isString(value) && value.length > 0) {
+                    this.element.css({
+                        backgroundImage: 'url(' + value + ')',
+                        backgroundRepeat: 'no-repeat'
+                    });
+                }
+                else {
+                    this.element.css({
+                        backgroundImage: '',
+                        backgroundRepeat: ''
+                    });
+                }
+                this._url = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(IconItem.prototype, "v", {
+            /**
+             * Gets or sets the U coordiante of the icon inside image
+             **/
+            get: function () {
+                return this._v;
+            },
+            /**
+             * Gets or sets the U coordiante of the icon inside image
+             **/
+            set: function (value) {
+                this._v = value;
+                this.y = (value - 1) * this.size;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(IconItem.prototype, "x", {
+            /**
+             * Gets or sets the X coordinate of icon inside image (As a sprite)
+             **/
+            get: function () {
+                return this._x;
+            },
+            /**
+             * Gets or sets the X coordinate of icon inside image (As a sprite)
+             **/
+            set: function (value) {
+                this._x = value;
+                this.element.css('background-position', (this._x !== null ? '-' + this._x : '0') + "px " + (this._y !== null ? '-' + this._y : '0') + "px");
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(IconItem.prototype, "y", {
+            /**
+             * Gets or sets the Y coordinate of icon inside image (As a sprite)
+             **/
+            get: function () {
+                return this._y;
+            },
+            /**
+             * Gets or sets the Y coordinate of icon inside image (As a sprite)
+             **/
+            set: function (value) {
+                this._y = value;
+                this.element.css('background-position', (this._x !== null ? '-' + this._x : '0') + "px " + (this._y !== null ? '-' + this._y : '0') + "px");
+            },
+            enumerable: true,
+            configurable: true
+        });
+        //region Static
+        /**
+         * Default URL of sprite used if coordinates are specified, and no <c>url</c> is provided.
+         **/
+        IconItem.defaultUrl = '/latte/releases/latte.ui/support/imgs/std-icons.png';
+        return IconItem;
+    }(latte.Item));
+    latte.IconItem = IconItem;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -5955,95 +5955,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Handles hash navigation. This is designed to manage navigation of apps.
-
-     Catch a handler to <c>hashChanged</c> event, and to alter the current hash path
-     use the <c>Navigation.hash</c> property.
-     **/
-    var Navigation = (function () {
-        function Navigation() {
-        }
-        /**
-         * Initializes the static class
-         **/
-        Navigation.staticConstructor = function () {
-            // Assign initial hash
-            if (!latte._undef(window.location.hash))
-                Navigation.hash = window.location.hash;
-            // Init event
-            Navigation.hashChanged = new latte.LatteEvent(Navigation);
-            // React to handler adding
-            Navigation.hashChanged.handlerAdded.add(function () {
-                Navigation.onHashChanged(Navigation._hash);
-            });
-            // Catch outer hashchange event
-            if (!latte._undef(window.onhashchange)) {
-                $(window).bind('hashchange', function () {
-                    Navigation.hash = window.location.hash;
-                });
-            }
-        };
-        Object.defineProperty(Navigation, "hash", {
-            /**
-             * Gets or sets the current hash of the navigation.
-             Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
-             **/
-            get: function () {
-                return Navigation._hash;
-            },
-            /**
-             * Gets or sets the current hash of the navigation.
-             Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
-             **/
-            set: function (value) {
-                Navigation.setHash(value, false);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Gets or sets the current hash of the navigation.
-         Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
-         **/
-        Navigation.setHash = function (value, silent) {
-            if (silent === void 0) { silent = false; }
-            if (latte._isString(value) && value.length > 0 && value.charAt(0) == '#')
-                value = value.substr(1);
-            var change = value != Navigation._hash;
-            Navigation._hash = value;
-            if (!latte._undef(window.location.hash)) {
-                Navigation._lock = true;
-                window.location.hash = value;
-                Navigation._lock = false;
-            }
-            /// Create path
-            var path = value.split('/');
-            if (path.length > 0 && !path[0])
-                path.shift();
-            Navigation.path = path;
-            if (change && !(silent === true))
-                Navigation.onHashChanged(value);
-            return Navigation;
-        };
-        /**
-         * Raises the <c>hashChanged</c> event
-         **/
-        Navigation.onHashChanged = function (hash) {
-            if (Navigation.hashChanged)
-                Navigation.hashChanged.raise(hash);
-        };
-        /**
-         * Hash represented as a path. It is updated every time the value of <c>hash</c> changes.
-         **/
-        Navigation.path = [];
-        return Navigation;
-    }());
-    latte.Navigation = Navigation;
-    $(function () { Navigation.staticConstructor(); });
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * represents an action
      **/
     var Action = (function () {
@@ -6192,6 +6103,95 @@ var latte;
     }());
     latte.Action = Action;
 })(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Handles hash navigation. This is designed to manage navigation of apps.
+
+     Catch a handler to <c>hashChanged</c> event, and to alter the current hash path
+     use the <c>Navigation.hash</c> property.
+     **/
+    var Navigation = (function () {
+        function Navigation() {
+        }
+        /**
+         * Initializes the static class
+         **/
+        Navigation.staticConstructor = function () {
+            // Assign initial hash
+            if (!latte._undef(window.location.hash))
+                Navigation.hash = window.location.hash;
+            // Init event
+            Navigation.hashChanged = new latte.LatteEvent(Navigation);
+            // React to handler adding
+            Navigation.hashChanged.handlerAdded.add(function () {
+                Navigation.onHashChanged(Navigation._hash);
+            });
+            // Catch outer hashchange event
+            if (!latte._undef(window.onhashchange)) {
+                $(window).bind('hashchange', function () {
+                    Navigation.hash = window.location.hash;
+                });
+            }
+        };
+        Object.defineProperty(Navigation, "hash", {
+            /**
+             * Gets or sets the current hash of the navigation.
+             Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
+             **/
+            get: function () {
+                return Navigation._hash;
+            },
+            /**
+             * Gets or sets the current hash of the navigation.
+             Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
+             **/
+            set: function (value) {
+                Navigation.setHash(value, false);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Gets or sets the current hash of the navigation.
+         Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
+         **/
+        Navigation.setHash = function (value, silent) {
+            if (silent === void 0) { silent = false; }
+            if (latte._isString(value) && value.length > 0 && value.charAt(0) == '#')
+                value = value.substr(1);
+            var change = value != Navigation._hash;
+            Navigation._hash = value;
+            if (!latte._undef(window.location.hash)) {
+                Navigation._lock = true;
+                window.location.hash = value;
+                Navigation._lock = false;
+            }
+            /// Create path
+            var path = value.split('/');
+            if (path.length > 0 && !path[0])
+                path.shift();
+            Navigation.path = path;
+            if (change && !(silent === true))
+                Navigation.onHashChanged(value);
+            return Navigation;
+        };
+        /**
+         * Raises the <c>hashChanged</c> event
+         **/
+        Navigation.onHashChanged = function (hash) {
+            if (Navigation.hashChanged)
+                Navigation.hashChanged.raise(hash);
+        };
+        /**
+         * Hash represented as a path. It is updated every time the value of <c>hash</c> changes.
+         **/
+        Navigation.path = [];
+        return Navigation;
+    }());
+    latte.Navigation = Navigation;
+    $(function () { Navigation.staticConstructor(); });
+})(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/1/14.
  */
@@ -6252,63 +6252,6 @@ var latte;
         return ColorIconItem;
     }(latte.IconItem));
     latte.ColorIconItem = ColorIconItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Manages z-index related positions
-     <b style="color:darkred">This class should not be used directly because it is likely to disappear in future version</b>
-     **/
-    var ZIndex = (function () {
-        function ZIndex() {
-        }
-        /**
-         * Brings the specified element to the top
-         **/
-        ZIndex.bringToFront = function (element) {
-            if (element instanceof jQuery)
-                element = element.get(0);
-            // Add to elements
-            this.elements.push(element);
-            // Update indexes
-            this.updateZIndexes();
-        };
-        /**
-         * Remove elemet from elements, and erase z-index
-         **/
-        ZIndex.removeElement = function (element) {
-            var arr = [];
-            if (element instanceof jQuery)
-                element = element.get(0);
-            // Remove z-index
-            // debugger;
-            $(element).css('zIndex', '');
-            // Create new array
-            for (var i = 0; i < this.elements.length; i++)
-                if (this.elements[i] !== element)
-                    arr.push(this.elements[i]);
-            // Set new array
-            this.elements = arr;
-            this.updateZIndexes();
-        };
-        /**
-         * Updates the z-indexes of elements
-         **/
-        ZIndex.updateZIndexes = function () {
-            // Calculate max index
-            //var max = document.all ? document.all.length : $('*').length;
-            var max = $(':not(.latte-overlay.menu)').length - this.elements.length;
-            for (var i = 0; i < this.elements.length; i++) {
-                $(this.elements[i]).css('zIndex', max++);
-            }
-        };
-        /**
-         * Array of elements that are being handled by class
-         **/
-        ZIndex.elements = [];
-        return ZIndex;
-    }());
-    latte.ZIndex = ZIndex;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -6669,6 +6612,216 @@ var latte;
         return SeparatorItem;
     }(latte.Item));
     latte.SeparatorItem = SeparatorItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * ButtonGroup with pagination information
+     **/
+    var PaginationItem = (function (_super) {
+        __extends(PaginationItem, _super);
+        /**
+         *
+         **/
+        function PaginationItem() {
+            var _this = this;
+            _super.call(this);
+            /**
+             *
+             **/
+            this._page = 1;
+            /**
+             *
+             **/
+            this._pages = 1;
+            this.addClass('pagination');
+            // Events
+            this.pageChanged = new latte.LatteEvent(this);
+            // Elements
+            this.btnCurrent = new latte.ButtonItem();
+            this.btnNext = new latte.ButtonItem();
+            this.btnNext.icon = latte.Glyph.right;
+            this.btnPrevious = new latte.ButtonItem();
+            this.btnPrevious.icon = latte.Glyph.left;
+            // Tag CSS
+            this.btnPrevious.addClass('previous');
+            this.btnCurrent.addClass('current');
+            this.btnNext.addClass('next');
+            this.btnCurrent.items.add(this.btnOverlay);
+            this.buttons.addArray([
+                this.btnPrevious, this.btnCurrent, this.btnNext
+            ]);
+            // Wire events
+            this.btnNext.click.add(function () { _this.nextPage(); });
+            this.btnPrevious.click.add(function () { _this.previousPage(); });
+            this.page = 1;
+            this.pages = 1;
+        }
+        /**
+         * Navigates to next page, if possible.
+         **/
+        PaginationItem.prototype.nextPage = function () {
+            if (this.page < this.pages) {
+                this.page = this.page + 1;
+            }
+        };
+        /**
+         * Raises the <c>pageChanged</c> event
+         **/
+        PaginationItem.prototype.onPageChanged = function () {
+            this.pageChanged.raise();
+        };
+        /**
+         * Navigates to the previous page, if possible.
+         **/
+        PaginationItem.prototype.previousPage = function () {
+            if (this.page > 0) {
+                this.page = this.page - 1;
+            }
+        };
+        // region Private Methods
+        PaginationItem.prototype.txtPage_enterPressed = function () {
+            if (!(+this.txtPage.value > this.pages)) {
+                if (this.txtPage.value == "" || +this.txtPage.value <= 0 || isNaN(+this.txtPage.value))
+                    this.txtPage.value = this.page + "";
+                // Set page
+                this.page = parseInt(this.txtPage.value, 10);
+            }
+            else {
+                this.txtPage.value = this.page + "";
+            }
+        };
+        Object.defineProperty(PaginationItem.prototype, "page", {
+            // endregion
+            /**
+             * Gets or sets the current page
+             **/
+            get: function () {
+                return this.getPage();
+            },
+            /**
+             * Gets or sets the current page
+             **/
+            set: function (value) {
+                this.setPage(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Gets the current page.
+         * @returns {number}
+         */
+        PaginationItem.prototype.getPage = function () {
+            return this._page;
+        };
+        /**
+         * Sets the current page.
+         * Optionally omits the <c>pageChanged</c> event trigger.
+         * @param value
+         * @param silent
+         */
+        PaginationItem.prototype.setPage = function (value, silent) {
+            if (silent === void 0) { silent = false; }
+            var changed = this._page != value;
+            this._page = value;
+            this.btnCurrent.text = this._page + '/' + this._pages;
+            this.btnNext.enabled = this._page < this.pages;
+            this.btnPrevious.enabled = this._page > 1;
+            this.txtPage.enabled = this._page <= this.pages && this._page >= 1;
+            if (changed && silent !== true) {
+                this.onPageChanged();
+            }
+        };
+        Object.defineProperty(PaginationItem.prototype, "pages", {
+            /**
+             * Gets or sets the amount of pages for navigation
+             **/
+            get: function () {
+                return this._pages;
+            },
+            /**
+             * Gets or sets the amount of pages for navigation
+             **/
+            set: function (value) {
+                this._pages = value;
+                this.btnCurrent.text = this._page + '/' + this._pages;
+                this.enabled = value > 1;
+                if (this.enabled)
+                    this.page = this.page;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PaginationItem.prototype, "txtPage", {
+            get: function () {
+                if (!this._txtPage) {
+                    this._txtPage = new latte.TextboxItem();
+                    this._txtPage.value = this.page + "";
+                    this._txtPage.input.width(20);
+                    this._txtPage.input.height(14);
+                    this._txtPage.enabled = false;
+                    this._txtPage.enterPressed.add(this.txtPage_enterPressed, this);
+                    this._txtPage.element.css({ float: 'left' });
+                }
+                return this._txtPage;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PaginationItem.prototype, "lblPages", {
+            /**
+             * Gets a value indicating
+             */
+            get: function () {
+                if (!this._lblPages) {
+                    this._lblPages = new latte.LabelItem(strings.goToPage);
+                    this._lblPages.element.css({ float: 'left', paddingTop: 5, paddingRight: 5, color: 'black' });
+                }
+                return this._lblPages;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PaginationItem.prototype, "btnGo", {
+            /**
+             * Gets a value indicating
+             */
+            get: function () {
+                if (!this._btnGo) {
+                    this._btnGo = new latte.ButtonItem("Ir");
+                    this._btnGo.removeClass('clickable');
+                    this._btnGo.element.css({ float: 'left' });
+                    this._btnGo.click.add(this.txtPage_enterPressed, this);
+                }
+                return this._btnGo;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PaginationItem.prototype, "btnOverlay", {
+            /**
+             * Gets a value indicating
+             */
+            get: function () {
+                if (!this._btnOverlay) {
+                    this._btnOverlay = new latte.ButtonItem();
+                    this._btnOverlay.faceVisible = false;
+                    this._btnOverlay.removeClass('clickable');
+                    this._btnOverlay.height = 28;
+                    this._btnOverlay.label.contentElement.append(this.lblPages.element);
+                    this._btnOverlay.label.contentElement.append(this.txtPage.element);
+                    //this._btnOverlay.label.contentElement.append(this.btnGo.element);
+                    this._btnOverlay.label.contentElement.clear();
+                }
+                return this._btnOverlay;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return PaginationItem;
+    }(latte.ButtonGroupItem));
+    latte.PaginationItem = PaginationItem;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -7118,216 +7271,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * ButtonGroup with pagination information
-     **/
-    var PaginationItem = (function (_super) {
-        __extends(PaginationItem, _super);
-        /**
-         *
-         **/
-        function PaginationItem() {
-            var _this = this;
-            _super.call(this);
-            /**
-             *
-             **/
-            this._page = 1;
-            /**
-             *
-             **/
-            this._pages = 1;
-            this.addClass('pagination');
-            // Events
-            this.pageChanged = new latte.LatteEvent(this);
-            // Elements
-            this.btnCurrent = new latte.ButtonItem();
-            this.btnNext = new latte.ButtonItem();
-            this.btnNext.icon = latte.Glyph.right;
-            this.btnPrevious = new latte.ButtonItem();
-            this.btnPrevious.icon = latte.Glyph.left;
-            // Tag CSS
-            this.btnPrevious.addClass('previous');
-            this.btnCurrent.addClass('current');
-            this.btnNext.addClass('next');
-            this.btnCurrent.items.add(this.btnOverlay);
-            this.buttons.addArray([
-                this.btnPrevious, this.btnCurrent, this.btnNext
-            ]);
-            // Wire events
-            this.btnNext.click.add(function () { _this.nextPage(); });
-            this.btnPrevious.click.add(function () { _this.previousPage(); });
-            this.page = 1;
-            this.pages = 1;
-        }
-        /**
-         * Navigates to next page, if possible.
-         **/
-        PaginationItem.prototype.nextPage = function () {
-            if (this.page < this.pages) {
-                this.page = this.page + 1;
-            }
-        };
-        /**
-         * Raises the <c>pageChanged</c> event
-         **/
-        PaginationItem.prototype.onPageChanged = function () {
-            this.pageChanged.raise();
-        };
-        /**
-         * Navigates to the previous page, if possible.
-         **/
-        PaginationItem.prototype.previousPage = function () {
-            if (this.page > 0) {
-                this.page = this.page - 1;
-            }
-        };
-        // region Private Methods
-        PaginationItem.prototype.txtPage_enterPressed = function () {
-            if (!(+this.txtPage.value > this.pages)) {
-                if (this.txtPage.value == "" || +this.txtPage.value <= 0 || isNaN(+this.txtPage.value))
-                    this.txtPage.value = this.page + "";
-                // Set page
-                this.page = parseInt(this.txtPage.value, 10);
-            }
-            else {
-                this.txtPage.value = this.page + "";
-            }
-        };
-        Object.defineProperty(PaginationItem.prototype, "page", {
-            // endregion
-            /**
-             * Gets or sets the current page
-             **/
-            get: function () {
-                return this.getPage();
-            },
-            /**
-             * Gets or sets the current page
-             **/
-            set: function (value) {
-                this.setPage(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Gets the current page.
-         * @returns {number}
-         */
-        PaginationItem.prototype.getPage = function () {
-            return this._page;
-        };
-        /**
-         * Sets the current page.
-         * Optionally omits the <c>pageChanged</c> event trigger.
-         * @param value
-         * @param silent
-         */
-        PaginationItem.prototype.setPage = function (value, silent) {
-            if (silent === void 0) { silent = false; }
-            var changed = this._page != value;
-            this._page = value;
-            this.btnCurrent.text = this._page + '/' + this._pages;
-            this.btnNext.enabled = this._page < this.pages;
-            this.btnPrevious.enabled = this._page > 1;
-            this.txtPage.enabled = this._page <= this.pages && this._page >= 1;
-            if (changed && silent !== true) {
-                this.onPageChanged();
-            }
-        };
-        Object.defineProperty(PaginationItem.prototype, "pages", {
-            /**
-             * Gets or sets the amount of pages for navigation
-             **/
-            get: function () {
-                return this._pages;
-            },
-            /**
-             * Gets or sets the amount of pages for navigation
-             **/
-            set: function (value) {
-                this._pages = value;
-                this.btnCurrent.text = this._page + '/' + this._pages;
-                this.enabled = value > 1;
-                if (this.enabled)
-                    this.page = this.page;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PaginationItem.prototype, "txtPage", {
-            get: function () {
-                if (!this._txtPage) {
-                    this._txtPage = new latte.TextboxItem();
-                    this._txtPage.value = this.page + "";
-                    this._txtPage.input.width(20);
-                    this._txtPage.input.height(14);
-                    this._txtPage.enabled = false;
-                    this._txtPage.enterPressed.add(this.txtPage_enterPressed, this);
-                    this._txtPage.element.css({ float: 'left' });
-                }
-                return this._txtPage;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PaginationItem.prototype, "lblPages", {
-            /**
-             * Gets a value indicating
-             */
-            get: function () {
-                if (!this._lblPages) {
-                    this._lblPages = new latte.LabelItem(strings.goToPage);
-                    this._lblPages.element.css({ float: 'left', paddingTop: 5, paddingRight: 5, color: 'black' });
-                }
-                return this._lblPages;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PaginationItem.prototype, "btnGo", {
-            /**
-             * Gets a value indicating
-             */
-            get: function () {
-                if (!this._btnGo) {
-                    this._btnGo = new latte.ButtonItem("Ir");
-                    this._btnGo.removeClass('clickable');
-                    this._btnGo.element.css({ float: 'left' });
-                    this._btnGo.click.add(this.txtPage_enterPressed, this);
-                }
-                return this._btnGo;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(PaginationItem.prototype, "btnOverlay", {
-            /**
-             * Gets a value indicating
-             */
-            get: function () {
-                if (!this._btnOverlay) {
-                    this._btnOverlay = new latte.ButtonItem();
-                    this._btnOverlay.faceVisible = false;
-                    this._btnOverlay.removeClass('clickable');
-                    this._btnOverlay.height = 28;
-                    this._btnOverlay.label.contentElement.append(this.lblPages.element);
-                    this._btnOverlay.label.contentElement.append(this.txtPage.element);
-                    //this._btnOverlay.label.contentElement.append(this.btnGo.element);
-                    this._btnOverlay.label.contentElement.clear();
-                }
-                return this._btnOverlay;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return PaginationItem;
-    }(latte.ButtonGroupItem));
-    latte.PaginationItem = PaginationItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * Renders a conversation made of <c>CommentItem</c>s, allowing the user to add comments.
      **/
     var ConversationItem = (function (_super) {
@@ -7526,6 +7469,63 @@ var latte;
         return ConversationItem;
     }(latte.Item));
     latte.ConversationItem = ConversationItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Manages z-index related positions
+     <b style="color:darkred">This class should not be used directly because it is likely to disappear in future version</b>
+     **/
+    var ZIndex = (function () {
+        function ZIndex() {
+        }
+        /**
+         * Brings the specified element to the top
+         **/
+        ZIndex.bringToFront = function (element) {
+            if (element instanceof jQuery)
+                element = element.get(0);
+            // Add to elements
+            this.elements.push(element);
+            // Update indexes
+            this.updateZIndexes();
+        };
+        /**
+         * Remove elemet from elements, and erase z-index
+         **/
+        ZIndex.removeElement = function (element) {
+            var arr = [];
+            if (element instanceof jQuery)
+                element = element.get(0);
+            // Remove z-index
+            // debugger;
+            $(element).css('zIndex', '');
+            // Create new array
+            for (var i = 0; i < this.elements.length; i++)
+                if (this.elements[i] !== element)
+                    arr.push(this.elements[i]);
+            // Set new array
+            this.elements = arr;
+            this.updateZIndexes();
+        };
+        /**
+         * Updates the z-indexes of elements
+         **/
+        ZIndex.updateZIndexes = function () {
+            // Calculate max index
+            //var max = document.all ? document.all.length : $('*').length;
+            var max = $(':not(.latte-overlay.menu)').length - this.elements.length;
+            for (var i = 0; i < this.elements.length; i++) {
+                $(this.elements[i]).css('zIndex', max++);
+            }
+        };
+        /**
+         * Array of elements that are being handled by class
+         **/
+        ZIndex.elements = [];
+        return ZIndex;
+    }());
+    latte.ZIndex = ZIndex;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -8390,6 +8390,94 @@ var latte;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
+    /**
+     * Stack of items. It unselects siblings when a selectable within is selected
+     */
+    var SelectableStack = (function (_super) {
+        __extends(SelectableStack, _super);
+        /**
+         * Creates the item
+         */
+        function SelectableStack() {
+            _super.call(this);
+            this._selectedItem = null;
+            this.element.addClass('selectable');
+        }
+        /**
+         * Clears the current selection
+         */
+        SelectableStack.prototype.clearSelection = function () {
+            for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i] instanceof latte.SelectableItem) {
+                    this.items[i].selected = false;
+                }
+            }
+            this._selectedItem = null;
+            this.onSelectedItemChanged();
+        };
+        /**
+         * Adds selection handlers
+         * @param item
+         */
+        SelectableStack.prototype.onAddItem = function (item) {
+            var _this = this;
+            _super.prototype.onAddItem.call(this, item);
+            // Add seleciton hook
+            if (item instanceof latte.SelectableItem) {
+                var sel = item;
+                sel.selectedChanged.add(function () {
+                    if (sel.selected) {
+                        _this._selectedItem = sel;
+                        _this.onSelectedItemChanged();
+                        for (var i = 0; i < _this.items.length; i++) {
+                            if (_this.items[i] !== item && _this.items[i] instanceof latte.SelectableItem) {
+                                _this.items[i].selected = false;
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        /**
+         * Raises the <c>selectedItemChanged</c> event
+         */
+        SelectableStack.prototype.onSelectedItemChanged = function () {
+            if (this._selectedItemChanged instanceof latte.LatteEvent) {
+                this._selectedItemChanged.raise();
+            }
+        };
+        Object.defineProperty(SelectableStack.prototype, "selectedItem", {
+            /**
+             * Gets the selected item of the stack
+             *
+             * @returns {SelectableItem}
+             */
+            get: function () {
+                return this._selectedItem;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(SelectableStack.prototype, "selectedItemChanged", {
+            /**
+             * Gets an event raised when
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._selectedItemChanged) {
+                    this._selectedItemChanged = new latte.LatteEvent(this);
+                }
+                return this._selectedItemChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return SelectableStack;
+    }(latte.ItemStack));
+    latte.SelectableStack = SelectableStack;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
     var TabContainer = (function (_super) {
         __extends(TabContainer, _super);
         function TabContainer() {
@@ -8532,6 +8620,127 @@ var latte;
         return TabContainer;
     }(latte.ItemStack));
     latte.TabContainer = TabContainer;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Toolbar specialized on showing tabs.
+     *
+     * This toolbar is necessary because of the rendering styles applied to tabs to make the
+     * graphical "tab" effect.
+     */
+    var TabToolbar = (function (_super) {
+        __extends(TabToolbar, _super);
+        /**
+         * Creates the toolbar
+         */
+        function TabToolbar() {
+            _super.call(this);
+            this.element.addClass('tab');
+            // Init collection
+            this.tabs = new latte.Collection(this.onTabAdded, this.onTabRemoved, this);
+            // Init events
+            this.selectedTabChanged = new latte.LatteEvent(this);
+            this.contentSide = latte.Side.BOTTOM;
+        }
+        /**
+         * Raises the <c>selectedTabChanged</c> event
+         **/
+        TabToolbar.prototype.onSelectedTabChanged = function () {
+            this.selectedTabChanged.raise();
+        };
+        /**
+         * Handles tab adding
+         * @param tab
+         */
+        TabToolbar.prototype.onTabAdded = function (tab) {
+            var _this = this;
+            this.items.add(tab);
+            tab.contentSide = this.contentSide;
+            tab.click.add(function () {
+                _this.selectedTab = tab;
+            });
+        };
+        /**
+         * Handles tab removing
+         * @param tab
+         */
+        TabToolbar.prototype.onTabRemoved = function (tab) {
+            this.items.remove(tab);
+        };
+        Object.defineProperty(TabToolbar.prototype, "contentSide", {
+            /**
+             * Gets the current content side
+             * @returns {Side}
+             */
+            get: function () {
+                return this._contentSide;
+            },
+            /**
+             * Sets the content side of tabs
+             * @param value
+             */
+            set: function (value) {
+                this._contentSide = value;
+                // Set side of all tabs
+                for (var i = 0; i < this.tabs.length; i++) {
+                    this.tabs[i].contentSide = value;
+                }
+                // Clear classes
+                this.element.removeClass('content-at-top content-at-bottom content-at-left content-at-right');
+                // Set class
+                switch (value) {
+                    case latte.Side.TOP:
+                        this.element.addClass('content-at-top');
+                        break;
+                    case latte.Side.BOTTOM:
+                        this.element.addClass('content-at-bottom');
+                        break;
+                    case latte.Side.LEFT:
+                        this.element.addClass('content-at-left');
+                        break;
+                    case latte.Side.RIGHT:
+                        this.element.addClass('content-at-right');
+                        break;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TabToolbar.prototype, "selectedTab", {
+            /**
+             * Gets the selected tab of the toolbar
+             * @returns {TabItem}
+             */
+            get: function () {
+                return this._selectedTab;
+            },
+            /**
+             * Sets the selected tab of the toolbar
+             * @param value
+             */
+            set: function (value) {
+                var changed = value !== this._selectedTab;
+                this._selectedTab = value;
+                if (changed) {
+                    // De-activate siblings
+                    for (var i = 0; i < this.tabs.length; i++) {
+                        var tab = this.tabs[i];
+                        if (tab !== value) {
+                            tab.active = false;
+                        }
+                    }
+                    // Activate selected
+                    value.active = true;
+                    this.onSelectedTabChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return TabToolbar;
+    }(latte.Toolbar));
+    latte.TabToolbar = TabToolbar;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -8932,215 +9141,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Stack of items. It unselects siblings when a selectable within is selected
-     */
-    var SelectableStack = (function (_super) {
-        __extends(SelectableStack, _super);
-        /**
-         * Creates the item
-         */
-        function SelectableStack() {
-            _super.call(this);
-            this._selectedItem = null;
-            this.element.addClass('selectable');
-        }
-        /**
-         * Clears the current selection
-         */
-        SelectableStack.prototype.clearSelection = function () {
-            for (var i = 0; i < this.items.length; i++) {
-                if (this.items[i] instanceof latte.SelectableItem) {
-                    this.items[i].selected = false;
-                }
-            }
-            this._selectedItem = null;
-            this.onSelectedItemChanged();
-        };
-        /**
-         * Adds selection handlers
-         * @param item
-         */
-        SelectableStack.prototype.onAddItem = function (item) {
-            var _this = this;
-            _super.prototype.onAddItem.call(this, item);
-            // Add seleciton hook
-            if (item instanceof latte.SelectableItem) {
-                var sel = item;
-                sel.selectedChanged.add(function () {
-                    if (sel.selected) {
-                        _this._selectedItem = sel;
-                        _this.onSelectedItemChanged();
-                        for (var i = 0; i < _this.items.length; i++) {
-                            if (_this.items[i] !== item && _this.items[i] instanceof latte.SelectableItem) {
-                                _this.items[i].selected = false;
-                            }
-                        }
-                    }
-                });
-            }
-        };
-        /**
-         * Raises the <c>selectedItemChanged</c> event
-         */
-        SelectableStack.prototype.onSelectedItemChanged = function () {
-            if (this._selectedItemChanged instanceof latte.LatteEvent) {
-                this._selectedItemChanged.raise();
-            }
-        };
-        Object.defineProperty(SelectableStack.prototype, "selectedItem", {
-            /**
-             * Gets the selected item of the stack
-             *
-             * @returns {SelectableItem}
-             */
-            get: function () {
-                return this._selectedItem;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(SelectableStack.prototype, "selectedItemChanged", {
-            /**
-             * Gets an event raised when
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._selectedItemChanged) {
-                    this._selectedItemChanged = new latte.LatteEvent(this);
-                }
-                return this._selectedItemChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return SelectableStack;
-    }(latte.ItemStack));
-    latte.SelectableStack = SelectableStack;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Toolbar specialized on showing tabs.
-     *
-     * This toolbar is necessary because of the rendering styles applied to tabs to make the
-     * graphical "tab" effect.
-     */
-    var TabToolbar = (function (_super) {
-        __extends(TabToolbar, _super);
-        /**
-         * Creates the toolbar
-         */
-        function TabToolbar() {
-            _super.call(this);
-            this.element.addClass('tab');
-            // Init collection
-            this.tabs = new latte.Collection(this.onTabAdded, this.onTabRemoved, this);
-            // Init events
-            this.selectedTabChanged = new latte.LatteEvent(this);
-            this.contentSide = latte.Side.BOTTOM;
-        }
-        /**
-         * Raises the <c>selectedTabChanged</c> event
-         **/
-        TabToolbar.prototype.onSelectedTabChanged = function () {
-            this.selectedTabChanged.raise();
-        };
-        /**
-         * Handles tab adding
-         * @param tab
-         */
-        TabToolbar.prototype.onTabAdded = function (tab) {
-            var _this = this;
-            this.items.add(tab);
-            tab.contentSide = this.contentSide;
-            tab.click.add(function () {
-                _this.selectedTab = tab;
-            });
-        };
-        /**
-         * Handles tab removing
-         * @param tab
-         */
-        TabToolbar.prototype.onTabRemoved = function (tab) {
-            this.items.remove(tab);
-        };
-        Object.defineProperty(TabToolbar.prototype, "contentSide", {
-            /**
-             * Gets the current content side
-             * @returns {Side}
-             */
-            get: function () {
-                return this._contentSide;
-            },
-            /**
-             * Sets the content side of tabs
-             * @param value
-             */
-            set: function (value) {
-                this._contentSide = value;
-                // Set side of all tabs
-                for (var i = 0; i < this.tabs.length; i++) {
-                    this.tabs[i].contentSide = value;
-                }
-                // Clear classes
-                this.element.removeClass('content-at-top content-at-bottom content-at-left content-at-right');
-                // Set class
-                switch (value) {
-                    case latte.Side.TOP:
-                        this.element.addClass('content-at-top');
-                        break;
-                    case latte.Side.BOTTOM:
-                        this.element.addClass('content-at-bottom');
-                        break;
-                    case latte.Side.LEFT:
-                        this.element.addClass('content-at-left');
-                        break;
-                    case latte.Side.RIGHT:
-                        this.element.addClass('content-at-right');
-                        break;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TabToolbar.prototype, "selectedTab", {
-            /**
-             * Gets the selected tab of the toolbar
-             * @returns {TabItem}
-             */
-            get: function () {
-                return this._selectedTab;
-            },
-            /**
-             * Sets the selected tab of the toolbar
-             * @param value
-             */
-            set: function (value) {
-                var changed = value !== this._selectedTab;
-                this._selectedTab = value;
-                if (changed) {
-                    // De-activate siblings
-                    for (var i = 0; i < this.tabs.length; i++) {
-                        var tab = this.tabs[i];
-                        if (tab !== value) {
-                            tab.active = false;
-                        }
-                    }
-                    // Activate selected
-                    value.active = true;
-                    this.onSelectedTabChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return TabToolbar;
-    }(latte.Toolbar));
-    latte.TabToolbar = TabToolbar;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * An Item for containing a View
      **/
     var ViewItem = (function (_super) {
@@ -9224,49 +9224,6 @@ var latte;
         return ViewItem;
     }(latte.Item));
     latte.ViewItem = ViewItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Represents a column header
-     **/
-    var ColumnHeader = (function (_super) {
-        __extends(ColumnHeader, _super);
-        /**
-         * Creates the Column Header
-         **/
-        function ColumnHeader(text, width) {
-            if (text === void 0) { text = ''; }
-            if (width === void 0) { width = 150; }
-            _super.call(this);
-            /**
-             *
-             **/
-            this._width = 150;
-            this.element.addClass('column-header');
-            this.width = width;
-            this.text = text;
-        }
-        Object.defineProperty(ColumnHeader.prototype, "width", {
-            /**
-             * Gets or sets the width of the column
-             **/
-            get: function () {
-                return this._width;
-            },
-            /**
-             * Gets or sets the width of the column
-             **/
-            set: function (value) {
-                this._width = value;
-                this.element.width(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ColumnHeader;
-    }(latte.LabelItem));
-    latte.ColumnHeader = ColumnHeader;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -9498,6 +9455,49 @@ var latte;
         return WidgetItem;
     }(latte.Item));
     latte.WidgetItem = WidgetItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Represents a column header
+     **/
+    var ColumnHeader = (function (_super) {
+        __extends(ColumnHeader, _super);
+        /**
+         * Creates the Column Header
+         **/
+        function ColumnHeader(text, width) {
+            if (text === void 0) { text = ''; }
+            if (width === void 0) { width = 150; }
+            _super.call(this);
+            /**
+             *
+             **/
+            this._width = 150;
+            this.element.addClass('column-header');
+            this.width = width;
+            this.text = text;
+        }
+        Object.defineProperty(ColumnHeader.prototype, "width", {
+            /**
+             * Gets or sets the width of the column
+             **/
+            get: function () {
+                return this._width;
+            },
+            /**
+             * Gets or sets the width of the column
+             **/
+            set: function (value) {
+                this._width = value;
+                this.element.width(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ColumnHeader;
+    }(latte.LabelItem));
+    latte.ColumnHeader = ColumnHeader;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -9742,190 +9742,6 @@ var latte;
         return DateTimeLabel;
     }(latte.LabelItem));
     latte.DateTimeLabel = DateTimeLabel;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Represents an item for calendar views
-     **/
-    var CalendarItem = (function (_super) {
-        __extends(CalendarItem, _super);
-        /**
-         * Creates the item
-         **/
-        function CalendarItem() {
-            // Init
-            _super.call(this);
-            this.element.addClass('calendar');
-            // Rectangles
-            this.rectangles = new latte.Collection(this._onAddRectangle, this._onRemoveRectangle, this);
-            // Hide element. It is not visible by default
-            this.element.hide();
-        }
-        /**
-         *
-         **/
-        CalendarItem.prototype._onAddRectangle = function (r) {
-            var _this = this;
-            // Clone element
-            var clon = this.element.clone();
-            // Set bounds of clon
-            clon.rectangle(r);
-            // append as sibling
-            this.element.parent().append(clon);
-            clon.click(function (evt) {
-                _this.selected = !_this.selected;
-                evt.stopPropagation();
-            });
-            // Make visible
-            clon.show();
-            // mark rectangle
-            r.tag = clon;
-        };
-        /**
-         *
-         **/
-        CalendarItem.prototype._onRemoveRectangle = function (r) {
-            if (r.tag instanceof jQuery)
-                r.tag.remove();
-        };
-        /**
-         * Clones the item
-         **/
-        CalendarItem.prototype.clone = function () {
-            var c = new CalendarItem();
-            c.dateStart = this.dateStart;
-            c.dateEnd = this.dateEnd;
-            c.text = this.text;
-            return c;
-        };
-        /**
-         *
-         **/
-        CalendarItem.prototype.onSelectedChanged = function () {
-            _super.prototype.onSelectedChanged.call(this);
-        };
-        Object.defineProperty(CalendarItem.prototype, "allDay", {
-            /**
-             * Gets a value indicating if the item is an <c>all-day</c> item.
-             All-day items are those who its time of day both start and end dates are zero minutes
-             **/
-            get: function () {
-                return this._dateStart.timeOfDay.totalMinutes == 0
-                    && this._dateEnd.timeOfDay.totalMinutes == 0;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarItem.prototype, "dateEnd", {
-            /**
-             * Gets or sets the end date of the item
-             **/
-            get: function () {
-                return this._dateEnd;
-            },
-            /**
-             * Gets or sets the end date of the item
-             **/
-            set: function (value) {
-                if (!(value instanceof latte.DateTime))
-                    throw new latte.InvalidArgumentEx('value');
-                this._dateEnd = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarItem.prototype, "dateStart", {
-            /**
-             * Gets or sets the start date of the item
-             **/
-            get: function () {
-                return this._dateStart;
-            },
-            /**
-             * Gets or sets the start date of the item
-             **/
-            set: function (value) {
-                if (!(value instanceof latte.DateTime))
-                    throw new latte.InvalidArgumentEx('value');
-                this._dateStart = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarItem.prototype, "text", {
-            /**
-             * Gets or sets the text of the item
-             **/
-            get: function () {
-                return this.label.text;
-            },
-            /**
-             * Gets or sets the text of the item
-             **/
-            set: function (value) {
-                this.label.text = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return CalendarItem;
-    }(latte.SelectableLabel));
-    latte.CalendarItem = CalendarItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Single element containing text
-     */
-    var UiText = (function (_super) {
-        __extends(UiText, _super);
-        /**
-         * Creates the text
-         */
-        function UiText(text) {
-            if (text === void 0) { text = null; }
-            _super.call(this);
-            this.addClass('text');
-            if (text !== null) {
-                this.text = text;
-            }
-        }
-        /**
-         * Trims the text and adds ellipsis if it overpasses the limit.
-         *
-         * @param text
-         * @param length
-         * @returns {string}
-         */
-        UiText.ellipsis = function (text, length) {
-            if (length === void 0) { length = 50; }
-            if (!latte._isString(text) || text.length < length) {
-                return text;
-            }
-            return text.substr(0, length) + '...';
-        };
-        Object.defineProperty(UiText.prototype, "text", {
-            /**
-             * Gets the text/html of the box
-             * @returns {string}
-             */
-            get: function () {
-                return this.element.html();
-            },
-            /**
-             * Sets the text/html of the box
-             * @param value
-             */
-            set: function (value) {
-                this.element.html(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return UiText;
-    }(latte.UiElement));
-    latte.UiText = UiText;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -10197,6 +10013,190 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Single element containing text
+     */
+    var UiText = (function (_super) {
+        __extends(UiText, _super);
+        /**
+         * Creates the text
+         */
+        function UiText(text) {
+            if (text === void 0) { text = null; }
+            _super.call(this);
+            this.addClass('text');
+            if (text !== null) {
+                this.text = text;
+            }
+        }
+        /**
+         * Trims the text and adds ellipsis if it overpasses the limit.
+         *
+         * @param text
+         * @param length
+         * @returns {string}
+         */
+        UiText.ellipsis = function (text, length) {
+            if (length === void 0) { length = 50; }
+            if (!latte._isString(text) || text.length < length) {
+                return text;
+            }
+            return text.substr(0, length) + '...';
+        };
+        Object.defineProperty(UiText.prototype, "text", {
+            /**
+             * Gets the text/html of the box
+             * @returns {string}
+             */
+            get: function () {
+                return this.element.html();
+            },
+            /**
+             * Sets the text/html of the box
+             * @param value
+             */
+            set: function (value) {
+                this.element.html(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return UiText;
+    }(latte.UiElement));
+    latte.UiText = UiText;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Represents an item for calendar views
+     **/
+    var CalendarItem = (function (_super) {
+        __extends(CalendarItem, _super);
+        /**
+         * Creates the item
+         **/
+        function CalendarItem() {
+            // Init
+            _super.call(this);
+            this.element.addClass('calendar');
+            // Rectangles
+            this.rectangles = new latte.Collection(this._onAddRectangle, this._onRemoveRectangle, this);
+            // Hide element. It is not visible by default
+            this.element.hide();
+        }
+        /**
+         *
+         **/
+        CalendarItem.prototype._onAddRectangle = function (r) {
+            var _this = this;
+            // Clone element
+            var clon = this.element.clone();
+            // Set bounds of clon
+            clon.rectangle(r);
+            // append as sibling
+            this.element.parent().append(clon);
+            clon.click(function (evt) {
+                _this.selected = !_this.selected;
+                evt.stopPropagation();
+            });
+            // Make visible
+            clon.show();
+            // mark rectangle
+            r.tag = clon;
+        };
+        /**
+         *
+         **/
+        CalendarItem.prototype._onRemoveRectangle = function (r) {
+            if (r.tag instanceof jQuery)
+                r.tag.remove();
+        };
+        /**
+         * Clones the item
+         **/
+        CalendarItem.prototype.clone = function () {
+            var c = new CalendarItem();
+            c.dateStart = this.dateStart;
+            c.dateEnd = this.dateEnd;
+            c.text = this.text;
+            return c;
+        };
+        /**
+         *
+         **/
+        CalendarItem.prototype.onSelectedChanged = function () {
+            _super.prototype.onSelectedChanged.call(this);
+        };
+        Object.defineProperty(CalendarItem.prototype, "allDay", {
+            /**
+             * Gets a value indicating if the item is an <c>all-day</c> item.
+             All-day items are those who its time of day both start and end dates are zero minutes
+             **/
+            get: function () {
+                return this._dateStart.timeOfDay.totalMinutes == 0
+                    && this._dateEnd.timeOfDay.totalMinutes == 0;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarItem.prototype, "dateEnd", {
+            /**
+             * Gets or sets the end date of the item
+             **/
+            get: function () {
+                return this._dateEnd;
+            },
+            /**
+             * Gets or sets the end date of the item
+             **/
+            set: function (value) {
+                if (!(value instanceof latte.DateTime))
+                    throw new latte.InvalidArgumentEx('value');
+                this._dateEnd = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarItem.prototype, "dateStart", {
+            /**
+             * Gets or sets the start date of the item
+             **/
+            get: function () {
+                return this._dateStart;
+            },
+            /**
+             * Gets or sets the start date of the item
+             **/
+            set: function (value) {
+                if (!(value instanceof latte.DateTime))
+                    throw new latte.InvalidArgumentEx('value');
+                this._dateStart = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarItem.prototype, "text", {
+            /**
+             * Gets or sets the text of the item
+             **/
+            get: function () {
+                return this.label.text;
+            },
+            /**
+             * Gets or sets the text of the item
+             **/
+            set: function (value) {
+                this.label.text = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return CalendarItem;
+    }(latte.SelectableLabel));
+    latte.CalendarItem = CalendarItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      *
      **/
     var CheckboxItem = (function (_super) {
@@ -10273,570 +10273,6 @@ var latte;
         return CheckboxItem;
     }(latte.ValueItem));
     latte.CheckboxItem = CheckboxItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Renders an Item that may contains more <c>TreeItem</c>s and shows them as a tree.
-     **/
-    var TreeItem = (function (_super) {
-        __extends(TreeItem, _super);
-        /**
-         * Creates the item
-         **/
-        function TreeItem() {
-            var _this = this;
-            _super.call(this);
-            //endregion
-            /**
-             *
-             **/
-            this._expandOnSelect = true;
-            /**
-             *
-             **/
-            this._level = 0;
-            var item = this;
-            // Init
-            latte.UiElement.disableTextSelection(this.element);
-            this.click = new latte.LatteEvent(this);
-            this.loadItems = new latte.LatteEvent(this);
-            this.selectedChanged = new latte.LatteEvent(this);
-            // Update glyph when loadItems handler is added
-            this.loadItems.handlerAdded.add(function () {
-                //this.glyph = Glyph.expand;
-                _this._updateGlyph();
-            });
-            this.element.addClass('tree-item');
-            this.faceElement = latte.Item.selectable().appendTo(this.element);
-            this.levelElement = $('<div>').addClass('level').appendTo(this.faceElement);
-            this.glyphElement = $('<div>').addClass('glyph').appendTo(this.faceElement);
-            this.iconElement = $('<div>').addClass('icon').appendTo(this.faceElement);
-            this.textElement = $('<div>').addClass('text').appendTo(this.faceElement);
-            this.faceElement.clear();
-            this.itemsElement = $('<div>').addClass('items-container').hide().appendTo(this.element);
-            this.items = new latte.Collection(this._onAddItem, this._onRemoveItem, this);
-            this.glyphElement
-                .click(function (evt) {
-                item.expanded = !item.expanded;
-                evt.stopPropagation();
-            });
-            this.faceElement
-                .click(function () {
-                _this.selected = true;
-                _this.onClick();
-            });
-        }
-        /**
-         *
-         **/
-        TreeItem.prototype._onAddItem = function (item) {
-            item.level = this.level + 1;
-            item._parent = this;
-            this.itemsElement.append(item.element);
-            item._updateGlyph();
-        };
-        /**
-         *
-         **/
-        TreeItem.prototype._onRemoveItem = function (item) {
-            item._parent = null;
-            item.element.remove();
-        };
-        /**
-         *
-         **/
-        TreeItem.prototype._updateGlyph = function () {
-            if (this.hasItems) {
-                if (this.expanded) {
-                    if (TreeItem.globalCollapseGlyph) {
-                        this.glyph = TreeItem.globalCollapseGlyph(this);
-                    }
-                    else {
-                        if (this.treeView && this.treeView.defaultGlyphCollapse) {
-                            if (this.selected && this.treeView.defaultGlyphCollapseSelected)
-                                this.glyph = this.treeView.defaultGlyphCollapseSelected.clone();
-                            else
-                                this.glyph = this.treeView.defaultGlyphCollapse.clone();
-                        }
-                        else {
-                            this.glyph = latte.Glyph.collapse;
-                        }
-                    }
-                }
-                else {
-                    if (TreeItem.globalExpandGlyph) {
-                        this.glyph = TreeItem.globalExpandGlyph(this);
-                    }
-                    else {
-                        if (this.treeView && this.treeView.defaultGlyphExpand) {
-                            if (this.selected && this.treeView.defaultGlyphExpandSelected)
-                                this.glyph = this.treeView.defaultGlyphExpandSelected.clone();
-                            else
-                                debugger;
-                            this.glyph = this.treeView.defaultGlyphExpand.clone();
-                        }
-                        else {
-                            // debugger;
-                            this.glyph = latte.Glyph.expand;
-                        }
-                    }
-                }
-            }
-        };
-        /**
-         * Deletes the node from its parent
-         **/
-        TreeItem.prototype.deleteFromParent = function () {
-            if (this.parent) {
-                this.parent.items.remove(this);
-            }
-            else {
-                if (this.treeView) {
-                    this.treeView.items.remove(this);
-                }
-                else {
-                    throw new latte.InvalidCallEx();
-                }
-            }
-        };
-        /**
-         * Raises the <c>click</c> event
-         **/
-        TreeItem.prototype.onClick = function () {
-            this.click.raise();
-        };
-        /**
-         * Raises the <c>loadItems</c> event
-         **/
-        TreeItem.prototype.onLoadItems = function () {
-            this.loadItems.raise();
-        };
-        /**
-         * Raises the <c>selectedChanged</c> event
-         **/
-        TreeItem.prototype.onSelectedChanged = function () {
-            this.selectedChanged.raise();
-            if (this.selectedIcon) {
-                if (this.selected) {
-                    this.selectedIcon.appendTo(this.iconElement.empty());
-                }
-                else {
-                    this.icon.appendTo(this.iconElement.empty());
-                }
-            }
-            this._updateGlyph();
-        };
-        /**
-         * Reports to the <c>TreeView</c> that items have been loaded
-         so it can trigger the <c>itemItemsLoaded</c>
-         **/
-        TreeItem.prototype.reportItemsLoaded = function () {
-            var tree = this.treeView;
-            if (tree instanceof latte.TreeView) {
-                tree.onItemItemsLoaded(this);
-            }
-        };
-        /**
-         * Returns the top most parent of the item
-         **/
-        TreeItem.prototype.topParent = function () {
-            if (latte._undef(this.parent)) {
-                return this;
-            }
-            else {
-                return this.parent.topParent();
-            }
-        };
-        Object.defineProperty(TreeItem.prototype, "expandOnSelect", {
-            /**
-             * Gets or sets a value indicating if the item will react to select as a gesture to alternate its <c>expand</c> state
-             Default is <c>true</c>
-             **/
-            get: function () {
-                return this._expandOnSelect;
-            },
-            /**
-             * Gets or sets a value indicating if the item will react to select as a gesture to alternate its <c>expand</c> state
-             Default is <c>true</c>
-             **/
-            set: function (value) {
-                if (typeof value != 'boolean')
-                    throw new latte.InvalidArgumentEx('value');
-                this._expandOnSelect = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "expanded", {
-            /**
-             * Gets or sets a value indicating if the item is currently expanded, this is, showing its child items
-             **/
-            get: function () {
-                return this._expanded;
-            },
-            /**
-             * Gets or sets a value indicating if the item is currently expanded, this is, showing its child items
-             **/
-            set: function (value) {
-                if (this.hasItems) {
-                    if (!latte._isBoolean(value))
-                        throw new latte.InvalidArgumentEx('value');
-                    this._expanded = value;
-                    if (value) {
-                        this.itemsElement.show();
-                        this.onLoadItems();
-                    }
-                    else {
-                        this.itemsElement.hide();
-                    }
-                    this._updateGlyph();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "glyph", {
-            /**
-             * Gets or sets the glyph of the item. Glyph is changed automatically when <c>expanded()</c> is invoked
-             **/
-            get: function () {
-                return this._glyph;
-            },
-            /**
-             * Gets or sets the glyph of the item. Glyph is changed automatically when <c>expanded()</c> is invoked
-             **/
-            set: function (value) {
-                this.glyphElement.empty().append(value.element);
-                this._glyph = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "hasItems", {
-            /**
-             * Gets a value indicating if the item contains child items or a handler for <c>loadItems</c> has been set
-             **/
-            get: function () {
-                return this.items.length > 0 || (latte._isArray(this.loadItems.handlers) && this.loadItems.handlers.length > 0);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "icon", {
-            /**
-             * Gets or sets the icon of the item
-             **/
-            get: function () {
-                return this._icon;
-            },
-            /**
-             * Gets or sets the icon of the item
-             **/
-            set: function (value) {
-                if (!(value instanceof latte.IconItem))
-                    throw new latte.InvalidArgumentEx('value');
-                this._icon = value;
-                // Append icon
-                value.appendTo(this.iconElement.empty());
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "level", {
-            /**
-             * Gets or sets the level of the item. The level specifies the indent of the item.
-             **/
-            get: function () {
-                return this._level;
-            },
-            /**
-             * Gets or sets the level of the item. The level specifies the indent of the item.
-             **/
-            set: function (value) {
-                this._level = value;
-                this.levelElement.width(value * 16);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "parent", {
-            /**
-             * Gets the parent <c>TreeItem</c> of this item
-             **/
-            get: function () {
-                return this._parent;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "path", {
-            /**
-             * Gets the navigation path as a string
-             **/
-            get: function () {
-                var r = [];
-                var item = this;
-                while (item != null) {
-                    r.push(item.text);
-                    item = item.parent;
-                }
-                r.reverse();
-                return "/" + r.join("/");
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "selected", {
-            /**
-             * Gets or sets a value indicaing if the item is currently selected
-             **/
-            get: function () {
-                return this._selected;
-            },
-            /**
-             * Gets or sets a value indicaing if the item is currently selected
-             **/
-            set: function (value) {
-                var _this = this;
-                var changed = value !== this._selected;
-                this._selected = value;
-                if (value) {
-                    // Get TreeView
-                    var tv = this.treeView;
-                    if (tv) {
-                        //region Unselect siblings of all tree
-                        var tabOf = function (len) {
-                            var s = '';
-                            for (var i = 0; i < len; i++)
-                                s += '-';
-                            return s;
-                        };
-                        var unselect = function (item, tab) {
-                            if (tab === void 0) { tab = 0; }
-                            if (item !== _this && item.selected) {
-                                item.selected = false;
-                            }
-                            for (var i = 0; i < item.items.length; i++) {
-                                unselect(item.items[i], tab + 1);
-                            }
-                        };
-                        for (var i = 0; i < tv.items.length; i++) {
-                            unselect(tv.items[i]);
-                        }
-                    }
-                    // Select face
-                    this.faceElement.addClass('selected');
-                    // Expand if needed
-                    if (this.expandOnSelect && !this.expanded) {
-                        this.expanded = true;
-                    }
-                    // Inform tree view selection
-                    if (tv) {
-                        tv._informSelectedItem(this);
-                    }
-                }
-                else {
-                    this.faceElement.removeClass('selected');
-                }
-                if (changed) {
-                    this.onSelectedChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "selectedIcon", {
-            /**
-             * Gets or sets the icon of the item when selected
-             **/
-            get: function () {
-                return this._selectedIcon;
-            },
-            /**
-             * Gets or sets the icon of the item when selected
-             **/
-            set: function (value) {
-                if (!(value instanceof latte.IconItem))
-                    throw new latte.InvalidArgumentEx('value');
-                this._selectedIcon = value;
-                // Append icon
-                if (this.selected) {
-                    value.appendTo(this.iconElement.empty());
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "text", {
-            /**
-             * Gets or sets the text of the item
-             **/
-            get: function () {
-                return this.textElement.html();
-            },
-            /**
-             * Gets or sets the text of the item
-             **/
-            set: function (value) {
-                this.textElement.html(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TreeItem.prototype, "treeView", {
-            /**
-             * Gets the <c>TreeView</c> item who contains this item, if any
-             **/
-            get: function () {
-                var t = this.element.parents('.latte-view.tree');
-                if (t.length) {
-                    return t.data('instance');
-                }
-                else {
-                    return null;
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        //region Static
-        /**
-         * Global level expand glyph loader
-         * @type {any}
-         */
-        TreeItem.globalExpandGlyph = null;
-        /**
-         * Global level collapse glyph loader
-         * @type {any}
-         */
-        TreeItem.globalCollapseGlyph = null;
-        return TreeItem;
-    }(latte.Item));
-    latte.TreeItem = TreeItem;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 7/1/14.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var ColorValueItem = (function (_super) {
-        __extends(ColorValueItem, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function ColorValueItem(color) {
-            if (color === void 0) { color = null; }
-            _super.call(this);
-            //endregion
-            //region Properties
-            /**
-             * Property field
-             */
-            this._color = null;
-            this.element.append(this.button.element);
-            if (!color) {
-                color = latte.Color.black;
-            }
-            this.color = color;
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        ColorValueItem.prototype.setValue = function (value) {
-            this.color = latte.Color.fromHex(value);
-        };
-        ColorValueItem.prototype.getValue = function () {
-            return this.color.toHexString();
-        };
-        ColorValueItem.prototype.onLayout = function () {
-            _super.prototype.onLayout.call(this);
-            this.button.onLayout();
-        };
-        Object.defineProperty(ColorValueItem.prototype, "colorPicker", {
-            /**
-             * Gets the color picker
-             *
-             * @returns {ColorPicker}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._colorPicker) {
-                    this._colorPicker = new latte.ColorPicker();
-                    this._colorPicker.colorChanged.add(function () {
-                        _this.color = _this._colorPicker.color;
-                        _this.onValueChanged();
-                        //MenuOverlay.closeAll();
-                    });
-                }
-                return this._colorPicker;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ColorValueItem.prototype, "button", {
-            /**
-             * Gets the button for selection
-             *
-             * @returns {ButtonItem}
-             */
-            get: function () {
-                if (!this._button) {
-                    this._button = new latte.ButtonItem();
-                    this._button.items.add(this.colorPicker);
-                    this._button.icon = this.icon;
-                }
-                return this._button;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ColorValueItem.prototype, "color", {
-            /**
-             * Gets or sets the color of the item
-             *
-             * @returns {Color}
-             */
-            get: function () {
-                return this._color;
-            },
-            /**
-             * Gets or sets the color of the item
-             *
-             * @param {Color} value
-             */
-            set: function (value) {
-                this._color = value;
-                this.icon.color = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(ColorValueItem.prototype, "icon", {
-            /**
-             * Gets the color icon
-             *
-             * @returns {ColorIconItem}
-             */
-            get: function () {
-                if (!this._icon) {
-                    this._icon = new latte.ColorIconItem(latte.Color.black);
-                }
-                return this._icon;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ColorValueItem;
-    }(latte.ValueItem));
-    latte.ColorValueItem = ColorValueItem;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -11163,214 +10599,128 @@ var latte;
     }(latte.ValueItem));
     latte.DatePickerItem = DatePickerItem;
 })(latte || (latte = {}));
+/**
+ * Created by josemanuel on 7/1/14.
+ */
 var latte;
 (function (latte) {
     /**
-     * Presents a method for choosing options from a combobox.
-     Combo options are presented as the button's items.
-     The button's items tag value is assumed to be the value of the combobox.
-     **/
-    var ComboItem = (function (_super) {
-        __extends(ComboItem, _super);
+     *
+     */
+    var ColorValueItem = (function (_super) {
+        __extends(ColorValueItem, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
         /**
          *
-         **/
-        function ComboItem() {
+         */
+        function ColorValueItem(color) {
+            if (color === void 0) { color = null; }
             _super.call(this);
-            this.element.addClass('combo');
-            this.button = new latte.ButtonItem();
-            this.button.text = strings.pleaseSelect;
-            this.button.appendTo(this.element);
-        }
-        /**
-         * Override
-         * @returns {any}
-         */
-        ComboItem.prototype.onGetValueString = function () {
-            var item;
-            while ((item = this.button.items.next())) {
-                if (item.tag == this.value) {
-                    return item.text;
-                }
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._color = null;
+            this.element.append(this.button.element);
+            if (!color) {
+                color = latte.Color.black;
             }
-            return '';
+            this.color = color;
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        ColorValueItem.prototype.setValue = function (value) {
+            this.color = latte.Color.fromHex(value);
         };
-        /**
-         * Override.
-         */
-        ComboItem.prototype.onValueChanged = function () {
-            _super.prototype.onValueChanged.call(this);
-            this.button.text = this.value === null ? strings.pleaseSelect : this.valueString;
+        ColorValueItem.prototype.getValue = function () {
+            return this.color.toHexString();
         };
-        Object.defineProperty(ComboItem.prototype, "options", {
+        ColorValueItem.prototype.onLayout = function () {
+            _super.prototype.onLayout.call(this);
+            this.button.onLayout();
+        };
+        Object.defineProperty(ColorValueItem.prototype, "colorPicker", {
             /**
-             * Gets or sets the options of the combo
-             **/
+             * Gets the color picker
+             *
+             * @returns {ColorPicker}
+             */
             get: function () {
-                return this._options;
-            },
-            /**
-             * Gets or sets the options of the combo
-             **/
-            set: function (options) {
-                var __this = this;
-                if (!latte._isArray(options) && !latte._isObject(options))
-                    throw new latte.InvalidArgumentEx('options', options);
-                this.button.items.clear();
-                for (var i in options) {
-                    var b = new latte.ButtonItem();
-                    b.text = options[i].toString();
-                    b.tag = i;
-                    b.click.add(function () {
-                        __this.value = this.tag;
-                        __this.button.text = this.text;
+                var _this = this;
+                if (!this._colorPicker) {
+                    this._colorPicker = new latte.ColorPicker();
+                    this._colorPicker.colorChanged.add(function () {
+                        _this.color = _this._colorPicker.color;
+                        _this.onValueChanged();
+                        //MenuOverlay.closeAll();
                     });
-                    this.button.items.add(b);
                 }
-                this._options = options;
+                return this._colorPicker;
             },
             enumerable: true,
             configurable: true
         });
-        return ComboItem;
+        Object.defineProperty(ColorValueItem.prototype, "button", {
+            /**
+             * Gets the button for selection
+             *
+             * @returns {ButtonItem}
+             */
+            get: function () {
+                if (!this._button) {
+                    this._button = new latte.ButtonItem();
+                    this._button.items.add(this.colorPicker);
+                    this._button.icon = this.icon;
+                }
+                return this._button;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ColorValueItem.prototype, "color", {
+            /**
+             * Gets or sets the color of the item
+             *
+             * @returns {Color}
+             */
+            get: function () {
+                return this._color;
+            },
+            /**
+             * Gets or sets the color of the item
+             *
+             * @param {Color} value
+             */
+            set: function (value) {
+                this._color = value;
+                this.icon.color = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ColorValueItem.prototype, "icon", {
+            /**
+             * Gets the color icon
+             *
+             * @returns {ColorIconItem}
+             */
+            get: function () {
+                if (!this._icon) {
+                    this._icon = new latte.ColorIconItem(latte.Color.black);
+                }
+                return this._icon;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ColorValueItem;
     }(latte.ValueItem));
-    latte.ComboItem = ComboItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Value item for files. Value of item is an array of system File objects.
-     */
-    var FileValueItem = (function (_super) {
-        __extends(FileValueItem, _super);
-        function FileValueItem() {
-            _super.call(this);
-            this.addClass('file');
-            this.resetInput();
-        }
-        /**
-         * Gets an array of selected files
-         *
-         * @returns {Array<File>}
-         */
-        FileValueItem.prototype.getValue = function () {
-            return this.fileInput.get(0).files;
-        };
-        /**
-         * Resets the input field
-         */
-        FileValueItem.prototype.resetInput = function () {
-            var _this = this;
-            this.fileInput = $('<input multiple type="file">').appendTo(this.element.empty());
-            this.fileInput.change(function () {
-                _this.onValueChanged();
-            });
-        };
-        /**
-         * Sets the value. This is ignored since UA won't allow it.
-         *
-         * @param value
-         */
-        FileValueItem.prototype.setValue = function (value) {
-            // Ignore. Files cannot be set
-        };
-        return FileValueItem;
-    }(latte.ValueItem));
-    latte.FileValueItem = FileValueItem;
-})(latte || (latte = {}));
-/*
- * Commands available for <c>HtmlEditorItem</c>
- *
- * @enum
- */
-var latte;
-(function (latte) {
-    var HtmlEditorCommands = (function () {
-        function HtmlEditorCommands() {
-        }
-        /**
-         * Swaps selection boldness
-         */
-        HtmlEditorCommands.BOLD = 'bold';
-        /**
-         * Wraps seletion into CODE tag
-         */
-        HtmlEditorCommands.CODE = 'code';
-        /**
-         * Clears all formatting on fonts and colors
-         */
-        HtmlEditorCommands.CLEAR_FORMAT = 'clearformat';
-        /**
-         * Formats the block as something
-         */
-        HtmlEditorCommands.FORMAT_BLOCK = 'formatblock';
-        /**
-         * Swaps selection italics
-         */
-        HtmlEditorCommands.ITALIC = 'italic';
-        /**
-         * Makes selectikon super-script
-         */
-        HtmlEditorCommands.SUPER_SCRIPT = 'superscript';
-        /**
-         * Makes selection sub-script
-         */
-        HtmlEditorCommands.SUB_SCRIPT = 'subscript';
-        /**
-         * Aligns text to left
-         */
-        HtmlEditorCommands.JUSTIFY_LEFT = 'justifyleft';
-        /**
-         * Centers text
-         */
-        HtmlEditorCommands.JUSTIFY_CENTER = 'justifycenter';
-        /**
-         * Aligns text to right
-         */
-        HtmlEditorCommands.JUSTIFY_RIGHT = 'justifyright';
-        /**
-         * Justifies text
-         */
-        HtmlEditorCommands.JUSTIFY_FULL = 'justifyfull';
-        /**
-         * Decreases indent
-         */
-        HtmlEditorCommands.OUTDENT = 'outdent';
-        /**
-         * Increases indent
-         */
-        HtmlEditorCommands.INDENT = 'indent';
-        /**
-         * Shows a dialog to insert HTML
-         */
-        HtmlEditorCommands.INSERT_HTML = 'inserthtml';
-        /**
-         * Inserts an image
-         */
-        HtmlEditorCommands.INSERT_IMAGE = 'insertimage';
-        /**
-         * Inserts a link
-         */
-        HtmlEditorCommands.INSERT_LINK = 'insertlink';
-        /**
-         * Inserts an ordered list
-         */
-        HtmlEditorCommands.INSERT_ORDERED_LIST = 'insertorderedlist';
-        /**
-         * Inserts an unordered list
-         */
-        HtmlEditorCommands.INSERT_UNORDERED_LIST = 'insertunorderedlist';
-        /**
-         * Shows a dialog to insert a YouTube video
-         */
-        HtmlEditorCommands.INSERT_YOUTUBE = 'insertyoutube';
-        /**
-         * Unerlines selection
-         */
-        HtmlEditorCommands.UNDERLINE = 'underline';
-        return HtmlEditorCommands;
-    }());
-    latte.HtmlEditorCommands = HtmlEditorCommands;
+    latte.ColorValueItem = ColorValueItem;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/6/16.
@@ -11566,728 +10916,863 @@ var latte;
     }(latte.ValueItem));
     latte.FlagsValueItem = FlagsValueItem;
 })(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Label with value property
-     **/
-    var LabelValueItem = (function (_super) {
-        __extends(LabelValueItem, _super);
-        /**
-         * Creates the item
-         **/
-        function LabelValueItem() {
-            _super.call(this);
-            this.element.addClass('label-value');
-            this.label = new latte.LabelItem();
-            this.label.appendTo(this.element);
-        }
-        /**
-         * Override.
-         */
-        LabelValueItem.prototype.onValueChanged = function () {
-            _super.prototype.onValueChanged.call(this);
-            this.label.text = this.value;
-        };
-        return LabelValueItem;
-    }(latte.ValueItem));
-    latte.LabelValueItem = LabelValueItem;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Html Editor. Loads the <c>rangy</c> plugin.
-
-     For specification of <c>rangy</c> objects refer to:
-     <a href="http://code.google.com/p/rangy/w/list" target=_blank>http://code.google.com/p/rangy/w/list</a>
-     **/
-    var HtmlEditorItem = (function (_super) {
-        __extends(HtmlEditorItem, _super);
-        //endregion
-        /**
-         * Creates the editor.
-         **/
-        function HtmlEditorItem() {
-            //            var __this = this;
-            _super.call(this);
-            this.addClass('html-editor');
-            // Elements
-            this.toolbar = new latte.Toolbar();
-            this.toolbar.appendTo(this);
-            this._addToolbarButtons();
-            if (!HtmlEditorItem.rangyLoaded) {
-                var script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.src = HtmlEditorItem.rangyPath;
-                document.body.appendChild(script);
-                HtmlEditorItem.rangyLoaded = true;
-            }
-        }
-        //region Private Methods
-        /**
-         * Creates default buttons
-         **/
-        HtmlEditorItem.prototype._addToolbarButtons = function () {
-            var _this = this;
-            var btn = function (u, v, tooltip, cmd) {
-                var b = new latte.ButtonItem();
-                b.icon = latte.IconItem.standard(u, v);
-                b.tooltip = tooltip;
-                b.click.add(function () { _this.execCommand(cmd); });
-                return b;
-            };
-            var sep = function () { return new latte.SeparatorItem(); };
-            this.toolbar.items.addArray([
-                btn(5, 2, strings.bold, latte.HtmlEditorCommands.BOLD),
-                btn(6, 2, strings.italics, latte.HtmlEditorCommands.ITALIC),
-                sep(),
-                btn(8, 2, strings.alignLeft, latte.HtmlEditorCommands.JUSTIFY_LEFT),
-                btn(10, 2, strings.alignCenter, latte.HtmlEditorCommands.JUSTIFY_CENTER),
-                btn(9, 2, strings.alignRight, latte.HtmlEditorCommands.JUSTIFY_RIGHT),
-                btn(11, 2, strings.alignJustify, latte.HtmlEditorCommands.JUSTIFY_FULL),
-                sep(),
-                btn(15, 2, strings.indent, latte.HtmlEditorCommands.INDENT),
-                btn(14, 2, strings.outdent, latte.HtmlEditorCommands.OUTDENT),
-                sep(),
-                btn(18, 1, strings.numberedList, latte.HtmlEditorCommands.INSERT_ORDERED_LIST),
-                btn(19, 1, strings.bulletList, latte.HtmlEditorCommands.INSERT_UNORDERED_LIST),
-                sep(),
-                btn(16, 2, strings.eraseFormat, latte.HtmlEditorCommands.CLEAR_FORMAT),
-                sep(),
-                btn(12, 3, strings.insertLink, latte.HtmlEditorCommands.INSERT_LINK),
-                btn(9, 3, strings.insertImage, latte.HtmlEditorCommands.INSERT_IMAGE)
-            ]);
-        };
-        /**
-         *
-         **/
-        HtmlEditorItem.prototype._assignElementHandlers = function () {
-            if (this._mustInit())
-                return;
-            var __this = this;
-            this.body()
-                .find('img')
-                .unbind('.editor')
-                .bind('click.editor', function () {
-                // Image click selects image
-                __this.selectElement($(this));
-                __this.onImageSelected($(this));
-            })
-                .bind('load.editor', function () {
-                __this.onLayout();
-            })
-                .each(function () {
-                if (this.complete) {
-                    __this.onLayout();
-                }
-            });
-            //log("Images: %s", this.body().find('img').length)
-        };
-        /**
-         * Returns a value indicating if the editor can be initialized.
-         It can be initialized when its attached to the DOM.
-         **/
-        HtmlEditorItem.prototype._canInit = function () {
-            return this.element.parents(':last').is('html');
-        };
-        /**
-         * Clears all formatting in editor
-         **/
-        HtmlEditorItem.prototype._clearFormatting = function () {
-            this.body().find('*')
-                .css({
-                font: '',
-                fontSize: '',
-                fontFamily: '',
-                color: '',
-                margin: '',
-                padding: '',
-                wordSpacing: '',
-                letterSpacing: '',
-                background: '',
-                backgroundColor: '',
-                border: ''
-            });
-            // Ugly <font> tags
-            this.body().find('font').removeAttr('face');
-        };
-        /**
-         * Tries to convert the passed object to a node
-         **/
-        HtmlEditorItem.prototype._ensureNode = function (obj) {
-            if (window['rangy'] && !rangy.initialized) {
-                rangy.init();
-            }
-            if (latte._isString(obj)) {
-                return jQuery(obj).get(0);
-            }
-            else if (obj instanceof jQuery) {
-                return obj.get(0);
-            }
-            else {
-                if (typeof Element == 'undefined') {
-                    return obj;
-                }
-                else {
-                    if (obj instanceof Element) {
-                        return obj;
-                    }
-                    else {
-                        throw new latte.InvalidArgumentEx('obj');
-                    }
-                }
-            }
-        };
-        /**
-         * Tries to get the editor ready. Returns if control is ready after call.
-         **/
-        HtmlEditorItem.prototype._ensureReady = function () {
-            if (this._mustInit()) {
-                this._initEditor();
-            }
-            return this.ready();
-        };
-        /**
-         * Initializes the editor, if possible.
-         **/
-        HtmlEditorItem.prototype._initEditor = function () {
-            // Check if init needed
-            if (this._mustInit()) {
-                // Set ready flag as false
-                this._ready = false;
-                // If can't initialize, bye.
-                if (!this._canInit()) {
-                    return;
-                }
-            }
-            else {
-                // No need to init
-                return;
-            }
-            var __this = this;
-            // Remove previous iframe
-            if (this.iframe instanceof jQuery)
-                this.iframe.remove();
-            if (window['rangy'])
-                rangy.init();
-            // Create iframe
-            this.iframe = $('<iframe>').attr({ frameborder: 0 }).appendTo(this.element);
-            // Insert editable content into the iframe
-            this.document().open();
-            this.document().write('<html><head>');
-            this.document().write('<link rel=stylesheet href="' + $('link').attr('href') + '">');
-            this.document().write('</head>');
-            this.document().write('<body class=html-editor contenteditable=true></body>');
-            this.document().write('</html>');
-            this.document().close();
-            this._ready = true;
-            // If some value existed, re-assign it.
-            if (this._valueHtml) {
-                this.body().html(this._valueHtml);
-                this._assignElementHandlers();
-                this.onLayout();
-            }
-            this.body()
-                .css({
-                minHeight: 20,
-                overflow: 'hidden',
-                fontFamily: this.element.css('font-family'),
-                fontSize: 14 //this.element.css('font-size')
-            })
-                .focus(function () { __this.onFocused(); })
-                .blur(function () { __this.onBlur(); })
-                .click(function () { __this.onSelectionChanged(); })
-                .keyup(function () { __this._valueHtml = $(this).html(); __this.onSelectionChanged(); __this.onValueChanged(); })
-                .change(function () { __this._valueHtml = $(this).html(); __this.onValueChanged(); });
-        };
-        /**
-         * Shows a dialog to insert HTML
-         **/
-        HtmlEditorItem.prototype._insertHTML = function () {
-            var _this = this;
-            //            var __this = this;
-            var txt = new latte.TextboxItem();
-            var d = new latte.DialogView();
-            txt.multiline = true;
-            txt.css({ margin: 20 });
-            txt.input.css({ minHeight: 100 });
-            txt.setRelativeWidth('100%');
-            d.title = strings.insertHTML;
-            d.view = (new latte.ItemView(txt));
-            d.addOkButton(function () {
-                _this.insertElement($('<div class=cms-html-insert>').html(txt.value));
-            });
-            d.show();
-        };
-        /**
-         * Inserts an image, asking for the URL
-         **/
-        HtmlEditorItem.prototype._insertImage = function (value) {
-            if (value === void 0) { value = ''; }
-            var url = latte._isString(value) ? value : prompt(strings.imageUrl, 'http://');
-            if (!url)
-                return;
-            var elem = $('<img>').attr('src', url);
-            this.insertElement(elem);
-        };
-        /**
-         * Inserts a link, asking for the Url
-         **/
-        HtmlEditorItem.prototype._insertLink = function () {
-            var url = prompt(strings.linkUrl, 'http://');
-            if (!url)
-                return;
-            var elem = $('<a>').attr({
-                href: url,
-                target: '_blank'
-            });
-            if (this.selection.isCollapsed) {
-                elem.text(url);
-                this.insertElement(elem);
-            }
-            else {
-                this.surroundSelectionWith(elem);
-            }
-        };
-        /**
-         * Shows a dialog to insert a YouTube video
-         **/
-        HtmlEditorItem.prototype._insertYouTube = function () {
-            var __this = this;
-            var txt = new latte.TextboxItem();
-            var d = new latte.DialogView();
-            txt.css({ margin: 20 });
-            txt.setRelativeWidth('100%');
-            txt.placeholder = strings.videoURL;
-            d.title = strings.insertYouTube;
-            d.view = (new latte.ItemView(txt));
-            d.addOkButton(function () {
-                var videoId = txt.value.split('v=')[1];
-                var ampersandPosition = videoId.indexOf('&');
-                if (ampersandPosition != -1) {
-                    videoId = videoId.substring(0, ampersandPosition);
-                }
-                if (videoId) {
-                    var iframe = $('<iframe width="420" height="345" frameborder="0" allowfullscreen />').attr({
-                        src: 'http://www.youtube.com/embed/' + videoId
-                    });
-                    __this.insertElement($('<div class=cms-html-youtube>').append(iframe));
-                }
-                else {
-                    alert(strings.urlNotYouTube);
-                }
-            });
-            d.show();
-        };
-        /**
-         * Returns a value indicating if editor must be initialized.
-         It happens every time its dettached from DOM.
-         **/
-        HtmlEditorItem.prototype._mustInit = function () {
-            try {
-                return (this.ready() && !this.body().hasClass('html-editor'))
-                    || !this.ready();
-            }
-            catch (e) {
-                return true;
-            }
-        };
-        //endregion
-        //region Methods
-        /**
-         * Gets the body of the iframe
-         **/
-        HtmlEditorItem.prototype.body = function () {
-            return this.iframe.contents().find('body');
-        };
-        /**
-         * Gets the JavaScript document's object of iframe.
-         **/
-        HtmlEditorItem.prototype.document = function () {
-            // Raw IFRAME element
-            var iframe = this.iframe.get(0);
-            // Send document object
-            return iframe.contentDocument ? iframe.contentDocument : (iframe.contentWindow.document || iframe.document);
-        };
-        /**
-         * Executes the specified command
-         **/
-        HtmlEditorItem.prototype.execCommand = function (command, value) {
-            if (value === void 0) { value = null; }
-            if (!this._ensureReady())
-                throw new latte.InvalidCallEx();
-            switch (command) {
-                case latte.HtmlEditorCommands.BOLD:
-                case latte.HtmlEditorCommands.FORMAT_BLOCK:
-                case latte.HtmlEditorCommands.INDENT:
-                case latte.HtmlEditorCommands.INSERT_ORDERED_LIST:
-                case latte.HtmlEditorCommands.INSERT_UNORDERED_LIST:
-                case latte.HtmlEditorCommands.ITALIC:
-                case latte.HtmlEditorCommands.JUSTIFY_CENTER:
-                case latte.HtmlEditorCommands.JUSTIFY_FULL:
-                case latte.HtmlEditorCommands.JUSTIFY_LEFT:
-                case latte.HtmlEditorCommands.JUSTIFY_RIGHT:
-                case latte.HtmlEditorCommands.OUTDENT:
-                case latte.HtmlEditorCommands.SUB_SCRIPT:
-                case latte.HtmlEditorCommands.SUPER_SCRIPT:
-                case latte.HtmlEditorCommands.UNDERLINE:
-                    this.document().execCommand(command, false, value);
-                    break;
-                case latte.HtmlEditorCommands.CLEAR_FORMAT:
-                    this._clearFormatting();
-                    break;
-                case latte.HtmlEditorCommands.INSERT_IMAGE:
-                    this._insertImage(value);
-                    break;
-                case latte.HtmlEditorCommands.INSERT_LINK:
-                    this._insertLink();
-                    break;
-                case latte.HtmlEditorCommands.CODE:
-                    this.surroundSelectionWith($('<code>'));
-                    break;
-                case latte.HtmlEditorCommands.INSERT_HTML:
-                    this._insertHTML();
-                    break;
-                case latte.HtmlEditorCommands.INSERT_YOUTUBE:
-                    this._insertYouTube();
-                    break;
-            }
-            this.onValueChanged();
-        };
-        /**
-         *
-         **/
-        HtmlEditorItem.prototype.getValue = function () {
-            if (!this._mustInit()) {
-                return this.body().html() || "";
-            }
-            else {
-                return this._valueHtml || "";
-            }
-        };
-        /**
-         * Inserts the specified node at the currently selected range.
-         Returns the inserted node, or <c>null</c> if not possible.
-         **/
-        HtmlEditorItem.prototype.insertElement = function (element) {
-            var range = this.selectionRange;
-            if (range) {
-                var actualElement = this._ensureNode(element);
-                range.insertNode(actualElement);
-                this.onValueChanged();
-                this._assignElementHandlers();
-                return jQuery(actualElement);
-            }
-            return null;
-        };
-        /**
-         * Raises the <c>imageSelected</c> event
-         */
-        HtmlEditorItem.prototype.onImageSelected = function (image) {
-            if (this._imageSelected) {
-                return this._imageSelected.raise(image);
-            }
-        };
-        /**
-         * Overriden.
-         **/
-        HtmlEditorItem.prototype.onLayout = function () {
-            _super.prototype.onLayout.call(this);
-            if (this._ensureReady()) {
-                // Height that editor should be
-                var shouldHeight = this.body().get(0).scrollHeight + (this.toolbar.visible ? this.toolbar.height : 0);
-                //            if(this.element.height() < shouldHeight){
-                this.element.height(shouldHeight);
-                //            }
-                //            if(this.iframe.height() < shouldHeight){
-                this.iframe.css('height', this.body().get(0).scrollHeight);
-            }
-        };
-        /**
-         * Raises the <c>selectionChanged</c> event.
-         **/
-        HtmlEditorItem.prototype.onSelectionChanged = function () {
-            this.selectionChanged.raise();
-            // Retrieve selection for inspection
-            var sel = this.selectionRange;
-            // If something selected
-            if (sel) {
-                // Node where selection starts
-                var start = $(sel.startContainer);
-            }
-        };
-        /**
-         * Overriden.
-         **/
-        HtmlEditorItem.prototype.onValueChanged = function () {
-            this.onLayout();
-            _super.prototype.onValueChanged.call(this);
-        };
-        /**
-         * Gets a value indicating if the editor is ready to be used as editor.
-         While the editor is not ready, all data will be displayed in a non-editable element.
-         **/
-        HtmlEditorItem.prototype.ready = function () {
-            return this._ready;
-        };
-        /**
-         * Selects the specified element and returns it as a jQuery object.
-         **/
-        HtmlEditorItem.prototype.selectElement = function (element) {
-            var el = this._ensureNode(element);
-            var range = rangy.createRange();
-            range.selectNode(el);
-            var sel = rangy.getSelection();
-            sel.setSingleRange(range);
-            this.onSelectionChanged();
-            return jQuery(element);
-        };
-        /**
-         * Selects the contents of the specified node and returns the element as a jQuery object.
-         **/
-        HtmlEditorItem.prototype.selectElementContents = function (element) {
-            // Get element to select
-            element = this._ensureNode(element);
-            // Create a new range
-            var range = rangy.createRange();
-            // Select contents of node
-            range.selectNodeContents(element);
-            // Get selection
-            var sel = rangy.getSelection();
-            // Set range of selection
-            sel.setSingleRange(range);
-            // selection changed
-            this.onSelectionChanged();
-            return jQuery(element);
-        };
-        /**
-         * Gets the element where selection ends.
-         **/
-        HtmlEditorItem.prototype.selectionEnd = function () {
-            var sel = this.selectionRange;
-            if (sel) {
-                return $(sel.endContainer.parentElement);
-            }
-            return null;
-        };
-        /**
-         * Returns the parent of selection, passing the specified <c>selector</c>
-         to the jQuery <c>parents()<c> method.
-         **/
-        HtmlEditorItem.prototype.selectionParents = function (selector) {
-            if (selector === void 0) { selector = ''; }
-            var range = this.selectionRange;
-            if (range) {
-                var container = jQuery(range.startContainer);
-                return container.parents(selector);
-            }
-            return null;
-        };
-        /**
-         * Gets the element where selection starts.
-         **/
-        HtmlEditorItem.prototype.selectionStart = function () {
-            var sel = this.selectionRange;
-            if (sel) {
-                return $(sel.startContainer.parentElement);
-            }
-            return null;
-        };
-        /**
-         * Override.
-         **/
-        HtmlEditorItem.prototype.setValue = function (value) {
-            if (!latte._isString(value))
-                throw new latte.InvalidArgumentEx('value', value);
-            this._valueHtml = value;
-            // Update editable if possible
-            if (this._ensureReady()) {
-                this.body().html(value);
-                this._assignElementHandlers();
-                this.onLayout();
-            }
-        };
-        /**
-         * Surrounds selected contents with specified element, and returns the
-         attached element as a jQuery object.
-         **/
-        HtmlEditorItem.prototype.surroundSelectionWith = function (element) {
-            element = this._ensureNode(element);
-            var savedSel = rangy.saveSelection(this.window);
-            var range = this.selectionRange;
-            if (range) {
-                if (!range.canSurroundContents()) {
-                    return null;
-                }
-                range.surroundContents(element);
-                rangy.restoreSelection(savedSel);
-                this.onValueChanged();
-            }
-            return jQuery(element);
-        };
-        Object.defineProperty(HtmlEditorItem.prototype, "selectionChanged", {
-            /**
-             * Gets an event raised when the selection of the editor changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._selectionChanged) {
-                    this._selectionChanged = new latte.LatteEvent(this);
-                }
-                return this._selectionChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(HtmlEditorItem.prototype, "imageSelected", {
-            /**
-             * Gets an event raised when an image in the editor is selected
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._imageSelected) {
-                    this._imageSelected = new latte.LatteEvent(this);
-                }
-                return this._imageSelected;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(HtmlEditorItem.prototype, "selection", {
-            //endregion
-            //region Properties
-            /**
-             * Gets the current selection
-             **/
-            get: function () {
-                if (window['rangy'] && !rangy.initialized) {
-                    rangy.init();
-                }
-                //return rangy.getIframeSelection(this.iframe.get(0));
-                return rangy.getSelection();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(HtmlEditorItem.prototype, "selectionRange", {
-            /**
-             * Gets the range of selection. Returns <c>null</c> if no current selection.
-             **/
-            get: function () {
-                var sel = this.selection;
-                if (!sel.rangeCount)
-                    return null;
-                return this.selection.getRangeAt(0);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(HtmlEditorItem.prototype, "value", {
-            /**
-             * Gets or sets the source html
-             */
-            get: function () {
-                return this.getValue();
-            },
-            /**
-             * Gets or sets the source html
-             */
-            set: function (value) {
-                this.setValue(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(HtmlEditorItem.prototype, "window", {
-            /**
-             * Gets the Window of the iframe
-             **/
-            get: function () {
-                return this.iframe.get(0).contentWindow;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        HtmlEditorItem.rangyPath = '/latte/releases/latte.ui/support/js/rangy.js';
-        //region Static
-        HtmlEditorItem.rangyLoaded = false;
-        return HtmlEditorItem;
-    }(latte.ValueItem));
-    latte.HtmlEditorItem = HtmlEditorItem;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 12/23/13.
+/*
+ * Commands available for <c>HtmlEditorItem</c>
+ *
+ * @enum
  */
 var latte;
 (function (latte) {
-    /**
-     * Shows a selectable radio button
-     */
-    var RadioItem = (function (_super) {
-        __extends(RadioItem, _super);
-        //endregion
+    var HtmlEditorCommands = (function () {
+        function HtmlEditorCommands() {
+        }
         /**
-         * Creates the RadioItem
-         * @param text
+         * Swaps selection boldness
+         */
+        HtmlEditorCommands.BOLD = 'bold';
+        /**
+         * Wraps seletion into CODE tag
+         */
+        HtmlEditorCommands.CODE = 'code';
+        /**
+         * Clears all formatting on fonts and colors
+         */
+        HtmlEditorCommands.CLEAR_FORMAT = 'clearformat';
+        /**
+         * Formats the block as something
+         */
+        HtmlEditorCommands.FORMAT_BLOCK = 'formatblock';
+        /**
+         * Swaps selection italics
+         */
+        HtmlEditorCommands.ITALIC = 'italic';
+        /**
+         * Makes selectikon super-script
+         */
+        HtmlEditorCommands.SUPER_SCRIPT = 'superscript';
+        /**
+         * Makes selection sub-script
+         */
+        HtmlEditorCommands.SUB_SCRIPT = 'subscript';
+        /**
+         * Aligns text to left
+         */
+        HtmlEditorCommands.JUSTIFY_LEFT = 'justifyleft';
+        /**
+         * Centers text
+         */
+        HtmlEditorCommands.JUSTIFY_CENTER = 'justifycenter';
+        /**
+         * Aligns text to right
+         */
+        HtmlEditorCommands.JUSTIFY_RIGHT = 'justifyright';
+        /**
+         * Justifies text
+         */
+        HtmlEditorCommands.JUSTIFY_FULL = 'justifyfull';
+        /**
+         * Decreases indent
+         */
+        HtmlEditorCommands.OUTDENT = 'outdent';
+        /**
+         * Increases indent
+         */
+        HtmlEditorCommands.INDENT = 'indent';
+        /**
+         * Shows a dialog to insert HTML
+         */
+        HtmlEditorCommands.INSERT_HTML = 'inserthtml';
+        /**
+         * Inserts an image
+         */
+        HtmlEditorCommands.INSERT_IMAGE = 'insertimage';
+        /**
+         * Inserts a link
+         */
+        HtmlEditorCommands.INSERT_LINK = 'insertlink';
+        /**
+         * Inserts an ordered list
+         */
+        HtmlEditorCommands.INSERT_ORDERED_LIST = 'insertorderedlist';
+        /**
+         * Inserts an unordered list
+         */
+        HtmlEditorCommands.INSERT_UNORDERED_LIST = 'insertunorderedlist';
+        /**
+         * Shows a dialog to insert a YouTube video
+         */
+        HtmlEditorCommands.INSERT_YOUTUBE = 'insertyoutube';
+        /**
+         * Unerlines selection
+         */
+        HtmlEditorCommands.UNDERLINE = 'underline';
+        return HtmlEditorCommands;
+    }());
+    latte.HtmlEditorCommands = HtmlEditorCommands;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Value item for files. Value of item is an array of system File objects.
+     */
+    var FileValueItem = (function (_super) {
+        __extends(FileValueItem, _super);
+        function FileValueItem() {
+            _super.call(this);
+            this.addClass('file');
+            this.resetInput();
+        }
+        /**
+         * Gets an array of selected files
+         *
+         * @returns {Array<File>}
+         */
+        FileValueItem.prototype.getValue = function () {
+            return this.fileInput.get(0).files;
+        };
+        /**
+         * Resets the input field
+         */
+        FileValueItem.prototype.resetInput = function () {
+            var _this = this;
+            this.fileInput = $('<input multiple type="file">').appendTo(this.element.empty());
+            this.fileInput.change(function () {
+                _this.onValueChanged();
+            });
+        };
+        /**
+         * Sets the value. This is ignored since UA won't allow it.
+         *
          * @param value
          */
-        function RadioItem(text, value) {
-            var _this = this;
-            if (text === void 0) { text = null; }
-            if (value === void 0) { value = null; }
+        FileValueItem.prototype.setValue = function (value) {
+            // Ignore. Files cannot be set
+        };
+        return FileValueItem;
+    }(latte.ValueItem));
+    latte.FileValueItem = FileValueItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Presents a method for choosing options from a combobox.
+     Combo options are presented as the button's items.
+     The button's items tag value is assumed to be the value of the combobox.
+     **/
+    var ComboItem = (function (_super) {
+        __extends(ComboItem, _super);
+        /**
+         *
+         **/
+        function ComboItem() {
             _super.call(this);
-            this.element.addClass('radio');
-            // Label
-            this.label = new latte.LabelItem();
-            this.label.appendTo(this);
-            this.addEventListener('click', function () { return _this.value = !_this.value; });
-            // Initialize Value
-            if (latte._isBoolean(value)) {
-                this.value = value;
-            }
-            else {
-                this.value = false;
-            }
-            if (text) {
-                this.text = text;
-            }
+            this.element.addClass('combo');
+            this.button = new latte.ButtonItem();
+            this.button.text = strings.pleaseSelect;
+            this.button.appendTo(this.element);
         }
-        //region Methods
+        /**
+         * Override
+         * @returns {any}
+         */
+        ComboItem.prototype.onGetValueString = function () {
+            var item;
+            while ((item = this.button.items.next())) {
+                if (item.tag == this.value) {
+                    return item.text;
+                }
+            }
+            return '';
+        };
         /**
          * Override.
          */
-        RadioItem.prototype.onValueChanged = function () {
+        ComboItem.prototype.onValueChanged = function () {
             _super.prototype.onValueChanged.call(this);
-            if (this.value) {
-                this.label.icon = latte.Glyph.checkedRadio;
-            }
-            else {
-                this.label.icon = latte.Glyph.uncheckedRadio;
+            this.button.text = this.value === null ? strings.pleaseSelect : this.valueString;
+        };
+        Object.defineProperty(ComboItem.prototype, "options", {
+            /**
+             * Gets or sets the options of the combo
+             **/
+            get: function () {
+                return this._options;
+            },
+            /**
+             * Gets or sets the options of the combo
+             **/
+            set: function (options) {
+                var __this = this;
+                if (!latte._isArray(options) && !latte._isObject(options))
+                    throw new latte.InvalidArgumentEx('options', options);
+                this.button.items.clear();
+                for (var i in options) {
+                    var b = new latte.ButtonItem();
+                    b.text = options[i].toString();
+                    b.tag = i;
+                    b.click.add(function () {
+                        __this.value = this.tag;
+                        __this.button.text = this.text;
+                    });
+                    this.button.items.add(b);
+                }
+                this._options = options;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ComboItem;
+    }(latte.ValueItem));
+    latte.ComboItem = ComboItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Renders an item to input data from user.
+     **/
+    var InputItem = (function (_super) {
+        __extends(InputItem, _super);
+        //endregion
+        /**
+         * Creates the input element
+         **/
+        function InputItem(text, type, value, readOnly, name) {
+            if (text === void 0) { text = ''; }
+            if (type === void 0) { type = ''; }
+            if (value === void 0) { value = null; }
+            if (readOnly === void 0) { readOnly = null; }
+            if (name === void 0) { name = null; }
+            _super.call(this);
+            /**
+             *
+             **/
+            this._readOnly = null;
+            /**
+             *
+             */
+            this._textWidth = 0.2;
+            /**
+             * Property field
+             */
+            this._hintItem = null;
+            /**
+             * Property field
+             */
+            this._valid = true;
+            this.element.addClass('input');
+            // Create elements
+            this.textElement = $('<div>').addClass('text').appendTo(this.element).hide();
+            this.valueElement = $('<div>').addClass('value').appendTo(this.element);
+            this.separatorElement = $('<div>').addClass('separator').appendTo(this.element);
+            this.element.clear();
+            // Create items
+            this.label = new latte.LabelItem();
+            this.label.appendTo(this.textElement);
+            this.readOnlyLabel = new latte.LabelValueItem();
+            this.readOnlyLabel.appendTo(this.valueElement);
+            this.readOnlyLabel.addClass('read-only');
+            this.readOnlyLabel.visible = (false);
+            // Default props
+            this.type = 'string';
+            this.direction = latte.View.smallScreen ? latte.Direction.VERTICAL : latte.Direction.HORIZONTAL;
+            if (text)
+                this.text = (text);
+            if (type)
+                this.type = (type);
+            if (value)
+                this.value = (value);
+            if (readOnly)
+                this.readOnly = (readOnly);
+            if (name)
+                this.name = name;
+        }
+        //region Static
+        /**
+         * Gets a formatted string of the value depending on the type
+         **/
+        InputItem.format = function (value, type, options) {
+            if (options === void 0) { options = null; }
+            switch (type) {
+                case 'switch':
+                    return value === true || value === 1 ? strings.switchOn : strings.switchOff;
+                case 'boolean':
+                    return value === true || value === 1 ? strings.yes : strings.no;
+                case 'record-combo':
+                    // IMPORTANT: Do not modify call of literal
+                    // This is necessary to compile without data module
+                    var c = new latte['DataRecordCollection']();
+                    // Try to prepare collection
+                    if (options)
+                        try {
+                            c.add(options);
+                        }
+                        catch (e) {
+                            throw new latte.InvalidArgumentEx('value');
+                        }
+                    var r = c.byId(value);
+                    if (r)
+                        return r.getMetadata().name;
+                    return value;
+                case 'combo':
+                    if ((latte._isArray(options) || (typeof options === 'object')) && !latte._undef(options[value]))
+                        return options[value];
+                    return value;
+                case 'flags':
+                    var list = [];
+                    var flags = parseInt(value);
+                    for (var i in options) {
+                        var flag = parseInt(i);
+                        if ((flags & flag) == flag) {
+                            list.push(options[i]);
+                        }
+                    }
+                    return list.join(', ') || strings.flagsNone;
+                default:
+                    return value;
             }
         };
-        Object.defineProperty(RadioItem.prototype, "text", {
+        /**
+         * Creates the input item from a caption and a value item
+         *
+         * @param text
+         * @param item
+         */
+        InputItem.fromItem = function (text, item) {
+            var input = new InputItem(text, 'custom');
+            input.valueItem = item;
+            return input;
+        };
+        /**
+         * Gets an input from the specified IInput
+         * @param input
+         * @param name
+         */
+        InputItem.fromIInput = function (input, name, value) {
+            if (name === void 0) { name = null; }
+            if (value === void 0) { value = null; }
+            var item = new InputItem(input.text || '(no text)', input.type || 'string', value || input.defaultValue || null, input.readOnly || null, name);
+            item.name = name;
+            if (input.options) {
+                item.options = input.options;
+            }
+            if (input.hint) {
+                item.setHint(input.hint);
+            }
+            return item;
+        };
+        //region Methods
+        /**
+         * Checks if the current value is valid for the field <c>type</c>
+         **/
+        InputItem.prototype.isValid = function () {
+            var value = this.value;
+            switch (this.type()) {
+                case "integer":
+                    var allowed = "1234567890";
+                    for (var i = 0; i < value.length; i++)
+                        if (allowed.indexOf(value.charAt(i)) < 0)
+                            return false;
+                    return true;
+                case "number":
+                case "float":
+                    return !isNaN(value);
+            }
+            return true;
+        };
+        /**
+         *
+         **/
+        InputItem.prototype.onLayout = function () {
+            _super.prototype.onLayout.call(this);
+            this.valueItem.onLayout();
+        };
+        InputItem.prototype.onValueChanged = function () {
+            _super.prototype.onValueChanged.call(this);
+            if (this.readOnly) {
+                this.readOnly = this.readOnly;
+            }
+        };
+        /**
+         * Override.
+         * @returns {string}
+         */
+        InputItem.prototype.onGetValueString = function () {
+            if (this.valueItem) {
+                return this.valueItem.valueString;
+            }
+            else {
+                return _super.prototype.onGetValueString.call(this);
+            }
+        };
+        /**
+         * Override
+         * @returns {string}
+         */
+        InputItem.prototype.getValueString = function () {
+            if (this.valueItem) {
+                return this.valueItem.valueString;
+            }
+            else {
+                return _super.prototype.onGetValueString.call(this);
+            }
+        };
+        /**
+         * Raises the <c>valid</c> event
+         */
+        InputItem.prototype.onValidChanged = function () {
+            if (this._validChanged) {
+                this._validChanged.raise();
+            }
+            if (this.valid) {
+                this.removeClass('invalid');
+            }
+            else {
+                this.addClass('invalid');
+            }
+        };
+        /**
+         * Sets the hint as a string in a label
+         * @param hint
+         */
+        InputItem.prototype.setHint = function (hint) {
+            if (hint) {
+                var l = new latte.LabelItem(hint);
+                this.hintItem = l;
+            }
+            else {
+                this.hintItem = null;
+            }
+        };
+        Object.defineProperty(InputItem.prototype, "validChanged", {
+            /**
+             * Gets an event raised when the value of the valid property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._validChanged) {
+                    this._validChanged = new latte.LatteEvent(this);
+                }
+                return this._validChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "direction", {
             //endregion
             //region Properties
             /**
-             * Gets or sets the text of the checkbox
+             * Gets or sets the direction of input.
+             **/
+            get: function () {
+                return this._direction;
+            },
+            /**
+             * Gets or sets the direction of input.
+             **/
+            set: function (value) {
+                if (value !== latte.Direction.VERTICAL && value !== latte.Direction.HORIZONTAL)
+                    throw new latte.InvalidArgumentEx('value', value);
+                if (value === latte.Direction.VERTICAL) {
+                    this.element.removeClass('horizontal').addClass('vertical');
+                }
+                else {
+                    this.element.removeClass('vertical').addClass('horizontal');
+                }
+                this._direction = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "hintItem", {
+            /**
+             * Gets or sets the hint item
+             *
+             * @returns {Item}
+             */
+            get: function () {
+                return this._hintItem;
+            },
+            /**
+             * Gets or sets the hint item
+             *
+             * @param {Item} value
+             */
+            set: function (value) {
+                if (this._hintItem) {
+                    this._hintItem.element.remove();
+                }
+                this._hintItem = value;
+                if (value) {
+                    this.valueElement.append(value.element);
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "name", {
+            /**
+             * Gets or sets the name of the input
+             **/
+            get: function () {
+                return this._name;
+            },
+            /**
+             * Gets or sets the name of the input
+             **/
+            set: function (value) {
+                this._name = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "options", {
+            /**
+             * Gets or sets the options of the control
+             **/
+            get: function () {
+                return this._options;
+            },
+            /**
+             * Gets or sets the options of the control
+             **/
+            set: function (value) {
+                if (this.valueItem instanceof latte.ComboItem) {
+                    this.valueItem.options = value;
+                }
+                if (this.valueItem instanceof latte.RadioGroup) {
+                    this.valueItem.options = value;
+                }
+                if (this.valueItem instanceof latte.FlagsValueItem) {
+                    this.valueItem.options = value;
+                }
+                this._options = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "readOnly", {
+            /**
+             * Gets or sets a value indicating if the input is read-only
+             **/
+            get: function () {
+                return this._readOnly;
+            },
+            /**
+             * Gets or sets a value indicating if the input is read-only
+             **/
+            set: function (value) {
+                this._readOnly = value;
+                // Switch visibility
+                this.readOnlyLabel.value = (this.valueItem.valueString);
+                this.readOnlyLabel.visible = (value);
+                this.valueItem.visible = (!value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "separator", {
+            /**
+             * Gets or sets a value indicating if the input has a separator on bottom
+             **/
+            get: function () {
+                return this._separator;
+            },
+            /**
+             * Gets or sets a value indicating if the input has a separator on bottom
+             **/
+            set: function (value) {
+                if (!latte._isBoolean(value))
+                    throw new latte.InvalidArgumentEx('value', value);
+                this._separator = value;
+                if (value) {
+                    this.separatorElement.show();
+                }
+                else {
+                    this.separatorElement.hide();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "text", {
+            /**
+             * Gets ors ets the text of the input
              **/
             get: function () {
                 return this.label.text;
             },
             /**
-             * Gets or sets the text of the checkbox
+             * Gets ors ets the text of the input
              **/
             set: function (value) {
-                this.label.text = value;
+                this.label.text = (value);
+                if (!this.textVisible)
+                    this.textVisible = (true);
             },
             enumerable: true,
             configurable: true
         });
-        return RadioItem;
+        Object.defineProperty(InputItem.prototype, "textVisible", {
+            /**
+             * Gets or sets a value indicating if the text section is visible
+             **/
+            get: function () {
+                return this.textElement.is(':visible');
+            },
+            /**
+             * Gets or sets a value indicating if the text section is visible
+             **/
+            set: function (value) {
+                if (value) {
+                    this.textElement.show();
+                    this.element.removeClass('no-text');
+                }
+                else {
+                    this.textElement.hide();
+                    this.element.addClass('no-text');
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "textWidth", {
+            /**
+             * Gets or sets the with of the text part. Use value lower than 1 for percentages.
+             * Note that when horizontal input, layout may become affected.
+             *
+             * @returns {number}
+             */
+            get: function () {
+                return this._textWidth;
+            },
+            /**
+             * Gets or sets the with of the text part.
+             * Value must be percent since it must be leveled with value part. Value size will be adjusted
+             * to 5% less large than it should to avoid edge collisions.
+             * Values lower than 1 accepted.
+             * Note that when horizontal input, layout may become affected.
+             *
+             */
+            set: function (value) {
+                this._textWidth = value;
+                if (value < 0) {
+                    this.textElement.css('width', (value * 100) + '%');
+                    this.valueElement.css('width', ((100 - value - 0.05) * 100) + '%');
+                }
+                else {
+                    this.textElement.css('width', (value) + '%');
+                    this.valueElement.css('width', ((value - 0.1)) + '%');
+                }
+                this.onLayout();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "type", {
+            /**
+             * Gets or sets the type of the input.
+             Possible values are: <c>auto</c> | <c>string</c> | <c>text</c> |
+             <c>html</c> | <c>number</c> | <c>integer</c> | <c>float</c> |
+             <c>boolean</c> | <c>password</c> | <c>md5-password</c> | <c>date</c> |
+             <c>time</c> | <c>enumeration</c> | <c>combo</c> | <c>record-combo</c> | <c>flags</c> |
+             <c>file</c> | <c>image</c> | <c>custom</c>
+    
+             If input is to be a type (function), it must inherit from <c>latte.ui.ValueItem</c>
+             **/
+            get: function () {
+                return this._type;
+            },
+            /**
+             * Gets or sets the type of the input.
+             Possible values are: <c>auto</c> | <c>string</c> | <c>text</c> |
+             <c>html</c> | <c>number</c> | <c>integer</c> | <c>float</c> |
+             <c>boolean</c> | <c>password</c> | <c>md5-password</c> | <c>date</c> |
+             <c>time</c> | <c>enumeration</c> | <c>combo</c> | <c>record-combo</c> |
+             <c>radio</c> | <c>flags</c> | <c>file</c> | <c>image</c> | <c>custom</c>
+    
+             If input is to be a type (function), it must inherit from <c>latte.ui.ValueItem</c>
+             **/
+            set: function (value) {
+                var item = null;
+                this._type = value;
+                if (latte._isFunction(value)) {
+                    item = new value();
+                    //                log("Created %s", value.toString())
+                    if (!(item instanceof latte.ValueItem))
+                        throw new latte.InvalidArgumentEx('value');
+                }
+                else {
+                    switch (value) {
+                        case "auto":
+                        case "label":
+                            item = new latte.LabelValueItem();
+                            break;
+                        case "string":
+                            item = new latte.TextboxItem();
+                            break;
+                        case "text":
+                            item = new latte.TextboxItem();
+                            item.multiline = (true);
+                            break;
+                        case "html":
+                            item = new latte.HtmlEditorItem();
+                            break;
+                        case "number":
+                            item = new latte.TextboxItem();
+                            item.filter = latte.TextboxFilter.NUMBER;
+                            item.validationRegex = latte.Culture.current.floatValidator;
+                            break;
+                        case "integer":
+                            item = new latte.TextboxItem();
+                            item.filter = latte.TextboxFilter.INTEGER;
+                            item.validationRegex = latte.Culture.current.intValidator;
+                            break;
+                        case "float":
+                            item = new latte.TextboxItem();
+                            item.filter = latte.TextboxFilter.NUMBER;
+                            item.validationRegex = latte.Culture.current.floatValidator;
+                            break;
+                        case "boolean":
+                            item = new latte.CheckboxItem();
+                            break;
+                        case "switch":
+                            item = new latte.SwitchItem();
+                            break;
+                        case "password":
+                            item = new latte.TextboxItem();
+                            item.password = (true);
+                            break;
+                        case "md5-password":
+                            item = new latte.TextboxItem();
+                            item.password = (true);
+                            break;
+                        case "date":
+                            item = new latte.DatePickerItem();
+                            break;
+                        case "time":
+                            item = new latte.TimePickerItem();
+                            break;
+                        case "datetime":
+                            item = new latte.DatePickerItem();
+                            item.timeVisible = (true);
+                            break;
+                        case "enumeration":
+                            item = new latte.ComboItem();
+                            break;
+                        case "combo":
+                            item = new latte.ComboItem();
+                            break;
+                        case "radio":
+                            item = new latte.RadioGroup();
+                            break;
+                        case "record-combo":
+                            item = new latte.ComboItem();
+                            break;
+                        case "flags":
+                            item = new latte.FlagsValueItem();
+                            break;
+                        case "color":
+                            item = new latte.ColorValueItem();
+                            break;
+                        case "file":
+                            item = new latte.FileValueItem();
+                            break;
+                        case "image":
+                            item = new latte.LabelValueItem();
+                            break;
+                        case "custom":
+                            item = new latte.LabelValueItem();
+                            break;
+                        case "record":
+                            // IMPORTANT: Do not modify call of literal
+                            // This is necessary to compile without data module
+                            item = new latte['DataRecordValueItem']();
+                            break;
+                        default:
+                            throw new latte.InvalidArgumentEx('value');
+                    }
+                }
+                if (item instanceof latte.ValueItem) {
+                    this.valueItem = (item);
+                }
+                else {
+                    throw new latte.InvalidCallEx("What the hey?");
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "value", {
+            /**
+             * Gets or sets the value of the input
+             **/
+            get: function () {
+                return this.valueItem.value;
+            },
+            /**
+             * Gets or sets the value of the input
+             **/
+            set: function (value) {
+                this.valueItem.value = (value);
+                this.readOnlyLabel.value = (this.valueItem.valueString);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "valueItem", {
+            /**
+             * Gets or sets the valueItem of the input
+             **/
+            get: function () {
+                return this._valueItem;
+            },
+            /**
+             * Gets or sets the valueItem of the input
+             **/
+            set: function (value) {
+                var _this = this;
+                if (!(value instanceof latte.ValueItem))
+                    throw new latte.InvalidArgumentEx('value', value);
+                if (this._valueItem)
+                    this._valueItem.element.remove();
+                this._valueItem = value;
+                this.valueElement.append(value.element);
+                value.valueChanged.add(function () { _this.onValueChanged(); });
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(InputItem.prototype, "valid", {
+            /**
+             * Gets or sets a value indicating if the value of the item is currently valid
+             *
+             * @returns {boolean}
+             */
+            get: function () {
+                return this._valid;
+            },
+            /**
+             * Gets or sets a value indicating if the value of the item is currently valid
+             *
+             * @param {boolean} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._valid;
+                // Set value
+                this._valid = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onValidChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return InputItem;
     }(latte.ValueItem));
-    latte.RadioItem = RadioItem;
+    latte.InputItem = InputItem;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -12432,84 +11917,6 @@ var latte;
     }(latte.ValueItem));
     latte.ProgressItem = ProgressItem;
 })(latte || (latte = {}));
-/**
- * Created by josemanuel on 8/4/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var SwitchItem = (function (_super) {
-        __extends(SwitchItem, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function SwitchItem() {
-            var _this = this;
-            _super.call(this);
-            this.addClass('switch');
-            this.element.append(this.orb);
-            this.addEventListener('click', function () { return _this.value = !_this.value; });
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Override.
-         */
-        SwitchItem.prototype.onGetValueString = function () {
-            return this.value ? strings.switchOn : strings.switchOff;
-        };
-        /**
-         * Override.
-         */
-        SwitchItem.prototype.onValueChanged = function () {
-            _super.prototype.onValueChanged.call(this);
-            var value = this.value;
-            if (!latte._isBoolean(value) && latte._isString(value) && latte._isNumeric(value)) {
-                this.value = !!parseInt(value);
-            }
-            else {
-                this.ensureClass('on', this.value);
-            }
-        };
-        /**
-         * Override
-         */
-        SwitchItem.prototype.serialize = function () {
-            return this.value ? "1" : "0";
-        };
-        /**
-         * Override
-         */
-        SwitchItem.prototype.unserialize = function (value) {
-            this.value = !!parseInt(value);
-        };
-        Object.defineProperty(SwitchItem.prototype, "orb", {
-            /**
-             * Gets the orb of the switch
-             *
-             * @returns {HTMLElement}
-             */
-            get: function () {
-                if (!this._orb) {
-                    this._orb = document.createElement('div');
-                    this._orb.classList.add('orb');
-                }
-                return this._orb;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return SwitchItem;
-    }(latte.ValueItem));
-    latte.SwitchItem = SwitchItem;
-})(latte || (latte = {}));
 var latte;
 (function (latte) {
     /**
@@ -12620,257 +12027,155 @@ var latte;
     }(latte.ValueItem));
     latte.RadioGroup = RadioGroup;
 })(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Allows user to pick a time
-     **/
-    var TimePickerItem = (function (_super) {
-        __extends(TimePickerItem, _super);
-        //endregion
-        /**
-         *
-         **/
-        function TimePickerItem() {
-            _super.call(this);
-            //region Private Fields
-            this.ignorePassToCombos = false;
-            this.element.addClass('time-picker');
-            this.element.append(this.hourCombo);
-            this.element.append(this.minuteCombo);
-            this.element.append(this.secondCombo);
-        }
-        //region Private Methods
-        /**
-         * Zero pads for dates
-         * @param i
-         * @returns {string}
-         */
-        TimePickerItem.prototype.zeroPad = function (i) {
-            return i < 10 ? '0' + i : i.toString();
-        };
-        //endregion
-        //region Methods
-        /**
-         * Override.
-         */
-        TimePickerItem.prototype.onValueChanged = function () {
-            _super.prototype.onValueChanged.call(this);
-            if (this.ignorePassToCombos) {
-                this.ignorePassToCombos = false;
-            }
-            else {
-                this.hourCombo.value = this.value.hours;
-                this.minuteCombo.value = this.value.minutes;
-                this.secondCombo.value = this.value.seconds;
-            }
-        };
-        /**
-         * Override.
-         * @returns {String}
-         */
-        TimePickerItem.prototype.onGetValueString = function () {
-            return String(this.value);
-        };
-        /**
-         * Silently sets the hour component of the value
-         * @param hours
-         */
-        TimePickerItem.prototype.setHourSilently = function (hours) {
-            this.setValueSilently(new latte.TimeSpan(0, hours, this.value.minutes, this.value.seconds, this.value.milliseconds));
-        };
-        /**
-         * Silently sets the hour component of the value
-         * @param minutes
-         */
-        TimePickerItem.prototype.setMinuteSilently = function (minutes) {
-            this.setValueSilently(new latte.TimeSpan(0, this.value.hours, minutes, this.value.seconds, this.value.milliseconds));
-        };
-        /**
-         * Silently sets the hour component of the value
-         * @param seconds
-         */
-        TimePickerItem.prototype.setSecondSilently = function (seconds) {
-            this.setValueSilently(new latte.TimeSpan(0, this.value.hours, this.value.minutes, seconds, this.value.milliseconds));
-        };
-        /**
-         * Silently sets the value without affecting the combos.
-         * @param value
-         */
-        TimePickerItem.prototype.setValueSilently = function (value) {
-            this.ignorePassToCombos = true;
-            this.value = value;
-        };
-        Object.defineProperty(TimePickerItem.prototype, "hourCombo", {
-            /**
-             * Gets the hour combo item
-             *
-             * @returns {ComboItem}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._hourCombo) {
-                    this._hourCombo = new latte.ComboItem();
-                    this._hourCombo.valueChanged.add(function () { return _this.setHourSilently(_this.hourCombo.value); });
-                    this._hourCombo.button.loadItems.add(function () {
-                        var hours = [];
-                        for (var i = 0; i <= 23; i++) {
-                            hours[i] = _this.zeroPad(i);
-                        }
-                        _this._hourCombo.options = hours;
-                    });
-                    this._hourCombo.value = 0;
-                    this._hourCombo.button.dropdownVisible = false;
-                }
-                return this._hourCombo;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TimePickerItem.prototype, "minuteCombo", {
-            /**
-             * Gets the minutes combo Item
-             *
-             * @returns {ComboItem}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._minuteCombo) {
-                    this._minuteCombo = new latte.ComboItem();
-                    this._minuteCombo.valueChanged.add(function () { return _this.setMinuteSilently(_this.minuteCombo.value); });
-                    this._minuteCombo.button.loadItems.add(function () {
-                        var minutes = [];
-                        for (var i = 0; i <= 59; i++) {
-                            minutes[i] = _this.zeroPad(i);
-                        }
-                        _this._minuteCombo.options = minutes;
-                    });
-                    this._minuteCombo.value = 0;
-                    this._minuteCombo.button.dropdownVisible = false;
-                }
-                return this._minuteCombo;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(TimePickerItem.prototype, "secondCombo", {
-            /**
-             * Gets the seconds combo
-             *
-             * @returns {ComboItem}
-             */
-            get: function () {
-                var _this = this;
-                if (!this._secondCombo) {
-                    this._secondCombo = new latte.ComboItem();
-                    this._secondCombo.valueChanged.add(function () { return _this.setSecondSilently(_this.secondCombo.value); });
-                    this._secondCombo.button.loadItems.add(function () {
-                        var minutes = [];
-                        for (var i = 0; i <= 59; i++) {
-                            minutes[i] = _this.zeroPad(i);
-                        }
-                        _this._secondCombo.options = minutes;
-                    });
-                    this._secondCombo.value = 0;
-                    this._secondCombo.button.dropdownVisible = false;
-                }
-                return this._secondCombo;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return TimePickerItem;
-    }(latte.ValueItem));
-    latte.TimePickerItem = TimePickerItem;
-})(latte || (latte = {}));
 /**
- * Created by josemanuel on 3/22/15.
+ * Created by josemanuel on 8/4/16.
  */
 var latte;
 (function (latte) {
     /**
      *
      */
-    var ItemOverlay = (function (_super) {
-        __extends(ItemOverlay, _super);
+    var SwitchItem = (function (_super) {
+        __extends(SwitchItem, _super);
         //region Static
         //endregion
         //region Fields
         //endregion
         /**
-         * Creates the overlay
+         *
          */
-        function ItemOverlay(item) {
+        function SwitchItem() {
+            var _this = this;
             _super.call(this);
-            //region Private Methods
-            //endregion
-            //region Methods
-            //endregion
-            //region Events
+            this.addClass('switch');
+            this.element.append(this.orb);
+            this.addEventListener('click', function () { return _this.value = !_this.value; });
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Override.
+         */
+        SwitchItem.prototype.onGetValueString = function () {
+            return this.value ? strings.switchOn : strings.switchOff;
+        };
+        /**
+         * Override.
+         */
+        SwitchItem.prototype.onValueChanged = function () {
+            _super.prototype.onValueChanged.call(this);
+            var value = this.value;
+            if (!latte._isBoolean(value) && latte._isString(value) && latte._isNumeric(value)) {
+                this.value = !!parseInt(value);
+            }
+            else {
+                this.ensureClass('on', this.value);
+            }
+        };
+        /**
+         * Override
+         */
+        SwitchItem.prototype.serialize = function () {
+            return this.value ? "1" : "0";
+        };
+        /**
+         * Override
+         */
+        SwitchItem.prototype.unserialize = function (value) {
+            this.value = !!parseInt(value);
+        };
+        Object.defineProperty(SwitchItem.prototype, "orb", {
+            /**
+             * Gets the orb of the switch
+             *
+             * @returns {HTMLElement}
+             */
+            get: function () {
+                if (!this._orb) {
+                    this._orb = document.createElement('div');
+                    this._orb.classList.add('orb');
+                }
+                return this._orb;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return SwitchItem;
+    }(latte.ValueItem));
+    latte.SwitchItem = SwitchItem;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 12/23/13.
+ */
+var latte;
+(function (latte) {
+    /**
+     * Shows a selectable radio button
+     */
+    var RadioItem = (function (_super) {
+        __extends(RadioItem, _super);
+        //endregion
+        /**
+         * Creates the RadioItem
+         * @param text
+         * @param value
+         */
+        function RadioItem(text, value) {
+            var _this = this;
+            if (text === void 0) { text = null; }
+            if (value === void 0) { value = null; }
+            _super.call(this);
+            this.element.addClass('radio');
+            // Label
+            this.label = new latte.LabelItem();
+            this.label.appendTo(this);
+            this.addEventListener('click', function () { return _this.value = !_this.value; });
+            // Initialize Value
+            if (latte._isBoolean(value)) {
+                this.value = value;
+            }
+            else {
+                this.value = false;
+            }
+            if (text) {
+                this.text = text;
+            }
+        }
+        //region Methods
+        /**
+         * Override.
+         */
+        RadioItem.prototype.onValueChanged = function () {
+            _super.prototype.onValueChanged.call(this);
+            if (this.value) {
+                this.label.icon = latte.Glyph.checkedRadio;
+            }
+            else {
+                this.label.icon = latte.Glyph.uncheckedRadio;
+            }
+        };
+        Object.defineProperty(RadioItem.prototype, "text", {
             //endregion
             //region Properties
             /**
-             * Property field
-             */
-            this._item = null;
-            if (item) {
-                this.item = item;
-            }
-        }
-        Object.defineProperty(ItemOverlay.prototype, "item", {
-            /**
-             * Gets or sets the item of the overlay
-             *
-             * @returns {Item}
-             */
+             * Gets or sets the text of the checkbox
+             **/
             get: function () {
-                return this._item;
+                return this.label.text;
             },
             /**
-             * Gets or sets the item of the overlay
-             *
-             * @param {Item} value
-             */
+             * Gets or sets the text of the checkbox
+             **/
             set: function (value) {
-                // Check if value changed
-                var changed = value !== this._item;
-                // Set value
-                this._item = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onItemChanged();
-                }
+                this.label.text = value;
             },
             enumerable: true,
             configurable: true
         });
-        Object.defineProperty(ItemOverlay.prototype, "itemChanged", {
-            /**
-             * Gets an event raised when the value of the item property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._itemChanged) {
-                    this._itemChanged = new latte.LatteEvent(this);
-                }
-                return this._itemChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>item</c> event
-         */
-        ItemOverlay.prototype.onItemChanged = function () {
-            if (this._itemChanged) {
-                this._itemChanged.raise();
-            }
-            this.element.clear().append(this.item.element);
-        };
-        return ItemOverlay;
-    }(latte.Overlay));
-    latte.ItemOverlay = ItemOverlay;
+        return RadioItem;
+    }(latte.ValueItem));
+    latte.RadioItem = RadioItem;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -13721,6 +13026,1143 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Allows user to pick a time
+     **/
+    var TimePickerItem = (function (_super) {
+        __extends(TimePickerItem, _super);
+        //endregion
+        /**
+         *
+         **/
+        function TimePickerItem() {
+            _super.call(this);
+            //region Private Fields
+            this.ignorePassToCombos = false;
+            this.element.addClass('time-picker');
+            this.element.append(this.hourCombo);
+            this.element.append(this.minuteCombo);
+            this.element.append(this.secondCombo);
+        }
+        //region Private Methods
+        /**
+         * Zero pads for dates
+         * @param i
+         * @returns {string}
+         */
+        TimePickerItem.prototype.zeroPad = function (i) {
+            return i < 10 ? '0' + i : i.toString();
+        };
+        //endregion
+        //region Methods
+        /**
+         * Override.
+         */
+        TimePickerItem.prototype.onValueChanged = function () {
+            _super.prototype.onValueChanged.call(this);
+            if (this.ignorePassToCombos) {
+                this.ignorePassToCombos = false;
+            }
+            else {
+                this.hourCombo.value = this.value.hours;
+                this.minuteCombo.value = this.value.minutes;
+                this.secondCombo.value = this.value.seconds;
+            }
+        };
+        /**
+         * Override.
+         * @returns {String}
+         */
+        TimePickerItem.prototype.onGetValueString = function () {
+            return String(this.value);
+        };
+        /**
+         * Silently sets the hour component of the value
+         * @param hours
+         */
+        TimePickerItem.prototype.setHourSilently = function (hours) {
+            this.setValueSilently(new latte.TimeSpan(0, hours, this.value.minutes, this.value.seconds, this.value.milliseconds));
+        };
+        /**
+         * Silently sets the hour component of the value
+         * @param minutes
+         */
+        TimePickerItem.prototype.setMinuteSilently = function (minutes) {
+            this.setValueSilently(new latte.TimeSpan(0, this.value.hours, minutes, this.value.seconds, this.value.milliseconds));
+        };
+        /**
+         * Silently sets the hour component of the value
+         * @param seconds
+         */
+        TimePickerItem.prototype.setSecondSilently = function (seconds) {
+            this.setValueSilently(new latte.TimeSpan(0, this.value.hours, this.value.minutes, seconds, this.value.milliseconds));
+        };
+        /**
+         * Silently sets the value without affecting the combos.
+         * @param value
+         */
+        TimePickerItem.prototype.setValueSilently = function (value) {
+            this.ignorePassToCombos = true;
+            this.value = value;
+        };
+        Object.defineProperty(TimePickerItem.prototype, "hourCombo", {
+            /**
+             * Gets the hour combo item
+             *
+             * @returns {ComboItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._hourCombo) {
+                    this._hourCombo = new latte.ComboItem();
+                    this._hourCombo.valueChanged.add(function () { return _this.setHourSilently(_this.hourCombo.value); });
+                    this._hourCombo.button.loadItems.add(function () {
+                        var hours = [];
+                        for (var i = 0; i <= 23; i++) {
+                            hours[i] = _this.zeroPad(i);
+                        }
+                        _this._hourCombo.options = hours;
+                    });
+                    this._hourCombo.value = 0;
+                    this._hourCombo.button.dropdownVisible = false;
+                }
+                return this._hourCombo;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TimePickerItem.prototype, "minuteCombo", {
+            /**
+             * Gets the minutes combo Item
+             *
+             * @returns {ComboItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._minuteCombo) {
+                    this._minuteCombo = new latte.ComboItem();
+                    this._minuteCombo.valueChanged.add(function () { return _this.setMinuteSilently(_this.minuteCombo.value); });
+                    this._minuteCombo.button.loadItems.add(function () {
+                        var minutes = [];
+                        for (var i = 0; i <= 59; i++) {
+                            minutes[i] = _this.zeroPad(i);
+                        }
+                        _this._minuteCombo.options = minutes;
+                    });
+                    this._minuteCombo.value = 0;
+                    this._minuteCombo.button.dropdownVisible = false;
+                }
+                return this._minuteCombo;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TimePickerItem.prototype, "secondCombo", {
+            /**
+             * Gets the seconds combo
+             *
+             * @returns {ComboItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._secondCombo) {
+                    this._secondCombo = new latte.ComboItem();
+                    this._secondCombo.valueChanged.add(function () { return _this.setSecondSilently(_this.secondCombo.value); });
+                    this._secondCombo.button.loadItems.add(function () {
+                        var minutes = [];
+                        for (var i = 0; i <= 59; i++) {
+                            minutes[i] = _this.zeroPad(i);
+                        }
+                        _this._secondCombo.options = minutes;
+                    });
+                    this._secondCombo.value = 0;
+                    this._secondCombo.button.dropdownVisible = false;
+                }
+                return this._secondCombo;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return TimePickerItem;
+    }(latte.ValueItem));
+    latte.TimePickerItem = TimePickerItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Label with value property
+     **/
+    var LabelValueItem = (function (_super) {
+        __extends(LabelValueItem, _super);
+        /**
+         * Creates the item
+         **/
+        function LabelValueItem() {
+            _super.call(this);
+            this.element.addClass('label-value');
+            this.label = new latte.LabelItem();
+            this.label.appendTo(this.element);
+        }
+        /**
+         * Override.
+         */
+        LabelValueItem.prototype.onValueChanged = function () {
+            _super.prototype.onValueChanged.call(this);
+            this.label.text = this.value;
+        };
+        return LabelValueItem;
+    }(latte.ValueItem));
+    latte.LabelValueItem = LabelValueItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Html Editor. Loads the <c>rangy</c> plugin.
+
+     For specification of <c>rangy</c> objects refer to:
+     <a href="http://code.google.com/p/rangy/w/list" target=_blank>http://code.google.com/p/rangy/w/list</a>
+     **/
+    var HtmlEditorItem = (function (_super) {
+        __extends(HtmlEditorItem, _super);
+        //endregion
+        /**
+         * Creates the editor.
+         **/
+        function HtmlEditorItem() {
+            //            var __this = this;
+            _super.call(this);
+            this.addClass('html-editor');
+            // Elements
+            this.toolbar = new latte.Toolbar();
+            this.toolbar.appendTo(this);
+            this._addToolbarButtons();
+            if (!HtmlEditorItem.rangyLoaded) {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = HtmlEditorItem.rangyPath;
+                document.body.appendChild(script);
+                HtmlEditorItem.rangyLoaded = true;
+            }
+        }
+        //region Private Methods
+        /**
+         * Creates default buttons
+         **/
+        HtmlEditorItem.prototype._addToolbarButtons = function () {
+            var _this = this;
+            var btn = function (u, v, tooltip, cmd) {
+                var b = new latte.ButtonItem();
+                b.icon = latte.IconItem.standard(u, v);
+                b.tooltip = tooltip;
+                b.click.add(function () { _this.execCommand(cmd); });
+                return b;
+            };
+            var sep = function () { return new latte.SeparatorItem(); };
+            this.toolbar.items.addArray([
+                btn(5, 2, strings.bold, latte.HtmlEditorCommands.BOLD),
+                btn(6, 2, strings.italics, latte.HtmlEditorCommands.ITALIC),
+                sep(),
+                btn(8, 2, strings.alignLeft, latte.HtmlEditorCommands.JUSTIFY_LEFT),
+                btn(10, 2, strings.alignCenter, latte.HtmlEditorCommands.JUSTIFY_CENTER),
+                btn(9, 2, strings.alignRight, latte.HtmlEditorCommands.JUSTIFY_RIGHT),
+                btn(11, 2, strings.alignJustify, latte.HtmlEditorCommands.JUSTIFY_FULL),
+                sep(),
+                btn(15, 2, strings.indent, latte.HtmlEditorCommands.INDENT),
+                btn(14, 2, strings.outdent, latte.HtmlEditorCommands.OUTDENT),
+                sep(),
+                btn(18, 1, strings.numberedList, latte.HtmlEditorCommands.INSERT_ORDERED_LIST),
+                btn(19, 1, strings.bulletList, latte.HtmlEditorCommands.INSERT_UNORDERED_LIST),
+                sep(),
+                btn(16, 2, strings.eraseFormat, latte.HtmlEditorCommands.CLEAR_FORMAT),
+                sep(),
+                btn(12, 3, strings.insertLink, latte.HtmlEditorCommands.INSERT_LINK),
+                btn(9, 3, strings.insertImage, latte.HtmlEditorCommands.INSERT_IMAGE)
+            ]);
+        };
+        /**
+         *
+         **/
+        HtmlEditorItem.prototype._assignElementHandlers = function () {
+            if (this._mustInit())
+                return;
+            var __this = this;
+            this.body()
+                .find('img')
+                .unbind('.editor')
+                .bind('click.editor', function () {
+                // Image click selects image
+                __this.selectElement($(this));
+                __this.onImageSelected($(this));
+            })
+                .bind('load.editor', function () {
+                __this.onLayout();
+            })
+                .each(function () {
+                if (this.complete) {
+                    __this.onLayout();
+                }
+            });
+            //log("Images: %s", this.body().find('img').length)
+        };
+        /**
+         * Returns a value indicating if the editor can be initialized.
+         It can be initialized when its attached to the DOM.
+         **/
+        HtmlEditorItem.prototype._canInit = function () {
+            return this.element.parents(':last').is('html');
+        };
+        /**
+         * Clears all formatting in editor
+         **/
+        HtmlEditorItem.prototype._clearFormatting = function () {
+            this.body().find('*')
+                .css({
+                font: '',
+                fontSize: '',
+                fontFamily: '',
+                color: '',
+                margin: '',
+                padding: '',
+                wordSpacing: '',
+                letterSpacing: '',
+                background: '',
+                backgroundColor: '',
+                border: ''
+            });
+            // Ugly <font> tags
+            this.body().find('font').removeAttr('face');
+        };
+        /**
+         * Tries to convert the passed object to a node
+         **/
+        HtmlEditorItem.prototype._ensureNode = function (obj) {
+            if (window['rangy'] && !rangy.initialized) {
+                rangy.init();
+            }
+            if (latte._isString(obj)) {
+                return jQuery(obj).get(0);
+            }
+            else if (obj instanceof jQuery) {
+                return obj.get(0);
+            }
+            else {
+                if (typeof Element == 'undefined') {
+                    return obj;
+                }
+                else {
+                    if (obj instanceof Element) {
+                        return obj;
+                    }
+                    else {
+                        throw new latte.InvalidArgumentEx('obj');
+                    }
+                }
+            }
+        };
+        /**
+         * Tries to get the editor ready. Returns if control is ready after call.
+         **/
+        HtmlEditorItem.prototype._ensureReady = function () {
+            if (this._mustInit()) {
+                this._initEditor();
+            }
+            return this.ready();
+        };
+        /**
+         * Initializes the editor, if possible.
+         **/
+        HtmlEditorItem.prototype._initEditor = function () {
+            // Check if init needed
+            if (this._mustInit()) {
+                // Set ready flag as false
+                this._ready = false;
+                // If can't initialize, bye.
+                if (!this._canInit()) {
+                    return;
+                }
+            }
+            else {
+                // No need to init
+                return;
+            }
+            var __this = this;
+            // Remove previous iframe
+            if (this.iframe instanceof jQuery)
+                this.iframe.remove();
+            if (window['rangy'])
+                rangy.init();
+            // Create iframe
+            this.iframe = $('<iframe>').attr({ frameborder: 0 }).appendTo(this.element);
+            // Insert editable content into the iframe
+            this.document().open();
+            this.document().write('<html><head>');
+            this.document().write('<link rel=stylesheet href="' + $('link').attr('href') + '">');
+            this.document().write('</head>');
+            this.document().write('<body class=html-editor contenteditable=true></body>');
+            this.document().write('</html>');
+            this.document().close();
+            this._ready = true;
+            // If some value existed, re-assign it.
+            if (this._valueHtml) {
+                this.body().html(this._valueHtml);
+                this._assignElementHandlers();
+                this.onLayout();
+            }
+            this.body()
+                .css({
+                minHeight: 20,
+                overflow: 'hidden',
+                fontFamily: this.element.css('font-family'),
+                fontSize: 14 //this.element.css('font-size')
+            })
+                .focus(function () { __this.onFocused(); })
+                .blur(function () { __this.onBlur(); })
+                .click(function () { __this.onSelectionChanged(); })
+                .keyup(function () { __this._valueHtml = $(this).html(); __this.onSelectionChanged(); __this.onValueChanged(); })
+                .change(function () { __this._valueHtml = $(this).html(); __this.onValueChanged(); });
+        };
+        /**
+         * Shows a dialog to insert HTML
+         **/
+        HtmlEditorItem.prototype._insertHTML = function () {
+            var _this = this;
+            //            var __this = this;
+            var txt = new latte.TextboxItem();
+            var d = new latte.DialogView();
+            txt.multiline = true;
+            txt.css({ margin: 20 });
+            txt.input.css({ minHeight: 100 });
+            txt.setRelativeWidth('100%');
+            d.title = strings.insertHTML;
+            d.view = (new latte.ItemView(txt));
+            d.addOkButton(function () {
+                _this.insertElement($('<div class=cms-html-insert>').html(txt.value));
+            });
+            d.show();
+        };
+        /**
+         * Inserts an image, asking for the URL
+         **/
+        HtmlEditorItem.prototype._insertImage = function (value) {
+            if (value === void 0) { value = ''; }
+            var url = latte._isString(value) ? value : prompt(strings.imageUrl, 'http://');
+            if (!url)
+                return;
+            var elem = $('<img>').attr('src', url);
+            this.insertElement(elem);
+        };
+        /**
+         * Inserts a link, asking for the Url
+         **/
+        HtmlEditorItem.prototype._insertLink = function () {
+            var url = prompt(strings.linkUrl, 'http://');
+            if (!url)
+                return;
+            var elem = $('<a>').attr({
+                href: url,
+                target: '_blank'
+            });
+            if (this.selection.isCollapsed) {
+                elem.text(url);
+                this.insertElement(elem);
+            }
+            else {
+                this.surroundSelectionWith(elem);
+            }
+        };
+        /**
+         * Shows a dialog to insert a YouTube video
+         **/
+        HtmlEditorItem.prototype._insertYouTube = function () {
+            var __this = this;
+            var txt = new latte.TextboxItem();
+            var d = new latte.DialogView();
+            txt.css({ margin: 20 });
+            txt.setRelativeWidth('100%');
+            txt.placeholder = strings.videoURL;
+            d.title = strings.insertYouTube;
+            d.view = (new latte.ItemView(txt));
+            d.addOkButton(function () {
+                var videoId = txt.value.split('v=')[1];
+                var ampersandPosition = videoId.indexOf('&');
+                if (ampersandPosition != -1) {
+                    videoId = videoId.substring(0, ampersandPosition);
+                }
+                if (videoId) {
+                    var iframe = $('<iframe width="420" height="345" frameborder="0" allowfullscreen />').attr({
+                        src: 'http://www.youtube.com/embed/' + videoId
+                    });
+                    __this.insertElement($('<div class=cms-html-youtube>').append(iframe));
+                }
+                else {
+                    alert(strings.urlNotYouTube);
+                }
+            });
+            d.show();
+        };
+        /**
+         * Returns a value indicating if editor must be initialized.
+         It happens every time its dettached from DOM.
+         **/
+        HtmlEditorItem.prototype._mustInit = function () {
+            try {
+                return (this.ready() && !this.body().hasClass('html-editor'))
+                    || !this.ready();
+            }
+            catch (e) {
+                return true;
+            }
+        };
+        //endregion
+        //region Methods
+        /**
+         * Gets the body of the iframe
+         **/
+        HtmlEditorItem.prototype.body = function () {
+            return this.iframe.contents().find('body');
+        };
+        /**
+         * Gets the JavaScript document's object of iframe.
+         **/
+        HtmlEditorItem.prototype.document = function () {
+            // Raw IFRAME element
+            var iframe = this.iframe.get(0);
+            // Send document object
+            return iframe.contentDocument ? iframe.contentDocument : (iframe.contentWindow.document || iframe.document);
+        };
+        /**
+         * Executes the specified command
+         **/
+        HtmlEditorItem.prototype.execCommand = function (command, value) {
+            if (value === void 0) { value = null; }
+            if (!this._ensureReady())
+                throw new latte.InvalidCallEx();
+            switch (command) {
+                case latte.HtmlEditorCommands.BOLD:
+                case latte.HtmlEditorCommands.FORMAT_BLOCK:
+                case latte.HtmlEditorCommands.INDENT:
+                case latte.HtmlEditorCommands.INSERT_ORDERED_LIST:
+                case latte.HtmlEditorCommands.INSERT_UNORDERED_LIST:
+                case latte.HtmlEditorCommands.ITALIC:
+                case latte.HtmlEditorCommands.JUSTIFY_CENTER:
+                case latte.HtmlEditorCommands.JUSTIFY_FULL:
+                case latte.HtmlEditorCommands.JUSTIFY_LEFT:
+                case latte.HtmlEditorCommands.JUSTIFY_RIGHT:
+                case latte.HtmlEditorCommands.OUTDENT:
+                case latte.HtmlEditorCommands.SUB_SCRIPT:
+                case latte.HtmlEditorCommands.SUPER_SCRIPT:
+                case latte.HtmlEditorCommands.UNDERLINE:
+                    this.document().execCommand(command, false, value);
+                    break;
+                case latte.HtmlEditorCommands.CLEAR_FORMAT:
+                    this._clearFormatting();
+                    break;
+                case latte.HtmlEditorCommands.INSERT_IMAGE:
+                    this._insertImage(value);
+                    break;
+                case latte.HtmlEditorCommands.INSERT_LINK:
+                    this._insertLink();
+                    break;
+                case latte.HtmlEditorCommands.CODE:
+                    this.surroundSelectionWith($('<code>'));
+                    break;
+                case latte.HtmlEditorCommands.INSERT_HTML:
+                    this._insertHTML();
+                    break;
+                case latte.HtmlEditorCommands.INSERT_YOUTUBE:
+                    this._insertYouTube();
+                    break;
+            }
+            this.onValueChanged();
+        };
+        /**
+         *
+         **/
+        HtmlEditorItem.prototype.getValue = function () {
+            if (!this._mustInit()) {
+                return this.body().html() || "";
+            }
+            else {
+                return this._valueHtml || "";
+            }
+        };
+        /**
+         * Inserts the specified node at the currently selected range.
+         Returns the inserted node, or <c>null</c> if not possible.
+         **/
+        HtmlEditorItem.prototype.insertElement = function (element) {
+            var range = this.selectionRange;
+            if (range) {
+                var actualElement = this._ensureNode(element);
+                range.insertNode(actualElement);
+                this.onValueChanged();
+                this._assignElementHandlers();
+                return jQuery(actualElement);
+            }
+            return null;
+        };
+        /**
+         * Raises the <c>imageSelected</c> event
+         */
+        HtmlEditorItem.prototype.onImageSelected = function (image) {
+            if (this._imageSelected) {
+                return this._imageSelected.raise(image);
+            }
+        };
+        /**
+         * Overriden.
+         **/
+        HtmlEditorItem.prototype.onLayout = function () {
+            _super.prototype.onLayout.call(this);
+            if (this._ensureReady()) {
+                // Height that editor should be
+                var shouldHeight = this.body().get(0).scrollHeight + (this.toolbar.visible ? this.toolbar.height : 0);
+                //            if(this.element.height() < shouldHeight){
+                this.element.height(shouldHeight);
+                //            }
+                //            if(this.iframe.height() < shouldHeight){
+                this.iframe.css('height', this.body().get(0).scrollHeight);
+            }
+        };
+        /**
+         * Raises the <c>selectionChanged</c> event.
+         **/
+        HtmlEditorItem.prototype.onSelectionChanged = function () {
+            this.selectionChanged.raise();
+            // Retrieve selection for inspection
+            var sel = this.selectionRange;
+            // If something selected
+            if (sel) {
+                // Node where selection starts
+                var start = $(sel.startContainer);
+            }
+        };
+        /**
+         * Overriden.
+         **/
+        HtmlEditorItem.prototype.onValueChanged = function () {
+            this.onLayout();
+            _super.prototype.onValueChanged.call(this);
+        };
+        /**
+         * Gets a value indicating if the editor is ready to be used as editor.
+         While the editor is not ready, all data will be displayed in a non-editable element.
+         **/
+        HtmlEditorItem.prototype.ready = function () {
+            return this._ready;
+        };
+        /**
+         * Selects the specified element and returns it as a jQuery object.
+         **/
+        HtmlEditorItem.prototype.selectElement = function (element) {
+            var el = this._ensureNode(element);
+            var range = rangy.createRange();
+            range.selectNode(el);
+            var sel = rangy.getSelection();
+            sel.setSingleRange(range);
+            this.onSelectionChanged();
+            return jQuery(element);
+        };
+        /**
+         * Selects the contents of the specified node and returns the element as a jQuery object.
+         **/
+        HtmlEditorItem.prototype.selectElementContents = function (element) {
+            // Get element to select
+            element = this._ensureNode(element);
+            // Create a new range
+            var range = rangy.createRange();
+            // Select contents of node
+            range.selectNodeContents(element);
+            // Get selection
+            var sel = rangy.getSelection();
+            // Set range of selection
+            sel.setSingleRange(range);
+            // selection changed
+            this.onSelectionChanged();
+            return jQuery(element);
+        };
+        /**
+         * Gets the element where selection ends.
+         **/
+        HtmlEditorItem.prototype.selectionEnd = function () {
+            var sel = this.selectionRange;
+            if (sel) {
+                return $(sel.endContainer.parentElement);
+            }
+            return null;
+        };
+        /**
+         * Returns the parent of selection, passing the specified <c>selector</c>
+         to the jQuery <c>parents()<c> method.
+         **/
+        HtmlEditorItem.prototype.selectionParents = function (selector) {
+            if (selector === void 0) { selector = ''; }
+            var range = this.selectionRange;
+            if (range) {
+                var container = jQuery(range.startContainer);
+                return container.parents(selector);
+            }
+            return null;
+        };
+        /**
+         * Gets the element where selection starts.
+         **/
+        HtmlEditorItem.prototype.selectionStart = function () {
+            var sel = this.selectionRange;
+            if (sel) {
+                return $(sel.startContainer.parentElement);
+            }
+            return null;
+        };
+        /**
+         * Override.
+         **/
+        HtmlEditorItem.prototype.setValue = function (value) {
+            if (!latte._isString(value))
+                throw new latte.InvalidArgumentEx('value', value);
+            this._valueHtml = value;
+            // Update editable if possible
+            if (this._ensureReady()) {
+                this.body().html(value);
+                this._assignElementHandlers();
+                this.onLayout();
+            }
+        };
+        /**
+         * Surrounds selected contents with specified element, and returns the
+         attached element as a jQuery object.
+         **/
+        HtmlEditorItem.prototype.surroundSelectionWith = function (element) {
+            element = this._ensureNode(element);
+            var savedSel = rangy.saveSelection(this.window);
+            var range = this.selectionRange;
+            if (range) {
+                if (!range.canSurroundContents()) {
+                    return null;
+                }
+                range.surroundContents(element);
+                rangy.restoreSelection(savedSel);
+                this.onValueChanged();
+            }
+            return jQuery(element);
+        };
+        Object.defineProperty(HtmlEditorItem.prototype, "selectionChanged", {
+            /**
+             * Gets an event raised when the selection of the editor changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._selectionChanged) {
+                    this._selectionChanged = new latte.LatteEvent(this);
+                }
+                return this._selectionChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(HtmlEditorItem.prototype, "imageSelected", {
+            /**
+             * Gets an event raised when an image in the editor is selected
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._imageSelected) {
+                    this._imageSelected = new latte.LatteEvent(this);
+                }
+                return this._imageSelected;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(HtmlEditorItem.prototype, "selection", {
+            //endregion
+            //region Properties
+            /**
+             * Gets the current selection
+             **/
+            get: function () {
+                if (window['rangy'] && !rangy.initialized) {
+                    rangy.init();
+                }
+                //return rangy.getIframeSelection(this.iframe.get(0));
+                return rangy.getSelection();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(HtmlEditorItem.prototype, "selectionRange", {
+            /**
+             * Gets the range of selection. Returns <c>null</c> if no current selection.
+             **/
+            get: function () {
+                var sel = this.selection;
+                if (!sel.rangeCount)
+                    return null;
+                return this.selection.getRangeAt(0);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(HtmlEditorItem.prototype, "value", {
+            /**
+             * Gets or sets the source html
+             */
+            get: function () {
+                return this.getValue();
+            },
+            /**
+             * Gets or sets the source html
+             */
+            set: function (value) {
+                this.setValue(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(HtmlEditorItem.prototype, "window", {
+            /**
+             * Gets the Window of the iframe
+             **/
+            get: function () {
+                return this.iframe.get(0).contentWindow;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        HtmlEditorItem.rangyPath = '/latte/releases/latte.ui/support/js/rangy.js';
+        //region Static
+        HtmlEditorItem.rangyLoaded = false;
+        return HtmlEditorItem;
+    }(latte.ValueItem));
+    latte.HtmlEditorItem = HtmlEditorItem;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * Shows a graphical indicator of activity.
+     <example><code><span style="color: #000000">
+     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;loader<br />&nbsp;&nbsp;</span><span style="color: #007700">var&nbsp;</span><span style="color: #0000BB">loader&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Loader</span><span style="color: #007700">(</span><span style="color: #DD0000">"Doing&nbsp;some&nbsp;stuff"</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;...<br />&nbsp;&nbsp;//&nbsp;Load&nbsp;some&nbsp;heavy&nbsp;stuff..<br />&nbsp;&nbsp;//&nbsp;...<br /><br />&nbsp;&nbsp;//&nbsp;Hide&nbsp;loader<br />&nbsp;&nbsp;</span><span style="color: #0000BB">loader</span><span style="color: #007700">.</span><span style="color: #0000BB">stop</span><span style="color: #007700">();<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
+     </span>
+     </code></example>
+     **/
+    var Loader = (function (_super) {
+        __extends(Loader, _super);
+        /**
+         * Creates and shows the loader. Optionally specifies if is to be shown as <c>modal</c>.
+         **/
+        function Loader(text, modal) {
+            if (text === void 0) { text = ''; }
+            if (modal === void 0) { modal = false; }
+            _super.call(this);
+            this.element.addClass('loader');
+            // Init events
+            this.cancelled = new latte.LatteEvent(this);
+            this.element.addClass('loader').appendTo('body');
+            this.labelElement = $('<div>').addClass('label').appendTo(this.element);
+            this.cancelElement = $('<div>').addClass('cancel').appendTo(this.element);
+            this.progress = new latte.ProgressItem();
+            this.progress.visible = false;
+            this.progress.appendTo(this.element);
+            this.text = latte._undef(text) ? strings.working : text;
+            this.modal = modal === true;
+            this.start();
+        }
+        /**
+         * Adds a loader to the list of active loaders, if not already present.
+         **/
+        Loader.add = function (loader) {
+            /// Validate loader
+            if (!(loader instanceof Loader))
+                throw new latte.InvalidArgumentEx('loader');
+            /// Retrieve array
+            var a = Loader._active;
+            /// Check loader is not already there
+            var found = false;
+            for (var i = 0; i < a.length; i++) {
+                if (a[i] === loader) {
+                    found = true;
+                    break;
+                }
+            }
+            /// Add if not found
+            if (!found) {
+                a.unshift(loader);
+            }
+        };
+        /**
+         * Removes the Loader from the active list of loaders
+         **/
+        Loader.remove = function (loader) {
+            /// Validate loader
+            if (!(loader instanceof Loader))
+                throw new latte.InvalidArgumentEx('loader');
+            // Retrieve array
+            var a = Loader._active;
+            // New array
+            var arr = [];
+            // Scan
+            for (var i = 0; i < a.length; i++) {
+                if (a[i] != loader)
+                    arr.push(a[i]);
+            }
+            // Set new array
+            Loader._active = arr;
+        };
+        /**
+         * Updates all active loaders position and ensures modal layer visibility
+         **/
+        Loader.update = function () {
+            Loader.updateModalVisibility();
+            Loader.updateLayout();
+        };
+        /**
+         * Updates all active loaders positions
+         **/
+        Loader.updateLayout = function () {
+            var loaders = Loader._active;
+            if (!loaders.length)
+                return;
+            var loader = null;
+            var curTop = 0;
+            var s = Loader.separation;
+            var sampleHeight = loaders[0].element.outerHeight();
+            var r = new latte.Rectangle(s, 0, Loader.maxWidth, (sampleHeight + s) * loaders.length);
+            /// Center r on screen
+            r = r.center($(document).rectangle());
+            if (!Loader.modalShouldBeVisible) {
+                r.top = s;
+            }
+            curTop = r.top;
+            /// Animate each loader to its place
+            for (var i = 0; i < loaders.length; i++) {
+                loader = loaders[i];
+                loader
+                    .element
+                    .css({
+                    left: r.left
+                })
+                    .show()
+                    .animate({
+                    opacity: 1,
+                    //width: r.width(),
+                    //left: r.left(),
+                    top: curTop
+                }, 'fast');
+                // Increase curTop
+                curTop += sampleHeight + s;
+            }
+        };
+        /**
+         * Iterates trough active loaders to check if modal layer should be visible
+         **/
+        Loader.updateModalVisibility = function () {
+            Loader.modalVisible = Loader.modalShouldBeVisible;
+        };
+        Object.defineProperty(Loader, "maxWidth", {
+            /**
+             * Gets the widest loader width
+             **/
+            get: function () {
+                var max = 0;
+                var a = Loader._active;
+                for (var i = 0; i < a.length; i++) {
+                    a[i].element.css('width', null);
+                    max = Math.max(max, a[i].element.width());
+                }
+                return max;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Loader, "modalShouldBeVisible", {
+            /**
+             * Gets a boolean indicating if the modal layer should be visible based on the active loaders.
+             **/
+            get: function () {
+                var shouldBeVisible = false;
+                var a = Loader._active;
+                /// Scan all active loaders to check if layer should be visible
+                for (var i = 0; i < a.length; i++) {
+                    if (a[i].modal === true) {
+                        shouldBeVisible = true;
+                        break;
+                    }
+                }
+                return shouldBeVisible;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Loader, "modalVisible", {
+            /**
+             * Gets or Sets visibility of modal layer. Optimized for concurrent calling.
+             **/
+            get: function () {
+                var m = $('.latte-loader-modal');
+                return m.is(':visible') || m.hasClass('fading-out');
+            },
+            /**
+             * Gets or Sets visibility of modal layer. Optimized for concurrent calling.
+             **/
+            set: function (visible) {
+                var m = $('.latte-loader-modal');
+                if (m.length == 0) {
+                    m = $('<div>')
+                        .addClass('latte-loader-modal')
+                        .hide()
+                        .appendTo('body')
+                        .css({
+                        position: 'fixed',
+                        left: 0, top: 0, right: 0, bottom: 0,
+                        background: 'rgba(0, 0, 0, 0.6)'
+                    });
+                }
+                /// Re insert before any other loader
+                m.detach();
+                var loaders = $('body > div.loader');
+                if (loaders.length == 0)
+                    $('body').append(m);
+                else
+                    loaders.first().before(m);
+                if (visible === true) {
+                    if (!m.is(':visible')) {
+                        m.show().css('opacity', 0).animate({
+                            opacity: 1
+                        }, 'fast');
+                    }
+                }
+                else {
+                    if (m.is(':visible') && !m.hasClass('fading-out')) {
+                        m.addClass('fading-out').css('opacity', 1).animate({
+                            opacity: 0
+                        }, 'fast', 'swing', function () { $(this).removeClass('fading-out').hide(); });
+                    }
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>cancelled</c> event
+         **/
+        Loader.prototype.onCancelled = function () {
+            this.cancelled.raise();
+        };
+        /**
+         * Shows the loader on the UI
+         **/
+        Loader.prototype.start = function () {
+            // Add to active Loaders
+            Loader.add(this);
+            var screen = $(document).rectangle();
+            var r = this.element.rectangle();
+            r = r.center(screen);
+            // Position on the center
+            this.element.css({
+                top: -this.element.height() - 10,
+                left: r.left,
+                opacity: 0
+            });
+            /// Update Layout
+            Loader.update();
+        };
+        /**
+         * Hides the loader on the UI
+         **/
+        Loader.prototype.stop = function () {
+            var inst = this;
+            /// Remove from active loaders
+            Loader.remove(this);
+            /// Disappear element
+            this.element
+                .animate({
+                opacity: 0,
+                top: -(this.element.height())
+            }, 'fast', 'swing', function () { inst.element.remove(); });
+            /// Update Layout
+            Loader.update();
+        };
+        Object.defineProperty(Loader.prototype, "cancellable", {
+            /**
+             * Gets or sets a value indicating if the loader allows user to cancel it.
+             **/
+            get: function () {
+                return this._cancellable;
+            },
+            /**
+             * Gets or sets a value indicating if the loader allows user to cancel it.
+             **/
+            set: function (value) {
+                this._cancellable = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Loader.prototype, "description", {
+            /**
+             * Gets or sets the description of the loader
+             **/
+            get: function () {
+                return this._description;
+            },
+            /**
+             * Gets or sets the description of the loader
+             **/
+            set: function (value) {
+                this._description = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Loader.prototype, "modal", {
+            /**
+             * Gets or sets a value indicating if the loader is modal
+             **/
+            get: function () {
+                return this._modal;
+            },
+            /**
+             * Gets or sets a value indicating if the loader is modal
+             **/
+            set: function (value) {
+                this._modal = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Loader.prototype, "text", {
+            /**
+             * Gets or sets the text of the loader
+             **/
+            get: function () {
+                return this.labelElement.html();
+            },
+            /**
+             * Gets or sets the text of the loader
+             **/
+            set: function (value) {
+                this.labelElement.html(value);
+                Loader.update();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         *
+         **/
+        Loader._active = [];
+        /**
+         * Amount of pixels between loaders when stacked
+         **/
+        Loader.separation = 5;
+        return Loader;
+    }(latte.Overlay));
+    latte.Loader = Loader;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * Shows items in a popup.
      **/
     var MenuOverlay = (function (_super) {
@@ -14137,325 +14579,532 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Shows a graphical indicator of activity.
-     <example><code><span style="color: #000000">
-     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;loader<br />&nbsp;&nbsp;</span><span style="color: #007700">var&nbsp;</span><span style="color: #0000BB">loader&nbsp;</span><span style="color: #007700">=&nbsp;new&nbsp;</span><span style="color: #0000BB">Loader</span><span style="color: #007700">(</span><span style="color: #DD0000">"Doing&nbsp;some&nbsp;stuff"</span><span style="color: #007700">);<br /><br />&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;...<br />&nbsp;&nbsp;//&nbsp;Load&nbsp;some&nbsp;heavy&nbsp;stuff..<br />&nbsp;&nbsp;//&nbsp;...<br /><br />&nbsp;&nbsp;//&nbsp;Hide&nbsp;loader<br />&nbsp;&nbsp;</span><span style="color: #0000BB">loader</span><span style="color: #007700">.</span><span style="color: #0000BB">stop</span><span style="color: #007700">();<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
-     </span>
-     </code></example>
+     * Renders an Item that may contains more <c>TreeItem</c>s and shows them as a tree.
      **/
-    var Loader = (function (_super) {
-        __extends(Loader, _super);
+    var TreeItem = (function (_super) {
+        __extends(TreeItem, _super);
         /**
-         * Creates and shows the loader. Optionally specifies if is to be shown as <c>modal</c>.
+         * Creates the item
          **/
-        function Loader(text, modal) {
-            if (text === void 0) { text = ''; }
-            if (modal === void 0) { modal = false; }
+        function TreeItem() {
+            var _this = this;
             _super.call(this);
-            this.element.addClass('loader');
-            // Init events
-            this.cancelled = new latte.LatteEvent(this);
-            this.element.addClass('loader').appendTo('body');
-            this.labelElement = $('<div>').addClass('label').appendTo(this.element);
-            this.cancelElement = $('<div>').addClass('cancel').appendTo(this.element);
-            this.progress = new latte.ProgressItem();
-            this.progress.visible = false;
-            this.progress.appendTo(this.element);
-            this.text = latte._undef(text) ? strings.working : text;
-            this.modal = modal === true;
-            this.start();
-        }
-        /**
-         * Adds a loader to the list of active loaders, if not already present.
-         **/
-        Loader.add = function (loader) {
-            /// Validate loader
-            if (!(loader instanceof Loader))
-                throw new latte.InvalidArgumentEx('loader');
-            /// Retrieve array
-            var a = Loader._active;
-            /// Check loader is not already there
-            var found = false;
-            for (var i = 0; i < a.length; i++) {
-                if (a[i] === loader) {
-                    found = true;
-                    break;
-                }
-            }
-            /// Add if not found
-            if (!found) {
-                a.unshift(loader);
-            }
-        };
-        /**
-         * Removes the Loader from the active list of loaders
-         **/
-        Loader.remove = function (loader) {
-            /// Validate loader
-            if (!(loader instanceof Loader))
-                throw new latte.InvalidArgumentEx('loader');
-            // Retrieve array
-            var a = Loader._active;
-            // New array
-            var arr = [];
-            // Scan
-            for (var i = 0; i < a.length; i++) {
-                if (a[i] != loader)
-                    arr.push(a[i]);
-            }
-            // Set new array
-            Loader._active = arr;
-        };
-        /**
-         * Updates all active loaders position and ensures modal layer visibility
-         **/
-        Loader.update = function () {
-            Loader.updateModalVisibility();
-            Loader.updateLayout();
-        };
-        /**
-         * Updates all active loaders positions
-         **/
-        Loader.updateLayout = function () {
-            var loaders = Loader._active;
-            if (!loaders.length)
-                return;
-            var loader = null;
-            var curTop = 0;
-            var s = Loader.separation;
-            var sampleHeight = loaders[0].element.outerHeight();
-            var r = new latte.Rectangle(s, 0, Loader.maxWidth, (sampleHeight + s) * loaders.length);
-            /// Center r on screen
-            r = r.center($(document).rectangle());
-            if (!Loader.modalShouldBeVisible) {
-                r.top = s;
-            }
-            curTop = r.top;
-            /// Animate each loader to its place
-            for (var i = 0; i < loaders.length; i++) {
-                loader = loaders[i];
-                loader
-                    .element
-                    .css({
-                    left: r.left
-                })
-                    .show()
-                    .animate({
-                    opacity: 1,
-                    //width: r.width(),
-                    //left: r.left(),
-                    top: curTop
-                }, 'fast');
-                // Increase curTop
-                curTop += sampleHeight + s;
-            }
-        };
-        /**
-         * Iterates trough active loaders to check if modal layer should be visible
-         **/
-        Loader.updateModalVisibility = function () {
-            Loader.modalVisible = Loader.modalShouldBeVisible;
-        };
-        Object.defineProperty(Loader, "maxWidth", {
+            //endregion
             /**
-             * Gets the widest loader width
+             *
              **/
-            get: function () {
-                var max = 0;
-                var a = Loader._active;
-                for (var i = 0; i < a.length; i++) {
-                    a[i].element.css('width', null);
-                    max = Math.max(max, a[i].element.width());
-                }
-                return max;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Loader, "modalShouldBeVisible", {
+            this._expandOnSelect = true;
             /**
-             * Gets a boolean indicating if the modal layer should be visible based on the active loaders.
+             *
              **/
-            get: function () {
-                var shouldBeVisible = false;
-                var a = Loader._active;
-                /// Scan all active loaders to check if layer should be visible
-                for (var i = 0; i < a.length; i++) {
-                    if (a[i].modal === true) {
-                        shouldBeVisible = true;
-                        break;
-                    }
-                }
-                return shouldBeVisible;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Loader, "modalVisible", {
-            /**
-             * Gets or Sets visibility of modal layer. Optimized for concurrent calling.
-             **/
-            get: function () {
-                var m = $('.latte-loader-modal');
-                return m.is(':visible') || m.hasClass('fading-out');
-            },
-            /**
-             * Gets or Sets visibility of modal layer. Optimized for concurrent calling.
-             **/
-            set: function (visible) {
-                var m = $('.latte-loader-modal');
-                if (m.length == 0) {
-                    m = $('<div>')
-                        .addClass('latte-loader-modal')
-                        .hide()
-                        .appendTo('body')
-                        .css({
-                        position: 'fixed',
-                        left: 0, top: 0, right: 0, bottom: 0,
-                        background: 'rgba(0, 0, 0, 0.6)'
-                    });
-                }
-                /// Re insert before any other loader
-                m.detach();
-                var loaders = $('body > div.loader');
-                if (loaders.length == 0)
-                    $('body').append(m);
-                else
-                    loaders.first().before(m);
-                if (visible === true) {
-                    if (!m.is(':visible')) {
-                        m.show().css('opacity', 0).animate({
-                            opacity: 1
-                        }, 'fast');
-                    }
-                }
-                else {
-                    if (m.is(':visible') && !m.hasClass('fading-out')) {
-                        m.addClass('fading-out').css('opacity', 1).animate({
-                            opacity: 0
-                        }, 'fast', 'swing', function () { $(this).removeClass('fading-out').hide(); });
-                    }
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>cancelled</c> event
-         **/
-        Loader.prototype.onCancelled = function () {
-            this.cancelled.raise();
-        };
-        /**
-         * Shows the loader on the UI
-         **/
-        Loader.prototype.start = function () {
-            // Add to active Loaders
-            Loader.add(this);
-            var screen = $(document).rectangle();
-            var r = this.element.rectangle();
-            r = r.center(screen);
-            // Position on the center
-            this.element.css({
-                top: -this.element.height() - 10,
-                left: r.left,
-                opacity: 0
+            this._level = 0;
+            var item = this;
+            // Init
+            latte.UiElement.disableTextSelection(this.element);
+            this.click = new latte.LatteEvent(this);
+            this.loadItems = new latte.LatteEvent(this);
+            this.selectedChanged = new latte.LatteEvent(this);
+            // Update glyph when loadItems handler is added
+            this.loadItems.handlerAdded.add(function () {
+                //this.glyph = Glyph.expand;
+                _this._updateGlyph();
             });
-            /// Update Layout
-            Loader.update();
-        };
-        /**
-         * Hides the loader on the UI
-         **/
-        Loader.prototype.stop = function () {
-            var inst = this;
-            /// Remove from active loaders
-            Loader.remove(this);
-            /// Disappear element
-            this.element
-                .animate({
-                opacity: 0,
-                top: -(this.element.height())
-            }, 'fast', 'swing', function () { inst.element.remove(); });
-            /// Update Layout
-            Loader.update();
-        };
-        Object.defineProperty(Loader.prototype, "cancellable", {
-            /**
-             * Gets or sets a value indicating if the loader allows user to cancel it.
-             **/
-            get: function () {
-                return this._cancellable;
-            },
-            /**
-             * Gets or sets a value indicating if the loader allows user to cancel it.
-             **/
-            set: function (value) {
-                this._cancellable = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Loader.prototype, "description", {
-            /**
-             * Gets or sets the description of the loader
-             **/
-            get: function () {
-                return this._description;
-            },
-            /**
-             * Gets or sets the description of the loader
-             **/
-            set: function (value) {
-                this._description = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Loader.prototype, "modal", {
-            /**
-             * Gets or sets a value indicating if the loader is modal
-             **/
-            get: function () {
-                return this._modal;
-            },
-            /**
-             * Gets or sets a value indicating if the loader is modal
-             **/
-            set: function (value) {
-                this._modal = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Loader.prototype, "text", {
-            /**
-             * Gets or sets the text of the loader
-             **/
-            get: function () {
-                return this.labelElement.html();
-            },
-            /**
-             * Gets or sets the text of the loader
-             **/
-            set: function (value) {
-                this.labelElement.html(value);
-                Loader.update();
-            },
-            enumerable: true,
-            configurable: true
-        });
+            this.element.addClass('tree-item');
+            this.faceElement = latte.Item.selectable().appendTo(this.element);
+            this.levelElement = $('<div>').addClass('level').appendTo(this.faceElement);
+            this.glyphElement = $('<div>').addClass('glyph').appendTo(this.faceElement);
+            this.iconElement = $('<div>').addClass('icon').appendTo(this.faceElement);
+            this.textElement = $('<div>').addClass('text').appendTo(this.faceElement);
+            this.faceElement.clear();
+            this.itemsElement = $('<div>').addClass('items-container').hide().appendTo(this.element);
+            this.items = new latte.Collection(this._onAddItem, this._onRemoveItem, this);
+            this.glyphElement
+                .click(function (evt) {
+                item.expanded = !item.expanded;
+                evt.stopPropagation();
+            });
+            this.faceElement
+                .click(function () {
+                _this.selected = true;
+                _this.onClick();
+            });
+        }
         /**
          *
          **/
-        Loader._active = [];
+        TreeItem.prototype._onAddItem = function (item) {
+            item.level = this.level + 1;
+            item._parent = this;
+            this.itemsElement.append(item.element);
+            item._updateGlyph();
+        };
         /**
-         * Amount of pixels between loaders when stacked
+         *
          **/
-        Loader.separation = 5;
-        return Loader;
+        TreeItem.prototype._onRemoveItem = function (item) {
+            item._parent = null;
+            item.element.remove();
+        };
+        /**
+         *
+         **/
+        TreeItem.prototype._updateGlyph = function () {
+            if (this.hasItems) {
+                if (this.expanded) {
+                    if (TreeItem.globalCollapseGlyph) {
+                        this.glyph = TreeItem.globalCollapseGlyph(this);
+                    }
+                    else {
+                        if (this.treeView && this.treeView.defaultGlyphCollapse) {
+                            if (this.selected && this.treeView.defaultGlyphCollapseSelected)
+                                this.glyph = this.treeView.defaultGlyphCollapseSelected.clone();
+                            else
+                                this.glyph = this.treeView.defaultGlyphCollapse.clone();
+                        }
+                        else {
+                            this.glyph = latte.Glyph.collapse;
+                        }
+                    }
+                }
+                else {
+                    if (TreeItem.globalExpandGlyph) {
+                        this.glyph = TreeItem.globalExpandGlyph(this);
+                    }
+                    else {
+                        if (this.treeView && this.treeView.defaultGlyphExpand) {
+                            if (this.selected && this.treeView.defaultGlyphExpandSelected)
+                                this.glyph = this.treeView.defaultGlyphExpandSelected.clone();
+                            else
+                                debugger;
+                            this.glyph = this.treeView.defaultGlyphExpand.clone();
+                        }
+                        else {
+                            // debugger;
+                            this.glyph = latte.Glyph.expand;
+                        }
+                    }
+                }
+            }
+        };
+        /**
+         * Deletes the node from its parent
+         **/
+        TreeItem.prototype.deleteFromParent = function () {
+            if (this.parent) {
+                this.parent.items.remove(this);
+            }
+            else {
+                if (this.treeView) {
+                    this.treeView.items.remove(this);
+                }
+                else {
+                    throw new latte.InvalidCallEx();
+                }
+            }
+        };
+        /**
+         * Raises the <c>click</c> event
+         **/
+        TreeItem.prototype.onClick = function () {
+            this.click.raise();
+        };
+        /**
+         * Raises the <c>loadItems</c> event
+         **/
+        TreeItem.prototype.onLoadItems = function () {
+            this.loadItems.raise();
+        };
+        /**
+         * Raises the <c>selectedChanged</c> event
+         **/
+        TreeItem.prototype.onSelectedChanged = function () {
+            this.selectedChanged.raise();
+            if (this.selectedIcon) {
+                if (this.selected) {
+                    this.selectedIcon.appendTo(this.iconElement.empty());
+                }
+                else {
+                    this.icon.appendTo(this.iconElement.empty());
+                }
+            }
+            this._updateGlyph();
+        };
+        /**
+         * Reports to the <c>TreeView</c> that items have been loaded
+         so it can trigger the <c>itemItemsLoaded</c>
+         **/
+        TreeItem.prototype.reportItemsLoaded = function () {
+            var tree = this.treeView;
+            if (tree instanceof latte.TreeView) {
+                tree.onItemItemsLoaded(this);
+            }
+        };
+        /**
+         * Returns the top most parent of the item
+         **/
+        TreeItem.prototype.topParent = function () {
+            if (latte._undef(this.parent)) {
+                return this;
+            }
+            else {
+                return this.parent.topParent();
+            }
+        };
+        Object.defineProperty(TreeItem.prototype, "expandOnSelect", {
+            /**
+             * Gets or sets a value indicating if the item will react to select as a gesture to alternate its <c>expand</c> state
+             Default is <c>true</c>
+             **/
+            get: function () {
+                return this._expandOnSelect;
+            },
+            /**
+             * Gets or sets a value indicating if the item will react to select as a gesture to alternate its <c>expand</c> state
+             Default is <c>true</c>
+             **/
+            set: function (value) {
+                if (typeof value != 'boolean')
+                    throw new latte.InvalidArgumentEx('value');
+                this._expandOnSelect = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "expanded", {
+            /**
+             * Gets or sets a value indicating if the item is currently expanded, this is, showing its child items
+             **/
+            get: function () {
+                return this._expanded;
+            },
+            /**
+             * Gets or sets a value indicating if the item is currently expanded, this is, showing its child items
+             **/
+            set: function (value) {
+                if (this.hasItems) {
+                    if (!latte._isBoolean(value))
+                        throw new latte.InvalidArgumentEx('value');
+                    this._expanded = value;
+                    if (value) {
+                        this.itemsElement.show();
+                        this.onLoadItems();
+                    }
+                    else {
+                        this.itemsElement.hide();
+                    }
+                    this._updateGlyph();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "glyph", {
+            /**
+             * Gets or sets the glyph of the item. Glyph is changed automatically when <c>expanded()</c> is invoked
+             **/
+            get: function () {
+                return this._glyph;
+            },
+            /**
+             * Gets or sets the glyph of the item. Glyph is changed automatically when <c>expanded()</c> is invoked
+             **/
+            set: function (value) {
+                this.glyphElement.empty().append(value.element);
+                this._glyph = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "hasItems", {
+            /**
+             * Gets a value indicating if the item contains child items or a handler for <c>loadItems</c> has been set
+             **/
+            get: function () {
+                return this.items.length > 0 || (latte._isArray(this.loadItems.handlers) && this.loadItems.handlers.length > 0);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "icon", {
+            /**
+             * Gets or sets the icon of the item
+             **/
+            get: function () {
+                return this._icon;
+            },
+            /**
+             * Gets or sets the icon of the item
+             **/
+            set: function (value) {
+                if (!(value instanceof latte.IconItem))
+                    throw new latte.InvalidArgumentEx('value');
+                this._icon = value;
+                // Append icon
+                value.appendTo(this.iconElement.empty());
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "level", {
+            /**
+             * Gets or sets the level of the item. The level specifies the indent of the item.
+             **/
+            get: function () {
+                return this._level;
+            },
+            /**
+             * Gets or sets the level of the item. The level specifies the indent of the item.
+             **/
+            set: function (value) {
+                this._level = value;
+                this.levelElement.width(value * 16);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "parent", {
+            /**
+             * Gets the parent <c>TreeItem</c> of this item
+             **/
+            get: function () {
+                return this._parent;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "path", {
+            /**
+             * Gets the navigation path as a string
+             **/
+            get: function () {
+                var r = [];
+                var item = this;
+                while (item != null) {
+                    r.push(item.text);
+                    item = item.parent;
+                }
+                r.reverse();
+                return "/" + r.join("/");
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "selected", {
+            /**
+             * Gets or sets a value indicaing if the item is currently selected
+             **/
+            get: function () {
+                return this._selected;
+            },
+            /**
+             * Gets or sets a value indicaing if the item is currently selected
+             **/
+            set: function (value) {
+                var _this = this;
+                var changed = value !== this._selected;
+                this._selected = value;
+                if (value) {
+                    // Get TreeView
+                    var tv = this.treeView;
+                    if (tv) {
+                        //region Unselect siblings of all tree
+                        var tabOf = function (len) {
+                            var s = '';
+                            for (var i = 0; i < len; i++)
+                                s += '-';
+                            return s;
+                        };
+                        var unselect = function (item, tab) {
+                            if (tab === void 0) { tab = 0; }
+                            if (item !== _this && item.selected) {
+                                item.selected = false;
+                            }
+                            for (var i = 0; i < item.items.length; i++) {
+                                unselect(item.items[i], tab + 1);
+                            }
+                        };
+                        for (var i = 0; i < tv.items.length; i++) {
+                            unselect(tv.items[i]);
+                        }
+                    }
+                    // Select face
+                    this.faceElement.addClass('selected');
+                    // Expand if needed
+                    if (this.expandOnSelect && !this.expanded) {
+                        this.expanded = true;
+                    }
+                    // Inform tree view selection
+                    if (tv) {
+                        tv._informSelectedItem(this);
+                    }
+                }
+                else {
+                    this.faceElement.removeClass('selected');
+                }
+                if (changed) {
+                    this.onSelectedChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "selectedIcon", {
+            /**
+             * Gets or sets the icon of the item when selected
+             **/
+            get: function () {
+                return this._selectedIcon;
+            },
+            /**
+             * Gets or sets the icon of the item when selected
+             **/
+            set: function (value) {
+                if (!(value instanceof latte.IconItem))
+                    throw new latte.InvalidArgumentEx('value');
+                this._selectedIcon = value;
+                // Append icon
+                if (this.selected) {
+                    value.appendTo(this.iconElement.empty());
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "text", {
+            /**
+             * Gets or sets the text of the item
+             **/
+            get: function () {
+                return this.textElement.html();
+            },
+            /**
+             * Gets or sets the text of the item
+             **/
+            set: function (value) {
+                this.textElement.html(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(TreeItem.prototype, "treeView", {
+            /**
+             * Gets the <c>TreeView</c> item who contains this item, if any
+             **/
+            get: function () {
+                var t = this.element.parents('.latte-view.tree');
+                if (t.length) {
+                    return t.data('instance');
+                }
+                else {
+                    return null;
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        //region Static
+        /**
+         * Global level expand glyph loader
+         * @type {any}
+         */
+        TreeItem.globalExpandGlyph = null;
+        /**
+         * Global level collapse glyph loader
+         * @type {any}
+         */
+        TreeItem.globalCollapseGlyph = null;
+        return TreeItem;
+    }(latte.Item));
+    latte.TreeItem = TreeItem;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 3/22/15.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var ItemOverlay = (function (_super) {
+        __extends(ItemOverlay, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         * Creates the overlay
+         */
+        function ItemOverlay(item) {
+            _super.call(this);
+            //region Private Methods
+            //endregion
+            //region Methods
+            //endregion
+            //region Events
+            //endregion
+            //region Properties
+            /**
+             * Property field
+             */
+            this._item = null;
+            if (item) {
+                this.item = item;
+            }
+        }
+        Object.defineProperty(ItemOverlay.prototype, "item", {
+            /**
+             * Gets or sets the item of the overlay
+             *
+             * @returns {Item}
+             */
+            get: function () {
+                return this._item;
+            },
+            /**
+             * Gets or sets the item of the overlay
+             *
+             * @param {Item} value
+             */
+            set: function (value) {
+                // Check if value changed
+                var changed = value !== this._item;
+                // Set value
+                this._item = value;
+                // Trigger changed event
+                if (changed) {
+                    this.onItemChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ItemOverlay.prototype, "itemChanged", {
+            /**
+             * Gets an event raised when the value of the item property changes
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._itemChanged) {
+                    this._itemChanged = new latte.LatteEvent(this);
+                }
+                return this._itemChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>item</c> event
+         */
+        ItemOverlay.prototype.onItemChanged = function () {
+            if (this._itemChanged) {
+                this._itemChanged.raise();
+            }
+            this.element.clear().append(this.item.element);
+        };
+        return ItemOverlay;
     }(latte.Overlay));
-    latte.Loader = Loader;
+    latte.ItemOverlay = ItemOverlay;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -15501,479 +16150,6 @@ var latte;
 var latte;
 (function (latte) {
     /**
-     * Shows items in calendar arrangement views
-     **/
-    var CalendarView = (function (_super) {
-        __extends(CalendarView, _super);
-        /**
-         * Creates the view
-         **/
-        function CalendarView() {
-            var _this = this;
-            // Init
-            _super.call(this);
-            this.element.addClass('calendar');
-            // Events
-            this.userAddItem = new latte.LatteEvent(this);
-            this.userRemoveItem = new latte.LatteEvent(this);
-            this.viewRangeChanged = new latte.LatteEvent(this);
-            // Init events
-            this.selectionChanged = new latte.LatteEvent(this);
-            // Init elements
-            this._controls = $('<div>').addClass('controls').appendTo(this.element);
-            // Init items
-            this.dateView = new latte.DateView();
-            this.dayView = new latte.CalendarDayView();
-            this.monthView = new latte.CalendarMonthView();
-            this.titleItem = new latte.LabelItem();
-            this.titleItem.title = 1;
-            this.buttonPrevious = new latte.ButtonItem();
-            this.buttonPrevious.icon = latte.Glyph.left;
-            this.buttonNext = new latte.ButtonItem();
-            this.buttonNext.icon = latte.Glyph.right;
-            this.buttonToday = new latte.ButtonItem();
-            this.buttonToday.text = strings.today;
-            this.buttonGroup = new latte.ButtonGroupItem();
-            // Struct
-            this.titleItem.appendTo(this._controls);
-            this.buttonGroup.buttons.addArray([this.buttonPrevious, this.buttonToday, this.buttonNext]);
-            this.buttonGroup.appendTo(this._controls);
-            // Wire handlers
-            this.dateView.dateItem.selectionChanged.add(function () { _this.onSelectionChanged(); });
-            this.dayView.userAddItem.add(function (i) { _this.onUserAddItem(i); });
-            this.dayView.userRemoveItem.add(function (i) { _this.onUserRemoveItem(i); });
-            this.dayView.viewRangeChanged.add(function () { _this.onViewRangeChanged(); });
-            this.monthView.userAddItem.add(function (i) { _this.onUserAddItem(i); });
-            this.monthView.userRemoveItem.add(function (i) { _this.onUserRemoveItem(i); });
-            this.monthView.viewRangeChanged.add(function () { _this.onViewRangeChanged(); });
-            this.buttonToday.click.add(function () { _this.goToday(); });
-            this.buttonPrevious.click.add(function () { _this.goPrevious(); });
-            this.buttonNext.click.add(function () { _this.goNext(); });
-            // Init me
-            this.side = latte.Side.RIGHT;
-            this.sideSize = 250;
-            this.view = this.dayView;
-            this.sideView = this.dateView;
-            this.dateView.dateItem.setSelectionRange(latte.DateTime.today, latte.DateTime.today);
-            this.dateView.dateItem.selectionMode = latte.DateSelectionMode.WORKWEEK;
-        }
-        /**
-         * Navigates to the next range of dates, based on the current range
-         **/
-        CalendarView.prototype.goNext = function () {
-            if (this.view === this.monthView) {
-                var first = this.monthView.monthOnView.addMonths(1);
-                var last = first.addDays(latte.DateTime.daysInMonth(first.year, first.month) - 1);
-                this.dateView.dateItem.setSelectionRange(first, last);
-            }
-            else {
-                var start = this.dayView.viewStart, end = this.dayView.viewEnd;
-                var days = Math.floor(end.subtractDate(start).totalDays) + 1;
-                if (this.dateView.dateItem.selectionMode === latte.DateSelectionMode.WORKWEEK) {
-                    start = start.addDays(7);
-                    var monday = start.addDays(-start.dayOfWeek + 1);
-                    this.dateView.dateItem.setSelectionRange(monday, monday.addDays(4));
-                }
-                else {
-                    this.dateView.dateItem.setSelectionRange(end.addDays(1), end.addDays(days));
-                }
-            }
-        };
-        /**
-         * Navigates to the previous range of dates, based on the current range
-         **/
-        CalendarView.prototype.goPrevious = function () {
-            if (this.view === this.monthView) {
-                var first = this.monthView.monthOnView.addMonths(-1);
-                var last = first.addDays(latte.DateTime.daysInMonth(first.year, first.month) - 1);
-                this.dateView.dateItem.setSelectionRange(first, last);
-            }
-            else {
-                var start = this.dayView.viewStart, end = this.dayView.viewEnd;
-                var days = Math.floor(end.subtractDate(start).totalDays) + 1;
-                if (this.dateView.dateItem.selectionMode === latte.DateSelectionMode.WORKWEEK) {
-                    start = start.addDays(-7);
-                    var monday = start.addDays(-start.dayOfWeek + 1);
-                    this.dateView.dateItem.setSelectionRange(monday, monday.addDays(4));
-                }
-                else {
-                    this.dateView.dateItem.setSelectionRange(start.addDays(-days), start.addDays(-1));
-                }
-            }
-        };
-        /**
-         * Navigates to the today day.
-         **/
-        CalendarView.prototype.goToday = function () {
-            this.dateView.dateItem.selectionMode = latte.DateSelectionMode.DAY;
-            this.dateView.dateItem.setSelectionRange(latte.DateTime.today, latte.DateTime.today);
-        };
-        /**
-         * Overriden.
-         **/
-        CalendarView.prototype.onLayout = function () {
-            _super.prototype.onLayout.call(this);
-            this.container.css({
-                top: '+=50'
-            });
-            var r = this.container.rectangle(null, true);
-            this._controls.css({
-                top: r.top - 50,
-                left: r.left,
-                right: r.right,
-                width: r.width
-            });
-            this.buttonGroup.onLayout();
-        };
-        /**
-         * Raises the <c>selectionChanged</c> event
-         **/
-        CalendarView.prototype.onSelectionChanged = function () {
-            var months = "january,february,march,april,may,june,july,august,september,october,november,december".split(",");
-            var start = this.dateView.dateItem.selectionStart;
-            var end = this.dateView.dateItem.selectionEnd;
-            var days = Math.floor(end.subtractDate(start).totalDays);
-            var smonth = start.month, syear = start.year, emonth = end.month, eyear = end.year;
-            if (days > 7) {
-                if (this.view !== this.monthView) {
-                    this.view = this.monthView;
-                }
-                this.titleItem.text = strings[months[start.month - 1]] + ' ' + start.year + (start.date.equals(latte.DateTime.today) ? ' - ' + strings.today : '');
-            }
-            else {
-                if (this.view !== this.dayView) {
-                    this.view = this.dayView;
-                }
-                if (days === 0) {
-                    this.titleItem.text = start.day + ' ' + strings[months[smonth - 1]] + ' ' + syear;
-                }
-                else {
-                    this.titleItem.text = start.day + (smonth !== emonth ? ' ' + strings[months[smonth - 1]] : '') + (syear != eyear ? ' ' + syear : '') + ' - ' +
-                        end.day + ' ' + strings[months[emonth - 1]] + ' ' + eyear;
-                }
-            }
-            // Set range of view
-            this.view.setViewRange(start, end);
-            this.selectionChanged.raise();
-        };
-        /**
-         * Raises the <c>userAddItem</c> event.
-         **/
-        CalendarView.prototype.onUserAddItem = function (item) {
-            this.userAddItem.raise(item);
-            //            if(this.view === this.dayView){
-            //                this.monthView.items.add();
-            //            }
-        };
-        /**
-         * Raises the <c>userRemoveItem</c> event.
-         **/
-        CalendarView.prototype.onUserRemoveItem = function (item) {
-            this.userRemoveItem.raise(item);
-        };
-        /**
-         * Raises the <c>viewRangeChanged</c> event.
-         **/
-        CalendarView.prototype.onViewRangeChanged = function () {
-            this.viewRangeChanged.raise();
-        };
-        /**
-         * Gets or sets the working end time of specified week day.
-         **/
-        CalendarView.prototype.workDayEnd = function (day, value) {
-            if (value === void 0) { value = null; }
-            throw new latte.Ex();
-        };
-        /**
-         * Gets or sets the working start time of specified week day.
-         **/
-        CalendarView.prototype.workDayStart = function (day, value) {
-            if (value === void 0) { value = null; }
-            throw new latte.Ex();
-        };
-        Object.defineProperty(CalendarView.prototype, "allowItemCreate", {
-            /**
-             * Gets or sets a value indicating if user is allowed to create items on timespans
-             **/
-            get: function () {
-                return this.view.allowItemCreate;
-            },
-            /**
-             * Gets or sets a value indicating if user is allowed to create items on timespans
-             **/
-            set: function (value) {
-                this.view.allowItemCreate = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "allowItemDrag", {
-            /**
-             * Gets or sets a value indicating if user is allowed to drag items around
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets a value indicating if user is allowed to drag items around
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "allowItemEdit", {
-            /**
-             * Gets or sets a value indicating if user is allowed to edit item text
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets a value indicating if user is allowed to edit item text
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "allowItemRemove", {
-            /**
-             * Gets or sets a value indicating if user is allowed to delete items
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets a value indicating if user is allowed to delete items
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "allowItemResize", {
-            /**
-             * Gets or sets a value indicating if user is allowed to resize timespan of items
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets a value indicating if user is allowed to resize timespan of items
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "dayEnd", {
-            /**
-             * Gets or sets the time days should end. Default is 23:59:59
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets the time days should end. Default is 23:59:59
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "dayStart", {
-            /**
-             * Gets or sets the time days should start. Default is 00:00
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets the time days should start. Default is 00:00
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "editMode", {
-            /**
-             * Gets a value indicating if there is an item on edit mode
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets a value indicating if there is an item on edit mode
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "editModeItem", {
-            /**
-             * Gets the item being edited, if any.
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets the item being edited, if any.
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "firstDayOfWeek", {
-            /**
-             * Gets or sets the first day of week. Default is <c>WeekDay.SUNDAY</c>.
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets the first day of week. Default is <c>WeekDay.SUNDAY</c>.
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "navigatorVisible", {
-            /**
-             * Gets or sets a value indicating if the navigator elements should be visible
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets a value indicating if the navigator elements should be visible
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "selectionEnd", {
-            /**
-             * Gets or sets the selection's start
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets the selection's start
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "selectionMode", {
-            /**
-             * Gets or sets the selection mode
-             **/
-            get: function () {
-                return this.dateView.dateItem.selectionMode;
-            },
-            /**
-             * Gets or sets the selection mode
-             **/
-            set: function (value) {
-                this.dateView.dateItem.selectionMode = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "selectionStart", {
-            /**
-             * Gets or sets the selection's start
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets the selection's start
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "viewEnd", {
-            /**
-             * Gets or sets the view's end.
-             **/
-            get: function () {
-                return this.view.viewEnd;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "viewStart", {
-            /**
-             * Gets or sets the view's start.
-             **/
-            get: function () {
-                return this.view.viewStart;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "workWeekEnd", {
-            /**
-             * Gets or sets the work week's end.
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets the work week's end.
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(CalendarView.prototype, "workWeekStart", {
-            /**
-             * Gets or sets the work week's start.
-             **/
-            get: function () {
-                throw new latte.Ex();
-            },
-            /**
-             * Gets or sets the work week's start.
-             **/
-            set: function (value) {
-                throw new latte.Ex();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return CalendarView;
-    }(latte.SplitView));
-    latte.CalendarView = CalendarView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
      * Represents a month who show <c>CalendarItem</c>s
      **/
     var CalendarMonthView = (function (_super) {
@@ -16523,6 +16699,479 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Shows items in calendar arrangement views
+     **/
+    var CalendarView = (function (_super) {
+        __extends(CalendarView, _super);
+        /**
+         * Creates the view
+         **/
+        function CalendarView() {
+            var _this = this;
+            // Init
+            _super.call(this);
+            this.element.addClass('calendar');
+            // Events
+            this.userAddItem = new latte.LatteEvent(this);
+            this.userRemoveItem = new latte.LatteEvent(this);
+            this.viewRangeChanged = new latte.LatteEvent(this);
+            // Init events
+            this.selectionChanged = new latte.LatteEvent(this);
+            // Init elements
+            this._controls = $('<div>').addClass('controls').appendTo(this.element);
+            // Init items
+            this.dateView = new latte.DateView();
+            this.dayView = new latte.CalendarDayView();
+            this.monthView = new latte.CalendarMonthView();
+            this.titleItem = new latte.LabelItem();
+            this.titleItem.title = 1;
+            this.buttonPrevious = new latte.ButtonItem();
+            this.buttonPrevious.icon = latte.Glyph.left;
+            this.buttonNext = new latte.ButtonItem();
+            this.buttonNext.icon = latte.Glyph.right;
+            this.buttonToday = new latte.ButtonItem();
+            this.buttonToday.text = strings.today;
+            this.buttonGroup = new latte.ButtonGroupItem();
+            // Struct
+            this.titleItem.appendTo(this._controls);
+            this.buttonGroup.buttons.addArray([this.buttonPrevious, this.buttonToday, this.buttonNext]);
+            this.buttonGroup.appendTo(this._controls);
+            // Wire handlers
+            this.dateView.dateItem.selectionChanged.add(function () { _this.onSelectionChanged(); });
+            this.dayView.userAddItem.add(function (i) { _this.onUserAddItem(i); });
+            this.dayView.userRemoveItem.add(function (i) { _this.onUserRemoveItem(i); });
+            this.dayView.viewRangeChanged.add(function () { _this.onViewRangeChanged(); });
+            this.monthView.userAddItem.add(function (i) { _this.onUserAddItem(i); });
+            this.monthView.userRemoveItem.add(function (i) { _this.onUserRemoveItem(i); });
+            this.monthView.viewRangeChanged.add(function () { _this.onViewRangeChanged(); });
+            this.buttonToday.click.add(function () { _this.goToday(); });
+            this.buttonPrevious.click.add(function () { _this.goPrevious(); });
+            this.buttonNext.click.add(function () { _this.goNext(); });
+            // Init me
+            this.side = latte.Side.RIGHT;
+            this.sideSize = 250;
+            this.view = this.dayView;
+            this.sideView = this.dateView;
+            this.dateView.dateItem.setSelectionRange(latte.DateTime.today, latte.DateTime.today);
+            this.dateView.dateItem.selectionMode = latte.DateSelectionMode.WORKWEEK;
+        }
+        /**
+         * Navigates to the next range of dates, based on the current range
+         **/
+        CalendarView.prototype.goNext = function () {
+            if (this.view === this.monthView) {
+                var first = this.monthView.monthOnView.addMonths(1);
+                var last = first.addDays(latte.DateTime.daysInMonth(first.year, first.month) - 1);
+                this.dateView.dateItem.setSelectionRange(first, last);
+            }
+            else {
+                var start = this.dayView.viewStart, end = this.dayView.viewEnd;
+                var days = Math.floor(end.subtractDate(start).totalDays) + 1;
+                if (this.dateView.dateItem.selectionMode === latte.DateSelectionMode.WORKWEEK) {
+                    start = start.addDays(7);
+                    var monday = start.addDays(-start.dayOfWeek + 1);
+                    this.dateView.dateItem.setSelectionRange(monday, monday.addDays(4));
+                }
+                else {
+                    this.dateView.dateItem.setSelectionRange(end.addDays(1), end.addDays(days));
+                }
+            }
+        };
+        /**
+         * Navigates to the previous range of dates, based on the current range
+         **/
+        CalendarView.prototype.goPrevious = function () {
+            if (this.view === this.monthView) {
+                var first = this.monthView.monthOnView.addMonths(-1);
+                var last = first.addDays(latte.DateTime.daysInMonth(first.year, first.month) - 1);
+                this.dateView.dateItem.setSelectionRange(first, last);
+            }
+            else {
+                var start = this.dayView.viewStart, end = this.dayView.viewEnd;
+                var days = Math.floor(end.subtractDate(start).totalDays) + 1;
+                if (this.dateView.dateItem.selectionMode === latte.DateSelectionMode.WORKWEEK) {
+                    start = start.addDays(-7);
+                    var monday = start.addDays(-start.dayOfWeek + 1);
+                    this.dateView.dateItem.setSelectionRange(monday, monday.addDays(4));
+                }
+                else {
+                    this.dateView.dateItem.setSelectionRange(start.addDays(-days), start.addDays(-1));
+                }
+            }
+        };
+        /**
+         * Navigates to the today day.
+         **/
+        CalendarView.prototype.goToday = function () {
+            this.dateView.dateItem.selectionMode = latte.DateSelectionMode.DAY;
+            this.dateView.dateItem.setSelectionRange(latte.DateTime.today, latte.DateTime.today);
+        };
+        /**
+         * Overriden.
+         **/
+        CalendarView.prototype.onLayout = function () {
+            _super.prototype.onLayout.call(this);
+            this.container.css({
+                top: '+=50'
+            });
+            var r = this.container.rectangle(null, true);
+            this._controls.css({
+                top: r.top - 50,
+                left: r.left,
+                right: r.right,
+                width: r.width
+            });
+            this.buttonGroup.onLayout();
+        };
+        /**
+         * Raises the <c>selectionChanged</c> event
+         **/
+        CalendarView.prototype.onSelectionChanged = function () {
+            var months = "january,february,march,april,may,june,july,august,september,october,november,december".split(",");
+            var start = this.dateView.dateItem.selectionStart;
+            var end = this.dateView.dateItem.selectionEnd;
+            var days = Math.floor(end.subtractDate(start).totalDays);
+            var smonth = start.month, syear = start.year, emonth = end.month, eyear = end.year;
+            if (days > 7) {
+                if (this.view !== this.monthView) {
+                    this.view = this.monthView;
+                }
+                this.titleItem.text = strings[months[start.month - 1]] + ' ' + start.year + (start.date.equals(latte.DateTime.today) ? ' - ' + strings.today : '');
+            }
+            else {
+                if (this.view !== this.dayView) {
+                    this.view = this.dayView;
+                }
+                if (days === 0) {
+                    this.titleItem.text = start.day + ' ' + strings[months[smonth - 1]] + ' ' + syear;
+                }
+                else {
+                    this.titleItem.text = start.day + (smonth !== emonth ? ' ' + strings[months[smonth - 1]] : '') + (syear != eyear ? ' ' + syear : '') + ' - ' +
+                        end.day + ' ' + strings[months[emonth - 1]] + ' ' + eyear;
+                }
+            }
+            // Set range of view
+            this.view.setViewRange(start, end);
+            this.selectionChanged.raise();
+        };
+        /**
+         * Raises the <c>userAddItem</c> event.
+         **/
+        CalendarView.prototype.onUserAddItem = function (item) {
+            this.userAddItem.raise(item);
+            //            if(this.view === this.dayView){
+            //                this.monthView.items.add();
+            //            }
+        };
+        /**
+         * Raises the <c>userRemoveItem</c> event.
+         **/
+        CalendarView.prototype.onUserRemoveItem = function (item) {
+            this.userRemoveItem.raise(item);
+        };
+        /**
+         * Raises the <c>viewRangeChanged</c> event.
+         **/
+        CalendarView.prototype.onViewRangeChanged = function () {
+            this.viewRangeChanged.raise();
+        };
+        /**
+         * Gets or sets the working end time of specified week day.
+         **/
+        CalendarView.prototype.workDayEnd = function (day, value) {
+            if (value === void 0) { value = null; }
+            throw new latte.Ex();
+        };
+        /**
+         * Gets or sets the working start time of specified week day.
+         **/
+        CalendarView.prototype.workDayStart = function (day, value) {
+            if (value === void 0) { value = null; }
+            throw new latte.Ex();
+        };
+        Object.defineProperty(CalendarView.prototype, "allowItemCreate", {
+            /**
+             * Gets or sets a value indicating if user is allowed to create items on timespans
+             **/
+            get: function () {
+                return this.view.allowItemCreate;
+            },
+            /**
+             * Gets or sets a value indicating if user is allowed to create items on timespans
+             **/
+            set: function (value) {
+                this.view.allowItemCreate = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "allowItemDrag", {
+            /**
+             * Gets or sets a value indicating if user is allowed to drag items around
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets a value indicating if user is allowed to drag items around
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "allowItemEdit", {
+            /**
+             * Gets or sets a value indicating if user is allowed to edit item text
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets a value indicating if user is allowed to edit item text
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "allowItemRemove", {
+            /**
+             * Gets or sets a value indicating if user is allowed to delete items
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets a value indicating if user is allowed to delete items
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "allowItemResize", {
+            /**
+             * Gets or sets a value indicating if user is allowed to resize timespan of items
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets a value indicating if user is allowed to resize timespan of items
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "dayEnd", {
+            /**
+             * Gets or sets the time days should end. Default is 23:59:59
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets the time days should end. Default is 23:59:59
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "dayStart", {
+            /**
+             * Gets or sets the time days should start. Default is 00:00
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets the time days should start. Default is 00:00
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "editMode", {
+            /**
+             * Gets a value indicating if there is an item on edit mode
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets a value indicating if there is an item on edit mode
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "editModeItem", {
+            /**
+             * Gets the item being edited, if any.
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets the item being edited, if any.
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "firstDayOfWeek", {
+            /**
+             * Gets or sets the first day of week. Default is <c>WeekDay.SUNDAY</c>.
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets the first day of week. Default is <c>WeekDay.SUNDAY</c>.
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "navigatorVisible", {
+            /**
+             * Gets or sets a value indicating if the navigator elements should be visible
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets a value indicating if the navigator elements should be visible
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "selectionEnd", {
+            /**
+             * Gets or sets the selection's start
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets the selection's start
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "selectionMode", {
+            /**
+             * Gets or sets the selection mode
+             **/
+            get: function () {
+                return this.dateView.dateItem.selectionMode;
+            },
+            /**
+             * Gets or sets the selection mode
+             **/
+            set: function (value) {
+                this.dateView.dateItem.selectionMode = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "selectionStart", {
+            /**
+             * Gets or sets the selection's start
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets the selection's start
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "viewEnd", {
+            /**
+             * Gets or sets the view's end.
+             **/
+            get: function () {
+                return this.view.viewEnd;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "viewStart", {
+            /**
+             * Gets or sets the view's start.
+             **/
+            get: function () {
+                return this.view.viewStart;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "workWeekEnd", {
+            /**
+             * Gets or sets the work week's end.
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets the work week's end.
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(CalendarView.prototype, "workWeekStart", {
+            /**
+             * Gets or sets the work week's start.
+             **/
+            get: function () {
+                throw new latte.Ex();
+            },
+            /**
+             * Gets or sets the work week's start.
+             **/
+            set: function (value) {
+                throw new latte.Ex();
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return CalendarView;
+    }(latte.SplitView));
+    latte.CalendarView = CalendarView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * Renders a form to iunput data.
      **/
     var FormView = (function (_super) {
@@ -16696,6 +17345,100 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Provides a view that contains just HTML
+     <example><code><span style="color: #000000">
+     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
+     </span>
+     </code></example>
+     **/
+    var HtmlView = (function (_super) {
+        __extends(HtmlView, _super);
+        /**
+         * Creates the view with HTML or jQuery elements
+         **/
+        function HtmlView(html) {
+            _super.call(this);
+            this.element.addClass('html');
+            if (html instanceof jQuery)
+                this.append(html);
+            else if (typeof html == 'string')
+                this.html = html;
+        }
+        /**
+         * Appends elements to the HTML view DOM
+         **/
+        HtmlView.prototype.append = function (element) {
+            this.container.append(element);
+        };
+        Object.defineProperty(HtmlView.prototype, "html", {
+            /**
+             * Gets or sets the html of the view
+             **/
+            get: function () {
+                return this.container.html();
+            },
+            /**
+             * Gets or sets the html of the view
+             **/
+            set: function (value) {
+                this.container.html(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return HtmlView;
+    }(latte.View));
+    latte.HtmlView = HtmlView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     * A View containing an Item
+     **/
+    var ItemView = (function (_super) {
+        __extends(ItemView, _super);
+        /**
+         *
+         **/
+        function ItemView(item) {
+            if (item === void 0) { item = null; }
+            _super.call(this);
+            this.element.addClass('item');
+            if (item)
+                this.item = item;
+        }
+        /**
+         * Overriden.
+         **/
+        ItemView.prototype.onLayout = function () {
+            _super.prototype.onLayout.call(this);
+            if (this.item)
+                this.item.onLayout();
+        };
+        Object.defineProperty(ItemView.prototype, "item", {
+            /**
+             * Gets or sets the item of the view
+             **/
+            get: function () {
+                return this._item;
+            },
+            /**
+             * Gets or sets the item of the view
+             **/
+            set: function (value) {
+                this._item = value;
+                this.container.empty().append(value.element);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return ItemView;
+    }(latte.View));
+    latte.ItemView = ItemView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
      * Shows a message with eye sugar to improve usability and design.
      **/
     var MessageView = (function (_super) {
@@ -16802,100 +17545,6 @@ var latte;
         return MessageView;
     }(latte.View));
     latte.MessageView = MessageView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Provides a view that contains just HTML
-     <example><code><span style="color: #000000">
-     <span style="color: #0000BB"><br /><br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #FF8000">//&nbsp;Show&nbsp;an&nbsp;HTML&nbsp;view&nbsp;as&nbsp;modal&nbsp;dialog<br />&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000BB">View</span><span style="color: #007700">.</span><span style="color: #0000BB">modalView</span><span style="color: #007700">(new&nbsp;</span><span style="color: #0000BB">HtmlView</span><span style="color: #007700">(</span><span style="color: #DD0000">"&lt;p&gt;Hello&nbsp;World&lt;/p&gt;"</span><span style="color: #007700">));<br />&nbsp;<br /></span><span style="color: #0000BB"></span>
-     </span>
-     </code></example>
-     **/
-    var HtmlView = (function (_super) {
-        __extends(HtmlView, _super);
-        /**
-         * Creates the view with HTML or jQuery elements
-         **/
-        function HtmlView(html) {
-            _super.call(this);
-            this.element.addClass('html');
-            if (html instanceof jQuery)
-                this.append(html);
-            else if (typeof html == 'string')
-                this.html = html;
-        }
-        /**
-         * Appends elements to the HTML view DOM
-         **/
-        HtmlView.prototype.append = function (element) {
-            this.container.append(element);
-        };
-        Object.defineProperty(HtmlView.prototype, "html", {
-            /**
-             * Gets or sets the html of the view
-             **/
-            get: function () {
-                return this.container.html();
-            },
-            /**
-             * Gets or sets the html of the view
-             **/
-            set: function (value) {
-                this.container.html(value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return HtmlView;
-    }(latte.View));
-    latte.HtmlView = HtmlView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * A View containing an Item
-     **/
-    var ItemView = (function (_super) {
-        __extends(ItemView, _super);
-        /**
-         *
-         **/
-        function ItemView(item) {
-            if (item === void 0) { item = null; }
-            _super.call(this);
-            this.element.addClass('item');
-            if (item)
-                this.item = item;
-        }
-        /**
-         * Overriden.
-         **/
-        ItemView.prototype.onLayout = function () {
-            _super.prototype.onLayout.call(this);
-            if (this.item)
-                this.item.onLayout();
-        };
-        Object.defineProperty(ItemView.prototype, "item", {
-            /**
-             * Gets or sets the item of the view
-             **/
-            get: function () {
-                return this._item;
-            },
-            /**
-             * Gets or sets the item of the view
-             **/
-            set: function (value) {
-                this._item = value;
-                this.container.empty().append(value.element);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return ItemView;
-    }(latte.View));
-    latte.ItemView = ItemView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -17021,6 +17670,31 @@ var latte;
         return ProgressDialogView;
     }(latte.DialogView));
     latte.ProgressDialogView = ProgressDialogView;
+})(latte || (latte = {}));
+var latte;
+(function (latte) {
+    /**
+     *
+     **/
+    var NavigationListView = (function (_super) {
+        __extends(NavigationListView, _super);
+        /**
+         *
+         **/
+        function NavigationListView() {
+            _super.call(this);
+            this.addClass('list');
+            // Initialize view
+            var t = new latte.ToolbarView();
+            this.view = t;
+            // Get toolbar pointer
+            this.toolbar = t.toolbar;
+            // Assign list view as main view of toolbar view
+            this.view.view = this.list = new latte.ListView();
+        }
+        return NavigationListView;
+    }(latte.NavigationView));
+    latte.NavigationListView = NavigationListView;
 })(latte || (latte = {}));
 var latte;
 (function (latte) {
@@ -17505,680 +18179,6 @@ var latte;
     }(latte.View));
     latte.TreeView = TreeView;
 })(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     *
-     **/
-    var NavigationListView = (function (_super) {
-        __extends(NavigationListView, _super);
-        /**
-         *
-         **/
-        function NavigationListView() {
-            _super.call(this);
-            this.addClass('list');
-            // Initialize view
-            var t = new latte.ToolbarView();
-            this.view = t;
-            // Get toolbar pointer
-            this.toolbar = t.toolbar;
-            // Assign list view as main view of toolbar view
-            this.view.view = this.list = new latte.ListView();
-        }
-        return NavigationListView;
-    }(latte.NavigationView));
-    latte.NavigationListView = NavigationListView;
-})(latte || (latte = {}));
-var latte;
-(function (latte) {
-    /**
-     * Renders an item to input data from user.
-     **/
-    var InputItem = (function (_super) {
-        __extends(InputItem, _super);
-        //endregion
-        /**
-         * Creates the input element
-         **/
-        function InputItem(text, type, value, readOnly, name) {
-            if (text === void 0) { text = ''; }
-            if (type === void 0) { type = ''; }
-            if (value === void 0) { value = null; }
-            if (readOnly === void 0) { readOnly = null; }
-            if (name === void 0) { name = null; }
-            _super.call(this);
-            /**
-             *
-             **/
-            this._readOnly = null;
-            /**
-             *
-             */
-            this._textWidth = 0.2;
-            /**
-             * Property field
-             */
-            this._hintItem = null;
-            /**
-             * Property field
-             */
-            this._valid = true;
-            this.element.addClass('input');
-            // Create elements
-            this.textElement = $('<div>').addClass('text').appendTo(this.element).hide();
-            this.valueElement = $('<div>').addClass('value').appendTo(this.element);
-            this.separatorElement = $('<div>').addClass('separator').appendTo(this.element);
-            this.element.clear();
-            // Create items
-            this.label = new latte.LabelItem();
-            this.label.appendTo(this.textElement);
-            this.readOnlyLabel = new latte.LabelValueItem();
-            this.readOnlyLabel.appendTo(this.valueElement);
-            this.readOnlyLabel.addClass('read-only');
-            this.readOnlyLabel.visible = (false);
-            // Default props
-            this.type = 'string';
-            this.direction = latte.View.smallScreen ? latte.Direction.VERTICAL : latte.Direction.HORIZONTAL;
-            if (text)
-                this.text = (text);
-            if (type)
-                this.type = (type);
-            if (value)
-                this.value = (value);
-            if (readOnly)
-                this.readOnly = (readOnly);
-            if (name)
-                this.name = name;
-        }
-        //region Static
-        /**
-         * Gets a formatted string of the value depending on the type
-         **/
-        InputItem.format = function (value, type, options) {
-            if (options === void 0) { options = null; }
-            switch (type) {
-                case 'switch':
-                    return value === true || value === 1 ? strings.switchOn : strings.switchOff;
-                case 'boolean':
-                    return value === true || value === 1 ? strings.yes : strings.no;
-                case 'record-combo':
-                    // IMPORTANT: Do not modify call of literal
-                    // This is necessary to compile without data module
-                    var c = new latte['DataRecordCollection']();
-                    // Try to prepare collection
-                    if (options)
-                        try {
-                            c.add(options);
-                        }
-                        catch (e) {
-                            throw new latte.InvalidArgumentEx('value');
-                        }
-                    var r = c.byId(value);
-                    if (r)
-                        return r.getMetadata().name;
-                    return value;
-                case 'combo':
-                    if ((latte._isArray(options) || (typeof options === 'object')) && !latte._undef(options[value]))
-                        return options[value];
-                    return value;
-                case 'flags':
-                    var list = [];
-                    var flags = parseInt(value);
-                    for (var i in options) {
-                        var flag = parseInt(i);
-                        if ((flags & flag) == flag) {
-                            list.push(options[i]);
-                        }
-                    }
-                    return list.join(', ') || strings.flagsNone;
-                default:
-                    return value;
-            }
-        };
-        /**
-         * Creates the input item from a caption and a value item
-         *
-         * @param text
-         * @param item
-         */
-        InputItem.fromItem = function (text, item) {
-            var input = new InputItem(text, 'custom');
-            input.valueItem = item;
-            return input;
-        };
-        /**
-         * Gets an input from the specified IInput
-         * @param input
-         * @param name
-         */
-        InputItem.fromIInput = function (input, name, value) {
-            if (name === void 0) { name = null; }
-            if (value === void 0) { value = null; }
-            var item = new InputItem(input.text || '(no text)', input.type || 'string', value || input.defaultValue || null, input.readOnly || null, name);
-            item.name = name;
-            if (input.options) {
-                item.options = input.options;
-            }
-            if (input.hint) {
-                item.setHint(input.hint);
-            }
-            return item;
-        };
-        //region Methods
-        /**
-         * Checks if the current value is valid for the field <c>type</c>
-         **/
-        InputItem.prototype.isValid = function () {
-            var value = this.value;
-            switch (this.type()) {
-                case "integer":
-                    var allowed = "1234567890";
-                    for (var i = 0; i < value.length; i++)
-                        if (allowed.indexOf(value.charAt(i)) < 0)
-                            return false;
-                    return true;
-                case "number":
-                case "float":
-                    return !isNaN(value);
-            }
-            return true;
-        };
-        /**
-         *
-         **/
-        InputItem.prototype.onLayout = function () {
-            _super.prototype.onLayout.call(this);
-            this.valueItem.onLayout();
-        };
-        InputItem.prototype.onValueChanged = function () {
-            _super.prototype.onValueChanged.call(this);
-            if (this.readOnly) {
-                this.readOnly = this.readOnly;
-            }
-        };
-        /**
-         * Override.
-         * @returns {string}
-         */
-        InputItem.prototype.onGetValueString = function () {
-            if (this.valueItem) {
-                return this.valueItem.valueString;
-            }
-            else {
-                return _super.prototype.onGetValueString.call(this);
-            }
-        };
-        /**
-         * Override
-         * @returns {string}
-         */
-        InputItem.prototype.getValueString = function () {
-            if (this.valueItem) {
-                return this.valueItem.valueString;
-            }
-            else {
-                return _super.prototype.onGetValueString.call(this);
-            }
-        };
-        /**
-         * Raises the <c>valid</c> event
-         */
-        InputItem.prototype.onValidChanged = function () {
-            if (this._validChanged) {
-                this._validChanged.raise();
-            }
-            if (this.valid) {
-                this.removeClass('invalid');
-            }
-            else {
-                this.addClass('invalid');
-            }
-        };
-        /**
-         * Sets the hint as a string in a label
-         * @param hint
-         */
-        InputItem.prototype.setHint = function (hint) {
-            if (hint) {
-                var l = new latte.LabelItem(hint);
-                this.hintItem = l;
-            }
-            else {
-                this.hintItem = null;
-            }
-        };
-        Object.defineProperty(InputItem.prototype, "validChanged", {
-            /**
-             * Gets an event raised when the value of the valid property changes
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._validChanged) {
-                    this._validChanged = new latte.LatteEvent(this);
-                }
-                return this._validChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "direction", {
-            //endregion
-            //region Properties
-            /**
-             * Gets or sets the direction of input.
-             **/
-            get: function () {
-                return this._direction;
-            },
-            /**
-             * Gets or sets the direction of input.
-             **/
-            set: function (value) {
-                if (value !== latte.Direction.VERTICAL && value !== latte.Direction.HORIZONTAL)
-                    throw new latte.InvalidArgumentEx('value', value);
-                if (value === latte.Direction.VERTICAL) {
-                    this.element.removeClass('horizontal').addClass('vertical');
-                }
-                else {
-                    this.element.removeClass('vertical').addClass('horizontal');
-                }
-                this._direction = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "hintItem", {
-            /**
-             * Gets or sets the hint item
-             *
-             * @returns {Item}
-             */
-            get: function () {
-                return this._hintItem;
-            },
-            /**
-             * Gets or sets the hint item
-             *
-             * @param {Item} value
-             */
-            set: function (value) {
-                if (this._hintItem) {
-                    this._hintItem.element.remove();
-                }
-                this._hintItem = value;
-                if (value) {
-                    this.valueElement.append(value.element);
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "name", {
-            /**
-             * Gets or sets the name of the input
-             **/
-            get: function () {
-                return this._name;
-            },
-            /**
-             * Gets or sets the name of the input
-             **/
-            set: function (value) {
-                this._name = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "options", {
-            /**
-             * Gets or sets the options of the control
-             **/
-            get: function () {
-                return this._options;
-            },
-            /**
-             * Gets or sets the options of the control
-             **/
-            set: function (value) {
-                if (this.valueItem instanceof latte.ComboItem) {
-                    this.valueItem.options = value;
-                }
-                if (this.valueItem instanceof latte.RadioGroup) {
-                    this.valueItem.options = value;
-                }
-                if (this.valueItem instanceof latte.FlagsValueItem) {
-                    this.valueItem.options = value;
-                }
-                this._options = value;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "readOnly", {
-            /**
-             * Gets or sets a value indicating if the input is read-only
-             **/
-            get: function () {
-                return this._readOnly;
-            },
-            /**
-             * Gets or sets a value indicating if the input is read-only
-             **/
-            set: function (value) {
-                this._readOnly = value;
-                // Switch visibility
-                this.readOnlyLabel.value = (this.valueItem.valueString);
-                this.readOnlyLabel.visible = (value);
-                this.valueItem.visible = (!value);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "separator", {
-            /**
-             * Gets or sets a value indicating if the input has a separator on bottom
-             **/
-            get: function () {
-                return this._separator;
-            },
-            /**
-             * Gets or sets a value indicating if the input has a separator on bottom
-             **/
-            set: function (value) {
-                if (!latte._isBoolean(value))
-                    throw new latte.InvalidArgumentEx('value', value);
-                this._separator = value;
-                if (value) {
-                    this.separatorElement.show();
-                }
-                else {
-                    this.separatorElement.hide();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "text", {
-            /**
-             * Gets ors ets the text of the input
-             **/
-            get: function () {
-                return this.label.text;
-            },
-            /**
-             * Gets ors ets the text of the input
-             **/
-            set: function (value) {
-                this.label.text = (value);
-                if (!this.textVisible)
-                    this.textVisible = (true);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "textVisible", {
-            /**
-             * Gets or sets a value indicating if the text section is visible
-             **/
-            get: function () {
-                return this.textElement.is(':visible');
-            },
-            /**
-             * Gets or sets a value indicating if the text section is visible
-             **/
-            set: function (value) {
-                if (value) {
-                    this.textElement.show();
-                    this.element.removeClass('no-text');
-                }
-                else {
-                    this.textElement.hide();
-                    this.element.addClass('no-text');
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "textWidth", {
-            /**
-             * Gets or sets the with of the text part. Use value lower than 1 for percentages.
-             * Note that when horizontal input, layout may become affected.
-             *
-             * @returns {number}
-             */
-            get: function () {
-                return this._textWidth;
-            },
-            /**
-             * Gets or sets the with of the text part.
-             * Value must be percent since it must be leveled with value part. Value size will be adjusted
-             * to 5% less large than it should to avoid edge collisions.
-             * Values lower than 1 accepted.
-             * Note that when horizontal input, layout may become affected.
-             *
-             */
-            set: function (value) {
-                this._textWidth = value;
-                if (value < 0) {
-                    this.textElement.css('width', (value * 100) + '%');
-                    this.valueElement.css('width', ((100 - value - 0.05) * 100) + '%');
-                }
-                else {
-                    this.textElement.css('width', (value) + '%');
-                    this.valueElement.css('width', ((value - 0.1)) + '%');
-                }
-                this.onLayout();
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "type", {
-            /**
-             * Gets or sets the type of the input.
-             Possible values are: <c>auto</c> | <c>string</c> | <c>text</c> |
-             <c>html</c> | <c>number</c> | <c>integer</c> | <c>float</c> |
-             <c>boolean</c> | <c>password</c> | <c>md5-password</c> | <c>date</c> |
-             <c>time</c> | <c>enumeration</c> | <c>combo</c> | <c>record-combo</c> | <c>flags</c> |
-             <c>file</c> | <c>image</c> | <c>custom</c>
-    
-             If input is to be a type (function), it must inherit from <c>latte.ui.ValueItem</c>
-             **/
-            get: function () {
-                return this._type;
-            },
-            /**
-             * Gets or sets the type of the input.
-             Possible values are: <c>auto</c> | <c>string</c> | <c>text</c> |
-             <c>html</c> | <c>number</c> | <c>integer</c> | <c>float</c> |
-             <c>boolean</c> | <c>password</c> | <c>md5-password</c> | <c>date</c> |
-             <c>time</c> | <c>enumeration</c> | <c>combo</c> | <c>record-combo</c> |
-             <c>radio</c> | <c>flags</c> | <c>file</c> | <c>image</c> | <c>custom</c>
-    
-             If input is to be a type (function), it must inherit from <c>latte.ui.ValueItem</c>
-             **/
-            set: function (value) {
-                var item = null;
-                this._type = value;
-                if (latte._isFunction(value)) {
-                    item = new value();
-                    //                log("Created %s", value.toString())
-                    if (!(item instanceof latte.ValueItem))
-                        throw new latte.InvalidArgumentEx('value');
-                }
-                else {
-                    switch (value) {
-                        case "auto":
-                        case "label":
-                            item = new latte.LabelValueItem();
-                            break;
-                        case "string":
-                            item = new latte.TextboxItem();
-                            break;
-                        case "text":
-                            item = new latte.TextboxItem();
-                            item.multiline = (true);
-                            break;
-                        case "html":
-                            item = new latte.HtmlEditorItem();
-                            break;
-                        case "number":
-                            item = new latte.TextboxItem();
-                            item.filter = latte.TextboxFilter.NUMBER;
-                            item.validationRegex = latte.Culture.current.floatValidator;
-                            break;
-                        case "integer":
-                            item = new latte.TextboxItem();
-                            item.filter = latte.TextboxFilter.INTEGER;
-                            item.validationRegex = latte.Culture.current.intValidator;
-                            break;
-                        case "float":
-                            item = new latte.TextboxItem();
-                            item.filter = latte.TextboxFilter.NUMBER;
-                            item.validationRegex = latte.Culture.current.floatValidator;
-                            break;
-                        case "boolean":
-                            item = new latte.CheckboxItem();
-                            break;
-                        case "switch":
-                            item = new latte.SwitchItem();
-                            break;
-                        case "password":
-                            item = new latte.TextboxItem();
-                            item.password = (true);
-                            break;
-                        case "md5-password":
-                            item = new latte.TextboxItem();
-                            item.password = (true);
-                            break;
-                        case "date":
-                            item = new latte.DatePickerItem();
-                            break;
-                        case "time":
-                            item = new latte.TimePickerItem();
-                            break;
-                        case "datetime":
-                            item = new latte.DatePickerItem();
-                            item.timeVisible = (true);
-                            break;
-                        case "enumeration":
-                            item = new latte.ComboItem();
-                            break;
-                        case "combo":
-                            item = new latte.ComboItem();
-                            break;
-                        case "radio":
-                            item = new latte.RadioGroup();
-                            break;
-                        case "record-combo":
-                            item = new latte.ComboItem();
-                            break;
-                        case "flags":
-                            item = new latte.FlagsValueItem();
-                            break;
-                        case "color":
-                            item = new latte.ColorValueItem();
-                            break;
-                        case "file":
-                            item = new latte.FileValueItem();
-                            break;
-                        case "image":
-                            item = new latte.LabelValueItem();
-                            break;
-                        case "custom":
-                            item = new latte.LabelValueItem();
-                            break;
-                        case "record":
-                            // IMPORTANT: Do not modify call of literal
-                            // This is necessary to compile without data module
-                            item = new latte['DataRecordValueItem']();
-                            break;
-                        default:
-                            throw new latte.InvalidArgumentEx('value');
-                    }
-                }
-                if (item instanceof latte.ValueItem) {
-                    this.valueItem = (item);
-                }
-                else {
-                    throw new latte.InvalidCallEx("What the hey?");
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "value", {
-            /**
-             * Gets or sets the value of the input
-             **/
-            get: function () {
-                return this.valueItem.value;
-            },
-            /**
-             * Gets or sets the value of the input
-             **/
-            set: function (value) {
-                this.valueItem.value = (value);
-                this.readOnlyLabel.value = (this.valueItem.valueString);
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "valueItem", {
-            /**
-             * Gets or sets the valueItem of the input
-             **/
-            get: function () {
-                return this._valueItem;
-            },
-            /**
-             * Gets or sets the valueItem of the input
-             **/
-            set: function (value) {
-                var _this = this;
-                if (!(value instanceof latte.ValueItem))
-                    throw new latte.InvalidArgumentEx('value', value);
-                if (this._valueItem)
-                    this._valueItem.element.remove();
-                this._valueItem = value;
-                this.valueElement.append(value.element);
-                value.valueChanged.add(function () { _this.onValueChanged(); });
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(InputItem.prototype, "valid", {
-            /**
-             * Gets or sets a value indicating if the value of the item is currently valid
-             *
-             * @returns {boolean}
-             */
-            get: function () {
-                return this._valid;
-            },
-            /**
-             * Gets or sets a value indicating if the value of the item is currently valid
-             *
-             * @param {boolean} value
-             */
-            set: function (value) {
-                // Check if value changed
-                var changed = value !== this._valid;
-                // Set value
-                this._valid = value;
-                // Trigger changed event
-                if (changed) {
-                    this.onValidChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return InputItem;
-    }(latte.ValueItem));
-    latte.InputItem = InputItem;
-})(latte || (latte = {}));
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/datalatte.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/jquery.d.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/support/ts-include/latte.d.ts" />
@@ -18198,8 +18198,8 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/selectables/SelectableItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/anchor/AnchorView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/layout/SplitView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/base/IconItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/clickables/ClickableItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/base/IconItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/LabelItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/clickables/ButtonGroupItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/clickables/ButtonItem.ts" />
@@ -18209,65 +18209,65 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/layout/ColumnView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/layout/DialogView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/NavigationView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/Navigation.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/Action.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/Navigation.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/base/ColorIconItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/ZIndex.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/base/Glyph.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/base/ImageItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/base/SeparatorItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/clickables/PaginationItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/clickables/TabItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/ColorPicker.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/clickables/PaginationItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/ConversationItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/ZIndex.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/DateItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/Ribbon.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/TabContainer.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/FormItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/SelectableStack.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/TabContainer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/TabToolbar.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/FormItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/ViewItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/ColumnHeader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/composites/WidgetItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/ColumnHeader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/CommentItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/DateTimeLabel.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/selectables/CalendarItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/UiText.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/selectables/ListViewItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/labels/UiText.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/selectables/CalendarItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/CheckboxItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/selectables/TreeItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ColorValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/DatePickerItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ComboItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/FileValueItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/HtmlEditorCommands.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ColorValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/FlagsValueItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/HtmlEditorCommands.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/FileValueItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ComboItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/InputItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ProgressItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioGroup.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/SwitchItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TextboxItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TimePickerItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/LabelValueItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/HtmlEditorItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/ProgressItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/SwitchItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/RadioGroup.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TimePickerItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/ItemOverlay.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/TextboxItem.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/MenuOverlay.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/Loader.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/MenuOverlay.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/selectables/TreeItem.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/ItemOverlay.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/overlays/SuggestionOverlay.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/anchor/RibbonView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/anchor/TabView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/anchor/ToolbarView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarDayView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarMonthView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/DateView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/CalendarView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/FormView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/MessageView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/HtmlView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/ItemView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/MessageView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/content/TextView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/layout/ProgressDialogView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/ListView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/TreeView.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/NavigationListView.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/items/values/InputItem.ts" /> 
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/ListView.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/latte.ui/ts/latte.ui/views/navigation/TreeView.ts" /> 

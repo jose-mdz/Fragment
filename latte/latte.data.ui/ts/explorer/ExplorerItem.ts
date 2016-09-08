@@ -15,7 +15,7 @@ module latte {
         //endregion
 
         /**
-         *
+         * Creates the explorer item
          */
         constructor() {
         }
@@ -31,10 +31,11 @@ module latte {
         createTreeItem(): TreeItem{
 
             var item = new TreeItem();
-
             item.tag = this;
-            item.text = this.getName();
-            item.icon = this.getIcon();
+
+            this._treeItem = item;
+
+            this.syncUI();
 
             return item;
         }
@@ -47,11 +48,16 @@ module latte {
             var item = new ListViewItem(this.explorer.listView);
             var columns: string[] = this.getColumns();
 
-            item.icon = this.getIcon();
+            item.tag = this;
+
+            this._listViewItem = item;
 
             // Name column
             item.addColumn(150);
-            item.setItem(0, new LabelItem(this.getName()));
+
+            this.syncUI();
+
+
 
             return item;
         }
@@ -192,6 +198,23 @@ module latte {
 
 
 
+
+        }
+
+        /**
+         * Synchronizes UI Items to reflect possible changes
+         */
+        syncUI(){
+
+            if(this.treeItem) {
+                this.treeItem.text = this.getName();
+                this.treeItem.icon = this.getIcon();
+            }
+
+            if(this.listViewItem) {
+                this.listViewItem.icon = this.getIcon();
+                this.listViewItem.setItem(0, new LabelItem(this.getName()));
+            }
 
         }
 
@@ -526,6 +549,21 @@ module latte {
         /**
          * Property field
          */
+        private _listViewItem: ListViewItem;
+
+        /**
+         * Gets the last created listview item
+         *
+         * @returns {ListViewItem}
+         */
+        get listViewItem(): ListViewItem {
+            return this._listViewItem;
+        }
+
+
+        /**
+         * Property field
+         */
         private _loadsChildren:boolean = true;
 
         /**
@@ -581,6 +619,20 @@ module latte {
          */
         public get parent():ExplorerItem {
             return this._parent;
+        }
+
+        /**
+         * Property field
+         */
+        private _treeItem: TreeItem;
+
+        /**
+         * Gets the last created tree item
+         *
+         * @returns {TreeItem}
+         */
+        get treeItem(): TreeItem {
+            return this._treeItem;
         }
 
 

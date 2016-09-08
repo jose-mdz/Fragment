@@ -683,6 +683,10 @@ https://perxis.com
 .cms-explorer.explorer.split > .latte-view.side > .container{
     background: #f0f0f0;
 }
+
+.cms-explorer.latte-view.explorer .load-bar{
+    background-color: #F67538;
+}
 .cms-main-view.latte-view > .top-bar{
     position: absolute;
     top: 0;
@@ -761,50 +765,6 @@ textarea.page-configuration:focus{
     color: black;
 }
 
-.page-editor-main-view{
-    background: #f7f7f7;
-}
-
-.page-editor-main-view > .container{
-    top: 50px;
-
-}
-
-.page-editor-main-view > .container .latte-view.ribbon{
-    background: white;
-}
-
-.page-editor-main-view > .container .latte-item.ribbon {
-    background: #f7f7f7;
-}
-
-.page-editor-main-view .page-close{
-    position:absolute;
-    right: 5px;
-    top: 5px;
-}
-.page-editor-main-view .page-title-gizmo{
-    position: absolute;
-    left: 5px;
-    top: 5px;
-    font-size: 22px;
-    padding: 5px;
-    border: solid 1px transparent;
-}
-
-.page-editor-main-view .page-title-gizmo:hover,
-.page-editor-main-view .page-title-gizmo:focus{
-    border-color: #ccc;
-    border-radius: 4px;
-
-}
-
-.page-editor-main-view .page-title-gizmo:focus{
-    background: white;
-}
-
-
-
 /*.latte-view.page-detail-view .open-editor-button.no-icon{*/
     /*background-color: white;*/
     /*border-color: #4285F4;*/
@@ -859,7 +819,51 @@ textarea.page-configuration:focus{
     background-color: #777 !important;
     border-color: #777 !important;
     color: #fff !important;
-}@font-face {
+}
+
+.page-editor-main-view{
+    background: #f7f7f7;
+}
+
+.page-editor-main-view > .container{
+    top: 50px;
+
+}
+
+.page-editor-main-view > .container .latte-view.ribbon{
+    background: white;
+}
+
+.page-editor-main-view > .container .latte-item.ribbon {
+    background: #f7f7f7;
+}
+
+.page-editor-main-view .page-close{
+    position:absolute;
+    right: 5px;
+    top: 5px;
+}
+.page-editor-main-view .page-title-gizmo{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    font-size: 22px;
+    padding: 5px;
+    border: solid 1px transparent;
+}
+
+.page-editor-main-view .page-title-gizmo:hover,
+.page-editor-main-view .page-title-gizmo:focus{
+    border-color: #ccc;
+    border-radius: 4px;
+
+}
+
+.page-editor-main-view .page-title-gizmo:focus{
+    background: white;
+}
+
+@font-face {
     font-family: AvenirNextThin;
     src: url(/latte/releases/fragment/support/fonts/avenir-next-thin.woff);
 }

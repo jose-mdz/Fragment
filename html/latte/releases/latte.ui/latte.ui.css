@@ -14,6 +14,12 @@
     font-size: 11px;
     font-family: 'Lucida Grande', sans-serif;
 }/* 
+    Document   : Glyph
+    Created on : Aug 9, 2012, 8:47:26 AM
+    Author     : josemanuel
+    Description:
+        Purpose of the stylesheet follows.
+*//* 
     Document   : IconItem
     Created on : Aug 3, 2012, 9:05:12 AM
     Author     : josemanuel
@@ -22,12 +28,6 @@
 */
 
 /* 
-    Document   : Glyph
-    Created on : Aug 9, 2012, 8:47:26 AM
-    Author     : josemanuel
-    Description:
-        Purpose of the stylesheet follows.
-*//* 
     Document   : Item
     Created on : Aug 3, 2012, 9:05:05 AM
     Author     : josemanuel
@@ -74,6 +74,78 @@
     margin: 0 2px;
 }
 /* 
+    Document   : ButtonItem
+    Created on : Aug 3, 2012, 9:04:59 AM
+    Author     : josemanuel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.latte-item.button{
+    padding: 4px;
+}
+
+.latte-item.button > .latte-item.label{
+    float: none;
+}
+
+.latte-item.button.horizontal.no-icon{
+    padding: 4px 15px;
+}
+
+.latte-item.button.horizontal > .latte-item.label > .label-content{
+    overflow: hidden;
+}
+
+.latte-item.button.horizontal.with-dropdown > .latte-item.label{
+    padding-right: 20px;
+}
+
+.latte-item.button.horizontal.with-dropdown > .latte-item.clickable{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 16px;
+}
+
+.latte-item.button.vertical.with-dropdown > .latte-item.label{
+    padding-bottom: 20px;
+}
+
+.latte-item.button.vertical.with-dropdown > .latte-item.clickable{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 16px;
+}
+
+/* Dropdown style */
+.latte-item.button.horizontal > .latte-item.clickable,
+.latte-item.button.horizontal > .latte-item.clickable.pressed,
+.latte-item.button.horizontal > .latte-item.clickable.selected{
+    border-top-width: 0 !important;
+    border-right-width: 0 !important;
+    border-bottom-width: 0 !important;
+}
+
+.latte-item.button.vertical > .latte-item.clickable,
+.latte-item.button.vertical > .latte-item.clickable.pressed,
+.latte-item.button.vertical > .latte-item.clickable.selected{
+    border-bottom-width: 0 !important;
+    border-right-width: 0 !important;
+    border-left-width: 0 !important;
+}
+
+/* Glyph positioning */
+.latte-item.button > .latte-item.clickable > .latte-item.icon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+}/* 
     Document   : ClickableItem
     Created on : Jan 31, 2013, 1:01:18 PM
     Author     : josemanuel
@@ -147,79 +219,7 @@
 .latte-item.clickable.open-at-top,
 .latte-item.clickable.open-at-top.selected,
 .latte-item.clickable.open-at-top.pressed,
-.latte-item.clickable.open-at-top.checked { border-top-color: transparent !important; }/* 
-    Document   : ButtonItem
-    Created on : Aug 3, 2012, 9:04:59 AM
-    Author     : josemanuel
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-.latte-item.button{
-    padding: 4px;
-}
-
-.latte-item.button > .latte-item.label{
-    float: none;
-}
-
-.latte-item.button.horizontal.no-icon{
-    padding: 4px 15px;
-}
-
-.latte-item.button.horizontal > .latte-item.label > .label-content{
-    overflow: hidden;
-}
-
-.latte-item.button.horizontal.with-dropdown > .latte-item.label{
-    padding-right: 20px;
-}
-
-.latte-item.button.horizontal.with-dropdown > .latte-item.clickable{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 16px;
-}
-
-.latte-item.button.vertical.with-dropdown > .latte-item.label{
-    padding-bottom: 20px;
-}
-
-.latte-item.button.vertical.with-dropdown > .latte-item.clickable{
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 16px;
-}
-
-/* Dropdown style */
-.latte-item.button.horizontal > .latte-item.clickable,
-.latte-item.button.horizontal > .latte-item.clickable.pressed,
-.latte-item.button.horizontal > .latte-item.clickable.selected{
-    border-top-width: 0 !important;
-    border-right-width: 0 !important;
-    border-bottom-width: 0 !important;
-}
-
-.latte-item.button.vertical > .latte-item.clickable,
-.latte-item.button.vertical > .latte-item.clickable.pressed,
-.latte-item.button.vertical > .latte-item.clickable.selected{
-    border-bottom-width: 0 !important;
-    border-right-width: 0 !important;
-    border-left-width: 0 !important;
-}
-
-/* Glyph positioning */
-.latte-item.button > .latte-item.clickable > .latte-item.icon{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -8px;
-    margin-left: -8px;
-}
+.latte-item.clickable.open-at-top.checked { border-top-color: transparent !important; }
  /*Inset margin when content on bottom */
 /*.latte-item.toolbar > .face > .holder > .items-container > .latte-item.tab.flat-bottom{*/
     /*margin-bottom: -7px;*/
@@ -335,6 +335,21 @@
     background-color: #EAEFF8;
     background-color: rgba(87, 141, 217, 0.1);
 }/* 
+    Document   : ItemStack
+    Created on : Sep 24, 2012, 12:55:04 PM
+    Author     : josemanuel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.latte-item.stack{
+    float: none;
+}
+
+.latte-item.stack > .container > .latte-item{
+    float: none;
+    clear:both;
+}/* 
     Document   : FormItem
     Created on : Feb 3, 2013, 8:52:46 AM
     Author     : menendezpoo
@@ -367,21 +382,6 @@
 .latte-item.form > .container > .latte-item.input > .value .value.data-record .value.textbox,
 .latte-item.form > .container > .latte-item.input > .value .value.data-record .latte-item.textbox input{
     width: 100%;
-}/* 
-    Document   : ItemStack
-    Created on : Sep 24, 2012, 12:55:04 PM
-    Author     : josemanuel
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-.latte-item.stack{
-    float: none;
-}
-
-.latte-item.stack > .container > .latte-item{
-    float: none;
-    clear:both;
 }/* 
     Document   : Ribbon
     Created on : Aug 3, 2012, 12:06:31 PM
@@ -574,22 +574,6 @@
 .latte-item.toolbar.tab.content-at-bottom   { border-bottom:    solid 1px #ccc; }
 .latte-item.toolbar.tab.content-at-left     { border-left:      solid 1px #ccc; }
 .latte-item.toolbar.tab.content-at-right    { border-right:     solid 1px #ccc; }/* 
-    Document   : ViewItem
-    Created on : Jan 24, 2013, 9:28:40 AM
-    Author     : josemanuel
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-.latte-item.view{
-    float: none;
-    position: relative;
-    min-height: 10px;
-}
-
-.latte-item.view > .latte-view{
-    
-}/* 
     Document   : Toolbar
     Created on : Sep 10, 2012, 11:01:15 AM
     Author     : josemanuel
@@ -691,6 +675,22 @@
     background: -ms-linear-gradient(top,  #ffffff 0%,#f9fafb 100%);
     background: linear-gradient(top,  #ffffff 0%,#f9fafb 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f9fafb', GradientType=0 );
+}/* 
+    Document   : ViewItem
+    Created on : Jan 24, 2013, 9:28:40 AM
+    Author     : josemanuel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.latte-item.view{
+    float: none;
+    position: relative;
+    min-height: 10px;
+}
+
+.latte-item.view > .latte-view{
+    
 }/* 
     Document   : WidgetItem
     Created on : Sep 24, 2012, 10:20:50 AM
@@ -1094,45 +1094,6 @@
     margin-top: 5px;
     margin-right: 5px;
 }/* 
-    Document   : HtmlEditorItem
-    Created on : Feb 6, 2013, 3:34:32 PM
-    Author     : josemanuel
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-.latte-item.html-editor {
-    float: none;
-    overflow: hidden;
-    min-height: 50px;
-    
-    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
-    border: solid 1px #D2D5D9;
-    background: white;
-}
-
-.latte-item.html-editor > .latte-item.toolbar > .face{
-    padding: 2px;
-    border-radius: 0;
-    border-bottom: solid 1px silver;
-}
-
-.latte-item.html-editor > iframe{
-    width: 100%;
-    background: white;
-    color: black;
-    overflow: hidden;
-}
-
-body.html-editor table{
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-
-body.html-editor td{
-    border: solid 1px silver;
-    padding: 8px;
-}/* 
     Document   : InputItem
     Created on : Aug 13, 2012, 11:57:01 AM
     Author     : josemanuel
@@ -1216,6 +1177,45 @@ body.html-editor td{
 .latte-item.label-value .latte-item.label .label-content{
     white-space: pre-wrap;
 }/* 
+    Document   : HtmlEditorItem
+    Created on : Feb 6, 2013, 3:34:32 PM
+    Author     : josemanuel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.latte-item.html-editor {
+    float: none;
+    overflow: hidden;
+    min-height: 50px;
+    
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+    border: solid 1px #D2D5D9;
+    background: white;
+}
+
+.latte-item.html-editor > .latte-item.toolbar > .face{
+    padding: 2px;
+    border-radius: 0;
+    border-bottom: solid 1px silver;
+}
+
+.latte-item.html-editor > iframe{
+    width: 100%;
+    background: white;
+    color: black;
+    overflow: hidden;
+}
+
+body.html-editor table{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+body.html-editor td{
+    border: solid 1px silver;
+    padding: 8px;
+}/* 
     Document   : ProgressItem
     Created on : Sep 24, 2012, 4:50:37 PM
     Author     : josemanuel
@@ -1268,6 +1268,70 @@ body.html-editor td{
 .latte-item.switch.on > .orb{
     margin-left: 20px;
     box-shadow: -3px 0 5px rgba(0, 0, 0, 0.2)
+}/* 
+    Document   : Loader
+    Created on : Aug 12, 2012, 3:54:15 PM
+    Author     : menendezpoo
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.latte-overlay.loader{
+    font-family: "Lucida Grande", sans-serif;
+    font-size: 11px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 7px 3em 7px 3em;
+    border-radius: 4px;
+    text-shadow: 0 -1px 1px black;
+}
+
+.latte-overlay.loader .latte-item.progress{
+    float: none;
+}/* 
+    Document   : MenuItem
+    Created on : Aug 3, 2012, 9:06:35 AM
+    Author     : josemanuel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*
+    latte.ui.MenuItem
+*/
+.latte-overlay.menu{
+    padding: 1px;
+}
+
+.latte-overlay.menu-face{
+    border: solid 1px #B0B0B0;
+    background: white;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.latte-overlay.menu > .latte-item{
+    display: block;
+    float: none;
+}/**
+ * Overlay
+ */
+
+.latte-overlay{
+    /*color: black;*/
+    /*font-family: "Lucida Grande", sans-serif;*/
+    /*font-size: 11px;*/
+    position: fixed;
+    left: 100px; /* Default position. Should be altered by JS */
+    top: 100px; /* Default position. Should be altered by JS */
+}.latte-overlay.suggestion{
+    font-family: "Lucida Grande", sans-serif;
+    font-size: 11px;
+    border: solid 1px #ccc;
+    background: white;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+.latte-overlay.suggestion .latte-item.separator{
+    border-top: solid 1px silver;
 }/* 
     Document   : TextboxItem
     Created on : Jan 16, 2013, 2:32:43 PM
@@ -1347,59 +1411,6 @@ body.html-editor td{
     position: absolute;
     top: 0;
     right: 0;
-}/* 
-    Document   : Loader
-    Created on : Aug 12, 2012, 3:54:15 PM
-    Author     : menendezpoo
-    Description:
-        Purpose of the stylesheet follows.
-*/
-.latte-overlay.loader{
-    font-family: "Lucida Grande", sans-serif;
-    font-size: 11px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 7px 3em 7px 3em;
-    border-radius: 4px;
-    text-shadow: 0 -1px 1px black;
-}
-
-.latte-overlay.loader .latte-item.progress{
-    float: none;
-}.latte-overlay.suggestion{
-    font-family: "Lucida Grande", sans-serif;
-    font-size: 11px;
-    border: solid 1px #ccc;
-    background: white;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
-    overflow: auto;
-}
-.latte-overlay.suggestion .latte-item.separator{
-    border-top: solid 1px silver;
-}/* 
-    Document   : MenuItem
-    Created on : Aug 3, 2012, 9:06:35 AM
-    Author     : josemanuel
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-/*
-    latte.ui.MenuItem
-*/
-.latte-overlay.menu{
-    padding: 1px;
-}
-
-.latte-overlay.menu-face{
-    border: solid 1px #B0B0B0;
-    background: white;
-    box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
-}
-
-.latte-overlay.menu > .latte-item{
-    display: block;
-    float: none;
 }
 .latte-view {
     position: absolute;
@@ -1464,20 +1475,6 @@ body.html-editor td{
 .latte-modal-view > .items > .latte-item{
     float: right;
     margin-left: 10px;
-}/**
- * Overlay
- */
-
-.latte-overlay{
-    /*color: black;*/
-    /*font-family: "Lucida Grande", sans-serif;*/
-    /*font-size: 11px;*/
-    position: fixed;
-    left: 100px; /* Default position. Should be altered by JS */
-    top: 100px; /* Default position. Should be altered by JS */
-}
-.latte-view.anchor > .latte-item.anchor{
-    position: absolute;
 }/* 
     Document   : RibbonView.css
     Created on : Aug 7, 2012, 5:39:53 PM
@@ -1491,19 +1488,10 @@ body.html-editor td{
     /*top: 0;*/
     /*left: 0;*/
     /*right: 0;*/
-/*}*//* 
-    Document   : TabView
-    Created on : Mar 5, 2013, 11:06:20 AM
-    Author     : josemanuel
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-.latte-view.tab > .container {
-    background: white;
-    border: solid 1px white;
-}
-/* 
+/*}*/
+.latte-view.anchor > .latte-item.anchor{
+    position: absolute;
+}/* 
     Document   : ToolbarView
     Created on : Mar 5, 2013, 11:27:59 AM
     Author     : josemanuel
@@ -1530,87 +1518,18 @@ body.html-editor td{
 .latte-view.toolbar.right > .latte-item.toolbar.with-face{
     border-left: solid 1px #D2D5D9;
 }/* 
-    Document   : CalendarMonthView
-    Created on : Oct 18, 2012, 7:41:55 PM
-    Author     : menendezpoo
+    Document   : TabView
+    Created on : Mar 5, 2013, 11:06:20 AM
+    Author     : josemanuel
     Description:
         Purpose of the stylesheet follows.
 */
 
-.latte-view.calendar-month{
+.latte-view.tab > .container {
     background: white;
+    border: solid 1px white;
 }
-
-.latte-view.calendar-month > .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 15px;
-    overflow: visible;
-}
-
-.latte-view.calendar-month > .content > .content-items{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: visible;
-}
-
-.latte-view.calendar-month > .content > .day {
-    position: absolute;
-    border-right: solid 1px #CBCCCC;
-    border-bottom: solid 1px #CBCCCC;
-    color: #9a9a9a;
-}
-
-.latte-view.calendar-month > .content > .day.today {
-    background-color: #EAEFF8;
-    background-color: rgba(87, 141, 217, 0.1);
-    color: #2782F3;
-}
-
-.latte-view.calendar-month > .content > .day > .number {
-    position: absolute;
-    right: 4px;
-    top: 4px;
-}
-
-.latte-view.calendar-month > .content > .day > .week-number {
-    position: absolute;
-    top: 1px;
-    left: 0px;
-    color: #a4a4a4;
-    padding: 4px 6px;
-    background-color: #ebebeb;
-    border-bottom-right-radius: 5px;
-    font-size: 9px;
-    font-weight: bold;
-}
-
-.latte-view.calendar-month > .content > .day.with-left {
-    border-left: solid 1px #CBCCCC;
-}
-
-.latte-view.calendar-month > .content > .day.with-top {
-    border-top: solid 1px #CBCCCC;
-}
-
-.latte-view.calendar-month > .content > .day.grayed {
-    background: rgba(0,0,0,0.05);
-}
-
-
-.latte-view.calendar-month > .content .selection{
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    background-color: highlight;
-    background-color: rgba(0, 153, 255, 0.15);
-}/* 
+/* 
     Document   : CalendarDayView
     Created on : Oct 11, 2012, 1:33:58 PM
     Author     : josemanuel
@@ -1765,31 +1684,86 @@ body.html-editor td{
     background-color: highlight;
     background-color: rgba(0, 153, 255, 0.15);
 }/* 
-    Document   : DateView
-    Created on : Oct 9, 2012, 7:15:30 PM
-    Author     : josemanuel
+    Document   : CalendarMonthView
+    Created on : Oct 18, 2012, 7:41:55 PM
+    Author     : menendezpoo
     Description:
         Purpose of the stylesheet follows.
 */
 
-.latte-view.date > .container > .latte-item.date{
-    float: none;
-    position: absolute;
+.latte-view.calendar-month{
+    background: white;
 }
 
-.latte-view.date > .latte-item.button{
-    float: none;
+.latte-view.calendar-month > .content {
     position: absolute;
-    bottom: 1px;
-    padding: 3px 10px;
-    text-align: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 15px;
+    overflow: visible;
 }
 
-.latte-view.date > .latte-item.button > .face > .label{
-    padding: 0 !important;
-    margin: 0 auto;
-    text-align: center;
-    float: none;
+.latte-view.calendar-month > .content > .content-items{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: visible;
+}
+
+.latte-view.calendar-month > .content > .day {
+    position: absolute;
+    border-right: solid 1px #CBCCCC;
+    border-bottom: solid 1px #CBCCCC;
+    color: #9a9a9a;
+}
+
+.latte-view.calendar-month > .content > .day.today {
+    background-color: #EAEFF8;
+    background-color: rgba(87, 141, 217, 0.1);
+    color: #2782F3;
+}
+
+.latte-view.calendar-month > .content > .day > .number {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+}
+
+.latte-view.calendar-month > .content > .day > .week-number {
+    position: absolute;
+    top: 1px;
+    left: 0px;
+    color: #a4a4a4;
+    padding: 4px 6px;
+    background-color: #ebebeb;
+    border-bottom-right-radius: 5px;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.latte-view.calendar-month > .content > .day.with-left {
+    border-left: solid 1px #CBCCCC;
+}
+
+.latte-view.calendar-month > .content > .day.with-top {
+    border-top: solid 1px #CBCCCC;
+}
+
+.latte-view.calendar-month > .content > .day.grayed {
+    background: rgba(0,0,0,0.05);
+}
+
+
+.latte-view.calendar-month > .content .selection{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: highlight;
+    background-color: rgba(0, 153, 255, 0.15);
 }/* 
     Document   : CalendarView
     Created on : Oct 24, 2012, 9:48:22 PM
@@ -1818,6 +1792,32 @@ body.html-editor td{
     right: 20px;
     top: 20px;
     
+}/* 
+    Document   : DateView
+    Created on : Oct 9, 2012, 7:15:30 PM
+    Author     : josemanuel
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.latte-view.date > .container > .latte-item.date{
+    float: none;
+    position: absolute;
+}
+
+.latte-view.date > .latte-item.button{
+    float: none;
+    position: absolute;
+    bottom: 1px;
+    padding: 3px 10px;
+    text-align: center;
+}
+
+.latte-view.date > .latte-item.button > .face > .label{
+    padding: 0 !important;
+    margin: 0 auto;
+    text-align: center;
+    float: none;
 }/* 
     Document   : Form.css
     Created on : Aug 3, 2012, 10:13:39 AM

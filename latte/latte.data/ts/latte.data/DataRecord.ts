@@ -221,6 +221,9 @@ module latte{
          * @param nativeType
          */
         static unserializeNativeValue(value: string, nativeType: string): any{
+            if(value === null) {
+                return null;
+            }
             let parts = nativeType.split('(');
             let name = parts[0].toLowerCase();
             let size = parts.length > 1 ? parseInt(parts[1].replace(')', '')) : -1;

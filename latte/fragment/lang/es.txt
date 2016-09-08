@@ -81,3 +81,4 @@ yesMakeOnline Sí, poner en línea
 signOut Cerrar Sesión
 sendToTrash Enviar a Basurero
 canUseBackend Puede usar Backend
+urlKeyInUse Clave de URL en uso por otra página
