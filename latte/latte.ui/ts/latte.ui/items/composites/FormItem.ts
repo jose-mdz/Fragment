@@ -307,7 +307,7 @@ module latte{
                     (input: InputItem) => {
                         this.items.add(input);
 
-                        input.valueChanged.add(this.onValueChanged, this);
+                        input.valueChanged.add(() => this.onValueChanged());
 
                         if(this.direction){
                             input.direction = this.direction;

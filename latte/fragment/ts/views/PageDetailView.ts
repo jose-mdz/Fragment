@@ -224,6 +224,7 @@ module latte {
                 if(++checker == 1){
                     call.withHandlers(() => {
                         this.unsavedChanges = false;
+                        this.settingsForm.unsavedChanges = false;
                         this.onPageChanged();
                     });
                 }
