@@ -117,7 +117,8 @@ module latte {
         get logout(): Element<HTMLDivElement> {
             if (!this._logout) {
                 this._logout = new Element<HTMLDivElement>(document.createElement('div'));
-                this._logout.text = sprintf('(%s) %s', User.me.uname, strings.signOut);
+                this._logout.text = User.me.uname; //sprintf('(%s) %s', User.me.uname, strings.signOut);
+                this._logout.element.appendChild(LinearIcon.power_switch.element.get(0));
                 this._logout.addClass('logout');
                 this._logout.addEventListener('click', () => Main.logOut());
             }

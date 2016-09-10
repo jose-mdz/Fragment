@@ -5,6 +5,137 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var latte;
 (function (latte) {
+    var groupBase = (function (_super) {
+        __extends(groupBase, _super);
+        function groupBase() {
+            _super.apply(this, arguments);
+            /* Name of Php record */
+            this._recordType = 'Group';
+            /* Name of Module where record lives */
+            this._moduleName = 'fragment';
+            /**
+             * Database field: int(11)
+             */
+            this._idgroup = null;
+            /**
+             * Database field: varchar(128)
+             */
+            this._name = null;
+        }
+        Object.defineProperty(groupBase.prototype, "idgroup", {
+            /**
+             * Gets or sets the value of the idgroup field of type int(11)
+             */
+            get: function () {
+                return this._idgroup;
+            },
+            /**
+             * Gets or sets the value of the idgroup field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idgroup;
+                this._idgroup = value;
+                if (changed) {
+                    this.onIdgroupChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(groupBase.prototype, "idgroupChanged", {
+            /**
+             * Gets an event raised when the value of the idgroup property changes
+             */
+            get: function () {
+                if (!this._idgroupChanged) {
+                    this._idgroupChanged = new latte.LatteEvent(this);
+                }
+                return this._idgroupChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idgroupChanged</c> event
+         */
+        groupBase.prototype.onIdgroupChanged = function () {
+            if (this._idgroupChanged) {
+                this._idgroupChanged.raise();
+            }
+            this.onFieldValueChanged('idgroup', this.idgroup);
+        };
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        groupBase.prototype.onGetRecordIdName = function () { return 'idgroup'; };
+        Object.defineProperty(groupBase.prototype, "name", {
+            /**
+             * Gets or sets the value of the name field of type varchar(128)
+             */
+            get: function () {
+                return this._name;
+            },
+            /**
+             * Gets or sets the value of the name field of type varchar(128)
+             */
+            set: function (value) {
+                var changed = value !== this._name;
+                this._name = value;
+                if (changed) {
+                    this.onNameChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(groupBase.prototype, "nameChanged", {
+            /**
+             * Gets an event raised when the value of the name property changes
+             */
+            get: function () {
+                if (!this._nameChanged) {
+                    this._nameChanged = new latte.LatteEvent(this);
+                }
+                return this._nameChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        groupBase.prototype.onNameChanged = function () {
+            if (this._nameChanged) {
+                this._nameChanged.raise();
+            }
+            this.onFieldValueChanged('name', this.name);
+        };
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        groupBase.prototype.onGetFields = function () { return { 'idgroup': this.idgroup, 'name': this.name }; };
+        /*
+         * Remote Method.
+
+
+         */
+        groupBase.catalog = function () {
+            return new latte.RemoteCall('fragment', 'Group', 'catalog', {});
+        };
+        /*
+         * Remote Method.
+
+         */
+        groupBase.search = function (text) {
+            return new latte.RemoteCall('fragment', 'Group', 'search', { text: text });
+        };
+        /**
+        * Declares the native types of the record.
+        **/
+        groupBase.nativeTypes = { "idgroup": "int(11)", "name": "varchar(128)" };
+        return groupBase;
+    }(latte.DataRecord));
+    latte.groupBase = groupBase;
     var pageBase = (function (_super) {
         __extends(pageBase, _super);
         function pageBase() {
@@ -942,6 +1073,16 @@ var latte;
         * Override. Gets data about the fields of the record.
         **/
         pageBase.prototype.onGetFields = function () { return { 'idpage': this.idpage, 'idparent': this.idparent, 'idgroup': this.idgroup, 'iduser': this.iduser, 'guid': this.guid, 'key': this.key, 'trash': this.trash, 'online': this.online, 'template': this.template, 'created': this.created, 'modified': this.modified, 'title': this.title, 'description': this.description, 'order': this.order, 'sort': this.sort, 'powner': this.powner, 'pgroup': this.pgroup, 'pother': this.pother, 'pworld': this.pworld, 'flags': this.flags }; };
+        /*
+         * Remote Method.
+ Returns a page from the specified URL query token.
+ The q variable may be the guid or the key of the page.
+
+
+         */
+        pageBase.byUrlQ = function (q) {
+            return new latte.RemoteCall('fragment', 'Page', 'byUrlQ', { q: q });
+        };
         /*
          * Remote Method.
  Return a value indicating if the key is valid for the specified page
@@ -2046,137 +2187,6 @@ var latte;
         return settingBase;
     }(latte.DataRecord));
     latte.settingBase = settingBase;
-    var groupBase = (function (_super) {
-        __extends(groupBase, _super);
-        function groupBase() {
-            _super.apply(this, arguments);
-            /* Name of Php record */
-            this._recordType = 'Group';
-            /* Name of Module where record lives */
-            this._moduleName = 'fragment';
-            /**
-             * Database field: int(11)
-             */
-            this._idgroup = null;
-            /**
-             * Database field: varchar(128)
-             */
-            this._name = null;
-        }
-        Object.defineProperty(groupBase.prototype, "idgroup", {
-            /**
-             * Gets or sets the value of the idgroup field of type int(11)
-             */
-            get: function () {
-                return this._idgroup;
-            },
-            /**
-             * Gets or sets the value of the idgroup field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idgroup;
-                this._idgroup = value;
-                if (changed) {
-                    this.onIdgroupChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(groupBase.prototype, "idgroupChanged", {
-            /**
-             * Gets an event raised when the value of the idgroup property changes
-             */
-            get: function () {
-                if (!this._idgroupChanged) {
-                    this._idgroupChanged = new latte.LatteEvent(this);
-                }
-                return this._idgroupChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        groupBase.prototype.onIdgroupChanged = function () {
-            if (this._idgroupChanged) {
-                this._idgroupChanged.raise();
-            }
-            this.onFieldValueChanged('idgroup', this.idgroup);
-        };
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        groupBase.prototype.onGetRecordIdName = function () { return 'idgroup'; };
-        Object.defineProperty(groupBase.prototype, "name", {
-            /**
-             * Gets or sets the value of the name field of type varchar(128)
-             */
-            get: function () {
-                return this._name;
-            },
-            /**
-             * Gets or sets the value of the name field of type varchar(128)
-             */
-            set: function (value) {
-                var changed = value !== this._name;
-                this._name = value;
-                if (changed) {
-                    this.onNameChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(groupBase.prototype, "nameChanged", {
-            /**
-             * Gets an event raised when the value of the name property changes
-             */
-            get: function () {
-                if (!this._nameChanged) {
-                    this._nameChanged = new latte.LatteEvent(this);
-                }
-                return this._nameChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        groupBase.prototype.onNameChanged = function () {
-            if (this._nameChanged) {
-                this._nameChanged.raise();
-            }
-            this.onFieldValueChanged('name', this.name);
-        };
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        groupBase.prototype.onGetFields = function () { return { 'idgroup': this.idgroup, 'name': this.name }; };
-        /*
-         * Remote Method.
-
-
-         */
-        groupBase.catalog = function () {
-            return new latte.RemoteCall('fragment', 'Group', 'catalog', {});
-        };
-        /*
-         * Remote Method.
-
-         */
-        groupBase.search = function (text) {
-            return new latte.RemoteCall('fragment', 'Group', 'search', { text: text });
-        };
-        /**
-        * Declares the native types of the record.
-        **/
-        groupBase.nativeTypes = { "idgroup": "int(11)", "name": "varchar(128)" };
-        return groupBase;
-    }(latte.DataRecord));
-    latte.groupBase = groupBase;
     var fragmentBase = (function (_super) {
         __extends(fragmentBase, _super);
         function fragmentBase() {
@@ -2385,6 +2395,175 @@ var latte;
         return fragmentBase;
     }(latte.DataRecord));
     latte.fragmentBase = fragmentBase;
+    var groupUserBase = (function (_super) {
+        __extends(groupUserBase, _super);
+        function groupUserBase() {
+            _super.apply(this, arguments);
+            /* Name of Php record */
+            this._recordType = 'GroupUser';
+            /* Name of Module where record lives */
+            this._moduleName = 'fragment';
+            /**
+             * Database field: int(11)
+             */
+            this._idgroupuser = null;
+            /**
+             * Database field: int(11)
+             */
+            this._idgroup = null;
+            /**
+             * Database field: int(11)
+             */
+            this._iduser = null;
+        }
+        Object.defineProperty(groupUserBase.prototype, "idgroupuser", {
+            /**
+             * Gets or sets the value of the idgroupuser field of type int(11)
+             */
+            get: function () {
+                return this._idgroupuser;
+            },
+            /**
+             * Gets or sets the value of the idgroupuser field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idgroupuser;
+                this._idgroupuser = value;
+                if (changed) {
+                    this.onIdgroupuserChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(groupUserBase.prototype, "idgroupuserChanged", {
+            /**
+             * Gets an event raised when the value of the idgroupuser property changes
+             */
+            get: function () {
+                if (!this._idgroupuserChanged) {
+                    this._idgroupuserChanged = new latte.LatteEvent(this);
+                }
+                return this._idgroupuserChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idgroupuserChanged</c> event
+         */
+        groupUserBase.prototype.onIdgroupuserChanged = function () {
+            if (this._idgroupuserChanged) {
+                this._idgroupuserChanged.raise();
+            }
+            this.onFieldValueChanged('idgroupuser', this.idgroupuser);
+        };
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        groupUserBase.prototype.onGetRecordIdName = function () { return 'idgroupuser'; };
+        Object.defineProperty(groupUserBase.prototype, "idgroup", {
+            /**
+             * Gets or sets the value of the idgroup field of type int(11)
+             */
+            get: function () {
+                return this._idgroup;
+            },
+            /**
+             * Gets or sets the value of the idgroup field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._idgroup;
+                this._idgroup = value;
+                if (changed) {
+                    this.onIdgroupChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(groupUserBase.prototype, "idgroupChanged", {
+            /**
+             * Gets an event raised when the value of the idgroup property changes
+             */
+            get: function () {
+                if (!this._idgroupChanged) {
+                    this._idgroupChanged = new latte.LatteEvent(this);
+                }
+                return this._idgroupChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>idgroupChanged</c> event
+         */
+        groupUserBase.prototype.onIdgroupChanged = function () {
+            if (this._idgroupChanged) {
+                this._idgroupChanged.raise();
+            }
+            this.onFieldValueChanged('idgroup', this.idgroup);
+        };
+        Object.defineProperty(groupUserBase.prototype, "iduser", {
+            /**
+             * Gets or sets the value of the iduser field of type int(11)
+             */
+            get: function () {
+                return this._iduser;
+            },
+            /**
+             * Gets or sets the value of the iduser field of type int(11)
+             */
+            set: function (value) {
+                var changed = value !== this._iduser;
+                this._iduser = value;
+                if (changed) {
+                    this.onIduserChanged();
+                }
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(groupUserBase.prototype, "iduserChanged", {
+            /**
+             * Gets an event raised when the value of the iduser property changes
+             */
+            get: function () {
+                if (!this._iduserChanged) {
+                    this._iduserChanged = new latte.LatteEvent(this);
+                }
+                return this._iduserChanged;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Raises the <c>iduserChanged</c> event
+         */
+        groupUserBase.prototype.onIduserChanged = function () {
+            if (this._iduserChanged) {
+                this._iduserChanged.raise();
+            }
+            this.onFieldValueChanged('iduser', this.iduser);
+        };
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        groupUserBase.prototype.onGetFields = function () { return { 'idgroupuser': this.idgroupuser, 'idgroup': this.idgroup, 'iduser': this.iduser }; };
+        /*
+         * Remote Method.
+
+         */
+        groupUserBase.byGroup = function (idgroup) {
+            return new latte.RemoteCall('fragment', 'GroupUser', 'byGroup', { idgroup: idgroup });
+        };
+        /**
+        * Declares the native types of the record.
+        **/
+        groupUserBase.nativeTypes = { "idgroupuser": "int(11)", "idgroup": "int(11)", "iduser": "int(11)" };
+        return groupUserBase;
+    }(latte.DataRecord));
+    latte.groupUserBase = groupUserBase;
     var userBase = (function (_super) {
         __extends(userBase, _super);
         function userBase() {
@@ -2621,175 +2800,6 @@ var latte;
         return userBase;
     }(latte.DataRecord));
     latte.userBase = userBase;
-    var groupUserBase = (function (_super) {
-        __extends(groupUserBase, _super);
-        function groupUserBase() {
-            _super.apply(this, arguments);
-            /* Name of Php record */
-            this._recordType = 'GroupUser';
-            /* Name of Module where record lives */
-            this._moduleName = 'fragment';
-            /**
-             * Database field: int(11)
-             */
-            this._idgroupuser = null;
-            /**
-             * Database field: int(11)
-             */
-            this._idgroup = null;
-            /**
-             * Database field: int(11)
-             */
-            this._iduser = null;
-        }
-        Object.defineProperty(groupUserBase.prototype, "idgroupuser", {
-            /**
-             * Gets or sets the value of the idgroupuser field of type int(11)
-             */
-            get: function () {
-                return this._idgroupuser;
-            },
-            /**
-             * Gets or sets the value of the idgroupuser field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idgroupuser;
-                this._idgroupuser = value;
-                if (changed) {
-                    this.onIdgroupuserChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(groupUserBase.prototype, "idgroupuserChanged", {
-            /**
-             * Gets an event raised when the value of the idgroupuser property changes
-             */
-            get: function () {
-                if (!this._idgroupuserChanged) {
-                    this._idgroupuserChanged = new latte.LatteEvent(this);
-                }
-                return this._idgroupuserChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idgroupuserChanged</c> event
-         */
-        groupUserBase.prototype.onIdgroupuserChanged = function () {
-            if (this._idgroupuserChanged) {
-                this._idgroupuserChanged.raise();
-            }
-            this.onFieldValueChanged('idgroupuser', this.idgroupuser);
-        };
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        groupUserBase.prototype.onGetRecordIdName = function () { return 'idgroupuser'; };
-        Object.defineProperty(groupUserBase.prototype, "idgroup", {
-            /**
-             * Gets or sets the value of the idgroup field of type int(11)
-             */
-            get: function () {
-                return this._idgroup;
-            },
-            /**
-             * Gets or sets the value of the idgroup field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._idgroup;
-                this._idgroup = value;
-                if (changed) {
-                    this.onIdgroupChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(groupUserBase.prototype, "idgroupChanged", {
-            /**
-             * Gets an event raised when the value of the idgroup property changes
-             */
-            get: function () {
-                if (!this._idgroupChanged) {
-                    this._idgroupChanged = new latte.LatteEvent(this);
-                }
-                return this._idgroupChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        groupUserBase.prototype.onIdgroupChanged = function () {
-            if (this._idgroupChanged) {
-                this._idgroupChanged.raise();
-            }
-            this.onFieldValueChanged('idgroup', this.idgroup);
-        };
-        Object.defineProperty(groupUserBase.prototype, "iduser", {
-            /**
-             * Gets or sets the value of the iduser field of type int(11)
-             */
-            get: function () {
-                return this._iduser;
-            },
-            /**
-             * Gets or sets the value of the iduser field of type int(11)
-             */
-            set: function (value) {
-                var changed = value !== this._iduser;
-                this._iduser = value;
-                if (changed) {
-                    this.onIduserChanged();
-                }
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(groupUserBase.prototype, "iduserChanged", {
-            /**
-             * Gets an event raised when the value of the iduser property changes
-             */
-            get: function () {
-                if (!this._iduserChanged) {
-                    this._iduserChanged = new latte.LatteEvent(this);
-                }
-                return this._iduserChanged;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Raises the <c>iduserChanged</c> event
-         */
-        groupUserBase.prototype.onIduserChanged = function () {
-            if (this._iduserChanged) {
-                this._iduserChanged.raise();
-            }
-            this.onFieldValueChanged('iduser', this.iduser);
-        };
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        groupUserBase.prototype.onGetFields = function () { return { 'idgroupuser': this.idgroupuser, 'idgroup': this.idgroup, 'iduser': this.iduser }; };
-        /*
-         * Remote Method.
-
-         */
-        groupUserBase.byGroup = function (idgroup) {
-            return new latte.RemoteCall('fragment', 'GroupUser', 'byGroup', { idgroup: idgroup });
-        };
-        /**
-        * Declares the native types of the record.
-        **/
-        groupUserBase.nativeTypes = { "idgroupuser": "int(11)", "idgroup": "int(11)", "iduser": "int(11)" };
-        return groupUserBase;
-    }(latte.DataRecord));
-    latte.groupUserBase = groupUserBase;
     /*
      *
 Created by PhpStorm.
@@ -3677,13 +3687,23 @@ var latte;
             // View.mainView = new CmsExplorer();
             if (window['loggedFragmentUser']) {
                 latte.User.me = latte.DataRecord.fromServerObject(window['loggedFragmentUser']);
-                Main.goMainView();
+                if (window.location.hash.indexOf('#/Editor/') === 0) {
+                    Main.goEditorView(window.location.hash.substr(9));
+                }
+                else {
+                    Main.goMainView();
+                }
             }
             else {
                 Main.goSignInView();
             }
         }
         //region Static
+        Main.goEditorView = function (guid) {
+            latte.Page.byUrlQ(guid).send(function (p) {
+                latte.View.mainView = new latte.PageEditorView(p);
+            });
+        };
         Main.goMainView = function () {
             var body = new latte.Element(document.body);
             body.clear();
@@ -3702,6 +3722,58 @@ var latte;
         return Main;
     }());
     latte.Main = Main;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var GroupUserExplorer = (function (_super) {
+        __extends(GroupUserExplorer, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function GroupUserExplorer(r) {
+            if (r === void 0) { r = null; }
+            _super.call(this);
+            if (r) {
+                this.record = r;
+            }
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Gets the columns of the item
+         * @Override
+         */
+        GroupUserExplorer.prototype.getColumns = function () {
+            return ['userName', 'userAttributes'];
+        };
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        GroupUserExplorer.prototype.getName = function () {
+            return (this.record.user || new latte.User()).toString();
+        };
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        GroupUserExplorer.prototype.getIcon = function () {
+            return latte.LinearIcon.user;
+        };
+        return GroupUserExplorer;
+    }(latte.ExplorerItemDataRecord));
+    latte.GroupUserExplorer = GroupUserExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/5/16.
@@ -3784,58 +3856,6 @@ var latte;
     /**
      *
      */
-    var GroupUserExplorer = (function (_super) {
-        __extends(GroupUserExplorer, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function GroupUserExplorer(r) {
-            if (r === void 0) { r = null; }
-            _super.call(this);
-            if (r) {
-                this.record = r;
-            }
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Gets the columns of the item
-         * @Override
-         */
-        GroupUserExplorer.prototype.getColumns = function () {
-            return ['userName', 'userAttributes'];
-        };
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        GroupUserExplorer.prototype.getName = function () {
-            return (this.record.user || new latte.User()).toString();
-        };
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        GroupUserExplorer.prototype.getIcon = function () {
-            return latte.LinearIcon.user;
-        };
-        return GroupUserExplorer;
-    }(latte.ExplorerItemDataRecord));
-    latte.GroupUserExplorer = GroupUserExplorer;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 8/5/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
     var GroupsExplorer = (function (_super) {
         __extends(GroupsExplorer, _super);
         //region Static
@@ -3894,107 +3914,6 @@ var latte;
         return GroupsExplorer;
     }(latte.ExplorerItem));
     latte.GroupsExplorer = GroupsExplorer;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 7/14/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var PageExplorer = (function (_super) {
-        __extends(PageExplorer, _super);
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         * Creates the Item
-         */
-        function PageExplorer(r) {
-            _super.call(this);
-            this.record = r;
-            this.loadsChildrenFolders = r.configuration.childrenMayHaveChildren;
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Gets the loader of children items
-         * @Override
-         */
-        PageExplorer.prototype.getChildrenLoader = function () {
-            var _this = this;
-            return this.record.getPages(this.childrenPage).withHandlers(function (result) {
-                for (var i in result.records) {
-                    _this.children.add(new PageExplorer(result.records[i]));
-                    _this.childrenPage = result.page;
-                    _this.childrenPages = result.pages;
-                }
-            });
-        };
-        /**
-         * Gets the columns of the item
-         * @Override
-         */
-        PageExplorer.prototype.getColumns = function () {
-            return ['title', 'key', 'guid'];
-        };
-        /**
-         * Gets the width of columns
-         * @Override
-         */
-        PageExplorer.prototype.getColumnWithFor = function (name) {
-            if (name == "title") {
-                return 250;
-            }
-            return _super.prototype.getColumnWithFor.call(this, name);
-        };
-        /**
-         * Gets the detail view of the item
-         * @Override
-         */
-        PageExplorer.prototype.getDetailView = function () {
-            return new latte.PageSidebar(this);
-        };
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        PageExplorer.prototype.getName = function () {
-            return this.record.title;
-        };
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        PageExplorer.prototype.getIcon = function () {
-            var icon = latte.LinearIcon.file_empty;
-            if (!this.record.isOnline) {
-                icon.css('opacity', 0.2);
-            }
-            return icon;
-        };
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        PageExplorer.prototype.getItems = function () {
-            var _this = this;
-            var items = [];
-            if (this.record.canIInsertChild) {
-                items.push(new latte.ButtonItem(strings.newPage, latte.LinearIcon.file_add, function () {
-                    var p = new latte.Page();
-                    p.idparent = _this.record.idpage;
-                    latte.DataRecordDialogView.editRecord(p, function () { return _this.onChildrenChanged(); }, strings.newPage);
-                }));
-            }
-            return items;
-        };
-        return PageExplorer;
-    }(latte.ExplorerItemDataRecord));
-    latte.PageExplorer = PageExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/14/16.
@@ -4187,6 +4106,107 @@ var latte;
         return UserExplorer;
     }(latte.ExplorerItemDataRecord));
     latte.UserExplorer = UserExplorer;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+var latte;
+(function (latte) {
+    /**
+     *
+     */
+    var PageExplorer = (function (_super) {
+        __extends(PageExplorer, _super);
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         * Creates the Item
+         */
+        function PageExplorer(r) {
+            _super.call(this);
+            this.record = r;
+            this.loadsChildrenFolders = r.configuration.childrenMayHaveChildren;
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        PageExplorer.prototype.getChildrenLoader = function () {
+            var _this = this;
+            return this.record.getPages(this.childrenPage).withHandlers(function (result) {
+                for (var i in result.records) {
+                    _this.children.add(new PageExplorer(result.records[i]));
+                    _this.childrenPage = result.page;
+                    _this.childrenPages = result.pages;
+                }
+            });
+        };
+        /**
+         * Gets the columns of the item
+         * @Override
+         */
+        PageExplorer.prototype.getColumns = function () {
+            return ['title', 'key', 'guid'];
+        };
+        /**
+         * Gets the width of columns
+         * @Override
+         */
+        PageExplorer.prototype.getColumnWithFor = function (name) {
+            if (name == "title") {
+                return 250;
+            }
+            return _super.prototype.getColumnWithFor.call(this, name);
+        };
+        /**
+         * Gets the detail view of the item
+         * @Override
+         */
+        PageExplorer.prototype.getDetailView = function () {
+            return new latte.PageSidebar(this);
+        };
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        PageExplorer.prototype.getName = function () {
+            return this.record.title;
+        };
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        PageExplorer.prototype.getIcon = function () {
+            var icon = latte.LinearIcon.file_empty;
+            if (!this.record.isOnline) {
+                icon.css('opacity', 0.2);
+            }
+            return icon;
+        };
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        PageExplorer.prototype.getItems = function () {
+            var _this = this;
+            var items = [];
+            if (this.record.canIInsertChild) {
+                items.push(new latte.ButtonItem(strings.newPage, latte.LinearIcon.file_add, function () {
+                    var p = new latte.Page();
+                    p.idparent = _this.record.idpage;
+                    latte.DataRecordDialogView.editRecord(p, function () { return _this.onChildrenChanged(); }, strings.newPage);
+                }));
+            }
+            return items;
+        };
+        return PageExplorer;
+    }(latte.ExplorerItemDataRecord));
+    latte.PageExplorer = PageExplorer;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 8/5/16.
@@ -5027,6 +5047,77 @@ var latte;
  */
 var latte;
 (function (latte) {
+    /**
+     *
+     */
+    var Plugin = (function () {
+        //region Static
+        //endregion
+        //region Fields
+        //endregion
+        /**
+         *
+         */
+        function Plugin() {
+        }
+        //region Private Methods
+        //endregion
+        //region Methods
+        /**
+         * Raises the <c>load</c> event
+         */
+        Plugin.prototype.onLoad = function () {
+            if (this._load) {
+                this._load.raise();
+            }
+        };
+        /**
+         * Raises the <c>unload</c> event
+         */
+        Plugin.prototype.onUnload = function () {
+            if (this._unload) {
+                this._unload.raise();
+            }
+        };
+        Object.defineProperty(Plugin.prototype, "load", {
+            /**
+             * Gets an event raised when the plugin is loaded
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._load) {
+                    this._load = new latte.LatteEvent(this);
+                }
+                return this._load;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Plugin.prototype, "unload", {
+            /**
+             * Gets an event raised when the plugin is unloaded
+             *
+             * @returns {LatteEvent}
+             */
+            get: function () {
+                if (!this._unload) {
+                    this._unload = new latte.LatteEvent(this);
+                }
+                return this._unload;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Plugin;
+    }());
+    latte.Plugin = Plugin;
+})(latte || (latte = {}));
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+var latte;
+(function (latte) {
     latte.defaultPageConfigurationFragment = {
         body: {
             name: "strings.body"
@@ -5338,77 +5429,6 @@ var latte;
         return PageConfiguration;
     }());
     latte.PageConfiguration = PageConfiguration;
-})(latte || (latte = {}));
-/**
- * Created by josemanuel on 7/26/16.
- */
-var latte;
-(function (latte) {
-    /**
-     *
-     */
-    var Plugin = (function () {
-        //region Static
-        //endregion
-        //region Fields
-        //endregion
-        /**
-         *
-         */
-        function Plugin() {
-        }
-        //region Private Methods
-        //endregion
-        //region Methods
-        /**
-         * Raises the <c>load</c> event
-         */
-        Plugin.prototype.onLoad = function () {
-            if (this._load) {
-                this._load.raise();
-            }
-        };
-        /**
-         * Raises the <c>unload</c> event
-         */
-        Plugin.prototype.onUnload = function () {
-            if (this._unload) {
-                this._unload.raise();
-            }
-        };
-        Object.defineProperty(Plugin.prototype, "load", {
-            /**
-             * Gets an event raised when the plugin is loaded
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._load) {
-                    this._load = new latte.LatteEvent(this);
-                }
-                return this._load;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Plugin.prototype, "unload", {
-            /**
-             * Gets an event raised when the plugin is unloaded
-             *
-             * @returns {LatteEvent}
-             */
-            get: function () {
-                if (!this._unload) {
-                    this._unload = new latte.LatteEvent(this);
-                }
-                return this._unload;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Plugin;
-    }());
-    latte.Plugin = Plugin;
 })(latte || (latte = {}));
 /**
  * Created by josemanuel on 7/26/16.
@@ -8134,6 +8154,23 @@ var latte;
 var latte;
 (function (latte) {
     /**
+     * Record for table fragment
+     */
+    var Fragment = (function (_super) {
+        __extends(Fragment, _super);
+        function Fragment() {
+            _super.apply(this, arguments);
+        }
+        return Fragment;
+    }(latte.fragmentBase));
+    latte.Fragment = Fragment;
+})(latte || (latte = {}));
+/**
+ * Generated by xlatte
+ */
+var latte;
+(function (latte) {
+    /**
      * Record for table group
      */
     var Group = (function (_super) {
@@ -8190,23 +8227,6 @@ var latte;
         return Group;
     }(latte.groupBase));
     latte.Group = Group;
-})(latte || (latte = {}));
-/**
- * Generated by xlatte
- */
-var latte;
-(function (latte) {
-    /**
-     * Record for table fragment
-     */
-    var Fragment = (function (_super) {
-        __extends(Fragment, _super);
-        function Fragment() {
-            _super.apply(this, arguments);
-        }
-        return Fragment;
-    }(latte.fragmentBase));
-    latte.Fragment = Fragment;
 })(latte || (latte = {}));
 /**
  * Generated by xlatte
@@ -9082,7 +9102,8 @@ var latte;
             get: function () {
                 if (!this._logout) {
                     this._logout = new latte.Element(document.createElement('div'));
-                    this._logout.text = latte.sprintf('(%s) %s', latte.User.me.uname, strings.signOut);
+                    this._logout.text = latte.User.me.uname; //sprintf('(%s) %s', User.me.uname, strings.signOut);
+                    this._logout.element.appendChild(latte.LinearIcon.power_switch.element.get(0));
                     this._logout.addClass('logout');
                     this._logout.addEventListener('click', function () { return latte.Main.logOut(); });
                 }
@@ -9502,14 +9523,17 @@ var latte;
          * Opens the editor
          */
         PageDetailView.prototype.openEditor = function () {
-            var _this = this;
-            var mainView = latte.View.mainView;
-            var editor = new latte.PageEditorView(this.page);
-            latte.View.mainView = editor;
-            editor.closeRequested.add(function () {
-                _this.dataForm.onRecordChanged();
-                latte.View.mainView = mainView;
-            });
+            var url = latte.sprintf("%s/%s#/Editor/%s", window.location.origin, window.location.pathname, this.page.guid);
+            window.open(url);
+            // var mainView = View.mainView;
+            // let editor = new PageEditorView(this.page);
+            //
+            // View.mainView = editor;
+            //
+            // editor.closeRequested.add(() => {
+            //     this.dataForm.onRecordChanged();
+            //     View.mainView = mainView
+            // });
         };
         /**
          * Override.
@@ -9792,7 +9816,9 @@ var latte;
             this.element.append(this.btnClose.element);
             this.ribbon.startButton.visible = false;
             this.ribbon.items.addArray([
-                this.onlineInput
+                this.btnPreview,
+                latte.SeparatorItem.withTab(this.tabPage),
+                this.onlineInput,
             ]);
             this.ribbon.tabs.addArray([
                 this.tabPage
@@ -9817,6 +9843,13 @@ var latte;
                 this._pageChanged.raise();
             }
             this.loadPage();
+        };
+        /**
+         * Previews the page
+         */
+        PageEditorView.prototype.preview = function () {
+            var loc = document.location;
+            window.open(latte.sprintf("%s//%s/%s", loc.protocol, loc.host, this.page.guid));
         };
         /**
          *
@@ -9953,6 +9986,23 @@ var latte;
                     this._btnClose.faceVisible = false;
                 }
                 return this._btnClose;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageEditorView.prototype, "btnPreview", {
+            /**
+             * Gets the preview button
+             *
+             * @returns {ButtonItem}
+             */
+            get: function () {
+                var _this = this;
+                if (!this._btnPreview) {
+                    this._btnPreview = new latte.ButtonItem(strings.previewPage, latte.LinearIcon.screen.go32(), function () { return _this.preview(); });
+                    this._btnPreview.tab = this.tabPage;
+                }
+                return this._btnPreview;
             },
             enumerable: true,
             configurable: true
@@ -10414,18 +10464,18 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Uploader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/Main.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupUserExplorer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/GroupsExplorer.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PageExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PagesExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UserExplorer.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/PageExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/explorers/UsersExplorer.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FileUploader.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/FragmentAdapterManager.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/ImageUtil.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/PageConfiguration.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/Plugin.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/PageConfiguration.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/PluginManager.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/HtmlFragmentAdapter.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/helpers/adapters/ImageGalleryFragmentAdapter.ts" />
@@ -10434,8 +10484,8 @@ var latte;
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/FragmentExpandoItem.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/items/LinearIcon.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/File.ts" />
-/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Group.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Fragment.ts" />
+/// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Group.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/GroupUser.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Page.ts" />
 /// <reference path="/Users/josemanuel/Sites/Fragment/latte/fragment/ts/records/Setting.ts" />

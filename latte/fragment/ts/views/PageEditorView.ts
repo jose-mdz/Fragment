@@ -177,7 +177,9 @@ module latte {
             this.ribbon.startButton.visible = false;
 
             this.ribbon.items.addArray([
-                this.onlineInput
+                this.btnPreview,
+                SeparatorItem.withTab(this.tabPage),
+                this.onlineInput,
             ]);
 
             this.ribbon.tabs.addArray([
@@ -213,6 +215,15 @@ module latte {
             this.loadPage();
 
         }
+
+        /**
+         * Previews the page
+         */
+        preview(){
+            let loc = document.location;
+            window.open(sprintf("%s//%s/%s", loc.protocol, loc.host, this.page.guid));
+        }
+
 
         /**
          *
@@ -381,6 +392,24 @@ module latte {
                 this._btnClose.faceVisible = false;
             }
             return this._btnClose;
+        }
+
+        /**
+         * Field for btnPreview property
+         */
+        private _btnPreview: ButtonItem;
+
+        /**
+         * Gets the preview button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnPreview(): ButtonItem {
+            if (!this._btnPreview) {
+                this._btnPreview = new ButtonItem(strings.previewPage, LinearIcon.screen.go32(), () => this.preview());
+                this._btnPreview.tab = this.tabPage;
+            }
+            return this._btnPreview;
         }
 
         /**

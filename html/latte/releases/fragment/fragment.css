@@ -692,14 +692,14 @@ https://perxis.com
     top: 0;
     left: 0;
     right: 0;
-    height: 50px;
+    height: 35px;
     overflow: hidden;
 
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f6383e+0,f67638+100 */
     background: #f6383e; /* Old browsers */
     background: -moz-linear-gradient(top,  #f6383e 0%, #f67638 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top,  #f6383e 0%,#f67638 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom,  #f6383e 0%,#f67638 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: linear-gradient(to right,  #f6383e 0%,#f67638 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6383e', endColorstr='#f67638',GradientType=0 ); /* IE6-9 */
 
 }
@@ -725,7 +725,12 @@ https://perxis.com
     bottom:0;
     color: white;
     cursor: pointer;
-    padding: 20px 20px;
+    padding: 11px 20px;
+}
+
+.cms-main-view.latte-view > .top-bar > .logout .latte-uielement.latte-item.icon.size-16{
+    float: right;
+    margin-left: 10px;
 }
 
 .cms-main-view.latte-view > .top-bar > .logout:hover{
@@ -733,7 +738,7 @@ https://perxis.com
 }
 
 .cms-main-view.latte-view > .container{
-    top: 50px;
+    top: 35px;
 }
 
 @keyframes spin { 100% { transform:rotate(120deg); } }

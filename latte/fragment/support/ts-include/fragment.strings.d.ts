@@ -83,4 +83,6 @@ declare module latte{ interface Strings{
 	sendToTrash: string;
 	canUseBackend: string;
 	urlKeyInUse: string;
+	previewPage: string;
+	pageNotFound404: string;
 }}

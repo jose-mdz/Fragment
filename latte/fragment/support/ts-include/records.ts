@@ -1,5 +1,135 @@
 module latte{
-		export class pageBase extends DataRecord{
+		export class groupBase extends DataRecord{
+
+		/* Name of Php record */
+		_recordType: string = 'Group';
+
+		/* Name of Module where record lives */
+		_moduleName: string = 'fragment';
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idgroup: number = null;
+
+		/**
+		 * Gets or sets the value of the idgroup field of type int(11)
+		 */
+		get idgroup(): number{
+			return this._idgroup;
+		}
+
+		/**
+		 * Gets or sets the value of the idgroup field of type int(11)
+		 */
+		set idgroup(value: number){
+			var changed: boolean = value !== this._idgroup
+			this._idgroup = value;
+			if(changed){ this.onIdgroupChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idgroupChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idgroup property changes
+		 */
+		get idgroupChanged(): LatteEvent{
+			if(!this._idgroupChanged){ this._idgroupChanged = new LatteEvent(this); }
+			return this._idgroupChanged;
+		}
+
+		/**
+		 * Raises the <c>idgroupChanged</c> event
+		 */
+		onIdgroupChanged(){
+			if(this._idgroupChanged){
+				this._idgroupChanged.raise()
+			}
+			this.onFieldValueChanged('idgroup', this.idgroup)
+		}
+
+		/**
+		* Gets the name of the autoincrement field
+		**/
+		onGetRecordIdName(): string { return 'idgroup'; }
+
+		/**
+		 * Database field: varchar(128)
+		 */
+		_name: string = null;
+
+		/**
+		 * Gets or sets the value of the name field of type varchar(128)
+		 */
+		get name(): string{
+			return this._name;
+		}
+
+		/**
+		 * Gets or sets the value of the name field of type varchar(128)
+		 */
+		set name(value: string){
+			var changed: boolean = value !== this._name
+			this._name = value;
+			if(changed){ this.onNameChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_nameChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the name property changes
+		 */
+		get nameChanged(): LatteEvent{
+			if(!this._nameChanged){ this._nameChanged = new LatteEvent(this); }
+			return this._nameChanged;
+		}
+
+		/**
+		 * Raises the <c>nameChanged</c> event
+		 */
+		onNameChanged(){
+			if(this._nameChanged){
+				this._nameChanged.raise()
+			}
+			this.onFieldValueChanged('name', this.name)
+		}
+
+		/**
+		* Override. Gets data about the fields of the record.
+		**/
+		onGetFields(): any { return {'idgroup': this.idgroup, 'name': this.name}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idgroup":"int(11)","name":"varchar(128)"};
+
+		/*
+		 * Remote Method. 
+
+
+		 */
+		static catalog(): RemoteCall<Group[]>{
+			return new RemoteCall<Group[]>('fragment', 'Group', 'catalog', {} );
+		}
+
+		/*
+		 * Remote Method. 
+
+		 */
+		static search(text: string): RemoteCall<Group[]>{
+			return new RemoteCall<Group[]>('fragment', 'Group', 'search', {text: text} );
+		}
+	}
+
+	export class pageBase extends DataRecord{
 
 		/* Name of Php record */
 		_recordType: string = 'Page';
@@ -902,6 +1032,17 @@ module latte{
 		**/
 
 		static nativeTypes = {"idpage":"int(11)","idparent":"int(11)","idgroup":"int(11)","iduser":"int(11)","guid":"varchar(50)","key":"varchar(200)","trash":"int(1)","online":"int(1)","template":"varchar(20)","created":"datetime","modified":"datetime","title":"varchar(128)","description":"varchar(255)","order":"int(11)","sort":"varchar(20)","powner":"int(11)","pgroup":"int(11)","pother":"int(11)","pworld":"int(11)","flags":"int(11)"};
+
+		/*
+		 * Remote Method. 
+ Returns a page from the specified URL query token.
+ The q variable may be the guid or the key of the page.
+
+
+		 */
+		static byUrlQ(q: string): RemoteCall<Page>{
+			return new RemoteCall<Page>('fragment', 'Page', 'byUrlQ', {q: q} );
+		}
 
 		/*
 		 * Remote Method. 
@@ -1977,136 +2118,6 @@ module latte{
 		}
 	}
 
-	export class groupBase extends DataRecord{
-
-		/* Name of Php record */
-		_recordType: string = 'Group';
-
-		/* Name of Module where record lives */
-		_moduleName: string = 'fragment';
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idgroup: number = null;
-
-		/**
-		 * Gets or sets the value of the idgroup field of type int(11)
-		 */
-		get idgroup(): number{
-			return this._idgroup;
-		}
-
-		/**
-		 * Gets or sets the value of the idgroup field of type int(11)
-		 */
-		set idgroup(value: number){
-			var changed: boolean = value !== this._idgroup
-			this._idgroup = value;
-			if(changed){ this.onIdgroupChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idgroupChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idgroup property changes
-		 */
-		get idgroupChanged(): LatteEvent{
-			if(!this._idgroupChanged){ this._idgroupChanged = new LatteEvent(this); }
-			return this._idgroupChanged;
-		}
-
-		/**
-		 * Raises the <c>idgroupChanged</c> event
-		 */
-		onIdgroupChanged(){
-			if(this._idgroupChanged){
-				this._idgroupChanged.raise()
-			}
-			this.onFieldValueChanged('idgroup', this.idgroup)
-		}
-
-		/**
-		* Gets the name of the autoincrement field
-		**/
-		onGetRecordIdName(): string { return 'idgroup'; }
-
-		/**
-		 * Database field: varchar(128)
-		 */
-		_name: string = null;
-
-		/**
-		 * Gets or sets the value of the name field of type varchar(128)
-		 */
-		get name(): string{
-			return this._name;
-		}
-
-		/**
-		 * Gets or sets the value of the name field of type varchar(128)
-		 */
-		set name(value: string){
-			var changed: boolean = value !== this._name
-			this._name = value;
-			if(changed){ this.onNameChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_nameChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the name property changes
-		 */
-		get nameChanged(): LatteEvent{
-			if(!this._nameChanged){ this._nameChanged = new LatteEvent(this); }
-			return this._nameChanged;
-		}
-
-		/**
-		 * Raises the <c>nameChanged</c> event
-		 */
-		onNameChanged(){
-			if(this._nameChanged){
-				this._nameChanged.raise()
-			}
-			this.onFieldValueChanged('name', this.name)
-		}
-
-		/**
-		* Override. Gets data about the fields of the record.
-		**/
-		onGetFields(): any { return {'idgroup': this.idgroup, 'name': this.name}; }
-
-		/**
-		* Declares the native types of the record.
-		**/
-
-		static nativeTypes = {"idgroup":"int(11)","name":"varchar(128)"};
-
-		/*
-		 * Remote Method. 
-
-
-		 */
-		static catalog(): RemoteCall<Group[]>{
-			return new RemoteCall<Group[]>('fragment', 'Group', 'catalog', {} );
-		}
-
-		/*
-		 * Remote Method. 
-
-		 */
-		static search(text: string): RemoteCall<Group[]>{
-			return new RemoteCall<Group[]>('fragment', 'Group', 'search', {text: text} );
-		}
-	}
-
 	export class fragmentBase extends DataRecord{
 
 		/* Name of Php record */
@@ -2306,6 +2317,171 @@ module latte{
 		**/
 
 		static nativeTypes = {"idfragment":"int(11)","idpage":"int(11)","value":"longtext","name":"varchar(50)"};
+	}
+
+	export class groupUserBase extends DataRecord{
+
+		/* Name of Php record */
+		_recordType: string = 'GroupUser';
+
+		/* Name of Module where record lives */
+		_moduleName: string = 'fragment';
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idgroupuser: number = null;
+
+		/**
+		 * Gets or sets the value of the idgroupuser field of type int(11)
+		 */
+		get idgroupuser(): number{
+			return this._idgroupuser;
+		}
+
+		/**
+		 * Gets or sets the value of the idgroupuser field of type int(11)
+		 */
+		set idgroupuser(value: number){
+			var changed: boolean = value !== this._idgroupuser
+			this._idgroupuser = value;
+			if(changed){ this.onIdgroupuserChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idgroupuserChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idgroupuser property changes
+		 */
+		get idgroupuserChanged(): LatteEvent{
+			if(!this._idgroupuserChanged){ this._idgroupuserChanged = new LatteEvent(this); }
+			return this._idgroupuserChanged;
+		}
+
+		/**
+		 * Raises the <c>idgroupuserChanged</c> event
+		 */
+		onIdgroupuserChanged(){
+			if(this._idgroupuserChanged){
+				this._idgroupuserChanged.raise()
+			}
+			this.onFieldValueChanged('idgroupuser', this.idgroupuser)
+		}
+
+		/**
+		* Gets the name of the autoincrement field
+		**/
+		onGetRecordIdName(): string { return 'idgroupuser'; }
+
+		/**
+		 * Database field: int(11)
+		 */
+		_idgroup: number = null;
+
+		/**
+		 * Gets or sets the value of the idgroup field of type int(11)
+		 */
+		get idgroup(): number{
+			return this._idgroup;
+		}
+
+		/**
+		 * Gets or sets the value of the idgroup field of type int(11)
+		 */
+		set idgroup(value: number){
+			var changed: boolean = value !== this._idgroup
+			this._idgroup = value;
+			if(changed){ this.onIdgroupChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_idgroupChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the idgroup property changes
+		 */
+		get idgroupChanged(): LatteEvent{
+			if(!this._idgroupChanged){ this._idgroupChanged = new LatteEvent(this); }
+			return this._idgroupChanged;
+		}
+
+		/**
+		 * Raises the <c>idgroupChanged</c> event
+		 */
+		onIdgroupChanged(){
+			if(this._idgroupChanged){
+				this._idgroupChanged.raise()
+			}
+			this.onFieldValueChanged('idgroup', this.idgroup)
+		}
+
+		/**
+		 * Database field: int(11)
+		 */
+		_iduser: number = null;
+
+		/**
+		 * Gets or sets the value of the iduser field of type int(11)
+		 */
+		get iduser(): number{
+			return this._iduser;
+		}
+
+		/**
+		 * Gets or sets the value of the iduser field of type int(11)
+		 */
+		set iduser(value: number){
+			var changed: boolean = value !== this._iduser
+			this._iduser = value;
+			if(changed){ this.onIduserChanged(); }
+		}
+
+		/**
+		 * Back field for event
+		 */
+		_iduserChanged: LatteEvent;
+
+		/**
+		 * Gets an event raised when the value of the iduser property changes
+		 */
+		get iduserChanged(): LatteEvent{
+			if(!this._iduserChanged){ this._iduserChanged = new LatteEvent(this); }
+			return this._iduserChanged;
+		}
+
+		/**
+		 * Raises the <c>iduserChanged</c> event
+		 */
+		onIduserChanged(){
+			if(this._iduserChanged){
+				this._iduserChanged.raise()
+			}
+			this.onFieldValueChanged('iduser', this.iduser)
+		}
+
+		/**
+		* Override. Gets data about the fields of the record.
+		**/
+		onGetFields(): any { return {'idgroupuser': this.idgroupuser, 'idgroup': this.idgroup, 'iduser': this.iduser}; }
+
+		/**
+		* Declares the native types of the record.
+		**/
+
+		static nativeTypes = {"idgroupuser":"int(11)","idgroup":"int(11)","iduser":"int(11)"};
+
+		/*
+		 * Remote Method. 
+
+		 */
+		static byGroup(idgroup: number): RemoteCall<GroupUser[]>{
+			return new RemoteCall<GroupUser[]>('fragment', 'GroupUser', 'byGroup', {idgroup: idgroup} );
+		}
 	}
 
 	export class userBase extends DataRecord{
@@ -2538,171 +2714,6 @@ module latte{
 		 */
 		passwordCorrect(password: string): RemoteCall<boolean>{
 			return new RemoteCall<boolean>('fragment', 'User', 'passwordCorrect', {password: password} , this.recordId);
-		}
-	}
-
-	export class groupUserBase extends DataRecord{
-
-		/* Name of Php record */
-		_recordType: string = 'GroupUser';
-
-		/* Name of Module where record lives */
-		_moduleName: string = 'fragment';
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idgroupuser: number = null;
-
-		/**
-		 * Gets or sets the value of the idgroupuser field of type int(11)
-		 */
-		get idgroupuser(): number{
-			return this._idgroupuser;
-		}
-
-		/**
-		 * Gets or sets the value of the idgroupuser field of type int(11)
-		 */
-		set idgroupuser(value: number){
-			var changed: boolean = value !== this._idgroupuser
-			this._idgroupuser = value;
-			if(changed){ this.onIdgroupuserChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idgroupuserChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idgroupuser property changes
-		 */
-		get idgroupuserChanged(): LatteEvent{
-			if(!this._idgroupuserChanged){ this._idgroupuserChanged = new LatteEvent(this); }
-			return this._idgroupuserChanged;
-		}
-
-		/**
-		 * Raises the <c>idgroupuserChanged</c> event
-		 */
-		onIdgroupuserChanged(){
-			if(this._idgroupuserChanged){
-				this._idgroupuserChanged.raise()
-			}
-			this.onFieldValueChanged('idgroupuser', this.idgroupuser)
-		}
-
-		/**
-		* Gets the name of the autoincrement field
-		**/
-		onGetRecordIdName(): string { return 'idgroupuser'; }
-
-		/**
-		 * Database field: int(11)
-		 */
-		_idgroup: number = null;
-
-		/**
-		 * Gets or sets the value of the idgroup field of type int(11)
-		 */
-		get idgroup(): number{
-			return this._idgroup;
-		}
-
-		/**
-		 * Gets or sets the value of the idgroup field of type int(11)
-		 */
-		set idgroup(value: number){
-			var changed: boolean = value !== this._idgroup
-			this._idgroup = value;
-			if(changed){ this.onIdgroupChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_idgroupChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the idgroup property changes
-		 */
-		get idgroupChanged(): LatteEvent{
-			if(!this._idgroupChanged){ this._idgroupChanged = new LatteEvent(this); }
-			return this._idgroupChanged;
-		}
-
-		/**
-		 * Raises the <c>idgroupChanged</c> event
-		 */
-		onIdgroupChanged(){
-			if(this._idgroupChanged){
-				this._idgroupChanged.raise()
-			}
-			this.onFieldValueChanged('idgroup', this.idgroup)
-		}
-
-		/**
-		 * Database field: int(11)
-		 */
-		_iduser: number = null;
-
-		/**
-		 * Gets or sets the value of the iduser field of type int(11)
-		 */
-		get iduser(): number{
-			return this._iduser;
-		}
-
-		/**
-		 * Gets or sets the value of the iduser field of type int(11)
-		 */
-		set iduser(value: number){
-			var changed: boolean = value !== this._iduser
-			this._iduser = value;
-			if(changed){ this.onIduserChanged(); }
-		}
-
-		/**
-		 * Back field for event
-		 */
-		_iduserChanged: LatteEvent;
-
-		/**
-		 * Gets an event raised when the value of the iduser property changes
-		 */
-		get iduserChanged(): LatteEvent{
-			if(!this._iduserChanged){ this._iduserChanged = new LatteEvent(this); }
-			return this._iduserChanged;
-		}
-
-		/**
-		 * Raises the <c>iduserChanged</c> event
-		 */
-		onIduserChanged(){
-			if(this._iduserChanged){
-				this._iduserChanged.raise()
-			}
-			this.onFieldValueChanged('iduser', this.iduser)
-		}
-
-		/**
-		* Override. Gets data about the fields of the record.
-		**/
-		onGetFields(): any { return {'idgroupuser': this.idgroupuser, 'idgroup': this.idgroup, 'iduser': this.iduser}; }
-
-		/**
-		* Declares the native types of the record.
-		**/
-
-		static nativeTypes = {"idgroupuser":"int(11)","idgroup":"int(11)","iduser":"int(11)"};
-
-		/*
-		 * Remote Method. 
-
-		 */
-		static byGroup(idgroup: number): RemoteCall<GroupUser[]>{
-			return new RemoteCall<GroupUser[]>('fragment', 'GroupUser', 'byGroup', {idgroup: idgroup} );
 		}
 	}
 

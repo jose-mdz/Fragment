@@ -82,7 +82,8 @@ class Page extends pageBase{
      * Returns a page from the specified URL query token.
      * The q variable may be the guid or the key of the page.
      *
-     * @param $q
+     * @remote
+     * @param string $q
      * @return Page
      * @throws SecurityException
      */
@@ -387,7 +388,7 @@ class Page extends pageBase{
         // Setup variables
         $settings = isset($options['settings']) ? $options['settings'] : array();
         $fragments = isset($options['fragments']) ? $options['fragments'] : array();
-        $filters = isset($options['filters']) ? $options['filters'] : array();
+        $filters = isset($options['filters']) ? $options['filters'] : array(array("online", 1));
         $pageFields = array_keys((new Page())->getFields());
         $sentences = array();
         $page = isset($options['page']) ? $options['page'] : 1;

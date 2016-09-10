@@ -83,3 +83,5 @@ strings.signOut = "Cerrar Sesión";
 strings.sendToTrash = "Enviar a Basurero";
 strings.canUseBackend = "Puede usar Backend";
 strings.urlKeyInUse = "Clave de URL en uso por otra página";
+strings.previewPage = "Vista Previa";
+strings.pageNotFound404 = "La página no ha sido encontrada";

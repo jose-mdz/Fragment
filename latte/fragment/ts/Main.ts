@@ -9,6 +9,15 @@ module latte {
     export class Main {
 
         //region Static
+
+        static goEditorView(guid: string){
+
+            Page.byUrlQ(guid).send((p: Page) => {
+                View.mainView = new PageEditorView(p);
+            });
+
+        }
+
         static goMainView(){
 
             let body = new Element<HTMLBodyElement>(document.body);
@@ -48,13 +57,17 @@ module latte {
 
             // View.mainView = new CmsExplorer();
 
-
             if(window['loggedFragmentUser']) {
                 User.me = <User>DataRecord.fromServerObject(window['loggedFragmentUser']);
-                Main.goMainView();
+                if(window.location.hash.indexOf('#/Editor/') === 0) {
+                    Main.goEditorView(window.location.hash.substr(9));
+                }else{
+                    Main.goMainView();
+                }
             }else {
                 Main.goSignInView();
             }
+
         }
 
         //region Private Methods

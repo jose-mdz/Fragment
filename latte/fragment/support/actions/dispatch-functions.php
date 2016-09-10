@@ -6,6 +6,8 @@
  * Time: 15:20
  */
 
+// Patch: has to be here to load tag
+(new Tag());
 
 function fragment($key){
     global $fragments;

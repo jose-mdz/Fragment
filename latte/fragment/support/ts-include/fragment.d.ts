@@ -10,6 +10,73 @@
 /// <reference path="latte.ui.d.ts" />
 /// <reference path="latte.ui.strings.d.ts" />
 declare module latte {
+    class groupBase extends DataRecord {
+        _recordType: string;
+        _moduleName: string;
+        /**
+         * Database field: int(11)
+         */
+        _idgroup: number;
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        idgroup: number;
+        /**
+         * Back field for event
+         */
+        _idgroupChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idgroup property changes
+         */
+        idgroupChanged: LatteEvent;
+        /**
+         * Raises the <c>idgroupChanged</c> event
+         */
+        onIdgroupChanged(): void;
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        onGetRecordIdName(): string;
+        /**
+         * Database field: varchar(128)
+         */
+        _name: string;
+        /**
+         * Gets or sets the value of the name field of type varchar(128)
+         */
+        /**
+         * Gets or sets the value of the name field of type varchar(128)
+         */
+        name: string;
+        /**
+         * Back field for event
+         */
+        _nameChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the name property changes
+         */
+        nameChanged: LatteEvent;
+        /**
+         * Raises the <c>nameChanged</c> event
+         */
+        onNameChanged(): void;
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idgroup": string;
+            "name": string;
+        };
+        static catalog(): RemoteCall<Group[]>;
+        static search(text: string): RemoteCall<Group[]>;
+    }
     class pageBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
@@ -506,6 +573,7 @@ declare module latte {
             "pworld": string;
             "flags": string;
         };
+        static byUrlQ(q: string): RemoteCall<Page>;
         static isValidURLKey(idpage: number, key: string): RemoteCall<boolean>;
         static rootPages(): RemoteCall<Page[]>;
         getConfiguration(): RemoteCall<string>;
@@ -1036,73 +1104,6 @@ declare module latte {
         };
         static getGlobal(): RemoteCall<Setting[]>;
     }
-    class groupBase extends DataRecord {
-        _recordType: string;
-        _moduleName: string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroup: number;
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        idgroup: number;
-        /**
-         * Back field for event
-         */
-        _idgroupChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroup property changes
-         */
-        idgroupChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        onIdgroupChanged(): void;
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        onGetRecordIdName(): string;
-        /**
-         * Database field: varchar(128)
-         */
-        _name: string;
-        /**
-         * Gets or sets the value of the name field of type varchar(128)
-         */
-        /**
-         * Gets or sets the value of the name field of type varchar(128)
-         */
-        name: string;
-        /**
-         * Back field for event
-         */
-        _nameChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the name property changes
-         */
-        nameChanged: LatteEvent;
-        /**
-         * Raises the <c>nameChanged</c> event
-         */
-        onNameChanged(): void;
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        onGetFields(): any;
-        /**
-        * Declares the native types of the record.
-        **/
-        static nativeTypes: {
-            "idgroup": string;
-            "name": string;
-        };
-        static catalog(): RemoteCall<Group[]>;
-        static search(text: string): RemoteCall<Group[]>;
-    }
     class fragmentBase extends DataRecord {
         _recordType: string;
         _moduleName: string;
@@ -1215,6 +1216,96 @@ declare module latte {
             "value": string;
             "name": string;
         };
+    }
+    class groupUserBase extends DataRecord {
+        _recordType: string;
+        _moduleName: string;
+        /**
+         * Database field: int(11)
+         */
+        _idgroupuser: number;
+        /**
+         * Gets or sets the value of the idgroupuser field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idgroupuser field of type int(11)
+         */
+        idgroupuser: number;
+        /**
+         * Back field for event
+         */
+        _idgroupuserChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idgroupuser property changes
+         */
+        idgroupuserChanged: LatteEvent;
+        /**
+         * Raises the <c>idgroupuserChanged</c> event
+         */
+        onIdgroupuserChanged(): void;
+        /**
+        * Gets the name of the autoincrement field
+        **/
+        onGetRecordIdName(): string;
+        /**
+         * Database field: int(11)
+         */
+        _idgroup: number;
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the idgroup field of type int(11)
+         */
+        idgroup: number;
+        /**
+         * Back field for event
+         */
+        _idgroupChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the idgroup property changes
+         */
+        idgroupChanged: LatteEvent;
+        /**
+         * Raises the <c>idgroupChanged</c> event
+         */
+        onIdgroupChanged(): void;
+        /**
+         * Database field: int(11)
+         */
+        _iduser: number;
+        /**
+         * Gets or sets the value of the iduser field of type int(11)
+         */
+        /**
+         * Gets or sets the value of the iduser field of type int(11)
+         */
+        iduser: number;
+        /**
+         * Back field for event
+         */
+        _iduserChanged: LatteEvent;
+        /**
+         * Gets an event raised when the value of the iduser property changes
+         */
+        iduserChanged: LatteEvent;
+        /**
+         * Raises the <c>iduserChanged</c> event
+         */
+        onIduserChanged(): void;
+        /**
+        * Override. Gets data about the fields of the record.
+        **/
+        onGetFields(): any;
+        /**
+        * Declares the native types of the record.
+        **/
+        static nativeTypes: {
+            "idgroupuser": string;
+            "idgroup": string;
+            "iduser": string;
+        };
+        static byGroup(idgroup: number): RemoteCall<GroupUser[]>;
     }
     class userBase extends DataRecord {
         _recordType: string;
@@ -1332,96 +1423,6 @@ declare module latte {
         static catalog(): RemoteCall<User[]>;
         changePassword(oldPassword: string, password: string): RemoteCall<boolean>;
         passwordCorrect(password: string): RemoteCall<boolean>;
-    }
-    class groupUserBase extends DataRecord {
-        _recordType: string;
-        _moduleName: string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroupuser: number;
-        /**
-         * Gets or sets the value of the idgroupuser field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroupuser field of type int(11)
-         */
-        idgroupuser: number;
-        /**
-         * Back field for event
-         */
-        _idgroupuserChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroupuser property changes
-         */
-        idgroupuserChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupuserChanged</c> event
-         */
-        onIdgroupuserChanged(): void;
-        /**
-        * Gets the name of the autoincrement field
-        **/
-        onGetRecordIdName(): string;
-        /**
-         * Database field: int(11)
-         */
-        _idgroup: number;
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the idgroup field of type int(11)
-         */
-        idgroup: number;
-        /**
-         * Back field for event
-         */
-        _idgroupChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the idgroup property changes
-         */
-        idgroupChanged: LatteEvent;
-        /**
-         * Raises the <c>idgroupChanged</c> event
-         */
-        onIdgroupChanged(): void;
-        /**
-         * Database field: int(11)
-         */
-        _iduser: number;
-        /**
-         * Gets or sets the value of the iduser field of type int(11)
-         */
-        /**
-         * Gets or sets the value of the iduser field of type int(11)
-         */
-        iduser: number;
-        /**
-         * Back field for event
-         */
-        _iduserChanged: LatteEvent;
-        /**
-         * Gets an event raised when the value of the iduser property changes
-         */
-        iduserChanged: LatteEvent;
-        /**
-         * Raises the <c>iduserChanged</c> event
-         */
-        onIduserChanged(): void;
-        /**
-        * Override. Gets data about the fields of the record.
-        **/
-        onGetFields(): any;
-        /**
-        * Declares the native types of the record.
-        **/
-        static nativeTypes: {
-            "idgroupuser": string;
-            "idgroup": string;
-            "iduser": string;
-        };
-        static byGroup(idgroup: number): RemoteCall<GroupUser[]>;
     }
     class Session {
         static logIn(uname: string, pass: string): RemoteCall<User>;
@@ -1869,6 +1870,7 @@ declare module latte {
      *
      */
     class Main {
+        static goEditorView(guid: string): void;
         static goMainView(): void;
         static goSignInView(): void;
         static logOut(): void;
@@ -1876,6 +1878,35 @@ declare module latte {
          *
          */
         constructor();
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class GroupUserExplorer extends ExplorerItemDataRecord<GroupUser> {
+        /**
+         *
+         */
+        constructor(r?: GroupUser);
+        /**
+         * Gets the columns of the item
+         * @Override
+         */
+        getColumns(): string[];
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
     }
 }
 /**
@@ -1920,35 +1951,6 @@ declare module latte {
     /**
      *
      */
-    class GroupUserExplorer extends ExplorerItemDataRecord<GroupUser> {
-        /**
-         *
-         */
-        constructor(r?: GroupUser);
-        /**
-         * Gets the columns of the item
-         * @Override
-         */
-        getColumns(): string[];
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
     class GroupsExplorer extends ExplorerItem {
         /**
          *
@@ -1960,55 +1962,6 @@ declare module latte {
          * @Override
          */
         getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageExplorer extends ExplorerItemDataRecord<Page> {
-        /**
-         * Creates the Item
-         */
-        constructor(r: Page);
-        /**
-         * Gets the loader of children items
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the columns of the item
-         * @Override
-         */
-        getColumns(): string[];
-        /**
-         * Gets the width of columns
-         * @Override
-         */
-        getColumnWithFor(name: string): number;
-        /**
-         * Gets the detail view of the item
-         * @Override
-         */
-        getDetailView(): View;
         /**
          * Gets the name of the item
          * @Override
@@ -2103,6 +2056,55 @@ declare module latte {
          * @returns {ButtonItem}
          */
         btnChangePassword: ButtonItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageExplorer extends ExplorerItemDataRecord<Page> {
+        /**
+         * Creates the Item
+         */
+        constructor(r: Page);
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the columns of the item
+         * @Override
+         */
+        getColumns(): string[];
+        /**
+         * Gets the width of columns
+         * @Override
+         */
+        getColumnWithFor(name: string): number;
+        /**
+         * Gets the detail view of the item
+         * @Override
+         */
+        getDetailView(): View;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
     }
 }
 /**
@@ -2468,6 +2470,48 @@ declare module latte {
  * Created by josemanuel on 7/26/16.
  */
 declare module latte {
+    /**
+     *
+     */
+    class Plugin {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Raises the <c>load</c> event
+         */
+        onLoad(): void;
+        /**
+         * Raises the <c>unload</c> event
+         */
+        onUnload(): void;
+        /**
+         * Back field for event
+         */
+        private _load;
+        /**
+         * Gets an event raised when the plugin is loaded
+         *
+         * @returns {LatteEvent}
+         */
+        load: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _unload;
+        /**
+         * Gets an event raised when the plugin is unloaded
+         *
+         * @returns {LatteEvent}
+         */
+        unload: LatteEvent;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
     interface IPageSettingsPack {
         config: string;
         parentConfig: string;
@@ -2660,48 +2704,6 @@ declare module latte {
         settingsValues: {
             [index: string]: Setting;
         };
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Plugin {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Raises the <c>load</c> event
-         */
-        onLoad(): void;
-        /**
-         * Raises the <c>unload</c> event
-         */
-        onUnload(): void;
-        /**
-         * Back field for event
-         */
-        private _load;
-        /**
-         * Gets an event raised when the plugin is loaded
-         *
-         * @returns {LatteEvent}
-         */
-        load: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _unload;
-        /**
-         * Gets an event raised when the plugin is unloaded
-         *
-         * @returns {LatteEvent}
-         */
-        unload: LatteEvent;
     }
 }
 /**
@@ -3710,6 +3712,16 @@ declare module latte {
  */
 declare module latte {
     /**
+     * Record for table fragment
+     */
+    class Fragment extends fragmentBase {
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
      * Record for table group
      */
     class Group extends groupBase {
@@ -3728,16 +3740,6 @@ declare module latte {
          * Returns a string representation of the object
          */
         toString(): string;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table fragment
-     */
-    class Fragment extends fragmentBase {
     }
 }
 /**
@@ -4388,6 +4390,10 @@ declare module latte {
          */
         onPageChanged(): void;
         /**
+         * Previews the page
+         */
+        preview(): void;
+        /**
          *
          */
         saveTick(): void;
@@ -4461,6 +4467,16 @@ declare module latte {
          * @returns {ButtonItem}
          */
         btnClose: ButtonItem;
+        /**
+         * Field for btnPreview property
+         */
+        private _btnPreview;
+        /**
+         * Gets the preview button
+         *
+         * @returns {ButtonItem}
+         */
+        btnPreview: ButtonItem;
         /**
          * Field for columnView property
          */

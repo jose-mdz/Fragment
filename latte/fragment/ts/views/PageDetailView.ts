@@ -178,15 +178,19 @@ module latte {
          */
         openEditor(){
 
-            var mainView = View.mainView;
-            let editor = new PageEditorView(this.page);
+            let url = sprintf("%s/%s#/Editor/%s", window.location.origin, window.location.pathname, this.page.guid);
 
-            View.mainView = editor;
+            window.open(url);
 
-            editor.closeRequested.add(() => {
-                this.dataForm.onRecordChanged();
-                View.mainView = mainView
-            });
+            // var mainView = View.mainView;
+            // let editor = new PageEditorView(this.page);
+            //
+            // View.mainView = editor;
+            //
+            // editor.closeRequested.add(() => {
+            //     this.dataForm.onRecordChanged();
+            //     View.mainView = mainView
+            // });
         }
 
         /**

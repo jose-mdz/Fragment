@@ -82,3 +82,5 @@ signOut Sign Out
 sendToTrash Send to Trash
 canUseBackend Can use Backend
 urlKeyInUse URL Key in use by another page.
+previewPage Preview
+pageNotFound404 Page not found
