@@ -343,7 +343,7 @@ class Page extends pageBase{
                 case '>=':
                     $sentence = "( $lock $aToUse $operator '$b')"; break;
                 case 'between':
-                    $sentence = "( $lock ($aToUse $operator '$b' AND '$c')"; break;
+                    $sentence = "( $lock ($aToUse $operator '$b' AND '$c'))"; break;
                 case '&':
                 case '|':
                     $sentence = "( $lock (($aToUse $operator $b) = $c))"; break;

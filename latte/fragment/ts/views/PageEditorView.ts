@@ -172,7 +172,7 @@ module latte {
             super.onLoad();
 
             this.element.append(this.titleElement.element);
-            this.element.append(this.btnClose.element);
+            //this.element.append(this.btnClose.element);
 
             this.ribbon.startButton.visible = false;
 
