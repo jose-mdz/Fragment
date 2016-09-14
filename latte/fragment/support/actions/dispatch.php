@@ -72,7 +72,7 @@ if ($page && ($page->online == 1 || Session::isLogged())){
     $template = $page->template ? $page->template : 'index';
 
     // Include template now
-    include __DIR__ . "/../../../../../fragment/themes/$theme/$template.php";
+    include __DIR__ . "/../../../../../../fragment/themes/$theme/$template.php";
 
 }else{
     header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
@@ -80,7 +80,7 @@ if ($page && ($page->online == 1 || Session::isLogged())){
     $GLOBALS['error-code'] = 404;
     $GLOBALS['error-description'] = $strings['pageNotFound404'];
 
-    $error_template = __DIR__ . "/../../../../../fragment/themes/$theme/error.php";
+    $error_template = __DIR__ . "/../../../../../../fragment/themes/$theme/error.php";
 
     if (file_exists($error_template)){
         include $error_template;

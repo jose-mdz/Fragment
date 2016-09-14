@@ -9,6 +9,9 @@
 # Do include default theme
 !/html/fragment/themes/default
 
+# Do include the default SQL
+!/html/fragment/files/fragment.sql
+
 # Ignore files who are generated automagically
 /latte/*/support/ts-include/*
 /latte/*/support/records.php

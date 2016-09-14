@@ -1,6 +1,6 @@
 @font-face {
     font-family: AvenirNextThin;
-    src: url(/latte/releases/fragment/support/fonts/avenir-next-thin.woff);
+    src: url(/fragment/latte/releases/fragment/support/fonts/avenir-next-thin.woff);
 }
 
 .signin-view ,
@@ -47,7 +47,7 @@
 }
 
 .signin-view header .logo{
-    background: url(/latte/releases/fragment/support/imgs/fragment-logo.png) no-repeat center center;
+    background: url(/fragment/latte/releases/fragment/support/imgs/fragment-logo.png) no-repeat center center;
     background-size: 100% auto;
     width: 300px;
     height: 77px;
