@@ -5,17 +5,10 @@ We are currently working on this project. Feel free to take a look around. You s
 
 
 ##Features
+- Incredibly Versatile
+- Awesome Backend
+- Instant Deploy
 
-- Page hierarchy
-- Fragment composed pages
-- Instant metadata
 
-
-##On Development
-Next to build: 
-- Settings Zone
-- Configuration Checker
-- Install Wizard
-
-###Details Backend
-- Move pages to be children of other pages
+##Follow Development
+We have a project for the [first release of Fragment](https://github.com/menendezpoo/Fragment/projects/1).
