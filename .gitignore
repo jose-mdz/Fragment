@@ -1,10 +1,23 @@
+# Usual trash
 .idea
 .DS_Store
+
+# Ignore files & themes folder (tests are made there)
 /html/fragment/files/*
 /html/fragment/themes/*
+
+# Do include default theme
 !/html/fragment/themes/default
+
+# Ignore files who are generated automagically
 /latte/*/support/ts-include/*
 /latte/*/support/records.php
+
+# Ignore release data
 /html/fragment/latte/releases/*
+
+# Necessary for latte module
 !/latte/latte/support/ts-include/datalatte.d.ts
+
+# Necessary for latte.ui module
 !/latte/latte.ui/support/ts-include/jquery.d.ts

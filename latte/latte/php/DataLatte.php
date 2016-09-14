@@ -11,7 +11,7 @@
  *     //     Use DataLatte as a wrapper for accessing and querying data
  * 
  *     // Echo the current timestamp
- *     echo DataLatte::getSingle("SELECT NOW()");
+ *     echo DataLatte::getSingle("SELECT NOW()");;
  * 
  *     // Echo a set of data
  *     print_r(DataLatte::getCache("SHOW TABLES"));
