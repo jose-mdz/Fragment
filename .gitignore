@@ -3,6 +3,8 @@
 /html/fragment/files/*
 /html/fragment/themes/*
 !/html/fragment/themes/default
-/latte/*/support/ts-include
+/latte/*/support/ts-include/*
 /latte/*/support/records.php
 /html/fragment/latte/releases/*
+!/latte/latte/support/ts-include/datalatte.d.ts
+!/latte/latte.ui/support/ts-include/jquery.d.ts
