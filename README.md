@@ -19,5 +19,3 @@ Next to build:
 
 ###Details Backend
 - Move pages to be children of other pages
-- Automatically reflect changes on both ListView and TreeView
-- Validate data of settings and other input items
