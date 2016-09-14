@@ -971,6 +971,31 @@ declare module latte {
  */
 declare module latte {
     /**
+     * Represents a very simple data adapter that passes the data along as strings.
+     */
+    class DefaultDataAdapter implements DataAdapter<string, string> {
+        /**
+         * Creates the adapter
+         */
+        constructor();
+        /**
+         * Transforms the value of the record into a proper value for the element
+         *
+         * @param value
+         */
+        adaptForElement(value: string): string;
+        /**
+         * Transforms the value of the element into a proper value for the record
+         * @param value
+         */
+        adaptForRecord(value: string): string;
+    }
+}
+/**
+ * Created by josemanuel on 5/28/15.
+ */
+declare module latte {
+    /**
      *
      */
     class EventBind {
@@ -1026,31 +1051,6 @@ declare module latte {
          * @returns {string}
          */
         recordMethod: string;
-    }
-}
-/**
- * Created by josemanuel on 5/28/15.
- */
-declare module latte {
-    /**
-     * Represents a very simple data adapter that passes the data along as strings.
-     */
-    class DefaultDataAdapter implements DataAdapter<string, string> {
-        /**
-         * Creates the adapter
-         */
-        constructor();
-        /**
-         * Transforms the value of the record into a proper value for the element
-         *
-         * @param value
-         */
-        adaptForElement(value: string): string;
-        /**
-         * Transforms the value of the element into a proper value for the record
-         * @param value
-         */
-        adaptForRecord(value: string): string;
     }
 }
 /**

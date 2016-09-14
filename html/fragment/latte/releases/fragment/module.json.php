@@ -1,0 +1,3 @@
+<?php
+
+$GLOBALS['module-json-fragment'] = "{\"module-include\":[\"latte.element\",\"latte.ui\",\"latte.data.ui\"],\"connection\":{\"file\":\"../../../connection-cms.json\"},\"records\":[\"page\",\"file\",\"setting\",\"fragment\",\"group\",\"group_user\",\"user\"],\"before-make\":[\"mysql-dump.js\"],\"release-export\":[\"actions/upload.php\",\"actions/dispatch.php\",\"actions/dispatch-functions.php\",\"actions/launcher.php\",\"actions/upload64.php\",\"fonts/avenir-next-thin.woff\",\"fonts/Linearicons-Free.eot\",\"fonts/Linearicons-Free.svg\",\"fonts/Linearicons-Free.ttf\",\"fonts/Linearicons-Free.woff\",\"fonts/Linearicons-Free.woff2\",\"imgs/fragment-logo.png\",\"imgs/triangle-white.png\"]}";

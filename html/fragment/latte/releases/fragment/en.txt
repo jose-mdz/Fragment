@@ -1,0 +1,86 @@
+pages Pages
+newRootPage New Root Page
+newPage New Page
+guid GUID
+pageKey URL key
+inTrash In Trash
+online Online
+template Template
+created Created
+modified Modified
+title Title
+description Description
+pageSort Content Sort
+pageSortCreatedAsc Creation Date (Ascending)
+pageSortCreatedDesc Creation Date (Descending)
+pageSortModifiedAsc Modification Date (Ascending)
+pageSortModifiedDesc Modification Date (Descending)
+pageSortTitleAsc Title (Ascendent)
+pageSortTitleDesc Title (Descendent)
+detail Detail
+configuration Configuration
+openPage Open
+openPageS Open %s
+openPageEditor Open Editor
+page Page
+emptyView Empty View
+missingName (Missing Name)
+body Body
+format Format
+imageGallery Gallery
+path Path
+fileSize File Size
+changeNameDescription Change Name
+deleteFile Delete File
+deleteS Delete %s
+productThumb Product Thumb
+FileItemThumb (System thumb)
+nonameThumb (No name)
+image Image
+deleteImage Delete Image
+moveImageBefore Move Before
+moveImageAfter Move After
+viewImage View Image
+viewOriginal View Original
+users Users
+newUser New User
+groups Groups
+newGroup New Group
+addUserToGroup Add User
+user User
+group Group
+isRoot Is Root
+isBanned Is Banned
+owner Owner
+readPermission Read
+writePermission Write
+removePermission Delete
+insertChildPermission Insert Child
+writeChildPermission Write Child
+deleteChildPermission Delete Child
+readChildrenPermission Read Children
+permissionsOther Other
+permissionsWorld World
+configurePermission Can Configure
+advanced Advanced
+invalidUserOrPass Invalid user name or password. Please Try Again.
+changePassword Change Password
+oldPassword Current Password
+newPassword New Password
+confirmNewPassword Confirm
+passwordRules At least 5 characters
+passwordsDontMatch Passwords don't match
+currentPasswordNotValid The current password is not valid
+passwordChangeSuccess Password changed successfully
+pageSortCustom By Index
+pageSortIndex Sort Index
+isSysAdmin Is SysAdmin
+areYouSureSetPageOnline ¿Do you want to make the page available online?
+areYouSureSetPageOnlineDesc Because of your permissions you will not be able to make further changes.
+yesMakeOnline Yes, make available online
+signOut Sign Out
+sendToTrash Send to Trash
+canUseBackend Can use Backend
+urlKeyInUse URL Key in use by another page.
+previewPage Preview
+pageNotFound404 Page not found

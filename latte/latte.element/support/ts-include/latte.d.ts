@@ -2,6 +2,96 @@
 /// <reference path="latte.strings.d.ts" />
 declare module latte {
     /**
+     *
+     */
+    interface ICall {
+    }
+}
+/**
+ * Created by josemanuel on 8/9/16.
+ */
+declare module latte {
+    interface IInputOptions {
+        [index: string]: string;
+    }
+    interface IInputFlagOptions {
+        [index: number]: string;
+    }
+    interface IInputList {
+        [field: string]: IInput;
+    }
+    /**
+     * Specifies an input description
+     */
+    interface IInput {
+        type?: 'string' | 'text' | 'html' | 'number' | 'integer' | 'float' | 'boolean' | 'switch' | 'password' | 'date' | 'time' | 'datetime' | 'enumeration' | 'combo' | 'radio' | 'flags' | 'file' | 'image' | 'record' | 'record-combo' | 'custom';
+        options?: IInputOptions | IInputFlagOptions | String[];
+        visible?: boolean | 'if-inserted' | 'if-not-inserted';
+        loaderFunction?: (...any) => any;
+        readOnly?: boolean;
+        recordType?: string;
+        text?: string;
+        defaultValue?: any;
+        category?: string;
+        hint?: string;
+    }
+}
+/**
+ * Created by josemanuel on 7/20/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    interface IMessage {
+    }
+}
+/**
+ * Created by josemanuel on 7/18/16.
+ */
+declare module latte {
+    /**
+     * Interface for describing objects that may acquire
+     * an unsaved state.
+     *
+     * The object provide mechanisms to indicate:
+     *  - An event to indicate when unsaved state has been acquired
+     *  - A flag to query if the object has unsaved changes
+     *  - A method to retrieve calls to save the changes
+     */
+    interface ISave {
+        /**
+         * Gets or sets a value indicating if the object has an unsaved state.
+         */
+        unsavedChanges: boolean;
+        /**
+         * Event raised when the value of <c>unsavedChanges</c> property changes.
+         */
+        unsavedChangesChanged: LatteEvent;
+        /**
+         * Returns an array of calls to save the changes.
+         * The code handling the calls result should manually change the value of <c>unsavedChanges</c> to <c>false</c>
+         * in case the save call is successful.
+         */
+        getSaveCalls(): ICall[];
+    }
+}
+/**
+ * Created by josemanuel on 7/18/16.
+ */
+declare module latte {
+    /**
+     * The SaveContainer is an object that may contain ISave objects in its structure.
+     */
+    interface ISaveContainer {
+        /**
+         * Collection of ISave objects this container has.
+         */
+        saveItems: Collection<ISave>;
+    }
+}
+declare module latte {
+    /**
      * Enumeration of Keyboard key codes
      */
     enum Key {
@@ -716,6 +806,18 @@ declare module latte {
      */
     function _isNumeric(param: any): boolean;
     /**
+     * Gets or sets the latte Url. By default: /latte
+     * @private
+     */
+    function _latteUrl(value?: string): any;
+    /**
+     * Returns a value indicating if the specified object is empty of properties
+     * @param object
+     * @returns {boolean}
+     * @private
+     */
+    function _empty(object: any): boolean;
+    /**
      * Returns a value indicating if the parameter is undefined
      *
      * @returns {boolean}
@@ -833,6 +935,11 @@ declare module latte {
          * Clears the collection
          */
         clear(): void;
+        /**
+         * Returns a value indicating if the specified element is contained in the collection
+         * @param element
+         */
+        contains(element: T): boolean;
         /**
          * Iterates through the collection, executing the handler for each item
          * @param handler
@@ -952,7 +1059,42 @@ declare module latte {
          * Creates a color from the hexadecimal value.
          * It may contain the <c>#</c> symbol at the beginning of the string.
          **/
-        static fromHex(hexColor: string): latte.Color;
+        static fromHex(hexColor: string): Color;
+        /**
+         * Gets the RGB (Red, Green, Blue) components from a CMYK namespace
+         * @param c
+         * @param m
+         * @param y
+         * @param k
+         * @returns number[]
+         */
+        static cmykToRgb(c: number, m: number, y: number, k: number): number[];
+        /**
+         * HSV to RGB color conversion
+         *
+         * H runs from 0 to 360 degrees
+         * S and V run from 0 to 100
+         *
+         * Ported from the excellent java algorithm by Eugene Vishnevsky at:
+         * http://www.cs.rit.edu/~ncs/color/t_convert.html
+         */
+        static hsvToRgb(h: any, s: any, v: any): number[];
+        /**
+         * Gets the CMYK (Cyan, Magenta, Yellow and Key Black) components from a RGB namespace
+         * @param red
+         * @param green
+         * @param blue
+         * @returns {number[]}
+         */
+        static rgbToCmyk(red: number, green: number, blue: number): number[];
+        /**
+         * Gets the HSV (Hue, Saturation, Value) components from a RGB namespace
+         * @param red
+         * @param green
+         * @param blue
+         * @returns {number[]}
+         */
+        static rgbToHsv(red: number, green: number, blue: number): number[];
         /**
          * Field for black property.
          */
@@ -1037,6 +1179,17 @@ declare module latte {
          **/
         b: number;
         /**
+         * Gets or sets the Cyan component of the CMKYK namespace
+         *
+         * @returns {number}
+         */
+        /**
+         * Gets or sets the Cyan component of the CMKYK namespace
+         *
+         * @returns {number}
+         */
+        c: number;
+        /**
          *
          **/
         private _g;
@@ -1047,6 +1200,24 @@ declare module latte {
          * Gets or sets the Green component of color, from 0 to 255.
          **/
         g: number;
+        /**
+         * Gets the K (Black Key) component of the CMKYK namespace
+         *
+         * @returns {number}
+         */
+        k: number;
+        /**
+         * Gets the Magenta component of the CMYK namespace
+         *
+         * @returns {number}
+         */
+        m: number;
+        /**
+         * Gets the Yellow component of the CMYK namespace
+         *
+         * @returns {number}
+         */
+        y: number;
         /**
          * Returns a copy of the color with the specified alpha between 0 and 255.
          *
@@ -1076,7 +1247,9 @@ declare module latte {
          **/
         isTransparent: boolean;
         /**
-         * Returns the perceived luminosity
+         * Returns the perceived luminosity (https://en.wikipedia.org/wiki/Luminous_intensity)
+         *
+         *
          * @returns {number}
          */
         perceivedLuminosity: number;
@@ -1116,6 +1289,16 @@ declare module latte {
          * @param {Culture} value
          */
         static current: Culture;
+        /**
+         * Field for esMX property
+         */
+        private static _esEs;
+        /**
+         * Gets the Español-Mexico Culture
+         *
+         * @returns {Culture}
+         */
+        static esEs: Culture;
         /**
          * Field for esMX property
          */
@@ -1184,6 +1367,16 @@ declare module latte {
          * Symbol to use in currency
          */
         currencySymbol: string;
+        /**
+         * Regular expression for validating floating point numbers
+         * @type {RegExp}
+         */
+        floatValidator: RegExp;
+        /**
+         * Regular expression for validating integer numbers
+         * @type {RegExp}
+         */
+        intValidator: RegExp;
         /**
          *
          */
@@ -1861,6 +2054,16 @@ declare module latte {
          */
         inflateUniform(wide: number): Size;
         /**
+         * Gets a scaled Size that fits in the specified target.
+         * @param target
+         */
+        scaleToFit(target: Size): Size;
+        /**
+         * Gets a scaled Size that fills the specified target.
+         * @param target
+         */
+        scaleToFill(target: Size): Size;
+        /**
          * Gets string representation of the size
          * @returns {string}
          */
@@ -1877,6 +2080,24 @@ declare module latte {
          * @returns {boolean}
          */
         isEmpty: boolean;
+        /**
+         * Gets a value indicating if the size is horizontal
+         *
+         * @returns {boolean}
+         */
+        isHorizontal: boolean;
+        /**
+         * Gets a value indicating if the size is a square
+         *
+         * @returns {boolean}
+         */
+        isSquare: boolean;
+        /**
+         * Gets a value indicating if the size is vertical
+         *
+         * @returns {boolean}
+         */
+        isVertical: boolean;
         /**
          * Property field
          */

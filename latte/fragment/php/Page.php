@@ -388,12 +388,19 @@ class Page extends pageBase{
         // Setup variables
         $settings = isset($options['settings']) ? $options['settings'] : array();
         $fragments = isset($options['fragments']) ? $options['fragments'] : array();
-        $filters = isset($options['filters']) ? $options['filters'] : array(array("online", 1));
+        $filters = isset($options['filters']) ? $options['filters'] : array();
         $pageFields = array_keys((new Page())->getFields());
         $sentences = array();
         $page = isset($options['page']) ? $options['page'] : 1;
         $pageSize = isset($options['pageSize']) ? $options['pageSize'] : 50;
         $sortBy = isset($options['sortBy']) ? $options['sortBy'] : 'created DESC';
+
+        //region Default filters
+        $filters = array_merge($filters, array(
+            array("online", 1)
+        ));
+
+        //endregion
 
         //region Create Filters for idparent
         // Add idparent conditions

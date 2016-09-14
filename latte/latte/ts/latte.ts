@@ -137,6 +137,18 @@ module latte{
     };
 
     /**
+     * Gets or sets the latte Url. By default: /latte
+     * @private
+     */
+    export function _latteUrl(value?: string){
+        if(_undef(value)) {
+            return window['-vendor-latte-url'] || '/latte';
+        }else{
+            window['-vendor-latte-url'] = value;
+        }
+    }
+
+    /**
      * Returns a value indicating if the specified object is empty of properties
      * @param object
      * @returns {boolean}

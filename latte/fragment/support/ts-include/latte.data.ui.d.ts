@@ -866,6 +866,69 @@ declare module latte {
         selectedChild: SelectableItem;
     }
 }
+declare module latte {
+    /**
+     * Shows a dialog to edit the specified <c>DataRecord</c>
+     **/
+    class DataRecordDialogView extends DialogView {
+        /**
+         * Shows a dialog to edit the specified record
+         * @param r
+         * @param onSaved
+         * @param title
+         */
+        static editRecord(r: DataRecord, onSaved?: () => any, title?: string): DataRecordDialogView;
+        /**
+         *
+         */
+        private _readOnly;
+        /**
+         *
+         **/
+        cancelButton: ButtonItem;
+        /**
+         *
+         **/
+        formView: DataRecordFormView;
+        /**
+         *
+         **/
+        saveButton: ButtonItem;
+        /**
+         *
+         **/
+        saving: LatteEvent;
+        /**
+         *
+         **/
+        saved: LatteEvent;
+        /**
+         *
+         **/
+        constructor(record?: DataRecord);
+        /**
+         * Raises the <c>saved</c> event
+         **/
+        onSaved(): void;
+        /**
+         * Raises the <c>saving</c> event
+         **/
+        onSaving(): void;
+        /**
+         * Gets or sets a value indicating if the form is for read-only
+         **/
+        /**
+         * Gets or sets a value indicating if the form is for read-only
+         **/
+        readOnly: boolean;
+        /**
+         * Gets the record of the view
+         *
+         * @returns {DataRecord}
+         */
+        record: DataRecord;
+    }
+}
 /**
  * Created by josemanuel on 10/25/14.
  */
@@ -1031,69 +1094,6 @@ declare module latte {
          * @returns {SelectableItem}
          */
         selectedChild: SelectableItem;
-    }
-}
-declare module latte {
-    /**
-     * Shows a dialog to edit the specified <c>DataRecord</c>
-     **/
-    class DataRecordDialogView extends DialogView {
-        /**
-         * Shows a dialog to edit the specified record
-         * @param r
-         * @param onSaved
-         * @param title
-         */
-        static editRecord(r: DataRecord, onSaved?: () => any, title?: string): DataRecordDialogView;
-        /**
-         *
-         */
-        private _readOnly;
-        /**
-         *
-         **/
-        cancelButton: ButtonItem;
-        /**
-         *
-         **/
-        formView: DataRecordFormView;
-        /**
-         *
-         **/
-        saveButton: ButtonItem;
-        /**
-         *
-         **/
-        saving: LatteEvent;
-        /**
-         *
-         **/
-        saved: LatteEvent;
-        /**
-         *
-         **/
-        constructor(record?: DataRecord);
-        /**
-         * Raises the <c>saved</c> event
-         **/
-        onSaved(): void;
-        /**
-         * Raises the <c>saving</c> event
-         **/
-        onSaving(): void;
-        /**
-         * Gets or sets a value indicating if the form is for read-only
-         **/
-        /**
-         * Gets or sets a value indicating if the form is for read-only
-         **/
-        readOnly: boolean;
-        /**
-         * Gets the record of the view
-         *
-         * @returns {DataRecord}
-         */
-        record: DataRecord;
     }
 }
 declare module latte {

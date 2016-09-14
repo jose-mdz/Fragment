@@ -7,7 +7,13 @@ module latte{
      **/
     export class HtmlEditorItem extends ValueItem<string>{
 
-        static rangyPath: string = '/latte/releases/latte.ui/support/js/rangy.js';
+        /**
+         * Gets the path to rangy library
+         * @returns {string}
+         */
+        static get rangyPath(): string {
+            return _latteUrl() + '/releases/latte.ui/support/js/rangy.js';
+        }
 
         //region Static
 

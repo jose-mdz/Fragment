@@ -1,4 +1,8 @@
 .idea
 .DS_Store
-/html/fragment/files
-/html/fragment/themes/citygate
+/html/fragment/files/*
+/html/fragment/themes/*
+!/html/fragment/themes/default
+/latte/*/support/ts-include
+/latte/*/support/records.php
+/html/fragment/latte/releases/*

@@ -59,7 +59,9 @@ module latte{
         /**
          * Path where requests are made
          */
-        static pathToRequest: string = "/latte/request.php";
+        static get pathToRequest(): string {
+            return _latteUrl() + "/request.php";
+        }
 
         /**
          * Directly sends an array of calls

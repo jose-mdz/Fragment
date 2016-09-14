@@ -1,8 +1,10 @@
 <?php
 
 /**
- * It takes 3 lines to launch your app
+ * Calls the app launcher.
  */
 
 /// Include DataLatte
-include '../latte/releases/fragment/support/actions/launcher.php';
+//include '../latte/releases/fragment/support/actions/launcher.php';
+
+include 'latte/releases/fragment/support/actions/launcher.php';

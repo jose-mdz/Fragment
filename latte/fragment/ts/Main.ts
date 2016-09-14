@@ -50,6 +50,8 @@ module latte {
             console.log('%cFRAGMENT', 'font-size: 30px; color: #ff4d4d; text-shadow: 3px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;');
             console.log('http://github.com/menendezpoo/Fragment');
 
+            _latteUrl('/fragment/latte');
+
             FragmentAdapterManager.register('text', 'PlainTextFragmentAdapter');
             FragmentAdapterManager.register('html', 'HtmlFragmentAdapter');
             FragmentAdapterManager.register('gallery', 'ImageGalleryFragmentAdapter');

@@ -51,21 +51,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Defines possible transition modes for views
-     **/
-    enum Transition {
-        /**
-         * Fades out the current view and fades in the new one.
-         **/
-        FADE = 0,
-        /**
-         * Gives the impression of advancing forward.
-         **/
-        SWIPE_FORWARD = 1,
-    }
-}
-declare module latte {
-    /**
      * Enumerates sides of objects
      **/
     enum Side {
@@ -89,6 +74,21 @@ declare module latte {
          * Top side of something
          **/
         TOP = 32,
+    }
+}
+declare module latte {
+    /**
+     * Defines possible transition modes for views
+     **/
+    enum Transition {
+        /**
+         * Fades out the current view and fades in the new one.
+         **/
+        FADE = 0,
+        /**
+         * Gives the impression of advancing forward.
+         **/
+        SWIPE_FORWARD = 1,
     }
 }
 declare module latte {
@@ -1436,6 +1436,155 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Represents a square Icon.
+
+     Icons may be come from a single image, or from a sprite image with several icons.
+     <c>IconItem</c> comes with a default sprite built in with a wide variety of icons.
+     **/
+    class IconItem extends Item {
+        /**
+         * Default URL of sprite used if coordinates are specified, and no <c>url</c> is provided.
+         **/
+        static defaultUrl: string;
+        /**
+         * Creates an empty icon of the specified size
+         **/
+        static empty(size: number): IconItem;
+        /**
+         * Gets a standard icon of the specified u and v coordinates. Size 16.
+         **/
+        static standard(u: number, v: number, size?: number): IconItem;
+        /**
+         *
+         * @returns {IconItem}
+         */
+        static fileIcon(): IconItem;
+        /**
+         *
+         * @returns {IconItem}
+         */
+        static folderIcon(): IconItem;
+        /**
+         *
+         * @returns {IconItem}
+         */
+        static homeIcon(): IconItem;
+        /**
+         *
+         * @returns {IconItem}
+         */
+        static newIcon(): IconItem;
+        /**
+         *
+         * @returns {IconItem}
+         */
+        static saveIcon(): IconItem;
+        /**
+         *
+         * @returns {IconItem}
+         */
+        static refreshIcon(): IconItem;
+        /**
+         *
+         * @returns {IconItem}
+         */
+        static editIcon(): IconItem;
+        /**
+         *
+         * @returns {IconItem}
+         */
+        static deleteIcon(): IconItem;
+        /**
+         * Creates the icon
+         **/
+        constructor();
+        /**
+         * Returns a clone of the icon
+         **/
+        clone(): IconItem;
+        /**
+         *
+         **/
+        private _name;
+        /**
+         * Gets or sets the name of the icon
+         **/
+        /**
+         * Gets or sets the name of the icon
+         **/
+        name: string;
+        /**
+         *
+         **/
+        private _size;
+        /**
+         * Gets or sets the size of the icon
+         The only possible values are: <c>16</c> | <c>32</c> | <c>48</c>
+         **/
+        /**
+         * Gets or sets the size of the icon
+         The only possible values are: <c>16</c> | <c>32</c> | <c>48</c>
+         **/
+        size: number;
+        /**
+         * Gets or sets the U coordiante of the icon inside image
+         **/
+        /**
+         * Gets or sets the U coordiante of the icon inside image
+         **/
+        u: number;
+        /**
+         *
+         **/
+        private _u;
+        /**
+         *
+         **/
+        private _url;
+        /**
+         * Gets or sets the URL of the icon's image URL
+         **/
+        /**
+         * Gets or sets the URL of the icon's image URL
+         **/
+        url: string;
+        /**
+         *
+         **/
+        private _v;
+        /**
+         * Gets or sets the U coordiante of the icon inside image
+         **/
+        /**
+         * Gets or sets the U coordiante of the icon inside image
+         **/
+        v: number;
+        /**
+         *
+         **/
+        private _x;
+        /**
+         * Gets or sets the X coordinate of icon inside image (As a sprite)
+         **/
+        /**
+         * Gets or sets the X coordinate of icon inside image (As a sprite)
+         **/
+        x: number;
+        /**
+         *
+         **/
+        private _y;
+        /**
+         * Gets or sets the Y coordinate of icon inside image (As a sprite)
+         **/
+        /**
+         * Gets or sets the Y coordinate of icon inside image (As a sprite)
+         **/
+        y: number;
+    }
+}
+declare module latte {
+    /**
      * Represents an item which can be apparently clicked.
 
      - Item may be checked, event automatically if <c>checked()</c> value is <c>true</c>
@@ -1713,155 +1862,6 @@ declare module latte {
          * Gets or sets a value indicating if the item has currently context
          **/
         withContext: boolean;
-    }
-}
-declare module latte {
-    /**
-     * Represents a square Icon.
-
-     Icons may be come from a single image, or from a sprite image with several icons.
-     <c>IconItem</c> comes with a default sprite built in with a wide variety of icons.
-     **/
-    class IconItem extends Item {
-        /**
-         * Default URL of sprite used if coordinates are specified, and no <c>url</c> is provided.
-         **/
-        static defaultUrl: string;
-        /**
-         * Creates an empty icon of the specified size
-         **/
-        static empty(size: number): IconItem;
-        /**
-         * Gets a standard icon of the specified u and v coordinates. Size 16.
-         **/
-        static standard(u: number, v: number, size?: number): IconItem;
-        /**
-         *
-         * @returns {IconItem}
-         */
-        static fileIcon(): IconItem;
-        /**
-         *
-         * @returns {IconItem}
-         */
-        static folderIcon(): IconItem;
-        /**
-         *
-         * @returns {IconItem}
-         */
-        static homeIcon(): IconItem;
-        /**
-         *
-         * @returns {IconItem}
-         */
-        static newIcon(): IconItem;
-        /**
-         *
-         * @returns {IconItem}
-         */
-        static saveIcon(): IconItem;
-        /**
-         *
-         * @returns {IconItem}
-         */
-        static refreshIcon(): IconItem;
-        /**
-         *
-         * @returns {IconItem}
-         */
-        static editIcon(): IconItem;
-        /**
-         *
-         * @returns {IconItem}
-         */
-        static deleteIcon(): IconItem;
-        /**
-         * Creates the icon
-         **/
-        constructor();
-        /**
-         * Returns a clone of the icon
-         **/
-        clone(): IconItem;
-        /**
-         *
-         **/
-        private _name;
-        /**
-         * Gets or sets the name of the icon
-         **/
-        /**
-         * Gets or sets the name of the icon
-         **/
-        name: string;
-        /**
-         *
-         **/
-        private _size;
-        /**
-         * Gets or sets the size of the icon
-         The only possible values are: <c>16</c> | <c>32</c> | <c>48</c>
-         **/
-        /**
-         * Gets or sets the size of the icon
-         The only possible values are: <c>16</c> | <c>32</c> | <c>48</c>
-         **/
-        size: number;
-        /**
-         * Gets or sets the U coordiante of the icon inside image
-         **/
-        /**
-         * Gets or sets the U coordiante of the icon inside image
-         **/
-        u: number;
-        /**
-         *
-         **/
-        private _u;
-        /**
-         *
-         **/
-        private _url;
-        /**
-         * Gets or sets the URL of the icon's image URL
-         **/
-        /**
-         * Gets or sets the URL of the icon's image URL
-         **/
-        url: string;
-        /**
-         *
-         **/
-        private _v;
-        /**
-         * Gets or sets the U coordiante of the icon inside image
-         **/
-        /**
-         * Gets or sets the U coordiante of the icon inside image
-         **/
-        v: number;
-        /**
-         *
-         **/
-        private _x;
-        /**
-         * Gets or sets the X coordinate of icon inside image (As a sprite)
-         **/
-        /**
-         * Gets or sets the X coordinate of icon inside image (As a sprite)
-         **/
-        x: number;
-        /**
-         *
-         **/
-        private _y;
-        /**
-         * Gets or sets the Y coordinate of icon inside image (As a sprite)
-         **/
-        /**
-         * Gets or sets the Y coordinate of icon inside image (As a sprite)
-         **/
-        y: number;
     }
 }
 declare module latte {
@@ -2782,6 +2782,54 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Handles hash navigation. This is designed to manage navigation of apps.
+
+     Catch a handler to <c>hashChanged</c> event, and to alter the current hash path
+     use the <c>Navigation.hash</c> property.
+     **/
+    class Navigation {
+        /**
+         *
+         **/
+        private static _hash;
+        /**
+         *
+         **/
+        private static _lock;
+        /**
+         * Hash represented as a path. It is updated every time the value of <c>hash</c> changes.
+         **/
+        static path: Array<string>;
+        /**
+         * Raised when the navigation hash changed
+         **/
+        static hashChanged: LatteEvent;
+        /**
+         * Initializes the static class
+         **/
+        static staticConstructor(): void;
+        /**
+         * Gets or sets the current hash of the navigation.
+         Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
+         **/
+        /**
+         * Gets or sets the current hash of the navigation.
+         Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
+         **/
+        static hash: string;
+        /**
+         * Gets or sets the current hash of the navigation.
+         Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
+         **/
+        static setHash(value: string, silent?: boolean): typeof Navigation;
+        /**
+         * Raises the <c>hashChanged</c> event
+         **/
+        static onHashChanged(hash: string): void;
+    }
+}
+declare module latte {
+    /**
      * represents an action
      **/
     class Action {
@@ -2864,50 +2912,26 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Handles hash navigation. This is designed to manage navigation of apps.
-
-     Catch a handler to <c>hashChanged</c> event, and to alter the current hash path
-     use the <c>Navigation.hash</c> property.
+     * Manages z-index related positions
+     <b style="color:darkred">This class should not be used directly because it is likely to disappear in future version</b>
      **/
-    class Navigation {
+    class ZIndex {
         /**
-         *
+         * Array of elements that are being handled by class
          **/
-        private static _hash;
+        static elements: Array<JQuery>;
         /**
-         *
+         * Brings the specified element to the top
          **/
-        private static _lock;
+        static bringToFront(element: JQuery): void;
         /**
-         * Hash represented as a path. It is updated every time the value of <c>hash</c> changes.
+         * Remove elemet from elements, and erase z-index
          **/
-        static path: Array<string>;
+        static removeElement(element: JQuery): void;
         /**
-         * Raised when the navigation hash changed
+         * Updates the z-indexes of elements
          **/
-        static hashChanged: LatteEvent;
-        /**
-         * Initializes the static class
-         **/
-        static staticConstructor(): void;
-        /**
-         * Gets or sets the current hash of the navigation.
-         Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
-         **/
-        /**
-         * Gets or sets the current hash of the navigation.
-         Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
-         **/
-        static hash: string;
-        /**
-         * Gets or sets the current hash of the navigation.
-         Optionally <c>silent</c> makes it without raising the <c>hashChanged<c> event.
-         **/
-        static setHash(value: string, silent?: boolean): typeof Navigation;
-        /**
-         * Raises the <c>hashChanged</c> event
-         **/
-        static onHashChanged(hash: string): void;
+        static updateZIndexes(): void;
     }
 }
 /**
@@ -3108,106 +3132,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * ButtonGroup with pagination information
-     **/
-    class PaginationItem extends ButtonGroupItem {
-        /**
-         *
-         **/
-        private _page;
-        /**
-         *
-         **/
-        private _pages;
-        /**
-         *
-         **/
-        btnCurrent: ButtonItem;
-        /**
-         *
-         **/
-        btnNext: ButtonItem;
-        /**
-         *
-         **/
-        btnPrevious: ButtonItem;
-        /**
-         * Raised when page changes
-         **/
-        pageChanged: LatteEvent;
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Navigates to next page, if possible.
-         **/
-        nextPage(): void;
-        /**
-         * Raises the <c>pageChanged</c> event
-         **/
-        onPageChanged(): void;
-        /**
-         * Navigates to the previous page, if possible.
-         **/
-        previousPage(): void;
-        txtPage_enterPressed(): void;
-        /**
-         * Gets or sets the current page
-         **/
-        /**
-         * Gets or sets the current page
-         **/
-        page: number;
-        /**
-         * Gets the current page.
-         * @returns {number}
-         */
-        getPage(): number;
-        /**
-         * Sets the current page.
-         * Optionally omits the <c>pageChanged</c> event trigger.
-         * @param value
-         * @param silent
-         */
-        setPage(value: number, silent?: boolean): void;
-        /**
-         * Gets or sets the amount of pages for navigation
-         **/
-        /**
-         * Gets or sets the amount of pages for navigation
-         **/
-        pages: number;
-        private _txtPage;
-        txtPage: TextboxItem;
-        /**
-         * Fields for lblPages property.
-         */
-        private _lblPages;
-        /**
-         * Gets a value indicating
-         */
-        lblPages: LabelItem;
-        /**
-         * Fields for btnGo property.
-         */
-        private _btnGo;
-        /**
-         * Gets a value indicating
-         */
-        btnGo: ButtonItem;
-        /**
-         * Fields for btnOverlay property.
-         */
-        private _btnOverlay;
-        /**
-         * Gets a value indicating
-         */
-        btnOverlay: ButtonItem;
-    }
-}
-declare module latte {
-    /**
      * Represents a selectable tab
      **/
     class TabItem extends ButtonItem {
@@ -3396,6 +3320,106 @@ declare module latte {
 }
 declare module latte {
     /**
+     * ButtonGroup with pagination information
+     **/
+    class PaginationItem extends ButtonGroupItem {
+        /**
+         *
+         **/
+        private _page;
+        /**
+         *
+         **/
+        private _pages;
+        /**
+         *
+         **/
+        btnCurrent: ButtonItem;
+        /**
+         *
+         **/
+        btnNext: ButtonItem;
+        /**
+         *
+         **/
+        btnPrevious: ButtonItem;
+        /**
+         * Raised when page changes
+         **/
+        pageChanged: LatteEvent;
+        /**
+         *
+         **/
+        constructor();
+        /**
+         * Navigates to next page, if possible.
+         **/
+        nextPage(): void;
+        /**
+         * Raises the <c>pageChanged</c> event
+         **/
+        onPageChanged(): void;
+        /**
+         * Navigates to the previous page, if possible.
+         **/
+        previousPage(): void;
+        txtPage_enterPressed(): void;
+        /**
+         * Gets or sets the current page
+         **/
+        /**
+         * Gets or sets the current page
+         **/
+        page: number;
+        /**
+         * Gets the current page.
+         * @returns {number}
+         */
+        getPage(): number;
+        /**
+         * Sets the current page.
+         * Optionally omits the <c>pageChanged</c> event trigger.
+         * @param value
+         * @param silent
+         */
+        setPage(value: number, silent?: boolean): void;
+        /**
+         * Gets or sets the amount of pages for navigation
+         **/
+        /**
+         * Gets or sets the amount of pages for navigation
+         **/
+        pages: number;
+        private _txtPage;
+        txtPage: TextboxItem;
+        /**
+         * Fields for lblPages property.
+         */
+        private _lblPages;
+        /**
+         * Gets a value indicating
+         */
+        lblPages: LabelItem;
+        /**
+         * Fields for btnGo property.
+         */
+        private _btnGo;
+        /**
+         * Gets a value indicating
+         */
+        btnGo: ButtonItem;
+        /**
+         * Fields for btnOverlay property.
+         */
+        private _btnOverlay;
+        /**
+         * Gets a value indicating
+         */
+        btnOverlay: ButtonItem;
+    }
+}
+declare module latte {
+    /**
      * Renders a conversation made of <c>CommentItem</c>s, allowing the user to add comments.
      **/
     class ConversationItem extends Item {
@@ -3521,26 +3545,189 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Manages z-index related positions
-     <b style="color:darkred">This class should not be used directly because it is likely to disappear in future version</b>
+     *
      **/
-    class ZIndex {
+    class FormItem extends ItemStack implements ISave {
         /**
-         * Array of elements that are being handled by class
+         *
          **/
-        static elements: Array<JQuery>;
+        constructor();
         /**
-         * Brings the specified element to the top
+         * Returns an input by its assigned name
          **/
-        static bringToFront(element: JQuery): void;
+        byName(name: string): InputItem;
         /**
-         * Remove elemet from elements, and erase z-index
-         **/
-        static removeElement(element: JQuery): void;
+         * Implementation. Gets an empty array since the form class itself has no way of knowing what calls should make
+         * the save itself.
+         */
+        getSaveCalls(): ICall[];
         /**
-         * Updates the z-indexes of elements
+         * Gets an object with the values of fields
          **/
-        static updateZIndexes(): void;
+        getValues(): any;
+        /**
+         * Raises the <c>direction</c> event
+         */
+        onDirectionChanged(): void;
+        /**
+         * Raises the <c>readOnly</c> event
+         */
+        onReadOnlyChanged(): void;
+        /**
+         * Raises the <c>unsavedChanges</c> event
+         */
+        onUnsavedChangesChanged(): void;
+        /**
+         * Raises the <c>valueChanged</c> event
+         */
+        onValueChanged(): void;
+        /**
+         * Sets the direction of Inputs
+         * @param d
+         */
+        setDirection(d: Direction): void;
+        /**
+         * Gets or sets the with of the text parts.
+         * Value must be percent since it must be leveled with value part. Value size will be adjusted
+         * to 5% less large than it should to avoid edge collisions.
+         * Values lower than 1 accepted.
+         * Note that when horizontal input, layout may become affected.
+         *
+         */
+        setTextWidth(value: number): void;
+        /**
+         * Back field for event
+         */
+        private _directionChanged;
+        /**
+         * Gets an event raised when the value of the direction property changes
+         *
+         * @returns {LatteEvent}
+         */
+        directionChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _readOnlyChanged;
+        /**
+         * Gets an event raised when the value of the readOnly property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readOnlyChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _unsavedChangesChanged;
+        /**
+         * Gets an event raised when the value of the unsavedChanges property changes
+         *
+         * @returns {LatteEvent}
+         */
+        unsavedChangesChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _valueChanged;
+        /**
+         * Gets an event raised when the value of an input is changed
+         *
+         * @returns {LatteEvent}
+         */
+        valueChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _direction;
+        /**
+         * Gets or sets the direction of the inputs in the form
+         *
+         * @returns {Direction}
+         */
+        /**
+         * Gets or sets the direction of the inputs in the form
+         *
+         * @param {Direction} value
+         */
+        direction: Direction;
+        /**
+         *
+         **/
+        private _faceVisible;
+        /**
+         * Gets or sets a value indicating if the form has a visible face style.
+         **/
+        /**
+         * Gets or sets a value indicating if the form has a visible face style.
+         **/
+        faceVisible: boolean;
+        /**
+         * Field for inputs property
+         */
+        private _inputs;
+        /**
+         * Gets the inputs of the form
+         *
+         * @returns {Collection<Input>}
+         */
+        inputs: Collection<InputItem>;
+        /**
+         * Gets a value indicating if the form is currently valid
+         *
+         * @returns {boolean}
+         */
+        isValid: boolean;
+        /**
+         * Property field
+         */
+        private _readOnly;
+        /**
+         * Gets or sets a value indicating if the inputs should be read-only.
+         *
+         * @returns {boolean}
+         */
+        /**
+         * Gets or sets a value indicating if the inputs should be read-only.
+         *
+         * @param {boolean} value
+         */
+        readOnly: boolean;
+        /**
+         * Gets or sets the title of the form
+         **/
+        /**
+         * Gets or sets the title of the form
+         **/
+        title: string;
+        /**
+         * Property field
+         */
+        private _unsavedChanges;
+        /**
+         * Gets or sets a value indicating if the form has changes
+         *
+         * @returns {boolean}
+         */
+        /**
+         * Gets or sets a value indicating if the form has changes
+         *
+         * @param {boolean} value
+         */
+        unsavedChanges: boolean;
+        /**
+         * Gets a value of checking every input in <c>inputs</c> to be valid
+         **/
+        valid: boolean;
+        /**
+         * Field for titleLabel property
+         */
+        private _titleLabel;
+        /**
+         * Gets the title label
+         *
+         * @returns {LabelItem}
+         */
+        titleLabel: LabelItem;
     }
 }
 declare module latte {
@@ -3736,6 +3923,43 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Stack of items. It unselects siblings when a selectable within is selected
+     */
+    class SelectableStack extends ItemStack {
+        private _selectedItem;
+        private _selectedItemChanged;
+        /**
+         * Creates the item
+         */
+        constructor();
+        /**
+         * Clears the current selection
+         */
+        clearSelection(): void;
+        /**
+         * Adds selection handlers
+         * @param item
+         */
+        onAddItem(item: Item): void;
+        /**
+         * Raises the <c>selectedItemChanged</c> event
+         */
+        onSelectedItemChanged(): void;
+        /**
+         * Gets the selected item of the stack
+         *
+         * @returns {SelectableItem}
+         */
+        selectedItem: SelectableItem;
+        /**
+         * Gets an event raised when
+         * @returns {LatteEvent}
+         */
+        selectedItemChanged: LatteEvent;
+    }
+}
+declare module latte {
+    /**
      * Renders a Ribbon.
 
      Ribbons are toolbars with tabbed views of tools and a button called <c>startButton</c>.
@@ -3882,43 +4106,6 @@ declare module latte {
     }
 }
 declare module latte {
-    /**
-     * Stack of items. It unselects siblings when a selectable within is selected
-     */
-    class SelectableStack extends ItemStack {
-        private _selectedItem;
-        private _selectedItemChanged;
-        /**
-         * Creates the item
-         */
-        constructor();
-        /**
-         * Clears the current selection
-         */
-        clearSelection(): void;
-        /**
-         * Adds selection handlers
-         * @param item
-         */
-        onAddItem(item: Item): void;
-        /**
-         * Raises the <c>selectedItemChanged</c> event
-         */
-        onSelectedItemChanged(): void;
-        /**
-         * Gets the selected item of the stack
-         *
-         * @returns {SelectableItem}
-         */
-        selectedItem: SelectableItem;
-        /**
-         * Gets an event raised when
-         * @returns {LatteEvent}
-         */
-        selectedItemChanged: LatteEvent;
-    }
-}
-declare module latte {
     class TabContainer extends ItemStack {
         tabToolbar: TabToolbar;
         tabs: Collection<TabItem>;
@@ -4024,193 +4211,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     *
-     **/
-    class FormItem extends ItemStack implements ISave {
-        /**
-         *
-         **/
-        constructor();
-        /**
-         * Returns an input by its assigned name
-         **/
-        byName(name: string): InputItem;
-        /**
-         * Implementation. Gets an empty array since the form class itself has no way of knowing what calls should make
-         * the save itself.
-         */
-        getSaveCalls(): ICall[];
-        /**
-         * Gets an object with the values of fields
-         **/
-        getValues(): any;
-        /**
-         * Raises the <c>direction</c> event
-         */
-        onDirectionChanged(): void;
-        /**
-         * Raises the <c>readOnly</c> event
-         */
-        onReadOnlyChanged(): void;
-        /**
-         * Raises the <c>unsavedChanges</c> event
-         */
-        onUnsavedChangesChanged(): void;
-        /**
-         * Raises the <c>valueChanged</c> event
-         */
-        onValueChanged(): void;
-        /**
-         * Sets the direction of Inputs
-         * @param d
-         */
-        setDirection(d: Direction): void;
-        /**
-         * Gets or sets the with of the text parts.
-         * Value must be percent since it must be leveled with value part. Value size will be adjusted
-         * to 5% less large than it should to avoid edge collisions.
-         * Values lower than 1 accepted.
-         * Note that when horizontal input, layout may become affected.
-         *
-         */
-        setTextWidth(value: number): void;
-        /**
-         * Back field for event
-         */
-        private _directionChanged;
-        /**
-         * Gets an event raised when the value of the direction property changes
-         *
-         * @returns {LatteEvent}
-         */
-        directionChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _readOnlyChanged;
-        /**
-         * Gets an event raised when the value of the readOnly property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readOnlyChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _unsavedChangesChanged;
-        /**
-         * Gets an event raised when the value of the unsavedChanges property changes
-         *
-         * @returns {LatteEvent}
-         */
-        unsavedChangesChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _valueChanged;
-        /**
-         * Gets an event raised when the value of an input is changed
-         *
-         * @returns {LatteEvent}
-         */
-        valueChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _direction;
-        /**
-         * Gets or sets the direction of the inputs in the form
-         *
-         * @returns {Direction}
-         */
-        /**
-         * Gets or sets the direction of the inputs in the form
-         *
-         * @param {Direction} value
-         */
-        direction: Direction;
-        /**
-         *
-         **/
-        private _faceVisible;
-        /**
-         * Gets or sets a value indicating if the form has a visible face style.
-         **/
-        /**
-         * Gets or sets a value indicating if the form has a visible face style.
-         **/
-        faceVisible: boolean;
-        /**
-         * Field for inputs property
-         */
-        private _inputs;
-        /**
-         * Gets the inputs of the form
-         *
-         * @returns {Collection<Input>}
-         */
-        inputs: Collection<InputItem>;
-        /**
-         * Gets a value indicating if the form is currently valid
-         *
-         * @returns {boolean}
-         */
-        isValid: boolean;
-        /**
-         * Property field
-         */
-        private _readOnly;
-        /**
-         * Gets or sets a value indicating if the inputs should be read-only.
-         *
-         * @returns {boolean}
-         */
-        /**
-         * Gets or sets a value indicating if the inputs should be read-only.
-         *
-         * @param {boolean} value
-         */
-        readOnly: boolean;
-        /**
-         * Gets or sets the title of the form
-         **/
-        /**
-         * Gets or sets the title of the form
-         **/
-        title: string;
-        /**
-         * Property field
-         */
-        private _unsavedChanges;
-        /**
-         * Gets or sets a value indicating if the form has changes
-         *
-         * @returns {boolean}
-         */
-        /**
-         * Gets or sets a value indicating if the form has changes
-         *
-         * @param {boolean} value
-         */
-        unsavedChanges: boolean;
-        /**
-         * Gets a value of checking every input in <c>inputs</c> to be valid
-         **/
-        valid: boolean;
-        /**
-         * Field for titleLabel property
-         */
-        private _titleLabel;
-        /**
-         * Gets the title label
-         *
-         * @returns {LabelItem}
-         */
-        titleLabel: LabelItem;
-    }
-}
-declare module latte {
-    /**
      * An Item for containing a View
      **/
     class ViewItem extends Item {
@@ -4253,154 +4253,6 @@ declare module latte {
          * Gets or sets the View inside this item
          **/
         view: View;
-    }
-}
-declare module latte {
-    /**
-     * Represents a widget.
-
-     Widgets are like small windows who can be maximized, minimized and dragged around.
-     **/
-    class WidgetItem extends Item {
-        /**
-         *
-         **/
-        private _allowClose;
-        /**
-         *
-         **/
-        private _allowMaximize;
-        /**
-         *
-         **/
-        private _allowMinimize;
-        /**
-         *
-         **/
-        private _minimized;
-        /**
-         * Button for closing widget
-         **/
-        closeButton: ButtonItem;
-        /**
-         * Collection of items in widget
-         **/
-        items: Collection<Item>;
-        /**
-         * Button for maximizing the widget
-         **/
-        maximizeButton: ButtonItem;
-        /**
-         * Button for minimizing the widget
-         **/
-        minimizeButton: ButtonItem;
-        /**
-         * Collection of options of widget
-         **/
-        options: Collection<Item>;
-        /**
-         * Button for options
-         **/
-        optionsButton: ButtonItem;
-        /**
-         * Stack of items in the widget
-         **/
-        stack: ItemStack;
-        /**
-         * Label where title is placed
-         **/
-        titleLabel: LabelItem;
-        /**
-         * Bottom toolbar
-         **/
-        toolbar: Toolbar;
-        /**
-         * Top toolbar
-         **/
-        topToolbar: Toolbar;
-        /**
-         * Raised when the widget has been closed
-         **/
-        closed: LatteEvent;
-        /**
-         * Raised when the widget has been maximized
-         **/
-        maximized: LatteEvent;
-        /**
-         * Raised when the widget has been minimized
-         **/
-        minimizedChanged: LatteEvent;
-        /**
-         * Creates the widget
-         **/
-        constructor();
-        /**
-         *
-         **/
-        private _onAddItem(item);
-        /**
-         *
-         **/
-        private _onAddOption(item);
-        /**
-         *
-         **/
-        private _onRemoveItem(item);
-        /**
-         *
-         **/
-        private _onRemoveOption(item);
-        /**
-         * Raises the <c>closed</c> event
-         **/
-        onClosed(): void;
-        /**
-         * Raises the <c>layout</c> event
-         **/
-        onLayout(): void;
-        /**
-         * Raises the <c>maximized</c> event
-         **/
-        onMaximized(): void;
-        /**
-         * Raises the <c>minimized</c> event
-         **/
-        onMinimizedChanged(): void;
-        /**
-         * Gets or sets a value indicating if the item could be closed
-         **/
-        /**
-         * Gets or sets a value indicating if the item could be closed
-         **/
-        allowClose: boolean;
-        /**
-         * Gets or sets a value indicating if the item could be maximized
-         **/
-        /**
-         * Gets or sets a value indicating if the item could be maximized
-         **/
-        allowMaximize: boolean;
-        /**
-         * Gets or sets a value indicating if the item could be minimized
-         **/
-        /**
-         * Gets or sets a value indicating if the item could be minimized
-         **/
-        allowMinimize: boolean;
-        /**
-         * Gets or sets a value indicating if the widget is currently minimized
-         **/
-        /**
-         * Gets or sets a value indicating if the widget is currently minimized
-         **/
-        minimized: boolean;
-        /**
-         * Gets or sets the title of the widget
-         **/
-        /**
-         * Gets or sets the title of the widget
-         **/
-        title: string;
     }
 }
 declare module latte {
@@ -4572,6 +4424,255 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Represents a widget.
+
+     Widgets are like small windows who can be maximized, minimized and dragged around.
+     **/
+    class WidgetItem extends Item {
+        /**
+         *
+         **/
+        private _allowClose;
+        /**
+         *
+         **/
+        private _allowMaximize;
+        /**
+         *
+         **/
+        private _allowMinimize;
+        /**
+         *
+         **/
+        private _minimized;
+        /**
+         * Button for closing widget
+         **/
+        closeButton: ButtonItem;
+        /**
+         * Collection of items in widget
+         **/
+        items: Collection<Item>;
+        /**
+         * Button for maximizing the widget
+         **/
+        maximizeButton: ButtonItem;
+        /**
+         * Button for minimizing the widget
+         **/
+        minimizeButton: ButtonItem;
+        /**
+         * Collection of options of widget
+         **/
+        options: Collection<Item>;
+        /**
+         * Button for options
+         **/
+        optionsButton: ButtonItem;
+        /**
+         * Stack of items in the widget
+         **/
+        stack: ItemStack;
+        /**
+         * Label where title is placed
+         **/
+        titleLabel: LabelItem;
+        /**
+         * Bottom toolbar
+         **/
+        toolbar: Toolbar;
+        /**
+         * Top toolbar
+         **/
+        topToolbar: Toolbar;
+        /**
+         * Raised when the widget has been closed
+         **/
+        closed: LatteEvent;
+        /**
+         * Raised when the widget has been maximized
+         **/
+        maximized: LatteEvent;
+        /**
+         * Raised when the widget has been minimized
+         **/
+        minimizedChanged: LatteEvent;
+        /**
+         * Creates the widget
+         **/
+        constructor();
+        /**
+         *
+         **/
+        private _onAddItem(item);
+        /**
+         *
+         **/
+        private _onAddOption(item);
+        /**
+         *
+         **/
+        private _onRemoveItem(item);
+        /**
+         *
+         **/
+        private _onRemoveOption(item);
+        /**
+         * Raises the <c>closed</c> event
+         **/
+        onClosed(): void;
+        /**
+         * Raises the <c>layout</c> event
+         **/
+        onLayout(): void;
+        /**
+         * Raises the <c>maximized</c> event
+         **/
+        onMaximized(): void;
+        /**
+         * Raises the <c>minimized</c> event
+         **/
+        onMinimizedChanged(): void;
+        /**
+         * Gets or sets a value indicating if the item could be closed
+         **/
+        /**
+         * Gets or sets a value indicating if the item could be closed
+         **/
+        allowClose: boolean;
+        /**
+         * Gets or sets a value indicating if the item could be maximized
+         **/
+        /**
+         * Gets or sets a value indicating if the item could be maximized
+         **/
+        allowMaximize: boolean;
+        /**
+         * Gets or sets a value indicating if the item could be minimized
+         **/
+        /**
+         * Gets or sets a value indicating if the item could be minimized
+         **/
+        allowMinimize: boolean;
+        /**
+         * Gets or sets a value indicating if the widget is currently minimized
+         **/
+        /**
+         * Gets or sets a value indicating if the widget is currently minimized
+         **/
+        minimized: boolean;
+        /**
+         * Gets or sets the title of the widget
+         **/
+        /**
+         * Gets or sets the title of the widget
+         **/
+        title: string;
+    }
+}
+declare module latte {
+    /**
+     * Single element containing text
+     */
+    class UiText extends UiElement {
+        /**
+         * Trims the text and adds ellipsis if it overpasses the limit.
+         *
+         * @param text
+         * @param length
+         * @returns {string}
+         */
+        static ellipsis(text: string, length?: number): string;
+        /**
+         * Creates the text
+         */
+        constructor(text?: string);
+        /**
+         * Gets the text/html of the box
+         * @returns {string}
+         */
+        /**
+         * Sets the text/html of the box
+         * @param value
+         */
+        text: string;
+    }
+}
+declare module latte {
+    /**
+     * Represents an item for calendar views
+     **/
+    class CalendarItem extends SelectableLabel {
+        /**
+         *
+         **/
+        private _dateEnd;
+        /**
+         *
+         **/
+        private _dateStart;
+        /**
+         *
+         **/
+        _matrixDepth: number;
+        /**
+         *
+         **/
+        matrixAttributes: any;
+        /**
+         * Gets a collection of rectangles that exist extra to the element of this item
+         **/
+        rectangles: Collection<Rectangle>;
+        /**
+         * Creates the item
+         **/
+        constructor();
+        /**
+         *
+         **/
+        private _onAddRectangle(r);
+        /**
+         *
+         **/
+        private _onRemoveRectangle(r);
+        /**
+         * Clones the item
+         **/
+        clone(): CalendarItem;
+        /**
+         *
+         **/
+        onSelectedChanged(): void;
+        /**
+         * Gets a value indicating if the item is an <c>all-day</c> item.
+         All-day items are those who its time of day both start and end dates are zero minutes
+         **/
+        allDay: boolean;
+        /**
+         * Gets or sets the end date of the item
+         **/
+        /**
+         * Gets or sets the end date of the item
+         **/
+        dateEnd: DateTime;
+        /**
+         * Gets or sets the start date of the item
+         **/
+        /**
+         * Gets or sets the start date of the item
+         **/
+        dateStart: DateTime;
+        /**
+         * Gets or sets the text of the item
+         **/
+        /**
+         * Gets or sets the text of the item
+         **/
+        text: string;
+    }
+}
+declare module latte {
+    /**
      * Represents an item of a ListView
      **/
     class ListViewItem extends SelectableItem {
@@ -4711,107 +4812,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Single element containing text
-     */
-    class UiText extends UiElement {
-        /**
-         * Trims the text and adds ellipsis if it overpasses the limit.
-         *
-         * @param text
-         * @param length
-         * @returns {string}
-         */
-        static ellipsis(text: string, length?: number): string;
-        /**
-         * Creates the text
-         */
-        constructor(text?: string);
-        /**
-         * Gets the text/html of the box
-         * @returns {string}
-         */
-        /**
-         * Sets the text/html of the box
-         * @param value
-         */
-        text: string;
-    }
-}
-declare module latte {
-    /**
-     * Represents an item for calendar views
-     **/
-    class CalendarItem extends SelectableLabel {
-        /**
-         *
-         **/
-        private _dateEnd;
-        /**
-         *
-         **/
-        private _dateStart;
-        /**
-         *
-         **/
-        _matrixDepth: number;
-        /**
-         *
-         **/
-        matrixAttributes: any;
-        /**
-         * Gets a collection of rectangles that exist extra to the element of this item
-         **/
-        rectangles: Collection<Rectangle>;
-        /**
-         * Creates the item
-         **/
-        constructor();
-        /**
-         *
-         **/
-        private _onAddRectangle(r);
-        /**
-         *
-         **/
-        private _onRemoveRectangle(r);
-        /**
-         * Clones the item
-         **/
-        clone(): CalendarItem;
-        /**
-         *
-         **/
-        onSelectedChanged(): void;
-        /**
-         * Gets a value indicating if the item is an <c>all-day</c> item.
-         All-day items are those who its time of day both start and end dates are zero minutes
-         **/
-        allDay: boolean;
-        /**
-         * Gets or sets the end date of the item
-         **/
-        /**
-         * Gets or sets the end date of the item
-         **/
-        dateEnd: DateTime;
-        /**
-         * Gets or sets the start date of the item
-         **/
-        /**
-         * Gets or sets the start date of the item
-         **/
-        dateStart: DateTime;
-        /**
-         * Gets or sets the text of the item
-         **/
-        /**
-         * Gets or sets the text of the item
-         **/
-        text: string;
-    }
-}
-declare module latte {
-    /**
      *
      **/
     class CheckboxItem extends ValueItem<boolean> {
@@ -4848,6 +4848,276 @@ declare module latte {
          * @returns {LabelItem}
          */
         label: LabelItem;
+    }
+}
+declare module latte {
+    /**
+     * Renders an Item that may contains more <c>TreeItem</c>s and shows them as a tree.
+     **/
+    class TreeItem extends Item {
+        /**
+         * Global level expand glyph loader
+         * @type {any}
+         */
+        static globalExpandGlyph: (item: TreeItem) => IconItem;
+        /**
+         * Global level collapse glyph loader
+         * @type {any}
+         */
+        static globalCollapseGlyph: (item: TreeItem) => IconItem;
+        /**
+         *
+         **/
+        private _expandOnSelect;
+        /**
+         *
+         **/
+        private _expanded;
+        /**
+         *
+         **/
+        private _glyph;
+        /**
+         *
+         **/
+        private _icon;
+        /**
+         *
+         **/
+        private _level;
+        /**
+         *
+         **/
+        private _parent;
+        /**
+         *
+         **/
+        private _selected;
+        /**
+         *
+         **/
+        private _selectedIcon;
+        /**
+         *
+         **/
+        private _willLoadItems;
+        /**
+         *
+         **/
+        faceElement: JQuery;
+        /**
+         *
+         **/
+        glyphElement: JQuery;
+        /**
+         *
+         **/
+        iconElement: JQuery;
+        /**
+         *
+         **/
+        levelElement: JQuery;
+        /**
+         *
+         **/
+        textElement: JQuery;
+        /**
+         *
+         **/
+        items: Collection<TreeItem>;
+        /**
+         * Pointer to the element where items are placed
+         **/
+        itemsElement: JQuery;
+        /**
+         * Raised when user clicks the item
+         **/
+        click: LatteEvent;
+        /**
+         * Raised when children items need to be loaded
+         **/
+        loadItems: LatteEvent;
+        /**
+         * Raised when the <c>selected</c> property value changes
+         **/
+        selectedChanged: LatteEvent;
+        /**
+         * Creates the item
+         **/
+        constructor();
+        /**
+         *
+         **/
+        private _onAddItem(item);
+        /**
+         *
+         **/
+        private _onRemoveItem(item);
+        /**
+         *
+         **/
+        _updateGlyph(): void;
+        /**
+         * Deletes the node from its parent
+         **/
+        deleteFromParent(): void;
+        /**
+         * Raises the <c>click</c> event
+         **/
+        onClick(): void;
+        /**
+         * Raises the <c>loadItems</c> event
+         **/
+        onLoadItems(): void;
+        /**
+         * Raises the <c>selectedChanged</c> event
+         **/
+        onSelectedChanged(): void;
+        /**
+         * Reports to the <c>TreeView</c> that items have been loaded
+         so it can trigger the <c>itemItemsLoaded</c>
+         **/
+        reportItemsLoaded(): void;
+        /**
+         * Returns the top most parent of the item
+         **/
+        topParent(): TreeItem;
+        /**
+         * Gets or sets a value indicating if the item will react to select as a gesture to alternate its <c>expand</c> state
+         Default is <c>true</c>
+         **/
+        /**
+         * Gets or sets a value indicating if the item will react to select as a gesture to alternate its <c>expand</c> state
+         Default is <c>true</c>
+         **/
+        expandOnSelect: boolean;
+        /**
+         * Gets or sets a value indicating if the item is currently expanded, this is, showing its child items
+         **/
+        /**
+         * Gets or sets a value indicating if the item is currently expanded, this is, showing its child items
+         **/
+        expanded: boolean;
+        /**
+         * Gets or sets the glyph of the item. Glyph is changed automatically when <c>expanded()</c> is invoked
+         **/
+        /**
+         * Gets or sets the glyph of the item. Glyph is changed automatically when <c>expanded()</c> is invoked
+         **/
+        glyph: IconItem;
+        /**
+         * Gets a value indicating if the item contains child items or a handler for <c>loadItems</c> has been set
+         **/
+        hasItems: boolean;
+        /**
+         * Gets or sets the icon of the item
+         **/
+        /**
+         * Gets or sets the icon of the item
+         **/
+        icon: IconItem;
+        /**
+         * Gets or sets the level of the item. The level specifies the indent of the item.
+         **/
+        /**
+         * Gets or sets the level of the item. The level specifies the indent of the item.
+         **/
+        level: number;
+        /**
+         * Gets the parent <c>TreeItem</c> of this item
+         **/
+        parent: TreeItem;
+        /**
+         * Gets the navigation path as a string
+         **/
+        path: any;
+        /**
+         * Gets or sets a value indicaing if the item is currently selected
+         **/
+        /**
+         * Gets or sets a value indicaing if the item is currently selected
+         **/
+        selected: boolean;
+        /**
+         * Gets or sets the icon of the item when selected
+         **/
+        /**
+         * Gets or sets the icon of the item when selected
+         **/
+        selectedIcon: IconItem;
+        /**
+         * Gets or sets the text of the item
+         **/
+        /**
+         * Gets or sets the text of the item
+         **/
+        text: string;
+        /**
+         * Gets the <c>TreeView</c> item who contains this item, if any
+         **/
+        treeView: TreeView;
+    }
+}
+/**
+ * Created by josemanuel on 7/1/14.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class ColorValueItem extends ValueItem<string> {
+        /**
+         *
+         */
+        constructor(color?: Color);
+        setValue(value: string): void;
+        getValue(): string;
+        onLayout(): void;
+        /**
+         * Field for colorPicker property
+         */
+        private _colorPicker;
+        /**
+         * Gets the color picker
+         *
+         * @returns {ColorPicker}
+         */
+        colorPicker: ColorPicker;
+        /**
+         * Field for button property
+         */
+        private _button;
+        /**
+         * Gets the button for selection
+         *
+         * @returns {ButtonItem}
+         */
+        button: ButtonItem;
+        /**
+         * Property field
+         */
+        private _color;
+        /**
+         * Gets or sets the color of the item
+         *
+         * @returns {Color}
+         */
+        /**
+         * Gets or sets the color of the item
+         *
+         * @param {Color} value
+         */
+        color: Color;
+        /**
+         * Field for icon property
+         */
+        private _icon;
+        /**
+         * Gets the color icon
+         *
+         * @returns {ColorIconItem}
+         */
+        icon: ColorIconItem;
     }
 }
 declare module latte {
@@ -4987,66 +5257,66 @@ declare module latte {
         timeVisible: boolean;
     }
 }
-/**
- * Created by josemanuel on 7/1/14.
- */
 declare module latte {
     /**
-     *
-     */
-    class ColorValueItem extends ValueItem<string> {
+     * Presents a method for choosing options from a combobox.
+     Combo options are presented as the button's items.
+     The button's items tag value is assumed to be the value of the combobox.
+     **/
+    class ComboItem extends ValueItem<any> {
         /**
          *
-         */
-        constructor(color?: Color);
-        setValue(value: string): void;
-        getValue(): string;
-        onLayout(): void;
+         **/
+        private _options;
         /**
-         * Field for colorPicker property
-         */
-        private _colorPicker;
-        /**
-         * Gets the color picker
-         *
-         * @returns {ColorPicker}
-         */
-        colorPicker: ColorPicker;
-        /**
-         * Field for button property
-         */
-        private _button;
-        /**
-         * Gets the button for selection
-         *
-         * @returns {ButtonItem}
-         */
+         * Button who hosts the combo
+         **/
         button: ButtonItem;
         /**
-         * Property field
-         */
-        private _color;
-        /**
-         * Gets or sets the color of the item
          *
-         * @returns {Color}
-         */
+         **/
+        constructor();
         /**
-         * Gets or sets the color of the item
+         * Override
+         * @returns {any}
+         */
+        onGetValueString(): string;
+        /**
+         * Override.
+         */
+        onValueChanged(): void;
+        /**
+         * Gets or sets the options of the combo
+         **/
+        /**
+         * Gets or sets the options of the combo
+         **/
+        options: any;
+    }
+}
+declare module latte {
+    /**
+     * Value item for files. Value of item is an array of system File objects.
+     */
+    class FileValueItem extends ValueItem<string> {
+        fileInput: JQuery;
+        constructor();
+        /**
+         * Gets an array of selected files
          *
-         * @param {Color} value
+         * @returns {Array<File>}
          */
-        color: Color;
+        getValue(): Array<File>;
         /**
-         * Field for icon property
+         * Resets the input field
          */
-        private _icon;
+        resetInput(): void;
         /**
-         * Gets the color icon
+         * Sets the value. This is ignored since UA won't allow it.
          *
-         * @returns {ColorIconItem}
+         * @param value
          */
-        icon: ColorIconItem;
+        setValue(value: Array<File>): void;
     }
 }
 /**
@@ -5213,64 +5483,218 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Value item for files. Value of item is an array of system File objects.
-     */
-    class FileValueItem extends ValueItem<string> {
-        fileInput: JQuery;
+     * Html Editor. Loads the <c>rangy</c> plugin.
+
+     For specification of <c>rangy</c> objects refer to:
+     <a href="http://code.google.com/p/rangy/w/list" target=_blank>http://code.google.com/p/rangy/w/list</a>
+     **/
+    class HtmlEditorItem extends ValueItem<string> {
+        /**
+         * Gets the path to rangy library
+         * @returns {string}
+         */
+        static rangyPath: string;
+        static rangyLoaded: boolean;
+        /**
+         *
+         **/
+        private _ready;
+        /**
+         * Value is stored here while not ready.
+         **/
+        private _valueHtml;
+        /**
+         * Points to the iframe of the editor
+         **/
+        iframe: JQuery;
+        /**
+         * Toolbar of basic commands
+         **/
+        toolbar: Toolbar;
+        /**
+         * Creates the editor.
+         **/
         constructor();
         /**
-         * Gets an array of selected files
-         *
-         * @returns {Array<File>}
-         */
-        getValue(): Array<File>;
+         * Creates default buttons
+         **/
+        private _addToolbarButtons();
         /**
-         * Resets the input field
-         */
-        resetInput(): void;
-        /**
-         * Sets the value. This is ignored since UA won't allow it.
          *
-         * @param value
+         **/
+        private _assignElementHandlers();
+        /**
+         * Returns a value indicating if the editor can be initialized.
+         It can be initialized when its attached to the DOM.
+         **/
+        private _canInit();
+        /**
+         * Clears all formatting in editor
+         **/
+        private _clearFormatting();
+        /**
+         * Tries to convert the passed object to a node
+         **/
+        private _ensureNode(obj);
+        /**
+         * Tries to get the editor ready. Returns if control is ready after call.
+         **/
+        private _ensureReady();
+        /**
+         * Initializes the editor, if possible.
+         **/
+        private _initEditor();
+        /**
+         * Shows a dialog to insert HTML
+         **/
+        private _insertHTML();
+        /**
+         * Inserts an image, asking for the URL
+         **/
+        private _insertImage(value?);
+        /**
+         * Inserts a link, asking for the Url
+         **/
+        private _insertLink();
+        /**
+         * Shows a dialog to insert a YouTube video
+         **/
+        private _insertYouTube();
+        /**
+         * Returns a value indicating if editor must be initialized.
+         It happens every time its dettached from DOM.
+         **/
+        private _mustInit();
+        /**
+         * Gets the body of the iframe
+         **/
+        body(): JQuery;
+        /**
+         * Gets the JavaScript document's object of iframe.
+         **/
+        document(): Document;
+        /**
+         * Executes the specified command
+         **/
+        execCommand(command: string, value?: any): void;
+        /**
+         *
+         **/
+        getValue(): string;
+        /**
+         * Inserts the specified node at the currently selected range.
+         Returns the inserted node, or <c>null</c> if not possible.
+         **/
+        insertElement(element: any): JQuery;
+        /**
+         * Raises the <c>imageSelected</c> event
          */
-        setValue(value: Array<File>): void;
+        onImageSelected(image: JQuery): any;
+        /**
+         * Overriden.
+         **/
+        onLayout(): void;
+        /**
+         * Raises the <c>selectionChanged</c> event.
+         **/
+        onSelectionChanged(): void;
+        /**
+         * Overriden.
+         **/
+        onValueChanged(): void;
+        /**
+         * Gets a value indicating if the editor is ready to be used as editor.
+         While the editor is not ready, all data will be displayed in a non-editable element.
+         **/
+        ready(): boolean;
+        /**
+         * Selects the specified element and returns it as a jQuery object.
+         **/
+        selectElement(element: any): JQuery;
+        /**
+         * Selects the contents of the specified node and returns the element as a jQuery object.
+         **/
+        selectElementContents(element: any): JQuery;
+        /**
+         * Gets the element where selection ends.
+         **/
+        selectionEnd(): JQuery;
+        /**
+         * Returns the parent of selection, passing the specified <c>selector</c>
+         to the jQuery <c>parents()<c> method.
+         **/
+        selectionParents(selector?: string): JQuery;
+        /**
+         * Gets the element where selection starts.
+         **/
+        selectionStart(): JQuery;
+        /**
+         * Override.
+         **/
+        setValue(value: string): void;
+        /**
+         * Surrounds selected contents with specified element, and returns the
+         attached element as a jQuery object.
+         **/
+        surroundSelectionWith(element: any): JQuery;
+        /**
+         * Back field for event
+         */
+        private _selectionChanged;
+        /**
+         * Gets an event raised when the selection of the editor changes
+         *
+         * @returns {LatteEvent}
+         */
+        selectionChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _imageSelected;
+        /**
+         * Gets an event raised when an image in the editor is selected
+         *
+         * @returns {LatteEvent}
+         */
+        imageSelected: LatteEvent;
+        /**
+         * Gets the current selection
+         **/
+        selection: RangySelection;
+        /**
+         * Gets the range of selection. Returns <c>null</c> if no current selection.
+         **/
+        selectionRange: RangyRange;
+        /**
+         * Gets or sets the source html
+         */
+        /**
+         * Gets or sets the source html
+         */
+        value: string;
+        /**
+         * Gets the Window of the iframe
+         **/
+        window: any;
     }
 }
 declare module latte {
     /**
-     * Presents a method for choosing options from a combobox.
-     Combo options are presented as the button's items.
-     The button's items tag value is assumed to be the value of the combobox.
+     * Label with value property
      **/
-    class ComboItem extends ValueItem<any> {
+    class LabelValueItem extends ValueItem<string> {
         /**
-         *
+         * Label for text displaying
          **/
-        private _options;
+        label: LabelItem;
         /**
-         * Button who hosts the combo
-         **/
-        button: ButtonItem;
-        /**
-         *
+         * Creates the item
          **/
         constructor();
-        /**
-         * Override
-         * @returns {any}
-         */
-        onGetValueString(): string;
         /**
          * Override.
          */
         onValueChanged(): void;
-        /**
-         * Gets or sets the options of the combo
-         **/
-        /**
-         * Gets or sets the options of the combo
-         **/
-        options: any;
     }
 }
 declare module latte {
@@ -5589,6 +6013,37 @@ declare module latte {
         minValue: number;
     }
 }
+/**
+ * Created by josemanuel on 12/23/13.
+ */
+declare module latte {
+    /**
+     * Shows a selectable radio button
+     */
+    class RadioItem extends ValueItem<boolean> {
+        /**
+         * Label for radio
+         **/
+        label: LabelItem;
+        /**
+         * Creates the RadioItem
+         * @param text
+         * @param value
+         */
+        constructor(text?: string, value?: boolean);
+        /**
+         * Override.
+         */
+        onValueChanged(): void;
+        /**
+         * Gets or sets the text of the checkbox
+         **/
+        /**
+         * Gets or sets the text of the checkbox
+         **/
+        text: string;
+    }
+}
 declare module latte {
     /**
      * Presents a method for choosing options from a combobox.
@@ -5673,37 +6128,6 @@ declare module latte {
          * @returns {HTMLElement}
          */
         orb: HTMLElement;
-    }
-}
-/**
- * Created by josemanuel on 12/23/13.
- */
-declare module latte {
-    /**
-     * Shows a selectable radio button
-     */
-    class RadioItem extends ValueItem<boolean> {
-        /**
-         * Label for radio
-         **/
-        label: LabelItem;
-        /**
-         * Creates the RadioItem
-         * @param text
-         * @param value
-         */
-        constructor(text?: string, value?: boolean);
-        /**
-         * Override.
-         */
-        onValueChanged(): void;
-        /**
-         * Gets or sets the text of the checkbox
-         **/
-        /**
-         * Gets or sets the text of the checkbox
-         **/
-        text: string;
     }
 }
 declare module latte {
@@ -6107,6 +6531,49 @@ declare module latte {
         sideLabel: LabelItem;
     }
 }
+/**
+ * Created by josemanuel on 3/22/15.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class ItemOverlay extends Overlay {
+        /**
+         * Creates the overlay
+         */
+        constructor(item: Item);
+        /**
+         * Property field
+         */
+        private _item;
+        /**
+         * Gets or sets the item of the overlay
+         *
+         * @returns {Item}
+         */
+        /**
+         * Gets or sets the item of the overlay
+         *
+         * @param {Item} value
+         */
+        item: Item;
+        /**
+         * Back field for event
+         */
+        private _itemChanged;
+        /**
+         * Gets an event raised when the value of the item property changes
+         *
+         * @returns {LatteEvent}
+         */
+        itemChanged: LatteEvent;
+        /**
+         * Raises the <c>item</c> event
+         */
+        onItemChanged(): void;
+    }
+}
 declare module latte {
     /**
      * Allows user to pick a time
@@ -6182,218 +6649,6 @@ declare module latte {
          * @returns {ComboItem}
          */
         secondCombo: ComboItem;
-    }
-}
-declare module latte {
-    /**
-     * Label with value property
-     **/
-    class LabelValueItem extends ValueItem<string> {
-        /**
-         * Label for text displaying
-         **/
-        label: LabelItem;
-        /**
-         * Creates the item
-         **/
-        constructor();
-        /**
-         * Override.
-         */
-        onValueChanged(): void;
-    }
-}
-declare module latte {
-    /**
-     * Html Editor. Loads the <c>rangy</c> plugin.
-
-     For specification of <c>rangy</c> objects refer to:
-     <a href="http://code.google.com/p/rangy/w/list" target=_blank>http://code.google.com/p/rangy/w/list</a>
-     **/
-    class HtmlEditorItem extends ValueItem<string> {
-        static rangyPath: string;
-        static rangyLoaded: boolean;
-        /**
-         *
-         **/
-        private _ready;
-        /**
-         * Value is stored here while not ready.
-         **/
-        private _valueHtml;
-        /**
-         * Points to the iframe of the editor
-         **/
-        iframe: JQuery;
-        /**
-         * Toolbar of basic commands
-         **/
-        toolbar: Toolbar;
-        /**
-         * Creates the editor.
-         **/
-        constructor();
-        /**
-         * Creates default buttons
-         **/
-        private _addToolbarButtons();
-        /**
-         *
-         **/
-        private _assignElementHandlers();
-        /**
-         * Returns a value indicating if the editor can be initialized.
-         It can be initialized when its attached to the DOM.
-         **/
-        private _canInit();
-        /**
-         * Clears all formatting in editor
-         **/
-        private _clearFormatting();
-        /**
-         * Tries to convert the passed object to a node
-         **/
-        private _ensureNode(obj);
-        /**
-         * Tries to get the editor ready. Returns if control is ready after call.
-         **/
-        private _ensureReady();
-        /**
-         * Initializes the editor, if possible.
-         **/
-        private _initEditor();
-        /**
-         * Shows a dialog to insert HTML
-         **/
-        private _insertHTML();
-        /**
-         * Inserts an image, asking for the URL
-         **/
-        private _insertImage(value?);
-        /**
-         * Inserts a link, asking for the Url
-         **/
-        private _insertLink();
-        /**
-         * Shows a dialog to insert a YouTube video
-         **/
-        private _insertYouTube();
-        /**
-         * Returns a value indicating if editor must be initialized.
-         It happens every time its dettached from DOM.
-         **/
-        private _mustInit();
-        /**
-         * Gets the body of the iframe
-         **/
-        body(): JQuery;
-        /**
-         * Gets the JavaScript document's object of iframe.
-         **/
-        document(): Document;
-        /**
-         * Executes the specified command
-         **/
-        execCommand(command: string, value?: any): void;
-        /**
-         *
-         **/
-        getValue(): string;
-        /**
-         * Inserts the specified node at the currently selected range.
-         Returns the inserted node, or <c>null</c> if not possible.
-         **/
-        insertElement(element: any): JQuery;
-        /**
-         * Raises the <c>imageSelected</c> event
-         */
-        onImageSelected(image: JQuery): any;
-        /**
-         * Overriden.
-         **/
-        onLayout(): void;
-        /**
-         * Raises the <c>selectionChanged</c> event.
-         **/
-        onSelectionChanged(): void;
-        /**
-         * Overriden.
-         **/
-        onValueChanged(): void;
-        /**
-         * Gets a value indicating if the editor is ready to be used as editor.
-         While the editor is not ready, all data will be displayed in a non-editable element.
-         **/
-        ready(): boolean;
-        /**
-         * Selects the specified element and returns it as a jQuery object.
-         **/
-        selectElement(element: any): JQuery;
-        /**
-         * Selects the contents of the specified node and returns the element as a jQuery object.
-         **/
-        selectElementContents(element: any): JQuery;
-        /**
-         * Gets the element where selection ends.
-         **/
-        selectionEnd(): JQuery;
-        /**
-         * Returns the parent of selection, passing the specified <c>selector</c>
-         to the jQuery <c>parents()<c> method.
-         **/
-        selectionParents(selector?: string): JQuery;
-        /**
-         * Gets the element where selection starts.
-         **/
-        selectionStart(): JQuery;
-        /**
-         * Override.
-         **/
-        setValue(value: string): void;
-        /**
-         * Surrounds selected contents with specified element, and returns the
-         attached element as a jQuery object.
-         **/
-        surroundSelectionWith(element: any): JQuery;
-        /**
-         * Back field for event
-         */
-        private _selectionChanged;
-        /**
-         * Gets an event raised when the selection of the editor changes
-         *
-         * @returns {LatteEvent}
-         */
-        selectionChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _imageSelected;
-        /**
-         * Gets an event raised when an image in the editor is selected
-         *
-         * @returns {LatteEvent}
-         */
-        imageSelected: LatteEvent;
-        /**
-         * Gets the current selection
-         **/
-        selection: RangySelection;
-        /**
-         * Gets the range of selection. Returns <c>null</c> if no current selection.
-         **/
-        selectionRange: RangyRange;
-        /**
-         * Gets or sets the source html
-         */
-        /**
-         * Gets or sets the source html
-         */
-        value: string;
-        /**
-         * Gets the Window of the iframe
-         **/
-        window: any;
     }
 }
 declare module latte {
@@ -6656,262 +6911,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Renders an Item that may contains more <c>TreeItem</c>s and shows them as a tree.
-     **/
-    class TreeItem extends Item {
-        /**
-         * Global level expand glyph loader
-         * @type {any}
-         */
-        static globalExpandGlyph: (item: TreeItem) => IconItem;
-        /**
-         * Global level collapse glyph loader
-         * @type {any}
-         */
-        static globalCollapseGlyph: (item: TreeItem) => IconItem;
-        /**
-         *
-         **/
-        private _expandOnSelect;
-        /**
-         *
-         **/
-        private _expanded;
-        /**
-         *
-         **/
-        private _glyph;
-        /**
-         *
-         **/
-        private _icon;
-        /**
-         *
-         **/
-        private _level;
-        /**
-         *
-         **/
-        private _parent;
-        /**
-         *
-         **/
-        private _selected;
-        /**
-         *
-         **/
-        private _selectedIcon;
-        /**
-         *
-         **/
-        private _willLoadItems;
-        /**
-         *
-         **/
-        faceElement: JQuery;
-        /**
-         *
-         **/
-        glyphElement: JQuery;
-        /**
-         *
-         **/
-        iconElement: JQuery;
-        /**
-         *
-         **/
-        levelElement: JQuery;
-        /**
-         *
-         **/
-        textElement: JQuery;
-        /**
-         *
-         **/
-        items: Collection<TreeItem>;
-        /**
-         * Pointer to the element where items are placed
-         **/
-        itemsElement: JQuery;
-        /**
-         * Raised when user clicks the item
-         **/
-        click: LatteEvent;
-        /**
-         * Raised when children items need to be loaded
-         **/
-        loadItems: LatteEvent;
-        /**
-         * Raised when the <c>selected</c> property value changes
-         **/
-        selectedChanged: LatteEvent;
-        /**
-         * Creates the item
-         **/
-        constructor();
-        /**
-         *
-         **/
-        private _onAddItem(item);
-        /**
-         *
-         **/
-        private _onRemoveItem(item);
-        /**
-         *
-         **/
-        _updateGlyph(): void;
-        /**
-         * Deletes the node from its parent
-         **/
-        deleteFromParent(): void;
-        /**
-         * Raises the <c>click</c> event
-         **/
-        onClick(): void;
-        /**
-         * Raises the <c>loadItems</c> event
-         **/
-        onLoadItems(): void;
-        /**
-         * Raises the <c>selectedChanged</c> event
-         **/
-        onSelectedChanged(): void;
-        /**
-         * Reports to the <c>TreeView</c> that items have been loaded
-         so it can trigger the <c>itemItemsLoaded</c>
-         **/
-        reportItemsLoaded(): void;
-        /**
-         * Returns the top most parent of the item
-         **/
-        topParent(): TreeItem;
-        /**
-         * Gets or sets a value indicating if the item will react to select as a gesture to alternate its <c>expand</c> state
-         Default is <c>true</c>
-         **/
-        /**
-         * Gets or sets a value indicating if the item will react to select as a gesture to alternate its <c>expand</c> state
-         Default is <c>true</c>
-         **/
-        expandOnSelect: boolean;
-        /**
-         * Gets or sets a value indicating if the item is currently expanded, this is, showing its child items
-         **/
-        /**
-         * Gets or sets a value indicating if the item is currently expanded, this is, showing its child items
-         **/
-        expanded: boolean;
-        /**
-         * Gets or sets the glyph of the item. Glyph is changed automatically when <c>expanded()</c> is invoked
-         **/
-        /**
-         * Gets or sets the glyph of the item. Glyph is changed automatically when <c>expanded()</c> is invoked
-         **/
-        glyph: IconItem;
-        /**
-         * Gets a value indicating if the item contains child items or a handler for <c>loadItems</c> has been set
-         **/
-        hasItems: boolean;
-        /**
-         * Gets or sets the icon of the item
-         **/
-        /**
-         * Gets or sets the icon of the item
-         **/
-        icon: IconItem;
-        /**
-         * Gets or sets the level of the item. The level specifies the indent of the item.
-         **/
-        /**
-         * Gets or sets the level of the item. The level specifies the indent of the item.
-         **/
-        level: number;
-        /**
-         * Gets the parent <c>TreeItem</c> of this item
-         **/
-        parent: TreeItem;
-        /**
-         * Gets the navigation path as a string
-         **/
-        path: any;
-        /**
-         * Gets or sets a value indicaing if the item is currently selected
-         **/
-        /**
-         * Gets or sets a value indicaing if the item is currently selected
-         **/
-        selected: boolean;
-        /**
-         * Gets or sets the icon of the item when selected
-         **/
-        /**
-         * Gets or sets the icon of the item when selected
-         **/
-        selectedIcon: IconItem;
-        /**
-         * Gets or sets the text of the item
-         **/
-        /**
-         * Gets or sets the text of the item
-         **/
-        text: string;
-        /**
-         * Gets the <c>TreeView</c> item who contains this item, if any
-         **/
-        treeView: TreeView;
-    }
-}
-/**
- * Created by josemanuel on 3/22/15.
- */
-declare module latte {
-    /**
-     *
-     */
-    class ItemOverlay extends Overlay {
-        /**
-         * Creates the overlay
-         */
-        constructor(item: Item);
-        /**
-         * Property field
-         */
-        private _item;
-        /**
-         * Gets or sets the item of the overlay
-         *
-         * @returns {Item}
-         */
-        /**
-         * Gets or sets the item of the overlay
-         *
-         * @param {Item} value
-         */
-        item: Item;
-        /**
-         * Back field for event
-         */
-        private _itemChanged;
-        /**
-         * Gets an event raised when the value of the item property changes
-         *
-         * @returns {LatteEvent}
-         */
-        itemChanged: LatteEvent;
-        /**
-         * Raises the <c>item</c> event
-         */
-        onItemChanged(): void;
-    }
-}
-declare module latte {
-    class SuggestionOverlay extends StackOverlay {
-        constructor();
-    }
-}
-declare module latte {
-    /**
      * A <c>View</c> with a ribbon on the top.
 
      The view reacts in size when ribbon is collapsed and preserves it on the top.
@@ -6929,6 +6928,11 @@ declare module latte {
          * Handles changes in size
          **/
         onLayoutHIDDEN(): void;
+    }
+}
+declare module latte {
+    class SuggestionOverlay extends StackOverlay {
+        constructor();
     }
 }
 declare module latte {
@@ -7454,63 +7458,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * View for choosing dates or date ranges.
-
-     The <c>DateItem</c> used inside the view adapts its <c>rows</c> and <c>columns</c> to take advantage of the view area.
-     **/
-    class DateView extends View {
-        /**
-         *
-         **/
-        private _useWorkWeek;
-        /**
-         * DateItem for date choosing.
-         **/
-        dateItem: DateItem;
-        /**
-         * Button for activating day selection mode.
-         **/
-        dayButton: ButtonItem;
-        /**
-         * Button for activating month selection mode.
-         **/
-        monthButton: ButtonItem;
-        /**
-         * Button for activating week selection mode.
-         **/
-        weekButton: ButtonItem;
-        /**
-         * Button for activating work week selection mode.
-         **/
-        workWeekButton: ButtonItem;
-        /**
-         * Creates the view
-         **/
-        constructor();
-        /**
-         * Hides the selection mode buttons
-         **/
-        hideButtons(): void;
-        /**
-         * Overriden
-         **/
-        onLayout(): void;
-        /**
-         * Layout of buttons
-         **/
-        onLayoutButtons(): void;
-        /**
-         * Shows the selection mode buttons
-         **/
-        showButtons(): void;
-        /**
-         * Updates the selection mode indicators
-         **/
-        updateSelectionMode(): void;
-    }
-}
-declare module latte {
-    /**
      * Shows items in calendar arrangement views
      **/
     class CalendarView extends SplitView {
@@ -7730,6 +7677,63 @@ declare module latte {
          * Gets or sets the work week's start.
          **/
         workWeekStart: WeekDay;
+    }
+}
+declare module latte {
+    /**
+     * View for choosing dates or date ranges.
+
+     The <c>DateItem</c> used inside the view adapts its <c>rows</c> and <c>columns</c> to take advantage of the view area.
+     **/
+    class DateView extends View {
+        /**
+         *
+         **/
+        private _useWorkWeek;
+        /**
+         * DateItem for date choosing.
+         **/
+        dateItem: DateItem;
+        /**
+         * Button for activating day selection mode.
+         **/
+        dayButton: ButtonItem;
+        /**
+         * Button for activating month selection mode.
+         **/
+        monthButton: ButtonItem;
+        /**
+         * Button for activating week selection mode.
+         **/
+        weekButton: ButtonItem;
+        /**
+         * Button for activating work week selection mode.
+         **/
+        workWeekButton: ButtonItem;
+        /**
+         * Creates the view
+         **/
+        constructor();
+        /**
+         * Hides the selection mode buttons
+         **/
+        hideButtons(): void;
+        /**
+         * Overriden
+         **/
+        onLayout(): void;
+        /**
+         * Layout of buttons
+         **/
+        onLayoutButtons(): void;
+        /**
+         * Shows the selection mode buttons
+         **/
+        showButtons(): void;
+        /**
+         * Updates the selection mode indicators
+         **/
+        updateSelectionMode(): void;
     }
 }
 declare module latte {
@@ -8013,25 +8017,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     *
-     **/
-    class NavigationListView extends NavigationView {
-        /**
-         *
-         **/
-        list: ListView;
-        /**
-         *
-         **/
-        toolbar: Toolbar;
-        /**
-         *
-         **/
-        constructor();
-    }
-}
-declare module latte {
-    /**
      * Renders a list with columns
      **/
     class ListView extends View {
@@ -8127,6 +8112,25 @@ declare module latte {
          * Raises the <c>selectedItem</c> event
          */
         onSelectedItemChanged(): void;
+    }
+}
+declare module latte {
+    /**
+     *
+     **/
+    class NavigationListView extends NavigationView {
+        /**
+         *
+         **/
+        list: ListView;
+        /**
+         *
+         **/
+        toolbar: Toolbar;
+        /**
+         *
+         **/
+        constructor();
     }
 }
 declare module latte {

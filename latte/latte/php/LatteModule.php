@@ -18,10 +18,6 @@ class LatteModule {
      */
     const SYSMODULE_MANAGER = '_manager';
     
-    /**
-     * Path (relative to module path) of directory where JavaScript code is located
-     */
-    const PATH_UA = 'ua';
 
     /**
      * Path (relative to module path) of directory where TypeScript code is located
@@ -228,13 +224,7 @@ class LatteModule {
      * @var string
      */
     public $pathPhp;
-    
-    /**
-     * Path of module's ua folder
-     * @var string
-     */
-    public $pathUa;
-    
+
     /**
      * Path of module's lang folder
      * @var string
@@ -246,11 +236,6 @@ class LatteModule {
      * @var string
      */
     public $pathSupport;
-
-    /**
-     * Path of module's TypeScript classes folder
-     */
-    public $pathTs;
 
     /**
      * Loaded language of the module
@@ -266,6 +251,11 @@ class LatteModule {
      */
     public $isMain;
 
+    /**
+     * Flag to indicate if a module is a release version (PHP will be loaded from release)
+     */
+    public $isRelease;
+
     //endregion
 
     //region Ctor
@@ -276,19 +266,39 @@ class LatteModule {
      * @throws exception
      */
     public function __construct($name){
-        
-        $this->name = $name;
-        $this->path =$this->path = String::combinePath(DATALATTE_MODULES, $name);
 
-        if(!is_dir($this->path)){
-            throw new ErrorException("Directory -$name- does not exist in modules directory");
+        $this->name = $name;
+
+        // Check if is release
+        $releasePath = String::combinePath(DATALATTE_MODULES_RELEASE, $name);
+        $releasePhp = String::combinePath($releasePath, "$name.php");
+
+//        echo "[$releasePhp]";
+
+        if(file_exists($releasePhp)){
+//            echo "[YES EXIST]";
+            $this->isRelease = true;
+            $this->path = $releasePath;
+
+            $this->pathPhp = $this->path;
+            $this->pathLang = $this->path;
+            $this->pathSupport = String::combinePath($this->path, self::PATH_SUPPORT);
+
+        }else{
+//            echo "[NO EXIST]";
+
+            $this->path = $this->path = String::combinePath(DATALATTE_MODULES, $name);
+
+            if(!is_dir($this->path)){
+                throw new ErrorException("Directory -$name- does not exist in modules directory");
+            }
+
+            $this->pathPhp = String::combinePath($this->path, self::PATH_PHP);
+            $this->pathLang = String::combinePath($this->path, self::PATH_LANG);
+            $this->pathSupport = String::combinePath($this->path, self::PATH_SUPPORT);
+
         }
-        
-        $this->pathPhp = String::combinePath($this->path, self::PATH_PHP);
-        $this->pathUa = String::combinePath($this->path, self::PATH_UA);
-        $this->pathLang = String::combinePath($this->path, self::PATH_LANG);
-        $this->pathSupport = String::combinePath($this->path, self::PATH_SUPPORT);
-        $this->pathTs = String::combinePath($this->path, self::PATH_TS);
+
         
     }
     //endregion
@@ -439,6 +449,7 @@ class LatteModule {
 //        echo PHP_EOL . "<!-- TAGS: $this->name -->";
 
         $tags = array();
+        $files_path = $this->isRelease ? DATALATTE_FILES_RELEASE : DATALATTE_FILES ;
 
         /**
          * Include Js to include
@@ -461,20 +472,20 @@ class LatteModule {
         /**
          * Include standard tags
          */
-        if(file_exists(String::combinePath(DATALATTE_FILES, "/releases/$this->name/$this->name.css"))){
+        if(file_exists(String::combinePath($files_path, "/releases/$this->name/$this->name.css"))){
             $tags = array_merge($tags, array(
                 tag('link')->rel('stylesheet')->href(String::combineUrl(DATALATTE_FILES_URL, "/releases/$this->name/$this->name.css"))
             ));
         }
 
-        if(file_exists(String::combinePath(DATALATTE_FILES, "/releases/$this->name/$this->name.js"))){
+        if(file_exists(String::combinePath($files_path, "/releases/$this->name/$this->name.js"))){
             $tags = array_merge($tags, array(
                 tag('script')->src(String::combineUrl(DATALATTE_FILES_URL, "/releases/$this->name/$this->name.js"))
             ));
         }
 
         if($this->lang){
-            if(file_exists(String::combinePath(DATALATTE_FILES, "releases/$this->name/$this->lang.js"))){
+            if(file_exists(String::combinePath($files_path, "releases/$this->name/$this->lang.js"))){
                 $tags = array_merge($tags, array(
                     tag('script')->src(String::combineUrl(DATALATTE_FILES_URL, "/releases/$this->name/$this->lang.js")),
                 ));
@@ -506,11 +517,21 @@ class LatteModule {
         }
 
         //region Load Metadata
-        $metafile = String::combinePath($this->path, 'module.json');
+        if($this->isRelease){
 
-        if(file_exists($metafile)){
-            $metatext = file_get_contents($metafile);
-            $this->metadata = json_decode($metatext, true);
+            include String::combinePath($this->path, "module.json.php");
+            $this->metadata = json_decode($GLOBALS['module-json-' . $this->name], true);
+//            echo "[META]";
+//            print_r($GLOBALS);
+//            echo "[/META]";
+        }else{
+
+            $metafile = String::combinePath($this->path, 'module.json');
+
+            if(file_exists($metafile)){
+                $metatext = file_get_contents($metafile);
+                $this->metadata = json_decode($metatext, true);
+            }
         }
         //endregion
 
@@ -522,14 +543,17 @@ class LatteModule {
                 }
             }
         }
-        //region
+        //endregion
 
         //region Load Records
-        $records = String::combinePath($this->pathSupport, 'records.php');
+        if(!$this->isRelease){
+            $records = String::combinePath($this->pathSupport, 'records.php');
 
-        if(file_exists($records)){
-            include $records;
+            if(file_exists($records)){
+                include $records;
+            }
         }
+
         //endregion
 
         // Report as loaded
@@ -565,8 +589,17 @@ class LatteModule {
             include $onLoad;
         }
 
-        //region
+        //endregion
 
+        //region Load PHP
+        if ($this->isRelease && $this->name != 'latte'){
+//            echo PHP_EOL . "[LOADING PHP $this->name.php]";
+            include String::combinePath($this->path, "$this->name.php");
+//            echo PHP_EOL . "[/LOADING PHP $this->name.php]";
+        }
+        //endregion
+
+//        echo PHP_EOL . "[/LOADED $this->name]";
 //        echo "<!-- LOADED: $this->name -->";
     }
 
@@ -615,7 +648,14 @@ class LatteModule {
 
             if(isset($this->metadata['connection']['file'])){
                 // Load connection from file
-                $connectionFile = String::combinePath($this->path, $this->metadata['connection']['file']);
+                $extra = '';
+                if($this->isRelease){
+                    $parts = explode('/', $GLOBALS['xlatte_config']['output']);
+                    $extra = str_repeat('/../', sizeof($parts));
+//                    echo "[IS-RELEASE" . sizeof($parts) . "]";
+                }
+//                echo "[$this->path > $extra > " . $this->metadata['connection']['file'] . "]";
+                $connectionFile = String::combinePath($this->path . $extra, $this->metadata['connection']['file']);
                 $connectionText = file_get_contents($connectionFile);
                 $c = json_decode($connectionText, true);
             }
