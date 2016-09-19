@@ -6,9 +6,6 @@
  * Time: 15:20
  */
 
-// Patch: has to be here to load tag
-(new Tag());
-
 function fragment($key){
     global $fragments;
 
@@ -37,6 +34,9 @@ function fragment($key){
 
 }
 
+/**
+ * Prints the <head> tags
+ */
 function head(){
     global $page, $settings;
 
@@ -45,24 +45,7 @@ function head(){
     echo "<title>$title</title>";
     echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
 
-    // Dump analytics
-    if ($settings['analytics-account']){
-        $ua = $settings['analytics-account']->value;
-        echo "
-        <!-- Google Analytics -->
-        <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', '$ua', 'auto');
-        ga('send', 'pageview');
-        </script>
-        ";
-    }
-
-    // Dump stylesheets
+    // Print stylesheets
     if(isset($GLOBALS['fragment-stylesheets'])){
         foreach($GLOBALS['fragment-stylesheets'] as $path){
             echo "<link href=\"$path\" rel=\"stylesheet\">";
@@ -71,6 +54,9 @@ function head(){
 
 }
 
+/**
+ * Echoes the page
+ */
 function page(){
     global $page, $fragments;
 
@@ -82,11 +68,45 @@ function page(){
         fragment($key);
     }
 
+    // Print scripts
+    scripts();
+}
+
+/**
+ * Registers the specified script
+ *
+ * @param $path
+ * @param $relativeToTheme
+ */
+function register_script($path, $relativeToTheme = true){
+    if(!isset($GLOBALS['fragment-scripts'])){
+        $GLOBALS['fragment-scripts'] = array();
+    }
+
+    if (array_search($path, $GLOBALS['fragment-scripts']) === false){
+        $theme = $GLOBALS['fragment-scripts'];
+        $GLOBALS['fragment-scripts'][] = $relativeToTheme ? "/fragment/themes/$theme/$path" : $path;
+    }
+}
+
+/**
+ * Registers the specified script source
+ */
+function register_script_source($source){
+    if(!isset($GLOBALS['fragment-scripts'])){
+        $GLOBALS['fragment-scripts'] = array();
+    }
+    $source = "source:$source";
+    if (array_search($source, $GLOBALS['fragment-scripts']) === false){
+        $GLOBALS['fragment-scripts'][] = $source;
+    }
 }
 
 /**
  * Registers the specified stylesheet
+ *
  * @param $path
+ * @param $relativeToTheme
  */
 function register_stylesheet($path, $relativeToTheme = true){
     if(!isset($GLOBALS['fragment-stylesheets'])){
@@ -96,4 +116,21 @@ function register_stylesheet($path, $relativeToTheme = true){
         $theme = $GLOBALS['fragment-theme'];
         $GLOBALS['fragment-stylesheets'][] = $relativeToTheme ? "/fragment/themes/$theme/$path" : $path;
     }
+}
+
+/**
+ * Prints the scripts of the document
+ */
+function scripts(){
+    event_raise('before_scripts_print');
+    if(isset($GLOBALS['fragment-scripts'])){
+        foreach($GLOBALS['fragment-scripts'] as $path){
+            if (strpos($path, "source:") === 0){
+                echo "<script>" . PHP_EOL . substr($path, 7) . PHP_EOL .  "</script>";
+            }else{
+                echo "<script href=\$path\"></script>";
+            }
+        }
+    }
+    event_raise('after_scripts_print');
 }

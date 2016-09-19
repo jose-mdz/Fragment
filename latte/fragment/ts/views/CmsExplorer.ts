@@ -27,6 +27,7 @@ module latte {
             if(User.me.isRoot) {
                 this.addRootItem(new UsersExplorer());
                 this.addRootItem(new GroupsExplorer());
+                this.addRootItem(new SettingsExplorer());
             }
         }
 

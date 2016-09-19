@@ -44,10 +44,13 @@ module latte {
         //endregion
 
         /**
-         *
+         * Boots the script
          */
         constructor() {
-            console.log('%cFRAGMENT', 'font-size: 30px; color: #ff4d4d; text-shadow: 3px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;');
+            console.log('%cF R %cΔ %cG M E N T',
+                'letter-spacing: 10px; font-size: 30px; color: #000; text-shadow: 0px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;',
+                'letter-spacing: 10px; font-size: 30px; color: #ff4d4d; text-shadow: 0px 0px 7px rgba(255,66,66,0.5); font-family:"Avenir Next","Myriad",sans-serif;',
+                'letter-spacing: 10px; font-size: 30px; color: #000; text-shadow: 0px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;');
             console.log('http://github.com/menendezpoo/Fragment');
 
             _latteUrl('/fragment/latte');
@@ -56,8 +59,6 @@ module latte {
             FragmentAdapterManager.register('html', 'HtmlFragmentAdapter');
             FragmentAdapterManager.register('gallery', 'ImageGalleryFragmentAdapter');
 
-
-            // View.mainView = new CmsExplorer();
 
             if(window['loggedFragmentUser']) {
                 User.me = <User>DataRecord.fromServerObject(window['loggedFragmentUser']);

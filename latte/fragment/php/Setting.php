@@ -75,6 +75,30 @@ class Setting extends settingBase{
     }
 
     /**
+     * Gets the global setting by name. Only for root users
+     * @remote
+     * @param string $name
+     * @return Setting
+     * @throws SecurityException
+     */
+    public static function getGlobalByName($name){
+        if(!Session::me()->isRoot()){
+            throw new SecurityException("Only for root");
+        }
+        $s = Setting::byOwner('global', 0, $name);
+
+        if (!$s){
+            $s = new Setting();
+            $s->idowner = 0;
+            $s->owner = 'global';
+            $s->name = $name;
+            $s->insert();
+        }
+
+        return $s;
+    }
+
+    /**
      * Gets the setting of specified owner
      *
      * @param string $name

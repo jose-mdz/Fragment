@@ -5,6 +5,4 @@
  */
 
 /// Include DataLatte
-//include '../latte/releases/fragment/support/actions/launcher.php';
-
 include 'latte/releases/fragment/support/actions/launcher.php';

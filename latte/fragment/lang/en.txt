@@ -84,3 +84,4 @@ canUseBackend Can use Backend
 urlKeyInUse URL Key in use by another page.
 previewPage Preview
 pageNotFound404 Page not found
+settingValue Value

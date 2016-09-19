@@ -84,3 +84,4 @@ canUseBackend Puede usar Backend
 urlKeyInUse Clave de URL en uso por otra página
 previewPage Vista Previa
 pageNotFound404 La página no ha sido encontrada
+settingValue Valor

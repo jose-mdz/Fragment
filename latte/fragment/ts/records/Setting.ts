@@ -16,7 +16,22 @@ module latte{
 		//endregion
 
 
-		//region Private Methods
+		//region Methods
+		/**
+		 * Gets the metadata about the record
+		 *
+		 * @returns Object
+		 */
+		getMetadata():IRecordMeta {
+			return {
+				fields: {
+					value: {
+						text: strings.settingValue,
+						type: 'string'
+					}
+				}
+			}
+		}
 		//endregion
 
 
