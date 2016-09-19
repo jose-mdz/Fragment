@@ -3,19 +3,6 @@
 
 include '../../../../latte.php';
 
-/**
- * Uploader
- *
- * Uploads files in base64 format.
- *
- * Necessary variables are
- *
- * name - Entity name
- * id - Entity id
- * [File data]
- *
- */
-
 LatteModule::loadMain('fragment');
 
 // Raise initialized event

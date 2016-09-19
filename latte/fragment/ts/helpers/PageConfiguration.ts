@@ -3,47 +3,6 @@
  */
 module latte {
 
-    export interface IPageSettingsPack{
-        config: string;
-        parentConfig: string;
-        settings: Setting[];
-    }
-
-    export interface IFragment{
-        name?: string;
-        key?: string;
-        type?: string;
-    }
-
-    export interface IFragments{
-        [index: string]: IFragment;
-    }
-
-    export interface IPageConfigurationSetting{
-        name: string;
-        key?: string;
-        type?: 'string' | 'boolean' | 'enumeration';
-        defaultValue?: any;
-        options?: any;
-        required?: boolean;
-    }
-
-    export interface IPageConfigurationSettings{
-        [index: string]: IPageConfigurationSetting;
-    }
-
-    export interface IPageConfigurationChildren{
-        mayHaveChildren?: boolean;
-        settings?: IPageConfigurationSettings;
-        fragments?: IFragments;
-    }
-
-    export interface IPageConfiguration{
-        fragments?: IFragments;
-        children?: IPageConfigurationChildren;
-        settings?: IPageConfigurationSettings;
-    }
-
     export var defaultPageConfigurationFragment : IFragments = {
         body: {
             name: "strings.body"

@@ -9,7 +9,6 @@ class BasicPack{
 
     static $BEING_AUDITED = false;
 
-
     /**
      * Handles dispatch_initialized
      */
@@ -41,6 +40,18 @@ ga('send', 'pageview');
             ";
             }
         }
+    }
+
+    /**
+     * Handles get_global_configuration_settings
+     * @return array
+     */
+    static function globalSettings(){
+        return array(
+            'analytics-account' => array(
+                'icon' => 'chart_bars'
+            )
+        );
     }
 
 }

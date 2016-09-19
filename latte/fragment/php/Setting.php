@@ -99,6 +99,44 @@ class Setting extends settingBase{
     }
 
     /**
+     * @remote
+     * @return IGlobalConfigSettings
+     */
+    public static function getGlobalConfigurableSettings(){
+
+        /*
+            new SettingExplorer('analytics-account', LinearIcon.chart_bars),
+            new SettingExplorer('home', LinearIcon.home),
+            new SettingExplorer('theme', LinearIcon.layers),
+            new SettingExplorer('title', LinearIcon.graduation_hat),
+         */
+
+        $result = array(
+//            'analytics-account' => array(
+//                'icon' => 'chart_bars',
+//            ),
+            'home' => array(
+                'icon' => 'home'
+            ),
+            'theme' => array(
+                'icon' => 'layers'
+            ),
+            'title' => array(
+                'icon' => 'graduation_hat'
+            )
+        );
+
+        $collect = event_raise('get_global_configuration_settings');
+
+        foreach($collect as $arr){
+            $result = array_merge($result, $arr);
+        }
+
+        return $result;
+
+    }
+
+    /**
      * Gets the setting of specified owner
      *
      * @param string $name

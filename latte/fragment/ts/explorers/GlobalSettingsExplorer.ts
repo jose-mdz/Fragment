@@ -6,7 +6,7 @@ module latte {
     /**
      *
      */
-    export class SettingsExplorer extends ExplorerItem {
+    export class GlobalSettingsExplorer extends ExplorerItem {
 
         //region Static
         //endregion
@@ -20,19 +20,25 @@ module latte {
         constructor() {
             super();
             this.loadsChildrenFolders = false;
-            this.loadsChildren = false;
-            this.children.addArray([
-                new SettingExplorer('analytics-account', LinearIcon.chart_bars),
-                new SettingExplorer('home', LinearIcon.home),
-                new SettingExplorer('theme', LinearIcon.layers),
-                new SettingExplorer('title', LinearIcon.graduation_hat),
-            ]);
         }
 
         //region Private Methods
         //endregion
 
         //region Methods
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>{
+            return Setting.getGlobalConfigurableSettings().withHandlers((sets: IGlobalConfigSettings) => {
+                for(let i in sets){
+                    this.children.add(new GlobalSettingExplorer(i, LinearIcon[sets[i]['icon']] || LinearIcon.cog))
+                }
+            });
+        }
+
         /**
          * Gets the name of the item
          * @Override

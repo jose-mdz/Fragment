@@ -6,7 +6,7 @@ module latte {
     /**
      *
      */
-    export class SettingExplorer extends ExplorerItem {
+    export class GlobalSettingExplorer extends ExplorerItem {
 
         //region Static
         //endregion
