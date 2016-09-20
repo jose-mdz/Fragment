@@ -25,6 +25,7 @@ module latte {
         //endregion
 
         //region Methods
+
         /**
          * Gets the loader of children items
          * @Override
@@ -35,6 +36,17 @@ module latte {
                     this.children.add(new PageExplorer(records[i]));
                 }
             });
+        }
+
+        /**
+         * Override
+         */
+        getColumnHeaders(): ColumnHeader[]{
+            return [
+                new ColumnHeader(strings.title, 150),
+                new ColumnHeader(strings.pageKey),
+                new ColumnHeader(strings.guid)
+            ];
         }
 
         /**

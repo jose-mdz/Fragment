@@ -28,6 +28,17 @@ module latte {
 
         //region Methods
         /**
+         * Override.
+         * @returns {latte.ColumnHeader[]}
+         */
+        getColumnHeaders(): ColumnHeader[]{
+            return [
+                new ColumnHeader(strings.name),
+                new ColumnHeader(strings.detail)
+            ];
+        }
+
+        /**
          * Gets the loader of children items
          *
          * @Override

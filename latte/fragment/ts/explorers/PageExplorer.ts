@@ -43,6 +43,17 @@ module latte {
         }
 
         /**
+         * Override
+         */
+        getColumnHeaders(): ColumnHeader[]{
+            return [
+                new ColumnHeader(strings.title, 150),
+                new ColumnHeader(strings.pageKey),
+                new ColumnHeader(strings.guid)
+            ];
+        }
+
+        /**
          * Gets the columns of the item
          * @Override
          */

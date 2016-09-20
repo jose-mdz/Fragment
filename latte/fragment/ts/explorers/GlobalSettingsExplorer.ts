@@ -4,7 +4,7 @@
 module latte {
 
     /**
-     *
+     * Folder of global settings
      */
     export class GlobalSettingsExplorer extends ExplorerItem {
 
@@ -15,7 +15,7 @@ module latte {
         //endregion
 
         /**
-         *
+         * Creates the item
          */
         constructor() {
             super();
@@ -26,6 +26,15 @@ module latte {
         //endregion
 
         //region Methods
+
+        /**
+         * Override.
+         * @returns {latte.ColumnHeader[]}
+         */
+        getColumnHeaders(): ColumnHeader[]{
+            return [new ColumnHeader(strings.name)];
+        }
+
         /**
          * Gets the loader of children items
          *

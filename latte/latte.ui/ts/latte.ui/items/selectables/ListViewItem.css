@@ -18,12 +18,73 @@
 .latte-item.list > .columns > div{
     float: left;
     overflow: hidden;
+    position: relative;
 }
 
 .latte-item.list > .columns > div{
     min-height: 5px;
 }
 
+/*.latte-item.list > .columns > div:not(:first-child){*/
+    /*padding-left: 5px;*/
+/*}*/
+
 .latte-item.list > .columns > div .latte-item.label{
     margin-top: 2px;
+}
+
+.latte-item.list > .columns > div:after{
+    display: block;
+    position: absolute;
+    content: '.';
+    top: 0;
+    width: 25px;
+    right: 0;
+    bottom: 0;
+    color: transparent;
+    border: none;
+    background: #ffffff;
+    background: linear-gradient(-90deg,  #ffffff 0%, transparent 100%);
+}
+
+.latte-item.list.hover > .columns > div:after{
+    display: block;
+    position: absolute;
+    content: '.';
+    top: 0;
+    width: 25px;
+    right: 0;
+    bottom: 0;
+    color: transparent;
+    border: none;
+    background: #ffffff;
+    background: linear-gradient(-90deg,  #EFEFEF 0%, transparent 100%);
+}
+
+.latte-item.list.selected > .columns > div:after{
+    display: block;
+    position: absolute;
+    content: '.';
+    top: 0;
+    width: 25px;
+    right: 0;
+    bottom: 0;
+    color: transparent;
+    border: none;
+    background: #ffffff;
+    background: linear-gradient(-90deg,  #4285F4 0%, transparent 100%);
+}
+
+.latte-view.list.focusable:not(:focus) .latte-item.selectable.selected > .columns > div:after{
+    display: block;
+    position: absolute;
+    content: '.';
+    top: 0;
+    width: 25px;
+    right: 0;
+    bottom: 0;
+    color: transparent;
+    border: none;
+    background: #ffffff;
+    background: linear-gradient(-90deg,  gray 0%, transparent 100%);
 }

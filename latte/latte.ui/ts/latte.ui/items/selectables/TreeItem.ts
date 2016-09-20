@@ -537,7 +537,7 @@ module latte{
 
                 // Inform tree view selection
                 if(tv){
-                    tv._informSelectedItem(this);
+                    tv.informSelectedItem(this);
                 }
             }else{
                 this.faceElement.removeClass('selected');

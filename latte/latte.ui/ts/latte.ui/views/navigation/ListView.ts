@@ -60,6 +60,8 @@ module latte{
             });
         }
 
+        //region Methods
+
         selectNextItem(){
             let index = this.selectedItem ? this.items.indexOf(this.selectedItem) : -1;
 
@@ -95,7 +97,7 @@ module latte{
         /**
          *
          **/
-        public _informSelectedItem(item: ListViewItem){
+        informSelectedItem(item: ListViewItem){
 
             // log("Informed!")
             var changed = item !== this._selectedItem;
@@ -131,6 +133,14 @@ module latte{
             for(var i = 0; i < this.items.count; i++){
                 this.items.item(i).addColumn(column.width);
             }
+
+            let index = this.columnHeaders.length - 1;
+
+            // Handle width change
+            column.widthChanged.add(() => this.updateWidthOfColumn(index, column));
+            column.autoResize.add(() => this.autoSizeColumn(index));
+            column.autoResizeAll.add(() => this.autoSizeAllColumns());
+            column.sortRequested.add(() => this.sortByColumn(index));
 
             this.onLayout();
 
@@ -175,11 +185,33 @@ module latte{
 
         }
 
-        //region Events
+        /**
+         * Auto sizes all columns
+         */
+        autoSizeAllColumns(){
+            for (let i = 0; i < this.columnHeaders.length; i++) {
+                this.autoSizeColumn(i);
+            }
+        }
 
-        //endregion
+        /**
+         * Auto sizes the specified column
+         * @param index
+         */
+        autoSizeColumn(index: number){
 
-        //region Methods
+            let max = 50;
+
+            // Collect maximum
+            this.items.each((item: ListViewItem) => max = Math.max(max, item.getItem(index).element.width()));
+
+            this.columnHeaders[index].width = max + 20; // 20 because of gradient transparency
+        }
+
+        private updateWidthOfColumn(index: number, column: ColumnHeader){
+            this.items.each((item: ListViewItem) => item.setColumnWidth(index, column.width));
+            this.onLayout();
+        }
 
         /**
          * Overriden. Raises the <c>layout</c> event
@@ -222,6 +254,20 @@ module latte{
 
 
         }
+
+        /**
+         * Sorts by the specified column
+         * @param index
+         */
+        sortByColumn(index: number){
+
+            //TODO: Implement this
+        }
+
+        //endregion
+
+        //region Events
+
         //endregion
 
         //region Properties

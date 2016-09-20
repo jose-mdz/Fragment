@@ -191,12 +191,16 @@ module latte {
          */
         private listViewChildrenOf(item: ExplorerItem){
 
-            this.listView.items.clear();
+            // Column headers
+            this.listView.columnHeaders.clear();
+            this.listView.columnHeaders.addArray(item.getColumnHeaders());
 
             this.ignorePageChange = true;
             this.paginator.page = item.childrenPage;
             this.paginator.pages = item.childrenPages;
             this.ignorePageChange = false;
+
+            this.listView.items.clear();
 
             // Load items into listview
             for (var i = 0; i < item.children.length; i++) {

@@ -183,7 +183,7 @@ module latte{
 
                 // Inform tree view selection
                 if(lv) {
-                    lv._informSelectedItem(this);
+                    lv.informSelectedItem(this);
                 // }else{
                 //     log("wut? no listview?")
                 }
@@ -202,9 +202,7 @@ module latte{
          **/
         setColumnWidth(index: number, width: number){
 
-            if(!_isNumber(index) || index < 0 || index > this.columns.length)
-                throw new InvalidArgumentEx('index');
-
+            this._columns[index].width(width);
 
         }
 
@@ -213,10 +211,6 @@ module latte{
          * @param index
          */
         getItem(index: number): Item{
-            if(!_isNumber(index) || index < 0 || index > this.columns.length){
-                throw new InvalidArgumentEx('index');
-            }
-
             return this._items[index];
         }
 
