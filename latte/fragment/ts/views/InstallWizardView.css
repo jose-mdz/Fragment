@@ -1,0 +1,58 @@
+.latte-view.install-wizard{
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f67638+0,f6383e+100 */
+    background: rgb(246,118,56); /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover,  rgba(246,118,56,1) 0%, rgba(246,56,62,1) 100%); /* FF3.6-15 */
+    background: -webkit-radial-gradient(center, ellipse cover,  rgba(246,118,56,1) 0%,rgba(246,56,62,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: radial-gradient(ellipse at center,  rgba(246,118,56,1) 0%,rgba(246,56,62,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f67638', endColorstr='#f6383e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+.latte-view.install-wizard > .spinner{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -35px;
+    margin-top: -30px;
+    background: url(/fragment/latte/releases/fragment/support/imgs/triangle-white.png) no-repeat;
+    background-size: 100%;
+    width: 70px;
+    height: 70px;
+    animation: spin 2s linear infinite;
+}
+
+.latte-view.install-wizard .lang-bar{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    right: 0;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.latte-view.install-wizard .bare-button{
+    display: inline-block;
+    padding: 10px 15px;
+    font-family: AvenirNextThin, sans-serif;
+    color: white;
+    font-size: 15px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 5px;
+
+}
+
+.latte-view.install-wizard .bare-button:not(:first-child){
+    margin-left: 20px;
+}
+
+.latte-view.install-wizard .bare-button:hover{
+    background-color: white;
+    color: rgba(246,118,56,1);
+}
+
+body.on-fragment-install .latte-modal-view-layer{
+    display: none;
+}
+
+@keyframes spin { 100% { transform:rotate(364deg); } }

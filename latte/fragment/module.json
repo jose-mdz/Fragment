@@ -28,7 +28,7 @@
   , "actions/dispatch.php"
   , "actions/fragment_init.php"
   , "actions/dispatch-functions.php"
-  , "actions/launcher.php"
+  , "actions/backend.php"
   , "actions/upload64.php"
   , "fonts/avenir-next-thin.woff"
   , "fonts/Linearicons-Free.eot"
@@ -37,6 +37,7 @@
   , "fonts/Linearicons-Free.woff"
   , "fonts/Linearicons-Free.woff2"
   , "imgs/fragment-logo.png"
+  , "imgs/fragment-logo-white.png"
   , "imgs/triangle-white.png"
   ]
 

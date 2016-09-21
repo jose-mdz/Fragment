@@ -17,7 +17,7 @@
 }
 
 .cms-main-view.latte-view > .top-bar > .logo:hover{
-    animation: spin 0.3s linear;
+    animation: spin120 0.3s linear;
 }
 .cms-main-view.latte-view > .top-bar > .logo{
     background: url(/fragment/latte/releases/fragment/support/imgs/triangle-white.png) no-repeat;
@@ -53,4 +53,4 @@
     top: 35px;
 }
 
-@keyframes spin { 100% { transform:rotate(120deg); } }
+@keyframes spin120 { 100% { transform:rotate(120deg); } }

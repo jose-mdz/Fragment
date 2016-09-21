@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: josemanuel
- * Date: 9/20/16
- * Time: 16:54
+ * Fragment Configuration File
+ * Automatically created: 00/00/0000
  */
 
 ///** MySQL databse name */

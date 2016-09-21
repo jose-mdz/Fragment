@@ -114,22 +114,6 @@ module latte {
         }
 
         /**
-         * Gets the scrollTop
-         * @returns {number}
-         */
-        static get windowScrollLeft(): number{
-            return window.pageXOffset;
-        }
-
-        /**
-         * Gets the scrollTop
-         * @returns {number}
-         */
-        static get windowScrollTop(): number{
-            return window.pageYOffset;
-        }
-
-        /**
          * Converts the value in css format to a number
          *
          * @param property
@@ -154,6 +138,43 @@ module latte {
                 this.style[property] = value + 'px';
             }
 
+        }
+
+        //endregion
+
+        //region Static Properties
+
+        /**
+         * Field for body property
+         */
+        private static _body: Element<HTMLBodyElement>;
+
+        /**
+         * Gets the body element
+         *
+         * @returns {Element<HTMLBodyElement>}
+         */
+        static get body(): Element<HTMLBodyElement> {
+            if (!Element._body && document.body) {
+                Element._body = new Element<HTMLBodyElement>(document.body);
+            }
+            return Element._body;
+        }
+
+        /**
+         * Gets the scrollTop
+         * @returns {number}
+         */
+        static get windowScrollLeft(): number{
+            return window.pageXOffset;
+        }
+
+        /**
+         * Gets the scrollTop
+         * @returns {number}
+         */
+        static get windowScrollTop(): number{
+            return window.pageYOffset;
         }
 
         //endregion

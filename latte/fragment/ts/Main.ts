@@ -10,28 +10,47 @@ module latte {
 
         //region Static
 
+        /**
+         * Goes to the editor view
+         * @param guid
+         */
         static goEditorView(guid: string){
 
             Page.byUrlQ(guid).send((p: Page) => {
+                Element.body.clear();
                 View.mainView = new PageEditorView(p);
             });
 
         }
 
+        /**
+         * Goes to the install wizard
+         */
+        static goInstllWizard(){
+            Element.body.clear();
+            View.mainView = new InstallWizardView();
+        }
+
+        /**
+         * Goes to the main view
+         */
         static goMainView(){
-
-            let body = new Element<HTMLBodyElement>(document.body);
-
-            body.clear();
-
+            Element.body.clear();
             View.mainView = new CmsMainView();
         }
 
+        /**
+         * Goes to the sign in view
+         */
         static goSignInView(){
+            Element.body.clear();
             let v = new SignInView();
             document.body.appendChild(v.element);
         }
 
+        /**
+         * Logs the user out
+         */
         static logOut(){
             View.mainView = null;
             Session.logOut().send(() => {
@@ -60,15 +79,19 @@ module latte {
             FragmentAdapterManager.register('gallery', 'ImageGalleryFragmentAdapter');
 
 
-            if(window['loggedFragmentUser']) {
-                User.me = <User>DataRecord.fromServerObject(window['loggedFragmentUser']);
-                if(window.location.hash.indexOf('#/Editor/') === 0) {
-                    Main.goEditorView(window.location.hash.substr(9));
-                }else{
-                    Main.goMainView();
+            if(window['fragmentNoDbConnection']) {
+                Main.goInstllWizard();
+            }else{
+                if(window['loggedFragmentUser']) {
+                    User.me = <User>DataRecord.fromServerObject(window['loggedFragmentUser']);
+                    if(window.location.hash.indexOf('#/Editor/') === 0) {
+                        Main.goEditorView(window.location.hash.substr(9));
+                    }else{
+                        Main.goMainView();
+                    }
+                }else {
+                    Main.goSignInView();
                 }
-            }else {
-                Main.goSignInView();
             }
 
         }

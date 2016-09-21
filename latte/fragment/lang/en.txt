@@ -85,3 +85,6 @@ urlKeyInUse URL Key in use by another page.
 previewPage Preview
 pageNotFound404 Page not found
 settingValue Value
+cantWriteOnFFolder Can't write on Fragment Directory
+cantWriteOnFFolderDesc Please give write permissions to your /fragment folder.
+retry Retry
