@@ -1,15 +1,13 @@
 <?php
 
-
-include '../../../../latte.php';
-
-LatteModule::loadMain('fragment');
-
-// Raise initialized event
-event_raise('dispatch_initialized');
+// Initialize fragment
+include  __DIR__ . "/fragment_init.php";
 
 // Include support of functions
 include __DIR__ . '/dispatch-functions.php';
+
+// Raise initialized event
+event_raise('dispatch_initialized');
 
 // Name of item should come in a $q variable
 $q = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);

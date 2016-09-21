@@ -2,6 +2,9 @@
 .idea
 .DS_Store
 
+# Ignore configuration file (each installation should create its own)
+/html/fragment/config.php
+
 # Ignore files & themes folder (tests are made there)
 /html/fragment/files/*
 /html/fragment/themes/*

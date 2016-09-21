@@ -6,10 +6,8 @@
  * Time: 14:13
  */
 
-include __DIR__ . '/../../../../latte.php';
-
-// Load app
-LatteModule::loadMain('fragment', 'es');
+// Initialize fragment
+include  __DIR__ . "/fragment_init.php";
 
 /// Create document
 $doc = new LatteDocument("Fragment");

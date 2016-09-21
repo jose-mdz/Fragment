@@ -6,12 +6,14 @@
  * Time: 11:27
  */
 
+
 // Patch: has to be here to load tag class
 (new Tag());
 
 // Plugins directory
 const FRAGMENT_PLUGINS_DIR = DATALATTE_FILES . "/../plugins";
 
+//region Global Event Handling
 // Global variable to store plugin event registrations
 $GLOBALS['fragment_plugin_events'] = array();
 
@@ -51,6 +53,7 @@ function event_raise($name){
     }
     return $results;
 }
+//endregion
 
 //region Scan plugins directory & include them
 foreach(scandir(FRAGMENT_PLUGINS_DIR) as $dir){
