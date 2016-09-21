@@ -32,6 +32,7 @@ module latte {
 
             }else {
                 this.steps.push(this.checkFolderWritable);
+                this.steps.push(this.setupDBConnecion);
             }
 
 
@@ -95,6 +96,14 @@ module latte {
         }
 
         /**
+         *
+         * @param callback
+         */
+        setupDBConnecion(callback: () => any){
+            callback();
+        }
+
+        /**
          * Chooose lang
          * @param callback
          */
@@ -143,8 +152,8 @@ module latte {
             if(this._ended){
                 this._ended.raise();
             }
-            Element.body.removeClass('on-fragment-install');
             DialogView.inform('DING!');
+            Element.body.removeClass('on-fragment-install');
         }
 
         //endregion
