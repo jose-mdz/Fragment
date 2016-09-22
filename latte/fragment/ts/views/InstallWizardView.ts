@@ -16,6 +16,11 @@ module latte {
         //endregion
 
         //region Fields
+        /**
+         * Notes during installation
+         * @type {Array}
+         */
+        notes: string[] = [];
         //endregion
 
         /**
@@ -32,7 +37,9 @@ module latte {
 
             }else {
                 this.steps.push(this.checkFolderWritable);
-                this.steps.push(this.setupDBConnecion);
+                this.steps.push(this.setupDBConnection);
+                this.steps.push(this.setupDataBase);
+                this.steps.push(this.setupRoot);
             }
 
 
@@ -96,10 +103,150 @@ module latte {
         }
 
         /**
+         * Ensures the database is present
+         * @param callback
+         */
+        setupDataBase(callback: () => any){
+
+            let checkInstalled = () => {
+                Server.isDatabaseEmpty().send((empty: boolean)=> {
+                    log("Empty: " + empty);
+                    if(empty) {
+                        install();
+                    }else{
+                        this.notes.push(strings.wDatabaseNotInstalled);
+                        callback();
+                    }
+                });
+            };
+
+            let install = () => {
+                log("Installing database");
+                Server.installDatabase().send((r) => {
+                    log("Database installed")
+                    if(r != 'OK') {
+                        this.notes.push(r);
+                    }
+                    initialRecords();
+                });
+            };
+
+            let initialRecords = () => {
+
+                DialogView.input(strings.chooseRootPassword,
+                    {
+                        password: {
+                            text: strings.password,
+                            type: 'password'
+                        },
+                        confirm: {
+                            text: strings.confirmNewPassword,
+                            type: 'password'
+                        }
+                    },
+                    // Validation logic
+                    (values, inputs) =>{
+
+                    // Password should be longer than 5 chars
+                    inputs['password'].valid = values['password'].length >= 5;
+
+                    // Passwords should match
+                    inputs['confirm'].valid = values['password'] == values['confirm']
+                },
+                // Save
+                (values) => {
+                    Server.installInitialRecords(values['password']).send((r) => {
+                        if(r != 'OK') {
+                            this.notes.push(r);
+                        }
+                        callback();
+                    });
+                }
+                );
+
+            };
+
+            checkInstalled();
+        }
+
+        /**
          *
          * @param callback
          */
-        setupDBConnecion(callback: () => any){
+        setupDBConnection(callback: () => any){
+
+            let lastValues: any = {};
+
+            let askParameters = () => {
+
+                let fd = DialogView.input(strings.enterConnectionData, {
+                        user: {
+                            text: strings.user,
+                            defaultValue: lastValues.user
+                        },
+                        pass: {
+                            text: strings.password,
+                            type: 'password',
+                            defaultValue: lastValues.pass
+                        },
+                        db: {
+                            text: strings.database,
+                            defaultValue: lastValues.db
+                        },
+                        host: {
+                            text: strings.host,
+                            defaultValue: lastValues.host
+                        }
+                    },
+                    /** Validation */
+                    () => {
+                        // None
+                    },
+                    /** Save */
+                    (values: any) => {
+
+                        lastValues = values;
+
+                        Server.saveConnectionParameters(
+                            values.user, values.pass, values.db, values.host).send((r: string) => {
+
+                                if(r == 'OK') {
+                                    checkNow();
+                                }else{
+                                    let d = DialogView.alert(strings.errorSavingConfig, strings[r], [
+                                        new ButtonItem(strings.retry, LinearIcon.redo, () => {
+                                            setTimeout( () => askParameters(), 100)
+                                        })
+                                    ]);
+                                    d.closeable = false;
+
+                                }
+
+                        });
+
+                });
+
+                fd.items.removeAt(1);
+
+            };
+
+            let checkNow = () => {
+                Server.checkConnectionOk().send((connectionOk: boolean) => {
+
+                    if(connectionOk) {
+                        callback();
+                    }else{
+                        askParameters();
+                    }
+
+                });
+            };
+
+            checkNow();
+
+        }
+
+        setupRoot(callback: () => any){
             callback();
         }
 
@@ -152,6 +299,7 @@ module latte {
             if(this._ended){
                 this._ended.raise();
             }
+            log(this.notes);
             DialogView.inform('DING!');
             Element.body.removeClass('on-fragment-install');
         }

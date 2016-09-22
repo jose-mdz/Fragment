@@ -76,18 +76,19 @@
         global $strings;
 
         // Check if already initialized
-        if (self::$current !== NULL)
-            return;
+        if (!self::$current){
 
-        $xpath = DATALATTE_FILES . '/connection.php';
+            $xpath = DATALATTE_FILES . '/connection.php';
 
-        // Check if connection in /_files exists
-        if (!DataLatte::canInit()) {
-            throw new Exception($strings['datalatteInitFailed']);
+            // Check if connection in /_files exists
+            if (!DataLatte::canInit()) {
+                throw new Exception($strings['datalatteInitFailed']);
+            }
+
+            // Create current object
+            self::$current = DataConnection::fromParametersClass();
         }
 
-        // Create current object
-        self::$current = DataConnection::fromParametersClass();
     }
 
     /**

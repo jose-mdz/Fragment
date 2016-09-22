@@ -88,3 +88,8 @@ settingValue Valor
 cantWriteOnFFolder No se puede escribir en fragment/
 cantWriteOnFFolderDesc Por favor da permisos de escritura en el directorio /fragment
 retry Reintentar
+connectionUnsuccParams Falló la conexión a la base de datos con los parámetros asignados.
+cantWriteConfigFile No se puede crear config.php, por favor revisa los permisos de /fragment
+errorSavingConfig No se puede guardar la configuración
+wDatabaseNotInstalled La base de datos no se instaló, no estaba vacía.
+chooseRootPassword Contraseña para root

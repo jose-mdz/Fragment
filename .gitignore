@@ -12,8 +12,8 @@
 # Do include default theme
 !/html/fragment/themes/default
 
-# Do include the default SQL
-!/html/fragment/files/fragment.sql
+# Do include the install Files
+!/html/fragment/files/install
 
 # Ignore files who are generated automagically
 /latte/*/support/ts-include/*

@@ -88,3 +88,8 @@ settingValue Value
 cantWriteOnFFolder Can't write on Fragment Directory
 cantWriteOnFFolderDesc Please give write permissions to your /fragment folder.
 retry Retry
+connectionUnsuccParams Connection to database failed with the specified parameters.
+cantWriteConfigFile Can't create file config.php, Please re-check the permissions on /fragment directory.
+errorSavingConfig Cant Save Configuration Data
+wDatabaseNotInstalled Database was not installed, wasn't empty
+chooseRootPassword Choose a password for root user

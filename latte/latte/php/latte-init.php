@@ -7,8 +7,9 @@
  */
 
 
-
-@session_start();
+if (session_status() == PHP_SESSION_NONE){
+    @session_start();
+}
 
 // Load configuration
 $ON_RELEASE = isset($ON_RELEASE) ? $ON_RELEASE : false;

@@ -3,6 +3,11 @@
 // Initialize fragment
 include  __DIR__ . "/fragment_init.php";
 
+if (defined('NO_DB_CONNECTION')){
+    header('Location: /fragment');
+    die();
+}
+
 // Include support of functions
 include __DIR__ . '/dispatch-functions.php';
 

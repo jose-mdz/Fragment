@@ -5,11 +5,12 @@
  * Date: 9/20/16
  * Time: 18:54
  */
-
+@session_start();
 /**
  * Path of the Fragment directory
  */
 define('FG_DIR', realpath(__DIR__ . "/../../../../../"));
+define('DONT_AUTOLOAD_MODULE_CONNECTION', true);
 
 /**
  * Path of the latte directory
@@ -31,11 +32,13 @@ if(    defined('FG_DB_NAME') && defined('FG_DB_USER')
     // Try to connect to database
     try{
         DataLatte::$current = new DataConnection(FG_DB_USER, FG_DB_PASSWORD, FG_DB_HOST, FG_DB_NAME);
+        define('FG_DB_OK', true);
     }catch(Exception $e){
         define('NO_DB_CONNECTION', 1);
     }
 }else{
-    define('NO_DB_CONNECTION', 2); //
+    define('NO_DB_CONNECTION', 2);
+    $_SESSION['install-mode'] = true;
 }
 
 if(!defined('FG_LANG')){
