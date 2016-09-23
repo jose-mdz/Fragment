@@ -5,6 +5,9 @@
 # Ignore configuration file (each installation should create its own)
 /html/fragment/config.php
 
+# Ignore the unpacked .htaccess
+/html/.htaccess
+
 # Ignore files & themes folder (tests are made there)
 /html/fragment/files/*
 /html/fragment/themes/*

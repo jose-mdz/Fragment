@@ -39,3 +39,15 @@ VALUES(1, 'Lorem Ipsum', 'body');
 --
 INSERT INTO `setting`(idowner, owner, `name`, `value`)
 VALUES(1, 'Page', 'page-configuration', '');
+
+--
+-- Global Setting for home
+--
+INSERT INTO `setting`(idowner, owner, `name`, `value`)
+VALUES(0, 'global', 'home', 'home');
+
+--
+-- Global Setting for theme
+--
+INSERT INTO `setting`(idowner, owner, `name`, `value`)
+VALUES(0, 'global', 'theme', 'default');
