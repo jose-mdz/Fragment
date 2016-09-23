@@ -133,7 +133,11 @@ class Server{
      * @return number|boolean
      */
     public static function installHtAccess(){
-        return file_put_contents(FG_DIR . '/../.htaccess', self::getHtAccessSource());
+//        $old = umask(0);
+//        umask(0777);
+        $r = file_put_contents(FG_DIR . '/../.htaccess', self::getHtAccessSource());
+//        umask($old);
+        return $r;
     }
 
     /**
