@@ -7,6 +7,7 @@ Check our [3 Minute Install Guide](https://github.com/menendezpoo/Fragment/wiki/
 We have a project for the [first release of Fragment](https://github.com/menendezpoo/Fragment/projects/1).
 
 ##Features
+- Lightning Fast Website Development
 - Incredibly Versatile
 - Awesome Backend
 - Instant Deploy
