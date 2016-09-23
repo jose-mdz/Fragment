@@ -93,3 +93,9 @@ cantWriteConfigFile Can't create file config.php, Please re-check the permission
 errorSavingConfig Cant Save Configuration Data
 wDatabaseNotInstalled Database was not installed, wasn't empty
 chooseRootPassword Choose a password for root user
+language Language
+english English
+spanish Spanish
+installComplete Install Successful
+installCompleteDesc The backend will now be loaded. Use your root password for sign in.
+passwordsMustBeSLong Must be at least %s characters

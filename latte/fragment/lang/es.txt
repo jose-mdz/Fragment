@@ -93,3 +93,9 @@ cantWriteConfigFile No se puede crear config.php, por favor revisa los permisos 
 errorSavingConfig No se puede guardar la configuración
 wDatabaseNotInstalled La base de datos no se instaló, no estaba vacía.
 chooseRootPassword Contraseña para root
+language Idioma
+english Inglés
+spanish Español
+installComplete Instalación Exitosa
+installCompleteDesc Se cargará el administrador. Utiliza tu contraseña de root.
+passwordsMustBeSLong Al menos %s caracteres

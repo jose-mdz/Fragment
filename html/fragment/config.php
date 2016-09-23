@@ -1,7 +1,7 @@
 <?php
 /**
  * Fragment Configuration File
- * Automatically created: 21/Sep/2016 19:03:04
+ * Automatically created: 22/Sep/2016 19:56:14
  */
 
 /** MySQL database name */
@@ -17,4 +17,4 @@ define('FG_DB_PASSWORD', '');
 define('FG_DB_HOST', '127.0.0.1');
 
 /** Language to use in fragment */
-define('FG_LANG', 'es');
+define('FG_LANG', 'en');

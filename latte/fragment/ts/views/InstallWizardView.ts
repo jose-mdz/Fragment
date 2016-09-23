@@ -147,11 +147,15 @@ module latte {
                     // Validation logic
                     (values, inputs) =>{
 
-                    // Password should be longer than 5 chars
-                    inputs['password'].valid = values['password'].length >= 5;
+                        // Password should be longer than 5 chars
+                        inputs['password'].valid = values['password'].length >= 4;
+                        inputs['password'].setHint(inputs['password'].valid ? null : sprintf(strings.passwordsMustBeSLong, 4));
 
-                    // Passwords should match
-                    inputs['confirm'].valid = values['password'] == values['confirm']
+
+                        // Passwords should match
+                        inputs['confirm'].valid = values['password'] == values['confirm'];
+                        inputs['confirm'].setHint(values['password'] == inputs['confirm'].valid ? null: strings.passwordsDontMatch)
+
                 },
                 // Save
                 (values) => {
@@ -196,6 +200,15 @@ module latte {
                         host: {
                             text: strings.host,
                             defaultValue: lastValues.host
+                        },
+                        lang: {
+                            text: strings.language,
+                            type: 'enumeration',
+                            options: {
+                                'en': strings.english,
+                                'es': strings.spanish
+                            },
+                            defaultValue: strings.english == 'English' ? 'en': 'es'
                         }
                     },
                     /** Validation */
@@ -208,7 +221,7 @@ module latte {
                         lastValues = values;
 
                         Server.saveConnectionParameters(
-                            values.user, values.pass, values.db, values.host).send((r: string) => {
+                            values.user, values.pass, values.db, values.host, values.lang).send((r: string) => {
 
                                 if(r == 'OK') {
                                     checkNow();
@@ -300,7 +313,9 @@ module latte {
                 this._ended.raise();
             }
             log(this.notes);
-            DialogView.inform('DING!');
+            DialogView.inform(strings.installComplete, strings.installCompleteDesc, [
+                new ButtonItem(strings.ok, null, () => document.location.reload(true))
+            ]);
             Element.body.removeClass('on-fragment-install');
         }
 

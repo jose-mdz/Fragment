@@ -76,10 +76,11 @@ module latte{
          * @param name
          */
         static fromIInput(input: IInput, name: string = null, value: any = null){
+
             let item = new InputItem(
                 input.text || '(no text)',
                 input.type || 'string',
-                value || input.defaultValue || null,
+                (input.options) ? null : value || input.defaultValue || null,
                 input.readOnly || null,
                 name
             );
@@ -88,6 +89,10 @@ module latte{
 
             if(input.options) {
                 item.options = input.options;
+
+                if(input.defaultValue){
+                    item.value = input.defaultValue;
+                }
             }
 
             if(input.hint) {
