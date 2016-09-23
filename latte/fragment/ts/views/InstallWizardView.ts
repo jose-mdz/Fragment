@@ -145,7 +145,28 @@ module latte {
             };
 
             let showSource = () => {
-                //TODO: AQUI ME QUEDE
+
+                Server.getHtAccessSource().send((source: string) => {
+                    let t = new TextboxItem();
+                    t.multiline = true;
+                    t.minHeight = 200;
+                    t.width = 470;
+                    t.value = source;
+                    t.autoGrow = false;
+                    t.css('font-family', 'monospace');
+                    t.css('white-space', 'pre');
+
+                    let v = new ColumnView();
+                    v.items.add(t);
+
+                    let d = new DialogView(v, [
+                        new ButtonItem(strings.iHaveCreatedHtAcc, null, () => checkPresent())
+                    ]);
+
+                    d.title = strings.useThisForHtAcc;
+
+                    d.show();
+                });
             };
 
             checkPresent();

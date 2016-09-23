@@ -105,3 +105,5 @@ installHtOpts Can't write file: .htaccess
 installHtOptsDesc This file must be in the root folder of your site
 iHaveGivenPermToFolder I have given permissions to write it
 iWillInstallHtAccessManually I will create the file manually
+iHaveCreatedHtAcc I have created the .htaccess file
+useThisForHtAcc Use this code for the .htaccess file
