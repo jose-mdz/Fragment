@@ -36,6 +36,8 @@ module latte {
                 this.steps.push(this.langChoose);
 
             }else {
+                this.steps.push(this.checkModRewrite);
+                this.steps.push(this.checkHtAccess);
                 this.steps.push(this.checkFolderWritable);
                 this.steps.push(this.setupDBConnection);
                 this.steps.push(this.setupDataBase);
@@ -100,6 +102,87 @@ module latte {
 
             doCheck();
 
+        }
+
+        /**
+         * Checks if htaccess is present, installs if not
+         * @param callback
+         */
+        checkHtAccess(callback: () => any){
+
+            let checkPresent = () => {
+
+                Server.isHtAccessPresent().send((present: boolean) => {
+
+                    if(present) {
+                        callback();
+                    }else {
+                        checkWritable();
+                    }
+
+                });
+
+            };
+
+            let checkWritable = () => {
+                Server.canWriteHtAccess().send((isWritable: boolean) => {
+
+                    if(isWritable) {
+                        Server.installHtAccess().send(() => checkPresent());
+                    }else{
+                        presentOptions();
+                    }
+
+                });
+            };
+
+            let presentOptions = () => {
+                DialogView.alert(strings.installHtOpts, strings.installHtOptsDesc,
+                [
+                    new ButtonItem(strings.iHaveGivenPermToFolder, LinearIcon.redo, () => checkPresent()),
+                    new ButtonItem(strings.iWillInstallHtAccessManually, LinearIcon.pencil, () => showSource())
+                ])
+            };
+
+            let showSource = () => {
+                //TODO: AQUI ME QUEDE
+            };
+
+            checkPresent();
+
+        }
+
+        /**
+         * Checks if mod_rewrite is available
+         * @param callback
+         */
+        checkModRewrite(callback: () => any){
+
+            log("Checking mod_rewrite")
+
+            let alertNotPresent = () => {
+                DialogView.alert(strings.modRwNotEnabled, strings.modRwNotEnabledDesc,
+                [new ButtonItem(strings.retry, LinearIcon.redo, () => check())])
+            };
+
+            let check = () => {
+
+                Server.checkModRewriteEnabled().send((r: number) => {
+                    if(r == 1) {
+                        callback();
+
+                    }else if(r == 2) {
+                        alertNotPresent();
+
+                    }else {
+                        this.notes.push("Can't determine if mod_rewrite available in server.");
+                        callback();
+                    }
+                });
+
+            };
+
+            check();
         }
 
         /**

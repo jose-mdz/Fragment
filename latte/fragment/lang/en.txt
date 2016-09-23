@@ -99,3 +99,9 @@ spanish Spanish
 installComplete Install Successful
 installCompleteDesc The backend will now be loaded. Use your root password for sign in.
 passwordsMustBeSLong Must be at least %s characters
+modRwNotEnabled mod_rewrite is not enabled
+modRwNotEnabledDesc Please check your server configuration. Fragment can't run without this module.
+installHtOpts Can't write file: .htaccess
+installHtOptsDesc This file must be in the root folder of your site
+iHaveGivenPermToFolder I have given permissions to write it
+iWillInstallHtAccessManually I will create the file manually

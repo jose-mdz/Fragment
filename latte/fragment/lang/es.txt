@@ -99,3 +99,9 @@ spanish Español
 installComplete Instalación Exitosa
 installCompleteDesc Se cargará el administrador. Utiliza tu contraseña de root.
 passwordsMustBeSLong Al menos %s caracteres
+modRwNotEnabled mod_rewrite no está activo
+modRwNotEnabledDesc Por favor revisa tu configuración, Fragment no puede ejecutarse sin mod_rewrite
+installHtOpts No se puede escribir el archivo .htaccess
+installHtOptsDesc El archivo debe estar a nivel raíz de tu sitio
+iHaveGivenPermToFolder He dado permisos al directorio
+iWillInstallHtAccessManually Escribiré manualmente el archivo

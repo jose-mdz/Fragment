@@ -32,6 +32,14 @@ class Server{
     }
 
     /**
+     * Returns a value indicating if the parent folder of fragment can be written
+     * @remote
+     */
+    public static function canWriteHtAccess(){
+        return is_writable(FG_DIR . '/../.');
+    }
+
+    /**
      * Checks if there is a current valid connection with a database
      * @remote
      * @return boolean
@@ -65,6 +73,41 @@ class Server{
     }
 
     /**
+     * Returns a valude indicating if the .htaccess on root is present
+     *
+     * @remote
+     * @return boolean
+     */
+    public static function isHtAccessPresent(){
+        return file_exists(FG_DIR . '/../.htaccess');
+    }
+
+    /**
+     * Checks if mod_rewrite is enabled
+     * @remote
+     * @return number 1. Yes, 2. No, 3. Uncertain
+     */
+    public static function checkModRewriteEnabled(){
+        if(!function_exists('apache_get_modules') ){
+            return 3;
+        }
+
+        if(in_array('mod_rewrite',apache_get_modules()))
+            return 1;
+
+        return 2;
+
+    }
+
+    /**
+     * Returns the source of the htaccess that should be present on installation
+     * @remote
+     */
+    public static function getHtAccessSource(){
+        return file_get_contents(FG_DIR . '/files/install/htaccess_original.txt');
+    }
+
+    /**
      * Installs the database included in installer
      * @remote
      * @return string OK if success, error otherwise
@@ -82,6 +125,15 @@ class Server{
         }
 
         return 'OK';
+    }
+
+    /**
+     * Copies the htaccess to the
+     * @remote
+     * @return number|boolean
+     */
+    public static function installHtAccess(){
+        return file_put_contents(FG_DIR . '/../.htaccess', self::getHtAccessSource());
     }
 
     /**
