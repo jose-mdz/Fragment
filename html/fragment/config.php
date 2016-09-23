@@ -5,7 +5,7 @@
  */
 
 /** MySQL database name */
-define('FG_DB_NAME', 'test');
+define('FG_DB_NAME', 'cms');
 
 /** MySQL database name */
 define('FG_DB_USER', 'root');
