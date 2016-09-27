@@ -1,7 +1,5 @@
 <?php
 
-include '../../../../latte.php';
-
 /**
  * Uploader
  *
@@ -15,7 +13,8 @@ include '../../../../latte.php';
  *
  */
 
-LatteModule::loadMain('fragment');
+// Initialize fragment
+include  __DIR__ . "/fragment_init.php";
 
 // Extract name of owner entity
 $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);

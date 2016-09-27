@@ -19,7 +19,7 @@ $q = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
 
 //region Load global settings
 event_raise('before_settings_load');
-$GLOBALS['settings'] = DL::associativeArray(Setting::getGlobal(), 'name');
+$GLOBALS['settings'] = DL::associativeArray(Setting::getGlobals(), 'name');
 event_raise('after_settings_load');
 //endregion
 
@@ -53,6 +53,7 @@ event_raise('after_page_load', $page);
 
 if ($page && ($page->online == 1 || Session::isLogged())){
 
+    //region Prepare API variables
     // Load parent
     $GLOBALS['parent'] = $page->getParent();
 
@@ -73,25 +74,29 @@ if ($page && ($page->online == 1 || Session::isLogged())){
 
     // Decide template to use
     $GLOBALS['template'] = $page->template ? $page->template : 'index';
+    //endregion
 
-    // Magic Include
+    //region include _head.php
     if (file_exists("$theme_path/_head.php")){
         include "$theme_path/_head.php";
     }
+    //endregion
 
-    // Include template now
+    //region Include Template
     if(event_raise('before_template_include') !== false) {
         include "$theme_path/" . $GLOBALS['template'] . ".php";
     }
     event_raise('after_template_include');
+    //endregion
 
-    // Magic Include
+    //region Include _foot.php
     if(event_raise('before_foot_include') !== false){
         if (file_exists("$theme_path/_foot.php")){
             include "$theme_path/_foot.php";
         }
     }
     event_raise('after_foot_include');
+    //endregion
 
 }else{
 

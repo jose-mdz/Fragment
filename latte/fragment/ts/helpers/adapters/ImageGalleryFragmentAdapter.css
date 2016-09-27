@@ -23,3 +23,7 @@
 .gallery-fragment-editor .latte-item.file{
     margin: 0 15px 15px 0;
 }
+
+.gallery-fragment-editor.dragging{
+    background-color: orange;
+}

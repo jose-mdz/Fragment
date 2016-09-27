@@ -63,9 +63,26 @@ class Setting extends settingBase{
      * Gets the global settings of the app
      *
      * @remote
+     * @param string $name
+     * @return Setting
+     */
+    public static function getGlobal($name){
+        return DL::oneOf('Setting', "
+            SELECT #COLUMNS
+            FROM setting
+            WHERE owner = 'global'
+            AND idowner = 0
+            AND name = '$name'
+        ");
+    }
+
+    /**
+     * Gets the global settings of the app
+     *
+     * @remote
      * @return Setting[]
      */
-    public static function getGlobal(){
+    public static function getGlobals(){
         return DL::arrayOf('Setting', "
             SELECT #COLUMNS
             FROM setting

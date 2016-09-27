@@ -472,6 +472,48 @@ module latte {
             return m == "image/png" || m == "image/gif";
         }
 
+        static rotateCounterClockwise(image: HTMLImageElement): HTMLImageElement{
+
+            let c = document.createElement('canvas');
+            c.width = <any>image.naturalHeight;
+            c.height = <any>image.naturalWidth;
+
+            let x = c.getContext('2d');
+
+            x.save();
+            x.translate(c.width / 2, c.height / 2);
+            x.rotate(-90 * Math.PI / 180);
+            x.drawImage(image, -image.naturalWidth / 2, -image.naturalHeight / 2);
+            x.restore();
+
+            let img = document.createElement('img');
+            img.src = c.toDataURL();
+
+            return img;
+
+        }
+
+        static rotateClockwise(image: HTMLImageElement): HTMLImageElement{
+
+            let c = document.createElement('canvas');
+            c.width = <any>image.naturalHeight;
+            c.height = <any>image.naturalWidth;
+
+            let x = c.getContext('2d');
+
+            x.save();
+            x.translate(c.width / 2, c.height / 2);
+            x.rotate(90 * Math.PI / 180);
+            x.drawImage(image, -image.naturalWidth / 2, -image.naturalHeight / 2);
+            x.restore();
+
+            let img = document.createElement('img');
+            img.src = c.toDataURL();
+
+            return img;
+
+        }
+
         //endregion
 
 

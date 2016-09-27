@@ -1,0 +1,29 @@
+.latte-view.image-editor{
+    background: black;
+    color: white;
+}
+
+.latte-view.image-editor .clickable.selected{
+    background-color: #555;
+    border-color: transparent;
+}
+
+.latte-view.image-editor .latte-item.progress .container{
+    border: none;
+    background-color: #333;
+}
+
+.latte-view.image-editor .latte-item.progress .bar{
+    height: 1px;
+    background-color: white;
+}
+
+.latte-view.image-editor > .container img.centered-x{
+    position:absolute;
+    left: 50%;
+}
+
+.latte-view.image-editor > .container img.centered-y{
+    position:absolute;
+    top: 50%;
+}

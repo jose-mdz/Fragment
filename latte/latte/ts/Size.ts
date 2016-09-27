@@ -48,6 +48,14 @@ module latte {
 
         //region Methods
         /**
+         * Gets a value indicating if the size contains the specified size.
+         * @param size
+         */
+        contains(size: Size): boolean{
+            return this.width >= size.width && this.height >= size.height;
+        }
+
+        /**
          * Inflates the size on the specified width and height
          *
          * @param width

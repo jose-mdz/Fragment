@@ -333,19 +333,31 @@ class File extends fileBase{
             }
         }else{
 
-            $base_path = String::combinePath(__DIR__,'../../../html');
-            $path = String::combinePath($base_path, CmsConfig::getFilesPath());
+            $files_path = FG_DIR . '/files';
+            $composed_path = "uploads/" . date("Y/m/d");
+            $path = "$files_path/$composed_path";
+
+            // Ensure directory exist
+            if(!file_exists($path)){
+                $oldmask = umask(0);
+                if(!@mkdir($path, 0777, true)){
+                    throw new Exception("Can't create directory: [$path]");
+                }
+                umask($oldmask);
+            }
+
+            // Path of physical file
             $filePath = String::combinePath($path, $fileName);
 
             // Copy file
             if (copy($fileTempName, $filePath) === true){
-                $file->path = String::combineUrl(CmsConfig::getFilesPath(), $fileName);
+                chmod($filePath, 0777);
+                $file->path = "fragment/files/$composed_path/$fileName";
                 $success = true;
             }else{
                 $errors = error_get_last();
                 throw new Exception("Error copying file from path: $fileTempName to path: $filePath (" . var_export($errors, true)  .")");
             }
-
 
         }
 

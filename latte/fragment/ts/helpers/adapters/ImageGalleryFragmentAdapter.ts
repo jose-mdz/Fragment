@@ -142,12 +142,14 @@ module latte {
             let pic = this.selectedFile.file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
 
             if(pic) {
-                window.open(pic.url)
+                ImageEditorView.editImageByUrl(pic.url);
             }
         }
 
         private viewSelectedOriginal(){
-            window.open(this.selectedFile.file.url)
+            if(this.selectedFile) {
+                ImageEditorView.editImageByUrl(this.selectedFile.file.url);
+            }
         }
 
         //endregion
@@ -190,6 +192,7 @@ module latte {
                     this.btnMoveImageBefore,
                     this.btnMoveImageAfter,
                     SeparatorItem.withTab(this.tabImage),
+
                     this.btnRemoveImage
                 ]);
             }
@@ -259,7 +262,11 @@ module latte {
             if(this._draggingFilesChanged){
                 this._draggingFilesChanged.raise();
             }
-            log("Dragging files: " + this.draggingFiles);
+            if(this.draggingFiles) {
+                this.editorItem.addClass('dragging');
+            }else{
+                this.editorItem.removeClass('dragging');
+            }
         }
 
         /**
@@ -584,6 +591,7 @@ module latte {
         //endregion
 
         //region Components
+
         /**
          * Field for btnInsertImage property
          */

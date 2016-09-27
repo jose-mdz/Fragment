@@ -18,10 +18,10 @@ class CmsConfig{
      */
     public static function getFilesPath(){
         if(self::$_filesPath === null){
-            self::$_s3Key = Setting::getValue('cms', 0, 'files-path');
+            self::$_filesPath = Setting::getValue('global', 0, 'files-path');
 
             if (!self::$_filesPath){
-                self::$_filesPath = 'fragment/files';
+                self::$_filesPath =  FG_DIR . '/files';
             }
         }
         return self::$_filesPath;
@@ -33,7 +33,7 @@ class CmsConfig{
      */
     public static function getFileUploadIsS3(){
         if(self::$_fileUploadIsS3 === null){
-            self::$_fileUploadIsS3 = intval(Setting::getValue('cms', 0, 'file-upload-s3')) === 1;
+            self::$_fileUploadIsS3 = intval(Setting::getValue('global', 0, 'file-upload-s3')) === 1;
         }
 
         return self::$_fileUploadIsS3;
@@ -45,7 +45,7 @@ class CmsConfig{
      */
     public static function getS3Key(){
         if (self::$_s3Key === null){
-            self::$_s3Key = Setting::getValue('cms', 0, 's3-key');
+            self::$_s3Key = Setting::getValue('global', 0, 's3-key');
         }
         return self::$_s3Key;
     }
@@ -56,7 +56,7 @@ class CmsConfig{
      */
     public static function getS3Pass(){
         if (self::$_s3Pass === null){
-            self::$_s3Pass = Setting::getValue('cms', 0, 's3-pass');
+            self::$_s3Pass = Setting::getValue('global', 0, 's3-pass');
         }
         return self::$_s3Pass;
     }
@@ -67,7 +67,7 @@ class CmsConfig{
      */
     public static function getS3Bucket(){
         if (self::$_s3Bucket === null){
-            self::$_s3Bucket = Setting::getValue('cms', 0, 's3-bucket');
+            self::$_s3Bucket = Setting::getValue('global', 0, 's3-bucket');
         }
         return self::$_s3Bucket;
     }
@@ -78,7 +78,7 @@ class CmsConfig{
      */
     public static function setFileUploadIsS3($value){
         self::$_fileUploadIsS3 = $value;
-        Setting::setValue('cms', 0, 'file-upload-s3', $value ? 1 : 0);
+        Setting::setValue('global', 0, 'file-upload-s3', $value ? 1 : 0);
     }
 
 }

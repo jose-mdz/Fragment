@@ -107,3 +107,4 @@ iHaveGivenPermToFolder He dado permisos al directorio
 iWillInstallHtAccessManually Escribiré manualmente el archivo
 iHaveCreatedHtAcc He creado el archivo .htaccess
 useThisForHtAcc Utiliza este código para el archivo .htaccess
+actualSize Tamaño Real

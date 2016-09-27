@@ -25,7 +25,7 @@ if(file_exists(FG_DIR . '/config.php')){
 }
 
 /**
- * If connection data present
+ * If connection data present, connect.
  */
 if(    defined('FG_DB_NAME') && defined('FG_DB_USER')
     && defined('FG_DB_PASSWORD') && defined('FG_DB_HOST')){
@@ -41,6 +41,9 @@ if(    defined('FG_DB_NAME') && defined('FG_DB_USER')
     $_SESSION['install-mode'] = true;
 }
 
+/**
+ * Select temporary language if no config
+ */
 if(!defined('FG_LANG')){
     if ($_SESSION['tmp-lang']){
         define('FG_TMP_LANG', $_SESSION['tmp-lang']);
@@ -51,4 +54,22 @@ if(!defined('FG_LANG')){
     }
 }
 
+// Load fragment module
 LatteModule::loadMain('fragment', defined('FG_LANG') ? FG_LANG : FG_TMP_LANG, false);
+
+/**
+ * Include theme's _include.php
+ */
+if (defined('FG_DB_OK')){
+    // Try to load theme's _backend
+    $ts = Setting::getGlobal('theme');
+
+    if ($ts){
+        $path = FG_DIR . '/themes/' . $ts->value . '/_include.php';
+
+        if (file_exists($path)){
+            include $path;
+        }
+    }
+
+}
