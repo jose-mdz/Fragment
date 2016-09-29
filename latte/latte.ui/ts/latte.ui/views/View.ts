@@ -396,7 +396,6 @@ module latte{
             return this._unload;
         }
 
-
         /**
          * Back field for event
          */

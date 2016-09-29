@@ -135,7 +135,7 @@ module latte {
             let h = image.height;
             let original = new Size(w, h);
             let size = options.size;
-            let type = options.type || "image/png";
+            let type = options.type || "image/jpeg";
             let quality = options.quality || 0.9;
             let bg: Color = options.background || null;
             let canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -196,7 +196,9 @@ module latte {
 
             var result = '';
 
+            // log("Type: " + type);
             if(ImageUtil.mimeTypeCompressable(type)){
+                // log("Quality: " + quality);
                 result = canvas.toDataURL(type, quality);
             }else {
                 result = canvas.toDataURL(type);
@@ -327,7 +329,7 @@ module latte {
                     data2[x2 + 3] = gx_a / weights_alpha;
                 }
             }
-            console.log("hermite = "+(Math.round(Date.now() - time1)/1000)+" s");
+            // console.log("hermite = "+(Math.round(Date.now() - time1)/1000)+" s");
             canvas.getContext("2d").clearRect(0, 0, Math.max(W, W2), Math.max(H, H2));
             canvas.width = W2;
             canvas.height = H2;
@@ -472,7 +474,17 @@ module latte {
             return m == "image/png" || m == "image/gif";
         }
 
-        static rotateCounterClockwise(image: HTMLImageElement): HTMLImageElement{
+        /**
+         * Rotates the image counterclockwise
+         * @param image
+         * @param options
+         * @returns {HTMLImageElement|HTMLElement}
+         */
+        static rotateCounterClockwise(image: HTMLImageElement, options: ImageExportOptions = null): HTMLImageElement{
+
+            if(!options) {
+                options = <any>{};
+            }
 
             let c = document.createElement('canvas');
             c.width = <any>image.naturalHeight;
@@ -487,13 +499,23 @@ module latte {
             x.restore();
 
             let img = document.createElement('img');
-            img.src = c.toDataURL();
+            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || 0.85);
 
             return img;
 
         }
 
-        static rotateClockwise(image: HTMLImageElement): HTMLImageElement{
+        /**
+         * Rotates the image clockwise.
+         * @param image
+         * @param options
+         * @returns {HTMLImageElement|HTMLElement}
+         */
+        static rotateClockwise(image: HTMLImageElement, options: ImageExportOptions = null): HTMLImageElement{
+
+            if(!options) {
+                options = <any>{};
+            }
 
             let c = document.createElement('canvas');
             c.width = <any>image.naturalHeight;
@@ -508,7 +530,7 @@ module latte {
             x.restore();
 
             let img = document.createElement('img');
-            img.src = c.toDataURL();
+            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || 0.85);
 
             return img;
 

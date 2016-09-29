@@ -83,7 +83,7 @@ module latte {
         upload(){
 
             // Set url
-            this.url = _latteUrl() + '/releases/fragment/support/actions/'
+            this.url = _latteUrl() + '/releases/fragment/support/actions/file_'
                 + (this.base64 ? 'upload64' : 'upload' ) + '.php';
 
             // Add file params

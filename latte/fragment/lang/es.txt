@@ -108,3 +108,6 @@ iWillInstallHtAccessManually Escribiré manualmente el archivo
 iHaveCreatedHtAcc He creado el archivo .htaccess
 useThisForHtAcc Utiliza este código para el archivo .htaccess
 actualSize Tamaño Real
+saveChangesOnImageQ ¿Desea guardar los cambios en la imagen?
+redoThumb Rehacer Imágenes
+viewThumb Ver Miniatura

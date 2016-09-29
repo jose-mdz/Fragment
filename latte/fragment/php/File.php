@@ -75,6 +75,7 @@ class File extends fileBase{
 
         return $sql;
     }
+
     /**
      * Generates SQL to retrieve files of the specified guids
      *
@@ -316,7 +317,6 @@ class File extends fileBase{
         $file->name = $name;
         $file->size = filesize($tmp_path);
 
-
         if(CmsConfig::getFileUploadIsS3()){
 
             // Create S3 connection
@@ -403,13 +403,25 @@ class File extends fileBase{
      */
     public static function createFileFromBase64($base64data, $name, $owner, $idowner, &$path = null, $data = null){
 
+        $path = self::createTmpFileFromBase64($base64data);
+        $hasPath = isset($path);
+
+        return self::createFile($path, $name, $owner, $idowner, $data, !$hasPath);
+
+    }
+
+    /**
+     * Creates a temporary file from the specified data and returns its path
+     * @param $base64data
+     * @return string
+     * @throws Exception
+     */
+    public static function createTmpFileFromBase64($base64data){
         // Decode file from data
         $decoded = base64_decode($base64data);
 
         // Decide path for temp file
         $path = tempnam(sys_get_temp_dir(), 'fragment-');
-
-
 
         // Write data to temporary file
         if(file_put_contents($path, $decoded) === false){
@@ -417,29 +429,7 @@ class File extends fileBase{
             throw new Exception("Can't write base64 tmp file at: $path ($err)");
         }
 
-        $hasPath = isset($path);
-
-        return self::createFile($path, $name, $owner, $idowner, $data, !$hasPath);
-
-    }
-    
-    /**
-     * Gets an array unlinked File objects inserted by the logged user.
-     * 
-     * @remote
-     * @param string $ownerName
-     * @return Array<File>
-     */
-    public static function myUnlinked($ownerName){
-        $iduser = Session::idUser();
-        
-        return DataLatte::arrayOf(get_class(), "
-            SELECT * 
-            FROM   file
-            WHERE  iduser = '$iduser'
-              AND  owner = '$ownerName'
-              AND  idowner < 0
-        ");
+        return $path;
     }
     
     /**
@@ -454,6 +444,25 @@ class File extends fileBase{
             $file->idowner = $owner->getIdValue();
             $file->save();
         }
+    }
+
+    /**
+     * Gets an array unlinked File objects inserted by the logged user.
+     *
+     * @remote
+     * @param string $ownerName
+     * @return Array<File>
+     */
+    public static function myUnlinked($ownerName){
+        $iduser = Session::idUser();
+
+        return DataLatte::arrayOf(get_class(), "
+            SELECT * 
+            FROM   file
+            WHERE  iduser = '$iduser'
+              AND  owner = '$ownerName'
+              AND  idowner < 0
+        ");
     }
 
     /**
@@ -503,103 +512,114 @@ class File extends fileBase{
      */
     public $tempPath;
 
+    public function canDelete(){
+        return $this->canIEdit();
+    }
+
     /**
-     * Downloads the file to the specified path.
-     * If no path specified, will create one in temp files.
-     * Always returns the path where file was saved.
-     *
-     * @param $path
-     * @return string
+     * Checks for privileges for file edition
      */
-    public function download($path = null){
+    public function canIEdit(){
+        $page = $this->getOwnerPage();
 
-        if($path == null){
+        if ($page){
+            return $page->canIWrite();
+        }else{
+            return Session::me()->isRoot();
+        }
+    }
 
-            // Decide path for temp file
-            $path = sys_get_temp_dir() . '/' . uniqid() . $this->name;
+    /**
+     * Deletes the children of the file
+     * @remote
+     */
+    public function deleteChildren(){
+
+        // Get children
+        $children = File::byOwner('File', $this->idfile);
+
+        // Delete children
+        foreach($children as $f){
+            $f->delete();
+        }
+    }
+
+    /**
+     * Gets the owner of the file
+     * @return DataRecord
+     */
+    public function getOwner(){
+        if ($this->owner && $this->idowner){
+            return DataRecord::byAuto($this->owner, $this->idowner);
         }
 
-        // Create S3 connection
-        $s3 = new S3(self::S3KEY, self::S3PASS);
-
-        $s3->getObject($this->bucket, $this->path, $path);
-
-        return $path;
-
+        return null;
     }
 
     /**
-     * 
-     * @global array $strings
-     * @return any
+     * Recursively traverses onwers until finding a page.
+     *
+     * @param File|null $file
+     * @return Page|null
      */
-    public function metadata(){
-        global $strings;
-        
-        return array(
-            'title' => $strings['file'],
-            'name' => $this->name,
-            
-            
-            'relationships' => array(
-                'iduser' => array(
-                    'title' => $strings['owner'],
-                    'type' => 'User',
-                    'cardinality' => '1,1',
-                ),
-            ),
-             
-            'fields' => array(
-                'name' => array(
-                    'text' => $strings['name'],
-                    'readonly' => true,
-                ),
-                
-                'size' => array(
-                    'text' => $strings['size'],
-                    'type' => 'number',
-                    'readonly' => true,
-                ),
-                
-                'bucket' => array(
-                    'text' => $strings['bucket'],
-                    'readonly' => true,
-                    'grid-visible' => false,
-                ),
-                
-                'path' => array(
-                    'text' => $strings['path'],
-                    'readonly' => true,
-                    'grid-visible' => false,
-                    'is-visible' => false,
-                ),
-                
-                'uploaded' => array(
-                    'text' => $strings['uploaded'],
-                    'type'=> 'datetime',
-                    'grid-visible' => true,
-                    'readonly' => true,
-                ),
-                
-                'description' => array(
-                    'text' => $strings['description'],
-                    'type' => 'text',
-                    'max-length' => 128,
-                    'grid-visible' => false,
-                ),
-            ),
-            
-            
-        );
+    public function getOwnerPage(File $file = null){
+
+        if(!$file){
+            $file = $this;
+        }
+
+        $owner = $file->getOwner();
+
+        if ($owner instanceof Page){
+            return $owner;
+
+        }else if ($owner instanceof File){
+            return $this->getOwnerPage($owner);
+
+        }else{
+            return null;
+        }
     }
 
+    /**
+     * Gets the physical path of the file
+     * @return string
+     * @throws Exception
+     */
+    public function getPhysicalPath(){
+        if($this->isOnS3()){
+            throw new Exception("No physical path for S3 file");
+        }else{
+            return FG_DIR . '/../' . $this->path;
+        }
+    }
+
+    /**
+     * Gets a S3 object
+     * @neverRemote
+     * @return S3
+     */
+    public function getS3(){
+        return new S3(CmsConfig::getS3Key(), CmsConfig::getS3Pass());
+    }
 
     /**
      * Gets the public url to reach file.
      * @return string 
      */
     public function getUrl(){
-        return "http://" . $this->bucket . ".s3.amazonaws.com/" . $this->path;
+        if ($this->isOnS3()){
+            return "http://" . $this->bucket . ".s3.amazonaws.com/" . $this->path;
+        }else{
+            return $this->path;
+        }
+    }
+
+    /**
+     * Gets a valud indicating if the file is hosted on S3
+     */
+    public function isOnS3(){
+        return strlen($this->bucket) > 0;
     }
     
     /**
@@ -609,15 +629,21 @@ class File extends fileBase{
      * @throws Exception
      */
     public function onDeleting(){
-        global $strings;
-        
-        // Delete file on S3
-        $s3 = new S3(self::S3KEY, self::S3PASS);
-        
-        if(!$s3->deleteObject($this->bucket, $this->path)){
-            throw new Exception($strings['error'], $strings['errCantDeleteOnS3']);
+
+        // Check permissions
+        if (!$this->canIEdit()){
             return false;
         }
+
+        // Delete children
+        $this->deleteChildren();
+
+        try{
+            $this->physicalRemove();
+        }catch(Exception $e){
+            return false;
+        }
+
     }
     
     /**
@@ -627,47 +653,32 @@ class File extends fileBase{
         $this->guid = self::generateGUID();
         $this->uploaded = DataLatte::datetime();
     }
-    
+
     /**
-     * 
-     * @param type $tag
-     */
-    public function onRenderFields($tag){
-        
-        $tag->add( Conversation::renderOf($this) ); 
-        
-    }
-    
-    /**
-     * Renames the file on local DB and on S3
-     * 
-     * @global array $strings
-     * @param string $newname New name for file
+     * Creates the file by using the specified data
+     * @neverRemote data may be too big
+     * @param $tmp_file_path
+     * @param $data
      * @throws Exception
      */
-    public function rename($newname){
-        
-        global $strings;
-        
-        // Create S3 connection
-        $s3 = new S3(self::S3KEY, self::S3PASS);
-        
-        $newname = self::cleanForURL($newname);
-        $newpath = uniqid() . "-" . $newname;
-        
-        // Copy object
-        if($s3->copyObject($this->bucket, $this->path, $this->bucket, $newpath, S3::ACL_PUBLIC_READ)){
-            if($s3->deleteObject($this->bucket, $this->path)){
-                $this->path = $newpath;
-                $this->name = $newname;
-                $this->save();
-            }else{
-                throw new Exception($strings['errCantDeleteOnS3']);
-            }
-        }else{
-            throw new Exception($strings['errCopyingInS3']);
+    public function replaceWith($tmp_file_path, $data = null){
+
+        // Send file to trash
+        $this->sendToPhysicalTrash();
+
+        // Copy tmp file to where it belongs
+        if(!copy($tmp_file_path, $this->getPhysicalPath())){
+            throw new Exception("Can't copy file: " . var_export(error_get_last(), true));
         }
-        
+
+        // Apply extra data
+        if(is_array($data)){
+            foreach($data as $k => $value){
+                $this->{$k} = $value;
+            }
+            $this->save();
+        }
+
     }
     
     /**
@@ -682,17 +693,16 @@ class File extends fileBase{
         
         global $strings;
 
-        if($this->idparent == 0 && !Grant::hasGrantOf('inplek-delete-files')){
-            throw new SecurityException();
+        if ($this->isOnS3()){
+            if(!$this->getS3()->deleteObject($this->bucket, $this->path)){
+                throw new Exception($strings['cantDeleteFileS3']);
+            }
+        }else{
+            if (!unlink($this->getPhysicalPath())){
+                throw new Exception("Can't delete: " . $this->getPhysicalPath());
+            }
         }
-        
-        // Create S3 connection
-        $s3 = new S3(self::S3KEY, self::S3PASS);
-        
-        if(!$s3->deleteObject($this->bucket, $this->path)){
-            throw new Exception($strings['cantDeleteFileS3']);
-        }
-        
+
         $this->delete();
     }
 
@@ -718,5 +728,32 @@ class File extends fileBase{
         $arr['properties']['children'] = $this->packArray($this->children);
 
         return $arr;
+    }
+
+    /**
+     * Moves the physical file to the trash
+     */
+    public function sendToPhysicalTrash(){
+
+        if ($this->isOnS3()){
+            throw new Exception("Not implemented for S3");
+        }else{
+            $trash_path = FG_DIR . '/files/trash/' . date("Y/m/d") . '/'. uniqid() . '-' . $this->name;
+            $trash_path_dir = dirname($trash_path);
+
+            // Ensure directory exist
+            if(!file_exists($trash_path_dir)){
+                $oldmask = umask(0);
+                if(!@mkdir($trash_path_dir, 0777, true)){
+                    throw new Exception("Can't create directory for trash: [$trash_path_dir]");
+                }
+                umask($oldmask);
+            }
+
+//            die($this->getPhysicalPath() . " >>> " . $trash_path);
+            copy($this->getPhysicalPath(), $trash_path);
+            unlink($this->getPhysicalPath());
+        }
+
     }
 }

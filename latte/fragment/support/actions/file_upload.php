@@ -30,6 +30,18 @@ if($id < 1){
     $id = -1; // Mark for later linking
 }
 
+// Get owner of file
+$owner = DataRecord::byAuto($name, $id);
+
+// Check for permissions
+if (
+    ($owner instanceof Page && !$owner->canIWrite()) ||
+    ($owner instanceof File && !$owner->canIEdit()) ||
+    (!Session::me()->isRoot())
+){
+    die("upload: Can't save file. You Don't have necessary permissions");
+}
+
 // Process files
 $files = File::createFiles($name, $id);
 

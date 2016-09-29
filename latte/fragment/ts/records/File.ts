@@ -184,7 +184,6 @@ module latte{
 			// Generate actual thumb
 			ImageUtil.createThumbOfUrl(this.url, options, (data: string) => {
 
-
 				var img = document.createElement('img');
 
 				img.addEventListener('load', () => {
@@ -211,7 +210,7 @@ module latte{
 
 					// Upload file
 					fu.upload();
-				})
+				});
 
 				img.src = data;
 

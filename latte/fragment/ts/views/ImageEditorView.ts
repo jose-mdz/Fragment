@@ -12,36 +12,90 @@ module latte {
     /**
      *
      */
-    export class ImageEditorView extends ToolbarView {
+    export class ImageEditorView extends ToolbarView implements ISave {
 
         //region Static
 
         /**
-         * Creates an editor, shows it and returns it
+         * Creates an editor, shows it and returns it without any image
          * @returns {latte.ImageEditorView}
          */
-        static showEditor(): ImageEditorView{
+        static showEditor(save: () => any = null): ImageEditorView{
             let editor = new ImageEditorView();
             let current = View.mainView;
 
             editor.closeRequested.add(() => {
                 View.mainView = current;
+                editor.onClosed();
             });
+
+            if(_isFunction(save)){
+                editor.saveRequested.add(save);
+            }
 
             View.mainView = editor;
 
             return editor;
         }
 
-        static editImageByUrl(url: string): ImageEditorView{
+        /**
+         * Shows the editor for the specified file
+         * @param file
+         */
+        static editImageFile(file: File): ImageEditorView{
+
+            if(!file.isImage) {
+                throw "Not an image";
+            }
+
             let editor = ImageEditorView.showEditor();
+
+            editor.loadImageFromUrl(file.url);
+            editor.saveRequested.add(() => {
+                let img = editor.image;
+                let rep = new FileReplacer();
+
+                img.style.visibility = 'hidden';
+                editor.infoItem = editor.progressItem;
+
+                rep.id = String(file.idfile);
+                rep.width = img.naturalWidth;
+                rep.height = img.naturalHeight;
+                rep.base64 = ImageUtil.getBase64(img.src);
+
+                rep.progressChanged.add(() => {
+                    editor.progressItem.value = Math.round(rep.progress * 100);
+                });
+
+                rep.complete.add(() => {
+                    editor.progressItem = null;
+                    img.style.visibility = 'visible';
+                    editor.onSaved(); // Implementers have obligation to report this.
+                });
+
+                rep.upload();
+
+            });
+
+            return editor;
+
+        }
+
+        static editImageByUrl(url: string, save: () => any = null): ImageEditorView{
+            let editor = ImageEditorView.showEditor(save);
             editor.loadImageFromUrl(url);
             return editor;
         }
 
-        static editImage(image: HTMLImageElement): ImageEditorView{
+        /**
+         *
+         * @param image
+         * @param save
+         * @returns {ImageEditorView}
+         */
+        static editImage(image: HTMLImageElement, save: () => any = null): ImageEditorView{
 
-            let editor = ImageEditorView.showEditor();
+            let editor = ImageEditorView.showEditor(save);
             editor.image = image;
             return editor;
 
@@ -49,6 +103,10 @@ module latte {
         //endregion
 
         //region Fields
+        private closeAfterSave = false;
+
+        private bodyKeyChecker;
+
         //endregion
 
         /**
@@ -59,8 +117,8 @@ module latte {
 
             this.addClass('image-editor');
 
-
             this.toolbar.faceVisible = false;
+            this.toolbar.items.add(this.btnSave);
             this.toolbar.items.add(this.btnRotateCounterClockwise);
             this.toolbar.items.add(this.btnRotateClockwise);
             this.toolbar.items.add(this.lblZoom);
@@ -74,10 +132,43 @@ module latte {
                 }
             });
 
+            this.bodyKeyChecker = (e: KeyboardEvent) => {
+                // log("Key: " + e.keyCode)
+                if(e.keyCode == Key.ESCAPE) {
+                    this.btnClose.onClick();
+                }
+            };
+
+            window.addEventListener('keydown', this.bodyKeyChecker);
+            // window.addEventListener('keydown', (e) => {
+            //     log(e.keyCode)
+            // });
 
         }
 
         //region Private Methods
+
+        private closeClick(){
+
+            if(this.unsavedChanges) {
+                DialogView.ask(strings.unsavedChanges, strings.saveChangesOnImageQ,
+                [
+                    new ButtonItem(strings.yesSaveChanges, null, () => {
+                        this.closeAfterSave = true;
+                        this.btnSave.onClick();
+                    }),
+                    new ButtonItem(strings.noIgnoreChanges, null, () => {
+                        this.unsavedChanges = false;
+                        this.onCloseRequested()
+                    }),
+                    new ButtonItem(strings.cancel)
+                ])
+            }else{
+                this.onCloseRequested();
+            }
+
+        }
+
         private layoutCheck(){
             let img = this.image; if(!img) return;
             let size = new Size(this.container.width(), this.container.height());
@@ -118,6 +209,38 @@ module latte {
         }
 
         /**
+         * Raises the <c>closed</c> event
+         */
+        onClosed(){
+            if(this._closed){
+                this._closed.raise();
+            }
+            window.removeEventListener('keydown', this.bodyKeyChecker);
+        }
+
+        /**
+         * Raises the <c>closeRequested</c> event
+         */
+        onCloseRequested(){
+            if(this._closeRequested){
+                this._closeRequested.raise();
+            }
+        }
+
+        /**
+         * Raises the <c>editable</c> event
+         */
+        onEditableChanged(){
+            if(this._editableChanged){
+                this._editableChanged.raise();
+            }
+
+            this.btnSave.visible = this.editable;
+            this.btnRotateClockwise.visible = this.editable;
+            this.btnRotateCounterClockwise.visible = this.editable;
+        }
+
+        /**
          * Raises the <c>image</c> event
          */
         onImageChanged(){
@@ -134,6 +257,38 @@ module latte {
 
                 this.image.onload = () => {this.layoutCheck()}
             }
+        }
+
+        /**
+         * Raises the <c>saveRequested</c> event
+         */
+        onSaveRequested(){
+            if(this._saveRequested){
+                this._saveRequested.raise();
+            }
+        }
+
+        /**
+         * Raises the <c>saved</c> event
+         */
+        onSaved(){
+            if(this._saved){
+                this._saved.raise();
+            }
+
+            this.unsavedChanges = false;
+
+            if(this.closeAfterSave) {
+                this.onCloseRequested();
+            }
+
+        }
+
+        onUnsavedChangesChanged(){
+            super.onUnsavedChangesChanged();
+
+            this.btnSave.enabled = this.unsavedChanges;
+
         }
 
         /**
@@ -192,8 +347,12 @@ module latte {
 
         }
 
+        /**
+         * Rotates the image counter clockwise
+         */
         rotateImageCounterClockwise(){
             this.image = ImageUtil.rotateCounterClockwise(this.image);
+            this.unsavedChanges = true;
         }
 
         /**
@@ -201,13 +360,31 @@ module latte {
          */
         rotateImageClockwise(){
             this.image = ImageUtil.rotateClockwise(this.image);
+            this.unsavedChanges = true;
         }
 
         //endregion
 
         //region Events
-        
-        
+
+
+        /**
+         * Back field for event
+         */
+        private _closed: LatteEvent;
+
+        /**
+         * Gets an event raised when the editor has been closed
+         *
+         * @returns {LatteEvent}
+         */
+        get closed(): LatteEvent{
+            if(!this._closed){
+                this._closed = new LatteEvent(this);
+            }
+            return this._closed;
+        }
+
         /**
          * Back field for event
          */
@@ -224,16 +401,24 @@ module latte {
             }
             return this._closeRequested;
         }
-        
+
         /**
-         * Raises the <c>closeRequested</c> event
+         * Back field for event
          */
-        onCloseRequested(){
-            if(this._closeRequested){
-                this._closeRequested.raise();
+        private _editableChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the editable property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get editableChanged(): LatteEvent{
+            if(!this._editableChanged){
+                this._editableChanged = new LatteEvent(this);
             }
+            return this._editableChanged;
         }
-        
+
         /**
          * Back field for event
          */
@@ -249,6 +434,41 @@ module latte {
                 this._imageChanged = new LatteEvent(this);
             }
             return this._imageChanged;
+        }
+
+
+        /**
+         * Back field for event
+         */
+        private _saved: LatteEvent;
+
+        /**
+         * Gets an event raised when the image is saved
+         *
+         * @returns {LatteEvent}
+         */
+        get saved(): LatteEvent{
+            if(!this._saved){
+                this._saved = new LatteEvent(this);
+            }
+            return this._saved;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _saveRequested: LatteEvent;
+
+        /**
+         * Gets an event raised when the save has been requested
+         *
+         * @returns {LatteEvent}
+         */
+        get saveRequested(): LatteEvent{
+            if(!this._saveRequested){
+                this._saveRequested = new LatteEvent(this);
+            }
+            return this._saveRequested;
         }
 
         /**
@@ -271,6 +491,40 @@ module latte {
         //endregion
 
         //region Properties
+
+        /**
+         * Property field
+         */
+        private _editable: boolean = true;
+
+        /**
+         * Gets or sets a value indicating if the image should be editable
+         *
+         * @returns {boolean}
+         */
+        get editable(): boolean{
+            return this._editable;
+        }
+
+        /**
+         * Gets or sets a value indicating if the image should be editable
+         *
+         * @param {boolean} value
+         */
+        set editable(value: boolean){
+
+            // Check if value changed
+            let changed: boolean = value !== this._editable;
+
+            // Set value
+            this._editable = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onEditableChanged();
+            }
+        }
+
         /**
          * Property field
          */
@@ -353,7 +607,7 @@ module latte {
          */
         get btnClose(): ButtonItem {
             if (!this._btnClose) {
-                this._btnClose = new ButtonItem(null, LinearIcon.cross, () => this.onCloseRequested());
+                this._btnClose = new ButtonItem(null, LinearIcon.cross, () => this.closeClick());
             }
             return this._btnClose;
         }
@@ -392,6 +646,23 @@ module latte {
             return this._btnRotateCounterClockwise;
         }
 
+        /**
+         * Field for btnSave property
+         */
+        private _btnSave: ButtonItem;
+
+        /**
+         * Gets the save button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnSave(): ButtonItem {
+            if (!this._btnSave) {
+                this._btnSave = new ButtonItem(null, LinearIcon.download, () => this.onSaveRequested());
+                this._btnSave.enabled = false;
+            }
+            return this._btnSave;
+        }
 
         /**
          * Field for lblZoom property

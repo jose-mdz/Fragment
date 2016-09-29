@@ -29,16 +29,6 @@ class settingBase extends DataRecord{
 	public function getModule(){ return 'fragment'; }
 	public function isInserted(){ return isset($this->idsetting); }
 }
-class fragmentBase extends DataRecord{
-	public $idfragment, $idpage, $value, $name;
-	public static function all($t = "fragment"){ return array("$t.idfragment AS '$t.idfragment'", "$t.idpage AS '$t.idpage'", "$t.value AS '$t.value'", "$t.name AS '$t.name'"); }
-	public static function gettable(){ return "fragment"; }
-	public function getAutoKey(){ return array( "idfragment" => $this->idfragment ); }
-	public function getKeys(){ return array(  ); }
-	public function getFields(){ return array( "idpage" => $this->idpage, "value" => $this->value, "name" => $this->name ); }
-	public function getModule(){ return 'fragment'; }
-	public function isInserted(){ return isset($this->idfragment); }
-}
 class groupBase extends DataRecord{
 	public $idgroup, $name;
 	public static function all($t = "group"){ return array("$t.idgroup AS '$t.idgroup'", "$t.name AS '$t.name'"); }
@@ -58,6 +48,16 @@ class groupUserBase extends DataRecord{
 	public function getFields(){ return array( "idgroup" => $this->idgroup, "iduser" => $this->iduser ); }
 	public function getModule(){ return 'fragment'; }
 	public function isInserted(){ return isset($this->idgroupuser); }
+}
+class fragmentBase extends DataRecord{
+	public $idfragment, $idpage, $value, $name;
+	public static function all($t = "fragment"){ return array("$t.idfragment AS '$t.idfragment'", "$t.idpage AS '$t.idpage'", "$t.value AS '$t.value'", "$t.name AS '$t.name'"); }
+	public static function gettable(){ return "fragment"; }
+	public function getAutoKey(){ return array( "idfragment" => $this->idfragment ); }
+	public function getKeys(){ return array(  ); }
+	public function getFields(){ return array( "idpage" => $this->idpage, "value" => $this->value, "name" => $this->name ); }
+	public function getModule(){ return 'fragment'; }
+	public function isInserted(){ return isset($this->idfragment); }
 }
 class userBase extends DataRecord{
 	public $iduser, $uname, $password, $flags;

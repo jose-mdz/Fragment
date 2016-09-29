@@ -64,7 +64,8 @@ module latte {
         private generatePresentableImage(item: FileItem, callback: () => void){
             item.file.createThumbChild({
                 size: this.imageSize,
-                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['thumb-fit']) || ImageFit.AspectFill
+                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['thumb-fit']) || ImageFit.AspectFill,
+                quality: 0.9
             }, ImageGalleryFragmentAdapter.PRESENTABLE_KEY, () => callback())
         }
 
@@ -114,6 +115,15 @@ module latte {
         }
 
         /**
+         * Redoes the thumbs of selected file item
+         */
+        private redoThumbs(){
+            if(this.selectedFile) {
+                this.createImagesOfFile(this.selectedFile);
+            }
+        }
+
+        /**
          * Removes the selected image. (Asking first)
          */
         private removeSelectedImage(){
@@ -122,6 +132,7 @@ module latte {
             }
 
             DialogView.confirmDelete(this.selectedFile.file.name, () => {
+                this.selectedFile.file.remove(() => {log("Removed Record & Physical")});
                 this.files.remove(this.selectedFile);
                 this.selectedFile = null;
                 this.serialize();
@@ -138,18 +149,48 @@ module latte {
             this.btnMoveImageAfter.enabled = index < (this.files.length - 1);
         }
 
+        /**
+         * Opens the viewer for selected presentable image
+         */
         private viewSelectedImage(){
-            let pic = this.selectedFile.file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
+            let file = this.selectedFile.file;
+            let pic = file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
 
             if(pic) {
-                ImageEditorView.editImageByUrl(pic.url);
+                let editor = ImageEditorView.editImageFile(pic);
+                editor.editable = false;
             }
         }
 
+        /**
+         * Opens the editor for selected original
+         */
         private viewSelectedOriginal(){
             if(this.selectedFile) {
-                ImageEditorView.editImageByUrl(this.selectedFile.file.url);
+                let editor = ImageEditorView.editImageFile(this.selectedFile.file);
+                editor.saved.add(() => {
+                    this.createImagesOfFile(this.selectedFile);
+                });
             }
+        }
+
+        /**
+         * Opens the viewer for selected thumb
+         */
+        private viewSelectedThumb(){
+
+            if(this.selectedFile) {
+
+                let file = this.selectedFile.file;
+                let thumb = file.getChildByKey(FileItem.SYS_THUMB_KEY);
+
+                if(thumb) {
+                    let editor = ImageEditorView.editImageFile(thumb);
+                    editor.editable = false;
+                }
+
+            }
+
         }
 
         //endregion
@@ -188,6 +229,9 @@ module latte {
                 items = items.concat([
                     this.btnViewImage,
                     this.btnViewOriginal,
+                    this.btnViewThumb,
+                    this.btnRedoThumb,
+
                     SeparatorItem.withTab(this.tabImage),
                     this.btnMoveImageBefore,
                     this.btnMoveImageAfter,
@@ -273,6 +317,7 @@ module latte {
          * Raises the <c>filesSelected</c> event
          */
         onFilesSelected(files: FileList){
+
             if(this._filesSelected){
                 this._filesSelected.raise(files);
             }
@@ -282,17 +327,68 @@ module latte {
                 // Get file
                 let f = files[i];
 
-                // Create uploader
-                let u = new FileUploader(f, 'Page', String(this.fragment.idpage));
+                if(File.isImageExtension(File.extensionOf(f.name))){
 
-                // Add File Item to show upload process
-                let item = new FileItem();
-                item.fileUploader = u;
-                item.thumbCreated.add(() => this.generatePresentableImage(item, () => this.serialize()));
-                this.files.add(item);
+                    // Creates file item
+                    let item = new FileItem();
 
-                // Start upload
-                u.upload();
+                    // Add the Item to Files
+                    this.files.add(item);
+
+                    this.createImagesOfFile(item, f);
+
+                }else {
+                    log(sprintf("%s is not a compatible image", f.name));
+                }
+
+            }
+        }
+
+        /**
+         * Creates the image of the specified file item
+         * @param item
+         */
+        createImagesOfFile(item: FileItem, f: SystemFile = null){
+
+            let fileBuffer: File = null;
+
+            // Creates the images
+            let doImages = () => {
+
+                // After thumb has been created, create the presentable image
+                if(item.thumbCreated.handlers.length == 0) {
+                    item.thumbCreated.add(() => {
+                        this.generatePresentableImage(item, () => {
+                            // debugger;
+                            log("Generated Presentable: ")
+                            log(item.file.children)
+                            this.serialize()
+                        });
+                    });
+                }
+
+                // If system file, upload it
+                if(f) {
+                    item.fileUploader = new FileUploader(f, 'Page', String(this.fragment.idpage));
+                    item.fileUploader.upload();
+                }else {
+
+                    // Re-assign file
+                    item.file = fileBuffer;
+                }
+            };
+
+            if(item.file && item.file.children.length > 0) {
+                log("Deleting files: ")
+                log(item.file.children)
+                item.file.deleteChildren().send(() => {
+                    fileBuffer = item.file;
+                    item.file.children = [];
+                    item.file = null;
+                    doImages();
+                });
+            }else{
+                doImages();
             }
         }
 
@@ -496,6 +592,7 @@ module latte {
         get files(): Collection<FileItem> {
             if (!this._files) {
                 this._files = new Collection<FileItem>(
+
                     // Added
                     (f: FileItem) => {
                         this.editorItem.element.append(f.element);
@@ -667,6 +764,24 @@ module latte {
         }
 
         /**
+         * Field for btnRedoThumb property
+         */
+        private _btnRedoThumb: ButtonItem;
+
+        /**
+         * Gets the thumbs redo button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnRedoThumb(): ButtonItem {
+            if (!this._btnRedoThumb) {
+                this._btnRedoThumb = new ButtonItem(strings.redoThumb, LinearIcon.sync, () => this.redoThumbs());
+                this._btnRedoThumb.tab = this.tabImage;
+            }
+            return this._btnRedoThumb;
+        }
+
+        /**
          * Field for btnViewImage property
          */
         private _btnViewImage: ButtonItem;
@@ -701,6 +816,25 @@ module latte {
             }
             return this._btnViewOriginal;
         }
+
+        /**
+         * Field for viewThumb property
+         */
+        private _btnViewThumb: ButtonItem;
+
+        /**
+         * Gets the view thumb button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnViewThumb(): ButtonItem {
+            if (!this._btnViewThumb) {
+                this._btnViewThumb = new ButtonItem(strings.viewThumb, LinearIcon.picture, () => this.viewSelectedThumb());
+                this._btnViewThumb.tab = this.tabImage;
+            }
+            return this._btnViewThumb;
+        }
+
 
         /**
          * Field for fileInput property
