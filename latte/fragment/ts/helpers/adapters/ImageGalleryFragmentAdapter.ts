@@ -360,8 +360,8 @@ module latte {
                     item.thumbCreated.add(() => {
                         this.generatePresentableImage(item, () => {
                             // debugger;
-                            log("Generated Presentable: ")
-                            log(item.file.children)
+                            // log("Generated Presentable: ")
+                            // log(item.file.children)
                             this.serialize()
                         });
                     });
@@ -834,7 +834,6 @@ module latte {
             }
             return this._btnViewThumb;
         }
-
 
         /**
          * Field for fileInput property

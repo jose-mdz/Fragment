@@ -111,3 +111,4 @@ actualSize Tamaño Real
 saveChangesOnImageQ ¿Desea guardar los cambios en la imagen?
 redoThumb Rehacer Imágenes
 viewThumb Ver Miniatura
+cropNow Cortar Imagen

@@ -3,6 +3,13 @@
  */
 module latte {
 
+    export interface ICropBounds{
+        top?: number;
+        left?: number;
+        right?:number;
+        bottom?:number;
+    }
+
     export enum ImageFit{
         AspectFit,
         AspectFill,
@@ -25,8 +32,6 @@ module latte {
 
 
         //region Static
-
-
 
         /**
          * Parses ImageFit from specified string
@@ -127,6 +132,35 @@ module latte {
             octx = null;
 
             return result;
+        }
+
+        static cropImage(image: HTMLImageElement, crop: ICropBounds, options: ImageExportOptions = null): HTMLImageElement{
+            if(!options) {
+                options = <any>{};
+            }
+
+            crop.top = crop.top || 0;
+            crop.left = crop.left || 0;
+            crop.right = crop.right || 0;
+            crop.bottom = crop.bottom || 0;
+
+            let w: number = image.naturalWidth;
+            let h: number = image.naturalHeight;
+            let neww = w - crop.left - crop.right;
+            let newh = h - crop.top - crop.bottom;
+
+            let c = document.createElement('canvas');
+            c.width = w - crop.left - crop.right;
+            c.height = h - crop.top - crop.bottom;
+
+            let x = c.getContext('2d');
+
+            x.drawImage(image, crop.left, crop.top, neww, newh, 0, 0, neww, newh);
+
+            let img = document.createElement('img');
+            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || 0.85);
+
+            return img;
         }
 
         static resizeImage(image: HTMLImageElement, options: ImageExportOptions): string{

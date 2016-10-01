@@ -111,3 +111,4 @@ actualSize Actual Size
 saveChangesOnImageQ Save changes on image?
 redoThumb Redo Thumbs
 viewThumb View Thumb
+cropNow Crop Image

@@ -85,6 +85,16 @@ module latte{
         }
 
         /**
+         * Compares this rectangle with the specified rectangle and returns the result
+         * @param r
+         * @returns {boolean}
+         */
+        equals(r: Rectangle): boolean{
+            if(!r) return false;
+            return this.left == r.left && this.top == this.top && this.width == r.width && this.height == r.height;
+        }
+
+        /**
          * Returns the result of inflating the rectangle vertically and horizontally on each edge.
          **/
         inflate(horizontal: number, vertical: number): Rectangle{
