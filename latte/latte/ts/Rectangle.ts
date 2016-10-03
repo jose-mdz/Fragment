@@ -54,6 +54,17 @@ module latte{
         }
 
         /**
+         * Returns a rectangle of positive width and height, by changing its coordinates and preserving width and height
+         */
+        absolute(): Rectangle{
+            let width = Math.abs(this.width);
+            let height = Math.abs(this.height);
+            let left = this.width < 0 ? this.right : this.left;
+            let top = this.height < 0 ? this.bottom : this.top;
+            return new Rectangle(left, top, width, height);
+        }
+
+        /**
          * Returns the result of centering this into the specified container
          **/
         center(container: Rectangle): Rectangle{

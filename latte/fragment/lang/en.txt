@@ -112,3 +112,9 @@ saveChangesOnImageQ Save changes on image?
 redoThumb Redo Thumbs
 viewThumb View Thumb
 cropNow Crop Image
+widthPx Width (Pixels)
+heightPx Height (Pixels)
+widthPr Width (%)
+heightPr Height (%)
+scaleImg Scale (%)
+resizeImage Resize Image

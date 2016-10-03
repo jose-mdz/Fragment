@@ -34,6 +34,15 @@ module latte {
         //region Static
 
         /**
+         * Returns the amount of bytes on the specified string
+         * @param base64
+         * @returns {number}
+         */
+        static base64ByteSize(base64: string): number{
+            return atob(base64).length;
+        }
+
+        /**
          * Parses ImageFit from specified string
          * @param fit
          * @returns {any}
@@ -134,6 +143,14 @@ module latte {
             return result;
         }
 
+        /**
+         * Crops the image with the specified crop bounds.
+         * Crop bounds are referenced as dimensions from the edges to the specified property.
+         * @param image
+         * @param crop
+         * @param options
+         * @returns {HTMLImageElement|HTMLElement}
+         */
         static cropImage(image: HTMLImageElement, crop: ICropBounds, options: ImageExportOptions = null): HTMLImageElement{
             if(!options) {
                 options = <any>{};

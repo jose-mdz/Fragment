@@ -30,6 +30,11 @@ module latte {
         CROP
     }
 
+    export interface IImageEditorUndo{
+        bytes: number,
+        image: HTMLImageElement
+    }
+
     /**
      *
      */
@@ -90,7 +95,7 @@ module latte {
                 });
 
                 rep.complete.add(() => {
-                    editor.progressItem = null;
+                    editor.infoItem = null;
                     can.style.visibility = 'visible';
                     editor.onSaved(); // Implementers have obligation to report this.
                 });
@@ -133,6 +138,10 @@ module latte {
 
         private draggingCropArea: CropArea = CropArea.NONE;
 
+        private undoStack: IImageEditorUndo[] = [];
+
+        private loadingFromUndo = false;
+
         //endregion
 
         /**
@@ -145,12 +154,18 @@ module latte {
 
             this.toolbar.faceVisible = false;
             this.toolbar.items.add(this.btnSave);
-            this.toolbar.items.add(this.btnRotateCounterClockwise);
-            this.toolbar.items.add(this.btnRotateClockwise);
+            this.toolbar.items.add(this.btnUndo);
+            this.toolbar.items.add(this.btnResize);
             this.toolbar.items.add(this.btnCrop);
-            this.toolbar.items.add(this.lblZoom);
+            // this.toolbar.items.add(this.btnRotateCounterClockwise);
+            this.toolbar.items.add(this.btnRotateClockwise);
             this.toolbar.sideItems.add(this.btnClose);
             this.toolbar.sideItems.add(this.btnCropNow);
+
+            this.anchorBottom = this.bottomToolbar;
+            this.bottomToolbar.faceVisible = false;
+            this.bottomToolbar.items.add(this.lblInfo);
+            this.bottomToolbar.sideItems.add(this.lblZoom);
 
             this.container.get(0).addEventListener('mousemove', (e) => this.mouseMove(e));
             this.container.get(0).addEventListener('mousedown', (e) => this.mouseDown(e));
@@ -158,8 +173,51 @@ module latte {
             this.container.append(this.canvas);
 
             this.bodyKeyChecker = (e: KeyboardEvent) => {
+
+                if(View.modalView instanceof DialogView) {
+                    return;
+                }
+
+                let control = e.metaKey || e.ctrlKey;
+                let something = true;
+
                 if(e.keyCode == Key.ESCAPE) {
                     this.cancelCurrentAction();
+
+                }else if(e.keyCode == Key.C && !control){
+                    this.btnCrop.onClick();
+
+                }else if(e.keyCode == Key.I && !control){
+                    this.btnResize.onClick();
+
+                }else if(e.keyCode == Key.R && !control){
+                    this.rotateImageClockwise();
+
+                }else if(e.keyCode == Key.S && control){
+                    this.btnSave.onClick();
+
+                }else if(e.keyCode == Key.S && !control){
+                    this.btnResize.onClick();
+
+                }else if(e.keyCode == Key.Z && control) {
+                    this.undo();
+
+                }else if(e.keyCode == Key.SPACEBAR) {
+                    this.swapZoom();
+
+                }else if(e.keyCode == Key.ENTER) {
+                    if(this.tool == ImageEditorTool.NONE) {
+                        this.swapZoom();
+
+                    }else if(this.tool == ImageEditorTool.CROP){
+                        this.cropNow();
+                    }
+                }else{
+                    something = false;
+                }
+
+                if(something) {
+                    e.preventDefault();
                 }
             };
 
@@ -227,6 +285,8 @@ module latte {
         private layoutCheck(){
             let img = this.image; if(!img) return;
             let size = new Size(this.container.width(), this.container.height());
+
+            this.updateInfo();
 
             if(img.naturalWidth > size.width || img.naturalHeight > size.height) {
                 this.zoomMode = ImageZoomMode.FIT;
@@ -306,7 +366,6 @@ module latte {
                 }
             }
 
-
             if(canvasr.contains(x, y)) {
                 return CropArea.INSIDE;
             }
@@ -337,14 +396,11 @@ module latte {
 
             if(this.draggingCropArea) {
                 this.draggingCropArea = null;
+                this.cropBounds = this.cropBoundsCorrection(this.cropBounds);
                 e.preventDefault();
                 e.stopImmediatePropagation();
             }else{
-                if(this.zoomMode == ImageZoomMode.FIT) {
-                    this.zoomMode = ImageZoomMode.ACTUAL_SIZE;
-                }else {
-                    this.zoomMode = ImageZoomMode.FIT;
-                }
+                this.swapZoom();
             }
         }
 
@@ -363,8 +419,9 @@ module latte {
                     this.cropBounds = {
                         left: this.toActualX(e.clientX),
                         top: this.toActualY(e.clientY),
+                        right: this.image.naturalWidth - this.toActualX(e.clientX),
+                        bottom: this.image.naturalHeight - this.toActualY(e.clientY),
                     };
-                    log(this.cropBounds);
                     // Set Crop Area to SouthEast
                     cropArea = CropArea.BOTTOM_RIGHT;
                 }
@@ -442,10 +499,75 @@ module latte {
 
         }
 
+        /**
+         * Converts the crop bounds to an actual rectangle
+         * @param b
+         * @returns {latte.Rectangle}
+         */
+        private cropBoundsToRectangle(b: ICropBounds): Rectangle{
+            let imgW = this.image.naturalWidth;
+            let imgH = this.image.naturalHeight;
+            let top = b.top || 0;
+            let left = b.left || 0;
+            let right = b.right || 0;
+            let bottom = b.bottom || 0;
+            return new Rectangle(left, top, imgW - left - right, imgH - top - bottom);
+        }
+
+        /**
+         * Returns a corrected ICropBounds object, making the rectangle absolute and
+         * not larger than the image or canvas
+         * @param b
+         * @returns {{top: number, left: number, right: number, bottom: number}}
+         */
+        private cropBoundsCorrection(b: ICropBounds): ICropBounds{
+            let imgW = this.image.naturalWidth;
+            let imgH = this.image.naturalHeight;
+            let r = this.cropBoundsToRectangle(b).absolute();
+
+            // Max out for natural size
+            r = r.intersection(new Rectangle(0, 0, imgW, imgH));
+
+            return {
+                top: r.top,
+                left: r.left,
+                right: imgW - r.right,
+                bottom: imgH - r.bottom
+            }
+
+        }
+
+        private swapZoom(){
+            if(this.zoomMode == ImageZoomMode.FIT) {
+                this.zoomMode = ImageZoomMode.ACTUAL_SIZE;
+            }else {
+                this.zoomMode = ImageZoomMode.FIT;
+            }
+        }
+
+        private updateInfo(){
+            switch(this.tool){
+                case ImageEditorTool.NONE:
+                    let sw = Culture.formatNumber(this.image.naturalWidth);
+                    let sh = Culture.formatNumber(this.image.naturalHeight);
+                    this.lblInfo.text = sprintf("%spx x %spx (%s)", sw, sh, File.humanSizeOf(this.bytes));
+                    break;
+                case ImageEditorTool.CROP:
+                    let r = this.cropBoundsToRectangle(this.cropBounds);
+                    let cw = Culture.formatNumber(r.width);
+                    let ch = Culture.formatNumber(r.height);
+                    this.lblInfo.text = sprintf("%spx x %spx", cw, ch);
+                    break;
+            }
+        }
+
         //endregion
 
         //region Methods
 
+        /**
+         * Cancels current action
+         */
         cancelCurrentAction(){
             switch(this.tool){
                 case ImageEditorTool.NONE:
@@ -474,11 +596,22 @@ module latte {
 
             loader.ended.add(() => {
                 this.image = loader.resultImage;
+                this.bytes = loader.resultBytes;
                 this.infoItem = null;
             });
 
             loader.start();
 
+        }
+
+        /**
+         * Raises the <c>bytes</c> event
+         */
+        onBytesChanged(){
+            if(this._bytesChanged){
+                this._bytesChanged.raise();
+            }
+            this.updateInfo();
         }
 
         /**
@@ -510,12 +643,14 @@ module latte {
 
             if(this._cropper) {
 
+                let bounds = this.cropBoundsCorrection(this.cropBounds);
                 let vz = this.canvas.clientHeight / this.image.naturalHeight;
                 let hz = this.canvas.clientWidth / this.image.naturalWidth ;
-                let top = vz * (this.cropBounds.top || 0);
-                let left = hz * (this.cropBounds.left || 0);
-                let right = hz * (this.cropBounds.right || 0);
-                let bottom = vz * (this.cropBounds.bottom || 0);
+                let top = vz * (bounds.top || 0);
+                let left = hz * (bounds.left || 0);
+                let right = hz * (bounds.right || 0);
+                let bottom = vz * (bounds.bottom || 0);
+
                 this.cropper.style.top = top + 'px';
                 this.cropper.style.left = left + 'px';
                 this.cropper.style.right = right + 'px';
@@ -530,6 +665,8 @@ module latte {
                 this.cropperOverlayRight.style.bottom = bottom + 'px';
                 this.cropperOverlayBottom.style.height = bottom + 'px';
             }
+
+            this.updateInfo();
         }
 
         /**
@@ -557,10 +694,20 @@ module latte {
             this._cropper = null;
 
             if(this.image){
+                if(this.image.src.indexOf('data:image') === 0) {
+                    this.bytes = ImageUtil.base64ByteSize(ImageUtil.getBase64(this.image.src));
+                }
                 this.zoomMode = null;
-                this.canvas.appendChild(this.image)
+                this.canvas.appendChild(this.image);
                 this.canvas.style.visibility = 'hidden';
-                this.image.onload = () => {this.layoutCheck()}
+                if(this.image.naturalWidth > 0) {
+                    this.layoutCheck();
+                }else{
+                    this.image.onload = () => {this.layoutCheck()};
+                }
+
+                this.btnUndo.enabled = this.undoStack.length > 0;
+
             }
         }
 
@@ -632,6 +779,7 @@ module latte {
                         this._cropperOverlayBottom.remove();
                         this._cropper = null;
                     }
+                    this.container.css('cursor', 'default');
                     this.btnCropNow.visible = false;
                     this.btnClose.visible = true;
                     this.btnCrop.enabled = true;
@@ -643,6 +791,8 @@ module latte {
                     this.btnCrop.enabled = false;
                     break;
             }
+
+            this.updateInfo();
         }
 
         /**
@@ -711,6 +861,12 @@ module latte {
                 can.style.marginTop = sprintf('%spx', Math.round(-img.height / 2));
             }
 
+            if(size.height < img.height && size.width < img.height) {
+                can.addClass('overflow');
+            }else{
+                can.removeClass('overflow');
+            }
+
             if(!size.contains(imgSize)) {
                 this.container.css('overflow', 'auto');
             }
@@ -737,9 +893,125 @@ module latte {
             this.unsavedChanges = true;
         }
 
+        /**
+         * Shows a dialog for resizing the image
+         */
+        showResizeDialog(){
+
+            let width = this.image.naturalWidth;
+            let height = this.image.naturalHeight;
+            let scale = 1;
+            let newWidth = width;
+            let newHeight = height;
+            let form = new FormView();
+            let wpx = new InputItem(strings.widthPx, 'integer', width);
+            let hpx = new InputItem(strings.heightPx, 'integer', height);
+            let sp = new InputItem(strings.scaleImg, 'number', 100);
+            let twpx: TextboxItem = <TextboxItem>wpx.valueItem;
+            let thpx: TextboxItem = <TextboxItem>hpx.valueItem;
+            let tscale: TextboxItem = <TextboxItem>sp.valueItem;
+            let updating = false;
+            let updatingScale = false;
+            let updateUI = () => {
+                updating = true;
+                twpx.value = String(newWidth);
+                thpx.value = String(newHeight);
+                if(!updatingScale){
+                    sp.value = String(Math.round(newWidth / width * 100));
+                }
+                updating = false;
+            };
+
+            wpx.valueChanged.add(() => {
+                if(updating) return;
+                newWidth = parseFloat(wpx.value);
+                newHeight = Math.round(newWidth * height / width);
+                updateUI();
+            });
+            hpx.valueChanged.add(() => {
+                if(updating) return;
+                newHeight = parseFloat(hpx.value);
+                newWidth = Math.round(newHeight * width / height);
+                updateUI();
+            });
+            sp.valueChanged.add(() => {
+                if(updating) return;
+                updatingScale = true;
+                var area = (new Size(width, height)).area;
+                var newArea = parseFloat(sp.value) / 100;
+                newHeight = Math.round((area * newArea) / width);
+                newWidth = Math.round(newHeight * width / height);
+                updateUI();
+                updatingScale = false;
+            });
+
+            tscale.sideLabel.text = '%';
+
+            form.inputs.add(sp);
+            form.inputs.add(wpx);
+            form.inputs.add(hpx);
+
+            let resizeNow = () => {
+
+                if(newWidth != width || newHeight != height) {
+                    let src = ImageUtil.resizeImage(this.image, {
+                        size: new Size(newWidth, newHeight),
+                        fit: ImageFit.AspectFit
+                    });
+                    let img = document.createElement('img');
+                    img.src = src;
+                    this.image = img;
+                    this.unsavedChanges = true;
+                }
+
+            };
+
+            let d = new DialogView();
+            d.view = form;
+            d.title = strings.resizeImage;
+            d.addOkButton(() => resizeNow());
+            d.addCancelButton();
+            d.show();
+
+
+        }
+
+        /**
+         * Undoes the last action
+         */
+        undo(){
+
+            if(this.undoStack.length > 0) {
+                let move = this.undoStack.pop();
+
+                this.loadingFromUndo = true;
+                this.image = move.image;
+                this.loadingFromUndo = false;
+            }
+
+        }
+
         //endregion
 
         //region Events
+
+
+        /**
+         * Back field for event
+         */
+        private _bytesChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the bytes property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get bytesChanged(): LatteEvent{
+            if(!this._bytesChanged){
+                this._bytesChanged = new LatteEvent(this);
+            }
+            return this._bytesChanged;
+        }
 
         /**
          * Back field for event
@@ -918,6 +1190,39 @@ module latte {
         /**
          * Property field
          */
+        private _bytes: number = 0;
+
+        /**
+         * Gets or sets the size of the image in bytes
+         *
+         * @returns {number}
+         */
+        get bytes(): number{
+            return this._bytes;
+        }
+
+        /**
+         * Gets or sets the size of the image in bytes
+         *
+         * @param {number} value
+         */
+        set bytes(value: number){
+
+            // Check if value changed
+            let changed: boolean = value !== this._bytes;
+
+            // Set value
+            this._bytes = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onBytesChanged();
+            }
+        }
+
+        /**
+         * Property field
+         */
         private _cropBounds: ICropBounds = null;
 
         /**
@@ -1001,6 +1306,15 @@ module latte {
          * @param {HTMLImageElement} value
          */
         set image(value: HTMLImageElement){
+
+            if(this._image) {
+                if(!this.loadingFromUndo) {
+                    this.undoStack.push({
+                        image: this.image,
+                        bytes: this.bytes
+                    });
+                }
+            }
 
             // Check if value changed
             let changed: boolean = value !== this._image;
@@ -1132,6 +1446,23 @@ module latte {
         //region Components
 
         /**
+         * Field for bottomToolbar property
+         */
+        private _bottomToolbar: Toolbar;
+
+        /**
+         * Gets the bottom toolbar
+         *
+         * @returns {Toolbar}
+         */
+        get bottomToolbar(): Toolbar {
+            if (!this._bottomToolbar) {
+                this._bottomToolbar = new Toolbar();
+            }
+            return this._bottomToolbar;
+        }
+
+        /**
          * Field for btnClose property
          */
         private _btnClose: ButtonItem;
@@ -1184,6 +1515,23 @@ module latte {
         }
 
         /**
+         * Field for btnResize property
+         */
+        private _btnResize: ButtonItem;
+
+        /**
+         * Gets the resize button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnResize(): ButtonItem {
+            if (!this._btnResize) {
+                this._btnResize = new ButtonItem(null, LinearIcon.frame_expand, () => this.showResizeDialog() );
+            }
+            return this._btnResize;
+        }
+
+        /**
          * Field for btnRotateClockwise property
          */
         private _btnRotateClockwise: ButtonItem;
@@ -1229,11 +1577,30 @@ module latte {
          */
         get btnSave(): ButtonItem {
             if (!this._btnSave) {
-                this._btnSave = new ButtonItem(null, LinearIcon.download, () => this.onSaveRequested());
+                this._btnSave = new ButtonItem(null, LinearIcon.cloud_upload, () => this.onSaveRequested());
                 this._btnSave.enabled = false;
             }
             return this._btnSave;
         }
+
+        /**
+         * Field for btnUndo property
+         */
+        private _btnUndo: ButtonItem;
+
+        /**
+         * Gets the undo button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnUndo(): ButtonItem {
+            if (!this._btnUndo) {
+                this._btnUndo = new ButtonItem(null, LinearIcon.undo, () => this.undo());
+                this._btnUndo.enabled = false;
+            }
+            return this._btnUndo;
+        }
+
 
         /**
          * Field for canvas property
@@ -1343,6 +1710,22 @@ module latte {
             return this._cropperOverlayBottom;
         }
 
+        /**
+         * Field for lblInfo property
+         */
+        private _lblInfo: LabelItem;
+
+        /**
+         * Gets the info label
+         *
+         * @returns {LabelItem}
+         */
+        get lblInfo(): LabelItem {
+            if (!this._lblInfo) {
+                this._lblInfo = new LabelItem();
+            }
+            return this._lblInfo;
+        }
 
         /**
          * Field for lblZoom property
@@ -1380,7 +1763,6 @@ module latte {
             }
             return this._progressItem;
         }
-
 
         //endregion
 

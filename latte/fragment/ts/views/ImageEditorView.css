@@ -18,13 +18,19 @@
     background-color: white;
 }
 
+.latte-view.image-editor > .container .canvas{
+    position: absolute;
+}
+
+.latte-view.image-editor > .container .canvas.overflow{
+    position: relative !important;
+}
+
 .latte-view.image-editor > .container .canvas.centered-x{
-    position:absolute;
     left: 50%;
 }
 
 .latte-view.image-editor > .container .canvas.centered-y{
-    position:absolute;
     top: 50%;
 }
 
@@ -33,7 +39,6 @@
     left: 0;
     top: 0;
     right: 0;
-    bottom: 0;
 }
 
 .latte-view.image-editor > .container .canvas .cropper{
@@ -48,7 +53,7 @@
 }
 .rect-checker{
     background: rgba(255, 0, 0, 0.2);
-    position: fixed;
+    position: absolute;
 }
 
 .latte-view.image-editor > .container .canvas .cropper-overlay.top{

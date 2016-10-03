@@ -112,3 +112,10 @@ saveChangesOnImageQ ¿Desea guardar los cambios en la imagen?
 redoThumb Rehacer Imágenes
 viewThumb Ver Miniatura
 cropNow Cortar Imagen
+widthPx Ancho (Pixels)
+heightPx Alto (Pixels)
+widthPr Ancho (%)
+heightPr Alto (%)
+scaleImg Escala (%)
+resizeImage Redimensionar Imagen
+resizeBasedDesc Redimensión
