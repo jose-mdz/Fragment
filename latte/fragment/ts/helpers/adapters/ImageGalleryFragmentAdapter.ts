@@ -379,8 +379,8 @@ module latte {
             };
 
             if(item.file && item.file.children.length > 0) {
-                log("Deleting files: ")
-                log(item.file.children)
+                // log("Deleting files: ")
+                // log(item.file.children)
                 item.file.deleteChildren().send(() => {
                     fileBuffer = item.file;
                     item.file.children = [];

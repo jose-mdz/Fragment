@@ -659,6 +659,7 @@ class File extends fileBase{
      * @neverRemote data may be too big
      * @param $tmp_file_path
      * @param $data
+     * @return File
      * @throws Exception
      */
     public function replaceWith($tmp_file_path, $data = null){
@@ -671,6 +672,9 @@ class File extends fileBase{
             throw new Exception("Can't copy file: " . var_export(error_get_last(), true));
         }
 
+        // Re calculate size of file
+        $this->size = filesize($this->getPhysicalPath());
+
         // Apply extra data
         if(is_array($data)){
             foreach($data as $k => $value){
@@ -678,6 +682,8 @@ class File extends fileBase{
             }
             $this->save();
         }
+
+        return $this;
 
     }
     

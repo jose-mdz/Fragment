@@ -180,26 +180,27 @@ module latte {
 
                 let control = e.metaKey || e.ctrlKey;
                 let something = true;
+                let editable = this.editable;
 
                 if(e.keyCode == Key.ESCAPE) {
                     this.cancelCurrentAction();
 
-                }else if(e.keyCode == Key.C && !control){
+                }else if(e.keyCode == Key.C && !control && editable){
                     this.btnCrop.onClick();
 
-                }else if(e.keyCode == Key.I && !control){
+                }else if(e.keyCode == Key.I && !control && editable){
                     this.btnResize.onClick();
 
-                }else if(e.keyCode == Key.R && !control){
+                }else if(e.keyCode == Key.R && !control && editable){
                     this.rotateImageClockwise();
 
-                }else if(e.keyCode == Key.S && control){
+                }else if(e.keyCode == Key.S && control && editable){
                     this.btnSave.onClick();
 
-                }else if(e.keyCode == Key.S && !control){
+                }else if(e.keyCode == Key.S && !control && editable){
                     this.btnResize.onClick();
 
-                }else if(e.keyCode == Key.Z && control) {
+                }else if(e.keyCode == Key.Z && control && editable) {
                     this.undo();
 
                 }else if(e.keyCode == Key.SPACEBAR) {
@@ -680,6 +681,9 @@ module latte {
             this.btnSave.visible = this.editable;
             this.btnRotateClockwise.visible = this.editable;
             this.btnRotateCounterClockwise.visible = this.editable;
+            this.btnUndo.visible = this.editable;
+            this.btnCrop.visible = this.editable;
+            this.btnResize.visible = this.editable;
         }
 
         /**
