@@ -22,6 +22,8 @@ include FG_DIR . '/latte/latte.php';
  */
 if(file_exists(FG_DIR . '/config.php')){
     include FG_DIR . '/config.php'; //
+}else{
+    $_SESSION['install-mode'] = true;
 }
 
 /**
@@ -38,7 +40,6 @@ if(    defined('FG_DB_NAME') && defined('FG_DB_USER')
     }
 }else{
     define('NO_DB_CONNECTION', 2);
-    $_SESSION['install-mode'] = true;
 }
 
 /**
