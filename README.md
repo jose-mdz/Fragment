@@ -13,7 +13,7 @@ We have a project for the [first release of Fragment](https://github.com/menende
 - Instant Deploy
 
 ##Why Fragment?
-- One word: Ultramegagigaconfigurability.
+- One word: Ultramegaconfigurability.
 
 ##Techology
 - PHP / MySQL

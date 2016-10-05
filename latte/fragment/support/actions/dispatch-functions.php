@@ -6,6 +6,10 @@
  * Time: 15:20
  */
 
+/**
+ * Prints the fragment of specified key
+ * @param $key
+ */
 function fragment($key){
     global $fragments;
 
@@ -45,17 +49,64 @@ function head(){
     echo "<title>$title</title>";
     echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">';
 
-    // Print stylesheets
-    if(isset($GLOBALS['fragment-stylesheets'])){
-        foreach($GLOBALS['fragment-stylesheets'] as $path){
-            echo "<link href=\"$path\" rel=\"stylesheet\">";
-        }
-    }
+    // Print styles
+    styles();
+
 
 }
 
 /**
- * Echoes the page
+ * Inlines the specified script path
+ * @param $path
+ */
+function inline_script($path){
+    if(strpos($path, 'http:') === 0 || strpos($path, 'https:') === 0){
+        echo "<script href=\$path\"></script>";
+    }else{
+        if(strpos($path, '/') === 0){
+            $file_path = realpath(FG_DIR . '/../' . $path);
+        }else{
+            $file_path = realpath(__DIR__ . '/' .  $path);
+        }
+
+        echo "<!-- FILE PATH: $file_path exists: " . file_exists($file_path) . "-->";
+
+        echo "
+        <script>
+        "  . Minimizer::minify_js(file_get_contents($file_path)) . "
+        </script>
+        ";
+    }
+}
+
+/**
+ * Inlines the specified stylesheet path
+ * @param $path
+ */
+function inline_stylesheet($path){
+    if(strpos($path, 'http:') === 0 || strpos($path, 'https:') === 0){
+        echo "<link href=\"$path\" rel=\"stylesheet\">";
+    }else{
+        if(strpos($path, '/') === 0){
+            $file_path = realpath(FG_DIR . '/../' . $path);
+        }else{
+            $file_path = realpath(__DIR__ . '/' .  $path);
+        }
+
+        echo "<!-- FILE PATH: $file_path exists: " . file_exists($file_path) . "-->";
+
+        echo "
+        <style>
+        "  . Minimizer::minify_css(file_get_contents($file_path)) . "
+        </style>
+        ";
+    }
+}
+
+
+
+/**
+ * Prints the full page, including all its fragments
  */
 function page(){
     global $page, $fragments;
@@ -122,15 +173,43 @@ function register_stylesheet($path, $relativeToTheme = true){
  * Prints the scripts of the document
  */
 function scripts(){
+    global $settings;
+
     event_raise('before_scripts_print');
     if(isset($GLOBALS['fragment-scripts'])){
         foreach($GLOBALS['fragment-scripts'] as $path){
             if (strpos($path, "source:") === 0){
-                echo "<script>" . PHP_EOL . substr($path, 7) . PHP_EOL .  "</script>";
+                echo "<script>" . PHP_EOL . Minimizer::minify_js(substr($path, 7)) . PHP_EOL .  "</script>";
             }else{
-                echo "<script href=\$path\"></script>";
+                if(!!$settings['inline-js']){
+                    inline_script($path);
+                }else{
+                    echo "<script href=\$path\"></script>";
+                }
             }
         }
     }
     event_raise('after_scripts_print');
+}
+
+/**
+ * Prints the styles of the page
+ */
+function styles(){
+    global $settings;
+
+    event_raise('before_styles_print');
+
+    // Print stylesheets
+    if(isset($GLOBALS['fragment-stylesheets'])){
+        foreach($GLOBALS['fragment-stylesheets'] as $path){
+            if(!!$settings['inline-css']){
+                inline_stylesheet($path);
+            }else{
+                echo "<link href=\"$path\" rel=\"stylesheet\">";
+            }
+        }
+    }
+
+    event_raise('after_styles_print');
 }

@@ -11,18 +11,14 @@ module latte{
 		//region Static
 		//endregion
 
-
 		//region Fields
 		//endregion
-
 
 		//region Private Methods
 		//endregion
 
-
 		//region Events
 		//endregion
-
 
 		//region Properties
 		//endregion

@@ -140,6 +140,12 @@ class Setting extends settingBase{
             ),
             'title' => array(
                 'icon' => 'graduation_hat'
+            ),
+            'inline-js' => array(
+                'icon' => 'menu'
+            ),
+            'inline-css' => array(
+                'icon' => 'menu'
             )
         );
 

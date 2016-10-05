@@ -41,7 +41,7 @@ class Fragment extends fragmentBase{
     }
 
     /**
-     * Finds the position of the first ocourrence of specified tag
+     * Finds the tag of the specified name
      * @param string $tagname
      * @param string $haystack
      * @return array
@@ -59,7 +59,7 @@ class Fragment extends fragmentBase{
     }
 
     /**
-     * Finds the position of the first ocourrence of specified tag
+     * Finds the tags of the specified name
      * @param string $tagname
      * @param string $haystack
      * @return array
@@ -77,14 +77,27 @@ class Fragment extends fragmentBase{
         return array();
     }
 
+    /**
+     * Finds the tags of the specified name in the fragment
+     * @param $name
+     * @return array
+     */
     public function getTagsByName($name){
         return self::findTagsIn($name, $this->value);
     }
 
+    /**
+     * Gets the image tags in the fragment
+     * @return array
+     */
     public function getImages(){
         return $this->getTagsByName('img');
     }
 
+    /**
+     * Gets an array with the source of images in the fragment
+     * @return array
+     */
     public function getImagesSrc(){
         $imgs = $this->getImages();
         $r = array();
@@ -100,6 +113,10 @@ class Fragment extends fragmentBase{
         return $r;
     }
 
+    /**
+     * Gets the first image in the fragment
+     * @return bool|mixed
+     */
     public function getFirstImage(){
         $img = self::findTagsIn('img', $this->value);
 
@@ -110,6 +127,10 @@ class Fragment extends fragmentBase{
         }
     }
 
+    /**
+     * Gets the src of the first image in the fragment
+     * @return bool
+     */
     public function getFirstImageSrc(){
         $img = $this->getFirstImage();
 
