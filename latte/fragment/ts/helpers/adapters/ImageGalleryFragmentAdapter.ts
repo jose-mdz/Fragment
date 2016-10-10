@@ -78,6 +78,9 @@ module latte {
             return a;
         }
 
+        /**
+         * Moves the selected image one position further
+         */
         private moveImageAfter(){
             if(!this.selectedFile) {
                 return;
@@ -86,6 +89,9 @@ module latte {
             this.swapSelectedImage(true);
         }
 
+        /**
+         * Moves the selected image one position back
+         */
         private moveImageBefore(){
 
             if(!this.selectedFile) {
@@ -261,67 +267,19 @@ module latte {
         onCreateEditorItem(){
             super.onCreateEditorItem();
 
-            this.editorItem = new Item();
-
-            let element = this.editorItem.element.get(0);
+            let editor = this.editorItem = new FragmentPlaceholderItem();
 
             this.editorItem.addClass('gallery-fragment-editor');
-            this.editorItem.element.get(0).setAttribute('tabindex', 1);
-            this.editorItem.element.get(0).addEventListener('click', () => {
-                this.selectedFile = null;
-            });
-            this.editorItem.element.get(0).addEventListener('focus', () => this.onEditorFocus());
-            this.editorItem.element.get(0).addEventListener('blur', () => this.onEditorBlur());
+            this.editorItem.node.addEventListener('click', () => this.selectedFile = null);
             this.editorItem.element.append(this.fileInput.element);
 
-            // Drag & Drop Support
-            element.addEventListener('dragover', (e) => {
-
-                this.draggingFiles = true;
-
-                e.preventDefault();
-
-                return false;
-
-            });
-            element.addEventListener('dragleave', (e) => {
-
-                this.draggingFiles = false;
-
-                e.preventDefault();
-
-                return false;
-
-            });
-            element.addEventListener('drop', (e: any) => {
-
-                e.preventDefault();
-
-                this.draggingFiles = false;
-
+            editor.drop.add((e) => {
                 if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                    this.onFilesSelected(e.dataTransfer.files)
+                    this.onFilesSelected(e.dataTransfer.files);
                 }
-
-                return false;
-
             });
 
             this.unserialize();
-        }
-
-        /**
-         * Raises the <c>draggingFiles</c> event
-         */
-        onDraggingFilesChanged(){
-            if(this._draggingFilesChanged){
-                this._draggingFilesChanged.raise();
-            }
-            if(this.draggingFiles) {
-                this.editorItem.addClass('dragging');
-            }else{
-                this.editorItem.removeClass('dragging');
-            }
         }
 
         /**
@@ -449,9 +407,9 @@ module latte {
             this.fragment.value = d.innerHTML;
             this.unsavedChanges = oldValue != this.fragment.value;
 
-            if(this.unsavedChanges) {
-                log("Unsaved Changes")
-            }
+            // if(this.unsavedChanges) {
+            //     log("Unsaved Changes")
+            // }
 
             // log(this.fragment.value);
         }
@@ -504,12 +462,6 @@ module latte {
         /**
          * Back field for event
          */
-        private _draggingFilesChanged: LatteEvent;
-
-
-        /**
-         * Back field for event
-         */
         private _filesSelected: LatteEvent;
 
         /**
@@ -522,18 +474,6 @@ module latte {
                 this._filesSelected = new LatteEvent(this);
             }
             return this._filesSelected;
-        }
-
-        /**
-         * Gets an event raised when the value of the draggingFiles property changes
-         *
-         * @returns {LatteEvent}
-         */
-        get draggingFilesChanged(): LatteEvent{
-            if(!this._draggingFilesChanged){
-                this._draggingFilesChanged = new LatteEvent(this);
-            }
-            return this._draggingFilesChanged;
         }
 
         /**
@@ -556,39 +496,6 @@ module latte {
         //endregion
 
         //region Properties
-
-        /**
-         * Property field
-         */
-        private _draggingFiles: boolean = null;
-
-        /**
-         * Gets or sets a value indicating if user is currently dragging files around
-         *
-         * @returns {boolean}
-         */
-        get draggingFiles(): boolean{
-            return this._draggingFiles;
-        }
-
-        /**
-         * Gets or sets a value indicating if user is currently dragging files around
-         *
-         * @param {boolean} value
-         */
-        set draggingFiles(value: boolean){
-
-            // Check if value changed
-            let changed: boolean = value !== this._draggingFiles;
-
-            // Set value
-            this._draggingFiles = value;
-
-            // Trigger changed event
-            if(changed){
-                this.onDraggingFilesChanged();
-            }
-        }
 
         /**
          * Field for files property
@@ -899,7 +806,6 @@ module latte {
             }
             return this._tabImage;
         }
-
 
         //endregion
 

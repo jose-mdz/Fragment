@@ -347,6 +347,8 @@ class Page extends pageBase{
                 case '&':
                 case '|':
                     $sentence = "( $lock (($aToUse $operator $b) = $c))"; break;
+                case 'like':
+                    $sentence = "($lock $aToUse $operator '$b')"; break;
                 default:
                     throw new SecurityException("Unrecognized operator: $operator");
             }
@@ -368,6 +370,8 @@ class Page extends pageBase{
                 case '&':
                 case '|':
                     $sentence = "(($a $operator $b) = $c)"; break;
+                case 'like':
+                    $sentence = "($a $operator '$b')"; break;
                 default:
                     throw new SecurityException("Unrecognized operator: $operator");
             }

@@ -26,7 +26,7 @@ module latte {
          * @param recordId
          * @returns {latte.FileUploader}
          */
-        static fromBase64(base64: string, fileName: string, recordName: string, recordId: string){
+        static fromBase64(base64: string, fileName: string, recordName: string, recordId: string | number){
             var f = new FileUploader(null, recordName, recordId);
             f.base64 = base64;
             f.base64FileName = fileName;
@@ -42,13 +42,13 @@ module latte {
         /**
          * Creates the file uploader
          */
-        constructor(file: SystemFile, recordName: string, recordId: string) {
+        constructor(file: SystemFile, recordName: string, recordId: string | number) {
 
             super();
 
             this._fileLocal = file;
             this._recordName = recordName;
-            this._recordId = recordId;
+            this._recordId = String(recordId);
 
         }
 

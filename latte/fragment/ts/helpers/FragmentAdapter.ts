@@ -108,6 +108,20 @@ module latte {
         }
 
         /**
+         * Raises the <c>editorItem</c> event
+         */
+        onEditorItemChanged(){
+            if(this._editorItemChanged){
+                this._editorItemChanged.raise();
+            }
+
+            if(this.editorItem) {
+                this.editorItem.focused.add(() => this.onEditorFocus());
+                this.editorItem.blur.add(() => this.onEditorBlur());
+            }
+        }
+
+        /**
          * Raises the <c>register</c> event
          */
         onRegister(){
@@ -217,6 +231,23 @@ module latte {
         /**
          * Back field for event
          */
+        private _editorItemChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the editorItem property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get editorItemChanged(): LatteEvent{
+            if(!this._editorItemChanged){
+                this._editorItemChanged = new LatteEvent(this);
+            }
+            return this._editorItemChanged;
+        }
+
+        /**
+         * Back field for event
+         */
         private _register: LatteEvent;
 
         /**
@@ -230,7 +261,6 @@ module latte {
             }
             return this._register;
         }
-
 
         /**
          * Back field for event
@@ -403,7 +433,7 @@ module latte {
          *
          * @returns {Item}
          */
-        get editorItem(): Item {
+        get editorItem(): Item{
             return this._editorItem;
         }
 
@@ -412,8 +442,18 @@ module latte {
          *
          * @param {Item} value
          */
-        set editorItem(value: Item) {
+        set editorItem(value: Item){
+
+            // Check if value changed
+            let changed: boolean = value !== this._editorItem;
+
+            // Set value
             this._editorItem = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onEditorItemChanged();
+            }
         }
 
         /**

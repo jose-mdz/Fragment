@@ -77,6 +77,7 @@ module latte {
             FragmentAdapterManager.register('text', 'PlainTextFragmentAdapter');
             FragmentAdapterManager.register('html', 'HtmlFragmentAdapter');
             FragmentAdapterManager.register('gallery', 'ImageGalleryFragmentAdapter');
+            FragmentAdapterManager.register('image', 'ImageFragmentAdapter');
 
 
             if(window['fragmentNoDbConnection']) {
