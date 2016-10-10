@@ -69,6 +69,15 @@ module latte {
             }, ImageGalleryFragmentAdapter.PRESENTABLE_KEY, () => callback())
         }
 
+        /**
+         * Gets the files based
+         */
+        private getFileRecords(): File[]{
+            let a = [];
+            this.files.each((f) => a.push(f.file));
+            return a;
+        }
+
         private moveImageAfter(){
             if(!this.selectedFile) {
                 return;
@@ -167,7 +176,9 @@ module latte {
          */
         private viewSelectedOriginal(){
             if(this.selectedFile) {
-                let editor = ImageEditorView.editImageFile(this.selectedFile.file);
+                let index = this.files.indexOf(this.selectedFile);
+                let files = this.getFileRecords();
+                let editor = ImageEditorView.editImageFiles(files, index);
                 editor.saved.add(() => {
                     this.createImagesOfFile(this.selectedFile);
                 });

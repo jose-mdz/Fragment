@@ -43,10 +43,46 @@ module latte {
         //region Static
 
         /**
+         * Gets a function that saves the image on the editor to the specified file
+         * @returns {null}
+         */
+        private static fileSaver(file: File, editor: ImageEditorView): (callback: () => any) => any{
+            return (callback) => {
+                let img = editor.image;
+                let can = editor.canvas;
+                let rep = new FileReplacer();
+
+                can.style.visibility = 'hidden';
+                editor.infoItem = editor.progressItem;
+
+                rep.id = String(file.idfile);
+                rep.width = img.naturalWidth;
+                rep.height = img.naturalHeight;
+                rep.base64 = ImageUtil.getBase64(img.src);
+
+                rep.progressChanged.add(() => {
+                    editor.progressItem.value = Math.round(rep.progress * 100);
+                });
+
+                rep.complete.add(() => {
+                    editor.infoItem = null;
+                    can.style.visibility = 'visible';
+
+                    if(_isFunction(callback)) {
+                        callback();
+                    }
+                    // editor.onSaved(); // Implementers have obligation to report this.
+                });
+
+                rep.upload();
+            };
+        }
+
+        /**
          * Creates an editor, shows it and returns it without any image
          * @returns {latte.ImageEditorView}
          */
-        static showEditor(save: () => any = null): ImageEditorView{
+        static showEditor(save: (callback: () => any) => any = null): ImageEditorView{
             let editor = new ImageEditorView();
             let current = View.mainView;
 
@@ -56,7 +92,8 @@ module latte {
             });
 
             if(_isFunction(save)){
-                editor.saveRequested.add(save);
+                editor.saveHandler = save;
+                // editor.saveRequested.add(save);
             }
 
             View.mainView = editor;
@@ -77,37 +114,74 @@ module latte {
             let editor = ImageEditorView.showEditor();
 
             editor.loadImageFromUrl(file.url);
-            editor.saveRequested.add(() => {
-                let img = editor.image;
-                let can = editor.canvas;
-                let rep = new FileReplacer();
+            editor.saveHandler = ImageEditorView.fileSaver(file, editor);
 
-                can.style.visibility = 'hidden';
-                editor.infoItem = editor.progressItem;
-
-                rep.id = String(file.idfile);
-                rep.width = img.naturalWidth;
-                rep.height = img.naturalHeight;
-                rep.base64 = ImageUtil.getBase64(img.src);
-
-                rep.progressChanged.add(() => {
-                    editor.progressItem.value = Math.round(rep.progress * 100);
-                });
-
-                rep.complete.add(() => {
-                    editor.infoItem = null;
-                    can.style.visibility = 'visible';
-                    editor.onSaved(); // Implementers have obligation to report this.
-                });
-
-                rep.upload();
-
-            });
+            // editor.saveRequested.add(ImageEditorView.fileSaver(file, editor));
 
             return editor;
 
         }
 
+        /**
+         * Shows the editor for the specified files, starting by specified image as current.
+         */
+        static editImageFiles(files: File[], current: number = 0){
+
+            let editor: ImageEditorView = ImageEditorView.showEditor();
+
+            let goImage = (index: number) => {
+
+                if(index < 0 || index >= files.length){
+                    throw "Index not in bounds";
+                }
+
+                let file = files[index];
+
+                if(!file.isImage) {
+                    throw "Not an image";
+                }
+
+                editor.loadImageFromUrl(file.url);
+                editor.saveHandler = ImageEditorView.fileSaver(file, editor);
+                // editor.saveRequested.handlers = [ImageEditorView.fileSaver(file, editor)];
+                current = index;
+            };
+
+            let tryGo = (index: number) => {
+                editor.dismissImage(() => {
+                    goImage(index);
+                });
+            };
+
+            editor.nextImageRequested.add(() => {
+                if(current == files.length - 1) {
+                    current = 0;
+                }else{
+                    current++;
+                }
+                tryGo(current);
+            });
+
+            editor.previousImageRequested.add(() => {
+                if(current == 0) {
+                    current = files.length - 1
+                }else{
+                    current--;
+                }
+                tryGo(current);
+            });
+
+            tryGo(current);
+
+            return editor;
+        }
+
+        /**
+         * Shows the editor for the specified image's URL
+         * @param url
+         * @param save
+         * @returns {ImageEditorView}
+         */
         static editImageByUrl(url: string, save: () => any = null): ImageEditorView{
             let editor = ImageEditorView.showEditor(save);
             editor.loadImageFromUrl(url);
@@ -130,11 +204,9 @@ module latte {
         //endregion
 
         //region Fields
-        private closeAfterSave = false;
+        // private closeAfterSave = false;
 
         private bodyKeyChecker;
-
-        private rCheckers = [];
 
         private draggingCropArea: CropArea = CropArea.NONE;
 
@@ -184,6 +256,12 @@ module latte {
 
                 if(e.keyCode == Key.ESCAPE) {
                     this.cancelCurrentAction();
+
+                }else if(e.keyCode == Key.ARROW_RIGHT && !control){
+                    this.onNextImageRequested();
+
+                }else if(e.keyCode == Key.ARROW_LEFT && !control){
+                    this.onPreviousImageRequested();
 
                 }else if(e.keyCode == Key.C && !control && editable){
                     this.btnCrop.onClick();
@@ -250,22 +328,9 @@ module latte {
          */
         private closeClick(){
 
-            if(this.unsavedChanges) {
-                DialogView.ask(strings.unsavedChanges, strings.saveChangesOnImageQ,
-                [
-                    new ButtonItem(strings.yesSaveChanges, null, () => {
-                        this.closeAfterSave = true;
-                        this.btnSave.onClick();
-                    }),
-                    new ButtonItem(strings.noIgnoreChanges, null, () => {
-                        this.unsavedChanges = false;
-                        this.onCloseRequested()
-                    }),
-                    new ButtonItem(strings.cancel)
-                ])
-            }else{
+            this.dismissImage(() => {
                 this.onCloseRequested();
-            }
+            });
 
         }
 
@@ -274,7 +339,9 @@ module latte {
          */
         private cropNow(){
 
+            this.enableControls(false);
             this.image = ImageUtil.cropImage(this.image, this.cropBounds);
+            this.enableControls(true);
             this.unsavedChanges = true;
 
             this.tool = ImageEditorTool.NONE;
@@ -335,29 +402,6 @@ module latte {
                 [CropArea.RIGHT, sRight],
                 [CropArea.BOTTOM, sBottom],
             ];
-
-            //region Checker elements
-            // if(this.rCheckers.length == 0) {
-            //     let cre = () => {
-            //         let a = document.createElement('div');
-            //         a.className = 'rect-checker';
-            //         this.container.append(a);
-            //         return a;
-            //     };
-            //     this.rCheckers = [
-            //         cre(), cre(), cre(), cre(),
-            //         cre(), cre(), cre(), cre()
-            //     ];
-            // }
-            // for(let i in checkers){
-            //     let c: Rectangle = checkers[i][1];
-            //     let e: HTMLDivElement = this.rCheckers[i];
-            //     e.style.top = c.top + 'px';
-            //     e.style.left = c.left + 'px';
-            //     e.style.width = c.width + 'px';
-            //     e.style.height = c.height + 'px';
-            // }
-            //endregion
 
             for(let i in checkers){
                 let checker:Rectangle = checkers[i][1];
@@ -581,6 +625,43 @@ module latte {
         }
 
         /**
+         * Tries to dismiss the image, first asking for saving changes
+         * @param callback
+         */
+        dismissImage(callback: () => any){
+            if(this.unsavedChanges) {
+                DialogView.ask(strings.unsavedChanges, strings.saveChangesOnImageQ,
+                    [
+                        new ButtonItem(strings.yesSaveChanges, null, () => {
+                            // this.closeAfterSave = true;
+                            this.save(callback);
+                        }),
+                        new ButtonItem(strings.noIgnoreChanges, null, () => {
+                            this.unsavedChanges = false;
+                            callback();
+                        }),
+                        new ButtonItem(strings.cancel)
+                    ])
+            }else{
+                callback();
+            }
+
+        }
+
+        /**
+         * Changes the enable state of controls
+         * @param enabled
+         */
+        enableControls(enabled: boolean){
+            this.btnUndo.enabled =
+                this.btnResize.enabled =
+                    this.btnCrop.enabled =
+                        this.btnRotateClockwise.enabled = enabled;
+
+            this.btnSave.enabled = enabled && this.unsavedChanges;
+        }
+
+        /**
          * Loads the image from the specified url
          * @param url
          */
@@ -741,11 +822,20 @@ module latte {
         }
 
         /**
-         * Raises the <c>saveRequested</c> event
+         * Raises the <c>nextImageRequested</c> event
          */
-        onSaveRequested(){
-            if(this._saveRequested){
-                this._saveRequested.raise();
+        onNextImageRequested(){
+            if(this._nextImageRequested){
+                this._nextImageRequested.raise();
+            }
+        }
+
+        /**
+         * Raises the <c>previousImageRequested</c> event
+         */
+        onPreviousImageRequested(){
+            if(this._previousImageRequested){
+                this._previousImageRequested.raise();
             }
         }
 
@@ -759,10 +849,16 @@ module latte {
 
             this.unsavedChanges = false;
 
-            if(this.closeAfterSave) {
-                this.onCloseRequested();
-            }
+        }
 
+        /**
+         * Raises the <c>saveHandler</c> event
+         */
+        onSaveHandlerChanged(){
+            if(this._saveHandlerChanged){
+                this._saveHandlerChanged.raise();
+            }
+            //TODO: Aqui me quede, reemplazar por saveRequested para hacer chaining
         }
 
         /**
@@ -885,7 +981,9 @@ module latte {
          * Rotates the image counter clockwise
          */
         rotateImageCounterClockwise(){
+            this.enableControls(false);
             this.image = ImageUtil.rotateCounterClockwise(this.image);
+            this.enableControls(false);
             this.unsavedChanges = true;
         }
 
@@ -893,8 +991,28 @@ module latte {
          * Rotates the image clockwise
          */
         rotateImageClockwise(){
+            this.enableControls(false);
             this.image = ImageUtil.rotateClockwise(this.image);
+            this.enableControls(true);
             this.unsavedChanges = true;
+        }
+
+        /**
+         * Tries to save the image, and calls the callback when done
+         * @param callback
+         */
+        save(callback: ()  => any = null){
+            if(this.saveHandler) {
+                let f: (callback: () => any ) => any = this.saveHandler;
+                f(() => {
+                    this.onSaved();
+                    callback();
+                });
+            }else{
+                if(_isFunction(callback)) {
+                    callback();
+                }
+            }
         }
 
         /**
@@ -958,6 +1076,7 @@ module latte {
             let resizeNow = () => {
 
                 if(newWidth != width || newHeight != height) {
+                    this.enableControls(false);
                     let src = ImageUtil.resizeImage(this.image, {
                         size: new Size(newWidth, newHeight),
                         fit: ImageFit.AspectFit
@@ -965,6 +1084,7 @@ module latte {
                     let img = document.createElement('img');
                     img.src = src;
                     this.image = img;
+                    this.enableControls(true);
                     this.unsavedChanges = true;
                 }
 
@@ -1122,6 +1242,40 @@ module latte {
         /**
          * Back field for event
          */
+        private _nextImageRequested: LatteEvent;
+
+        /**
+         * Gets an event raised when the next image is requested
+         *
+         * @returns {LatteEvent}
+         */
+        get nextImageRequested(): LatteEvent{
+            if(!this._nextImageRequested){
+                this._nextImageRequested = new LatteEvent(this);
+            }
+            return this._nextImageRequested;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _previousImageRequested: LatteEvent;
+
+        /**
+         * Gets an event raised when the previous image is requested
+         *
+         * @returns {LatteEvent}
+         */
+        get previousImageRequested(): LatteEvent{
+            if(!this._previousImageRequested){
+                this._previousImageRequested = new LatteEvent(this);
+            }
+            return this._previousImageRequested;
+        }
+
+        /**
+         * Back field for event
+         */
         private _saved: LatteEvent;
 
         /**
@@ -1139,18 +1293,18 @@ module latte {
         /**
          * Back field for event
          */
-        private _saveRequested: LatteEvent;
+        private _saveHandlerChanged: LatteEvent;
 
         /**
-         * Gets an event raised when the save has been requested
+         * Gets an event raised when the value of the saveHandler property changes
          *
          * @returns {LatteEvent}
          */
-        get saveRequested(): LatteEvent{
-            if(!this._saveRequested){
-                this._saveRequested = new LatteEvent(this);
+        get saveHandlerChanged(): LatteEvent{
+            if(!this._saveHandlerChanged){
+                this._saveHandlerChanged = new LatteEvent(this);
             }
-            return this._saveRequested;
+            return this._saveHandlerChanged;
         }
 
         /**
@@ -1362,6 +1516,39 @@ module latte {
             // Trigger changed event
             if(changed){
                 this.onMouseCropAreaChanged();
+            }
+        }
+
+        /**
+         * Property field
+         */
+        private _saveHandler: (callback: () => any) => any = null;
+
+        /**
+         * Gets or sets the save handler of the view
+         *
+         * @returns {(callback: () => any) => any}
+         */
+        get saveHandler(): (callback: () => any) => any{
+            return this._saveHandler;
+        }
+
+        /**
+         * Gets or sets the save handler of the view
+         *
+         * @param {(callback: () => any) => any} value
+         */
+        set saveHandler(value: (callback: () => any) => any){
+
+            // Check if value changed
+            let changed: boolean = value !== this._saveHandler;
+
+            // Set value
+            this._saveHandler = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onSaveHandlerChanged();
             }
         }
 
@@ -1581,7 +1768,7 @@ module latte {
          */
         get btnSave(): ButtonItem {
             if (!this._btnSave) {
-                this._btnSave = new ButtonItem(null, LinearIcon.cloud_upload, () => this.onSaveRequested());
+                this._btnSave = new ButtonItem(null, LinearIcon.cloud_upload, () => this.save());
                 this._btnSave.enabled = false;
             }
             return this._btnSave;
