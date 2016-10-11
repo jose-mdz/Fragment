@@ -667,6 +667,9 @@ class File extends fileBase{
         // Send file to trash
         $this->sendToPhysicalTrash();
 
+        // Create new path, to overcome caching
+
+
         // Copy tmp file to where it belongs
         if(!copy($tmp_file_path, $this->getPhysicalPath())){
             throw new Exception("Can't copy file: " . var_export(error_get_last(), true));
