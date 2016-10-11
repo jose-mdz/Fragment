@@ -2,25 +2,25 @@
 
 /**
  * Represents a file. Files are stored on Amazon's S3 service.
- * 
+ *
  * Files are linked to objects by the `owner`and `idowner` fields. This fields represents
  * other records in the database, but owner name is the name of its representing class in code.
- * 
+ *
  * If `idowner` is set to a negative value, it means the file has been previously inserted,
  * and files needs to be linked. Its up to each class specification how to handle unlinked files.
- * 
+ *
  */
 class File extends fileBase{
 
     const GUID_LENGTH = 10;
-    
+
     public static $normalizeChars = array(
-        'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 
-        'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 
-        'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 
-        'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss','à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 
-        'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 
-        'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 
+        'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A',
+        'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I',
+        'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U',
+        'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss','à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a',
+        'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i',
+        'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u',
         'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y', 'ƒ'=>'f'
     );
 
@@ -146,10 +146,10 @@ class File extends fileBase{
 
         return array_values($files);
     }
-    
+
     /**
      * Gets the files of the specified record (if any)
-     * 
+     *
      * @param Array<string> $names
      * @param Array<string> $ids
      * @return Array<File>
@@ -218,13 +218,13 @@ class File extends fileBase{
 
     /**
      * Gets the files of the specified record. File contains all children.
-     * @param DataRecord $record 
+     * @param DataRecord $record
      * @return array
      */
     public static function byRecord($record){
         $owner = get_class($record);
         $id = $record->getIdValue();
-        
+
         return self::byOwner($owner, $id);
     }
 
@@ -286,6 +286,58 @@ class File extends fileBase{
     }
 
     /**
+     * Creates a physical and public paths for the specified file name, validating naming rules and restrictions.
+     * Additionally creates the necessary folders.
+     * @param $name
+     * @param bool $mkdir
+     * @return array() The two paths named 'physical' and 'path'
+     * @throws Exception
+     */
+    private static function createPathsFor($name, $mkdir = true){
+
+        // Fragment's files/ path
+        $files_path = FG_DIR . '/files';
+
+        // Path of file with folder division
+        $composed_path = "uploads/" . date("Y/m/d");
+
+        // Path of directories
+        $path = "$files_path/$composed_path";
+
+        // Ensure directory exist
+        if(!file_exists($path) && $mkdir){
+            $old_mask = umask(0);
+            if(!@mkdir($path, 0777, true)){
+                throw new Exception("Can't create directory: [$path]");
+            }
+            umask($old_mask);
+        }
+
+        // Clean name for url
+        $clean_name = self::cleanForURL($name);
+
+        // Difference for checking longer than 128 chars
+        //Two is for hyphen after uniquid and / after path
+        $diff = 128 - strlen($path) + strlen($clean_name) + 2;
+
+        // Check for name reduction if over 128 chars
+        if($diff < 0){
+            $clean_name = substr($clean_name, $diff);
+        }
+
+        // Actual file name
+        $fileName = uniqid() . '-' . $clean_name;
+
+        // Path of physical file
+        $file_path = String::combinePath($path, $fileName);
+
+        return array(
+            'physical' => $file_path,
+            'public' => "fragment/files/$composed_path/$fileName"
+        );
+    }
+
+    /**
      * Creates the file by using the specified data
      *
      * @param $tmp_path
@@ -302,9 +354,6 @@ class File extends fileBase{
         // Shorten name if necessary
         if(strlen($name) > 80) $name = substr($name, strlen($name) - 80);
 
-        // File name
-        $fileName = self::cleanForURL(uniqid() . '-' . $name);
-
         // tmp file
         $fileTempName = $tmp_path;
 
@@ -319,46 +368,41 @@ class File extends fileBase{
 
         if(CmsConfig::getFileUploadIsS3()){
 
+            // File name
+            $file_name = self::cleanForURL(uniqid() . '-' . $name);
+
             // Create S3 connection
             $s3 = new S3(CmsConfig::getS3Key(), CmsConfig::getS3Pass());
 
-            if($s3->putObjectFile($fileTempName, CmsConfig::getS3Bucket(), $fileName, S3::ACL_PUBLIC_READ)){
+            if($s3->putObjectFile($fileTempName, CmsConfig::getS3Bucket(), $file_name, S3::ACL_PUBLIC_READ)){
 
                 $success = true;
                 $file->bucket = CmsConfig::getS3Bucket();
-                $file->path = $fileName;
+                $file->path = $file_name;
 
             }else{
                 throw new Exception("Error copying file to S3");
             }
         }else{
 
-            $files_path = FG_DIR . '/files';
-            $composed_path = "uploads/" . date("Y/m/d");
-            $path = "$files_path/$composed_path";
-
-            // Ensure directory exist
-            if(!file_exists($path)){
-                $oldmask = umask(0);
-                if(!@mkdir($path, 0777, true)){
-                    throw new Exception("Can't create directory: [$path]");
-                }
-                umask($oldmask);
-            }
-
-            // Path of physical file
-            $filePath = String::combinePath($path, $fileName);
+            // Get paths
+            $paths = self::createPathsFor($name);
+            $physical_path = $paths['physical'];
+            $public_path = $paths['public'];
 
             // Copy file
-            if (copy($fileTempName, $filePath) === true){
-                chmod($filePath, 0777);
-                $file->path = "fragment/files/$composed_path/$fileName";
+            if (copy($fileTempName, $physical_path) === true){
+                // Make public
+                chmod($physical_path, 0777);
+
+                // Assign public path
+                $file->path = $public_path;
+
                 $success = true;
             }else{
                 $errors = error_get_last();
-                throw new Exception("Error copying file from path: $fileTempName to path: $filePath (" . var_export($errors, true)  .")");
+                throw new Exception("Error copying file from path: $fileTempName to path: $physical_path (" . var_export($errors, true)  .")");
             }
-
         }
 
         if ($success){
@@ -431,15 +475,15 @@ class File extends fileBase{
 
         return $path;
     }
-    
+
     /**
      * Links unlinked files to object
-     * 
+     *
      * @param DataRecord $owner
      */
     public static function linkUnlinkedTo(DataRecord $owner){
         $files = File::myUnlinked(get_class($owner));
-        
+
         foreach($files as $file){
             $file->idowner = $owner->getIdValue();
             $file->save();
@@ -605,7 +649,7 @@ class File extends fileBase{
 
     /**
      * Gets the public url to reach file.
-     * @return string 
+     * @return string
      */
     public function getUrl(){
         if ($this->isOnS3()){
@@ -621,9 +665,9 @@ class File extends fileBase{
     public function isOnS3(){
         return strlen($this->bucket) > 0;
     }
-    
+
     /**
-     * 
+     *
      * @global array $strings
      * @return boolean
      * @throws Exception
@@ -645,9 +689,9 @@ class File extends fileBase{
         }
 
     }
-    
+
     /**
-     * 
+     *
      */
     public function onInserting(){
         $this->guid = self::generateGUID();
@@ -667,13 +711,18 @@ class File extends fileBase{
         // Send file to trash
         $this->sendToPhysicalTrash();
 
-        // Create new path, to overcome caching
-
+        // Get paths
+        $paths = self::createPathsFor($this->name);
+        $physical_path = $paths['physical'];
+        $public_path = $paths['public'];
 
         // Copy tmp file to where it belongs
-        if(!copy($tmp_file_path, $this->getPhysicalPath())){
+        if(!copy($tmp_file_path, $physical_path)){
             throw new Exception("Can't copy file: " . var_export(error_get_last(), true));
         }
+
+        // Re assign path
+        $this->path = $public_path;
 
         // Re calculate size of file
         $this->size = filesize($this->getPhysicalPath());
@@ -683,13 +732,16 @@ class File extends fileBase{
             foreach($data as $k => $value){
                 $this->{$k} = $value;
             }
-            $this->save();
         }
+
+        $this->save();
 
         return $this;
 
     }
-    
+
+
+
     /**
      * Removes the registry of file and its contents from S3.
      *
@@ -699,7 +751,7 @@ class File extends fileBase{
      * @throws Exception
      */
     public function physicalRemove(){
-        
+
         global $strings;
 
         if ($this->isOnS3()){
