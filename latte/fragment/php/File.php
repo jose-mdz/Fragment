@@ -286,6 +286,58 @@ class File extends fileBase{
     }
 
     /**
+     * Creates a physical and public paths for the specified file name, validating naming rules and restrictions.
+     * Additionally creates the necessary folders.
+     * @param $name
+     * @param bool $mkdir
+     * @return array() The two paths named 'physical' and 'path'
+     * @throws Exception
+     */
+    private static function createPathsFor($name, $mkdir = true){
+
+        // Fragment's files/ path
+        $files_path = FG_DIR . '/files';
+
+        // Path of file with folder division
+        $composed_path = "uploads/" . date("Y/m/d");
+
+        // Path of directories
+        $path = "$files_path/$composed_path";
+
+        // Ensure directory exist
+        if(!file_exists($path) && $mkdir){
+            $old_mask = umask(0);
+            if(!@mkdir($path, 0777, true)){
+                throw new Exception("Can't create directory: [$path]");
+            }
+            umask($old_mask);
+        }
+
+        // Clean name for url
+        $clean_name = self::cleanForURL($name);
+
+        // Difference for checking longer than 128 chars
+        //Two is for hyphen after uniquid and / after path
+        $diff = 128 - strlen($path) + strlen($clean_name) + 2;
+
+        // Check for name reduction if over 128 chars
+        if($diff < 0){
+            $clean_name = substr($clean_name, $diff);
+        }
+
+        // Actual file name
+        $fileName = uniqid() . '-' . $clean_name;
+
+        // Path of physical file
+        $file_path = String::combinePath($path, $fileName);
+
+        return array(
+            'physical' => $file_path,
+            'public' => "fragment/files/$composed_path/$fileName"
+        );
+    }
+
+    /**
      * Creates the file by using the specified data
      *
      * @param $tmp_path
@@ -302,9 +354,6 @@ class File extends fileBase{
         // Shorten name if necessary
         if(strlen($name) > 80) $name = substr($name, strlen($name) - 80);
 
-        // File name
-        $fileName = self::cleanForURL(uniqid() . '-' . $name);
-
         // tmp file
         $fileTempName = $tmp_path;
 
@@ -319,46 +368,41 @@ class File extends fileBase{
 
         if(CmsConfig::getFileUploadIsS3()){
 
+            // File name
+            $file_name = self::cleanForURL(uniqid() . '-' . $name);
+
             // Create S3 connection
             $s3 = new S3(CmsConfig::getS3Key(), CmsConfig::getS3Pass());
 
-            if($s3->putObjectFile($fileTempName, CmsConfig::getS3Bucket(), $fileName, S3::ACL_PUBLIC_READ)){
+            if($s3->putObjectFile($fileTempName, CmsConfig::getS3Bucket(), $file_name, S3::ACL_PUBLIC_READ)){
 
                 $success = true;
                 $file->bucket = CmsConfig::getS3Bucket();
-                $file->path = $fileName;
+                $file->path = $file_name;
 
             }else{
                 throw new Exception("Error copying file to S3");
             }
         }else{
 
-            $files_path = FG_DIR . '/files';
-            $composed_path = "uploads/" . date("Y/m/d");
-            $path = "$files_path/$composed_path";
-
-            // Ensure directory exist
-            if(!file_exists($path)){
-                $oldmask = umask(0);
-                if(!@mkdir($path, 0777, true)){
-                    throw new Exception("Can't create directory: [$path]");
-                }
-                umask($oldmask);
-            }
-
-            // Path of physical file
-            $filePath = String::combinePath($path, $fileName);
+            // Get paths
+            $paths = self::createPathsFor($name);
+            $physical_path = $paths['physical'];
+            $public_path = $paths['public'];
 
             // Copy file
-            if (copy($fileTempName, $filePath) === true){
-                chmod($filePath, 0777);
-                $file->path = "fragment/files/$composed_path/$fileName";
+            if (copy($fileTempName, $physical_path) === true){
+                // Make public
+                chmod($physical_path, 0777);
+
+                // Assign public path
+                $file->path = $public_path;
+
                 $success = true;
             }else{
                 $errors = error_get_last();
-                throw new Exception("Error copying file from path: $fileTempName to path: $filePath (" . var_export($errors, true)  .")");
+                throw new Exception("Error copying file from path: $fileTempName to path: $physical_path (" . var_export($errors, true)  .")");
             }
-
         }
 
         if ($success){
@@ -667,10 +711,18 @@ class File extends fileBase{
         // Send file to trash
         $this->sendToPhysicalTrash();
 
+        // Get paths
+        $paths = self::createPathsFor($this->name);
+        $physical_path = $paths['physical'];
+        $public_path = $paths['public'];
+
         // Copy tmp file to where it belongs
-        if(!copy($tmp_file_path, $this->getPhysicalPath())){
+        if(!copy($tmp_file_path, $physical_path)){
             throw new Exception("Can't copy file: " . var_export(error_get_last(), true));
         }
+
+        // Re assign path
+        $this->path = $public_path;
 
         // Re calculate size of file
         $this->size = filesize($this->getPhysicalPath());
@@ -680,12 +732,15 @@ class File extends fileBase{
             foreach($data as $k => $value){
                 $this->{$k} = $value;
             }
-            $this->save();
         }
+
+        $this->save();
 
         return $this;
 
     }
+
+
     
     /**
      * Removes the registry of file and its contents from S3.
