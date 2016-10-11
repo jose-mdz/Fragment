@@ -270,13 +270,9 @@ module latte {
             //TODO: AQUI ME QUEDE, ya tenemos el guid, hay que cargar la imagen
             // Load files
             File.byGuids(guids.join(',')).send((files: File[]) => {
-                let sorted = {};
-                files.forEach((f) => sorted[f.guid] = f);
-                guids.forEach((g) => {
-                    if(sorted[g]) {
-                        this.files.add(new FileItem(sorted[g]));
-                    }
-                })
+                if(files.length > 0) {
+                    this.file = files[0];
+                }
             });
         }
         //endregion
@@ -508,6 +504,7 @@ module latte {
         get progressItem(): ProgressItem {
             if (!this._progressItem) {
                 this._progressItem = new ProgressItem();
+                this._progressItem.visible = false;
                 this.editorItem.node.appendChild(this.progressItem.node);
             }
             return this._progressItem;
@@ -552,7 +549,6 @@ module latte {
             return this._btnRedoImages;
         }
 
-
         /**
          * Field for btnViewOriginal property
          */
@@ -570,7 +566,6 @@ module latte {
             }
             return this._btnViewOriginal;
         }
-
 
         /**
          * Field for tabImage property
