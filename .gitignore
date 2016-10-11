@@ -30,6 +30,3 @@
 
 # Necessary for latte.ui module
 !/latte/latte.ui/support/ts-include/jquery.d.ts
-
-#Work on progress
-/latte/fragment.store/

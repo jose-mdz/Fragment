@@ -1,6 +1,7 @@
 {
   "module-include": [
-    "fragment"
+    "fragment",
+    "latte.ui"
   ],
 
   "records" : [
