@@ -2,25 +2,25 @@
 
 /**
  * Represents a file. Files are stored on Amazon's S3 service.
- *
+ * 
  * Files are linked to objects by the `owner`and `idowner` fields. This fields represents
  * other records in the database, but owner name is the name of its representing class in code.
- *
+ * 
  * If `idowner` is set to a negative value, it means the file has been previously inserted,
  * and files needs to be linked. Its up to each class specification how to handle unlinked files.
- *
+ * 
  */
 class File extends fileBase{
 
     const GUID_LENGTH = 10;
-
+    
     public static $normalizeChars = array(
-        'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A',
-        'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I',
-        'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U',
-        'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss','à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a',
-        'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i',
-        'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u',
+        'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 
+        'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 
+        'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 
+        'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss','à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 
+        'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 
+        'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 
         'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y', 'ƒ'=>'f'
     );
 
@@ -146,10 +146,10 @@ class File extends fileBase{
 
         return array_values($files);
     }
-
+    
     /**
      * Gets the files of the specified record (if any)
-     *
+     * 
      * @param Array<string> $names
      * @param Array<string> $ids
      * @return Array<File>
@@ -218,13 +218,13 @@ class File extends fileBase{
 
     /**
      * Gets the files of the specified record. File contains all children.
-     * @param DataRecord $record
+     * @param DataRecord $record 
      * @return array
      */
     public static function byRecord($record){
         $owner = get_class($record);
         $id = $record->getIdValue();
-
+        
         return self::byOwner($owner, $id);
     }
 
@@ -475,15 +475,15 @@ class File extends fileBase{
 
         return $path;
     }
-
+    
     /**
      * Links unlinked files to object
-     *
+     * 
      * @param DataRecord $owner
      */
     public static function linkUnlinkedTo(DataRecord $owner){
         $files = File::myUnlinked(get_class($owner));
-
+        
         foreach($files as $file){
             $file->idowner = $owner->getIdValue();
             $file->save();
@@ -649,7 +649,7 @@ class File extends fileBase{
 
     /**
      * Gets the public url to reach file.
-     * @return string
+     * @return string 
      */
     public function getUrl(){
         if ($this->isOnS3()){
@@ -665,9 +665,9 @@ class File extends fileBase{
     public function isOnS3(){
         return strlen($this->bucket) > 0;
     }
-
+    
     /**
-     *
+     * 
      * @global array $strings
      * @return boolean
      * @throws Exception
@@ -689,9 +689,9 @@ class File extends fileBase{
         }
 
     }
-
+    
     /**
-     *
+     * 
      */
     public function onInserting(){
         $this->guid = self::generateGUID();
@@ -741,7 +741,7 @@ class File extends fileBase{
     }
 
 
-
+    
     /**
      * Removes the registry of file and its contents from S3.
      *
@@ -751,7 +751,7 @@ class File extends fileBase{
      * @throws Exception
      */
     public function physicalRemove(){
-
+        
         global $strings;
 
         if ($this->isOnS3()){
