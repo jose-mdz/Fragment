@@ -6,6 +6,8 @@
  * Time: 15:20
  */
 
+define('FRAGMENT_DISPATCH_LOADED_MODULES', 'fragment-dispatch-loaded-modules');
+
 /**
  * Prints the fragment of specified key
  * @param $key
@@ -103,8 +105,6 @@ function inline_stylesheet($path){
     }
 }
 
-
-
 /**
  * Prints the full page, including all its fragments
  */
@@ -121,6 +121,55 @@ function page(){
 
     // Print scripts
     scripts();
+}
+
+/**
+ * Registers the tags needed for the specified module, and loads the module
+ * @param $name
+ */
+function register_module($name){
+    $module = LatteModule::memoryLoad($name, FG_LANG);
+    $includes = $module->getIncludeChain();
+
+    foreach($includes as $m){
+        register_module_tags($m);
+    }
+
+    register_module_tags($name);
+}
+
+/**
+ * Registers tags of module without checking for includes
+ * @param $name
+ */
+function register_module_tags($name){
+
+    if (!isset($GLOBALS[FRAGMENT_DISPATCH_LOADED_MODULES])){
+        $GLOBALS[FRAGMENT_DISPATCH_LOADED_MODULES][] = array();
+    }
+
+    if (array_search($name, $GLOBALS[FRAGMENT_DISPATCH_LOADED_MODULES]) !== false){
+        return;
+    }
+
+    $module = LatteModule::memoryLoad($name, FG_LANG);
+    $css = $module->getCssPaths();
+    $js = $module->getJsPaths();
+
+    foreach($css as $path){
+        register_stylesheet($path, false);
+    }
+
+    foreach($js as $path){
+        register_script($path, false);
+    }
+
+    if (isset($GLOBALS[FRAGMENT_DISPATCH_LOADED_MODULES])){
+
+        $GLOBALS[FRAGMENT_DISPATCH_LOADED_MODULES][] = $name;
+    }else{
+        $GLOBALS[FRAGMENT_DISPATCH_LOADED_MODULES] = array($name);
+    }
 }
 
 /**
@@ -184,7 +233,7 @@ function scripts(){
                 if(!!$settings['inline-js']){
                     inline_script($path);
                 }else{
-                    echo "<script href=\$path\"></script>";
+                    echo "<script src=\"$path\"></script>";
                 }
             }
         }

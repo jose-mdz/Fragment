@@ -344,6 +344,37 @@ class LatteModule {
     }
 
     /**
+     * Helps recusively collect includes of the module
+     * @param $names
+     * @return array
+     */
+    private function collectInclude(&$names = null){
+
+        if(!$names) {
+            $names = array();
+        }
+
+        if(isset($this->metadata['module-include'])){
+            foreach($this->metadata['module-include'] as $moduleName){
+                if (isset($names[$moduleName])){
+                    $names[$moduleName]++;
+                }else{
+                    $names[$moduleName] = 0;
+                }
+
+                if(LatteModule::isLoaded($moduleName)){
+                    $module = LatteModule::byName($moduleName);
+                }else{
+                    $module = new LatteModule($moduleName);
+                    $module->loadMetadata();
+                }
+                $module->collectInclude($names);
+            }
+        }
+        return $names;
+    }
+
+    /**
      * Adds the module to the autoload list of user
      */
     public function addToAutoload($resetAutoloads = false){
@@ -385,28 +416,40 @@ class LatteModule {
     }
 
     /**
-     * Gets the disk path of the specified version.
-     * Version may be <c>latest</c>, <c>development</c> or a version number (e.g. '0.1')
-     *
-     * @param string $version
-     * @return string
+     * Returns an array with the paths of the CSS files for this module
+     * @return array
      */
-    public function getPath($version = 'latest'){
+    public function getCssPaths(){
+        $paths = array();
+        $files_path = $this->isRelease ? DATALATTE_FILES_RELEASE : DATALATTE_FILES;
 
-        // Paths
-        $releasesPath = String::combinePath(DATALATTE_FILES, self::PATH_RELEASES);
-        $moduleReleasesPath = String::combinePath($releasesPath, $this->name);
-
-        if($version == 'development'){
-            return $this->path;
-
-        }elseif($version == 'latest'){
-            return String::combinePath($moduleReleasesPath, $this->getLatestVersion());
-
-        }else{
-            return String::combinePath($moduleReleasesPath, $version);
+        /**
+         * Include Css to include
+         */
+        if(isset($this->metadata['ua-include-css'])){
+            foreach($this->metadata['ua-include-css'] as $file){
+                $paths[] = String::combineUrl(DATALATTE_FILES_URL, "releases/$this->name/support/$file");
+            }
         }
 
+        /**
+         * Include standard tags
+         */
+        if(file_exists(String::combinePath($files_path, "releases/$this->name/$this->name.css"))){
+            $paths[] = String::combineUrl(DATALATTE_FILES_URL, "releases/$this->name/$this->name.css");
+        }
+
+        return $paths;
+    }
+
+    /**
+     * Gets an array with all the modules needed to include this module
+     */
+    public function getIncludeChain(){
+//        return array_keys($this->collectInclude());
+        $names = $this->collectInclude();
+        arsort($names);
+        return array_keys($names);
     }
 
     /**
@@ -439,6 +482,61 @@ class LatteModule {
     }
 
     /**
+     * Returns an array with the paths of javascript files for this module
+     * @return array
+     */
+    public function getJsPaths(){
+        $paths = array();
+        $files_path = $this->isRelease ? DATALATTE_FILES_RELEASE : DATALATTE_FILES ;
+
+        // Include paths in metadata
+        if(isset($this->metadata['ua-include-js'])){
+            foreach($this->metadata['ua-include-js'] as $file){
+                $paths[] = String::combineUrl(DATALATTE_FILES_URL, "releases/$this->name/support/$file");
+            }
+        }
+
+        // Include release module
+        if(file_exists(String::combinePath($files_path, "releases/$this->name/$this->name.js"))){
+            $paths[] = String::combineUrl(DATALATTE_FILES_URL, "releases/$this->name/$this->name.js");
+        }
+
+        // Include language file
+        if($this->lang){
+            if(file_exists(String::combinePath($files_path, "releases/$this->name/$this->lang.js"))){
+                $paths[] = String::combineUrl(DATALATTE_FILES_URL, "releases/$this->name/$this->lang.js");
+            }
+        }
+
+        return $paths;
+    }
+
+    /**
+     * Gets the disk path of the specified version.
+     * Version may be <c>latest</c>, <c>development</c> or a version number (e.g. '0.1')
+     *
+     * @param string $version
+     * @return string
+     */
+    public function getPath($version = 'latest'){
+
+        // Paths
+        $releasesPath = String::combinePath(DATALATTE_FILES, self::PATH_RELEASES);
+        $moduleReleasesPath = String::combinePath($releasesPath, $this->name);
+
+        if($version == 'development'){
+            return $this->path;
+
+        }elseif($version == 'latest'){
+            return String::combinePath($moduleReleasesPath, $this->getLatestVersion());
+
+        }else{
+            return String::combinePath($moduleReleasesPath, $version);
+        }
+
+    }
+
+    /**
      * Gets the tags for including the module in the document
      *
      * @param string $urlPrefix
@@ -446,51 +544,17 @@ class LatteModule {
      */
     public function getTags($urlPrefix = ''){
 
-//        echo PHP_EOL . "<!-- TAGS: $this->name -->";
-
         $tags = array();
-        $files_path = $this->isRelease ? DATALATTE_FILES_RELEASE : DATALATTE_FILES ;
 
-        /**
-         * Include Js to include
-         */
-        if(isset($this->metadata['ua-include-js'])){
-            foreach($this->metadata['ua-include-js'] as $file){
-                $tags[] = tag('script')->src(String::combineUrl(DATALATTE_FILES_URL, "/releases/$this->name/support/$file"));
-            }
+        $css = $this->getCssPaths();
+        $js = $this->getJsPaths();
+
+        foreach($css as $path){
+            $tags[] = tag('link')->rel('stylesheet')->href($path);
         }
 
-        /**
-         * Include Css to include
-         */
-        if(isset($this->metadata['ua-include-css'])){
-            foreach($this->metadata['ua-include-css'] as $file){
-                $tags[] = tag('script')->src(String::combineUrl(DATALATTE_FILES_URL, "/releases/$this->name/support/$file"));
-            }
-        }
-
-        /**
-         * Include standard tags
-         */
-        if(file_exists(String::combinePath($files_path, "/releases/$this->name/$this->name.css"))){
-            $tags = array_merge($tags, array(
-                tag('link')->rel('stylesheet')->href(String::combineUrl(DATALATTE_FILES_URL, "/releases/$this->name/$this->name.css"))
-            ));
-        }
-
-        if(file_exists(String::combinePath($files_path, "/releases/$this->name/$this->name.js"))){
-            $tags = array_merge($tags, array(
-                tag('script')->src(String::combineUrl(DATALATTE_FILES_URL, "/releases/$this->name/$this->name.js"))
-            ));
-        }
-
-        if($this->lang){
-            if(file_exists(String::combinePath($files_path, "releases/$this->name/$this->lang.js"))){
-                $tags = array_merge($tags, array(
-                    tag('script')->src(String::combineUrl(DATALATTE_FILES_URL, "/releases/$this->name/$this->lang.js")),
-                ));
-            }
-
+        foreach($js as $path){
+            $tags[] = tag('script')->src($path);
         }
 
         return $tags;
@@ -507,6 +571,7 @@ class LatteModule {
 
 //        echo PHP_EOL . "[LOADING $this->name]";
 
+        //region Check if loaded
         if(LatteModule::isLoaded($this->name)){
 
             if($lang){
@@ -515,25 +580,10 @@ class LatteModule {
 
             return;
         }
-
-        //region Load Metadata
-        if($this->isRelease){
-
-            include String::combinePath($this->path, "module.json.php");
-            $this->metadata = json_decode($GLOBALS['module-json-' . $this->name], true);
-//            echo "[META]";
-//            print_r($GLOBALS);
-//            echo "[/META]";
-        }else{
-
-            $metafile = String::combinePath($this->path, 'module.json');
-
-            if(file_exists($metafile)){
-                $metatext = file_get_contents($metafile);
-                $this->metadata = json_decode($metatext, true);
-            }
-        }
         //endregion
+
+        // Load Metadata
+        $this->loadMetadata();
 
         //region Module Includes
         if(isset($this->metadata['module-include'])){
@@ -601,6 +651,25 @@ class LatteModule {
 
 //        echo PHP_EOL . "[/LOADED $this->name]";
 //        echo "<!-- LOADED: $this->name -->";
+    }
+
+    /**
+     * Loads the metadata of the module
+     */
+    public function loadMetadata(){
+        if($this->isRelease){
+
+            include String::combinePath($this->path, "module.json.php");
+            $this->metadata = json_decode($GLOBALS['module-json-' . $this->name], true);
+        }else{
+
+            $metafile = String::combinePath($this->path, 'module.json');
+
+            if(file_exists($metafile)){
+                $metatext = file_get_contents($metafile);
+                $this->metadata = json_decode($metatext, true);
+            }
+        }
     }
 
     /**
