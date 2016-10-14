@@ -13,6 +13,7 @@
   ],
 
   "records" : [
-    "payment"
+    "payment",
+    "wallet"
   ]
 }

@@ -7,8 +7,9 @@
 </head>
 <body>
 <div data-class="OpenPayCCViewBase" class="opp-cc-dialog">
-    <form action="#" method="POST" id="payment-form">
-        <input type="hidden" name="token_id" id="token_id">
+    <!-- FORM STRUCTURE NEEDED FOR OPENPAY CONNECTION -->
+    <form action="#" method="POST" id="payment-form" data-property="form">
+        <input type="hidden" name="token_id" id="token_id" data-property="tokenId">
         <div>
             <h2>Tarjeta de crédito o débito</h2>
             <div>
@@ -18,16 +19,16 @@
                 </div>
                 <div>
                     <div>
-                        <label>Nombre del titular</label><input type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name">
+                        <label>Nombre del titular</label><input type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name" value="jose manuel mendez poo">
                     </div>
                     <div>
-                        <label>Número de tarjeta</label><input type="text" autocomplete="off" data-openpay-card="card_number"></div>
+                        <label>Número de tarjeta</label><input type="text" autocomplete="off" data-openpay-card="card_number" value="5579100134178241"></div>
                 </div>
                 <div>
                     <div>
                         <label>Fecha de expiración</label>
-                        <div><input type="text" placeholder="Mes" data-openpay-card="expiration_month"></div>
-                        <div><input type="text" placeholder="Año" data-openpay-card="expiration_year"></div>
+                        <div><input type="text" placeholder="Mes" data-openpay-card="expiration_month" value="07"></div>
+                        <div><input type="text" placeholder="Año" data-openpay-card="expiration_year" value="20"></div>
                     </div>
                     <div><label>Código de seguridad</label>
                         <div><input type="text" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2"></div>
@@ -37,7 +38,7 @@
                     <div>Tus pagos se realizan de forma segura con encriptación de 256 bits</div>
                 </div>
                 <div>
-                    <a id="pay-button">Pagar</a>
+                    <a id="pay-button" data-property="btnPay">Pagar</a>
                 </div>
             </div>
         </div>

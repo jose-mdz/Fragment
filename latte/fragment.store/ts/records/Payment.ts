@@ -9,20 +9,56 @@ module latte{
 	export class Payment extends paymentBase{
 
 		//region Static
-		//endregion
+        /**
+         * Value to indicate if use sandboxing with payments engines
+         * @type {boolean}
+         */
+        public static sandbox: boolean = true;
 
+        /**
+         * Property field
+         */
+        private static _driver: WalletDriver = null;
+
+        /**
+         * Gets or sets
+         *
+         * @returns {WalletDriver}
+         */
+        static get driver(): WalletDriver {
+            return Payment._driver;
+        }
+
+        /**
+         * Gets or sets 
+         *
+         * @param {WalletDriver} value
+         */
+        static set driver(value: WalletDriver) {
+            Payment._driver = value;
+        }
+        /**
+         * Charges the user with the specified amount
+         * @param amount
+         */
+		public static charge(amount: number){
+
+            if(Payment.driver) {
+               Payment.driver.charge(amount);
+            }else {
+                throw "No WalletDriver";
+            }
+        }
+		//endregion
 
 		//region Fields
 		//endregion
 
-
 		//region Private Methods
 		//endregion
 
-
 		//region Events
 		//endregion
-
 
 		//region Properties
 		//endregion

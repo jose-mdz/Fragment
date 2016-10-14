@@ -1,12 +1,12 @@
 /**
- * Created by josemanuel on 10/12/16.
+ * Created by josemanuel on 10/14/16.
  */
 module latte {
 
     /**
      *
      */
-    export class OpenPayCCView extends OpenPayCCViewBase {
+    export class WalletDriver {
 
         //region Static
         //endregion
@@ -18,19 +18,17 @@ module latte {
          *
          */
         constructor() {
-            super();
         }
 
         //region Private Methods
         //endregion
 
         //region Methods
-        /**
-         * Handler
-         */
-        btnPay_Click(e){
-            log(e)
+
+        charge(amount: number){
+
         }
+
         //endregion
 
         //region Events
