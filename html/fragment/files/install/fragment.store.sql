@@ -24,11 +24,13 @@ DROP TABLE IF EXISTS `payment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `payment` (
   `idpayment` int(11) NOT NULL AUTO_INCREMENT,
+  `idwallet` varchar(128) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `driver` varchar(20) DEFAULT NULL,
   `status` int(11) DEFAULT '0',
   `type` int(11) DEFAULT '0',
   `amount` int(11) DEFAULT '0',
+  `guid` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idpayment`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,4 +44,4 @@ CREATE TABLE `payment` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-14 18:11:55
+-- Dump completed on 2016-10-16  9:30:44

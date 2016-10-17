@@ -39,8 +39,22 @@ module latte {
             OpenPay.token.extractFormAndCreate('payment-form',
                 // Success
                 (response: any) => {
-                    this.creditCardView.tokenId.element.value = response.data.id;
-                    log("Token!: " + this.creditCardView.tokenId.element.value);
+
+
+                    let token = this.token = response.data.id;
+
+                    this.creditCardView.tokenId.element.value = token;
+                    log("Token!: " + token);
+
+
+                    OpenpayServer.chargeNow(this.payment.guid, this.token, this.deviceSessionId).send((r) => {
+                        log(r)
+                    });
+
+
+
+                    //TODO: AQUI ME QUEDE, crear Payment, luego hacer cargo
+                    // OpenpayServer.chargeNow()
                     //this.creditCardView.form.element.submit();
                 },
                 // Failure
@@ -55,7 +69,9 @@ module latte {
          * Override. More like implement.
          * @param amount
          */
-        charge(amount: number){
+        charge(payment: Payment){
+
+            this.payment = payment;
 
             // Load scripts
             _include([
@@ -64,7 +80,7 @@ module latte {
             ], () => {
 
                 // Go for the wallet
-                Wallet.byDriver('fragment.openpay').send((w: Wallet) => {
+                Wallet.byDriver(this.getDriverName()).send((w: Wallet) => {
 
                     this.wallet = w;
 
@@ -72,8 +88,13 @@ module latte {
 
                 });
             });
+        }
 
-
+        /**
+         * Should return the name of the driver
+         */
+        getDriverName(): string{
+            return "fragment.openpay";
         }
 
         /**
@@ -90,7 +111,7 @@ module latte {
                 OpenPay.setSandboxMode(Payment.sandbox);
 
                 // Aparently, this id is automatical inserted in the form
-                var deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
+                this.deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
             }
         }
         //endregion
@@ -116,6 +137,76 @@ module latte {
         //endregion
 
         //region Properties
+
+        /**
+         * Property field
+         */
+        private _deviceSessionId: string = null;
+
+        /**
+         * Gets or sets the device session id
+         *
+         * @returns {string}
+         */
+        get deviceSessionId(): string {
+            return this._deviceSessionId;
+        }
+
+        /**
+         * Gets or sets the device session id
+         *
+         * @param {string} value
+         */
+        set deviceSessionId(value: string) {
+            this._deviceSessionId = value;
+        }
+
+        /**
+         * Property field
+         */
+        private _payment: Payment = null;
+
+        /**
+         * Gets or sets the payment
+         *
+         * @returns {Payment}
+         */
+        get payment(): Payment {
+            return this._payment;
+        }
+
+        /**
+         * Gets or sets the payment
+         *
+         * @param {Payment} value
+         */
+        set payment(value: Payment) {
+            this._payment = value;
+        }
+
+        /**
+         * Property field
+         */
+        private _token: string = null;
+
+        /**
+         * Gets or sets the token of the transaction
+         *
+         * @returns {string}
+         */
+        get token(): string {
+            return this._token;
+        }
+
+        /**
+         * Gets or sets the token of the transaction
+         *
+         * @param {string} value
+         */
+        set token(value: string) {
+            this._token = value;
+        }
+
         /**
          * Property field
          */

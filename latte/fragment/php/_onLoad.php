@@ -57,13 +57,20 @@ function event_raise($name){
 
 //region Scan plugins directory & include them
 foreach(scandir(FRAGMENT_PLUGINS_DIR) as $dir){
-    if($dir == '.' || $dir == '..') continue;
+    if($dir == '.' || $dir == '..' || strpos($dir, '.') === 0) continue;
 
-    $path = FRAGMENT_PLUGINS_DIR . "/$dir";
+    // Path of plugin directory
+    $path = String::combinePath(FRAGMENT_PLUGINS_DIR, $dir);
+
+    // If not directory, bye
+    if(!is_dir(String::combinePath(FRAGMENT_PLUGINS_DIR, $dir))) continue;
+
+    // File of initialization
+    $initializer = String::combinePath($path, "$dir.php");
 
     // Include plugin file
-    if (file_exists("$path/$dir.php")){
-        include "$path/$dir.php";
+    if (file_exists($initializer)){
+        include "$initializer";
     }else{
         die("Can't initialize plugin: $dir ($dir.php) missing");
     }

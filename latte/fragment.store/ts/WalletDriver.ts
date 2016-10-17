@@ -25,7 +25,14 @@ module latte {
 
         //region Methods
 
-        charge(amount: number){
+        /**
+         * Should return the name of the driver
+         */
+        getDriverName(): string{
+            throw "Implement in subclass";
+        }
+
+        charge(payment: Payment){
 
         }
 

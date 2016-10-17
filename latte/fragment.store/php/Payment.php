@@ -4,4 +4,49 @@
  */
 class Payment extends paymentBase{
 
+    /**
+     * Status. Payment has not been charged to wallet system
+     */
+    const STATUS_NEEDS_CHARGE = 1;
+
+    /**
+     * Status. Payment has been successfully charged
+     */
+    const STATUS_CHARGE_SUCCESSFUL = 2;
+
+    /**
+     * Status. Error occurred when charging to the wallet
+     */
+    const STATUS_CHARGE_ERROR = 3;
+
+    public static function byGuid($guid){
+        return DL::oneOf('Payment', "SELECT * FROM payment WHERE guid = '$guid'");
+    }
+
+    /**
+     * Generates a unique GUID
+     *
+     * @return string
+     */
+    public static function generateGUID(){
+        $chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890_-";
+        $max = strlen($chars) - 1;
+        $guid = "";
+
+        do{
+            while(strlen($guid) != self::GUID_LENGTH){
+                $guid .= substr($chars, rand(0, $max), 1);
+            }
+        }while(DL::getSingle("SELECT COUNT(*) FROM payment WHERE guid = '$guid'") > 0);
+
+        return $guid;
+    }
+
+    /**
+     * Override.
+     */
+    public function onInserting(){
+        $this->guid = Page::generateGUID();
+    }
+
 }
