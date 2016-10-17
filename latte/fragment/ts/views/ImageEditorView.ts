@@ -67,11 +67,11 @@ module latte {
                 rep.complete.add(() => {
                     editor.infoItem = null;
                     can.style.visibility = 'visible';
-
+                    file.path = rep.fileRecord.path;
+                    file.size = rep.fileRecord.size;
                     if(_isFunction(callback)) {
                         callback();
                     }
-                    // editor.onSaved(); // Implementers have obligation to report this.
                 });
 
                 rep.upload();
@@ -1006,7 +1006,9 @@ module latte {
                 let f: (callback: () => any ) => any = this.saveHandler;
                 f(() => {
                     this.onSaved();
-                    callback();
+                    if(_isFunction(callback)) {
+                        callback();
+                    }
                 });
             }else{
                 if(_isFunction(callback)) {
