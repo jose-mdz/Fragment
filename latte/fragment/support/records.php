@@ -29,16 +29,6 @@ class settingBase extends DataRecord{
 	public function getModule(){ return 'fragment'; }
 	public function isInserted(){ return isset($this->idsetting); }
 }
-class groupBase extends DataRecord{
-	public $idgroup, $name;
-	public static function all($t = "group"){ return array("$t.idgroup AS '$t.idgroup'", "$t.name AS '$t.name'"); }
-	public static function gettable(){ return "group"; }
-	public function getAutoKey(){ return array( "idgroup" => $this->idgroup ); }
-	public function getKeys(){ return array(  ); }
-	public function getFields(){ return array( "name" => $this->name ); }
-	public function getModule(){ return 'fragment'; }
-	public function isInserted(){ return isset($this->idgroup); }
-}
 class fragmentBase extends DataRecord{
 	public $idfragment, $idpage, $value, $name;
 	public static function all($t = "fragment"){ return array("$t.idfragment AS '$t.idfragment'", "$t.idpage AS '$t.idpage'", "$t.value AS '$t.value'", "$t.name AS '$t.name'"); }
@@ -48,6 +38,16 @@ class fragmentBase extends DataRecord{
 	public function getFields(){ return array( "idpage" => $this->idpage, "value" => $this->value, "name" => $this->name ); }
 	public function getModule(){ return 'fragment'; }
 	public function isInserted(){ return isset($this->idfragment); }
+}
+class groupBase extends DataRecord{
+	public $idgroup, $name;
+	public static function all($t = "group"){ return array("$t.idgroup AS '$t.idgroup'", "$t.name AS '$t.name'"); }
+	public static function gettable(){ return "group"; }
+	public function getAutoKey(){ return array( "idgroup" => $this->idgroup ); }
+	public function getKeys(){ return array(  ); }
+	public function getFields(){ return array( "name" => $this->name ); }
+	public function getModule(){ return 'fragment'; }
+	public function isInserted(){ return isset($this->idgroup); }
 }
 class groupUserBase extends DataRecord{
 	public $idgroupuser, $idgroup, $iduser;

@@ -1,0 +1,23 @@
+{
+  "module-include": [
+    "fragment",
+    "latte.element"
+  ],
+
+  "connection": {
+    "file": "../../../connection-cms.json"
+  },
+
+  "before-make":[
+    "mysql-dump.js"
+  ],
+
+  "records" : [
+    "address",
+    "card",
+    "charge",
+    "customer",
+    "payment",
+    "wallet"
+  ]
+}
