@@ -16,6 +16,90 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `address`
+--
+
+DROP TABLE IF EXISTS `address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `address` (
+  `idaddress` int(11) NOT NULL AUTO_INCREMENT,
+  `line1` varchar(128) DEFAULT NULL,
+  `line2` varchar(128) DEFAULT NULL,
+  `line3` varchar(128) DEFAULT NULL,
+  `city` varchar(128) DEFAULT NULL,
+  `country` varchar(128) DEFAULT NULL,
+  `zip` varchar(128) DEFAULT NULL,
+  `phone` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`idaddress`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `card`
+--
+
+DROP TABLE IF EXISTS `card`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `card` (
+  `idcard` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime DEFAULT NULL,
+  `number` varchar(128) DEFAULT NULL,
+  `holder` varchar(128) DEFAULT NULL,
+  `cvv2` varchar(128) DEFAULT NULL,
+  `month` int(11) DEFAULT '0',
+  `year` int(11) DEFAULT '0',
+  `allowcharges` int(1) DEFAULT '0',
+  `allowpayouts` int(11) DEFAULT '0',
+  `brand` varchar(128) DEFAULT NULL,
+  `type` varchar(128) DEFAULT NULL,
+  `bankname` varchar(128) DEFAULT NULL,
+  `bankcode` varchar(128) DEFAULT NULL,
+  `supportspoints` int(11) DEFAULT '0',
+  PRIMARY KEY (`idcard`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `charge`
+--
+
+DROP TABLE IF EXISTS `charge`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `charge` (
+  `idcharge` int(11) NOT NULL AUTO_INCREMENT,
+  `idwallet` int(11) DEFAULT '0',
+  `amount` float DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT '0',
+  `type` int(11) DEFAULT '0',
+  PRIMARY KEY (`idcharge`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `customer`
+--
+
+DROP TABLE IF EXISTS `customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `customer` (
+  `idcustomer` int(11) NOT NULL AUTO_INCREMENT,
+  `iduser` varchar(128) DEFAULT NULL,
+  `title` varchar(128) DEFAULT NULL,
+  `firstname` varchar(128) DEFAULT NULL,
+  `lastname` varchar(128) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `phone` varchar(128) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`idcustomer`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `payment`
 --
 
@@ -24,15 +108,56 @@ DROP TABLE IF EXISTS `payment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `payment` (
   `idpayment` int(11) NOT NULL AUTO_INCREMENT,
-  `idwallet` varchar(128) DEFAULT NULL,
+  `idcard` int(11) DEFAULT '0',
+  `idcharge` int(11) DEFAULT '0',
+  `idwallet` int(11) DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `driver` varchar(20) DEFAULT NULL,
   `status` int(11) DEFAULT '0',
   `type` int(11) DEFAULT '0',
   `amount` int(11) DEFAULT '0',
   `guid` varchar(10) DEFAULT NULL,
+  `ticket` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idpayment`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `transaction`
+--
+
+DROP TABLE IF EXISTS `transaction`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transaction` (
+  `idtransaction` int(11) NOT NULL AUTO_INCREMENT,
+  `success` int(11) DEFAULT '0',
+  `created` datetime DEFAULT NULL,
+  `mode` int(11) DEFAULT '0',
+  `data` longtext,
+  PRIMARY KEY (`idtransaction`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `wallet`
+--
+
+DROP TABLE IF EXISTS `wallet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `wallet` (
+  `idwallet` int(11) NOT NULL AUTO_INCREMENT,
+  `isdefault` int(1) DEFAULT '0',
+  `driver` varchar(128) DEFAULT NULL,
+  `enabled` int(1) DEFAULT '0',
+  `name` varchar(128) DEFAULT NULL,
+  `accountid` varchar(255) DEFAULT NULL,
+  `accountsecret` varchar(255) DEFAULT NULL,
+  `accountpublic` varchar(128) DEFAULT NULL,
+  `version` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`idwallet`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -44,4 +169,4 @@ CREATE TABLE `payment` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-16  9:30:44
+-- Dump completed on 2016-10-20 17:41:12

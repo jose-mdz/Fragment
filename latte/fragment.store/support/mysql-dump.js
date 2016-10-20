@@ -6,7 +6,13 @@ var exec = require('child_process').exec;
 var child;
 // executes `pwd`
 var tables = [
-    "payment"
+    "address",
+    "card",
+    "charge",
+    "customer",
+    "payment",
+    "transaction",
+    "wallet"
 ];
 child = exec("mysqldump -uroot --no-data=TRUE cms " + tables.join(' ') + " > html/fragment/files/install/fragment.store.sql", function (error, stdout, stderr) {
     if(String(stdout).length > 0)

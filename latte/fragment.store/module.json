@@ -13,7 +13,12 @@
   ],
 
   "records" : [
+    "address",
+    "card",
+    "charge",
+    "customer",
     "payment",
+    "transaction",
     "wallet"
   ]
 }
