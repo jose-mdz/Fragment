@@ -52,12 +52,14 @@ if($name == null || $id == null || $data == null || $filename == null){
 $owner = DataRecord::byAuto($name, $id);
 
 // Check for permissions
-if (
-    ($owner instanceof Page && !$owner->canIWrite()) ||
-    ($owner instanceof File && !$owner->canIEdit()) ||
-    (!Session::me()->isRoot())
-){
-    die("upload64: Can't save file. You Don't have necessary permissions");
+if((!Session::me()->isRoot())){
+    if (
+        ($owner instanceof Page && !$owner->canIWrite()) ||
+        ($owner instanceof File && !$owner->canIEdit())
+
+    ){
+        die("upload: Can't save file. You Don't have necessary permissions");
+    }
 }
 
 if($id < 1){
