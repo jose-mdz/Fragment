@@ -17,18 +17,17 @@ class OpenpayServer{
      * @param string $payment_guid
      * @param string $token
      * @param string $device_session_id
-     * @return string
+     * @return any
      */
     public static function chargeNow($payment_guid, $token, $device_session_id){
 
         // Get payment
         $p = Payment::byGuid($payment_guid);
 
-
         // Wallet
         $w = Wallet::byDriver('fragment.openpay');
 
-        // Create OpenPay object
+        // Create openpay object
         $openpay = Openpay::getInstance($w->accountid, $w->accountsecret);
 
         $customer = array(
@@ -40,25 +39,15 @@ class OpenpayServer{
         $chargeRequest = array(
             'method' => 'card',
             'source_id' => $token,
-            'amount' => $p->amount,
+            'amount' => 100,
             'currency' => 'MXN',
             'description' => 'Cargo inicial a mi merchant',
-            'order_id' => $p->guid,
+            'order_id' => 'oid-00051',
             'device_session_id' => $device_session_id,
             'customer' => $customer);
 
         $charge = $openpay->charges->create($chargeRequest);
 
-        $params = explode(',', "id,amount,authorization,method,operation_type," .
-            "transaction_type,card,status,currency,exchange_rate,creation_date," .
-            "operation_date,description,error_message,order_id");
-
-        $result = array();
-
-        foreach($params as $p){
-            $result[$p] = $charge->{$p};
-        }
-
-        return ($result);
+        return $charge;
     }
 }

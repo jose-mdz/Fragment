@@ -19,33 +19,8 @@ class Payment extends paymentBase{
      */
     const STATUS_CHARGE_ERROR = 3;
 
-    /**
-     * @param $guid
-     * @return object
-     */
     public static function byGuid($guid){
         return DL::oneOf('Payment', "SELECT * FROM payment WHERE guid = '$guid'");
-    }
-
-    /**
-     * Creates the Payment
-     *
-     * @remote
-     * @param string $driver
-     * @param number $amount
-     * @return Payment
-     */
-    public static function create($driver, $amount){
-        $w = Wallet::byDriver($driver);
-
-        $p = new Payment();
-        $p->driver = $driver;
-        $p->amount = $amount;
-        $p->idwallet = $w->idwallet;
-        $p->status = self::STATUS_NEEDS_CHARGE;
-        $p->insert();
-
-        return $p;
     }
 
     /**
@@ -72,7 +47,6 @@ class Payment extends paymentBase{
      */
     public function onInserting(){
         $this->guid = Page::generateGUID();
-        $this->created = DL::dateTime();
     }
 
 }

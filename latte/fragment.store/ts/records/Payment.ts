@@ -45,9 +45,13 @@ module latte{
 
             if(Payment.driver) {
 
-                Payment.create(Payment.driver.getDriverName(), amount).send((p: Payment) => {
+                let p = new Payment();
+                p.driver = Payment.driver.getDriverName();
+                p.amount = amount;
+                p.save(() => {
                     Payment.driver.charge(p);
                 });
+
 
             }else {
                 throw "No WalletDriver";

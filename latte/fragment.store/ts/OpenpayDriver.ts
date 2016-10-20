@@ -51,6 +51,8 @@ module latte {
                         log(r)
                     });
 
+
+
                     //TODO: AQUI ME QUEDE, crear Payment, luego hacer cargo
                     // OpenpayServer.chargeNow()
                     //this.creditCardView.form.element.submit();
@@ -74,20 +76,17 @@ module latte {
             // Load scripts
             _include([
                 "https://openpay.s3.amazonaws.com/openpay.v1.min.js",
+                "https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"
             ], () => {
 
-                _include("https://openpay.s3.amazonaws.com/openpay-data.v1.min.js", () => {
-                    // Go for the wallet
-                    Wallet.byDriver(this.getDriverName()).send((w: Wallet) => {
+                // Go for the wallet
+                Wallet.byDriver(this.getDriverName()).send((w: Wallet) => {
 
-                        this.wallet = w;
+                    this.wallet = w;
 
-                        ElementDialog.showForElement(this.creditCardView);
+                    ElementDialog.showForElement(this.creditCardView);
 
-                    });
                 });
-
-
             });
         }
 
