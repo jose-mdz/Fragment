@@ -8,11 +8,47 @@ module latte{
 	 */
 	export class Charge extends chargeBase{
 
+
+
 		//region Static
+
+		static FLAG_ADDRESS_NECESSARY = 8;
+
+		/**
+		 * Prompts the user to charge the specified amount
+		 * @param amount
+		 */
+		static prompt(amount: number, description: string){
+
+			Charge.create(amount, description).send((c: Charge) => {
+
+				if(c.isWalletSet) {
+
+					c.wallet.driver.executeCharge(c);
+
+				}else{
+					//TODO: Implement this
+					log("Charge.prompt: This flow part has not been implemented");
+				}
+
+			});
+
+		}
 		//endregion
 
 
 		//region Fields
+		/**
+		 * Customer of the charge
+		 * @type {any}
+		 */
+		customer: Customer = null;
+
+		/**
+		 * Wallet of the charge
+		 * @type {any}
+		 */
+		wallet: Wallet = null;
 		//endregion
 
 
@@ -25,6 +61,34 @@ module latte{
 
 
 		//region Properties
+
+		/**
+		 * Gets a value indicating if the address is necessary
+		 *
+		 * @returns {boolean}
+		 */
+		get isAddressNecessary(): boolean {
+			return (this.flags & Charge.FLAG_ADDRESS_NECESSARY) == Charge.FLAG_ADDRESS_NECESSARY;
+		}
+
+		/**
+		 * Gets a value indicating if there is a customer on the charge
+		 *
+		 * @returns {boolean}
+		 */
+		get isCustomerSet(): boolean {
+			return this.customer instanceof Customer;
+		}
+
+		/**
+		 * Gets a value indicating if there is a wallet set on the charge
+		 *
+		 * @returns {boolean}
+		 */
+		get isWalletSet(): boolean {
+			return this.wallet instanceof Wallet;
+		}
+
 		//endregion
 
 	}

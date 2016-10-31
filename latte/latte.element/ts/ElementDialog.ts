@@ -13,7 +13,7 @@ module latte {
          * Shows a dialog for the specified element
          * @param element
          */
-        static showForElement(element: Element<HTMLElement>): ElementDialog{
+        static showElement(element: Element<HTMLElement>): ElementDialog{
             let d = new ElementDialog(element);
             d.show();
             return d;
@@ -36,6 +36,13 @@ module latte {
         //endregion
 
         //region Methods
+
+        /**
+         * Closes the dialog
+         */
+        close(){
+            this.removeFromParent();
+        }
 
         /**
          * Raises the <c>content</c> event

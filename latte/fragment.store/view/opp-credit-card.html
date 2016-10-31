@@ -19,26 +19,26 @@
                 </div>
                 <div>
                     <div>
-                        <label>Nombre del titular</label><input type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name" value="jose manuel mendez poo">
+                        <label>Nombre del titular</label><input data-property="txtHolderName" type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name" value="juan manuel mendez poo">
                     </div>
                     <div>
-                        <label>Número de tarjeta</label><input type="text" autocomplete="off" data-openpay-card="card_number" value="4242424242424242"></div>
+                        <label>Número de tarjeta</label><input data-property="txtCardNumber" type="text" autocomplete="off" data-openpay-card="card_number" value="4242424242424242"></div>
                 </div>
                 <div>
                     <div>
                         <label>Fecha de expiración</label>
-                        <div><input type="text" placeholder="Mes" data-openpay-card="expiration_month" value="07"></div>
-                        <div><input type="text" placeholder="Año" data-openpay-card="expiration_year" value="20"></div>
+                        <div><input data-property="txtExpirationMonth" type="text" placeholder="Mes" data-openpay-card="expiration_month" value="07"></div>
+                        <div><input data-property="txtExpirationYear" type="text" placeholder="Año" data-openpay-card="expiration_year" value="20"></div>
                     </div>
                     <div><label>Código de seguridad</label>
-                        <div><input type="text" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2"></div>
+                        <div><input data-property="txtCvv2" type="text" placeholder="3 dígitos" autocomplete="off" data-openpay-card="cvv2"></div>
                     </div>
                 </div>
                 <div><div>Transacciones realizadas vía:</div>
                     <div>Tus pagos se realizan de forma segura con encriptación de 256 bits</div>
                 </div>
                 <div>
-                    <a id="pay-button" data-property="btnPay">Pagar</a>
+                    <a id="pay-button" data-property="btnPay" data-event="click:btnPay_Click" class="payment-cta">Pagar</a>
                 </div>
             </div>
         </div>

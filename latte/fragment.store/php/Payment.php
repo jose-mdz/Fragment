@@ -5,16 +5,19 @@
 class Payment extends paymentBase{
 
     /**
+     * @deprecated Old Idea
      * Status. Payment has not been charged to wallet system
      */
     const STATUS_NEEDS_CHARGE = 1;
 
     /**
+     * @deprecated Old Idea
      * Status. Payment has been successfully charged
      */
     const STATUS_CHARGE_SUCCESSFUL = 2;
 
     /**
+     * @deprecated Old Idea
      * Status. Error occurred when charging to the wallet
      */
     const STATUS_CHARGE_ERROR = 3;

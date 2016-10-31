@@ -31,6 +31,21 @@ class Wallet extends walletBase{
     }
 
     /**
+     * Gets the default wallet of the system.
+     * Returns false if none.
+     *
+     * @remote
+     * @return Wallet
+     */
+    public static function defaultWallet(){
+        return DL::oneOf('Wallet', "
+            SELECT *
+            FROM wallet
+            WHERE isdefault = 1
+        ");
+    }
+
+    /**
      * Override
      * @return array
      */

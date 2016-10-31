@@ -15,48 +15,6 @@ module latte{
          */
         public static sandbox: boolean = true;
 
-        /**
-         * Property field
-         */
-        private static _driver: WalletDriver = null;
-
-        /**
-         * Gets or sets
-         *
-         * @returns {WalletDriver}
-         */
-        static get driver(): WalletDriver {
-            return Payment._driver;
-        }
-
-        /**
-         * Gets or sets 
-         *
-         * @param {WalletDriver} value
-         */
-        static set driver(value: WalletDriver) {
-            Payment._driver = value;
-        }
-        /**
-         * Charges the user with the specified amount
-         * @param amount
-         */
-		public static charge(amount: number){
-
-            if(Payment.driver) {
-
-                let p = new Payment();
-                p.driver = Payment.driver.getDriverName();
-                p.amount = amount;
-                p.save(() => {
-                    Payment.driver.charge(p);
-                });
-
-
-            }else {
-                throw "No WalletDriver";
-            }
-        }
 		//endregion
 
 		//region Fields

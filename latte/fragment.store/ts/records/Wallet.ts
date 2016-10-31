@@ -16,7 +16,7 @@ module latte{
 		//endregion
 
 
-		//region Private Methods
+		//region Methods
 		//endregion
 
 
@@ -25,6 +25,28 @@ module latte{
 
 
 		//region Properties
+		/**
+		 * Field for driver property
+		 */
+		private _driver: WalletDriver;
+
+		/**
+		 * Gets the driver of the wallet
+		 *
+		 * @returns {WalletDriver}
+		 */
+		get driver(): WalletDriver {
+			if (!this._driver) {
+				if(this.driverua.length) {
+					let f: any = latte[this.driverua];
+					this._driver = new f();
+				}else{
+					throw sprintf("Driver <%s> not found", this.driver);
+				}
+			}
+			return this._driver;
+		}
+
 		//endregion
 
 	}

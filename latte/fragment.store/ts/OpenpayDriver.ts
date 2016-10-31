@@ -11,6 +11,7 @@ module latte {
     export class OpenpayDriver extends WalletDriver {
 
         //region Static
+
         //endregion
 
         //region Fields
@@ -29,49 +30,10 @@ module latte {
         //region Methods
 
         /**
-         * Handles click on pay
-         * @param e
+         * Executes the charge of the wallet
+         * @param charge
          */
-        btnPayCC_Click(e: MouseEvent){
-            e.preventDefault();
-            this.creditCardView.btnPay.visible = false;
-
-            OpenPay.token.extractFormAndCreate('payment-form',
-                // Success
-                (response: any) => {
-
-
-                    let token = this.token = response.data.id;
-
-                    this.creditCardView.tokenId.element.value = token;
-                    log("Token!: " + token);
-
-
-                    OpenpayServer.chargeNow(this.payment.guid, this.token, this.deviceSessionId).send((r) => {
-                        log(r)
-                    });
-
-
-
-                    //TODO: AQUI ME QUEDE, crear Payment, luego hacer cargo
-                    // OpenpayServer.chargeNow()
-                    //this.creditCardView.form.element.submit();
-                },
-                // Failure
-                (response: any) => {
-                    var desc = response.data.description != undefined ? response.data.description : response.message;
-                    alert("ERROR [" + response.status + "] " + desc);
-                    this.creditCardView.btnPay.visible = true;
-                });
-        }
-
-        /**
-         * Override. More like implement.
-         * @param amount
-         */
-        charge(payment: Payment){
-
-            this.payment = payment;
+        executeCharge(charge: Charge){
 
             // Load scripts
             _include([
@@ -79,22 +41,78 @@ module latte {
                 "https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"
             ], () => {
 
-                // Go for the wallet
-                Wallet.byDriver(this.getDriverName()).send((w: Wallet) => {
+                // Set charge data after scripts are loaded
+                this.charge = charge;
 
-                    this.wallet = w;
+                if(!this.charge.isCustomerSet) {
 
-                    ElementDialog.showForElement(this.creditCardView);
+                    // Ask for customer
+                    CustomerView.prompt((customer: Customer) => {
 
-                });
+                        // Got customer
+                        log("Customer:");
+                        log(customer);
+
+                        this.charge.idcustomer = customer.idcustomer;
+
+                        this.charge.save(() => {
+
+                            if(this.charge.isAddressNecessary) {
+
+                                // Ask for address
+                                AddressView.prompt(customer, (a: Address) => {
+
+                                    log("Address:");
+                                    log(a);
+
+                                    // Set as delivery address
+                                    this.charge.idaddressdelivery = a.idaddress;
+                                    this.charge.save(() => {
+
+                                        // Ask for credit card
+                                        OpenPayCCView.prompt(customer, (card: Card, token: string) => {
+
+                                            //TODO: AQUI ME QUEDE
+                                            // send card to make transaction
+                                            log("Card:");
+                                            log(card);
+
+                                            OpenpayServer.makeCCTransaction(charge.idcharge,
+                                                token, this.deviceSessionId).send((t: Transaction) => {
+                                                    log(t);
+                                            });
+
+                                        });
+
+                                    });
+                                });
+                            }
+
+                        });
+                        
+
+                    });
+                }else {
+                    //TODO: not implemented
+                    throw "Not implemented: When user is already set";
+                    //ElementDialog.showElement(this.creditCardView);
+                }
             });
         }
 
         /**
-         * Should return the name of the driver
+         * Raises the <c>charge</c> event
          */
-        getDriverName(): string{
-            return "fragment.openpay";
+        onChargeChanged(){
+            if(this._chargeChanged){
+                this._chargeChanged.raise();
+            }
+
+            if(this.charge) {
+                if(this.charge.isWalletSet) {
+                    this.wallet = this.charge.wallet;
+                }
+            }
         }
 
         /**
@@ -121,6 +139,23 @@ module latte {
         /**
          * Back field for event
          */
+        private _chargeChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the charge property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get chargeChanged(): LatteEvent{
+            if(!this._chargeChanged){
+                this._chargeChanged = new LatteEvent(this);
+            }
+            return this._chargeChanged;
+        }
+
+        /**
+         * Back field for event
+         */
         private _walletChanged: LatteEvent;
 
         /**
@@ -137,6 +172,39 @@ module latte {
         //endregion
 
         //region Properties
+
+        /**
+         * Property field
+         */
+        private _charge: Charge = null;
+
+        /**
+         * Gets or sets the charge to execute
+         *
+         * @returns {Charge}
+         */
+        get charge(): Charge{
+            return this._charge;
+        }
+
+        /**
+         * Gets or sets the charge to execute
+         *
+         * @param {Charge} value
+         */
+        set charge(value: Charge){
+
+            // Check if value changed
+            let changed: boolean = value !== this._charge;
+
+            // Set value
+            this._charge = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onChargeChanged();
+            }
+        }
 
         /**
          * Property field
@@ -159,29 +227,6 @@ module latte {
          */
         set deviceSessionId(value: string) {
             this._deviceSessionId = value;
-        }
-
-        /**
-         * Property field
-         */
-        private _payment: Payment = null;
-
-        /**
-         * Gets or sets the payment
-         *
-         * @returns {Payment}
-         */
-        get payment(): Payment {
-            return this._payment;
-        }
-
-        /**
-         * Gets or sets the payment
-         *
-         * @param {Payment} value
-         */
-        set payment(value: Payment) {
-            this._payment = value;
         }
 
         /**
@@ -242,23 +287,6 @@ module latte {
         //endregion
 
         //region Components
-        /**
-         * Field for creditCardView property
-         */
-        private _creditCardView: OpenPayCCView;
-
-        /**
-         * Gets the credit card view
-         *
-         * @returns {OpenPayCCView}
-         */
-        get creditCardView(): OpenPayCCView {
-            if (!this._creditCardView) {
-                this._creditCardView = new OpenPayCCView();
-                this._creditCardView.btnPay.addEventListener('click', (e) => this.btnPayCC_Click(e));
-            }
-            return this._creditCardView;
-        }
 
         //endregion
 

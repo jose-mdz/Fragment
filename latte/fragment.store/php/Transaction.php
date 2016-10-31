@@ -4,4 +4,15 @@
  */
 class Transaction extends transactionBase{
 
+    const MODE_CHARGED_ON_DEMAND = 1;
+
+    const MODE_REST_CALLED = 2;
+
+
+    /**
+     * Override.
+     */
+    public function onInserting(){
+        $this->created = DL::dateTime();
+    }
 }

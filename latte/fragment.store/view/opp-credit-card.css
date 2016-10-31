@@ -2,3 +2,14 @@
     border:solid 1px silver;
     border-radius: 10px;
 }
+
+.payment-cta{
+    background: #43AEF8;
+    color: white;
+    cursor: pointer;
+    padding: 20px 65px;
+    display: inline-block;
+    border-radius: 5px;
+    box-shadow: 0 5px 0 #1F8FF9;
+    margin: 50px;
+}

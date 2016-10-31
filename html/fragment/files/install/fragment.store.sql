@@ -24,6 +24,8 @@ DROP TABLE IF EXISTS `address`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `address` (
   `idaddress` int(11) NOT NULL AUTO_INCREMENT,
+  `idcustomer` int(11) DEFAULT '0',
+  `name` varchar(128) DEFAULT NULL,
   `line1` varchar(128) DEFAULT NULL,
   `line2` varchar(128) DEFAULT NULL,
   `line3` varchar(128) DEFAULT NULL,
@@ -32,7 +34,7 @@ CREATE TABLE `address` (
   `zip` varchar(128) DEFAULT NULL,
   `phone` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`idaddress`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +46,7 @@ DROP TABLE IF EXISTS `card`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `card` (
   `idcard` int(11) NOT NULL AUTO_INCREMENT,
+  `idcustomer` int(11) DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `number` varchar(128) DEFAULT NULL,
   `holder` varchar(128) DEFAULT NULL,
@@ -58,7 +61,7 @@ CREATE TABLE `card` (
   `bankcode` varchar(128) DEFAULT NULL,
   `supportspoints` int(11) DEFAULT '0',
   PRIMARY KEY (`idcard`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,12 +74,17 @@ DROP TABLE IF EXISTS `charge`;
 CREATE TABLE `charge` (
   `idcharge` int(11) NOT NULL AUTO_INCREMENT,
   `idwallet` int(11) DEFAULT '0',
+  `idcustomer` int(11) DEFAULT '0',
+  `description` varchar(200) DEFAULT NULL,
   `amount` float DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `status` int(11) DEFAULT '0',
   `type` int(11) DEFAULT '0',
+  `idaddressdelivery` int(11) DEFAULT '0',
+  `idaddressinvoice` int(11) DEFAULT '0',
+  `flags` int(11) DEFAULT '0',
   PRIMARY KEY (`idcharge`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +104,7 @@ CREATE TABLE `customer` (
   `phone` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`idcustomer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,6 +118,7 @@ CREATE TABLE `payment` (
   `idpayment` int(11) NOT NULL AUTO_INCREMENT,
   `idcard` int(11) DEFAULT '0',
   `idcharge` int(11) DEFAULT '0',
+  `idtransaction` int(11) DEFAULT '0',
   `idwallet` int(11) DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `driver` varchar(20) DEFAULT NULL,
@@ -131,12 +140,13 @@ DROP TABLE IF EXISTS `transaction`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transaction` (
   `idtransaction` int(11) NOT NULL AUTO_INCREMENT,
+  `idcharge` int(11) DEFAULT '0',
   `success` int(11) DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `mode` int(11) DEFAULT '0',
   `data` longtext,
   PRIMARY KEY (`idtransaction`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,13 +159,15 @@ DROP TABLE IF EXISTS `wallet`;
 CREATE TABLE `wallet` (
   `idwallet` int(11) NOT NULL AUTO_INCREMENT,
   `isdefault` int(1) DEFAULT '0',
-  `driver` varchar(128) DEFAULT NULL,
+  `driverua` varchar(128) DEFAULT NULL,
+  `driverphp` varchar(128) DEFAULT NULL,
   `enabled` int(1) DEFAULT '0',
   `name` varchar(128) DEFAULT NULL,
   `accountid` varchar(255) DEFAULT NULL,
   `accountsecret` varchar(255) DEFAULT NULL,
   `accountpublic` varchar(128) DEFAULT NULL,
   `version` varchar(20) DEFAULT NULL,
+  `currency` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idwallet`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -169,4 +181,4 @@ CREATE TABLE `wallet` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-20 17:41:12
+-- Dump completed on 2016-10-28 15:33:11
