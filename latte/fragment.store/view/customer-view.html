@@ -5,22 +5,38 @@
     <title>Title</title>
 </head>
 <body>
-<div data-class="CustomerViewBase">
+<div data-class="CustomerViewBase" class="payment-view customer-view">
+    <h1>Proceed to Checkout</h1>
+
+    <div class="payment-progress">
+        <div class="node active"></div>
+        <div class="path"></div>
+        <div class="node"></div>
+        <div class="path"></div>
+        <div class="node"></div>
+    </div>
+
+    <div class="order-detail">
+        Order Detail
+    </div>
+
+    <div class="field">
+        <div class="name" >Email</div>
+        <div class="input"><input data-property="txtEmail" type="text"/></div>
+        <div class="extra">We will not send spam. It's important for us to be able to contact you regarding your order.</div>
+    </div>
+    <h2>Contact Information</h2>
+    <div class="field">
+        <div class="name" >First Name</div>
+        <div class="input"><input data-property="txtFirstName" type="text"/></div>
+    </div>
+    <div class="field">
+        <div class="name" >Last Name</div>
+        <div class="input"><input data-property="txtLastName" type="text"/></div>
+    </div>
 
     <div>
-        <div>First Name</div>
-        <div><input data-property="txtFirstName" type="text"/></div>
-    </div>
-    <div>
-        <div>Last Name</div>
-        <div><input data-property="txtLastName" type="text"/></div>
-    </div>
-    <div>
-        <div>Email</div>
-        <div><input data-property="txtEmail" type="text"/></div>
-    </div>
-    <div>
-        <div data-event="click:continue_Click" class="payment-cta">Continue</div>
+        <div data-event="click:continue_Click" class="payment-cta">Enter Address &gt;</div>
     </div>
 </div>
 </body>

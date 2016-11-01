@@ -11,5 +11,140 @@
     display: inline-block;
     border-radius: 5px;
     box-shadow: 0 5px 0 #1F8FF9;
-    margin: 50px;
+    margin: 20px 50px 50px 50px;
+}
+
+.payment-cta:hover{
+    opacity: 0.9;
+}
+
+.payment-cta:active{
+    margin-top: 30px;
+    padding-bottom: 10px;
+    box-shadow: none;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.payment-view{
+    color: gray;
+}
+
+.payment-view h1{
+    color: black;
+}
+
+.payment-view .order-detail{
+    background: #f0f0f0;
+    padding: 30px 0;
+}
+
+.payment-view .payment-progress{
+    margin: auto;
+    width: 130px;
+}
+
+.payment-view .payment-progress::after{
+    clear:both;
+    font-size: 1px;
+    color: transparent;
+    content: '.';
+    display: block;
+}
+
+.payment-view .payment-progress .path{
+    width: 30px;
+    height: 3px;
+    background: #ccc;
+    float: left;
+    margin-top: 9px;
+}
+
+.payment-view .payment-progress .node{
+    width: 15px;
+    height: 15px;
+    background: #ccc;
+    border: solid 3px white;
+    /*box-shadow: 0 0 0 3px #ccc;*/
+    border-radius: 100%;
+    float: left;
+}
+
+.payment-view .payment-progress .node.active{
+    background: #43AEF8;
+    border: solid 3px white;
+    /*box-shadow: 0 0 0 3px #43AEF8;*/
+}
+
+.payment-view .field{
+    margin: 20px auto;
+    width: 400px;
+    text-align: left;
+}
+
+.payment-view .input input[type=text],
+.payment-view .input input[type=password],
+.payment-view .input textarea{
+    border: solid 1px silver;
+    width: 400px;
+    padding: 5px;
+    font-size: larger;
+    border-radius: 5px;
+    color: black;
+}
+
+
+.payment-view .input input[type=text]:focus,
+.payment-view .input input[type=password]:focus,
+.payment-view .input textarea:focus{
+    /*outline-offset: 10px;*/
+    outline: none;
+    border-color: dodgerblue;
+}
+
+.payment-view .extra{
+    font-size: smaller;
+    opacity: 0.6;
+    margin-top: 5px;
+}
+
+.payment-view h2{
+    text-align: left;
+    font-weight: normal;
+    font-size: 1.2em;
+    margin: 30px auto 10px auto;
+    color: #333;
+    width: 400px;
+}
+
+@media (min-width: 801px){
+
+}
+
+@media (max-width:800px){
+}
+
+@media (max-width:640px){
+    .payment-view .payment-progress{
+        display: none;
+    }
+    .payment-view .field{
+        margin: 20px;
+        width: auto;
+    }
+    .payment-view .input input[type=text],
+    .payment-view .input input[type=password],
+    .payment-view .input textarea{
+        width: 90%;
+    }
+
+    .payment-cta{
+        margin: 20px 0 0 0;
+        width: 90%;
+        padding: 20px 0;
+    }
+
+    .payment-view h2{
+        width: auto;
+        margin: 30px 20px 0px 20px;
+    }
 }

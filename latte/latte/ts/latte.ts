@@ -82,7 +82,7 @@ module latte{
 
         let sources: string[] = _isArray(<any>src) ? <any>src : [src];
         let loaded = 0;
-        let loadCheck = () => {
+        let loadCheck = (src) => {
             loaded++;
             if(loaded == sources.length){
                 if(_isFunction(callback)) callback();
@@ -96,7 +96,7 @@ module latte{
                 }
             }else {
                 let tag = document.createElement('script');
-                tag.onload = () => loadCheck();
+                tag.onload = () => loadCheck(src);
                 tag.src = src;
                 tag.addEventListener('error', () => {
                     log("Error loading " + src);
@@ -106,9 +106,6 @@ module latte{
                 includedPlugins.push(src);
             }
         });
-
-
-
 
     }
 

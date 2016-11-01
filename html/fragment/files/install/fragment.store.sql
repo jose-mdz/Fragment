@@ -34,7 +34,7 @@ CREATE TABLE `address` (
   `zip` varchar(128) DEFAULT NULL,
   `phone` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`idaddress`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `card` (
   `bankcode` varchar(128) DEFAULT NULL,
   `supportspoints` int(11) DEFAULT '0',
   PRIMARY KEY (`idcard`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,8 +83,9 @@ CREATE TABLE `charge` (
   `idaddressdelivery` int(11) DEFAULT '0',
   `idaddressinvoice` int(11) DEFAULT '0',
   `flags` int(11) DEFAULT '0',
+  `data` longtext,
   PRIMARY KEY (`idcharge`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=129 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +105,7 @@ CREATE TABLE `customer` (
   `phone` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`idcustomer`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,10 +144,11 @@ CREATE TABLE `transaction` (
   `idcharge` int(11) DEFAULT '0',
   `success` int(11) DEFAULT '0',
   `created` datetime DEFAULT NULL,
+  `completed` int(11) DEFAULT '0',
   `mode` int(11) DEFAULT '0',
   `data` longtext,
   PRIMARY KEY (`idtransaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,4 +183,4 @@ CREATE TABLE `wallet` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-28 15:33:11
+-- Dump completed on 2016-10-31 19:09:37

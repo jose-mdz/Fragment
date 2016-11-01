@@ -36,67 +36,68 @@ module latte {
         executeCharge(charge: Charge){
 
             // Load scripts
-            _include([
-                "https://openpay.s3.amazonaws.com/openpay.v1.min.js",
-                "https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"
-            ], () => {
+            _include("https://openpay.s3.amazonaws.com/openpay.v1.min.js", () => {
 
-                // Set charge data after scripts are loaded
-                this.charge = charge;
+                _include("https://openpay.s3.amazonaws.com/openpay-data.v1.min.js", () => {
+                    // Set charge data after scripts are loaded
+                    this.charge = charge;
 
-                if(!this.charge.isCustomerSet) {
+                    if(!this.charge.isCustomerSet) {
 
-                    // Ask for customer
-                    CustomerView.prompt((customer: Customer) => {
+                        // Ask for customer
+                        CustomerView.prompt((customer: Customer) => {
 
-                        // Got customer
-                        log("Customer:");
-                        log(customer);
+                            // Got customer
+                            log("Customer:");
+                            log(customer);
 
-                        this.charge.idcustomer = customer.idcustomer;
+                            this.charge.idcustomer = customer.idcustomer;
 
-                        this.charge.save(() => {
+                            this.charge.save(() => {
 
-                            if(this.charge.isAddressNecessary) {
+                                if(this.charge.isAddressNecessary) {
 
-                                // Ask for address
-                                AddressView.prompt(customer, (a: Address) => {
+                                    // Ask for address
+                                    AddressView.prompt(customer, (a: Address) => {
 
-                                    log("Address:");
-                                    log(a);
+                                        log("Address:");
+                                        log(a);
 
-                                    // Set as delivery address
-                                    this.charge.idaddressdelivery = a.idaddress;
-                                    this.charge.save(() => {
+                                        // Set as delivery address
+                                        this.charge.idaddressdelivery = a.idaddress;
+                                        this.charge.save(() => {
 
-                                        // Ask for credit card
-                                        OpenPayCCView.prompt(customer, (card: Card, token: string) => {
+                                            // Ask for credit card
+                                            OpenPayCCView.prompt(customer, (card: Card, token: string) => {
 
-                                            //TODO: AQUI ME QUEDE
-                                            // send card to make transaction
-                                            log("Card:");
-                                            log(card);
+                                                //TODO: AQUI ME QUEDE
+                                                // send card to make transaction
+                                                log("Card:");
+                                                log(card);
 
-                                            OpenpayServer.makeCCTransaction(charge.idcharge,
-                                                token, this.deviceSessionId).send((t: Transaction) => {
+                                                OpenpayServer.makeTransaction('card', charge.idcharge,
+                                                    token, this.deviceSessionId).send((t: Transaction) => {
                                                     log(t);
+                                                });
+
                                             });
 
                                         });
-
                                     });
-                                });
-                            }
+                                }
+
+                            });
+
 
                         });
-                        
+                    }else {
+                        //TODO: not implemented
+                        throw "Not implemented: When user is already set";
+                        //ElementDialog.showElement(this.creditCardView);
+                    }
+                });
 
-                    });
-                }else {
-                    //TODO: not implemented
-                    throw "Not implemented: When user is already set";
-                    //ElementDialog.showElement(this.creditCardView);
-                }
+
             });
         }
 
