@@ -26,6 +26,13 @@ module latte {
         //region Methods
 
         /**
+         * Get UI for payment method
+         */
+        getPayMethodUI(m: PayMethod): HTMLElement{
+            return null;
+        }
+
+        /**
          * Executes the specified charge.
          * The driver is the one in charge to know how to charge the specified amount.
          * @param charge

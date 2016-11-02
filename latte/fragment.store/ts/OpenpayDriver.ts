@@ -30,6 +30,13 @@ module latte {
         //region Methods
 
         /**
+         * Get UI for payment method
+         */
+        getPayMethodUI(m: PayMethod): HTMLElement{
+            return (new CreditCardView()).element;
+        }
+
+        /**
          * Executes the charge of the wallet
          * @param charge
          */
@@ -44,52 +51,52 @@ module latte {
 
                     if(!this.charge.isCustomerSet) {
 
-                        // Ask for customer
-                        CustomerView.prompt((customer: Customer) => {
-
-                            // Got customer
-                            log("Customer:");
-                            log(customer);
-
-                            this.charge.idcustomer = customer.idcustomer;
-
-                            this.charge.save(() => {
-
-                                if(this.charge.isAddressNecessary) {
-
-                                    // Ask for address
-                                    AddressView.prompt(customer, (a: Address) => {
-
-                                        log("Address:");
-                                        log(a);
-
-                                        // Set as delivery address
-                                        this.charge.idaddressdelivery = a.idaddress;
-                                        this.charge.save(() => {
-
-                                            // Ask for credit card
-                                            OpenPayCCView.prompt(customer, (card: Card, token: string) => {
-
-                                                //TODO: AQUI ME QUEDE
-                                                // send card to make transaction
-                                                log("Card:");
-                                                log(card);
-
-                                                OpenpayServer.makeTransaction('card', charge.idcharge,
-                                                    token, this.deviceSessionId).send((t: Transaction) => {
-                                                    log(t);
-                                                });
-
-                                            });
-
-                                        });
-                                    });
-                                }
-
-                            });
-
-
-                        });
+                        // // Ask for customer
+                        // CustomerView.prompt((customer: Customer) => {
+                        //
+                        //     // Got customer
+                        //     log("Customer:");
+                        //     log(customer);
+                        //
+                        //     this.charge.idcustomer = customer.idcustomer;
+                        //
+                        //     this.charge.save(() => {
+                        //
+                        //         if(this.charge.isAddressNecessary) {
+                        //
+                        //             // Ask for address
+                        //             AddressView.prompt(customer, (a: Address) => {
+                        //
+                        //                 log("Address:");
+                        //                 log(a);
+                        //
+                        //                 // Set as delivery address
+                        //                 this.charge.idaddressdelivery = a.idaddress;
+                        //                 this.charge.save(() => {
+                        //
+                        //                     // Ask for credit card
+                        //                     OpenPayCCView.prompt(customer, (card: Card, token: string) => {
+                        //
+                        //                         //TODO: AQUI ME QUEDE
+                        //                         // send card to make transaction
+                        //                         log("Card:");
+                        //                         log(card);
+                        //
+                        //                         OpenpayServer.makeTransaction('card', charge.idcharge,
+                        //                             token, this.deviceSessionId).send((t: Transaction) => {
+                        //                             log(t);
+                        //                         });
+                        //
+                        //                     });
+                        //
+                        //                 });
+                        //             });
+                        //         }
+                        //
+                        //     });
+                        //
+                        //
+                        // });
                     }else {
                         //TODO: not implemented
                         throw "Not implemented: When user is already set";

@@ -6,7 +6,8 @@
 </head>
 <body>
 <div data-class="CustomerViewBase" class="payment-view customer-view">
-    <h1>Proceed to Checkout</h1>
+    <header data-property="header"></header>
+    <h1>Checkout</h1>
 
     <div class="payment-progress">
         <div class="node active"></div>
@@ -16,28 +17,25 @@
         <div class="node"></div>
     </div>
 
-    <div class="order-detail">
+    <div class="order-detail" data-property="orderDetail">
         Order Detail
     </div>
 
+    <h2>Customer Information</h2>
     <div class="field">
         <div class="name" >Email</div>
         <div class="input"><input data-property="txtEmail" type="text"/></div>
         <div class="extra">We will not send spam. It's important for us to be able to contact you regarding your order.</div>
     </div>
-    <h2>Contact Information</h2>
-    <div class="field">
-        <div class="name" >First Name</div>
-        <div class="input"><input data-property="txtFirstName" type="text"/></div>
-    </div>
-    <div class="field">
-        <div class="name" >Last Name</div>
-        <div class="input"><input data-property="txtLastName" type="text"/></div>
-    </div>
 
-    <div>
-        <div data-event="click:continue_Click" class="payment-cta">Enter Address &gt;</div>
+    <h2  data-property="shippingTitle">Shipping Address</h2>
+    <div data-property="addressElement">
+
     </div>
+    <div>
+        <div data-event="click:continue_Click" class="payment-cta">Continue to shipping method</div>
+    </div>
+    <footer data-property="footer">All rights reserved</footer>
 </div>
 </body>
 </html>

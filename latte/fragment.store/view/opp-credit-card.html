@@ -6,7 +6,21 @@
     <link href="opp-credit-card.css" rel="stylesheet">
 </head>
 <body>
-<div data-class="OpenPayCCViewBase" class="opp-cc-dialog">
+<div data-class="OpenPayCCViewBase" class="opp-cc-dialog payment-view">
+    <header data-property="header"></header>
+    <h1>Payment Method</h1>
+
+    <div class="payment-progress">
+        <div class="node"></div>
+        <div class="path"></div>
+        <div class="node"></div>
+        <div class="path"></div>
+        <div class="node active"></div>
+    </div>
+
+    <div class="order-detail" data-property="orderDetail">
+        Order Detail
+    </div>
     <!-- FORM STRUCTURE NEEDED FOR OPENPAY CONNECTION -->
     <form action="#" method="POST" id="payment-form" data-property="form">
         <input type="hidden" name="token_id" id="token_id" data-property="tokenId">
@@ -14,14 +28,11 @@
             <h2>Tarjeta de crédito o débito</h2>
             <div>
                 <div>
-                    <div><h4>Tarjetas de crédito</h4></div>
-                    <div><h4>Tarjetas de débito</h4></div>
-                </div>
-                <div>
-                    <div>
-                        <label>Nombre del titular</label><input data-property="txtHolderName" type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name" value="juan manuel mendez poo">
+                    <div class="field">
+                        <label>Nombre del titular</label>
+                        <input data-property="txtHolderName" type="text" placeholder="Como aparece en la tarjeta" autocomplete="off" data-openpay-card="holder_name" value="juan manuel mendez poo">
                     </div>
-                    <div>
+                    <div class="field">
                         <label>Número de tarjeta</label><input data-property="txtCardNumber" type="text" autocomplete="off" data-openpay-card="card_number" value="4242424242424242"></div>
                 </div>
                 <div>
@@ -43,6 +54,7 @@
             </div>
         </div>
     </form>
+    <footer data-property="footer">All rights reserved</footer>
 </div>
 </body>
 </html>

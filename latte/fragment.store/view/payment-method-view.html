@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Method</title>
+</head>
+<body>
+<div data-class="PaymentMethodViewBase" class="payment-view">
+    <header data-property="header"></header>
+    <h1>Payment</h1>
+    <div class="payment-progress">
+        <div class="node active"></div>
+        <div class="path"></div>
+        <div class="node"></div>
+        <div class="path"></div>
+        <div class="node"></div>
+    </div>
+
+    <div class="order-detail" data-property="orderDetail">
+        Order Detail
+    </div>
+
+    <h2>Payment method</h2>
+    <p>All transactions are secure and encrypted. Credit Card Information is Never Stored</p>
+    <div data-property="payMethodOptions" class="clickable-options">
+        <div class="clickable-option checked">
+            <div class="radio"></div>
+            <div class="label">Credit Card</div>
+            <div class="side">[Logos]</div>
+        </div>
+        <div class="content">
+            <div data-class="CreditCardViewBase">
+                <div class="field">
+                    <div class="name" >Card Number</div>
+                    <div class="input"><input data-property="txtCardNumber" type="text"/></div>
+                </div>
+                <div class="field">
+                    <div class="name" >Name on card</div>
+                    <div class="input"><input data-property="txtCardHolder" type="text"/></div>
+                </div>
+                <div class="field">
+                    <div class="name" >MM / YY</div>
+                    <div class="input">
+                        <select name="month"><option>00</option></select>
+                        <select name="year"><option>00</option></select>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="name" >CVV</div>
+                    <div class="input"><input data-property="txtCvv" maxlength="4" type="text"/></div>
+                </div>
+            </div>
+        </div>
+        <div class="clickable-option">
+            <div class="radio"></div>
+            <div class="label">PayPal</div>
+        </div>
+        <div data-class="PaymentClickableContent" class="content"></div>
+    </div>
+
+    <h2>Billing Address</h2>
+    <div class="clickable-options" data-property="billingAddressContainer">
+        <div data-class="PaymentClickableBase" class="clickable-option" data-property="btnSameAddress">
+            <div data-property="radio" class="radio"></div>
+            <div data-property="label" class="label">Same as Shipping Address</div>
+            <div data-property="extra" class="extra"></div>
+        </div>
+        <div class="clickable-option">
+            <div class="radio"></div>
+            <div class="label">Other Address</div>
+        </div>
+    </div>
+    <div>
+        <div class="payment-cta" data-event="click:payNow_Click">Pay Now</div>
+    </div>
+    <footer data-property="footer">All rights reserved</footer>
+</div>
+</body>
+</html>

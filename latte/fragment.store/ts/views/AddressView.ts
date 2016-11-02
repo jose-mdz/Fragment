@@ -9,32 +9,6 @@ module latte {
     export class AddressView extends AddressViewBase {
 
         //region Static
-        /**
-         * Prompts for a customer and returns it
-         * @param callback
-         */
-        static prompt(customer: Customer, callback: (c: Address) => any = null){
-
-            // Create view
-            let cv = new AddressView();
-
-            // Show dialog
-            let d = ElementDialog.showElement(cv);
-
-            // Handle callback
-            cv.addressSaved.add(() => {
-
-                d.close();
-
-                if(callback) callback(cv.address);
-            });
-
-            cv.address = new Address();
-            cv.address.idcustomer = customer.idcustomer;
-
-
-
-        }
         //endregion
 
         //region Fields
@@ -56,23 +30,30 @@ module latte {
         /**
          * Handles click on continue
          */
-        continue_Click(){
+        saveAddress(callback: () => any = null){
 
             let c = this.address || new Address();
 
-            this.address.city    = this.txtCity.text    ;
-            this.address.country = this.txtCountry.text ;
-            this.address.line1   = this.txtLine1.text   ;
-            this.address.line2   = this.txtLine2.text   ;
-            this.address.line3   = this.txtLine3.text   ;
-            this.address.name    = this.txtName.text    ;
-            this.address.phone   = this.txtPhone.text   ;
-            this.address.zip     = this.txtZip.text     ;
+            c.city      = this.txtCity.text      ;
+            c.country   = this.txtCountry.text   ;
+            c.state     = this.txtState.text     ;
+            c.line1     = this.txtLine1.text     ;
+            c.line2     = this.txtLine2.text     ;
+            c.line3     = this.txtLine3.text     ;
+            c.name      = this.txtName.text      ;
+            c.phone     = this.txtPhone.text     ;
+            c.zip       = this.txtZip.text       ;
+            c.firstname = this.txtFirstName.text ;
+            c.lastname  = this.txtLastName.text  ;
 
             c.save(() => {
                 this.address = c;
                 this.onAddressChanged();
                 this.onAddressSaved();
+
+                if(_isFunction(callback)) {
+                    callback();
+                }
             });
 
         }
@@ -86,14 +67,16 @@ module latte {
             }
 
             if(this.address) {
-                this.txtCity.text    = this.address.city;
-                this.txtCountry.text = this.address.country;
-                this.txtLine1.text   = this.address.line1;
-                this.txtLine2.text   = this.address.line2;
-                this.txtLine3.text   = this.address.line3;
-                this.txtName.text    = this.address.name;
-                this.txtPhone.text   = this.address.phone;
-                this.txtZip.text     = this.address.zip;
+                this.txtCity.text      = this.address.city         ;
+                this.txtCountry.text   = this.address.country      ;
+                this.txtLine1.text     = this.address.line1        ;
+                this.txtLine2.text     = this.address.line2        ;
+                this.txtLine3.text     = this.address.line3        ;
+                this.txtName.text      = this.address.name         ;
+                this.txtPhone.text     = this.address.phone        ;
+                this.txtZip.text       = this.address.zip          ;
+                this.txtFirstName.text = this.address.firstname    ;
+                this.txtLastName.text  = this.address.lastname     ;
             }
         }
         //endregion

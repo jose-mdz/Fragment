@@ -27,19 +27,51 @@
 
 .payment-view{
     color: gray;
+    overflow: auto;
+}
+
+.payment-view a{
+    color: #43AEF8;
+    text-decoration: none;
+}
+
+.payment-view a:hover{
+    text-decoration: underline;
 }
 
 .payment-view h1{
     color: black;
 }
 
+.payment-view p{
+    font-size: smaller;
+    text-align: left;
+    width: 400px;
+    margin: 0 auto;
+}
+
+.payment-view footer{
+    border-top: solid 1px #f0f0f0;
+    font-size: smaller;
+    padding: 30px;
+    margin-top: 30px;
+}
+
+.payment-view .back-nav{
+    margin-left: 20px;
+    text-align: left;
+    padding: 30px 0;
+}
+
 .payment-view .order-detail{
     background: #f0f0f0;
+    border-top: solid 1px  #e0e0e0;
+    border-bottom: solid 1px  #e0e0e0;
     padding: 30px 0;
 }
 
 .payment-view .payment-progress{
-    margin: auto;
+    margin: 0 auto 20px auto;
     width: 130px;
 }
 
@@ -53,15 +85,15 @@
 
 .payment-view .payment-progress .path{
     width: 30px;
-    height: 3px;
+    height: 2px;
     background: #ccc;
     float: left;
-    margin-top: 9px;
+    margin-top: 7px;
 }
 
 .payment-view .payment-progress .node{
-    width: 15px;
-    height: 15px;
+    width: 10px;
+    height: 10px;
     background: #ccc;
     border: solid 3px white;
     /*box-shadow: 0 0 0 3px #ccc;*/
@@ -83,6 +115,7 @@
 
 .payment-view .input input[type=text],
 .payment-view .input input[type=password],
+.payment-view .input select,
 .payment-view .input textarea{
     border: solid 1px silver;
     width: 400px;
@@ -90,11 +123,17 @@
     font-size: larger;
     border-radius: 5px;
     color: black;
+    background-color: white;
+}
+
+.payment-view .input select{
+    width: auto !important;
 }
 
 
 .payment-view .input input[type=text]:focus,
 .payment-view .input input[type=password]:focus,
+.payment-view .input select:focus,
 .payment-view .input textarea:focus{
     /*outline-offset: 10px;*/
     outline: none;
@@ -116,6 +155,87 @@
     width: 400px;
 }
 
+.payment-view .address-text{
+    margin: 0 30px;
+    text-align: left;
+}
+
+.payment-view .clickable-option{
+    border-top: solid 1px silver;
+    border-left: solid 1px silver;
+    border-right: solid 1px silver;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
+}
+
+.payment-view .clickable-option:hover{
+    background-color:#e7f3fb;
+}
+
+.payment-view .clickable-option::after{
+    clear: both;
+    display: block;
+    font-size: 1px;
+    color: transparent;
+    content: '.';
+    visibility: hidden;
+}
+
+.payment-view .clickable-options{
+    width: 500px;
+    margin: auto;
+}
+
+.payment-view .clickable-options > div:first-child{
+    margin-top: 20px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.payment-view .clickable-options > div:last-child{
+    margin-bottom: 20px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom: solid 1px silver
+}
+
+.payment-view .clickable-options > .content{
+    border-top: solid 1px silver;
+    border-left: solid 1px silver;
+    border-right: solid 1px silver;
+    background: #fafafa;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
+    transition: height 1s;
+}
+
+.payment-view .clickable-option .radio{
+    float: left;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    background-color: silver;
+    margin-right: 10px;
+}
+
+.payment-view .clickable-option.checked{
+    color: black;
+}
+
+.payment-view .clickable-option.checked .radio{
+    background-color: #43AEF8;
+}
+
+.payment-view .clickable-option .label{
+    float: left;
+}
+
+.payment-view .clickable-option .side{
+    float: right;
+}
+
 @media (min-width: 801px){
 
 }
@@ -124,6 +244,10 @@
 }
 
 @media (max-width:640px){
+    .payment-view p{
+        margin: 0 20px;
+    }
+
     .payment-view .payment-progress{
         display: none;
     }
@@ -135,6 +259,10 @@
     .payment-view .input input[type=password],
     .payment-view .input textarea{
         width: 90%;
+    }
+
+    .payment-view .clickable-options{
+        width: auto;
     }
 
     .payment-cta{

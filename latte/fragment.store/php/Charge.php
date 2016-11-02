@@ -4,7 +4,7 @@
  */
 class Charge extends chargeBase{
 
-    const FLAG_ADDRESS_NECESSARY = 8;
+    const FLAG_ADDRESS_NOT_NECESSARY = 8;
 
     /**
      * Creates the charge and returns it
@@ -16,7 +16,7 @@ class Charge extends chargeBase{
      * @param int $flags
      * @return Charge
      */
-    public static function create($amount, $description, $idwallet = 0, $flags = 8){
+    public static function create($amount, $description, $idwallet = 0, $flags = 0){
         $c = new Charge();
         $c->description = $description;
         $c->amount = $amount;

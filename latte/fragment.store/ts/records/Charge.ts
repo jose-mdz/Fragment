@@ -8,28 +8,48 @@ module latte{
 	 */
 	export class Charge extends chargeBase{
 
-
-
 		//region Static
 
-		static FLAG_ADDRESS_NECESSARY = 8;
+		static FLAG_ADDRESS_NOT_NECESSARY = 8;
 
 		/**
 		 * Prompts the user to charge the specified amount
 		 * @param amount
 		 */
-		static prompt(amount: number, description: string){
+		static prompt(amount: number, description: string, flags: number = 0){
 
-			Charge.create(amount, description).send((c: Charge) => {
 
-				if(c.isWalletSet) {
+			Charge.create(amount, description, flags).send((charge: Charge) => {
 
-					c.wallet.driver.executeCharge(c);
+				CustomerView.prompt(charge, (customer: Customer, address: Address) => {
+					log(customer);
+					log(address);
 
-				}else{
-					//TODO: Implement this
-					log("Charge.prompt: This flow part has not been implemented");
-				}
+					// Save collected data
+
+					charge.idcustomer = customer.idcustomer;
+					charge.idshippingaddress = address.idaddress;
+					charge.customer = customer;
+					charge.shippingAddress = address;
+
+					//
+					charge.save(() => {
+
+						PaymentMethodView.prompt(charge, () => {
+
+						});
+
+					});
+				});
+
+				// if(c.isWalletSet) {
+                //
+				// 	c.wallet.driver.executeCharge(c);
+                //
+				// }else{
+				// 	//TODO: Implement this
+				// 	log("Charge.prompt: This flow part has not been implemented");
+				// }
 
 			});
 
@@ -43,6 +63,12 @@ module latte{
 		 * @type {any}
 		 */
 		customer: Customer = null;
+
+		/**
+		 * Shipping address of the charge
+		 * @type {any}
+		 */
+		shippingAddress: Address = null;
 
 		/**
 		 * Wallet of the charge
@@ -67,8 +93,8 @@ module latte{
 		 *
 		 * @returns {boolean}
 		 */
-		get isAddressNecessary(): boolean {
-			return (this.flags & Charge.FLAG_ADDRESS_NECESSARY) == Charge.FLAG_ADDRESS_NECESSARY;
+		get isNoShipping(): boolean {
+			return (this.flags & Charge.FLAG_ADDRESS_NOT_NECESSARY) == Charge.FLAG_ADDRESS_NOT_NECESSARY;
 		}
 
 		/**

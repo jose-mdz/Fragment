@@ -4,6 +4,8 @@
  */
 class Wallet extends walletBase{
 
+
+
     /**
      * Gets the wallet
      *

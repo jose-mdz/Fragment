@@ -18,6 +18,7 @@
     "charge",
     "customer",
     "payment",
+    "paymethod",
     "transaction",
     "wallet"
   ]
