@@ -1,0 +1,4 @@
+youWillBeRedirected Serás redireccionado
+noBillingAddress Sin dirección de facturación
+specifyBillingAddress Especificar dirección de facturación
+sameAsShippingAddress La misma que la dirección de envío

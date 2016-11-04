@@ -33,78 +33,53 @@ module latte {
          * Get UI for payment method
          */
         getPayMethodUI(m: PayMethod): HTMLElement{
-            return (new CreditCardView()).element;
+            return this.cardView.element;
         }
 
         /**
          * Executes the charge of the wallet
          * @param charge
          */
-        executeCharge(charge: Charge){
+        executeTransaction(method: PayMethod, charge: Charge, callback: (t: Transaction) => any){
 
-            // Load scripts
+            // Load Open Pay
             _include("https://openpay.s3.amazonaws.com/openpay.v1.min.js", () => {
 
+                // Load Open Pay Extra Library (for some reason >:/)
                 _include("https://openpay.s3.amazonaws.com/openpay-data.v1.min.js", () => {
-                    // Set charge data after scripts are loaded
-                    this.charge = charge;
 
-                    if(!this.charge.isCustomerSet) {
+                    // Set wallet and initialize library
+                    this.wallet = method.wallet;
 
-                        // // Ask for customer
-                        // CustomerView.prompt((customer: Customer) => {
-                        //
-                        //     // Got customer
-                        //     log("Customer:");
-                        //     log(customer);
-                        //
-                        //     this.charge.idcustomer = customer.idcustomer;
-                        //
-                        //     this.charge.save(() => {
-                        //
-                        //         if(this.charge.isAddressNecessary) {
-                        //
-                        //             // Ask for address
-                        //             AddressView.prompt(customer, (a: Address) => {
-                        //
-                        //                 log("Address:");
-                        //                 log(a);
-                        //
-                        //                 // Set as delivery address
-                        //                 this.charge.idaddressdelivery = a.idaddress;
-                        //                 this.charge.save(() => {
-                        //
-                        //                     // Ask for credit card
-                        //                     OpenPayCCView.prompt(customer, (card: Card, token: string) => {
-                        //
-                        //                         //TODO: AQUI ME QUEDE
-                        //                         // send card to make transaction
-                        //                         log("Card:");
-                        //                         log(card);
-                        //
-                        //                         OpenpayServer.makeTransaction('card', charge.idcharge,
-                        //                             token, this.deviceSessionId).send((t: Transaction) => {
-                        //                             log(t);
-                        //                         });
-                        //
-                        //                     });
-                        //
-                        //                 });
-                        //             });
-                        //         }
-                        //
-                        //     });
-                        //
-                        //
-                        // });
-                    }else {
-                        //TODO: not implemented
-                        throw "Not implemented: When user is already set";
-                        //ElementDialog.showElement(this.creditCardView);
-                    }
+                    log("Extracting " + this.cardView.form.element.id);
+
+                    // Generate token for card
+                    OpenPay.token.extractFormAndCreate(this.cardView.form.element.id,
+
+                        // Success
+                        (response: any) => {
+
+                            this.token = response.data.id;
+
+                            // Got Token
+                            log("Token!: " + this.token);
+
+                            // Proceed to transaction
+                            OpenpayServer.makeTransaction(method.option, charge.idcharge, this.token, this.deviceSessionId).send((t: Transaction) => {
+
+                                // Calls back with transaction result
+                                callback(t);
+                            });
+
+                        },
+
+                        // Failure
+                        (response: any) => {
+                            // TODO: highlight fields in red or something
+                            var desc = response.data.description != undefined ? response.data.description : response.message;
+                            alert("ERROR [" + response.status + "] " + desc);
+                        });
                 });
-
-
             });
         }
 
@@ -137,7 +112,7 @@ module latte {
                 OpenPay.setSandboxMode(Payment.sandbox);
 
                 // Aparently, this id is automatical inserted in the form
-                this.deviceSessionId = OpenPay.deviceData.setup("payment-form", "deviceIdHiddenFieldName");
+                this.deviceSessionId = OpenPay.deviceData.setup(this.cardView.form.element.getAttribute('id'), "deviceIdHiddenFieldName");
             }
         }
         //endregion
@@ -295,6 +270,22 @@ module latte {
         //endregion
 
         //region Components
+        /**
+         * Field for cardView property
+         */
+        private _cardView: OpenPayCCView;
+
+        /**
+         * Gets the Credit Card View
+         *
+         * @returns {OpenPayCCView}
+         */
+        get cardView(): OpenPayCCView {
+            if (!this._cardView) {
+                this._cardView = new OpenPayCCView();
+            }
+            return this._cardView;
+        }
 
         //endregion
 

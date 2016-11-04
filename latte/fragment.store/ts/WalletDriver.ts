@@ -37,8 +37,8 @@ module latte {
          * The driver is the one in charge to know how to charge the specified amount.
          * @param charge
          */
-        executeCharge(charge: Charge){
-
+        executeTransaction(method:PayMethod, charge: Charge, callback: (t: Transaction) => any){
+            throw "Must Implement";
         }
 
         //endregion

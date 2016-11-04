@@ -3,6 +3,13 @@
  */
 module latte{
 
+    export interface ChargeOptions{
+        amount: number;
+        description?: string;
+        flags?: number;
+        callback?: (t: Transaction) => any;
+    }
+
 	/**
 	 * Record for table charge
 	 */
@@ -16,8 +23,12 @@ module latte{
 		 * Prompts the user to charge the specified amount
 		 * @param amount
 		 */
-		static prompt(amount: number, description: string, flags: number = 0){
+		static prompt(options: ChargeOptions){
 
+		    let amount = options.amount;
+            let description = options.description;
+            let flags = options.flags || 0;
+            let callback = options.callback;
 
 			Charge.create(amount, description, flags).send((charge: Charge) => {
 
@@ -26,21 +37,28 @@ module latte{
 					log(address);
 
 					// Save collected data
-
 					charge.idcustomer = customer.idcustomer;
-					charge.idshippingaddress = address.idaddress;
 					charge.customer = customer;
-					charge.shippingAddress = address;
 
-					//
+                    if(address) {
+                        charge.idshippingaddress = address.idaddress;
+                        charge.shippingAddress = address;
+                    }
+
+					// Save the changes on charge
 					charge.save(() => {
 
-						PaymentMethodView.prompt(charge, () => {
+                        // Go
+						PaymentMethodView.prompt(charge, (t: Transaction) => {
+
+						    if(callback) {
+						        callback(t);
+						    }
 
 						});
 
 					});
-				});
+                });
 
 				// if(c.isWalletSet) {
                 //
@@ -63,6 +81,12 @@ module latte{
 		 * @type {any}
 		 */
 		customer: Customer = null;
+
+        /**
+         * Billing address of the charge
+         * @type {any}
+         */
+        billingAddress: Address = null;
 
 		/**
 		 * Shipping address of the charge

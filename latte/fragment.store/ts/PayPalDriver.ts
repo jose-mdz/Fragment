@@ -1,12 +1,12 @@
 /**
- * Created by josemanuel on 11/1/16.
+ * Created by josemanuel on 11/2/16.
  */
 module latte {
 
     /**
      *
      */
-    export class PaymentClickable extends PaymentClickableBase {
+    export class PayPalDriver extends WalletDriver {
 
         //region Static
         //endregion
@@ -17,14 +17,8 @@ module latte {
         /**
          *
          */
-        constructor(text: string, sideText: string = null) {
+        constructor() {
             super();
-
-            this.label.text = text;
-
-            if(sideText) {
-                this.extra.text = sideText;
-            }
         }
 
         //region Private Methods

@@ -8,7 +8,6 @@ class Transaction extends transactionBase{
 
     const MODE_REST_WILL_CALL = 2;
 
-
     /**
      * Override.
      */

@@ -62,12 +62,17 @@ module latte {
                 this.customer = c;
                 this.onCustomerChanged();
 
-                this.addressView.saveAddress(() => {
+                if(!this.charge.isNoShipping){
+                    this.addressView.saveAddress(() => {
 
-                    this.address = this.addressView.address;
+                        this.address = this.addressView.address;
+                        this.onDataSaved();
+
+                    });
+                }else{
                     this.onDataSaved();
+                }
 
-                });
 
             });
 

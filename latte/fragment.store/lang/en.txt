@@ -1,0 +1,4 @@
+youWillBeRedirected You will be redirected
+noBillingAddress No Billing Address
+specifyBillingAddress Specify Billing Address
+sameAsShippingAddress Same as Shipping Address

@@ -1,8 +1,3 @@
-.opp-cc-dialog{
-    border:solid 1px silver;
-    border-radius: 10px;
-}
-
 .payment-cta{
     background: #43AEF8;
     color: white;
@@ -46,7 +41,7 @@
 .payment-view p{
     font-size: smaller;
     text-align: left;
-    width: 400px;
+    max-width: 400px;
     margin: 0 auto;
 }
 
@@ -167,10 +162,11 @@
     margin-left: 20px;
     margin-right: 20px;
     padding: 20px;
+    color: silver;
 }
 
 .payment-view .clickable-option:hover{
-    background-color:#e7f3fb;
+    /*border-color:#43AEF8;*/
 }
 
 .payment-view .clickable-option::after{
@@ -207,8 +203,16 @@
     background: #fafafa;
     margin-left: 20px;
     margin-right: 20px;
-    padding: 20px;
+    /*padding: 20px;*/
     transition: height 1s;
+}
+
+.payment-view .clickable-options > .content::after{
+    content: '.';
+    clear: both;
+    visibility: hidden;
+    font-size: 1px;
+    display: block;
 }
 
 .payment-view .clickable-option .radio{

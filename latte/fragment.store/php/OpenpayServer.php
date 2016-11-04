@@ -30,7 +30,7 @@ class OpenpayServer{
         $charge = Charge::byAuto($idcharge);
 
         // Wallet
-        $w = Wallet::byAuto($charge->idwallet);
+        $w = Wallet::byPayMethod($charge->idpaymethod);
 
         // Customer
         $customer = Customer::byAuto($charge->idcustomer);

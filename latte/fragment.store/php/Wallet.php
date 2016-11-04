@@ -33,6 +33,21 @@ class Wallet extends walletBase{
     }
 
     /**
+     * Gets the wallet of the specified pay method
+     * @remote
+     * @param int $idpaymethod
+     * @return Wallet
+     */
+    public static function byPayMethod($idpaymethod){
+        return DL::oneOf('Wallet', "
+        SELECT wallet.*
+        FROM wallet
+         INNER JOIN paymethod USING (idwallet)
+        WHERE paymethod.idpaymethod = '$idpaymethod'
+        ");
+    }
+
+    /**
      * Gets the default wallet of the system.
      * Returns false if none.
      *
