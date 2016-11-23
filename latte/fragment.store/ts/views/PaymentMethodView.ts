@@ -25,6 +25,7 @@ module latte {
         //endregion
 
         //region Fields
+        private addressToInsert: Address = null;
         //endregion
 
         /**
@@ -49,16 +50,31 @@ module latte {
          */
         payNow_Click(){
 
+            Toast.loading();
+
             // Save method on charge
             this.charge.idpaymethod = this.selectedMethod.idpaymethod;
 
-            // TODO: Check if custom address needs to be saved/validated
-
-            this.charge.save(() => {
-                this.selectedMethod.wallet.driver.executeTransaction(this.selectedMethod, this.charge, (t: Transaction) => {
-                    this.transaction = t;
+            var execTransaction = () => {
+                this.charge.save(() => {
+                    this.selectedMethod.wallet.driver.executeTransaction(this.selectedMethod, this.charge, (t: Transaction) => {
+                        this.transaction = t;
+                        Toast.loaded();
+                    });
                 });
-            });
+            };
+
+            // Check if custom address needs to be saved
+            if(this.addressToInsert) {
+
+                // Save address
+                this.customAddressView.saveAddress(() => {
+                    execTransaction();
+                });
+            }else{
+                execTransaction();
+            }
+
 
         }
 
@@ -110,6 +126,9 @@ module latte {
          * Handles change of address option
          */
         addressOptionChanged(){
+
+            this.addressToInsert = null;
+
             if(this.addressContainer.checkedClickable == this.btnNoAddress) {
                 this.charge.idbillingaddress = -1;
 
@@ -117,7 +136,11 @@ module latte {
                 this.charge.idbillingaddress = this.charge.idshippingaddress;
 
             }else {
+
+                if(!this.customAddressView.address) this.customAddressView.address = new Address();
+
                 this.addressContainer.currentContent = this.customAddressView;
+                this.addressToInsert = this.customAddressView.address;
             }
         }
 
@@ -131,6 +154,9 @@ module latte {
 
             if(this.charge.shippingAddress) {
                 this.addressContainer.clickables.add(this.btnSameAsShipping);
+                this.addressContainer.checkedClickable = this.btnSameAsShipping;
+            }else {
+                this.addressContainer.checkedClickable = this.btnNoAddress;
             }
 
             this.addressContainer.clickables.add(this.btnSpecifyAddress);
@@ -432,6 +458,7 @@ module latte {
         get customAddressView(): AddressView {
             if (!this._customAddressView) {
                 this._customAddressView = new AddressView();
+                this._customAddressView.address = new Address();
             }
             return this._customAddressView;
         }

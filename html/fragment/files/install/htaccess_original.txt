@@ -29,7 +29,7 @@ RewriteRule (.*) /fragment/latte/releases/fragment/support/actions/dispatch.php?
 # Enable compression if available
 #
 <ifmodule mod_deflate.c>
-AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript image/svg+xml
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript image/svg+xml application/font-sfnt application/font-woff
 </ifmodule>
 #
 #

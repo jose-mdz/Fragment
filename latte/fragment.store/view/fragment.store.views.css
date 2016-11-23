@@ -277,6 +277,52 @@
 
     .payment-view h2{
         width: auto;
-        margin: 30px 20px 0px 20px;
+        margin: 30px 20px 0 20px;
     }
+}
+
+div.toast{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 10000;
+}
+
+div.toast svg{
+    animation: toast-rotate 1s linear infinite;
+}
+
+div.toast.visible{
+    animation: fadein 1s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes toast-rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+div.toast svg#toast-loader{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -90px;
+    margin-top: -90px;
+}
+
+div.toast div.label{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    margin-top: -8px;
+    font-size: 15px;
+    text-align: center;
 }

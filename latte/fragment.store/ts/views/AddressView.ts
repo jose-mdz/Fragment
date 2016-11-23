@@ -32,29 +32,29 @@ module latte {
          */
         saveAddress(callback: () => any = null){
 
-            let c = this.address || new Address();
-
-            c.city      = this.txtCity.text      ;
-            c.country   = this.txtCountry.text   ;
-            c.state     = this.txtState.text     ;
-            c.line1     = this.txtLine1.text     ;
-            c.line2     = this.txtLine2.text     ;
-            c.line3     = this.txtLine3.text     ;
-            c.name      = this.txtName.text      ;
-            c.phone     = this.txtPhone.text     ;
-            c.zip       = this.txtZip.text       ;
-            c.firstname = this.txtFirstName.text ;
-            c.lastname  = this.txtLastName.text  ;
-
-            c.save(() => {
-                this.address = c;
-                this.onAddressChanged();
-                this.onAddressSaved();
-
-                if(_isFunction(callback)) {
-                    callback();
-                }
-            });
+            // let c = this.address || new Address();
+            //
+            // c.city      = this.txtCity.text      ;
+            // c.country   = this.txtCountry.text   ;
+            // c.state     = this.txtState.text     ;
+            // c.line1     = this.txtLine1.text     ;
+            // c.line2     = this.txtLine2.text     ;
+            // c.line3     = this.txtLine3.text     ;
+            // c.name      = this.txtName.text      ;
+            // c.phone     = this.txtPhone.text     ;
+            // c.zip       = this.txtZip.text       ;
+            // c.firstname = this.txtFirstName.text ;
+            // c.lastname  = this.txtLastName.text  ;
+            //
+            // c.save(() => {
+            //     this.address = c;
+            //     this.onAddressChanged();
+            //     this.onAddressSaved();
+            //
+            //     if(_isFunction(callback)) {
+            //         callback();
+            //     }
+            // });
 
         }
 
@@ -66,17 +66,21 @@ module latte {
                 this._addressChanged.raise();
             }
 
+            // if(this.address) {
+            //     this.txtCity.text      = this.address.city         ;
+            //     this.txtCountry.text   = this.address.country      ;
+            //     this.txtLine1.text     = this.address.line1        ;
+            //     this.txtLine2.text     = this.address.line2        ;
+            //     this.txtLine3.text     = this.address.line3        ;
+            //     this.txtName.text      = this.address.name         ;
+            //     this.txtPhone.text     = this.address.phone        ;
+            //     this.txtZip.text       = this.address.zip          ;
+            //     this.txtFirstName.text = this.address.firstname    ;
+            //     this.txtLastName.text  = this.address.lastname     ;
+            // }
+
             if(this.address) {
-                this.txtCity.text      = this.address.city         ;
-                this.txtCountry.text   = this.address.country      ;
-                this.txtLine1.text     = this.address.line1        ;
-                this.txtLine2.text     = this.address.line2        ;
-                this.txtLine3.text     = this.address.line3        ;
-                this.txtName.text      = this.address.name         ;
-                this.txtPhone.text     = this.address.phone        ;
-                this.txtZip.text       = this.address.zip          ;
-                this.txtFirstName.text = this.address.firstname    ;
-                this.txtLastName.text  = this.address.lastname     ;
+                this.bind(this.address);
             }
         }
         //endregion

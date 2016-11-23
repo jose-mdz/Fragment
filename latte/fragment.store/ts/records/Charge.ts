@@ -26,13 +26,23 @@ module latte{
 		static prompt(options: ChargeOptions){
 
 		    let amount = options.amount;
-            let description = options.description;
-            let flags = options.flags || 0;
-            let callback = options.callback;
 
-			Charge.create(amount, description, flags).send((charge: Charge) => {
+			let description = options.description;
+			let flags = options.flags || 0;
+			let callback = options.callback;
 
-				CustomerView.prompt(charge, (customer: Customer, address: Address) => {
+			// Create Charge
+			Toast.message = Charge.create(amount, description, flags).send((charge: Charge) => {
+
+				let customerView = CustomerView.prompt(charge, () => {
+
+				    let customer = customerView.customer;
+                    let address = customerView.addressView.address;
+
+                    // Obtain customer name from address
+                    customer.firstname = address.firstname;
+                    customer.lastname = address.lastname;
+
 					log(customer);
 					log(address);
 
@@ -40,13 +50,13 @@ module latte{
 					charge.idcustomer = customer.idcustomer;
 					charge.customer = customer;
 
-                    if(address) {
+                    if(!charge.isNoShipping) {
                         charge.idshippingaddress = address.idaddress;
                         charge.shippingAddress = address;
                     }
 
 					// Save the changes on charge
-					charge.save(() => {
+					Toast.message = charge.save(() => {
 
                         // Go
 						PaymentMethodView.prompt(charge, (t: Transaction) => {
@@ -60,6 +70,9 @@ module latte{
 					});
                 });
 
+                customerView.customer = new Customer();
+                customerView.addressView.address = new Address();
+
 				// if(c.isWalletSet) {
                 //
 				// 	c.wallet.driver.executeCharge(c);
@@ -70,6 +83,8 @@ module latte{
 				// }
 
 			});
+
+
 
 		}
 		//endregion

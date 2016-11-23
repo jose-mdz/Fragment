@@ -10,7 +10,13 @@ module latte {
 
         //region Static
 
-        static prompt(charge: Charge, callback: (c: Customer, a: Address) => any){
+        /**
+         * Prompts for a user and an address
+         * @param charge
+         * @param callback
+         * @returns {latte.CustomerView}
+         */
+        static prompt(charge: Charge, callback: () => any): CustomerView{
             // Create view
             let cv = new CustomerView();
 
@@ -20,12 +26,14 @@ module latte {
             let d = ElementDialog.showElement(cv);
 
             // Handle callback
-            cv.dataSaved.add(() => {
+            cv.submitted.add(() => {
 
                 d.close();
 
-                if(callback) callback(cv.customer, cv.address);
+                if(callback) callback();
             });
+
+            return cv;
         }
 
         //endregion
@@ -52,39 +60,17 @@ module latte {
          */
         continue_Click(){
 
-            let c = this.customer || new Customer();
-
-            c.firstname = this.addressView.txtFirstName.text;
-            c.lastname = this.addressView.txtLastName.text;
-            c.email = this.txtEmail.text;
-
-            c.save(() => {
-                this.customer = c;
-                this.onCustomerChanged();
-
-                if(!this.charge.isNoShipping){
-                    this.addressView.saveAddress(() => {
-
-                        this.address = this.addressView.address;
-                        this.onDataSaved();
-
-                    });
-                }else{
-                    this.onDataSaved();
-                }
+            // let c = this.customer || new Customer();
+            //
+            // c.firstname = this.addressView.txtFirstName.text;
+            // c.lastname = this.addressView.txtLastName.text;
+            // c.email = this.txtEmail.text;
+            //
+            // this.customer = c;
 
 
-            });
+            this.onSubmitted();
 
-        }
-
-        /**
-         * Raises the <c>address</c> event
-         */
-        onAddressChanged(){
-            if(this._addressChanged){
-                this._addressChanged.raise();
-            }
         }
 
         /**
@@ -117,30 +103,23 @@ module latte {
             }
 
             if(this.customer) {
-                this.txtEmail.text = this.customer.email;
+
+                this.bind(this.customer);
             }
 
+        }
+
+        /**
+         * Raises the <c>submitted</c> event
+         */
+        onSubmitted(){
+            if(this._submitted){
+                this._submitted.raise();
+            }
         }
         //endregion
 
         //region Events
-
-        /**
-         * Back field for event
-         */
-        private _addressChanged: LatteEvent;
-
-        /**
-         * Gets an event raised when the value of the address property changes
-         *
-         * @returns {LatteEvent}
-         */
-        get addressChanged(): LatteEvent{
-            if(!this._addressChanged){
-                this._addressChanged = new LatteEvent(this);
-            }
-            return this._addressChanged;
-        }
 
         /**
          * Back field for event
@@ -180,65 +159,23 @@ module latte {
         /**
          * Back field for event
          */
-        private _dataSaved: LatteEvent;
+        private _submitted: LatteEvent;
 
         /**
-         * Gets an event raised when data is saved
+         * Gets an event raised when the form is submitted
          *
          * @returns {LatteEvent}
          */
-        get dataSaved(): LatteEvent{
-            if(!this._dataSaved){
-                this._dataSaved = new LatteEvent(this);
+        get submitted(): LatteEvent{
+            if(!this._submitted){
+                this._submitted = new LatteEvent(this);
             }
-            return this._dataSaved;
-        }
-
-        /**
-         * Raises the <c>dataSaved</c> event
-         */
-        onDataSaved(){
-            if(this._dataSaved){
-                this._dataSaved.raise();
-            }
+            return this._submitted;
         }
 
         //endregion
 
         //region Properties
-
-        /**
-         * Property field
-         */
-        private _address: Address = null;
-
-        /**
-         * Gets or sets the address
-         *
-         * @returns {Address}
-         */
-        get address(): Address{
-            return this._address;
-        }
-
-        /**
-         * Gets or sets the address
-         *
-         * @param {Address} value
-         */
-        set address(value: Address){
-
-            // Check if value changed
-            let changed: boolean = value !== this._address;
-
-            // Set value
-            this._address = value;
-
-            // Trigger changed event
-            if(changed){
-                this.onAddressChanged();
-            }
-        }
 
         /**
          * Property field
@@ -305,8 +242,6 @@ module latte {
                 this.onCustomerChanged();
             }
         }
-
-
 
         //endregion
 

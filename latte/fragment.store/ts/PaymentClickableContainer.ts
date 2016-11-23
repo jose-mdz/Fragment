@@ -32,7 +32,7 @@ module latte {
         //region Methods
 
         private handle_click(c: PaymentClickable){
-            this.removeContainer();
+            this.currentContent = null;
 
             // Set current clickable
             this.checkedClickable = c;
@@ -69,6 +69,7 @@ module latte {
             this.removeContainer();
 
             if(this.currentContent) {
+
                 // Insert after clickable
                 if(this.checkedClickable) {
                     this.checkedClickable.element.insertAdjacentElement('afterend', this.contentContainer.element);
