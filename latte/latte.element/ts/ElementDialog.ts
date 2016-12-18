@@ -45,6 +45,13 @@ module latte {
         }
 
         /**
+         * Hides the dialog
+         */
+        hide(){
+            this.visible = false;
+        }
+
+        /**
          * Raises the <c>content</c> event
          */
         onContentChanged(){

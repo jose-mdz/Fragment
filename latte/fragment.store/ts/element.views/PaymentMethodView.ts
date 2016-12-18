@@ -9,17 +9,26 @@ module latte {
     export class PaymentMethodView extends PaymentMethodViewBase {
 
         //region Static
-        static prompt(charge: Charge, callback: (t: Transaction) => any){
+        static prompt(charge: Charge, callback: () => void): PaymentMethodView{
 
             let v = new PaymentMethodView(charge);
 
             let d = ElementDialog.showElement(v);
 
-            v.transactionChanged.add(() => {
-                if(v.transaction) {
-                    callback(v.transaction);
-                }
-            })
+            // v.transactionChanged.add(() => {
+            //     if(v.transaction) {
+            //         callback(v.transaction);
+            //     }
+            // });
+
+            v.submitted.add(() => {
+                d.hide();
+
+                if(callback)
+                    callback();
+            });
+
+            return v;
 
         }
         //endregion
@@ -50,30 +59,29 @@ module latte {
          */
         payNow_Click(){
 
-            Toast.loading();
+            this.onSubmitted();
 
-            // Save method on charge
-            this.charge.idpaymethod = this.selectedMethod.idpaymethod;
-
-            var execTransaction = () => {
-                this.charge.save(() => {
-                    this.selectedMethod.wallet.driver.executeTransaction(this.selectedMethod, this.charge, (t: Transaction) => {
-                        this.transaction = t;
-                        Toast.loaded();
-                    });
-                });
-            };
-
-            // Check if custom address needs to be saved
-            if(this.addressToInsert) {
-
-                // Save address
-                this.customAddressView.saveAddress(() => {
-                    execTransaction();
-                });
-            }else{
-                execTransaction();
-            }
+            // // Save method on charge
+            // this.charge.idpaymethod = this.selectedMethod.idpaymethod;
+            //
+            // let execTransaction = () => {
+            //     this.charge.save(() => {
+            //         this.selectedMethod.wallet.driver.executeTransaction(this.selectedMethod, this.charge, (t: Transaction) => {
+            //             this.transaction = t;
+            //         });
+            //     });
+            // };
+            //
+            // // Check if custom address needs to be saved
+            // if(this.addressToInsert) {
+            //
+            //     // Save address
+            //     this.customAddressView.saveAddress(() => {
+            //         execTransaction();
+            //     });
+            // }else{
+            //     execTransaction();
+            // }
 
 
         }
@@ -130,17 +138,14 @@ module latte {
             this.addressToInsert = null;
 
             if(this.addressContainer.checkedClickable == this.btnNoAddress) {
-                this.charge.idbillingaddress = -1;
+                this.billingAddressOption = ChargeBillingAddressOptions.NO_ADDRESS;
 
             }else if(this.addressContainer.checkedClickable == this.btnSameAsShipping){
-                this.charge.idbillingaddress = this.charge.idshippingaddress;
+                this.billingAddressOption = ChargeBillingAddressOptions.SAME_AS_SHIPPING;
 
             }else {
+                this.billingAddressOption = ChargeBillingAddressOptions.SPECIFIC_ADDRESS;
 
-                if(!this.customAddressView.address) this.customAddressView.address = new Address();
-
-                this.addressContainer.currentContent = this.customAddressView;
-                this.addressToInsert = this.customAddressView.address;
             }
         }
 
@@ -191,6 +196,32 @@ module latte {
         }
 
         /**
+         * Raises the <c>billingAddressOption</c> event
+         */
+        onBillingAddressOptionChanged(){
+            if(this._billingAddressOptionChanged){
+                this._billingAddressOptionChanged.raise();
+            }
+
+            switch(this.billingAddressOption){
+                case ChargeBillingAddressOptions.NO_ADDRESS:
+                    this.charge.idbillingaddress = -1;
+                    break;
+                case ChargeBillingAddressOptions.SAME_AS_SHIPPING:
+                    this.charge.idbillingaddress = this.charge.idshippingaddress;
+                    break;
+                case ChargeBillingAddressOptions.SPECIFIC_ADDRESS:
+                    if(!this.customAddressView.address) this.customAddressView.address = new Address();
+
+                    this.addressContainer.currentContent = this.customAddressView;
+                    this.addressToInsert = this.customAddressView.address;
+                    break;
+                case ChargeBillingAddressOptions.NONE:
+                    throw "A billing address option must be specified";
+            }
+        }
+
+        /**
          * Raises the <c>charge</c> event
          */
         onChargeChanged(){
@@ -219,6 +250,23 @@ module latte {
         //endregion
 
         //region Events
+
+        /**
+         * Back field for event
+         */
+        private _billingAddressOptionChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the billingAddressOption property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get billingAddressOptionChanged(): LatteEvent{
+            if(!this._billingAddressOptionChanged){
+                this._billingAddressOptionChanged = new LatteEvent(this);
+            }
+            return this._billingAddressOptionChanged;
+        }
 
         /**
          * Back field for event
@@ -257,6 +305,32 @@ module latte {
         /**
          * Back field for event
          */
+        private _submitted: LatteEvent;
+
+        /**
+         * Gets an event raised when the form is submitted
+         *
+         * @returns {LatteEvent}
+         */
+        get submitted(): LatteEvent{
+            if(!this._submitted){
+                this._submitted = new LatteEvent(this);
+            }
+            return this._submitted;
+        }
+
+        /**
+         * Raises the <c>submitted</c> event
+         */
+        onSubmitted(){
+            if(this._submitted){
+                this._submitted.raise();
+            }
+        }
+
+        /**
+         * Back field for event
+         */
         private _transactionChanged: LatteEvent;
 
         /**
@@ -273,6 +347,39 @@ module latte {
         //endregion
 
         //region Properties
+
+        /**
+         * Property field
+         */
+        private _billingAddressOption: ChargeBillingAddressOptions = ChargeBillingAddressOptions.NONE;
+
+        /**
+         * Gets or sets the billing address options
+         *
+         * @returns {ChargeBillingAddressOptions}
+         */
+        get billingAddressOption(): ChargeBillingAddressOptions{
+            return this._billingAddressOption;
+        }
+
+        /**
+         * Gets or sets the billing address options
+         *
+         * @param {ChargeBillingAddressOptions} value
+         */
+        set billingAddressOption(value: ChargeBillingAddressOptions){
+
+            // Check if value changed
+            let changed: boolean = value !== this._billingAddressOption;
+
+            // Set value
+            this._billingAddressOption = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onBillingAddressOptionChanged();
+            }
+        }
 
         /**
          * Property field
@@ -372,6 +479,7 @@ module latte {
                 this.onTransactionChanged();
             }
         }
+
         //endregion
 
         //region Components

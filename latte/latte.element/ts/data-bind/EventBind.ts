@@ -12,6 +12,7 @@ module latte {
         //endregion
 
         //region Fields
+        private installedHandler: () => void = null;
         //endregion
 
         /**
@@ -29,7 +30,7 @@ module latte {
         /**
          * Sets up the bind
          * @param element
-         * @param elementEvethis.bindedElements.push(e);nt
+         * @param elementEvent
          * @param record
          * @param recordMethod
          */
@@ -42,39 +43,75 @@ module latte {
 
             var __this = this;
 
+            this.installedHandler = function(){
+                var args = [];
+
+                for (var i = 0; i < arguments.length; i++) {
+                    args.push(arguments[i]);
+                }
+
+                if(_isFunction(__this.record[__this.recordMethod])) {
+                    __this.record[__this.recordMethod].apply(__this.record, args);
+
+                }else {
+                    //log(sprintf("Warning: Method %s is not present in %s", this.recordMethod, String(this.record)));
+                }
+
+            };
+
+            // if(this.element[this.elementEvent] instanceof LatteEvent) {
+            //     this.element[this.elementEvent].add(function(){
+            //         var args = [];
+            //
+            //         for (var i = 0; i < arguments.length; i++) {
+            //             args.push(arguments[i]);
+            //         }
+            //
+            //         if(_isFunction(__this.record[__this.recordMethod])) {
+            //             __this.record[__this.recordMethod].apply(__this.record, args);
+            //
+            //         }else {
+            //             //log(sprintf("Warning: Method %s is not present in %s", this.recordMethod, String(this.record)));
+            //         }
+            //
+            //     });
+            //
+            // }else {
+            //     this.element.addEventListener(this.elementEvent, function() {
+            //         var args = [];
+            //
+            //         for (var i = 0; i < arguments.length; i++) {
+            //             args.push(arguments[i]);
+            //         }
+            //         if(_isFunction(__this.record[__this.recordMethod])) {
+            //             __this.record[__this.recordMethod].apply(__this.record, args);
+            //
+            //         }else {
+            //             //log(sprintf("Warning: Method %s is not present in %s", this.recordMethod, String(this.record)));
+            //         }
+            //     })
+            // }
+
             if(this.element[this.elementEvent] instanceof LatteEvent) {
-                this.element[this.elementEvent].add(function(){
-                    var args = [];
-
-                    for (var i = 0; i < arguments.length; i++) {
-                        args.push(arguments[i]);
-                    }
-
-                    if(_isFunction(__this.record[__this.recordMethod])) {
-                        __this.record[__this.recordMethod].apply(__this.record, args);
-
-                    }else {
-                        //log(sprintf("Warning: Method %s is not present in %s", this.recordMethod, String(this.record)));
-                    }
-
-                });
+                this.element[this.elementEvent].add(this.installedHandler);
 
             }else {
-                this.element.addEventListener(this.elementEvent, function() {
-                    var args = [];
+                this.element.addEventListener(this.elementEvent, this.installedHandler);
 
-                    for (var i = 0; i < arguments.length; i++) {
-                        args.push(arguments[i]);
-                    }
-                    if(_isFunction(__this.record[__this.recordMethod])) {
-                        __this.record[__this.recordMethod].apply(__this.record, args);
-
-                    }else {
-                        //log(sprintf("Warning: Method %s is not present in %s", this.recordMethod, String(this.record)));
-                    }
-                })
             }
 
+        }
+
+        /**
+         * Uninstalls the bind
+         */
+        uninstall(){
+            if(this.element[this.elementEvent] instanceof LatteEvent) {
+                this.element[this.elementEvent].remove(this.installedHandler);
+
+            }else {
+                this.element.element.removeEventListener(this.elementEvent, this.installedHandler);
+            }
         }
         //endregion
 

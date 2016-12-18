@@ -20,6 +20,20 @@ class PayMethod extends paymethodBase{
     }
 
     /**
+     * Searches payments methods
+     * @remote
+     * @param string $text
+     * @return PayMethod[]
+     */
+    public static function search($text){
+        return DL::arrayOf('PayMethod', "
+            SELECT #COLUMNS
+            FROM payMethod
+            WHERE name LIKE '%$text%'
+        ");
+    }
+
+    /**
      * Wallet of method
      * @var Wallet
      */

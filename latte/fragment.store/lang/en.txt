@@ -2,3 +2,8 @@ youWillBeRedirected You will be redirected
 noBillingAddress No Billing Address
 specifyBillingAddress Specify Billing Address
 sameAsShippingAddress Same as Shipping Address
+amount Amount
+status Status
+currency Currency
+payMethod Pay Method
+customer Customer

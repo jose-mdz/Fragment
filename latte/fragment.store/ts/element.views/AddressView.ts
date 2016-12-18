@@ -12,6 +12,7 @@ module latte {
         //endregion
 
         //region Fields
+        private lastBindedAddress:Address = null;
         //endregion
 
         /**
@@ -27,36 +28,6 @@ module latte {
 
         //region Methods
 
-        /**
-         * Handles click on continue
-         */
-        saveAddress(callback: () => any = null){
-
-            // let c = this.address || new Address();
-            //
-            // c.city      = this.txtCity.text      ;
-            // c.country   = this.txtCountry.text   ;
-            // c.state     = this.txtState.text     ;
-            // c.line1     = this.txtLine1.text     ;
-            // c.line2     = this.txtLine2.text     ;
-            // c.line3     = this.txtLine3.text     ;
-            // c.name      = this.txtName.text      ;
-            // c.phone     = this.txtPhone.text     ;
-            // c.zip       = this.txtZip.text       ;
-            // c.firstname = this.txtFirstName.text ;
-            // c.lastname  = this.txtLastName.text  ;
-            //
-            // c.save(() => {
-            //     this.address = c;
-            //     this.onAddressChanged();
-            //     this.onAddressSaved();
-            //
-            //     if(_isFunction(callback)) {
-            //         callback();
-            //     }
-            // });
-
-        }
 
         /**
          * Raises the <c>address</c> event
@@ -79,8 +50,13 @@ module latte {
             //     this.txtLastName.text  = this.address.lastname     ;
             // }
 
+            if(this.lastBindedAddress) {
+                this.removeBindedElement(this.lastBindedAddress);
+            }
+
             if(this.address) {
                 this.bind(this.address);
+                this.lastBindedAddress = this.address;
             }
         }
         //endregion

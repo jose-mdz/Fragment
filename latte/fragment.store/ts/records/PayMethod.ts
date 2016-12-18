@@ -9,21 +9,50 @@ module latte{
 	export class PayMethod extends paymethodBase{
 
 		//region Static
-		//endregion
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        static suggestionLoader(){
 
+            // Return the loader function
+            return (d: DataRecordValueItem, callback: (items: Item[]) => any): Message  => {
+
+                // Return search Message
+                return PayMethod.search(d.text).send((records: PayMethod[]) => {
+
+                    // Items to return on callback
+                    let items: Item[] = [];
+
+                    // Add a button for each result hit
+                    records.forEach((r: PayMethod) => {
+                        items.push(new ButtonItem(r.name, null, () => d.record = r));
+                    });
+
+                    // Callback to inform load completion
+                    callback.call(this, items)
+
+                })
+            }
+        }
+		//endregion
 
 		//region Fields
 		wallet: Wallet = null;
 		//endregion
 
+		//region  Methods
 
-		//region Private Methods
+		/**
+		 * Returns a string representation of the object
+		 */
+		toString(): string{
+		    return this.name;
+		}
 		//endregion
-
 
 		//region Events
 		//endregion
-
 
 		//region Properties
 		//endregion

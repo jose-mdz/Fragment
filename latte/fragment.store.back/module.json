@@ -1,0 +1,7 @@
+{
+  "module-include": [
+    "fragment",
+    "fragment.store",
+    "latte.element"
+  ]
+}

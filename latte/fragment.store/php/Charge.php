@@ -4,7 +4,20 @@
  */
 class Charge extends chargeBase{
 
-    const FLAG_ADDRESS_NOT_NECESSARY = 8;
+    static $FLAG_ADDRESS_NOT_NECESSARY = 8;
+
+    /**
+     * @remote
+     * @param int $page
+     * @return PageResult<Charge>
+     */
+    public static function catalog($page = 1){
+        return DL::pageOf('Charge', "
+            SELECT #COLUMNS
+            FROM charge
+            ORDER BY created DESC
+        ", $page);
+    }
 
     /**
      * Creates the charge and returns it
@@ -29,5 +42,9 @@ class Charge extends chargeBase{
      * @var Wallet
      */
     public $wallet;
+
+    public function onInserting(){
+        $this->created = DL::dateTime();
+    }
 
 }

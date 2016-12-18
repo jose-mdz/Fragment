@@ -10,13 +10,34 @@ module latte{
         callback?: (t: Transaction) => any;
     }
 
+    export enum ChargeBillingAddressOptions{
+		/**
+		 * No option specified
+		 */
+		NONE,
+
+        /**
+         * No billing address
+         */
+    	NO_ADDRESS,
+
+        /**
+         * Same billing address as shipping address
+         */
+		SAME_AS_SHIPPING,
+
+        /**
+         * Use a specific address
+         */
+        SPECIFIC_ADDRESS
+	}
+
 	/**
 	 * Record for table charge
 	 */
 	export class Charge extends chargeBase{
 
 		//region Static
-
 		static FLAG_ADDRESS_NOT_NECESSARY = 8;
 
 		/**
@@ -29,49 +50,27 @@ module latte{
 
 			let description = options.description;
 			let flags = options.flags || 0;
-			let callback = options.callback;
+			let callback = options.callback || ((t: Transaction) => {});
 
 			// Create Charge
 			Toast.message = Charge.create(amount, description, flags).send((charge: Charge) => {
 
-				let customerView = CustomerView.prompt(charge, () => {
+			    // Prompt Customer Data
+			    charge.promptCustomerData(() => {
 
-				    let customer = customerView.customer;
-                    let address = customerView.addressView.address;
+			        // Prompt Payment Data
+			        charge.promptPaymentData(() => {
 
-                    // Obtain customer name from address
-                    customer.firstname = address.firstname;
-                    customer.lastname = address.lastname;
+			            // Execute transaction
+			            charge.executeTransaction((t: Transaction) => {
 
-					log(customer);
-					log(address);
+			                callback(t);
 
-					// Save collected data
-					charge.idcustomer = customer.idcustomer;
-					charge.customer = customer;
+                        });
 
-                    if(!charge.isNoShipping) {
-                        charge.idshippingaddress = address.idaddress;
-                        charge.shippingAddress = address;
-                    }
+                    });
 
-					// Save the changes on charge
-					Toast.message = charge.save(() => {
-
-                        // Go
-						PaymentMethodView.prompt(charge, (t: Transaction) => {
-
-						    if(callback) {
-						        callback(t);
-						    }
-
-						});
-
-					});
                 });
-
-                customerView.customer = new Customer();
-                customerView.addressView.address = new Address();
 
 				// if(c.isWalletSet) {
                 //
@@ -87,27 +86,16 @@ module latte{
 
 
 		}
+
 		//endregion
 
-
 		//region Fields
-		/**
-		 * Customer of the charge
-		 * @type {any}
-		 */
-		customer: Customer = null;
 
         /**
-         * Billing address of the charge
+         * PayMethod of the charge
          * @type {any}
          */
-        billingAddress: Address = null;
-
-		/**
-		 * Shipping address of the charge
-		 * @type {any}
-		 */
-		shippingAddress: Address = null;
+        payMethod: PayMethod = null;
 
 		/**
 		 * Wallet of the charge
@@ -116,16 +104,328 @@ module latte{
 		wallet: Wallet = null;
 		//endregion
 
+		//region Methods
 
-		//region Private Methods
+        /**
+         * Executes the transaction to pay for the charge.
+         * @param callback
+         */
+        executeTransaction(callback: (t: Transaction) => void){
+
+            if(!this.payMethod) throw "No PayMethod";
+
+            // Show toast
+            Toast.loading();
+
+            // Execute transaction
+            this.payMethod.wallet.driver.executeTransaction(this.payMethod, this, (t: Transaction) => {
+
+                // Hide toast
+                Toast.loaded();
+
+                // Report result
+                if(callback) {
+                    callback(t);
+                }
+            });
+        }
+
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta {
+            return {
+                fields: {
+                    idpaymethod: {
+                        text: strings.payMethod,
+                        type: 'record',
+                        recordType: 'PayMethod',
+                        loaderFunction: PayMethod.suggestionLoader(),
+                        visible: 'if-inserted'
+                    },
+                    idcustomer: {
+                        text: strings.customer,
+                        type: 'record',
+                        recordType: 'Customer',
+                        loaderFunction: Customer.suggestionLoader(),
+                    },
+                    description: {
+                        text: strings.description,
+                        type: 'string',
+                        readOnly: true
+                    },
+                    amount: {
+                        text: strings.amount,
+                        type: 'float',
+                        readOnly: true
+                    },
+                    created: {
+                        text: strings.created,
+                        type: 'datetime',
+                        readOnly: true
+                    },
+                    status: {
+                        text: strings.status,
+                        readOnly: true
+                    },
+                    type: {
+                        text: strings.type,
+                        readOnly: true
+                    },
+                    currency:{
+                        text: strings.currency,
+                        readOnly: true
+                    },
+                    idshippingaddress:{
+
+                    },
+                    idbillingaddress:{
+
+                    }
+                }
+            }
+        }
+
+        /**
+         * Raises the <c>billingAddress</c> event
+         */
+        onBillingAddressChanged(){
+            if(this._billingAddressChanged){
+                this._billingAddressChanged.raise();
+            }
+        }
+
+        /**
+         * Raises the <c>customer</c> event
+         */
+        onCustomerChanged(){
+            if(this._customerChanged){
+                this._customerChanged.raise();
+            }
+        }
+
+        /**
+         * Raises the <c>shippingAddress</c> event
+         */
+        onShippingAddressChanged(){
+            if(this._shippingAddressChanged){
+                this._shippingAddressChanged.raise();
+            }
+
+        }
+
+        /**
+         * Prompts the user data view
+         * @param callback
+         */
+        promptCustomerData(callback: () => void){
+
+            // Go Customer Form
+            let customerView = CustomerView.prompt(this, () => {
+
+                this.customer = customerView.customer;
+                this.shippingAddress = customerView.addressView.address;
+
+                // Obtain customer name from address
+                this.customer.firstname = this.shippingAddress.firstname;
+                this.customer.lastname = this.shippingAddress.lastname;
+
+                // Save both records
+                Toast.message = Message.sendCalls([
+                    this.customer.saveCall(),
+                    this.shippingAddress.saveCall()
+                ], () => {
+
+                    // Set pointers
+                    this.idcustomer = this.customer.idcustomer;
+                    this.idshippingaddress = this.shippingAddress.idaddress;
+
+                    // Save pointers
+                    this.save(() => callback());
+                });
+
+            });
+
+            // Set current records
+            customerView.customer = this.customer || new Customer();
+            customerView.addressView.address = this.shippingAddress || new Address();
+        }
+
+        /**
+         * Prompts the payment method view
+         * @param callback
+         */
+        promptPaymentData(callback: () => void){
+
+            let packNGo = () => {
+                this.save(() => callback());
+            };
+
+            // Go Payment Form
+            let paymentView = PaymentMethodView.prompt(this, () => {
+
+                // Save selected payment method
+                this.payMethod = paymentView.selectedMethod;
+                this.idpaymethod = this.payMethod.idpaymethod;
+
+                // Save billing address
+                switch(paymentView.billingAddressOption){
+                    case ChargeBillingAddressOptions.NO_ADDRESS:
+                        this.billingAddress = null;
+                        break;
+                    case ChargeBillingAddressOptions.SAME_AS_SHIPPING:
+                        this.billingAddress = this.shippingAddress;
+                        break;
+                    case ChargeBillingAddressOptions.SPECIFIC_ADDRESS:
+                        this.billingAddress = paymentView.customAddressView.address;
+                        break;
+                }
+
+                if(!this.billingAddress.idaddress) {
+                    this.billingAddress.save(() => packNGo());
+                }else{
+                    packNGo();
+                }
+
+            });
+        }
+
+        /**
+         * Saves the charge with its current progress properties (customer, addresses, etc)
+         */
+        saveProgress(callback: () => void){
+            this.idcustomer = this.customer.idcustomer;
+            this.customer = this.customer;
+
+            if(!this.isNoShipping) {
+                this.idshippingaddress = this.shippingAddress.idaddress;
+            }
+        }
+
 		//endregion
-
 
 		//region Events
+
+        /**
+         * Back field for event
+         */
+        private _billingAddressChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the billingAddress property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get billingAddressChanged(): LatteEvent{
+            if(!this._billingAddressChanged){
+                this._billingAddressChanged = new LatteEvent(this);
+            }
+            return this._billingAddressChanged;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _customerChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the customer property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get customerChanged(): LatteEvent{
+            if(!this._customerChanged){
+                this._customerChanged = new LatteEvent(this);
+            }
+            return this._customerChanged;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _shippingAddressChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the shippingAddress property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get shippingAddressChanged(): LatteEvent{
+            if(!this._shippingAddressChanged){
+                this._shippingAddressChanged = new LatteEvent(this);
+            }
+            return this._shippingAddressChanged;
+        }
 		//endregion
 
-
 		//region Properties
+        /**
+         * Property field
+         */
+        private _billingAddress: Address = null;
+
+        /**
+         * Gets or sets the billing address of the charge
+         *
+         * @returns {Address}
+         */
+        get billingAddress(): Address{
+            return this._billingAddress;
+        }
+
+        /**
+         * Gets or sets the billing address of the charge
+         *
+         * @param {Address} value
+         */
+        set billingAddress(value: Address){
+
+            // Check if value changed
+            let changed: boolean = value !== this._billingAddress;
+
+            // Set value
+            this._billingAddress = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onBillingAddressChanged();
+            }
+        }
+
+        /**
+         * Property field
+         */
+        private _customer: Customer = null;
+
+        /**
+         * Gets or sets the customer of the charge
+         *
+         * @returns {Customer}
+         */
+        get customer(): Customer{
+            return this._customer;
+        }
+
+        /**
+         * Gets or sets the customer of the charge
+         *
+         * @param {Customer} value
+         */
+        set customer(value: Customer){
+
+            // Check if value changed
+            let changed: boolean = value !== this._customer;
+
+            // Set value
+            this._customer = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onCustomerChanged();
+            }
+        }
 
 		/**
 		 * Gets a value indicating if the address is necessary
@@ -154,6 +454,38 @@ module latte{
 			return this.wallet instanceof Wallet;
 		}
 
+		/**
+		 * Property field
+		 */
+		private _shippingAddress: Address = null;
+
+		/**
+		 * Gets or sets the shipping address of the charge
+		 *
+		 * @returns {Address}
+		 */
+		get shippingAddress(): Address{
+		    return this._shippingAddress;
+		}
+
+		/**
+		 * Gets or sets the shipping address of the charge
+		 *
+		 * @param {Address} value
+		 */
+		set shippingAddress(value: Address){
+
+		    // Check if value changed
+		    let changed: boolean = value !== this._shippingAddress;
+
+		    // Set value
+		    this._shippingAddress = value;
+
+		    // Trigger changed event
+		    if(changed){
+		        this.onShippingAddressChanged();
+		    }
+		}
 		//endregion
 
 	}

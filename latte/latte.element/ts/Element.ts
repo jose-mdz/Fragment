@@ -198,9 +198,9 @@ module latte {
         //region Private Methods
 
         private addBindedElement(e: Element<HTMLElement>, ebind: EventBind, dbind: DataBind){
-            for (var i = 0; i < this.bindedElements.length; i++) {
+            for (let i = 0; i < this.bindedElements.length; i++) {
                 if(this.bindedElements[i] === e) {
-                    return
+                    return;
                 }
             }
 
@@ -351,7 +351,7 @@ module latte {
 
             this.animateFrom(starts, properties, duration, callback);
         }
-
+N
         /**
          * Appends the element to the specified container
          * @param parent
@@ -395,61 +395,58 @@ module latte {
          */
         bind(object: any, hide: boolean = false){
 
-            var list = this.element.querySelectorAll('[data-bind]');
+            let list = this.element.querySelectorAll('[data-bind]');
 
-            for (var i = 0; i < list.length; i++) {
+            for (let i = 0; i < list.length; i++) {
                 ((node:Node) => {
 
                     if(node.nodeType != 1) return;
 
-                    var e = new Element<HTMLElement>(<HTMLElement>node);
-                    var prop = e.element.getAttribute('data-bind');
-                    var dataBinds = prop.split(";");
+                    let e = new Element<HTMLElement>(<HTMLElement>node);
+                    let prop = e.element.getAttribute('data-bind');
+                    let dataBinds = prop.split(";");
 
-                    for (var j = 0; j < dataBinds.length; j++) {
-                        var parts = dataBinds[j].split(":");
-                        var elementProperty = parts.length == 2 ? parts[0] : 'text';
-                        var recordProperty = parts.length == 2 ? parts[1] : parts[0];
+                    for (let j = 0; j < dataBinds.length; j++) {
+                        let parts = dataBinds[j].split(":");
+                        let elementProperty = parts.length == 2 ? parts[0] : 'text';
+                        let recordProperty = parts.length == 2 ? parts[1] : parts[0];
 
-                        var bind = new DataBind(e,elementProperty, object, recordProperty, DataBindType.AUTO, null, 'input', sprintf('%sChanged', prop));
+                    let bind = new DataBind(e,elementProperty, object, recordProperty, DataBindType.AUTO, null, 'input', sprintf('%sChanged', prop));
 
-                        if(!hide){
-                            this.dataBinds.push(bind);
-                        }
-
-                        this.addBindedElement(e, null, bind);
+                    if(!hide){
+                        this.dataBinds.push(bind);
                     }
 
-                    //// TODO: Criteria for elementProperty, elementEvent, type, DataAdapter
-                    //var bind = new DataBind(e, 'text', object, prop, DataBindType.AUTO, null, 'input', sprintf('%sChanged', prop));
-                    //
-                    //if(!hide){
+                    this.addBindedElement(e, null, bind);
+                }
+
+                //// TODO: Criteria for elementProperty, elementEvent, type, DataAdapter
+                //var bind = new DataBind(e, 'text', object, prop, DataBindType.AUTO, null, 'input', sprintf('%sChanged', prop));
+                //
+                //if(!hide){
                     //    this.dataBinds.push(bind);
                     //}
                     //
                     //this.addBindedElement(e);
 
-
-
-
                 })(list[i]);
             }
 
 
-            var elist = this.element.querySelectorAll('[data-event]');
+            let elist = this.element.querySelectorAll('[data-event]');
 
-            for (var i = 0; i < elist.length; i++) {
+            for (let i = 0; i < elist.length; i++) {
                 ((node:Node) => {
 
-                    var e = new Element<HTMLElement>(<any>node);
-                    var prop = e.element.getAttribute('data-event');
-                    var binds = prop.split(';');
+                    let e = new Element<HTMLElement>(<any>node);
+                    let prop = e.element.getAttribute('data-event');
+                    let binds = prop.split(';');
 
-                    for (var j = 0; j < binds.length; j++) {
-                        var parts = binds[j].split(':');
+                    for (let j = 0; j < binds.length; j++) {
+                        let parts = binds[j].split(':');
 
                         if(parts.length == 2) {
-                            var bind = new EventBind(e, parts[0].trim(), object, parts[1].trim());
+                            let bind = new EventBind(e, parts[0].trim(), object, parts[1].trim());
 
                             e.eventBinds.push(bind);
                             this.addBindedElement(e, bind, null);
@@ -742,6 +739,24 @@ module latte {
         }
 
         /**
+         * Raises the <c>dataBindAdded</c> event
+         */
+        onDataBindAdded(b: DataBind){
+            if(this._dataBindAdded){
+                this._dataBindAdded.raise(b);
+            }
+        }
+
+        /**
+         * Raises the <c>eventBindAdded</c> event
+         */
+        onEventBindAdded(b: EventBind){
+            if(this._eventBindAdded){
+                this._eventBindAdded.raise(b);
+            }
+        }
+
+        /**
          * Raises the <c>tag</c> event
          */
         onTagChanged(){
@@ -784,6 +799,48 @@ module latte {
          */
         remove(e: Element<HTMLElement>){
             this.element.removeChild(e.element);
+        }
+
+        /**
+         * Removes all binds related to the object
+         * @param object
+         */
+        removeBindedElement(object: any){
+
+            let finalDataBinds = [];
+            let finalEventBinds = [];
+            let finalElements = [];
+
+            // Scan data bindings
+            this.dataBinds.forEach((bind: DataBind) => {
+                if(bind.record == object) {
+                    bind.uninstall();
+                }else{
+                    finalDataBinds.push(bind);
+                }
+            });
+
+            // Scan event bindings
+            this.eventBinds.forEach((bind: EventBind) => {
+                if(bind.record == object) {
+                    bind.uninstall();
+                }else{
+                    finalEventBinds.push(bind);
+                }
+            });
+
+
+            // Delete from BindedElements
+            this.bindedElements.forEach((e) => {
+                if(e != object) {
+                    finalElements.push(e);
+                }
+            })
+
+            this._bindedElements = finalElements;
+            this._dataBinds = finalDataBinds;
+            this._eventBinds = finalEventBinds;
+
         }
 
         /**
@@ -875,7 +932,7 @@ module latte {
         /**
          * Back field for event
          */
-        private _contentEditableChanged: LatteEvent
+        private _contentEditableChanged: LatteEvent;
 
         /**
          * Gets an event raised when the value of the contentEditable property changes
@@ -907,15 +964,6 @@ module latte {
         }
 
         /**
-         * Raises the <c>dataBindAdded</c> event
-         */
-        onDataBindAdded(b: DataBind){
-            if(this._dataBindAdded){
-                this._dataBindAdded.raise(b);
-            }
-        }
-
-        /**
          * Back field for event
          */
         private _eventBindAdded: LatteEvent;
@@ -933,18 +981,9 @@ module latte {
         }
 
         /**
-         * Raises the <c>eventBindAdded</c> event
-         */
-        onEventBindAdded(b: EventBind){
-            if(this._eventBindAdded){
-                this._eventBindAdded.raise(b);
-            }
-        }
-
-        /**
          * Back field for event
          */
-        private _tagChanged: LatteEvent
+        private _tagChanged: LatteEvent;
 
         /**
          * Gets an event raised when the value of the tag property changes
@@ -961,7 +1000,7 @@ module latte {
         /**
          * Back field for event
          */
-        private _visibleChanged: LatteEvent
+        private _visibleChanged: LatteEvent;
 
         /**
          * Gets an event raised when the value of the visible property changes

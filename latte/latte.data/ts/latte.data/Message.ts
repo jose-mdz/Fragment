@@ -68,8 +68,12 @@ module latte{
          * @param calls
          * @returns {latte.Message}
          */
-        static sendCalls(calls: Array<RemoteCall<any>>): Message{
+        static sendCalls(calls: Array<RemoteCall<any>>, success: () => void = null): Message{
             var m = new Message();
+
+            if(success) {
+                m.success.add(success);
+            }
 
             m.addCalls(calls);
 
@@ -209,6 +213,41 @@ module latte{
 
         //region Events
 
+
+        /**
+         * Back field for event
+         */
+        private _success: LatteEvent;
+
+        /**
+         * Gets an event raised when all the calls arrived successfully
+         *
+         * @returns {LatteEvent}
+         */
+        get success(): LatteEvent{
+            if(!this._success){
+                this._success = new LatteEvent(this);
+            }
+            return this._success;
+        }
+
+        /**
+         * Back field for event
+         */
+        private _finished: LatteEvent;
+
+        /**
+         * Gets an event raised when the message has finished its processing, success or not
+         *
+         * @returns {LatteEvent}
+         */
+        get finished(): LatteEvent{
+            if(!this._finished){
+                this._finished = new LatteEvent(this);
+            }
+            return this._finished;
+        }
+
         /**
          * Back field for event
          */
@@ -272,6 +311,7 @@ module latte{
 
             var parsed = false;
             var result: Array<IRemoteResponse> = null;
+            var fails = 0;
 
             this.setWorking(false);
 
@@ -303,8 +343,11 @@ module latte{
                 }
 
                 // Report response for each sent call
+
                 for(var i = 0; i < this.calls.length; i++){
                     this.calls[i].respond(result[i]);
+
+                    fails += this.calls[i].response.success ? 0 : 1;
                 }
 
             }else{
@@ -312,6 +355,12 @@ module latte{
                 /// Raise failed event
                 this.onFailed("Can't parse or response is not an array.");
             }
+
+            if(fails == 0) {
+                this.onSuccess();
+            }
+
+            this.onFinished();
 
         }
 
@@ -339,6 +388,15 @@ module latte{
                 Message.globalFailed.call(this, errorDescription);
             }
 
+        }
+
+        /**
+         * Raises the <c>finished</c> event
+         */
+        onFinished(){
+            if(this._finished){
+                this._finished.raise();
+            }
         }
 
         /**
@@ -447,6 +505,15 @@ module latte{
         }
 
         /**
+         * Raises the <c>success</c> event
+         */
+        onSuccess(){
+            if(this._success){
+                this._success.raise();
+            }
+        }
+
+        /**
          * Sends the message. Optionally adds event handlers for <c>succeeded</c> and <c>failed</c> events
          **/
         send(success: (data:any) => any = null, failure: (errorDesc:string) => any = null): Message{
@@ -518,6 +585,7 @@ module latte{
             return this._working;
 
         }
+
         //endregion
 
         //region Properties
