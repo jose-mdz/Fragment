@@ -1,12 +1,12 @@
 /**
- * Created by josemanuel on 12/17/16.
+ * Created by josemanuel on 12/19/16.
  */
 module latte {
 
     /**
      *
      */
-    export class ChargeExplorer extends ExplorerItemDataRecord<Charge> {
+    export class CustomerExplorer extends ExplorerItemDataRecord<Customer> {
 
         //region Static
         //endregion
@@ -17,10 +17,10 @@ module latte {
         /**
          *
          */
-        constructor(r: Charge) {
-            super();
+        constructor(r: Customer) {
+            super(r);
+
             this.loadsChildren = false;
-            this.record = r;
         }
 
         //region Private Methods
@@ -28,27 +28,11 @@ module latte {
 
         //region Methods
         /**
-         * Gets the columns of the item
-         * @Override
-         */
-        getColumns(): string[]{
-            return ['customerName', 'status', 'amount', 'creation']
-        }
-
-        /**
-         * Gets the detail view of the item
-         * @Override
-         */
-        getDetailView(): View{
-            return new ChargeSidebar(this.record);
-        }
-
-        /**
          * Gets the name of the item
          * @Override
          */
         getName(): string{
-            return this.record.description
+            return this.record.fullName;
         }
 
         /**
@@ -56,9 +40,18 @@ module latte {
          * @Override
          */
         getIcon(): IconItem{
-            return LinearIcon.file_empty;
+            return LinearIcon.user;
         }
 
+        /**
+         * Gets the detail view of the item
+         * @Override
+         */
+        getDetailView(): View{
+            let f = new DataRecordFormView(this.record);
+            f.readOnly = true;
+            return f;
+        }
         //endregion
 
         //region Events

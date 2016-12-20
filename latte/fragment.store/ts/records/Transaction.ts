@@ -16,7 +16,48 @@ module latte{
 		//endregion
 
 
-		//region Private Methods
+		//region Methods
+		/**
+		 * Gets the metadata about the record
+		 *
+		 * @returns Object
+		 */
+		getMetadata(): IRecordMeta {
+			return {
+				fields: {
+					idcharge: {
+						text: strings.charge,
+						type: 'string',
+						visible: 'if-not-inserted'
+					},
+					success: {
+						text: strings.success,
+						type: 'boolean'
+					},
+					created: {
+						text: strings.created,
+						type: 'datetime'
+					},
+					completed: {
+						text: strings.completed,
+						type: 'boolean'
+					},
+					mode: {
+						text: strings.mode,
+						type: 'enumeration',
+                        options: [
+                            '(None)',
+                            strings.transOnDemand,
+                            strings.transRest
+                        ]
+					},
+					dataString: {
+						text: strings.ticket,
+						type: 'string'
+					},
+				}
+			}
+		}
 		//endregion
 
 
@@ -25,8 +66,16 @@ module latte{
 
 
 		//region Properties
+        /**
+         * Gets the data as pretty json
+         *
+         * @returns {string}
+         */
+        get dataString(): string {
+            return JSON.stringify(JSON.parse(this.data), null, 2);
+        }
 
-		//endregion
+        //endregion
 
 	}
 }

@@ -43,6 +43,35 @@ module latte{
 		//region Methods
 
 		/**
+		 * Gets the metadata about the record
+		 *
+		 * @returns Object
+		 */
+		getMetadata(): IRecordMeta {
+			return {
+				fields: {
+					firstname: {
+						text: strings.name,
+						type: 'string'
+					},
+					lastname: {
+						text: strings.lastname
+					},
+					birthday: {
+						text: strings.birthday,
+                        type: 'date'
+					},
+					phone: {
+						text: strings.phone
+					},
+					email: {
+						text: strings.email
+					}
+				}
+			}
+		}
+
+		/**
 		 * Returns a string representation of the object
 		 */
 		toString(): string{
@@ -54,7 +83,16 @@ module latte{
 		//endregion
 
 		//region Properties
-		//endregion
+        /**
+         * Gets the full name
+         *
+         * @returns {string}
+         */
+        get fullName(): string {
+            return [this.firstname, this.lastname].join(' ');
+        }
+
+        //endregion
 
 	}
 }

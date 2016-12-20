@@ -155,6 +155,10 @@ module latte{
                             }
                         }
 
+                        // if(i == 'idbillingaddress') {
+                        //     debugger;
+                        // }
+
                         // Check for fieldString declaration when read-only
                         if(input.readOnly && record[i + 'String']) {
                             input.value = record[i + 'String'];
@@ -190,7 +194,16 @@ module latte{
                                         //log(r)
                                         if (r && r.recordId) {
                                             d.setRecordSilent(r);
-                                            input.value = input.value;
+
+                                            // if(input.readOnly) {
+                                            //     input.value = String(r)//input.value;
+                                            // }else{
+                                            //     if(params.name == 'Address') {
+                                            //         debugger;
+                                            //     }
+                                                input.value = input.value;
+                                            // }
+
                                         }
 
                                     }));

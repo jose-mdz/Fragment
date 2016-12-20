@@ -41,6 +41,19 @@ module latte {
         }
 
         /**
+         * Provides 3 column headers for children
+         */
+        getColumnHeaders(): ColumnHeader[]{
+            return [
+                new ColumnHeader(strings.customer, 150),
+                new ColumnHeader(strings.status),
+                new ColumnHeader(strings.amount, 60),
+                new ColumnHeader(strings.date),
+            ];
+        }
+
+
+        /**
          * Gets the name of the item
          * @Override
          */

@@ -90,3 +90,4 @@ oneWeekShort 1w
 SweeksShort %sw
 tomorrow Mañana
 today Hoy
+date Fecha

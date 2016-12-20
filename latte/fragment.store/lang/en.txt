@@ -7,3 +7,33 @@ status Status
 currency Currency
 payMethod Pay Method
 customer Customer
+lastname Last Name
+birthday Birthday
+phone Phone
+email Email
+addressName Addr. Name
+line1 Line 1
+line2 Line 2
+line3 Line 3
+city City
+state State
+country Country
+zip Postal Code
+shippingAddress Shipping Addr.
+billingAddress Billing Addr.
+charge Charge
+success Success
+completed Completed
+mode Mode
+ticket Ticket
+tickets Tickets
+transactions Transactions
+transOnDemand Automatic
+transRest REST
+addresses Addresses
+wallet Wallet
+unknown Unknown
+fulfilled Fulfilled
+paid Paid
+paymentFailed Payment Failed
+paymentToBeRest Payment Pendent (REST)

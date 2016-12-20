@@ -19,12 +19,28 @@ module latte {
          */
         constructor() {
             super();
+
+            this.loadsChildrenFolders = false;
         }
 
         //region Private Methods
         //endregion
 
         //region Methods
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>{
+            return Customer.catalog(this.childrenPage).withHandlers((result: PageResult<Customer>) => {
+                for(let i in result.records){
+                    this.children.add(new CustomerExplorer(result.records[i]));
+                    this.childrenPage = result.page;
+                    this.childrenPages = result.pages;
+                }
+            });
+        }
+
         /**
          * Gets the name of the item
          * @Override

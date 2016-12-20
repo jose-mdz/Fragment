@@ -9,6 +9,20 @@ class Transaction extends transactionBase{
     const MODE_REST_WILL_CALL = 2;
 
     /**
+     * @remote
+     * @param int $idcharge
+     * @return Transaction[]
+     *
+     */
+    public static function byCharge($idcharge){
+        return DL::arrayOf('Transaction', "
+            SELECT #COLUMNS
+            FROM `transaction`
+            WHERE idcharge = '$idcharge'
+        ");
+    }
+
+    /**
      * Override.
      */
     public function onInserting(){

@@ -138,18 +138,24 @@ module latte{
         getMetadata(): IRecordMeta {
             return {
                 fields: {
+                    walletName: {
+                        text: strings.wallet,
+                        readOnly: true,
+                    },
                     idpaymethod: {
                         text: strings.payMethod,
                         type: 'record',
                         recordType: 'PayMethod',
                         loaderFunction: PayMethod.suggestionLoader(),
-                        visible: 'if-inserted'
+                        visible: 'if-inserted',
+                        readOnly: true
                     },
                     idcustomer: {
                         text: strings.customer,
                         type: 'record',
                         recordType: 'Customer',
                         loaderFunction: Customer.suggestionLoader(),
+                        readOnly: true
                     },
                     description: {
                         text: strings.description,
@@ -168,6 +174,8 @@ module latte{
                     },
                     status: {
                         text: strings.status,
+                        type: 'enumeration',
+                        options: this.statuses,
                         readOnly: true
                     },
                     type: {
@@ -179,10 +187,18 @@ module latte{
                         readOnly: true
                     },
                     idshippingaddress:{
-
+                        text: strings.shippingAddress,
+                        type: 'record',
+                        recordType: 'Address',
+                        loaderFunction: Address.suggestionLoader(),
+                        readOnly: true
                     },
                     idbillingaddress:{
-
+                        text: strings.billingAddress,
+                        type: 'record',
+                        recordType: 'Address',
+                        loaderFunction: Address.suggestionLoader(),
+                        readOnly: true
                     }
                 }
             }
@@ -395,6 +411,15 @@ module latte{
         }
 
         /**
+         * Gets the creation date as a string
+         *
+         * @returns {string}
+         */
+        get creation(): string {
+            return this.created.toFormattedString() + ' ' + this.created.timeOfDay.toString();
+        }
+
+        /**
          * Property field
          */
         private _customer: Customer = null;
@@ -427,7 +452,16 @@ module latte{
             }
         }
 
-		/**
+        /**
+         * Gets the customer's name
+         *
+         * @returns {string}
+         */
+        get customerName(): string {
+            return (this.customer || new Customer()).fullName;
+        }
+
+        /**
 		 * Gets a value indicating if the address is necessary
 		 *
 		 * @returns {boolean}
@@ -454,7 +488,16 @@ module latte{
 			return this.wallet instanceof Wallet;
 		}
 
-		/**
+        /**
+         * Gets the name of the paymethod
+         *
+         * @returns {string}
+         */
+        get payMethodName(): string {
+            return (this.payMethod || new PayMethod()).name;
+        }
+
+        /**
 		 * Property field
 		 */
 		private _shippingAddress: Address = null;
@@ -486,6 +529,41 @@ module latte{
 		        this.onShippingAddressChanged();
 		    }
 		}
+
+        /**
+         * Gets the possible statusessess
+         *
+         * @returns {any}
+         */
+        get statuses(): {[i: number]: string} {
+            return {
+                0:  strings.unknown,
+                50: strings.fulfilled,
+                60: strings.paid,
+                61: strings.paymentFailed,
+                62: strings.paymentToBeRest
+            };
+        }
+
+
+        /**
+         * Gets the status string
+         *
+         * @returns {string}
+         */
+        get statusString(): string {
+            return this.statuses[this.status];
+        }
+
+
+        /**
+         * Gets the wallet name
+         *
+         * @returns {string}
+         */
+        get walletName(): string {
+            return (this.wallet || new Wallet()).name;
+        }
 		//endregion
 
 	}

@@ -15,10 +15,14 @@ module latte {
         //endregion
 
         /**
-         *
+         * Creates the record
          */
-        constructor() {
+        constructor(r: T = null) {
             super();
+
+            if(r) {
+                this.record = r;
+            }
         }
 
         //region Private Methods

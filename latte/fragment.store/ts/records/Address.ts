@@ -9,14 +9,108 @@ module latte{
 	export class Address extends addressBase{
 
 		//region Static
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        static suggestionLoader(){
+
+            // Return the loader function
+            return (d: DataRecordValueItem, callback: (items: Item[]) => any): Message  => {
+
+                // Return search Message
+                return Address.search(d.text).send((records: Address[]) => {
+
+                    // Items to return on callback
+                    let items: Item[] = [];
+
+                    // Add a button for each result hit
+                    records.forEach((r: Address) => {
+                        items.push(new ButtonItem(r.toString(), null, () => d.record = r));
+                    });
+
+                    // Callback to inform load completion
+                    callback.call(this, items)
+
+                })
+            }
+        }
 		//endregion
 
 
 		//region Fields
+
 		//endregion
 
 
-		//region Private Methods
+		//region Methods
+
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta {
+            return {
+                fields: {
+                    name: {
+                        text: strings.addressName,
+                        type: 'string'
+                    },
+                    firstname: {
+                        text: strings.name,
+                        type: 'string'
+                    },
+                    lastname: {
+                        text: strings.lastname,
+                        type: 'string'
+                    },
+                    line1: {
+                        text: strings.line1,
+                        type: 'string'
+                    },
+                    line2: {
+                        text: strings.line2,
+                        type: 'string'
+                    },
+                    line3: {
+                        text: strings.line3,
+                        type: 'string'
+                    },
+                    city: {
+                        text: strings.city,
+                        type: 'string'
+                    },
+                    state: {
+                        text: strings.state,
+                        type: 'string'
+                    },
+                    country: {
+                        text: strings.country,
+                        type: 'string'
+                    },
+                    zip: {
+                        text: strings.zip,
+                        type: 'string'
+                    },
+                    phone: {
+                        text: strings.phone,
+                        type: 'string'
+                    },
+                }
+            }
+        }
+
+		/**
+		 * Returns a string representation of the object
+		 */
+		toString(): string{
+		    let line = [];
+            if(this.state) line.push(this.state);
+            if(this.city)  line.push(this.city);
+
+		    return [line.join(', '), this.country + ' ' + this.zip].join('\n');
+		}
 		//endregion
 
 
@@ -25,7 +119,8 @@ module latte{
 
 
 		//region Properties
-		//endregion
+
+        //endregion
 
 	}
 }

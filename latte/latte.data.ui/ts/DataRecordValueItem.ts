@@ -63,9 +63,9 @@ module latte{
          * Override
          * @returns {string}
          */
-        getValueString(): string{
+        onGetValueString(): string{
             if(this.record){
-                return this.record.toString();
+                return String(this.record);
             }else{
                 return '';
             }

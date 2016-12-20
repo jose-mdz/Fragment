@@ -25,6 +25,13 @@ module latte{
         /**
          * Override.
          */
+        onGetValueString(): string{
+            return this.value ? strings.yes : strings.no;
+        }
+
+        /**
+         * Override.
+         */
         onValueChanged(){
             super.onValueChanged();
 

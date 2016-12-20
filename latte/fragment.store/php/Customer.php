@@ -6,6 +6,19 @@ class Customer extends customerBase{
 
     /**
      * @remote
+     * @param int $page
+     * @return PageResult<Customer>
+     */
+    public static function catalog($page = 1){
+        return DL::pageOf('Customer', "
+            SELECT #COLUMNS
+            FROM customer
+            ORDER BY idcustomer DESC
+        ", $page);
+    }
+
+    /**
+     * @remote
      * @param string $text
      * @return Customer[]
      */

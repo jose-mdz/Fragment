@@ -738,7 +738,7 @@ module latte{
         set value(value: any){
 
             this.valueItem.value = (value);
-            this.readOnlyLabel.value = (this.valueItem.valueString);
+            this.readOnlyLabel.value = _isString(value) ? value : (this.valueItem.valueString);
 
         }
 

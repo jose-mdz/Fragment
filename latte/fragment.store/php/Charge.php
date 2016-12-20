@@ -6,15 +6,28 @@ class Charge extends chargeBase{
 
     static $FLAG_ADDRESS_NOT_NECESSARY = 8;
 
+    static $STATUS_UNKNOWN = 0;
+
+    static $STATUS_FULFILLED = 50;
+
+    static $STATUS_PAID = 60;
+
+    static $STATUS_PAYMENT_FAILED = 61;
+
+    static $STATUS_PAYMENT_TO_BE_CONFIRMED_REST = 62;
+
     /**
      * @remote
      * @param int $page
      * @return PageResult<Charge>
      */
     public static function catalog($page = 1){
-        return DL::pageOf('Charge', "
+        return DL::pageOf('Charge, PayMethod payMethod, Customer, Wallet', "
             SELECT #COLUMNS
             FROM charge
+             LEFT JOIN customer USING (idcustomer)
+             LEFT JOIN paymethod USING (idpaymethod)
+             LEFT JOIN wallet USING (idwallet)
             ORDER BY created DESC
         ", $page);
     }
@@ -33,6 +46,7 @@ class Charge extends chargeBase{
         $c->description = $description;
         $c->amount = $amount;
         $c->flags = $flags;
+        $c->status = Charge::$STATUS_FULFILLED;
         $c->insert();
 
         return $c;
@@ -43,8 +57,20 @@ class Charge extends chargeBase{
      */
     public $wallet;
 
+    /**
+     * Override
+     */
     public function onInserting(){
         $this->created = DL::dateTime();
+    }
+
+    /**
+     * Changes the status of the order
+     * @param $status
+     */
+    public function setStatus($status){
+        $this->status = $status;
+        DL::update("UPDATE charge SET status = '$status' WHERE idcharge = '$this->idcharge'");
     }
 
 }

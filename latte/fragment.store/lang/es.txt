@@ -7,3 +7,33 @@ status Estatus
 currency Moneda
 payMethod Método Pago
 customer Cliente
+lastname Apellidos
+birthday Fecha n.
+phone Teléfono
+email Email
+addressName Nombre Dirección
+line1 Línea 1
+line2 Línea 2
+line3 Línea 3
+city Ciudad
+state Estado
+country País
+zip C.P.
+shippingAddress D. Entrega
+billingAddress D. Facturación
+charge Cargo
+success Éxito
+completed Completado
+mode Modo
+ticket Ticket
+ticekts Tickets
+transactions Transacciones
+transOnDemand Automático
+transRest REST
+addresses Direcciones
+wallet Proveedor
+unknown Desconocido
+fulfilled Completado
+paid Pagado
+paymentFailed Pago Fallado
+paymentToBeRest Pago Pend. (REST)

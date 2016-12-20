@@ -93,6 +93,8 @@ class OpenpayServer{
             // Serialize charge
             $transaction->data = json_encode($result);
 
+            $charge->setStatus(Charge::$STATUS_PAID);
+
         }catch(OpenpayApiTransactionError $e){
 
             // Mark Failure
@@ -107,6 +109,8 @@ class OpenpayServer{
                 'request_id' => $e->getRequestId(),
                 'fraud_rules' => $e->{'fraud_rules'}
             ));
+
+            $charge->setStatus(Charge::$STATUS_PAYMENT_FAILED);
         }
 
         $transaction->insert();
