@@ -178,14 +178,6 @@ module latte{
                         options: this.statuses,
                         readOnly: true
                     },
-                    type: {
-                        text: strings.type,
-                        readOnly: true
-                    },
-                    currency:{
-                        text: strings.currency,
-                        readOnly: true
-                    },
                     idshippingaddress:{
                         text: strings.shippingAddress,
                         type: 'record',
@@ -300,7 +292,10 @@ module latte{
                 }
 
                 if(!this.billingAddress.idaddress) {
-                    this.billingAddress.save(() => packNGo());
+                    this.billingAddress.save(() => {
+                        this.idbillingaddress = this.billingAddress.idaddress;
+                        packNGo()
+                    });
                 }else{
                     packNGo();
                 }

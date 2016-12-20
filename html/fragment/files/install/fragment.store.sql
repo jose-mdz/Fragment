@@ -37,7 +37,7 @@ CREATE TABLE `address` (
   `firstname` varchar(128) DEFAULT NULL,
   `lastname` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`idaddress`)
-) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,14 +82,12 @@ CREATE TABLE `charge` (
   `amount` float DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `status` int(11) DEFAULT '0',
-  `type` int(11) DEFAULT '0',
   `idshippingaddress` int(11) DEFAULT '0',
   `idbillingaddress` int(11) DEFAULT '0',
   `flags` int(11) DEFAULT '0',
   `data` longtext,
-  `currency` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`idcharge`)
-) ENGINE=InnoDB AUTO_INCREMENT=362 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=364 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +107,7 @@ CREATE TABLE `customer` (
   `phone` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`idcustomer`)
-) ENGINE=InnoDB AUTO_INCREMENT=199 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +150,7 @@ CREATE TABLE `transaction` (
   `mode` int(11) DEFAULT '0',
   `data` longtext,
   PRIMARY KEY (`idtransaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,4 +184,4 @@ CREATE TABLE `wallet` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-19 20:27:17
+-- Dump completed on 2016-12-19 20:42:10
