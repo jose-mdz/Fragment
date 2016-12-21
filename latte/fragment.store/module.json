@@ -15,6 +15,8 @@
   "records" : [
     "address",
     "card",
+    "cart",
+    "cartpage",
     "charge",
     "customer",
     "payment",

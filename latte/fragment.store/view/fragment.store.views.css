@@ -326,3 +326,25 @@ div.toast div.label{
     font-size: 15px;
     text-align: center;
 }
+
+/* Shopping Cart */
+
+.cart-view .items-list .list-headers{
+    color: black;
+    font-weight:bold;
+}
+
+.cart-view .items-list .item-row .item-name{
+    text-align: left;
+}
+
+.cart-view .items-list .item-row .item-price{
+    text-align: right;
+}
+.cart-view .items-list .item-row .item-qty input{
+    width: 50px;
+}
+
+.cart-view .items-list .item-row .item-total{
+    text-align: right;
+}

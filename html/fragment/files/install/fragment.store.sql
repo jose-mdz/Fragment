@@ -106,6 +106,7 @@ CREATE TABLE `customer` (
   `birthday` date DEFAULT NULL,
   `phone` varchar(128) DEFAULT NULL,
   `email` varchar(128) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
   PRIMARY KEY (`idcustomer`)
 ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -184,4 +185,4 @@ CREATE TABLE `wallet` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-19 20:42:10
+-- Dump completed on 2016-12-20 21:56:42

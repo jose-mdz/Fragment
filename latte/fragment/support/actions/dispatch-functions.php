@@ -41,6 +41,18 @@ function fragment($key){
 }
 
 /**
+ * Prints the fragments of the page
+ */
+function fragments(){
+    global $fragments;
+
+    // Print fragments
+    foreach($fragments as $key => $f){
+        fragment($key);
+    }
+}
+
+/**
  * Prints the <head> tags
  */
 function head(){
@@ -55,6 +67,16 @@ function head(){
     styles();
 
 
+}
+
+/**
+ * Prints the heading of the page
+ */
+function heading(){
+    global $page;
+
+    // Print title
+    echo "<h1>$page->title</h1>";
 }
 
 /**
@@ -109,15 +131,12 @@ function inline_stylesheet($path){
  * Prints the full page, including all its fragments
  */
 function page(){
-    global $page, $fragments;
 
-    // Print title
-    echo "<h1>$page->title</h1>";
+    // Title
+    heading();
 
-    // Print fragments
-    foreach($fragments as $key => $f){
-        fragment($key);
-    }
+    // Content
+    fragments();
 
     // Print scripts
     scripts();

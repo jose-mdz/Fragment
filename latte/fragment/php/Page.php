@@ -106,7 +106,7 @@ class Page extends pageBase{
      *
      * @return string
      */
-    public static function generateGUID(){
+    public static function generateGUID($table = 'page'){
         $chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890_-";
         $max = strlen($chars) - 1;
         $guid = "";
@@ -115,7 +115,7 @@ class Page extends pageBase{
             while(strlen($guid) != self::GUID_LENGTH){
                 $guid .= substr($chars, rand(0, $max), 1);
             }
-        }while(DL::getSingle("SELECT COUNT(*) FROM page WHERE guid = '$guid'") > 0);
+        }while(DL::getSingle("SELECT COUNT(*) FROM $table WHERE guid = '$guid'") > 0);
 
         return $guid;
     }
@@ -384,7 +384,7 @@ class Page extends pageBase{
     /**
      * Searches for pages with different options of retrieval
      * @param $options
-     * @return PageResult
+     * @return PageResult<Page>
      * @throws Exception
      */
     public static function search($options){
@@ -914,6 +914,17 @@ ORDER BY $sortBySQL
             $this->_parent = Page::byAuto($this->idparent);
         }
         return $this->_parent;
+    }
+
+    public function getFirstImage(){
+        $fragments = $this->getAllFragments();
+
+        foreach($fragments as $frg){
+            if($frg['type'] == 'gallery'){
+                return $frg['record']->getFirstImage();
+            }
+        }
+        return '';
     }
 
     /**

@@ -31,4 +31,8 @@ class Customer extends customerBase{
         ");
     }
 
+    public function onInserting(){
+        $this->created = DL::dateTime();
+    }
+
 }
