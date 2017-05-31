@@ -1,6 +1,6 @@
 <?php
 
-    register_module('fragment');
+    //register_module('fragment');
 
 ?><!DOCTYPE html>
 <html>
