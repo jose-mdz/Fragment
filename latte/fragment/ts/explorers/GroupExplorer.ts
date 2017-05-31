@@ -21,6 +21,7 @@ module latte {
             super();
 
             this.loadsChildrenFolders = false;
+            this.loadsChildren = false;
 
             if(r) {
                 this.record = r;

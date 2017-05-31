@@ -20,7 +20,7 @@ module latte {
         constructor() {
             super();
 
-            this.loadsChildrenFolders = false;
+            // this.loadsChildrenFolders = false;
         }
 
         //region Private Methods
@@ -45,9 +45,12 @@ module latte {
          */
         getChildrenLoader(): RemoteCall<any>{
             return User.catalog().withHandlers((records: User[]) => {
-                for(let i in records){
-                    this.children.add(new UserExplorer(records[i]));
-                }
+
+                // Add Groups Explorer
+                this.children.add(new GroupsExplorer());
+
+                // Add Users
+                this.children.addArray(records.map( r => new UserExplorer(r)));
             });
         }
 

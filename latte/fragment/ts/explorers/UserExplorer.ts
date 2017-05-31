@@ -23,6 +23,8 @@ module latte {
             if(r) {
                 this.record = r;
             }
+
+            this.loadsChildren = false;
         }
 
         //region Private Methods
