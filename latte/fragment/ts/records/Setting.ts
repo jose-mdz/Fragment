@@ -13,6 +13,7 @@ module latte{
 
 
 		//region Fields
+        settingType: string;
 		//endregion
 
 
@@ -27,7 +28,7 @@ module latte{
 				fields: {
 					value: {
 						text: strings.settingValue,
-						type: 'string'
+						type: <any>(this.settingType) || 'string'
 					}
 				}
 			}

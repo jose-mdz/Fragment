@@ -8,7 +8,7 @@ module latte {
      */
     export interface IGlobalConfigSettings {
 
-        [key: string]: IGlobalConfigurationSetting;
+        [key: string]: IGlobalConfigSetting;
 
     }
 

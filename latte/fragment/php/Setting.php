@@ -142,10 +142,16 @@ class Setting extends settingBase{
                 'icon' => 'graduation_hat'
             ),
             'inline-js' => array(
-                'icon' => 'menu'
+                'icon' => 'menu',
+                'type' => 'switch'
             ),
             'inline-css' => array(
-                'icon' => 'menu'
+                'icon' => 'menu',
+                'type' => 'switch'
+            ),
+            'image-quality' => array(
+                'icon' => 'picture',
+                'type' => 'number'
             )
         );
 

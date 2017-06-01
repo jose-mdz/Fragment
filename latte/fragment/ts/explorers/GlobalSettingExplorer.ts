@@ -17,10 +17,11 @@ module latte {
         /**
          * Creates the setting
          */
-        constructor(settingName: string, icon: IconItem = null) {
+        constructor(globalSetting: IGlobalConfigSetting, icon: IconItem = null) {
             super();
 
-            this.settingName = settingName;
+            this.globalSetting = globalSetting;
+            this.settingName = globalSetting.name;
 
             if(icon) {
                 this.settingIcon = icon;
@@ -53,14 +54,75 @@ module latte {
          * @Override
          */
         getDetailView(): View{
-            return new GlobalSettingView(this.settingName);
+            return new GlobalSettingView(this.globalSetting);
+        }
+
+        /**
+         * Raises the <c>globalSetting</c> event
+         */
+        onGlobalSettingChanged(){
+            if(this._globalSettingChanged){
+                this._globalSettingChanged.raise();
+            }
         }
         //endregion
 
         //region Events
+        /**
+         * Back field for event
+         */
+        private _globalSettingChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the globalSetting property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get globalSettingChanged(): LatteEvent{
+            if(!this._globalSettingChanged){
+                this._globalSettingChanged = new LatteEvent(this);
+            }
+            return this._globalSettingChanged;
+        }
+
+
         //endregion
 
         //region Properties
+
+        /**
+         * Property field
+         */
+        private _globalSetting: IGlobalConfigSetting = null;
+
+        /**
+         * Gets or sets the global setting item
+         *
+         * @returns {IGlobalConfigSetting}
+         */
+        get globalSetting(): IGlobalConfigSetting{
+            return this._globalSetting;
+        }
+
+        /**
+         * Gets or sets the global setting item
+         *
+         * @param {IGlobalConfigSetting} value
+         */
+        set globalSetting(value: IGlobalConfigSetting){
+
+            // Check if value changed
+            let changed: boolean = value !== this._globalSetting;
+
+            // Set value
+            this._globalSetting = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onGlobalSettingChanged();
+            }
+        }
+
         /**
          * Property field
          */

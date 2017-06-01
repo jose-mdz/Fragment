@@ -33,6 +33,8 @@ module latte {
 
         //region Static
 
+        static DEFAULT_QUALITY = 0.85;
+
         /**
          * Returns the amount of bytes on the specified string
          * @param base64
@@ -175,7 +177,7 @@ module latte {
             x.drawImage(image, crop.left, crop.top, neww, newh, 0, 0, neww, newh);
 
             let img = document.createElement('img');
-            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || 0.85);
+            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || ImageUtil.DEFAULT_QUALITY);
 
             return img;
         }
@@ -187,7 +189,7 @@ module latte {
             let original = new Size(w, h);
             let size = options.size;
             let type = options.type || "image/jpeg";
-            let quality = options.quality || 0.9;
+            let quality = options.quality || ImageUtil.DEFAULT_QUALITY;
             let bg: Color = options.background || null;
             let canvas: HTMLCanvasElement = document.createElement('canvas');
             let cx = canvas.getContext('2d');
@@ -550,7 +552,7 @@ module latte {
             x.restore();
 
             let img = document.createElement('img');
-            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || 0.85);
+            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || ImageUtil.DEFAULT_QUALITY);
 
             return img;
 
@@ -581,7 +583,7 @@ module latte {
             x.restore();
 
             let img = document.createElement('img');
-            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || 0.85);
+            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || ImageUtil.DEFAULT_QUALITY);
 
             return img;
 

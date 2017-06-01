@@ -1,14 +1,4 @@
 <?php 
-class pageBase extends DataRecord{
-	public $idpage, $idparent, $idgroup, $iduser, $guid, $key, $trash, $online, $template, $created, $modified, $title, $description, $order, $sort, $powner, $pgroup, $pother, $pworld, $flags;
-	public static function all($t = "page"){ return array("$t.idpage AS '$t.idpage'", "$t.idparent AS '$t.idparent'", "$t.idgroup AS '$t.idgroup'", "$t.iduser AS '$t.iduser'", "$t.guid AS '$t.guid'", "$t.key AS '$t.key'", "$t.trash AS '$t.trash'", "$t.online AS '$t.online'", "$t.template AS '$t.template'", "$t.created AS '$t.created'", "$t.modified AS '$t.modified'", "$t.title AS '$t.title'", "$t.description AS '$t.description'", "$t.order AS '$t.order'", "$t.sort AS '$t.sort'", "$t.powner AS '$t.powner'", "$t.pgroup AS '$t.pgroup'", "$t.pother AS '$t.pother'", "$t.pworld AS '$t.pworld'", "$t.flags AS '$t.flags'"); }
-	public static function gettable(){ return "page"; }
-	public function getAutoKey(){ return array( "idpage" => $this->idpage ); }
-	public function getKeys(){ return array(  ); }
-	public function getFields(){ return array( "idparent" => $this->idparent, "idgroup" => $this->idgroup, "iduser" => $this->iduser, "guid" => $this->guid, "key" => $this->key, "trash" => $this->trash, "online" => $this->online, "template" => $this->template, "created" => $this->created, "modified" => $this->modified, "title" => $this->title, "description" => $this->description, "order" => $this->order, "sort" => $this->sort, "powner" => $this->powner, "pgroup" => $this->pgroup, "pother" => $this->pother, "pworld" => $this->pworld, "flags" => $this->flags ); }
-	public function getModule(){ return 'fragment'; }
-	public function isInserted(){ return isset($this->idpage); }
-}
 class settingBase extends DataRecord{
 	public $idsetting, $idowner, $owner, $name, $value;
 	public static function all($t = "setting"){ return array("$t.idsetting AS '$t.idsetting'", "$t.idowner AS '$t.idowner'", "$t.owner AS '$t.owner'", "$t.name AS '$t.name'", "$t.value AS '$t.value'"); }
@@ -39,16 +29,6 @@ class fragmentBase extends DataRecord{
 	public function getModule(){ return 'fragment'; }
 	public function isInserted(){ return isset($this->idfragment); }
 }
-class groupBase extends DataRecord{
-	public $idgroup, $name;
-	public static function all($t = "group"){ return array("$t.idgroup AS '$t.idgroup'", "$t.name AS '$t.name'"); }
-	public static function gettable(){ return "group"; }
-	public function getAutoKey(){ return array( "idgroup" => $this->idgroup ); }
-	public function getKeys(){ return array(  ); }
-	public function getFields(){ return array( "name" => $this->name ); }
-	public function getModule(){ return 'fragment'; }
-	public function isInserted(){ return isset($this->idgroup); }
-}
 class groupUserBase extends DataRecord{
 	public $idgroupuser, $idgroup, $iduser;
 	public static function all($t = "group_user"){ return array("$t.idgroupuser AS '$t.idgroupuser'", "$t.idgroup AS '$t.idgroup'", "$t.iduser AS '$t.iduser'"); }
@@ -68,4 +48,24 @@ class userBase extends DataRecord{
 	public function getFields(){ return array( "uname" => $this->uname, "password" => $this->password, "flags" => $this->flags ); }
 	public function getModule(){ return 'fragment'; }
 	public function isInserted(){ return isset($this->iduser); }
+}
+class pageBase extends DataRecord{
+	public $idpage, $idparent, $idgroup, $iduser, $guid, $key, $trash, $online, $template, $created, $modified, $title, $description, $order, $sort, $powner, $pgroup, $pother, $pworld, $flags;
+	public static function all($t = "page"){ return array("$t.idpage AS '$t.idpage'", "$t.idparent AS '$t.idparent'", "$t.idgroup AS '$t.idgroup'", "$t.iduser AS '$t.iduser'", "$t.guid AS '$t.guid'", "$t.key AS '$t.key'", "$t.trash AS '$t.trash'", "$t.online AS '$t.online'", "$t.template AS '$t.template'", "$t.created AS '$t.created'", "$t.modified AS '$t.modified'", "$t.title AS '$t.title'", "$t.description AS '$t.description'", "$t.order AS '$t.order'", "$t.sort AS '$t.sort'", "$t.powner AS '$t.powner'", "$t.pgroup AS '$t.pgroup'", "$t.pother AS '$t.pother'", "$t.pworld AS '$t.pworld'", "$t.flags AS '$t.flags'"); }
+	public static function gettable(){ return "page"; }
+	public function getAutoKey(){ return array( "idpage" => $this->idpage ); }
+	public function getKeys(){ return array(  ); }
+	public function getFields(){ return array( "idparent" => $this->idparent, "idgroup" => $this->idgroup, "iduser" => $this->iduser, "guid" => $this->guid, "key" => $this->key, "trash" => $this->trash, "online" => $this->online, "template" => $this->template, "created" => $this->created, "modified" => $this->modified, "title" => $this->title, "description" => $this->description, "order" => $this->order, "sort" => $this->sort, "powner" => $this->powner, "pgroup" => $this->pgroup, "pother" => $this->pother, "pworld" => $this->pworld, "flags" => $this->flags ); }
+	public function getModule(){ return 'fragment'; }
+	public function isInserted(){ return isset($this->idpage); }
+}
+class groupBase extends DataRecord{
+	public $idgroup, $name;
+	public static function all($t = "group"){ return array("$t.idgroup AS '$t.idgroup'", "$t.name AS '$t.name'"); }
+	public static function gettable(){ return "group"; }
+	public function getAutoKey(){ return array( "idgroup" => $this->idgroup ); }
+	public function getKeys(){ return array(  ); }
+	public function getFields(){ return array( "name" => $this->name ); }
+	public function getModule(){ return 'fragment'; }
+	public function isInserted(){ return isset($this->idgroup); }
 }

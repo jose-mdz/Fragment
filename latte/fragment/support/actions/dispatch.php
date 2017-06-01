@@ -74,6 +74,10 @@ if ($page && ($page->online == 1 || Session::isLogged())){
 
     // Decide template to use
     $GLOBALS['template'] = $page->template ? $page->template : 'index';
+
+    // Theme URI for including
+    $GLOBALS['theme_uri'] = "/fragment/themes/" . $GLOBALS["fragment-theme"];
+
     //endregion
 
     //region include _head.php

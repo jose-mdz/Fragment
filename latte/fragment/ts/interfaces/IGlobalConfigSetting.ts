@@ -6,9 +6,11 @@ module latte {
     /**
      *
      */
-    export interface IGlobalConfigurationSetting {
+    export interface IGlobalConfigSetting {
 
+        name?: string;
         icon?: string;
+        type?: string;
 
     }
 

@@ -42,6 +42,8 @@ module latte {
 
         //region Static
 
+        static QUALITY: number;
+
         /**
          * Gets a function that saves the image on the editor to the specified file
          * @returns {null}
@@ -213,6 +215,10 @@ module latte {
         private undoStack: IImageEditorUndo[] = [];
 
         private loadingFromUndo = false;
+
+        private defaultQuality = 0.85;
+
+        private _quality = 0;
 
         //endregion
 
@@ -652,6 +658,30 @@ module latte {
          * Changes the enable state of controls
          * @param enabled
          */
+
+        /**
+         * Gets the quality setting for images
+         * @param callback
+         */
+        getQuality(callback: (quality: number) => void){
+
+            if(ImageEditorView.QUALITY) {
+                callback(ImageEditorView.QUALITY);
+            }else{
+                Setting.getGlobalByName('image-quality').send((s: Setting) => {
+
+
+                    ImageEditorView.QUALITY = parseFloat(s.value) || ImageUtil.DEFAULT_QUALITY;
+
+                    // Is this a patch?
+                    ImageUtil.DEFAULT_QUALITY  = ImageEditorView.QUALITY;
+
+                    callback(ImageEditorView.QUALITY);
+                })
+            }
+
+        }
+
         enableControls(enabled: boolean){
             this.btnUndo.enabled =
                 this.btnResize.enabled =
@@ -779,19 +809,23 @@ module latte {
             this._cropper = null;
 
             if(this.image){
-                if(this.image.src.indexOf('data:image') === 0) {
-                    this.bytes = ImageUtil.base64ByteSize(ImageUtil.getBase64(this.image.src));
-                }
-                this.zoomMode = null;
-                this.canvas.appendChild(this.image);
-                this.canvas.style.visibility = 'hidden';
-                if(this.image.naturalWidth > 0) {
-                    this.layoutCheck();
-                }else{
-                    this.image.onload = () => {this.layoutCheck()};
-                }
 
-                this.btnUndo.enabled = this.undoStack.length > 0;
+                // Wait for quality parameter before loading image
+                this.getQuality( q => {
+                    if(this.image.src.indexOf('data:image') === 0) {
+                        this.bytes = ImageUtil.base64ByteSize(ImageUtil.getBase64(this.image.src));
+                    }
+                    this.zoomMode = null;
+                    this.canvas.appendChild(this.image);
+                    this.canvas.style.visibility = 'hidden';
+                    if(this.image.naturalWidth > 0) {
+                        this.layoutCheck();
+                    }else{
+                        this.image.onload = () => {this.layoutCheck()};
+                    }
+
+                    this.btnUndo.enabled = this.undoStack.length > 0;
+                });
 
             }
         }
