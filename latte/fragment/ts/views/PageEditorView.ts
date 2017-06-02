@@ -39,21 +39,19 @@ module latte {
          * Clears the ribbon of non-standard items and tabs
          */
         private clearRibbon(selectFirstTab: boolean = true){
-            let goners = [];
 
-            this.ribbon.items.each((item: Item) => {
-                if(item.tab != this.tabPage) {
-                    goners.push(item)
-                }
-            });
+            this.ribbon.items.clear();
+            this.ribbon.tabs.clear();
 
-            for(let i in goners){
-                this.ribbon.items.remove(goners[i]);
-            }
+            this.ribbon.items.addArray([
+                this.btnPreview,
+                SeparatorItem.withTab(this.tabPage),
+                this.onlineInput,
+            ]);
 
-            while(this.ribbon.tabs.length > 1){
-                this.ribbon.tabs.remove(this.ribbon.tabs[1]);
-            }
+            this.ribbon.tabs.addArray([
+                this.tabPage
+            ]);
 
             if(selectFirstTab !== false) {
                 this.ribbon.selectedTab = this.ribbon.tabs.first;
@@ -68,6 +66,7 @@ module latte {
          */
         private fragmentFocus(adapter: FragmentAdapter<IFragment>){
 
+            this.focusedFragmentAdapter = adapter;
             this.fragmentTabsUpdate(adapter);
 
         }
@@ -77,10 +76,20 @@ module latte {
          * @param adapter
          */
         private fragmentTabsUpdate(adapter: FragmentAdapter<IFragment>){
+
+            if(adapter != this.focusedFragmentAdapter) {
+                return;
+            }
+
             this.clearRibbon(false);
 
-            this.ribbon.tabs.addArray(adapter.getEditorTabs());
-            this.ribbon.items.addArray(adapter.getEditorTabItems());
+            let tabs = adapter.getEditorTabs();
+            let items = adapter.getEditorTabItems();
+
+            items.filter(i => i.tab != null);
+
+            this.ribbon.tabs.addArray(tabs);
+            this.ribbon.items.addArray(items);
 
             if(this.ribbon.tabs.length > 0) {
                 this.ribbon.selectedTab = this.ribbon.tabs.last
@@ -166,6 +175,15 @@ module latte {
         }
 
         /**
+         * Raises the <c>focusedFragmentAdapter</c> event
+         */
+        onFocusedFragmentAdapterChanged(){
+            if(this._focusedFragmentAdapterChanged){
+                this._focusedFragmentAdapterChanged.raise();
+            }
+        }
+
+        /**
          * Override.
          */
         onLoad(){
@@ -176,15 +194,7 @@ module latte {
 
             this.ribbon.startButton.visible = false;
 
-            this.ribbon.items.addArray([
-                this.btnPreview,
-                SeparatorItem.withTab(this.tabPage),
-                this.onlineInput,
-            ]);
-
-            this.ribbon.tabs.addArray([
-                this.tabPage
-            ]);
+            this.clearRibbon();
 
             this.ribbon.selectedTab = this.ribbon.tabs.first;
 
@@ -223,7 +233,6 @@ module latte {
             let loc = document.location;
             window.open(sprintf("%s//%s/%s", loc.protocol, loc.host, this.page.guid));
         }
-
 
         /**
          *
@@ -288,6 +297,23 @@ module latte {
         /**
          * Back field for event
          */
+        private _focusedFragmentAdapterChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the focusedFragmentAdapter property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get focusedFragmentAdapterChanged(): LatteEvent{
+            if(!this._focusedFragmentAdapterChanged){
+                this._focusedFragmentAdapterChanged = new LatteEvent(this);
+            }
+            return this._focusedFragmentAdapterChanged;
+        }
+
+        /**
+         * Back field for event
+         */
         private _pageChanged: LatteEvent;
 
         /**
@@ -306,6 +332,40 @@ module latte {
         //endregion
 
         //region Properties
+
+        /**
+         * Property field
+         */
+        private _focusedFragmentAdapter: FragmentAdapter<IFragment> = null;
+
+        /**
+         * Gets or sets the focused fragment adapter
+         *
+         * @returns {FragmentAdapter<IFragment>}
+         */
+        get focusedFragmentAdapter(): FragmentAdapter<IFragment>{
+            return this._focusedFragmentAdapter;
+        }
+
+        /**
+         * Gets or sets the focused fragment adapter
+         *
+         * @param {FragmentAdapter<IFragment>} value
+         */
+        set focusedFragmentAdapter(value: FragmentAdapter<IFragment>){
+
+            // Check if value changed
+            let changed: boolean = value !== this._focusedFragmentAdapter;
+
+            // Set value
+            this._focusedFragmentAdapter = value;
+
+            // Trigger changed event
+            if(changed){
+                this.onFocusedFragmentAdapterChanged();
+            }
+        }
+
         /**
          * Property field
          */
