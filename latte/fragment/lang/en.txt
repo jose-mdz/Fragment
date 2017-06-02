@@ -118,3 +118,8 @@ widthPr Width (%)
 heightPr Height (%)
 scaleImg Scale (%)
 resizeImage Resize Image
+resizeBasedDesc Resize
+cantAddImage Can't Add Image
+SNotCompatibleImage %s is not a compatible image
+replaceImage Replace Image
+seeResultImage See Result Image

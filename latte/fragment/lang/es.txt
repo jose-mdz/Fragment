@@ -119,3 +119,7 @@ heightPr Alto (%)
 scaleImg Escala (%)
 resizeImage Redimensionar Imagen
 resizeBasedDesc Redimensión
+cantAddImage No se puede agregar imagen
+SNotCompatibleImage %s no es una imagen compatible
+replaceImage Reemplazar Imagen
+seeResultImage Ver Imagen

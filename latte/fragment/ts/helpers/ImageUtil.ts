@@ -35,6 +35,8 @@ module latte {
 
         static DEFAULT_QUALITY = 0.85;
 
+        static DEFAULT_TYPE = 'image/jpeg';
+
         /**
          * Returns the amount of bytes on the specified string
          * @param base64
@@ -177,7 +179,7 @@ module latte {
             x.drawImage(image, crop.left, crop.top, neww, newh, 0, 0, neww, newh);
 
             let img = document.createElement('img');
-            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || ImageUtil.DEFAULT_QUALITY);
+            img.src = c.toDataURL(options.type || ImageUtil.DEFAULT_TYPE, options.quality || ImageUtil.DEFAULT_QUALITY);
 
             return img;
         }
@@ -188,7 +190,7 @@ module latte {
             let h = image.height;
             let original = new Size(w, h);
             let size = options.size;
-            let type = options.type || "image/jpeg";
+            let type = options.type || ImageUtil.DEFAULT_TYPE;
             let quality = options.quality || ImageUtil.DEFAULT_QUALITY;
             let bg: Color = options.background || null;
             let canvas: HTMLCanvasElement = document.createElement('canvas');
@@ -327,7 +329,6 @@ module latte {
             // return result;
 
         }
-
 
         private static resample_hermite(canvas, W, H, W2, H2){
             var time1 = Date.now();
@@ -552,7 +553,7 @@ module latte {
             x.restore();
 
             let img = document.createElement('img');
-            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || ImageUtil.DEFAULT_QUALITY);
+            img.src = c.toDataURL(options.type || ImageUtil.DEFAULT_TYPE, options.quality || ImageUtil.DEFAULT_QUALITY);
 
             return img;
 
@@ -583,7 +584,7 @@ module latte {
             x.restore();
 
             let img = document.createElement('img');
-            img.src = c.toDataURL(options.type || 'image/jpeg', options.quality || ImageUtil.DEFAULT_QUALITY);
+            img.src = c.toDataURL(options.type || ImageUtil.DEFAULT_TYPE, options.quality || ImageUtil.DEFAULT_QUALITY);
 
             return img;
 

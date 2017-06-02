@@ -3,16 +3,6 @@
  */
 module latte {
 
-    export interface IImageGalleryFragment extends IFragment{
-        "thumb-fit": "aspect-fit" | "aspect-fill" | "aspect-fill-far" | "aspect-fill-near";
-        "thumb-width": number;
-        "thumb-height": number;
-        "image-fit": "aspect-fit" | "aspect-fill" | "aspect-fill-far" | "aspect-fill-near";
-        "image-width": number;
-        "image-height": number;
-        "print-images": boolean;
-    }
-
     /**
      *
      */
@@ -64,8 +54,7 @@ module latte {
         private generatePresentableImage(item: FileItem, callback: () => void){
             item.file.createThumbChild({
                 size: this.imageSize,
-                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['thumb-fit']) || ImageFit.AspectFill,
-                quality: 0.9
+                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['thumb-fit']) || ImageFit.AspectFill
             }, ImageGalleryFragmentAdapter.PRESENTABLE_KEY, () => callback())
         }
 
@@ -147,7 +136,7 @@ module latte {
             }
 
             DialogView.confirmDelete(this.selectedFile.file.name, () => {
-                this.selectedFile.file.remove(() => {log("Removed Record & Physical")});
+                this.selectedFile.file.remove(() => log("Removed Record & Physical"));
                 this.files.remove(this.selectedFile);
                 this.selectedFile = null;
                 this.serialize();
@@ -182,9 +171,12 @@ module latte {
          */
         private viewSelectedOriginal(){
             if(this.selectedFile) {
+
                 let index = this.files.indexOf(this.selectedFile);
                 let files = this.getFileRecords();
                 let editor = ImageEditorView.editImageFiles(files, index);
+
+                // Re create images when saved
                 editor.saved.add(() => {
                     this.createImagesOfFile(this.selectedFile);
                 });
@@ -270,6 +262,7 @@ module latte {
             let editor = this.editorItem = new FragmentPlaceholderItem();
 
             this.editorItem.addClass('gallery-fragment-editor');
+            editor.emptyIcon = LinearIcon.book;
             this.editorItem.node.addEventListener('click', () => this.selectedFile = null);
             this.editorItem.element.append(this.fileInput.element);
 
@@ -304,10 +297,11 @@ module latte {
                     // Add the Item to Files
                     this.files.add(item);
 
+                    // Process thumbs & resized image
                     this.createImagesOfFile(item, f);
 
                 }else {
-                    log(sprintf("%s is not a compatible image", f.name));
+                    DialogView.alert(strings.cantAddImage, sprintf(strings.SNotCompatibleImage, f.name));
                 }
 
             }
@@ -427,7 +421,7 @@ module latte {
             // Eval nodes
             d.element.innerHTML = this.fragment.value;
 
-            // Scan nodes
+            // Scan nodes for images
             for(let i in d.element.childNodes){
                 let node: Node = d.element.childNodes[i];
 
@@ -436,13 +430,13 @@ module latte {
                     let guid = img.getAttribute('data-guid');
 
                     if(guid) {
-                        guids.push(img.getAttribute('data-guid'))
+                        guids.push(guid)
                     }
                 }
             }
 
             // Load files
-            // HACK: Loading visual cues!
+            // TODO: Loading visual cues!
             File.byGuids(guids.join(',')).send((files: File[]) => {
                 let sorted = {};
                 files.forEach((f) => sorted[f.guid] = f);
@@ -513,6 +507,8 @@ module latte {
 
                     // Added
                     (f: FileItem) => {
+                        // Remove empty icon
+                        (<FragmentPlaceholderItem>this.editorItem).emptyIcon = null;
                         this.editorItem.element.append(f.element);
                         f.thumbSize = this.thumbSize;
                         f.element.get(0).addEventListener('click', (e) => {
@@ -523,6 +519,9 @@ module latte {
 
                     // Removed
                     (f: FileItem) => {
+                        if(this.files.length == 0){
+                            (<FragmentPlaceholderItem>this.editorItem).emptyIcon = LinearIcon.book;
+                        }
                         f.element.detach();
                     }
                 );

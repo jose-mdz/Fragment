@@ -741,7 +741,6 @@ class File extends fileBase{
     }
 
 
-    
     /**
      * Removes the registry of file and its contents from S3.
      *
@@ -764,7 +763,6 @@ class File extends fileBase{
             }
         }
 
-        $this->delete();
     }
 
     /**

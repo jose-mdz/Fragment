@@ -6,7 +6,7 @@ module latte {
     /**
      *
      */
-    export class ImageFragmentAdapter extends FragmentAdapter<any> {
+    export class ImageFragmentAdapter extends FragmentAdapter<IImageFragment> {
 
         //region Static
         static PRESENTABLE_KEY = 'presentable';
@@ -46,17 +46,28 @@ module latte {
 
         private redoImages(){
             if(this.presentableFile) {
-                this.presentableFile.physicalRemove().send(() => {
+                this.presentableFile.remove(() => {
                     this.generatePresentableImage(this.file, (child) => {
                         this.presentableFile = child;
+                        this.serialize();
                     })
                 });
             }
         }
 
         private viewOriginal(){
-            ImageEditorView.editImageFile(this.file);
+            let editor = ImageEditorView.editImageFile(this.file);
+
+            editor.saved.add(() => {
+                this.redoImages();
+            })
         }
+
+        private viewResultImage(){
+            let editor = ImageEditorView.editImageFile(this.presentableFile);
+            editor.editable = false;
+        }
+
         //endregion
 
         //region Methods
@@ -67,7 +78,7 @@ module latte {
         getEditorTabs(): TabItem[]{
             let tabs = [];
 
-            tabs.push(this.tabImage)
+            tabs.push(this.tabImage);
 
             return tabs;
         }
@@ -82,6 +93,8 @@ module latte {
             if(this.file) {
                 items.push(SeparatorItem.withTab(this.tabImage));
                 items.push(this.btnViewOriginal);
+                items.push(this.btnResultImage);
+                items.push(SeparatorItem.withTab(this.tabImage));
                 items.push(this.btnRedoImages);
             }
 
@@ -96,8 +109,7 @@ module latte {
         generatePresentableImage(file: File, callback: (child?:File) => void){
             file.createThumbChild({
                 size: this.imageSize,
-                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['image-fit']) || ImageFit.AspectFill,
-                quality: 0.9
+                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['image-fit']) || ImageFit.AspectFill
             }, ImageFragmentAdapter.PRESENTABLE_KEY, (child:File) => callback(child))
         }
 
@@ -238,6 +250,8 @@ module latte {
 
             buffer.appendChild(img);
 
+            // log("Serialized: " + buffer.innerHTML);
+
             let oldValue = this.fragment.value;
             this.fragment.value = buffer.innerHTML;
             this.unsavedChanges = oldValue != this.fragment.value;
@@ -259,17 +273,21 @@ module latte {
 
                 if(node.nodeType == 1) {
                     let img: HTMLImageElement = <HTMLImageElement>node;
-                    let guid = img.getAttribute('data-guid');
+                    let guid = img.getAttribute('data-original-guid');
 
                     if(guid) {
-                        guids.push(img.getAttribute('data-guid'))
+                        guids.push(guid)
                     }
                 }
             }
 
-            //TODO: AQUI ME QUEDE, ya tenemos el guid, hay que cargar la imagen
             // Load files
             File.byGuids(guids.join(',')).send((files: File[]) => {
+
+                // Insert Image / Replace Image button text
+                this.btnInsertImage.text = files.length > 0 ? strings.replaceImage : strings.insertImage;
+
+                // Set image if present
                 if(files.length > 0) {
                     this.file = files[0];
                 }
@@ -548,6 +566,25 @@ module latte {
             }
             return this._btnRedoImages;
         }
+
+        /**
+         * Field for btnResultImage property
+         */
+        private _btnResultImage: ButtonItem;
+
+        /**
+         * Gets the result image
+         *
+         * @returns {ButtonItem}
+         */
+        get btnResultImage(): ButtonItem {
+            if (!this._btnResultImage) {
+                this._btnResultImage = new ButtonItem(strings.seeResultImage, LinearIcon.picture, () => this.viewResultImage());
+                this._btnResultImage.tab = this.tabImage;
+            }
+            return this._btnResultImage;
+        }
+
 
         /**
          * Field for btnViewOriginal property

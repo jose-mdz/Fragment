@@ -113,6 +113,9 @@ module latte {
                 throw "Not an image";
             }
 
+            // Configure Image Util for File transparency
+            ImageUtil.DEFAULT_TYPE = ImageUtil.mimeTypeOf(file.extension);
+
             let editor = ImageEditorView.showEditor();
 
             editor.loadImageFromUrl(file.url);
