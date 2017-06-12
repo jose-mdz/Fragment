@@ -11,7 +11,7 @@
 (new Tag());
 
 // Plugins directory
-const FRAGMENT_PLUGINS_DIR = DATALATTE_FILES . "/../plugins";
+define(FRAGMENT_PLUGINS_DIR, DATALATTE_FILES . "/../plugins");
 
 //region Global Event Handling
 // Global variable to store plugin event registrations
