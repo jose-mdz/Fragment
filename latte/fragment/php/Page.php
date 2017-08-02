@@ -460,8 +460,8 @@ class Page extends pageBase{
         }
 
         // Tie together sentences
-        $sentencesSQL = implode("\nAND ", $sentences);
-        $sentencesSQL = $sentencesSQL ? 'AND ' . $sentencesSQL : $sentencesSQL;
+        $sentencesSQL = implode("\nAND \n", $sentences);
+        $sentencesSQL = $sentencesSQL ? 'AND ' . PHP_EOL . $sentencesSQL : $sentencesSQL;
         //endregion
 
         //region Convert sortBys into SQL
@@ -510,7 +510,7 @@ ORDER BY $sortBySQL
         ";
 //        print_r($options);
 //        var_dump(debug_backtrace());
-//        die($pagesSQL);
+        die($pagesSQL);
 
         //endregion
 

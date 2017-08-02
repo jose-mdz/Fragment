@@ -66,7 +66,6 @@ module latte {
 
             call.failure.add((err) => {
 
-
                 if(err) {
                     if(strings[err]) {
                         this.error.text = strings[err];
