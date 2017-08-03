@@ -13,6 +13,12 @@
 // Plugins directory
 define(FRAGMENT_PLUGINS_DIR, DATALATTE_FILES . "/../plugins");
 
+// Patch: DATALATTE_FILES is not well formed when in release.
+if($ON_RELEASE){
+    define(FRAGMENT_PLUGINS_DIR, __DIR__ . "/../../../plugins");
+}
+
+
 //region Global Event Handling
 // Global variable to store plugin event registrations
 $GLOBALS['fragment_plugin_events'] = array();
