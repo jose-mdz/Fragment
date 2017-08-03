@@ -11,7 +11,7 @@
 # Ignore files & themes folder (tests are made there)
 /html/fragment/files/*
 /html/fragment/themes/*
-#/html/fragment/plugins/*
+/html/fragment/plugins/*
 
 # Do include default theme
 !/html/fragment/themes/default
@@ -20,7 +20,7 @@
 !/html/fragment/files/install
 
 # Do include basic pack plugin
-#!/html/fragment/plugins/basic-pack
+!/html/fragment/plugins/basic-pack
 
 # Ignore files who are generated automagically
 /latte/*/support/ts-include/*
