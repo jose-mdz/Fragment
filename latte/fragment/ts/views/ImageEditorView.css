@@ -18,12 +18,64 @@
     background-color: white;
 }
 
-.latte-view.image-editor > .container img.centered-x{
-    position:absolute;
+.latte-view.image-editor > .container .canvas{
+    position: absolute;
+}
+
+.latte-view.image-editor > .container .canvas.overflow{
+    position: relative !important;
+}
+
+.latte-view.image-editor > .container .canvas.centered-x{
     left: 50%;
 }
 
-.latte-view.image-editor > .container img.centered-y{
-    position:absolute;
+.latte-view.image-editor > .container .canvas.centered-y{
     top: 50%;
+}
+
+.latte-view.image-editor > .container .canvas img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+}
+
+.latte-view.image-editor > .container .canvas .cropper{
+    border: solid 1px magenta;
+    position: absolute;
+}
+
+.latte-view.image-editor > .container .canvas .cropper-overlay{
+    position: absolute;
+    background: black;
+    opacity: 0.75;
+}
+.rect-checker{
+    background: rgba(255, 0, 0, 0.2);
+    position: absolute;
+}
+
+.latte-view.image-editor > .container .canvas .cropper-overlay.top{
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.latte-view.image-editor > .container .canvas .cropper-overlay.left{
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.latte-view.image-editor > .container .canvas .cropper-overlay.right{
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.latte-view.image-editor > .container .canvas .cropper-overlay.bottom{
+    bottom: 0;
+    left: 0;
+    right: 0;
 }

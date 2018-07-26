@@ -31,3 +31,5 @@ if (defined('NO_DB_CONNECTION')){
     }
 }
 
+// Raise Event
+event_raise('backend_render', $doc);

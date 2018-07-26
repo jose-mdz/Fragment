@@ -34,7 +34,9 @@ module latte {
             x.responseType = 'arraybuffer';
 
             x.onload = () => {
-                this._resultSrc = window.URL.createObjectURL(new Blob([x.response]));
+                let b = new Blob([x.response]);
+                this._resultBytes = b.size;
+                this._resultSrc = window.URL.createObjectURL(b);
                 this.onEnded();
             };
 
@@ -202,6 +204,20 @@ module latte {
             if(changed){
                 this.onProgressChanged();
             }
+        }
+
+        /**
+         * Property field
+         */
+        private _resultBytes: number;
+
+        /**
+         * Gets the number of bytes
+         *
+         * @returns {number}
+         */
+        get resultBytes(): number {
+            return this._resultBytes;
         }
 
         /**

@@ -67,16 +67,17 @@ module latte {
          */
         constructor() {
             console.log('%cF R %cΔ %cG M E N T',
-                'letter-spacing: 10px; font-size: 30px; color: #000; text-shadow: 0px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;',
-                'letter-spacing: 10px; font-size: 30px; color: #ff4d4d; text-shadow: 0px 0px 7px rgba(255,66,66,0.5); font-family:"Avenir Next","Myriad",sans-serif;',
-                'letter-spacing: 10px; font-size: 30px; color: #000; text-shadow: 0px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;');
+                'letter-spacing: 10px; font-size: 20px; color: #000; text-shadow: 0px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;',
+                'letter-spacing: 10px; font-size: 20px; color: #ff4d4d; text-shadow: 0px 0px 7px rgba(255,66,66,0.5); font-family:"Avenir Next","Myriad",sans-serif;',
+                'letter-spacing: 10px; font-size: 20px; color: #000; text-shadow: 0px 3px 3px rgba(0,0,0,0.2); font-family:"Avenir Next","Myriad",sans-serif;');
             console.log('http://github.com/menendezpoo/Fragment');
 
-            _latteUrl('/fragment/latte');
+            // _latteUrl('/fragment/latte');
 
             FragmentAdapterManager.register('text', 'PlainTextFragmentAdapter');
             FragmentAdapterManager.register('html', 'HtmlFragmentAdapter');
             FragmentAdapterManager.register('gallery', 'ImageGalleryFragmentAdapter');
+            FragmentAdapterManager.register('image', 'ImageFragmentAdapter');
 
 
             if(window['fragmentNoDbConnection']) {

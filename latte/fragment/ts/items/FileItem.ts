@@ -72,14 +72,21 @@ module latte {
                 this._fileChanged.raise();
             }
 
-            this.divName.text = this.divName.tooltip = this.file.name;
-            this.divSize.text = this.file.humanSize;
+            if(this.file) {
+                this.divName.text = this.divName.tooltip = this.file.name;
+                this.divSize.text = this.file.humanSize;
 
-            if(!this.file.isImage) {
-                this.divExtension.text = this.file.extension.toUpperCase();
+                if(!this.file.isImage) {
+                    this.divExtension.text = this.file.extension.toUpperCase();
+                }else{
+                    this.updateThumb();
+                }
             }else{
-                this.updateThumb();
+                this.divName.text = '';
+                this.divSize.text = '';
+                this.divExtension.text = '';
             }
+
         }
 
         /**
@@ -344,7 +351,6 @@ module latte {
             return this._divExtension;
         }
 
-
         /**
          * Field for divName property
          */
@@ -416,7 +422,6 @@ module latte {
             }
             return this._img;
         }
-
 
         /**
          * Field for progressBar property

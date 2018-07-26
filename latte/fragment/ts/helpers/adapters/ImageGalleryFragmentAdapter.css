@@ -1,18 +1,5 @@
 .gallery-fragment-editor{
-    min-height: 400px;
-    background: #fcfcfc;
     padding: 15px;
-}
-
-.gallery-fragment-editor:after{
-    display:block;
-    content: '.';
-    visibility: hidden;
-    clear: both;
-}
-
-.gallery-fragment-editor:focus{
-    background: #f0f0f0;
 }
 
 .gallery-fragment-editor input[type=file]{
@@ -22,8 +9,4 @@
 
 .gallery-fragment-editor .latte-item.file{
     margin: 0 15px 15px 0;
-}
-
-.gallery-fragment-editor.dragging{
-    background-color: orange;
 }

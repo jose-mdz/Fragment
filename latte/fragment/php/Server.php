@@ -221,6 +221,8 @@ define('FG_DB_HOST', '$host');
 /** Language to use in fragment */
 define('FG_LANG', '$lang');");
 
+        chmod(FG_DIR . '/config.php', 0777);
+
         if ($write === FALSE){
             return 'cantWriteConfigFile';
         }

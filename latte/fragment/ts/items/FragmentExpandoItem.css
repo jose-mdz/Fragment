@@ -3,11 +3,18 @@
 }
 .cms-fragment-expando{
     margin: 0;
+    border: solid 3px transparent;
 }
 
-.cms-fragment-expando .expando-title{
-    color: #ccc;
+.cms-fragment-expando.focused > div > .toolbar > .face{
+    color: #ccc !important;
 }
-.cms-fragment-expando.focused .expando-title{
-    color: #4285F4;
+
+.cms-fragment-expando.focused{
+    border-color: #4285F4 !important;
+}
+
+.cms-fragment-expando.focused > div > .toolbar > .face{
+    background-color: #4285F4 !important;
+    color: white !important;
 }

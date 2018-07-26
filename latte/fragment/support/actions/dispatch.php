@@ -74,12 +74,19 @@ if ($page && ($page->online == 1 || Session::isLogged())){
 
     // Decide template to use
     $GLOBALS['template'] = $page->template ? $page->template : 'index';
+
+    // Theme URI for including
+    $GLOBALS['theme_uri'] = "/fragment/themes/" . $GLOBALS["fragment-theme"];
+
     //endregion
 
     //region include _head.php
-    if (file_exists("$theme_path/_head.php")){
-        include "$theme_path/_head.php";
+    if(event_raise('before_head_include') !== false){
+        if (file_exists("$theme_path/_head.php")){
+            include "$theme_path/_head.php";
+        }
     }
+    event_raise('after_head_include');
     //endregion
 
     //region Include Template
@@ -103,14 +110,15 @@ if ($page && ($page->online == 1 || Session::isLogged())){
     // Magic Error
     header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
 
+    $GLOBALS['error-type'] = 'http';
     $GLOBALS['error-code'] = 404;
     $GLOBALS['error-description'] = $strings['pageNotFound404'];
 
+    event_raise('before_dispatch_error');
     if (file_exists("$theme_path/_error.php")){
         include "$theme_path/_error.php";
-    }else{
-        die("Page not found: $q");
     }
+    event_raise('error_dispatched');
 
 }
 

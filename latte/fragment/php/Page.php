@@ -347,6 +347,8 @@ class Page extends pageBase{
                 case '&':
                 case '|':
                     $sentence = "( $lock (($aToUse $operator $b) = $c))"; break;
+                case 'like':
+                    $sentence = "($lock $aToUse $operator '$b')"; break;
                 default:
                     throw new SecurityException("Unrecognized operator: $operator");
             }
@@ -368,6 +370,8 @@ class Page extends pageBase{
                 case '&':
                 case '|':
                     $sentence = "(($a $operator $b) = $c)"; break;
+                case 'like':
+                    $sentence = "($a $operator '$b')"; break;
                 default:
                     throw new SecurityException("Unrecognized operator: $operator");
             }
@@ -456,8 +460,8 @@ class Page extends pageBase{
         }
 
         // Tie together sentences
-        $sentencesSQL = implode("\nAND ", $sentences);
-        $sentencesSQL = $sentencesSQL ? 'AND ' . $sentencesSQL : $sentencesSQL;
+        $sentencesSQL = implode("\nAND \n", $sentences);
+        $sentencesSQL = $sentencesSQL ? 'AND ' . PHP_EOL . $sentencesSQL : $sentencesSQL;
         //endregion
 
         //region Convert sortBys into SQL
@@ -506,7 +510,6 @@ ORDER BY $sortBySQL
         ";
 //        print_r($options);
 //        var_dump(debug_backtrace());
-//        die($pagesSQL);
 
         //endregion
 

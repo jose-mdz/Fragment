@@ -3,16 +3,6 @@
  */
 module latte {
 
-    export interface IImageGalleryFragment extends IFragment{
-        "thumb-fit": "aspect-fit" | "aspect-fill" | "aspect-fill-far" | "aspect-fill-near";
-        "thumb-width": number;
-        "thumb-height": number;
-        "image-fit": "aspect-fit" | "aspect-fill" | "aspect-fill-far" | "aspect-fill-near";
-        "image-width": number;
-        "image-height": number;
-        "print-images": boolean;
-    }
-
     /**
      *
      */
@@ -68,6 +58,18 @@ module latte {
             }, ImageGalleryFragmentAdapter.PRESENTABLE_KEY, () => callback())
         }
 
+        /**
+         * Gets the files based
+         */
+        private getFileRecords(): File[]{
+            let a = [];
+            this.files.each((f) => a.push(f.file));
+            return a;
+        }
+
+        /**
+         * Moves the selected image one position further
+         */
         private moveImageAfter(){
             if(!this.selectedFile) {
                 return;
@@ -76,6 +78,9 @@ module latte {
             this.swapSelectedImage(true);
         }
 
+        /**
+         * Moves the selected image one position back
+         */
         private moveImageBefore(){
 
             if(!this.selectedFile) {
@@ -114,6 +119,15 @@ module latte {
         }
 
         /**
+         * Redoes the thumbs of selected file item
+         */
+        private redoThumbs(){
+            if(this.selectedFile) {
+                this.createImagesOfFile(this.selectedFile);
+            }
+        }
+
+        /**
          * Removes the selected image. (Asking first)
          */
         private removeSelectedImage(){
@@ -122,6 +136,7 @@ module latte {
             }
 
             DialogView.confirmDelete(this.selectedFile.file.name, () => {
+                this.selectedFile.file.remove(() => log("Removed Record & Physical"));
                 this.files.remove(this.selectedFile);
                 this.selectedFile = null;
                 this.serialize();
@@ -138,18 +153,53 @@ module latte {
             this.btnMoveImageAfter.enabled = index < (this.files.length - 1);
         }
 
+        /**
+         * Opens the viewer for selected presentable image
+         */
         private viewSelectedImage(){
-            let pic = this.selectedFile.file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
+            let file = this.selectedFile.file;
+            let pic = file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
 
             if(pic) {
-                ImageEditorView.editImageByUrl(pic.url);
+                let editor = ImageEditorView.editImageFile(pic);
+                editor.editable = false;
             }
         }
 
+        /**
+         * Opens the editor for selected original
+         */
         private viewSelectedOriginal(){
             if(this.selectedFile) {
-                ImageEditorView.editImageByUrl(this.selectedFile.file.url);
+
+                let index = this.files.indexOf(this.selectedFile);
+                let files = this.getFileRecords();
+                let editor = ImageEditorView.editImageFiles(files, index);
+
+                // Re create images when saved
+                editor.saved.add(() => {
+                    this.createImagesOfFile(this.selectedFile);
+                });
             }
+        }
+
+        /**
+         * Opens the viewer for selected thumb
+         */
+        private viewSelectedThumb(){
+
+            if(this.selectedFile) {
+
+                let file = this.selectedFile.file;
+                let thumb = file.getChildByKey(FileItem.SYS_THUMB_KEY);
+
+                if(thumb) {
+                    let editor = ImageEditorView.editImageFile(thumb);
+                    editor.editable = false;
+                }
+
+            }
+
         }
 
         //endregion
@@ -188,6 +238,9 @@ module latte {
                 items = items.concat([
                     this.btnViewImage,
                     this.btnViewOriginal,
+                    this.btnViewThumb,
+                    this.btnRedoThumb,
+
                     SeparatorItem.withTab(this.tabImage),
                     this.btnMoveImageBefore,
                     this.btnMoveImageAfter,
@@ -206,73 +259,27 @@ module latte {
         onCreateEditorItem(){
             super.onCreateEditorItem();
 
-            this.editorItem = new Item();
-
-            let element = this.editorItem.element.get(0);
+            let editor = this.editorItem = new FragmentPlaceholderItem();
 
             this.editorItem.addClass('gallery-fragment-editor');
-            this.editorItem.element.get(0).setAttribute('tabindex', 1);
-            this.editorItem.element.get(0).addEventListener('click', () => {
-                this.selectedFile = null;
-            });
-            this.editorItem.element.get(0).addEventListener('focus', () => this.onEditorFocus());
-            this.editorItem.element.get(0).addEventListener('blur', () => this.onEditorBlur());
+            editor.emptyIcon = LinearIcon.book;
+            this.editorItem.node.addEventListener('click', () => this.selectedFile = null);
             this.editorItem.element.append(this.fileInput.element);
 
-            // Drag & Drop Support
-            element.addEventListener('dragover', (e) => {
-
-                this.draggingFiles = true;
-
-                e.preventDefault();
-
-                return false;
-
-            });
-            element.addEventListener('dragleave', (e) => {
-
-                this.draggingFiles = false;
-
-                e.preventDefault();
-
-                return false;
-
-            });
-            element.addEventListener('drop', (e: any) => {
-
-                e.preventDefault();
-
-                this.draggingFiles = false;
-
+            editor.drop.add((e) => {
                 if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                    this.onFilesSelected(e.dataTransfer.files)
+                    this.onFilesSelected(e.dataTransfer.files);
                 }
-
-                return false;
-
             });
 
             this.unserialize();
         }
 
         /**
-         * Raises the <c>draggingFiles</c> event
-         */
-        onDraggingFilesChanged(){
-            if(this._draggingFilesChanged){
-                this._draggingFilesChanged.raise();
-            }
-            if(this.draggingFiles) {
-                this.editorItem.addClass('dragging');
-            }else{
-                this.editorItem.removeClass('dragging');
-            }
-        }
-
-        /**
          * Raises the <c>filesSelected</c> event
          */
         onFilesSelected(files: FileList){
+
             if(this._filesSelected){
                 this._filesSelected.raise(files);
             }
@@ -282,17 +289,69 @@ module latte {
                 // Get file
                 let f = files[i];
 
-                // Create uploader
-                let u = new FileUploader(f, 'Page', String(this.fragment.idpage));
+                if(File.isImageExtension(File.extensionOf(f.name))){
 
-                // Add File Item to show upload process
-                let item = new FileItem();
-                item.fileUploader = u;
-                item.thumbCreated.add(() => this.generatePresentableImage(item, () => this.serialize()));
-                this.files.add(item);
+                    // Creates file item
+                    let item = new FileItem();
 
-                // Start upload
-                u.upload();
+                    // Add the Item to Files
+                    this.files.add(item);
+
+                    // Process thumbs & resized image
+                    this.createImagesOfFile(item, f);
+
+                }else {
+                    DialogView.alert(strings.cantAddImage, sprintf(strings.SNotCompatibleImage, f.name));
+                }
+
+            }
+        }
+
+        /**
+         * Creates the image of the specified file item
+         * @param item
+         */
+        createImagesOfFile(item: FileItem, f: SystemFile = null){
+
+            let fileBuffer: File = null;
+
+            // Creates the images
+            let doImages = () => {
+
+                // After thumb has been created, create the presentable image
+                if(item.thumbCreated.handlers.length == 0) {
+                    item.thumbCreated.add(() => {
+                        this.generatePresentableImage(item, () => {
+                            // debugger;
+                            // log("Generated Presentable: ")
+                            // log(item.file.children)
+                            this.serialize()
+                        });
+                    });
+                }
+
+                // If system file, upload it
+                if(f) {
+                    item.fileUploader = new FileUploader(f, 'Page', String(this.fragment.idpage));
+                    item.fileUploader.upload();
+                }else {
+
+                    // Re-assign file
+                    item.file = fileBuffer;
+                }
+            };
+
+            if(item.file && item.file.children.length > 0) {
+                // log("Deleting files: ")
+                // log(item.file.children)
+                item.file.deleteChildren().send(() => {
+                    fileBuffer = item.file;
+                    item.file.children = [];
+                    item.file = null;
+                    doImages();
+                });
+            }else{
+                doImages();
             }
         }
 
@@ -342,9 +401,9 @@ module latte {
             this.fragment.value = d.innerHTML;
             this.unsavedChanges = oldValue != this.fragment.value;
 
-            if(this.unsavedChanges) {
-                log("Unsaved Changes")
-            }
+            // if(this.unsavedChanges) {
+            //     log("Unsaved Changes")
+            // }
 
             // log(this.fragment.value);
         }
@@ -362,7 +421,7 @@ module latte {
             // Eval nodes
             d.element.innerHTML = this.fragment.value;
 
-            // Scan nodes
+            // Scan nodes for images
             for(let i in d.element.childNodes){
                 let node: Node = d.element.childNodes[i];
 
@@ -371,13 +430,13 @@ module latte {
                     let guid = img.getAttribute('data-guid');
 
                     if(guid) {
-                        guids.push(img.getAttribute('data-guid'))
+                        guids.push(guid)
                     }
                 }
             }
 
             // Load files
-            // HACK: Loading visual cues!
+            // TODO: Loading visual cues!
             File.byGuids(guids.join(',')).send((files: File[]) => {
                 let sorted = {};
                 files.forEach((f) => sorted[f.guid] = f);
@@ -397,12 +456,6 @@ module latte {
         /**
          * Back field for event
          */
-        private _draggingFilesChanged: LatteEvent;
-
-
-        /**
-         * Back field for event
-         */
         private _filesSelected: LatteEvent;
 
         /**
@@ -415,18 +468,6 @@ module latte {
                 this._filesSelected = new LatteEvent(this);
             }
             return this._filesSelected;
-        }
-
-        /**
-         * Gets an event raised when the value of the draggingFiles property changes
-         *
-         * @returns {LatteEvent}
-         */
-        get draggingFilesChanged(): LatteEvent{
-            if(!this._draggingFilesChanged){
-                this._draggingFilesChanged = new LatteEvent(this);
-            }
-            return this._draggingFilesChanged;
         }
 
         /**
@@ -451,39 +492,6 @@ module latte {
         //region Properties
 
         /**
-         * Property field
-         */
-        private _draggingFiles: boolean = null;
-
-        /**
-         * Gets or sets a value indicating if user is currently dragging files around
-         *
-         * @returns {boolean}
-         */
-        get draggingFiles(): boolean{
-            return this._draggingFiles;
-        }
-
-        /**
-         * Gets or sets a value indicating if user is currently dragging files around
-         *
-         * @param {boolean} value
-         */
-        set draggingFiles(value: boolean){
-
-            // Check if value changed
-            let changed: boolean = value !== this._draggingFiles;
-
-            // Set value
-            this._draggingFiles = value;
-
-            // Trigger changed event
-            if(changed){
-                this.onDraggingFilesChanged();
-            }
-        }
-
-        /**
          * Field for files property
          */
         private _files: Collection<FileItem>;
@@ -496,8 +504,11 @@ module latte {
         get files(): Collection<FileItem> {
             if (!this._files) {
                 this._files = new Collection<FileItem>(
+
                     // Added
                     (f: FileItem) => {
+                        // Remove empty icon
+                        (<FragmentPlaceholderItem>this.editorItem).emptyIcon = null;
                         this.editorItem.element.append(f.element);
                         f.thumbSize = this.thumbSize;
                         f.element.get(0).addEventListener('click', (e) => {
@@ -508,6 +519,9 @@ module latte {
 
                     // Removed
                     (f: FileItem) => {
+                        if(this.files.length == 0){
+                            (<FragmentPlaceholderItem>this.editorItem).emptyIcon = LinearIcon.book;
+                        }
                         f.element.detach();
                     }
                 );
@@ -667,6 +681,24 @@ module latte {
         }
 
         /**
+         * Field for btnRedoThumb property
+         */
+        private _btnRedoThumb: ButtonItem;
+
+        /**
+         * Gets the thumbs redo button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnRedoThumb(): ButtonItem {
+            if (!this._btnRedoThumb) {
+                this._btnRedoThumb = new ButtonItem(strings.redoThumb, LinearIcon.sync, () => this.redoThumbs());
+                this._btnRedoThumb.tab = this.tabImage;
+            }
+            return this._btnRedoThumb;
+        }
+
+        /**
          * Field for btnViewImage property
          */
         private _btnViewImage: ButtonItem;
@@ -700,6 +732,24 @@ module latte {
                 this._btnViewOriginal.tab = this.tabImage;
             }
             return this._btnViewOriginal;
+        }
+
+        /**
+         * Field for viewThumb property
+         */
+        private _btnViewThumb: ButtonItem;
+
+        /**
+         * Gets the view thumb button
+         *
+         * @returns {ButtonItem}
+         */
+        get btnViewThumb(): ButtonItem {
+            if (!this._btnViewThumb) {
+                this._btnViewThumb = new ButtonItem(strings.viewThumb, LinearIcon.picture, () => this.viewSelectedThumb());
+                this._btnViewThumb.tab = this.tabImage;
+            }
+            return this._btnViewThumb;
         }
 
         /**
@@ -755,7 +805,6 @@ module latte {
             }
             return this._tabImage;
         }
-
 
         //endregion
 

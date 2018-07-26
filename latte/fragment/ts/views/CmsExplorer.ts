@@ -22,13 +22,18 @@ module latte {
 
             this.addClass('cms-explorer');
 
+            UaEvents.onInitializingExplorer(this);
+
             this.addRootItem(new PagesExplorer());
 
             if(User.me.isRoot) {
                 this.addRootItem(new UsersExplorer());
-                this.addRootItem(new GroupsExplorer());
+                // this.addRootItem(new GroupsExplorer());
                 this.addRootItem(new GlobalSettingsExplorer());
             }
+
+            UaEvents.onInitializedExplorer(this);
+
         }
 
         //region Private Methods

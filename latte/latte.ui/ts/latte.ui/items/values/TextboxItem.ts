@@ -79,7 +79,12 @@ module latte{
                 if(_isArray(this.allowedKeys)) {
                     let found = false;
 
-                    if(!(evt.ctrlKey || evt.altKey || evt.metaKey || evt.shiftKey)) {
+                    if(!(evt.ctrlKey || evt.altKey || evt.metaKey || evt.shiftKey
+                            || evt.keyCode == Key.ENTER || evt.keyCode == Key.TAB
+                            || evt.keyCode == Key.ESCAPE || evt.keyCode == Key.ARROW_DOWN
+                            || evt.keyCode == Key.ARROW_LEFT || evt.keyCode == Key.ARROW_RIGHT
+                            || evt.keyCode == Key.ARROW_UP
+                        )) {
                         // Search if key is in allowed keys
                         for(let i in this.allowedKeys){
                             if(evt.keyCode == this.allowedKeys[i]) {
@@ -90,6 +95,7 @@ module latte{
 
                         // If not found, bye
                         if(!found) {
+                            log("Preventing default")
                             evt.preventDefault();
                             evt.stopImmediatePropagation();
                             return false;

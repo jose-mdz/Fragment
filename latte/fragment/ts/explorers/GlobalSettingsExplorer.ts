@@ -43,7 +43,8 @@ module latte {
         getChildrenLoader(): RemoteCall<any>{
             return Setting.getGlobalConfigurableSettings().withHandlers((sets: IGlobalConfigSettings) => {
                 for(let i in sets){
-                    this.children.add(new GlobalSettingExplorer(i, LinearIcon[sets[i]['icon']] || LinearIcon.cog))
+                    sets[i].name = i;
+                    this.children.add(new GlobalSettingExplorer(sets[i], LinearIcon[sets[i]['icon']] || LinearIcon.cog))
                 }
             });
         }

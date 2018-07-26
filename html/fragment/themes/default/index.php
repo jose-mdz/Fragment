@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+
+    //register_module('fragment');
+
+?><!DOCTYPE html>
 <html>
 <head>
     <?php head(); ?>

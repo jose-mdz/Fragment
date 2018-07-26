@@ -22,6 +22,8 @@ include FG_DIR . '/latte/latte.php';
  */
 if(file_exists(FG_DIR . '/config.php')){
     include FG_DIR . '/config.php'; //
+}else{
+    $_SESSION['install-mode'] = true;
 }
 
 /**
@@ -38,6 +40,12 @@ if(    defined('FG_DB_NAME') && defined('FG_DB_USER')
     }
 }else{
     define('NO_DB_CONNECTION', 2);
+}
+
+/**
+ * If no connection
+ */
+if (defined('NO_DB_CONNECTION')){
     $_SESSION['install-mode'] = true;
 }
 
@@ -60,7 +68,7 @@ LatteModule::loadMain('fragment', defined('FG_LANG') ? FG_LANG : FG_TMP_LANG, fa
 /**
  * Include theme's _include.php
  */
-if (defined('FG_DB_OK')){
+if (defined('FG_DB_OK') && !isset($_SESSION['install-mode'])){
     // Try to load theme's _backend
     $ts = Setting::getGlobal('theme');
 

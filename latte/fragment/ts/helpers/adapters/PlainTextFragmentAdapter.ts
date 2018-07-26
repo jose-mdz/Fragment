@@ -73,7 +73,12 @@ module latte {
                     this._textbox.text = '';
                     this.baseScrollHeight = this._textbox.element.scrollHeight;
                     this._textbox.text = savedValue;
+                    this.onEditorFocus();
                 });
+
+                this._textbox.addEventListener('blur', () => {
+                    this.onEditorBlur();
+                })
             }
             return this._textbox;
         }

@@ -179,43 +179,55 @@ module latte{
 		 */
 		createThumbChild(options: ImageExportOptions, key: string, callback: (child: File) => void = null){
 
-			var type = ImageUtil.mimeTypeOf(this.extension);
-
-			// Generate actual thumb
-			ImageUtil.createThumbOfUrl(this.url, options, (data: string) => {
+			ImageUtil.DEFAULT_TYPE = ImageUtil.mimeTypeOf(this.extension);
 
 
-				var img = document.createElement('img');
+            // Load quality parameter
+            Setting.getGlobalBuffered('image-quality', (setting) => {
 
-				img.addEventListener('load', () => {
-					var fu = FileUploader.fromBase64(ImageUtil.getBase64(data), this.name, "File", String(this.idfile));
+                // Check quality parameter
+                let quality = parseFloat(setting.value);
 
-					fu.complete.add(() => {
+                // Apply quality to ImageUtil
+                if(quality) ImageUtil.DEFAULT_QUALITY = quality;
 
-						// File uploaded!
-						this.children.push(fu.fileRecord);
+                // Generate actual thumb
+                ImageUtil.createThumbOfUrl(this.url, options, (data: string) => {
 
-						// Free memory
-						img = null;
+                    var img = document.createElement('img');
 
-						if(_isFunction(callback)) {
-							callback(fu.fileRecord)
-						}
+                    img.addEventListener('load', () => {
+                        var fu = FileUploader.fromBase64(ImageUtil.getBase64(data), this.name, "File", String(this.idfile));
 
-					});
+                        fu.complete.add(() => {
 
-					fu.key = key;
-					fu.width = img.width;
-					fu.height = img.height;
-					fu.idparent = this.idfile;
+                            // File uploaded!
+                            this.children.push(fu.fileRecord);
 
-					// Upload file
-					fu.upload();
-				})
+                            // Free memory
+                            img = null;
 
-				img.src = data;
+                            if(_isFunction(callback)) {
+                                callback(fu.fileRecord)
+                            }
 
-			});
+                        });
+
+                        fu.key = key;
+                        fu.width = img.width;
+                        fu.height = img.height;
+                        fu.idparent = this.idfile;
+
+                        // Upload file
+                        fu.upload();
+                    });
+
+                    img.src = data;
+
+                });
+
+            });
+
 		}
 
 		/**

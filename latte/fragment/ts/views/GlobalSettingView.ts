@@ -17,10 +17,10 @@ module latte {
         /**
          * Creates the view
          */
-        constructor(name: string) {
+        constructor(globalSetting: IGlobalConfigSetting) {
             super();
 
-            this.settingName = name;
+            this.globalSetting = globalSetting;
         }
 
         //region Private Methods
@@ -35,7 +35,7 @@ module latte {
 
             this.items.add(this.settingForm);
 
-            Setting.getGlobalByName(this.settingName).send((s: Setting) => this.setting = s );
+            Setting.getGlobalByName(this.globalSetting.name).send((s: Setting) => this.setting = s );
         }
         /**
          * Raises the <c>setting</c> event
@@ -44,6 +44,8 @@ module latte {
             if(this._settingChanged){
                 return this._settingChanged.raise();
             }
+
+            this.setting.settingType = this.globalSetting.type;
 
             if(this.setting) {
                 this.settingForm.record = this.setting;
@@ -109,24 +111,24 @@ module latte {
         /**
          * Property field
          */
-        private _settingName: string = null;
+        private _globalSetting: IGlobalConfigSetting = null;
 
         /**
-         * Gets or sets the setting name
+         * Gets or sets the setting item
          *
-         * @returns {string}
+         * @returns {IGlobalConfigSetting}
          */
-        get settingName(): string {
-            return this._settingName;
+        get globalSetting(): IGlobalConfigSetting {
+            return this._globalSetting;
         }
 
         /**
-         * Gets or sets the setting name
+         * Gets or sets the setting item
          *
-         * @param {string} value
+         * @param {IGlobalConfigSetting} value
          */
-        set settingName(value: string) {
-            this._settingName = value;
+        set globalSetting(value: IGlobalConfigSetting) {
+            this._globalSetting = value;
         }
         //endregion
 

@@ -1,0 +1,36 @@
+.fragment-placeholder{
+    position: relative;
+    min-height: 200px;
+    background: #fcfcfc;
+}
+
+.fragment-placeholder:after{
+    display:block;
+    content: '.';
+    visibility: hidden;
+    clear: both;
+    font-size: 0;
+}
+
+.fragment-placeholder:focus{
+    background: #f0f0f0;
+}
+
+.fragment-placeholder input[type=file]{
+    position:absolute;
+    visibility: hidden;
+}
+
+.fragment-placeholder.dragging{
+    background-color: orange;
+}
+
+.fragment-placeholder .empty-icon{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -60px;
+    margin-top: -60px;
+    font-size: 120px;
+    opacity: 0.075;
+}

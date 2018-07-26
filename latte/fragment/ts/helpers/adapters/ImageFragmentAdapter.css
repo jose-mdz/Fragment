@@ -1,0 +1,9 @@
+.image-fragment-editor input[type=file]{
+    position:absolute;
+    visibility: hidden;
+}
+
+.image-fragment-editor .image-container > img{
+    display: block;
+    margin: 0 auto;
+}
