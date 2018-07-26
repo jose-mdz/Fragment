@@ -15,7 +15,7 @@ We have a project for the [first release of Fragment](https://github.com/menende
 ## Why Fragment?
 - One word: Ultramegaconfigurability.
 
-## Techology
+## Technology
 - PHP / MySQL
 - Kickass HTML5 Backend.
 
