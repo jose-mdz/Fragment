@@ -1,0 +1,31 @@
+.latte-item.tags {
+    width: 100%;
+}
+
+/* ---------- TagValueItem ------------- */
+.latte-item.page-tags .latte-item.textbox input {
+    width: calc(100% - 15px);
+}
+
+.latte-item.page-tags .latte-item.textbox,
+.latte-item.page-tags > .label {
+    width: 100%;
+}
+
+.latte-item.toolbar.tags {
+    min-height: 50px;
+}
+
+.latte-item.toolbar.tags .button.tag-item {
+    background: #ff4401;
+    color: #FFFFFF;
+    cursor: inherit;
+    border-radius: 30px !important;
+    margin-bottom: 15px;
+    margin-right: 15px !important;
+    padding: 7px 15px;
+}
+
+.latte-item.toolbar.tags .button.tag-item .icon {
+    cursor: pointer;
+}

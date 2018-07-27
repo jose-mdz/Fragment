@@ -160,11 +160,9 @@ module latte{
 
 		/**
 		 *
-		 **/
+		 */
 		constructor(){
-
 			super();
-
 		}
 
 		//region Methods
@@ -172,15 +170,13 @@ module latte{
 		/**
 		 * Creates a thumb that fits on the specified size
 		 *
-		 * @param width
-		 * @param height
-		 * @param description
+		 * @param options
+		 * @param key
 		 * @param callback
 		 */
 		createThumbChild(options: ImageExportOptions, key: string, callback: (child: File) => void = null){
 
 			ImageUtil.DEFAULT_TYPE = ImageUtil.mimeTypeOf(this.extension);
-
 
             // Load quality parameter
             Setting.getGlobalBuffered('image-quality', (setting) => {
@@ -189,15 +185,15 @@ module latte{
                 let quality = parseFloat(setting.value);
 
                 // Apply quality to ImageUtil
-                if(quality) ImageUtil.DEFAULT_QUALITY = quality;
+                if (quality) ImageUtil.DEFAULT_QUALITY = quality;
 
                 // Generate actual thumb
                 ImageUtil.createThumbOfUrl(this.url, options, (data: string) => {
 
-                    var img = document.createElement('img');
+                    let img = document.createElement('img');
 
                     img.addEventListener('load', () => {
-                        var fu = FileUploader.fromBase64(ImageUtil.getBase64(data), this.name, "File", String(this.idfile));
+                        let fu = FileUploader.fromBase64(ImageUtil.getBase64(data), this.name, "File", String(this.idfile));
 
                         fu.complete.add(() => {
 
@@ -207,10 +203,9 @@ module latte{
                             // Free memory
                             img = null;
 
-                            if(_isFunction(callback)) {
+                            if (_isFunction(callback)) {
                                 callback(fu.fileRecord)
                             }
-
                         });
 
                         fu.key = key;

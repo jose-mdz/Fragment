@@ -400,7 +400,7 @@ module latte {
          *
          * @returns {Fragment}
          */
-        get fragment(): Fragment{
+        get fragment(): Fragment {
             return this._fragment;
         }
 

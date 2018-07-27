@@ -32,7 +32,7 @@ module latte {
             this.element.append(this.divThumb.element);
             this.element.append(this.divBar.element);
 
-            if(f) {
+            if (f) {
                 this.file = f;
             }
         }
@@ -49,10 +49,10 @@ module latte {
                 this.img.element.src = thumb.url;
             }else {
                 this.img.element.src = this.file.url;
-
                 // Generate thumb
                 this.file.createThumbChild({
                     size: this.thumbSize || new Size(FileItem.defaultThumbWidth, FileItem.defaultThumbHeight),
+                    quality: this.quality,
                     fit: ImageFit.AspectFillNear
                 }, FileItem.SYS_THUMB_KEY, () => {
                     this.updateThumb();
@@ -310,6 +310,29 @@ module latte {
             }
         }
 
+        /**
+         * Property field
+         */
+        private _quality: number = 0.75;
+
+        /**
+         * Gets or sets the quality value
+         *
+         * @returns {number}
+         */
+        get quality(): number {
+            return this._quality;
+        }
+
+        /**
+         * Gets or sets the quality value
+         *
+         * @param {number} value
+         */
+        set quality(value: number) {
+            this._quality = value;
+        }
+
         //endregion
 
         //region Components
@@ -418,6 +441,7 @@ module latte {
         get img(): Element<HTMLImageElement> {
             if (!this._img) {
                 this._img = new Element<HTMLImageElement>(document.createElement('img'));
+                this._img.element.setAttribute('alt', this.file.description);
                 this.divThumb.add(this._img);
             }
             return this._img;

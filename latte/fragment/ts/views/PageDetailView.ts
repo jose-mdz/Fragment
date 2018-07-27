@@ -21,7 +21,7 @@ module latte {
         constructor() {
             super();
 
-            this.addClass('page-detail-view')
+            this.addClass('page-detail-view');
         }
 
         //region Private Methods
@@ -74,20 +74,16 @@ module latte {
          * Loads the settings of the page
          */
         loadSettings(){
+            this.page.configuration.reloadPack(() => {
+                // Clear settings
+                this.settingsForm.inputs.clear();
 
-            if(!this.page.configuration.pack){
-                this.page.configuration.reloadPack(() => this.loadSettings());
-                return;
-            }
+                // Add settings inputs
+                this.addSettings(this.page.configuration.settings, this.page.configuration.settingsValues);
 
-            // Clear settings
-            this.settingsForm.inputs.clear();
-
-            // Add settings inputs
-            this.addSettings(this.page.configuration.settings, this.page.configuration.settingsValues);
-
-            // Set settings form visibility
-            this.settingsForm.visible = this.settingsForm.inputs.count > 0;
+                // Set settings form visibility
+                this.settingsForm.visible = this.settingsForm.inputs.count > 0;
+            });
 
         }
 
@@ -97,13 +93,14 @@ module latte {
         onLoad(){
             super.onLoad();
 
-            if(this.page.canIWrite) {
+            if (this.page.canIWrite) {
                 this.items.add(this.btnOpen);
             }
 
             this.items.addArray([
                 this.dataForm,
-                this.settingsForm
+                this.settingsForm,
+                this.tagsForm
             ]);
 
         }
@@ -130,6 +127,7 @@ module latte {
 
             // Set record on form
             this.dataForm.record = this.page;
+            this.tagsForm.record = this.page;
 
             // Check write permission
             this.dataForm.readOnly = this.settingsForm.readOnly = !this.page.canIWrite;
@@ -145,8 +143,6 @@ module latte {
                     this.validated = false
                 });
             }
-
-
         }
 
         /**
@@ -357,6 +353,24 @@ module latte {
             return this._settingsForm;
         }
 
+        /**
+         * Field for tagsForm property
+         */
+        private _tagsForm: PageTagsForm;
+
+        /**
+         * Gets the tags form item
+         *
+         * @returns {PageTagsForm}
+         */
+        get tagsForm(): PageTagsForm {
+            if (!this._tagsForm) {
+                let lazy: PageTagsForm = this._tagsForm = new PageTagsForm();
+                lazy.direction = Direction.VERTICAL;
+                lazy.visible = false;
+            }
+            return this._tagsForm;
+        }
 
         //endregion
 

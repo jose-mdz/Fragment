@@ -465,10 +465,14 @@ class File extends fileBase{
         $decoded = base64_decode($base64data);
 
         // Decide path for temp file
-        $path = tempnam(sys_get_temp_dir(), 'fragment-');
+        // $path = tempnam(sys_get_temp_dir(), 'fragment-');
+        // @hack
+        $path = ini_get('upload_tmp_dir')
+            ? tempnam(ini_get('upload_tmp_dir'), 'fragment-')
+            : tempnam(sys_get_temp_dir(), 'fragment-');
 
         // Write data to temporary file
-        if(file_put_contents($path, $decoded) === false){
+        if (file_put_contents($path, $decoded) === false) {
             $err = var_export(error_get_last(), true);
             throw new Exception("Can't write base64 tmp file at: $path ($err)");
         }

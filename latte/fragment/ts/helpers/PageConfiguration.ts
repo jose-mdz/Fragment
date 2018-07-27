@@ -3,9 +3,9 @@
  */
 module latte {
 
-    export var defaultPageConfigurationFragment : IFragments = {
+    export var defaultPageConfigurationFragment: IFragments = {
         body: {
-            name: "strings.body"
+            name: 'strings.body'
         }
     };
 
@@ -21,7 +21,7 @@ module latte {
          */
         static inputFromSetting(setting: IPageConfigurationSetting): InputItem{
             let input = new InputItem(setting.name, setting.type || 'string', setting.defaultValue)
-            if(setting.options) {
+            if (setting.options) {
                 input.options = setting.options;
             }
             return input;
@@ -64,14 +64,16 @@ module latte {
          */
         constructor(r: Page, pack: IPageSettingsPack = null) {
 
-            if(pack) {
+            if (pack) {
                 this.pack = pack;
             }
+
             this.page = r;
         }
 
         //region Private Methods
         //endregion
+
 
         //region Methods
 
@@ -87,7 +89,7 @@ module latte {
             this._pageConfig = {};
             this._hasParentConfiguration = false;
 
-            if(this.pack) {
+            if (this.pack) {
                 this._hasParentConfiguration = true;
                 this._parentConfig = PageConfiguration.parseConfiguration(this.pack.parentConfig);
                 this._pageConfig = PageConfiguration.parseConfiguration(this.pack.config);
@@ -111,7 +113,7 @@ module latte {
 
             this._pageConfig = {};
 
-            if(this.page.configurationSetting) {
+            if (this.page.configurationSetting) {
                 this._pageConfig = PageConfiguration.parseConfiguration(this.page.configurationSetting.value);
 
             }
@@ -128,17 +130,17 @@ module latte {
 
             this.page.getSettingsPack().send((p) => {
                 this.pack = p;
-                if(call) {
+
+                if (call) {
                     call()
                 }
             });
 
         }
-
         //endregion
 
-        //region Events
 
+        //region Events
         /**
          * Back field for event
          */
@@ -172,12 +174,10 @@ module latte {
             }
             return this._pageChanged;
         }
-
-
         //endregion
 
-        //region Properties
 
+        //region Properties
         /**
          * Gets a value indicating if children of page may have children
          *
@@ -343,7 +343,6 @@ module latte {
         get settingsValues(): {[index: string]: Setting} {
             return this._settingsValues;
         }
-
 
         //endregion
 

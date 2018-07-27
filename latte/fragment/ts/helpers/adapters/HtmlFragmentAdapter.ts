@@ -19,7 +19,6 @@ module latte {
          */
         constructor() {
             super();
-
         }
 
         //region Private Methods
@@ -53,12 +52,9 @@ module latte {
             this.editorItem = this.htmlEditor;
 
             this.htmlEditor.value = this.fragment.value || '';
-
         }
-
-
-
         //endregion
+
 
         //region Events
         //endregion

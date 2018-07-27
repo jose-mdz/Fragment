@@ -47,9 +47,9 @@ module latte {
          */
         getColumnHeaders(): ColumnHeader[]{
             return [
-                new ColumnHeader(strings.title, 150),
+                new ColumnHeader(strings.title, 250),
                 new ColumnHeader(strings.pageKey),
-                new ColumnHeader(strings.guid)
+                new ColumnHeader(strings.guid, 90)
             ];
         }
 

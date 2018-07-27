@@ -4,6 +4,15 @@
  */
 class Setting extends settingBase{
 
+	/**
+	 * @override
+	 * @return boolean
+	 */
+	public function canDelete()
+	{
+		return true;
+	}
+
     /**
      * Gets the setting of specified owner
      *
@@ -21,6 +30,62 @@ class Setting extends settingBase{
             AND name = '$settingName'
         ");
     }
+
+	/**
+	 * Search pageTag method
+	 *
+	 * @remote
+	 * @param string $owner
+	 * @param string $text
+	 * @return Setting[]
+	 */
+	public static function byOwnerAndText($owner, $text) {
+		return DL::arrayOf("Setting", " 
+          SELECT DISTINCT #COLUMNS
+            FROM `setting`
+            WHERE `setting`.owner = '$owner' AND `setting`.value LIKE '%$text%'
+          GROUP BY `setting`.value");
+	}
+
+	/**
+	 * @remote
+	 * @param string $owner
+	 * @param number $id
+	 * @return Setting[]
+	 */
+	public static function byOwnerOnly($owner, $id) {
+		return DL::arrayof(get_class(),"SELECT * FROM `setting` WHERE owner = '$owner' AND idowner = '$id'");
+	}
+
+	/**
+	 * Creates the pageTag for the specified record
+	 *
+	 * @remote
+	 * @param string $owner
+	 * @param int $id
+	 * @param string $value
+	 * @return Setting
+	 * @throws Exception
+	 */
+	public static function create($owner, $id, $value)
+	{
+		$record = self::byOwnerOnly($owner, $id);
+
+		foreach ($record as $pageTag) {
+			if (strtolower(trim($pageTag->value)) == strtolower(trim($value))) {
+				throw new Exception('The tag already added');
+			}
+		}
+
+		$t = new Setting();
+		$t->idowner = $id;
+		$t->name = strtolower($owner) . '-' . $id;
+		$t->owner = $owner;
+		$t->value = $value;
+		$t->insert();
+
+		return $t;
+	}
 
     /**
      * Gets the settings of specified owner

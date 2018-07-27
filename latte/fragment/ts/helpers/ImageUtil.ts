@@ -3,36 +3,35 @@
  */
 module latte {
 
-    export interface ICropBounds{
+    export interface ICropBounds {
         top?: number;
         left?: number;
         right?:number;
         bottom?:number;
     }
 
-    export enum ImageFit{
+    export enum ImageFit {
         AspectFit,
         AspectFill,
         AspectFillNear,
         AspectFillFar
     }
 
-    export interface ImageExportOptions{
+    export interface ImageExportOptions {
         size: Size;
         type?: string;
         quality?: number;
         background?: Color;
         fit: ImageFit;
-    };
+        resize?: boolean
+    }
 
     /**
      *
      */
     export class ImageUtil {
 
-
         //region Static
-
         static DEFAULT_QUALITY = 0.85;
 
         static DEFAULT_TYPE = 'image/jpeg';
@@ -72,7 +71,7 @@ module latte {
          * Creates an icon of the specified file, assuming it's an image file.
          *
          * @param file
-         * @param size
+         * @param options
          * @param callback
          */
         static createThumbOfFile(file: any, options: ImageExportOptions, callback: (dataUrl: string) => any = null){
@@ -117,7 +116,7 @@ module latte {
             var curH = h;
             var curImg = image;
 
-            for(var i = 0; i < steps; i++){
+            for (var i = 0; i < steps; i++) {
 
                 curW -= stepWidth;
                 curH = Math.round(curW * h / w);
@@ -156,7 +155,7 @@ module latte {
          * @returns {HTMLImageElement|HTMLElement}
          */
         static cropImage(image: HTMLImageElement, crop: ICropBounds, options: ImageExportOptions = null): HTMLImageElement{
-            if(!options) {
+            if (!options) {
                 options = <any>{};
             }
 
@@ -179,17 +178,24 @@ module latte {
             x.drawImage(image, crop.left, crop.top, neww, newh, 0, 0, neww, newh);
 
             let img = document.createElement('img');
+
             img.src = c.toDataURL(options.type || ImageUtil.DEFAULT_TYPE, options.quality || ImageUtil.DEFAULT_QUALITY);
 
             return img;
         }
 
-        static resizeImage(image: HTMLImageElement, options: ImageExportOptions): string{
-
+        /**
+         * Resize Images
+         *
+         * @param {HTMLImageElement} image
+         * @param {latte.ImageExportOptions} options
+         * @return {string}
+         */
+        static resizeImage(image: HTMLImageElement, options: ImageExportOptions): string {
             let w = image.width;
             let h = image.height;
             let original = new Size(w, h);
-            let size = options.size;
+            let size = options.resize === true ? options.size : original;
             let type = options.type || ImageUtil.DEFAULT_TYPE;
             let quality = options.quality || ImageUtil.DEFAULT_QUALITY;
             let bg: Color = options.background || null;
@@ -198,17 +204,17 @@ module latte {
             let target: Size;
             let fit = options.fit || ImageFit.AspectFit;
 
-            if(fit == ImageFit.AspectFit) {
+            if (fit == ImageFit.AspectFit) {
                 target = original.scaleToFit(size);
 
-            }else{
+            } else{
                 target = original.scaleToFill(size);
             }
 
             canvas.width = image.width;
             canvas.height = image.height;
 
-            if(bg instanceof Color){
+            if (bg instanceof Color){
                 cx.fillStyle = bg.toHexString();
                 cx.fillRect(0, 0, w, h);
             }
@@ -218,11 +224,11 @@ module latte {
             ImageUtil.resample_hermite(canvas, w, h, target.width, target.height);
 
             // Trim extra edges
-            if(fit == ImageFit.AspectFill || fit == ImageFit.AspectFillNear || fit == ImageFit.AspectFillFar) {
+            if (fit == ImageFit.AspectFill || fit == ImageFit.AspectFillNear || fit == ImageFit.AspectFillFar) {
                 let offsetx = 0;
                 let offsety = 0;
 
-                if(target.height > size.height) {
+                if (target.height > size.height) {
                     if(fit == ImageFit.AspectFill) {
                         offsety = (target.height - size.height) / 2;
 
@@ -231,7 +237,7 @@ module latte {
                     }
                 }
 
-                if(target.width > size.width){
+                if (target.width > size.width) {
                     if(fit == ImageFit.AspectFill) {
                         offsetx = (target.width - size.width) / 2;
 
@@ -249,13 +255,14 @@ module latte {
                 canvas = canvasex;
             }
 
-            var result = '';
-
+            let result = '';
+            // var q = settingJson || settingGlobal || settingDefault;
             // log("Type: " + type);
-            if(ImageUtil.mimeTypeCompressable(type)){
+
+            if (ImageUtil.mimeTypeCompressable(type)) {
                 // log("Quality: " + quality);
                 result = canvas.toDataURL(type, quality);
-            }else {
+            } else {
                 result = canvas.toDataURL(type);
             }
 
@@ -263,15 +270,12 @@ module latte {
             canvas = null;
 
             return result;
-
         }
 
         /**
          * Creates a smaller version of the image.
          * @param image
-         * @param size
-         * @param type Mime type of the image
-         * @param quality Quality 0 - 1, if jpg
+         * @param options
          */
         static createThumbOfImage(image: HTMLImageElement, options: ImageExportOptions): string{
 
@@ -394,22 +398,17 @@ module latte {
          * Creates an icon of the specified url image
          *
          * @param url
-         * @param size
-         * @param type
-         * @param quality
+         * @param options
          * @param callback
          */
         static createThumbOfUrl(url: string, options: ImageExportOptions, callback: (dataUrl: string) => any = null){
-
             // Create image
-            var img = new Image();
+            let img = new Image();
 
             // Handle load
             img.onload = () => {
-
                 // Create icon of image
                 callback(ImageUtil.createThumbOfImage(img, options));
-
             };
 
             // Start loading image
@@ -514,6 +513,7 @@ module latte {
         static mimeTypeCompressable(mimeType: string): boolean{
             var m = String(mimeType).toLocaleLowerCase();
 
+            // console.log(m);
             return m == "image/jpg" || m == "image/jpeg" || m == "image/webp";
         }
 
@@ -536,7 +536,7 @@ module latte {
          */
         static rotateCounterClockwise(image: HTMLImageElement, options: ImageExportOptions = null): HTMLImageElement{
 
-            if(!options) {
+            if (!options) {
                 options = <any>{};
             }
 
@@ -567,7 +567,7 @@ module latte {
          */
         static rotateClockwise(image: HTMLImageElement, options: ImageExportOptions = null): HTMLImageElement{
 
-            if(!options) {
+            if (!options) {
                 options = <any>{};
             }
 

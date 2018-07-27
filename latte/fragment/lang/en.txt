@@ -123,3 +123,9 @@ cantAddImage Can't Add Image
 SNotCompatibleImage %s is not a compatible image
 replaceImage Replace Image
 seeResultImage See Result Image
+altText Alternative Text
+descText Description Text
+tag Tag
+tags Tags
+nothingToShow Nothing to show
+imageSize Image Size

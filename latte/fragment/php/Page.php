@@ -87,7 +87,7 @@ class Page extends pageBase{
      * @return Page
      * @throws SecurityException
      */
-    public static function byUrlQ($q){
+    public static function byUrlQ($q) {
 
         if (strpos($q, '"') !== false || strpos($q, "'") !== false){
             throw new SecurityException('Suspicious $q');
@@ -95,7 +95,7 @@ class Page extends pageBase{
 
         return DL::oneOf('Page', "
             SELECT #COLUMNS
-            FROM page
+              FROM page
             WHERE (guid = '$q' OR `key` = '$q')
             AND (flags & 1024) != 1024
         ");
@@ -178,13 +178,12 @@ class Page extends pageBase{
      * @remote
      * @return Page[]
      */
-    public static function rootPages(){
-        return DL::arrayOf('Page, Setting configurationSetting', "
-            SELECT #COLUMNS
+    public static function rootPages() {
+    	return DL::arrayOf('Page, Setting configurationSetting', "
+		  SELECT #COLUMNS
             FROM page
              INNER JOIN setting configurationSetting ON (configurationSetting.idowner = page.idpage AND owner = 'Page' AND configurationSetting.name = 'page-configuration')
-            WHERE idparent = '0'
-        ");
+          WHERE idparent = '0' AND (page.flags & " . Page::FLAG_TRASH . ") != " . Page::FLAG_TRASH);
     }
 
     /**
@@ -928,7 +927,7 @@ ORDER BY $sortBySQL
 //        }
         return DL::arrayOf('Fragment', "
             SELECT #COLUMNS
-            FROM fragment
+              FROM fragment
             WHERE idpage = '$this->idpage'
         ");
     }
@@ -951,7 +950,7 @@ ORDER BY $sortBySQL
         $orderBy = 'page.created ASC';
         $flag_trash = self::FLAG_TRASH;
 
-        // If no permission to read chilren, return only the ones where user is owner
+        // If no permission to read children, return only the ones where user is owner
         if(!$this->canI(self::PERMISSION_READ_CHILDREN)){
             $ownerAnd = "AND iduser = '" . Session::idUser() . "'";
         }
@@ -991,9 +990,9 @@ ORDER BY $sortBySQL
     /**
      * Gets the settings of the page, including the parent ones.
      * @remote
-     * @return *
+     * @return IPageSettingsPack
      */
-    public function getSettingsPack(){
+    public function getSettingsPack() {
 
         $parent = $this->getParent();
 
@@ -1103,6 +1102,7 @@ ORDER BY $sortBySQL
         if (!$this->canIWrite()){
             return false;
         }
+        return true;
     }
 
     /**
@@ -1118,6 +1118,7 @@ ORDER BY $sortBySQL
      */
     public function sendToTrash(){
         $flags = $this->flags | self::FLAG_TRASH;
+
         DL::update("UPDATE page SET flags = '$flags' WHERE idpage = '$this->idpage'");
     }
 
