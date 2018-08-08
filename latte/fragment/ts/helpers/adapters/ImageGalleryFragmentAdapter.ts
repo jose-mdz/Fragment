@@ -16,12 +16,10 @@ module latte {
         static defaultThumbHeight = 200;
         static defaultImageWidth = 800;
         static defaultImageHeight = 600;
-
-
         //endregion
 
-        //region Fields
 
+        //region Fields
         //endregion
 
         /**
@@ -39,9 +37,7 @@ module latte {
         private fileInputChanged(){
 
             if (this.fileInput.element.files.length > 0) {
-
                 this.onFilesSelected(this.fileInput.element.files);
-
             }
 
         }
@@ -53,8 +49,10 @@ module latte {
          */
         private generatePresentableImage(item: FileItem, callback: () => void){
             item.file.createThumbChild({
-                size: this.imageSize,
-                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['thumb-fit']) || ImageFit.AspectFill
+                fit:    ImageUtil.imageFitFromString(this.fragmentConfiguration['thumb-fit']) || ImageFit.AspectFill,
+                quality: this.fragmentConfiguration['image-quality'],
+                resize: this.fragmentConfiguration['image-resize'] || false,
+                size:   this.imageSize
             }, ImageGalleryFragmentAdapter.PRESENTABLE_KEY, () => callback())
         }
 
@@ -82,13 +80,11 @@ module latte {
          * Moves the selected image one position back
          */
         private moveImageBefore(){
-
-            if(!this.selectedFile) {
+            if (!this.selectedFile) {
                 return;
             }
 
             this.swapSelectedImage(false);
-
         }
 
         /**
@@ -160,7 +156,7 @@ module latte {
             let file = this.selectedFile.file;
             let pic = file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
 
-            if(pic) {
+            if (pic) {
                 let editor = ImageEditorView.editImageFile(pic);
                 editor.editable = false;
             }
@@ -169,8 +165,11 @@ module latte {
         /**
          * Opens the editor for selected original
          */
-        private viewSelectedOriginal(){
-            if(this.selectedFile) {
+        private viewSelectedOriginal() {
+
+            ImageEditorView.QUALITY = this.fragmentConfiguration['image-quality'];
+
+            if (this.selectedFile) {
 
                 let index = this.files.indexOf(this.selectedFile);
                 let files = this.getFileRecords();
@@ -187,22 +186,111 @@ module latte {
          * Opens the viewer for selected thumb
          */
         private viewSelectedThumb(){
-
-            if(this.selectedFile) {
-
+            if (this.selectedFile) {
                 let file = this.selectedFile.file;
                 let thumb = file.getChildByKey(FileItem.SYS_THUMB_KEY);
-
-                if(thumb) {
+                if (thumb) {
                     let editor = ImageEditorView.editImageFile(thumb);
                     editor.editable = false;
                 }
-
             }
-
         }
 
+        /**
+         * Handler for the button alt text for image
+         */
+        private btnImageAltText_Click() {
+            if (this.selectedFile) {
+                let file = this.selectedFile.file;
+                let pic = file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
+
+                if (pic != null) {
+                    let dlg = new DialogView();
+                    let frm = new FormView();
+                    let alt = new InputItem();
+                    let desc = new InputItem();
+
+                    (<TextboxItem>alt.valueItem).placeholder = strings.altText;
+                    (<TextboxItem>desc.valueItem).placeholder = strings.descText;
+
+                    let imageData: IImageDescription = JSON.parse(file.description || JSON.stringify(this.getDetaultImageDescription()));
+
+                    alt.value = imageData["image-alt-text"];
+                    desc.value = imageData["image-desc-text"];
+                    frm.inputs.addArray([alt, desc]);
+                    frm.title = strings.altText;
+
+                    dlg.view = frm;
+                    dlg.addOkButton(() => {
+                        // Hack
+                        let newImageData = Object.assign(imageData, {
+                            "image-alt-text": alt.value,
+                            "image-desc-text": desc.value
+                        });
+
+                        file.description = pic.description = JSON.stringify(newImageData);
+                        file.save();
+
+                        this.unsavedChanges = true;
+                        this.serialize();
+                    });
+
+                    dlg.addCancelButton();
+                    dlg.show();
+                }
+            }
+        }
+        /**
+         * Handler for the button alt text for image
+         */
+        private btnImageSetSize_Click() {
+            if (this.selectedFile) {
+                let file = this.selectedFile.file;
+                let pic = file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
+
+                if (pic != null) {
+                    let dlg = new DialogView();
+                    let frm = new FormView();
+                    let txtHeight = new InputItem('', 'number');
+                    let txtWidth = new InputItem('', 'number');
+
+                    (<TextboxItem>txtHeight.valueItem).placeholder = strings.heightPr;
+                    (<TextboxItem>txtWidth.valueItem).placeholder = strings.widthPr;
+
+                    txtHeight.element.get(0).setAttribute('title',  strings.heightPr);
+                    txtWidth.element.get(0).setAttribute('title',  strings.widthPr);
+
+                    let imageData: IImageDescription = JSON.parse(file.description || JSON.stringify(this.getDetaultImageDescription()));
+
+                    txtWidth.value = imageData["image-width"];
+                    txtHeight.value = imageData["image-height"];
+                    (<TextboxItem>txtWidth.valueItem).sideLabel.text = '%';
+                    (<TextboxItem>txtHeight.valueItem).sideLabel.text = '%';
+
+                    frm.inputs.addArray([txtWidth, txtHeight]);
+                    frm.title = strings.imageSize;
+
+                    dlg.view = frm;
+                    dlg.addOkButton(() => {
+                        // Hack
+                        let newImageData = Object.assign(imageData, {
+                            "image-width": txtWidth.value,
+                            "image-height": txtHeight.value
+                        });
+
+                        file.description = pic.description = JSON.stringify(newImageData);
+                        file.save();
+
+                        this.unsavedChanges = true;
+                        this.serialize();
+                    });
+                    dlg.addCancelButton();
+                    dlg.show();
+                }
+            }
+        }
         //endregion
+
 
         //region Methods
         /**
@@ -213,6 +301,18 @@ module latte {
         }
 
         /**
+         * @return {string}
+         */
+        getDetaultImageDescription(): IImageDescription {
+            return {
+                "image-width": "",
+                "image-height": "",
+                "image-desc-text": "",
+                "image-alt-text": ""
+            };
+        }
+
+        /**
          * Override
          */
         getEditorTabs(): TabItem[]{
@@ -220,7 +320,7 @@ module latte {
                 this.tabGallery
             ];
 
-            if(this.selectedFile) {
+            if (this.selectedFile) {
                 tabs.push(this.tabImage)
             }
 
@@ -240,6 +340,8 @@ module latte {
                     this.btnViewOriginal,
                     this.btnViewThumb,
                     this.btnRedoThumb,
+                    this.btnImageAltText,
+                    this.btnImageSetSize,
 
                     SeparatorItem.withTab(this.tabImage),
                     this.btnMoveImageBefore,
@@ -267,12 +369,19 @@ module latte {
             this.editorItem.element.append(this.fileInput.element);
 
             editor.drop.add((e) => {
-                if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
                     this.onFilesSelected(e.dataTransfer.files);
                 }
             });
 
             this.unserialize();
+        }
+
+        /**
+         * Raises the <c>fragmentConfiguration</c> event
+         */
+        onFragmentConfigurationChanged() {
+            super.onFragmentConfigurationChanged();
         }
 
         /**
@@ -310,6 +419,7 @@ module latte {
         /**
          * Creates the image of the specified file item
          * @param item
+         * @param f
          */
         createImagesOfFile(item: FileItem, f: SystemFile = null){
 
@@ -365,7 +475,7 @@ module latte {
 
             this.files.each((f) => f.removeClass('selected') );
 
-            if(this.selectedFile) {
+            if (this.selectedFile) {
                 this.selectedFile.addClass('selected');
                 this.updateBeforeAfterButtons();
             }
@@ -384,17 +494,31 @@ module latte {
                 let thumb = f.file.getChildByKey(FileItem.SYS_THUMB_KEY);
                 let presentable = f.file.getChildByKey(ImageGalleryFragmentAdapter.PRESENTABLE_KEY);
 
-                if(!thumb || !presentable) return;
+                if (!thumb || !presentable) return;
+
+                let imageData: IImageDescription = JSON.parse(presentable.description || JSON.stringify(this.getDetaultImageDescription()));
 
                 let img: HTMLImageElement = document.createElement('img');
                 img.setAttribute('data-guid', f.file.guid);
                 img.setAttribute('data-thumb-guid', thumb.guid);
                 img.setAttribute('data-image-guid', presentable.guid);
                 img.setAttribute('data-image-url', presentable.url);
+                img.setAttribute('alt', imageData["image-alt-text"]);
                 img.classList.add('thumb');
                 img.src = thumb.url;
 
+                // Assgin data-any attributtes
+                for (let [key, value] of Object.entries(imageData)) {
+                    if (key == "image-alt-text") {
+                        continue;
+                    }
+
+                    if (!_undef(value)) {
+                        img.setAttribute(`data-${key}`, value);
+                    }
+                }
                 d.appendChild(img);
+
             });
 
             let oldValue = this.fragment.value;
@@ -405,7 +529,7 @@ module latte {
             //     log("Unsaved Changes")
             // }
 
-            // log(this.fragment.value);
+            //log(this.fragment.value);
         }
 
         /**
@@ -429,7 +553,7 @@ module latte {
                     let img: HTMLImageElement = <HTMLImageElement>node;
                     let guid = img.getAttribute('data-guid');
 
-                    if(guid) {
+                    if (guid) {
                         guids.push(guid)
                     }
                 }
@@ -510,6 +634,8 @@ module latte {
                         // Remove empty icon
                         (<FragmentPlaceholderItem>this.editorItem).emptyIcon = null;
                         this.editorItem.element.append(f.element);
+
+                        f.quality = this.fragmentConfiguration['image-quality'];
                         f.thumbSize = this.thumbSize;
                         f.element.get(0).addEventListener('click', (e) => {
                             e.stopImmediatePropagation();
@@ -706,7 +832,7 @@ module latte {
         /**
          * Gets the view image button
          *
-         * @returns {ButtonImage}
+         * @returns {ButtonItem}
          */
         get btnViewImage(): ButtonItem {
             if (!this._btnViewImage) {
@@ -750,6 +876,49 @@ module latte {
                 this._btnViewThumb.tab = this.tabImage;
             }
             return this._btnViewThumb;
+        }
+
+        /**
+         * Field for btnImageAltText property
+         */
+        private _btnImageAltText: ButtonItem;
+
+        /**
+         * Gets the button for place the alt text
+         *
+         * @returns {ButtonItem}
+         */
+        get btnImageAltText(): ButtonItem {
+            if (!this._btnImageAltText) {
+                let lazy: ButtonItem = this._btnImageAltText = new ButtonItem();
+                lazy.icon = LinearIcon.text_format;
+                lazy.text = strings.altText;
+                lazy.tab = this.tabImage;
+                lazy.click.add(this.btnImageAltText_Click, this);
+            }
+            return this._btnImageAltText;
+        }
+
+        /**
+         * Field for btnImageSetSize property
+         */
+        private _btnImageSetSize: ButtonItem;
+
+        /**
+         * Gets the button for set the sizes of the current image
+         *
+         * @returns {ButtonItem}
+         */
+        get btnImageSetSize(): ButtonItem {
+            if (!this._btnImageSetSize) {
+                const lazy = this._btnImageSetSize = new ButtonItem();
+                //lazy
+                lazy.icon = LinearIcon.picture;
+                lazy.text = strings.imageSize;
+                lazy.tab = this.tabImage;
+                lazy.click.add(this.btnImageSetSize_Click, this);
+            }
+            return this._btnImageSetSize;
         }
 
         /**

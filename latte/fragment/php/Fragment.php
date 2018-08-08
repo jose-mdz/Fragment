@@ -142,4 +142,19 @@ class Fragment extends fragmentBase{
         return false;
     }
 
+	/**
+	 * @overriden
+	 */
+    public function onInserting() {
+		$exists = DL::oneOf('Fragment', "
+		  SELECT * 
+		  	FROM fragment 
+		  WHERE fragment.idpage = '$this->idpage' AND fragment.name='$this->name'");
+
+		if ($exists) {
+			return false;
+		}
+
+		return true;
+	}
 }

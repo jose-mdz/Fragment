@@ -66,7 +66,6 @@ module latte {
                         this._textbox.element.rows = minRows + rows;
                         this.heightCheck = true;
                     }
-
                 });
                 this._textbox.addEventListener('focus', () => {
                     let savedValue = this._textbox.text;

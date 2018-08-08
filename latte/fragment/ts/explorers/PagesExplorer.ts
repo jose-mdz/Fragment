@@ -43,9 +43,9 @@ module latte {
          */
         getColumnHeaders(): ColumnHeader[]{
             return [
-                new ColumnHeader(strings.title, 150),
+                new ColumnHeader(strings.title, 250),
                 new ColumnHeader(strings.pageKey),
-                new ColumnHeader(strings.guid)
+                new ColumnHeader(strings.guid, 90)
             ];
         }
 
@@ -73,9 +73,9 @@ module latte {
         getItems(): Item[]{
             let items: Item[] = [];
 
-            if(User.me.isRoot) {
+            if (User.me.isRoot) {
                 items.push(new ButtonItem(strings.newRootPage, LinearIcon.file_add, () => {
-                    var p = new Page();
+                    let p = new Page();
                     DataRecordDialogView.editRecord(p, () => this.onChildrenChanged(), strings.newPage);
                 }));
             }

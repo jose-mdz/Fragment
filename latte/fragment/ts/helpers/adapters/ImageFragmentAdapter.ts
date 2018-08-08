@@ -28,12 +28,10 @@ module latte {
         /**
          * Uploads the file on the input
          */
-        private fileInputChanged(){
-
+        private fileInputChanged() {
             if (this.fileInput.element.files.length > 0) {
                 this.setSystemFile(this.fileInput.element.files[0]);
             }
-
         }
 
         private showProgressItem(){
@@ -55,17 +53,51 @@ module latte {
             }
         }
 
-        private viewOriginal(){
+        private viewOriginal() {
+
+            ImageEditorView.QUALITY = this.fragmentConfiguration['image-quality'];
+
             let editor = ImageEditorView.editImageFile(this.file);
 
-            editor.saved.add(() => {
-                this.redoImages();
-            })
+            editor.saved.add(() => { this.redoImages(); });
         }
 
         private viewResultImage(){
             let editor = ImageEditorView.editImageFile(this.presentableFile);
             editor.editable = false;
+        }
+
+        /**
+         * Handler for the button alt image
+         */
+        private btnImageAltText_Click() {
+            //let pic = file.getChildByKey(ImageFragmentAdapter.PRESENTABLE_KEY);
+            let file = this.presentableFile;
+
+            if (this.presentableFile) {
+                let dlg = new DialogView();
+                let frm = new FormView();
+                let alt = new InputItem();
+
+                alt.value = file.description || '';
+
+                frm.inputs.add(alt);
+                frm.title = strings.altText;
+
+                dlg.view = frm;
+                dlg.addOkButton(() => {
+                    // Hack
+                    file.description = alt.value;
+                    file.save();
+
+                    this.unsavedChanges = true;
+
+                    this.serialize();
+                });
+
+                dlg.addCancelButton();
+                dlg.show();
+            }
         }
 
         //endregion
@@ -96,6 +128,7 @@ module latte {
                 items.push(this.btnResultImage);
                 items.push(SeparatorItem.withTab(this.tabImage));
                 items.push(this.btnRedoImages);
+                items.push(this.btnImageAltText);
             }
 
             return items;
@@ -103,13 +136,16 @@ module latte {
 
         /**
          * Generates the presentable image of the specified file item.
-         * @param item
+         * @param file
          * @param callback
          */
         generatePresentableImage(file: File, callback: (child?:File) => void){
+
             file.createThumbChild({
+                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['image-fit']) || ImageFit.AspectFill,
+                quality: this.fragmentConfiguration['image-quality'],
+                resize: this.fragmentConfiguration['image-resize'] || false,
                 size: this.imageSize,
-                fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['image-fit']) || ImageFit.AspectFill
             }, ImageFragmentAdapter.PRESENTABLE_KEY, (child:File) => callback(child))
         }
 
@@ -209,8 +245,15 @@ module latte {
         }
 
         /**
+         * Raises the <c>fragmentConfiguration</c> event
+         */
+        onFragmentConfigurationChanged() {
+            super.onFragmentConfigurationChanged();
+        }
+
+        /**
          * Sets the file
-         * @param list
+         * @param file
          */
         setSystemFile(file: SystemFile){
 
@@ -246,6 +289,7 @@ module latte {
 
             img.setAttribute('data-guid', this.presentableFile.guid);
             img.setAttribute('data-original-guid', this.file.guid);
+            img.setAttribute('alt', this.presentableFile.description);
             img.src = this.presentableFile.url;
 
             buffer.appendChild(img);
@@ -275,7 +319,7 @@ module latte {
                     let img: HTMLImageElement = <HTMLImageElement>node;
                     let guid = img.getAttribute('data-original-guid');
 
-                    if(guid) {
+                    if (guid) {
                         guids.push(guid)
                     }
                 }
@@ -565,6 +609,27 @@ module latte {
                 this._btnRedoImages.tab = this.tabImage;
             }
             return this._btnRedoImages;
+        }
+
+        /**
+         * Field for btnImageAltText property
+         */
+        private _btnImageAltText: ButtonItem;
+
+        /**
+         * Gets the button for place the alt text
+         *
+         * @returns {ButtonItem}
+         */
+        get btnImageAltText(): ButtonItem {
+            if (!this._btnImageAltText) {
+                let lazy: ButtonItem = this._btnImageAltText = new ButtonItem();
+                lazy.icon = LinearIcon.lock;
+                lazy.text = strings.altText;
+                lazy.tab = this.tabImage;
+                lazy.click.add(this.btnImageAltText_Click, this);
+            }
+            return this._btnImageAltText;
         }
 
         /**

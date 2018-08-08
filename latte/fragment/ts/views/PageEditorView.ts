@@ -4,7 +4,7 @@
 module latte {
 
     /**
-     *
+     * PageEditorView
      */
     export class PageEditorView extends View {
 
@@ -20,14 +20,15 @@ module latte {
         //endregion
 
         /**
-         *
+         * @param {latte.Page} r
+         * @param {latte.IPageSettingsPack} pack
          */
         constructor(r: Page, pack: IPageSettingsPack = null) {
             super();
 
             this.addClass('page-editor-main-view');
 
-            if(pack){
+            if (pack) {
                 this.pack = pack;
             }
 
@@ -53,7 +54,7 @@ module latte {
                 this.tabPage
             ]);
 
-            if(selectFirstTab !== false) {
+            if (selectFirstTab !== false) {
                 this.ribbon.selectedTab = this.ribbon.tabs.first;
             }
 
@@ -64,11 +65,9 @@ module latte {
          *
          * @param adapter
          */
-        private fragmentFocus(adapter: FragmentAdapter<IFragment>){
-
+        private fragmentFocus(adapter: FragmentAdapter<IFragment>) {
             this.focusedFragmentAdapter = adapter;
             this.fragmentTabsUpdate(adapter);
-
         }
 
         /**
@@ -77,7 +76,7 @@ module latte {
          */
         private fragmentTabsUpdate(adapter: FragmentAdapter<IFragment>){
 
-            if(adapter != this.focusedFragmentAdapter) {
+            if (adapter != this.focusedFragmentAdapter) {
                 return;
             }
 
@@ -103,6 +102,7 @@ module latte {
         /**
          * Adds a fragment to the ui
          * @param key
+         * @param fragmentData
          * @param fragment
          */
         addFragment(key: string, fragmentData: IFragment, fragment: Fragment){
@@ -111,10 +111,9 @@ module latte {
             let adapter: FragmentAdapter<IFragment> = null;
 
             // Get the adapter
-            if(FragmentAdapterManager.isSupported(type)) {
+            if (FragmentAdapterManager.isSupported(type)) {
                 adapter = FragmentAdapterManager.byType(type);
-
-            }else {
+            } else {
                 adapter = new PlainTextFragmentAdapter();
             }
 
@@ -140,12 +139,13 @@ module latte {
         /**
          * Loads the page
          */
-        loadPage(){
-            if(!this.page.configuration.pack) {
+        loadPage() {
+            if (!this.page.configuration.pack) {
                 this.page.configuration.reloadPack(() => this.loadPage());
                 return;
             }
 
+            // Buffer
             this.fragmentAdapters = [];
 
             // Title
@@ -153,18 +153,16 @@ module latte {
 
             // Load Fragments
             this.page.getFragments().send((arr: Fragment[]) => {
-
                 let fragments: {[index: string]: Fragment} = {};
                 arr.forEach((f) => fragments[f.name] = f);
 
-
                 // Add each fragment
-                for(let i in this.page.configuration.fragments){
+                for (let i in this.page.configuration.fragments) {
 
                     let spec = this.page.configuration.fragments[i];
                     let f = fragments[spec.key || i] ? fragments[spec.key || i] : new Fragment();
 
-                    if(!(f.idfragment > 0)) {
+                    if (!(f.idfragment > 0)) {
                         f.idpage = this.page.idpage;
                         f.name = spec.key || i;
                     }
@@ -178,7 +176,7 @@ module latte {
          * Raises the <c>focusedFragmentAdapter</c> event
          */
         onFocusedFragmentAdapterChanged(){
-            if(this._focusedFragmentAdapterChanged){
+            if (this._focusedFragmentAdapterChanged) {
                 this._focusedFragmentAdapterChanged.raise();
             }
         }
@@ -190,7 +188,7 @@ module latte {
             super.onLoad();
 
             this.element.append(this.titleElement.element);
-            //this.element.append(this.btnClose.element);
+            this.element.append(this.btnClose.element);
 
             this.ribbon.startButton.visible = false;
 
@@ -199,6 +197,7 @@ module latte {
             this.ribbon.selectedTab = this.ribbon.tabs.first;
 
             this.ribbonView.view = this.columnView;
+
             this.view = this.ribbonView;
 
             this.timerId = setInterval(() => this.saveTick(), 1000);
@@ -223,7 +222,6 @@ module latte {
             }
 
             this.loadPage();
-
         }
 
         /**
@@ -241,33 +239,31 @@ module latte {
             let calls = [];
             let pageChanged = false;
 
-            for(let i in this.fragmentAdapters){
+            for (let i in this.fragmentAdapters) {
                 let a = this.fragmentAdapters[i];
                 calls = calls.concat(a.getSaveCalls());
             }
 
-            if(this.titleChanged) {
+            if (this.titleChanged) {
                 this.page.title = this.titleElement.text;
                 pageChanged = true;
             }
 
-            if(this.onlineChanged) {
+            if (this.onlineChanged) {
                 pageChanged = true;
             }
 
-            if(pageChanged) {
+            if (pageChanged) {
                 calls.push(this.page.saveCall());
             }
 
-            if(calls.length) {
+            if (calls.length) {
                 Message.sendCalls(calls);
             }
         }
         //endregion
 
         //region Events
-
-
         /**
          * Back field for event
          */
@@ -292,6 +288,9 @@ module latte {
             if(this._closeRequested){
                 this._closeRequested.raise();
             }
+
+            // Close current window
+            window.close();
         }
 
         /**
@@ -327,12 +326,10 @@ module latte {
             }
             return this._pageChanged;
         }
-
-
         //endregion
 
-        //region Properties
 
+        //region Properties
         /**
          * Property field
          */

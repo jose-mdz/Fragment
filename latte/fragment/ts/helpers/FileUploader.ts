@@ -27,6 +27,7 @@ module latte {
          * @returns {latte.FileUploader}
          */
         static fromBase64(base64: string, fileName: string, recordName: string, recordId: string | number){
+
             var f = new FileUploader(null, recordName, recordId);
             f.base64 = base64;
             f.base64FileName = fileName;

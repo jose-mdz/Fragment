@@ -348,8 +348,12 @@ module latte {
          */
         private cropNow(){
 
+            let options: ImageExportOptions = <ImageExportOptions>{
+                quality: ImageEditorView.QUALITY
+            };
+
             this.enableControls(false);
-            this.image = ImageUtil.cropImage(this.image, this.cropBounds);
+            this.image = ImageUtil.cropImage(this.image, this.cropBounds, options);
             this.enableControls(true);
             this.unsavedChanges = true;
 
@@ -668,11 +672,10 @@ module latte {
          */
         getQuality(callback: (quality: number) => void){
 
-            if(ImageEditorView.QUALITY) {
+            if (ImageEditorView.QUALITY) {
                 callback(ImageEditorView.QUALITY);
-            }else{
+            } else {
                 Setting.getGlobalByName('image-quality').send((s: Setting) => {
-
 
                     ImageEditorView.QUALITY = parseFloat(s.value) || ImageUtil.DEFAULT_QUALITY;
 
@@ -815,6 +818,9 @@ module latte {
 
                 // Wait for quality parameter before loading image
                 this.getQuality( q => {
+
+                    //Debug console.log(q);
+
                     if(this.image.src.indexOf('data:image') === 0) {
                         this.bytes = ImageUtil.base64ByteSize(ImageUtil.getBase64(this.image.src));
                     }
