@@ -496,7 +496,7 @@ module latte {
 
                 if (!thumb || !presentable) return;
 
-                let imageData: IImageDescription = JSON.parse(presentable.description || JSON.stringify(this.getDetaultImageDescription()));
+                let imageData: IImageDescription = JSON.parse(f.file.description || JSON.stringify(this.getDetaultImageDescription()));
 
                 let img: HTMLImageElement = document.createElement('img');
                 img.setAttribute('data-guid', f.file.guid);
@@ -513,15 +513,14 @@ module latte {
                         continue;
                     }
 
-                    if (!_undef(value)) {
-                        img.setAttribute(`data-${key}`, value);
-                    }
+                    img.setAttribute(`data-${key}`, value !== "" ? value : "null");
                 }
-                d.appendChild(img);
 
+                d.appendChild(img);
             });
 
             let oldValue = this.fragment.value;
+
             this.fragment.value = d.innerHTML;
             this.unsavedChanges = oldValue != this.fragment.value;
 
@@ -546,10 +545,10 @@ module latte {
             d.element.innerHTML = this.fragment.value;
 
             // Scan nodes for images
-            for(let i in d.element.childNodes){
+            for (let i in d.element.childNodes) {
                 let node: Node = d.element.childNodes[i];
 
-                if(node.nodeType == 1) {
+                if (node.nodeType == 1) {
                     let img: HTMLImageElement = <HTMLImageElement>node;
                     let guid = img.getAttribute('data-guid');
 
@@ -565,7 +564,8 @@ module latte {
                 let sorted = {};
                 files.forEach((f) => sorted[f.guid] = f);
                 guids.forEach((g) => {
-                    if(sorted[g]) {
+                    // console.log(sorted[g].description);
+                    if (sorted[g]) {
                         this.files.add(new FileItem(sorted[g]));
                     }
                 })
