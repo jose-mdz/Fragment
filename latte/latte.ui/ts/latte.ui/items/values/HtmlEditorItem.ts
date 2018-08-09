@@ -337,13 +337,13 @@ module latte{
                 target: '_blank'
             });
 
-            if(this.selection.isCollapsed){
+            console.log(this.selection);
+            if (this.selection.isCollapsed) {
                 elem.text(url);
                 this.insertElement(elem);
-            }else{
+            } else {
                 this.surroundSelectionWith(elem);
             }
-
 
         }
 
@@ -411,16 +411,13 @@ module latte{
          * Gets the body of the iframe
          **/
         body(): JQuery{
-
             return this.iframe.contents().find('body');
-
         }
 
         /**
          * Gets the JavaScript document's object of iframe.
          **/
         document(): Document{
-
 
             // Raw IFRAME element
             var iframe = this.iframe.get(0);
@@ -779,38 +776,35 @@ module latte{
             }
             return this._imageSelected;
         }
-
         //endregion
+
 
         //region Properties
         /**
          * Gets the current selection
-         **/
+         */
         get selection(): RangySelection{
 
-
-            if(window['rangy'] && !rangy.initialized){
+            if (window['rangy'] && !rangy.initialized){
                 rangy.init();
             }
 
             //return rangy.getIframeSelection(this.iframe.get(0));
-            return rangy.getSelection();
-
+            return rangy.getSelection(this.iframe.get(0));
         }
 
         /**
          * Gets the range of selection. Returns <c>null</c> if no current selection.
-         **/
+         */
         get  selectionRange(): RangyRange{
-
 
             var sel = this.selection;
 
-            if(!sel.rangeCount)
+            if (!sel.rangeCount) {
                 return null;
+            }
 
             return this.selection.getRangeAt(0);
-
         }
 
         /**

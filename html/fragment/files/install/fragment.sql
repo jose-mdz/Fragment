@@ -39,7 +39,7 @@ CREATE TABLE `file` (
   `height` int(11) DEFAULT '0',
   `key` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idfile`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,4 +166,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-08 10:31:25
+-- Dump completed on 2018-08-09 14:24:08
