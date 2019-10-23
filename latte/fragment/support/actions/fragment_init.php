@@ -6,16 +6,23 @@
  * Time: 18:54
  */
 @session_start();
+
+$DEV_MODE = $_ENV['APPLICATION_ENV'] === 'development';
 /**
  * Path of the Fragment directory
  */
-define('FG_DIR', realpath(__DIR__ . "/../../../../../"));
+define('FG_DIR', $DEV_MODE ? realpath(__DIR__ . "/../../../../html/fragment") : realpath(__DIR__ . "/../../../../"));
 define('DONT_AUTOLOAD_MODULE_CONNECTION', true);
 
 /**
  * Path of the latte directory
  */
-include FG_DIR . '/latte/latte.php';
+if($DEV_MODE){
+    include __DIR__ . '/../../../../html/fragment/latte/latte.php';
+}else{
+    include FG_DIR . '/latte/latte.php';
+}
+
 
 /**
  * Try to include config.php

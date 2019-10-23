@@ -6,6 +6,22 @@ Check our [3 Minute Install Guide](https://github.com/menendezpoo/Fragment/wiki/
 ## Follow Development
 We have a project for the [first release of Fragment](https://github.com/menendezpoo/Fragment/projects/1).
 
+## Docker
+```bash
+# Delete old images
+docker image rm -f fragment
+
+docker rm -f fragment && \
+docker build --tag=fragment . && \
+docker \
+run \
+--name=fragment \
+-e APPLICATION_ENV=development \
+-p 80:80 \
+fragment
+
+```
+
 ## Features
 - Lightning Fast Website Development
 - Incredibly Versatile

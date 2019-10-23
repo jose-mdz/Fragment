@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: mysql_fragment
+    ports:
+    - "3306:3306"
+    volumes:
+    - ./db:/var/lib/mysql
+    - ./server/my.cnf:/etc/mysql/my.cnf
+    environment:
+    - MYSQL_ROOT_PASSWORD=docker
+    - MYSQL_DATABASE=fragment
+
+  webserver:
+    build: server
+    image: fragment
+    container_name: fragment
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - ../:/var/www/
+    - ./connection-fragment.json:/var/connection-fragment.json
+    - ./php.ini:/usr/local/etc/php/php.ini
+    links:
+    - db
+    environment:
+    - APPLICATION_ENV=development
+    - DB_USER=root
+    - DB_PASS=docker
+    - DB_HOST=db

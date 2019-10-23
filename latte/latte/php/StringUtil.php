@@ -3,7 +3,7 @@
     /**
      * Represents a string with known methods. 
      */
-    class String{
+    class StringUtil{
         
         private $string = null;
         
@@ -63,12 +63,12 @@
                 }while( (ord($char) < 32 || ord($char) > 125) && !($offset >= strlen($string)) );
                 
                 if($offset >= strlen($string))
-                    return new String("...");
+                    return new StringUtil("...");
                 else
-                    return new String(substr($string, 0, $size - $offset)) . '...';
+                    return new StringUtil(substr($string, 0, $size - $offset)) . '...';
             }
             
-            return new String($string);
+            return new StringUtil($string);
         }
         
         /**
@@ -87,7 +87,7 @@
          * @param int $start
          * @return int
          */
-        public function indexOf(String $string, $start = 0){
+        public function indexOf(StringUtil $string, $start = 0){
             return strpos($this->string, $string->string, $start);
         }
         
@@ -129,4 +129,4 @@
      * @param type $string
      * @return String 
      */
-    function str($string) { return new String($string); }
+    function str($string) { return new StringUtil($string); }

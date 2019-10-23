@@ -76,7 +76,7 @@ module latte {
                 this.onError('');
             }, false);
 
-            upload.addEventListener('abort', function(){
+            upload.addEventListener('abort', () => {
                 this.onAborted();
             }, false);
 

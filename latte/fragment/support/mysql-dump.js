@@ -14,12 +14,12 @@ var tables = [
     "setting",
     "user"
 ];
-child = exec("mysqldump -uroot --no-data=TRUE cms " + tables.join(' ') + " > html/fragment/files/install/fragment.sql", function (error, stdout, stderr) {
+child = exec("docker exec mysql_fragment mysqldump -uroot -pdocker --no-data=TRUE fragment " + tables.join(' ') + " > html/fragment/files/install/fragment.sql", function (error, stdout, stderr) {
     if(String(stdout).length > 0)
         console.error('stdout: ' + stdout);
 
-    if(String(stderr).length > 0)
-        console.error('stderr: ' + stderr);
+    // if(String(stderr).length > 0)
+    //     console.error('stderr: ' + stderr);
 
     if (error !== null) {
         console.log('exec error: ' + error);
