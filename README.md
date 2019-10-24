@@ -16,7 +16,6 @@ docker build --tag=fragment . && \
 docker \
 run \
 --name=fragment \
--e APPLICATION_ENV=development \
 -p 80:80 \
 fragment
 

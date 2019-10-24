@@ -1,0 +1,6 @@
+{
+  "host": "db",
+  "user": "root",
+  "password" : "docker",
+  "database": "fragment"
+}

@@ -21,7 +21,7 @@ services:
     - "80:80"
     - "443:443"
     volumes:
-    - ../:/var/www/
+    - ../../:/var/www/
     - ./connection-fragment.json:/var/connection-fragment.json
     - ./server/php.ini:/usr/local/etc/php/php.ini
     links:
