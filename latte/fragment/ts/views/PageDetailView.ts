@@ -96,12 +96,9 @@ module latte {
             if (this.page.canIWrite) {
                 this.items.add(this.btnOpen);
             }
-
-            this.items.addArray([
-                this.dataForm,
-                this.settingsForm,
-                this.tagsForm
-            ]);
+            this.items.add(this.dataForm);
+            this.items.add(this.settingsForm);
+            this.items.add(this.tagsForm);
 
         }
 
@@ -328,6 +325,7 @@ module latte {
         get dataForm():DataRecordFormItem {
             if (!this._dataForm) {
                 this._dataForm = new DataRecordFormItem();
+                this._dataForm.addClass('this-is-dataForm');
                 this._dataForm.category = '';
                 this.saveItems.add(this._dataForm);
             }
@@ -347,6 +345,7 @@ module latte {
         get settingsForm():FormItem {
             if (!this._settingsForm) {
                 this._settingsForm = new FormItem();
+                this._settingsForm.addClass('this-is-settingsForm');
                 this._settingsForm.direction = Direction.VERTICAL;
                 this.saveItems.add(this._settingsForm);
             }
@@ -366,6 +365,7 @@ module latte {
         get tagsForm(): PageTagsForm {
             if (!this._tagsForm) {
                 let lazy: PageTagsForm = this._tagsForm = new PageTagsForm();
+                lazy.addClass('this-is-pageTagsForm');
                 lazy.direction = Direction.VERTICAL;
                 lazy.visible = false;
             }

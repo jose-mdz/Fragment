@@ -1,5 +1,6 @@
-
 module latte{
+
+    import _isString = latte._isString;
 
     export interface DataRecordArrayCallback { (records:Array<DataRecord>): void }
     export interface DataRecordCallback { (record:DataRecord): void }
@@ -33,7 +34,7 @@ module latte{
                     obj = latte.DataRecord.fromServerObject(obj);
 
                 } else {
-                    for (var i in obj) {
+                    for (let i in obj) {
                         obj[i] = latte.DataRecord.scanAndConvert(obj[i]);
                     }
                 }
@@ -88,7 +89,7 @@ module latte{
             var dns = latte.DataRecord._defaultRecordsNamespace ? latte.DataRecord._defaultRecordsNamespace : (_isObject(window[DataRecord.recordsNamespaceName]) ? window[DataRecord.recordsNamespaceName] : null);
             var rt = obj.recordType;
             var type = _isFunction(classType) ? classType : ( _isFunction(dns[rt]) ? dns[rt] : DataRecord);
-            var record = new type();
+            var record = new (<any>type)();
             var i, j;
 
             if (!latte.DataRecord.isPackedRecord(obj)){
@@ -276,10 +277,8 @@ module latte{
         //endregion
 
         //region Fields
-        /**
-         *
-         **/
-        private _recordId:number;
+
+        private _binds: ValueDataBind[];
 
         /**
          *
@@ -299,7 +298,7 @@ module latte{
         /**
          * Metadata of record. Comes from server.
          **/
-        metadata: IRecordMeta;
+        metadata: IEntityMeta;
 
         //endregion
 
@@ -323,6 +322,40 @@ module latte{
         }
 
         //region Methods
+
+        /**
+         * Adds a bind to a property
+         * @param {string} property
+         * @param {any} target
+         * @param {string} targetProperty
+         * @param {any} type
+         *
+         */
+        addBind(property: string, target: any, targetProperty: string, type: string | BindValueType = BindValueType.ANY): ValueDataBind{
+            if(!this._binds) {
+                this._binds = [];
+            }
+
+            let a = new DataBindActor(this, property, DataBindCoercion.parseType(this.onGetFieldTypes()[property]));
+            let b = new DataBindActor(target, targetProperty, _isString(type) ? DataBindCoercion.parseType(<any>type) : <any>type);
+
+            let bind = new ValueDataBind(a, b);
+
+            this._binds.push(bind);
+
+            return bind;
+        }
+
+        /**
+         * Clears all the binds of the element
+         */
+        clearBinds(){
+            if(this._binds) {
+                this._binds.forEach(b => b.uninstall());
+            }
+
+            this._binds = null;
+        }
 
         /**
          * Copies the data
@@ -363,7 +396,7 @@ module latte{
         /**
          * Can be overriden to return dynamically generated metadata
          **/
-        getMetadata(): IRecordMeta {
+        getMetadata(): IEntityMeta {
 
             return this.metadata;
 
@@ -421,23 +454,22 @@ module latte{
          */
         insertCall(): RemoteCall<string>{
 
-            var values = this.getSerializedFields();
+            let values = this.getSerializedFields();
 
             // Change null values to empty values
-            for (var i in values){
+            for (let i in values){
                 if (values[i] === null){
                     values[i] = '';
                 }
             }
 
             // Create call
-            var call = new RemoteCall<string>(this.moduleName, 'DataLatteUa', 'recordInsert', {name: this.recordType, fields: values});
+            let call = new RemoteCall<string>(this.moduleName, 'DataLatteUa', 'recordInsert', {name: this.recordType, fields: values});
 
             // Catch auto-id
-            call.success.add((data: string) => {
+            call.beforeSuccess.add((data: string) => {
                 this.recordId =  parseInt(data, 10);
                 this[this.onGetRecordIdName()] = this.recordId;
-
             });
 
             return call;
@@ -453,9 +485,44 @@ module latte{
         }
 
         /**
+         * Raises the <c>fieldValueChanged</c> event
+         */
+        onFieldValueChanged(field: string, value: any){
+            if(this._fieldValueChanged){
+                this._fieldValueChanged.raise(field, value);
+            }
+        }
+
+        /**
+         * Raises the <c>formCreating</c> event
+         */
+        onFormCreating(dataRecordFormItem: any){
+            if(this._formCreating){
+                this._formCreating.raise(dataRecordFormItem);
+            }
+        }
+
+        /**
+         * Raises the <c>formCreated</c> event
+         */
+        onFormCreated(dataRecordFormItem: any){
+            if(this._formCreated){
+                this._formCreated.raise(dataRecordFormItem);
+            }
+        }
+
+        /**
          * Gets the fields of the record with its data.
          */
         onGetFields(): any {
+            return null;
+        }
+
+        /**
+         *  Gets a dictionary with the TypeScript type of each property
+         * @returns {any}
+         */
+        onGetFieldTypes(): any{
             return null;
         }
 
@@ -468,9 +535,18 @@ module latte{
         }
 
         /**
+         * Raises the <c>recordId</c> event
+         */
+        onRecordIdChanged(){
+            if(this._recordIdChanged){
+                this._recordIdChanged.raise();
+            }
+        }
+
+        /**
          * Sends a DELETE request to the server
          **/
-        remove(callback:() => any){
+        remove(callback:() => any = null){
 
             return this.removeCall().send(( ) => {
                 if(_isFunction(callback)){
@@ -478,6 +554,24 @@ module latte{
                 }
             });
 
+        }
+
+        /**
+         * Removes binds of the specified target
+         * @param target
+         */
+        removeBindsOf(target: any){
+            let list = [];
+
+            this._binds.forEach(b => {
+                if(b.actorB.actor == target){
+                    b.uninstall();
+                }else{
+                    list.push(b);
+                }
+            })
+
+            this._binds = list;
         }
 
         /**
@@ -517,7 +611,16 @@ module latte{
          * @returns {string}
          */
         toString(): string{
-            return sprintf("[%s: %s]", this.recordType, this.recordId);
+
+            if(_isString(this['name'])) {
+                return this['name'];
+
+            }else if(_isString(this['text'])) {
+                return this['text'];
+
+            }else{
+                return sprintf("[%s: %s]", this.recordType, this.recordId);
+            }
         }
 
         /**
@@ -559,6 +662,42 @@ module latte{
 
         //region Events
 
+
+        /**
+         * Back field for event
+         */
+        private _formCreating: LatteEvent;
+
+        /**
+         * Gets an event raised when a DataRecordFormItem about the record is being created
+         *
+         * @returns {LatteEvent}
+         */
+        get formCreating(): LatteEvent{
+            if(!this._formCreating){
+                this._formCreating = new LatteEvent(this);
+            }
+            return this._formCreating;
+        }
+
+
+        /**
+         * Back field for event
+         */
+        private _formCreated: LatteEvent;
+
+        /**
+         * Gets an event raised when a DataRecordFormItem about the record has been created
+         *
+         * @returns {LatteEvent}
+         */
+        get formCreated(): LatteEvent{
+            if(!this._formCreated){
+                this._formCreated = new LatteEvent(this);
+            }
+            return this._formCreated;
+        }
+
         /**
          * Back field for event
          */
@@ -577,12 +716,20 @@ module latte{
         }
 
         /**
-         * Raises the <c>fieldValueChanged</c> event
+         * Back field for event
          */
-        onFieldValueChanged(field: string, value: any){
-            if(this._fieldValueChanged){
-                this._fieldValueChanged.raise(field, value);
+        private _recordIdChanged: LatteEvent;
+
+        /**
+         * Gets an event raised when the value of the recordId property changes
+         *
+         * @returns {LatteEvent}
+         */
+        get recordIdChanged(): LatteEvent{
+            if(!this._recordIdChanged){
+                this._recordIdChanged = new LatteEvent(this);
             }
+            return this._recordIdChanged;
         }
 
         //endregion
@@ -599,7 +746,7 @@ module latte{
          *
          * @returns {string}
          */
-        public get moduleName():string {
+        get moduleName():string {
             return this._moduleName;
         }
 
@@ -608,24 +755,41 @@ module latte{
          *
          * @param {string} value
          */
-        public set moduleName(value:string) {
+        set moduleName(value:string) {
             this._moduleName = value;
         }
 
         /**
+         * Property field
+         */
+        private _recordId: number = null;
+
+        /**
          * Gets or sets the record id
-         **/
-        get recordId():number {
+         *
+         * @returns {number}
+         */
+        get recordId(): number{
             return this._recordId;
         }
 
         /**
          * Gets or sets the record id
-         **/
-        set recordId(value:number) {
+         *
+         * @param {number} value
+         */
+        set recordId(value: number){
+
+            // Check if value changed
+            let changed: boolean = value !== this._recordId;
+
+            // Set value
             this._recordId = value;
 
-
+            // Trigger changed event
+            if(changed){
+                this.onRecordIdChanged();
+            }
         }
 
         /**

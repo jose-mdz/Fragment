@@ -20,6 +20,13 @@ module latte{
             d.saved.add(onSaved);
             d.show();
 
+            // let input = d.raw.querySelector('input');
+            //
+            // if(input) {
+            //     setTimeout(() => (<any>input).focus());
+            //
+            // }
+
             return d;
 
         }
@@ -65,7 +72,7 @@ module latte{
 
             super();
 
-            var dialog = this;
+            let dialog = this;
 
             this.saving = new LatteEvent(this);
             this.saved = new LatteEvent(this);
@@ -74,7 +81,7 @@ module latte{
 
             this.saveButton = new ButtonItem()
             this.saveButton.text = strings.save;
-            this.saveButton.click.add(() => { dialog.formView.saveChanges(); this.onSaved(); });
+            this.saveButton.click.add(() => { dialog.formView.saveChanges(() => this.onSaved());});
             this.cancelButton = new ButtonItem()
             this.cancelButton.text = strings.cancel;
 
@@ -99,7 +106,7 @@ module latte{
          **/
         onSaving(){
 
-            var ptr = this;
+            let ptr = this;
             this.formView.applyValues();
             this.record.save(function(){
                 ptr.onSaved();

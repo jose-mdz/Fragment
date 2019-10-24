@@ -3,13 +3,13 @@
     /**
      * Represents a string with known methods. 
      */
-    class StringUtil{
+    class DLString{
         
         private $string = null;
         
         /**
          * Creates a new string instance
-         * @param type $string 
+         * @param type $string
          */
         public function __construct($string){
             $this->string = $string;
@@ -45,7 +45,7 @@
         /**
          * Trims the string to the specified size.
          * @param int $size Size of desired trimmed string 
-         * @return String 
+         * @return DLString
          */
         public function ellipsis($size = 20){
             
@@ -63,17 +63,17 @@
                 }while( (ord($char) < 32 || ord($char) > 125) && !($offset >= strlen($string)) );
                 
                 if($offset >= strlen($string))
-                    return new StringUtil("...");
+                    return new DLString("...");
                 else
-                    return new StringUtil(substr($string, 0, $size - $offset)) . '...';
+                    return new DLString(substr($string, 0, $size - $offset)) . '...';
             }
             
-            return new StringUtil($string);
+            return new DLString($string);
         }
         
         /**
          * Returns a boolean indicating if the string ends with the specified $posfix
-         * @param string $posfix String to check if exists at the end
+         * @param string $posfix DLString to check if exists at the end
          * @return boolean
          */
         public function endsWith($posfix){
@@ -83,11 +83,11 @@
         
         /**
          * Returns the position of the first occurrence of the specified string
-         * @param String $string
+         * @param DLString $string
          * @param int $start
          * @return int
          */
-        public function indexOf(StringUtil $string, $start = 0){
+        public function indexOf(DLString $string, $start = 0){
             return strpos($this->string, $string->string, $start);
         }
         
@@ -113,7 +113,7 @@
          * Returns the substring specified by the parameters
          * @param int $start
          * @param int $length
-         * @return String
+         * @return DLString
          */
         public function substring($start, $length = null){
             if($length === null)
@@ -125,8 +125,8 @@
     }
     
     /**
-     * Creates a String object from the specified native string
+     * Creates a DLString object from the specified native string
      * @param type $string
-     * @return String 
+     * @return DLString
      */
-    function str($string) { return new StringUtil($string); }
+    function str($string) { return new DLString($string); }
