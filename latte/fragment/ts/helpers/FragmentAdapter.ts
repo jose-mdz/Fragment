@@ -12,6 +12,8 @@ module latte {
         //endregion
 
         //region Fields
+        private _isSavingChanges = false;
+        private _changesWhileSaving = false;
         //endregion
 
         /**
@@ -159,6 +161,15 @@ module latte {
         //endregion
 
         //region Events
+
+        private _changesWhileSavingChanged: LatteEvent;
+
+        get changesWhileSavingChanged(): LatteEvent{
+            if(!this._changesWhileSavingChanged) {
+                this._changesWhileSavingChanged = new LatteEvent(this);
+            }
+            return this._changesWhileSavingChanged;
+        }
 
         /**
          * Back field for event
@@ -318,6 +329,22 @@ module latte {
         //region Properties
 
         /**
+         * Gets or sets a value indicating if changes where reported while saving
+         */
+        get changesWhileSaving(): boolean {
+            return this._changesWhileSaving;
+        }
+
+        /**
+         * Gets or sets a value indicating if changes where reported while saving
+         *
+         * @param {boolean} value
+         */
+        set changesWhileSaving(value: boolean) {
+            this._changesWhileSaving = value;
+        }
+
+        /**
          * Property field
          */
         private _expando: FragmentExpandoItem = null;
@@ -454,6 +481,14 @@ module latte {
             if(changed){
                 this.onEditorItemChanged();
             }
+        }
+
+        set isSavingChanges(value: boolean){
+            this._isSavingChanges = value;
+        }
+
+        get isSavingChanges(): boolean{
+            return this._isSavingChanges;
         }
 
         /**

@@ -135,7 +135,6 @@ class Document {
                 }
             }
 
-
         }
 
         foreach ($this->onRender as $function) {
@@ -167,6 +166,19 @@ class Document {
             ga('create', '$uaid', '$property');
             ga('send', 'pageview');
         ");
+    }
+
+    /**
+     * Adds a JavaScript file to the document
+     *
+     * @param string $url
+     * @return Tag
+     */
+    public function addMeta($name, $content) {
+        return tag("meta")
+            ->attr("name", $name)
+            ->attr("content", $content)
+            ->addTo($this->head);
     }
 
     /**
@@ -232,6 +244,12 @@ class Document {
                 ->attr("type", "text/javascript")
                 ->attr("src", $url)
                 ->addTo($this->head);
+    }
+
+    public function addBodyJs($url){
+        return tag("script")
+            ->attr("src", $url)
+            ->addTo($this->body);
     }
 
     /**

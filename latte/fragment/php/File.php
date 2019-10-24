@@ -329,7 +329,7 @@ class File extends fileBase{
         $fileName = uniqid() . '-' . $clean_name;
 
         // Path of physical file
-        $file_path = StringUtil::combinePath($path, $fileName);
+        $file_path = DLString::combinePath($path, $fileName);
 
         return array(
             'physical' => $file_path,

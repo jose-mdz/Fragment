@@ -137,10 +137,12 @@ insertYouTube Insertar YouTube
 clearText Limpiar texto
 developedBy Desarrollado por Goplek.com
 confirmDeleteS ¿Desea eliminar "%s"?
-cantBeUndone Esta acción no se puede deshacer
+cantBeUndone Esta acción no se puede deshacer.
 yesDeleteS Sí, eliminar %s
 goToPage Ir a página
 refresh Actualizar
 switchOn Sí
 switchOff No
 flagsNone (Ninguno)
+nothingToShow Nada que mostrar
+jumpToYear Ir al año

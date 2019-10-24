@@ -34,7 +34,7 @@ module latte{
 
         //region Static
 
-        public static log: Array<Message> = [];
+        public static log: Message[] = [];
 
         /**
          * Holds the current amount of seconds to execute next retry
@@ -68,12 +68,19 @@ module latte{
          * @param calls
          * @returns {latte.Message}
          */
-        static sendCalls(calls: Array<RemoteCall<any>>): Message{
-            var m = new Message();
+        static sendCalls(calls: ICall[], callback: () => void = null): Message{
+            let m = new Message();
 
             m.addCalls(calls);
 
+            if(callback)
+                m.responseArrived.add(callback);
+
             m.send();
+
+            if(callback && calls.filter(c => !!c).length == 0) {
+                callback();
+            }
 
             return m;
         }
@@ -162,7 +169,7 @@ module latte{
         /**
          *
          */
-        private _calls: Array<RemoteCall<any>> = [];
+        private _calls: ICall[] = [];
 
         /**
          *
@@ -212,11 +219,11 @@ module latte{
          * Adds calls to the calls array
          * @param calls
          */
-        addCalls(calls: Array<RemoteCall<any>>){
+        addCalls(calls: ICall[]){
 
-            var filtered = [];
+            let filtered = [];
 
-            for (var i = 0; i < calls.length; i++) {
+            for (let i = 0; i < calls.length; i++) {
                 if(calls[i]) {
                     filtered.push(calls[i]);
                 }
@@ -230,8 +237,11 @@ module latte{
          **/
         dataArrived(data: string){
 
-            var parsed = false;
-            var result: Array<IRemoteResponse> = null;
+            // log(`DataArrived`);
+            // log(data);
+
+            let parsed = false;
+            let result: Array<IRemoteResponse> = null;
 
             this._working = false;
 
@@ -263,7 +273,7 @@ module latte{
                 }
 
                 // Report response for each sent call
-                for(var i = 0; i < this.calls.length; i++){
+                for(let i = 0; i < this.calls.length; i++){
                     this.calls[i].respond(result[i]);
                 }
 
@@ -283,8 +293,8 @@ module latte{
             // Dump error
             log(errorDescription)
             log("On call(s):");
-            for(var i = 0; i < this.calls.length; i++){
-                var call = this.calls[i];
+            for(let i = 0; i < this.calls.length; i++){
+                let call = this.calls[i];
                 if(call) {
                     log(call.toString());
                 }
@@ -427,10 +437,10 @@ module latte{
             this._working = true;
 
             // Gather calls
-            var calls: Array<IDataRemoteCall> = [];
+            let calls: Array<IDataRemoteCall> = [];
 
-            for(var i = 0; i < this.calls.length; i++){
-                var call = this.calls[i];
+            for(let i = 0; i < this.calls.length; i++){
+                let call = this.calls[i];
 
                 if(call) {
                     calls.push(call.marshall());
@@ -447,11 +457,11 @@ module latte{
 
                 /*
                  * FOR SOME ULTRA WEIRD REASON
-                 * DATA IS ARRIVING WITH AN "undefined" prefix
+                 * Sometimes DATA IS ARRIVING WITH AN "undefined" prefix
                  * */
-                if(data.indexOf('undefined') === 0){
-                    data = data.substr(9);
-                }
+                // if(data.indexOf('undefined') === 0){
+                //     data = data.substr(9);
+                // }
 
                 this.dataArrived(data);
 
@@ -463,41 +473,6 @@ module latte{
                 this.onNetworkFailed();
             });
 
-            //$.ajax({
-            //
-            //    /// Use URL for DataLatte requests
-            //    url: Message.pathToRequest,
-            //
-            //    /// Use the message as context
-            //    context: this,
-            //
-            //    /// Mix data with headers
-            //    data: {
-            //        action:     'ajax-rpc',
-            //        calls:  JSON.stringify(calls)
-            //    },
-            //
-            //    /// Interpret as text to make it JSON by ourselves
-            //    dataType: 'text',
-            //
-            //    /// Send request as POST
-            //    type: 'POST',
-            //
-            //    /// Handle success
-            //    success: function(data){
-            //        this.dataArrived(data);
-            //    },
-            //
-            //    /// Handle ajax error
-            //    error: function(jqXHR, textStatus, errorThrown){
-            //        this._working = false;
-            //
-            //        this.errorDescription = "Network error: " + textStatus;
-            //        this.errorCode = 1;
-            //
-            //        this.onNetworkFailed();
-            //    }
-            //});
 
             this.onSent();
 
@@ -521,7 +496,7 @@ module latte{
          *
          * @returns {Array<RemoteCall>}
          */
-        get calls(): Array<RemoteCall<any>>{
+        get calls(): ICall[]{
             return this._calls;
         }
 

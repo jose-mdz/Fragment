@@ -66,13 +66,13 @@ foreach(scandir(FRAGMENT_PLUGINS_DIR) as $dir){
     if($dir == '.' || $dir == '..' || strpos($dir, '.') === 0) continue;
 
     // Path of plugin directory
-    $path = StringUtil::combinePath(FRAGMENT_PLUGINS_DIR, $dir);
+    $path = DLString::combinePath(FRAGMENT_PLUGINS_DIR, $dir);
 
     // If not directory, bye
-    if(!is_dir(StringUtil::combinePath(FRAGMENT_PLUGINS_DIR, $dir))) continue;
+    if(!is_dir(DLString::combinePath(FRAGMENT_PLUGINS_DIR, $dir))) continue;
 
     // File of initialization
-    $initializer = StringUtil::combinePath($path, "$dir.php");
+    $initializer = DLString::combinePath($path, "$dir.php");
 
     // Include plugin file
     if (file_exists($initializer)){

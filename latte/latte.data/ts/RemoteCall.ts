@@ -1,17 +1,6 @@
 module latte{
 
     /**
-     * Object who contains marshalled call data
-     */
-    export interface IDataRemoteCall{
-        moduleName: string;
-        className: string;
-        method: string;
-        id: number;
-        params: any;
-    }
-
-    /**
      * Represents a call to a remote procedure
      */
     export class RemoteCall<T> implements ICall{
@@ -22,6 +11,7 @@ module latte{
         private _id: number = 0;
         private _params: any = null;
         private _returns: T = null;
+        private _beforeSuccess: LatteEvent = null;
         private _success: LatteEvent = null;
         private _failure: LatteEvent = null;
         private _response: RemoteResponse<T>;
@@ -67,6 +57,12 @@ module latte{
         onFailure(errorDescription: string, errorCode: string){
             if(this._failure instanceof LatteEvent){
                 this._failure.raise(errorDescription, errorCode);
+            }
+        }
+
+        onBeforeSuccess(data: T){
+            if(this._beforeSuccess instanceof LatteEvent){
+                this._beforeSuccess.raise(data);
             }
         }
 
@@ -325,6 +321,7 @@ module latte{
             }
 
             if(value.success){
+                this.onBeforeSuccess(value.data);
                 this.onSuccess(value.data);
             //}else{
             //    this.onFailure(value.errorCode, value.errorDescription);
@@ -356,6 +353,18 @@ module latte{
             }
             return this._success;
         }
+
+        /**
+         * Gets an event raised when message arrives successfully
+         */
+        get beforeSuccess(): LatteEvent{
+            if(!(this._beforeSuccess instanceof LatteEvent)){
+                this._beforeSuccess = new LatteEvent(this);
+            }
+            return this._beforeSuccess;
+        }
+
+
         //endregion
 
     }
