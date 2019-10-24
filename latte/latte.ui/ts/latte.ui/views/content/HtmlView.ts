@@ -18,7 +18,7 @@ module latte{
             this.element.addClass('html');
 
             if(html instanceof jQuery)
-                this.append(html);
+                (this as any).append(html);
             else if(typeof html == 'string')
                 this.html = html;
 

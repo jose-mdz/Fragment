@@ -5,7 +5,7 @@ RUN apt-get update -y && apt-get install -y libpng-dev curl libcurl4-openssl-dev
 
 RUN docker-php-ext-install pdo pdo_mysql gd curl mysqli
 
-COPY docker/php.ini /usr/local/etc/php/php.ini
+COPY docker/server/php.ini /usr/local/etc/php/php.ini
 
 COPY . /var/www
 

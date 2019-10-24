@@ -330,7 +330,7 @@ module latte {
                                 if(r == 'OK') {
                                     checkNow();
                                 }else{
-                                    let d = DialogView.alert(strings.errorSavingConfig, strings[r], [
+                                    let d = DialogView.alert(strings.errorSavingConfig, r in strings ? strings[r] : r, [
                                         new ButtonItem(strings.retry, LinearIcon.redo, () => {
                                             setTimeout( () => askParameters(), 100)
                                         })

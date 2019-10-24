@@ -37,7 +37,7 @@
          * @param boolean $debug
          * @throws Exception If connection can't be established
          */
-	function __construct($user, $pass, $host, $db, $debug){
+	function __construct($user, $pass, $host, $db, $debug = false){
             global $strings;
 
             // Save error level
@@ -47,14 +47,14 @@
             error_reporting(0);
 
             // Connect to server
-            $this->connection = mysql_connect($host, $user, $pass);
+            $this->connection = mysqli_connect($host, $user, $pass);
 
             if(!$this->connection){
                 error_reporting($level); // Reset error level
                 throw new Exception(sprintf($strings['cantConnectToServer'], $host, $user));
             }
 
-            if(!mysql_select_db($db)){
+            if(!mysqli_select_db($this->connection, $db)){
                 error_reporting($level); // Reset error level
                 throw new Exception(sprintf($strings['cantSelectDbS'], $db));
             }
@@ -76,7 +76,7 @@
      * @return integer
      */
     function affectedRows(){
-            return mysql_affected_rows($this->connection);
+            return mysqli_affected_rows($this->connection);
         }
 	
     /**
@@ -114,7 +114,7 @@
      * @return string
      */
     public function getErrorDescription(){
-            return mysql_error();
+            return mysqli_error($this->connection);
         }
 	
     /**
@@ -149,8 +149,8 @@
 		
 		if(!$result)
 			throw new Exception(sprintf($strings['errorOnQueryS'], $this->getErrorDescription(), $this->queryornot($query)));
-		
-		$row = mysql_fetch_row($result);
+
+		$row = mysqli_fetch_row($result);
 		
 		return $row[0];
 	}
@@ -162,7 +162,7 @@
      * @return resource
      */
     public function query($query){
-            return mysql_query($query, $this->connection);
+            return mysqli_query($this->connection, $query, MYSQLI_STORE_RESULT);
     }
 	
         /**
@@ -187,7 +187,7 @@
          * Closes the connection with the server
          */
 	public function close(){
-		mysql_close($this->connection);
+		mysqli_close($this->connection);
 	}
 	
  }

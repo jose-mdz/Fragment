@@ -502,7 +502,8 @@
             }
             return $array;
         } elseif(!is_object($array)) {
-            return mysql_real_escape_string($array);
+//            return mysql_real_escape_string($array);
+            return mysqli_real_escape_string(DL::$current->connection, $array);
         } else {
             return $array;
         }

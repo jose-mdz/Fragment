@@ -189,7 +189,7 @@ module latte{
             if(_isString(obj)){
                 return jQuery(obj).get(0);
             }else if(obj instanceof jQuery){
-                return obj.get(0);
+                return (obj as any).get(0);
             }else{
                 if(typeof Element == 'undefined'){
                     return obj;

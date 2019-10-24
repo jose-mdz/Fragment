@@ -37,8 +37,8 @@ class DataReader {
      * @param number $mode
      * @return array
      */
-    function read($mode = MYSQL_BOTH) {
-        return mysql_fetch_array($this->result, $mode);
+    function read($mode = MYSQLI_BOTH) {
+        return mysqli_fetch_array($this->result, $mode);
     }
 
     /**

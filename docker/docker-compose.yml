@@ -8,7 +8,7 @@ services:
     - "3306:3306"
     volumes:
     - ./db:/var/lib/mysql
-    - ./server/my.cnf:/etc/mysql/my.cnf
+    - ./my.cnf:/etc/mysql/my.cnf
     environment:
     - MYSQL_ROOT_PASSWORD=docker
     - MYSQL_DATABASE=fragment
@@ -23,11 +23,10 @@ services:
     volumes:
     - ../:/var/www/
     - ./connection-fragment.json:/var/connection-fragment.json
-    - ./php.ini:/usr/local/etc/php/php.ini
+    - ./server/php.ini:/usr/local/etc/php/php.ini
     links:
     - db
     environment:
-    - APPLICATION_ENV=development
     - DB_USER=root
     - DB_PASS=docker
     - DB_HOST=db

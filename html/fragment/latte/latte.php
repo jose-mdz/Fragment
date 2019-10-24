@@ -15,7 +15,7 @@ $PROJECT_OFFSET = 1;
 /// Set default timezone
 date_default_timezone_set('America/Mexico_City');
 
- if(file_exists(__DIR__ . '/releases/latte/latte.php') && !$DEV_MODE){
+ if(file_exists(__DIR__ . '/releases/latte/latte.php')){
      $ON_RELEASE = true;
      include __DIR__ . '/releases/latte/latte.php';
  }else{

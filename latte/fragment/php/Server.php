@@ -92,7 +92,7 @@ class Server{
             return 3;
         }
 
-        if(in_array('mod_rewrite', apache_get_modules()))
+        if(in_array('mod_rewrite',apache_get_modules()))
             return 1;
 
         return 2;
@@ -187,6 +187,7 @@ class Server{
             $x = new DataConnection($user, $pass, $host, $db, false);
             $success = !!($x->getSingle('SELECT NOW()'));
         }catch(Exception $e){
+            return $e . '';
         }
 
         if (!$success){
