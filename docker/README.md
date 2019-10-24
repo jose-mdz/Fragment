@@ -1,5 +1,13 @@
 # 🐳 Docker zone
 
+# Building the `fragment` image locally
+The setup requires building the fragment image before launching the docker-compose.
+
+```bash
+# Run this where the Dockerfile at the project root
+docker build --tag=fragment .
+```
+
 ## Development `docker-compose` folders
 These folders contain docker-compose setups with different scenarios.
 
