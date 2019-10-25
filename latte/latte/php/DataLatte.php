@@ -250,16 +250,6 @@
         return self::$current->getsingle($query);
     }
 
-     /**
-      * Executes multiple queries
-      *
-      * @param string $query
-      * @returns boolean
-      */
-     public static function multiQuery($query) {
-         self::init();
-         return self::$current->multiQuery($query);
-     }
 
     /**
      * Executes an UPDATE query on the current connection
@@ -536,13 +526,12 @@
             return $array;
         } elseif(!is_object($array)) {
             return self::$current->connection->real_escape_string($array);
-//            return mysql_real_escape_string($array);
         } else {
             return $array;
         }
     }
 
-     /**
+    /**
       * Generates a unique GUID of the specified length.
       * If table is specified, it will check the table for its uniqueness.
       *
@@ -550,7 +539,7 @@
       * @param int $length
       * @return string
       */
-      public static function generateGUID($table = null, $length = 12){
+    public static function generateGUID($table = null, $length = 12){
           $chars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890_-";
           $max = strlen($chars) - 1;
           $guid = "";
