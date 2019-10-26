@@ -3,24 +3,6 @@
 # Install Now
 Check our [3 Minute Install Guide](https://github.com/menendezpoo/Fragment/wiki/3-Minute-Install)
 
-## Follow Development
-We have a project for the [first release of Fragment](https://github.com/menendezpoo/Fragment/projects/1).
-
-## Docker
-```bash
-# Delete old images
-docker image rm -f fragment
-
-docker rm -f fragment && \
-docker build --tag=fragment . && \
-docker \
-run \
---name=fragment \
--p 80:80 \
-fragment
-
-```
-
 ## Features
 - Lightning Fast Website Development
 - Incredibly Versatile
@@ -37,4 +19,25 @@ fragment
 ## Know Everything About It
 - You sould start on our [wiki](https://github.com/menendezpoo/Fragment/wiki)
 
-0.3
+
+## Dev Shortcuts
+```bash
+# Build and create image
+ xlatte --release fragment && docker build --tag=fragment .
+```
+
+```bash
+# Kill containers and Spin up docker compose
+killcontainers  && docker-compose up
+```
+
+```bash
+# Kill containers, compile release, build image and spin docker compose
+killcontainers && \
+xlatte --release fragment && \
+docker build --tag=fragment . && \
+cd docker/stateless-sqlite && \
+docker-compose up && \
+cd ../..
+
+```

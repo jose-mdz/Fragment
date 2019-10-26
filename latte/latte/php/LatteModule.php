@@ -708,7 +708,7 @@ class LatteModule {
      * If no connection is specified in metadata, DataLatte current connection won't be changed.
      * If no connection loaded, no connection will be active in DataLatte Object
      */
-    public function loadConnection(){
+    public function loadConnection($failTolerant = false){
 
         if(isset($this->metadata['connection'])){
 
@@ -726,7 +726,12 @@ class LatteModule {
                 $connectionFile = realpath(DLString::combinePath($this->path . $extra, $this->metadata['connection']['file']));
 
                 if (!file_exists($connectionFile)){
-                    die("Connection file [$connectionFile] not found");
+                    if ($failTolerant){
+                        return;
+                    }else{
+                        die("Module $this->name: Connection file [$connectionFile] not found");
+                    }
+
                 }
 
                 $connectionText = file_get_contents($connectionFile) or die("Connection file found, but unable to read.");

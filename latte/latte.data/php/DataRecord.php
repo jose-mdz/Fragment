@@ -468,13 +468,13 @@ abstract class DataRecord {
             $connection->update($this->getinsertquery());
 
             if ($ak) {
-                $this->{$ak} = $connection->getsingle("SELECT LAST_INSERT_ID()");
+                $this->{$ak} = $connection->driver->lastInsertId();
             }
         } else {
             DataLatte::update($this->getinsertquery());
 
             if ($ak) {
-                $this->{$ak} = DataLatte::getsingle("SELECT LAST_INSERT_ID()");
+                $this->{$ak} = DataLatte::$current->driver->lastInsertId();
             }
         }
 

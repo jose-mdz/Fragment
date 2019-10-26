@@ -11,6 +11,9 @@
  */
 define('FG_DIR', realpath(__DIR__ . "/../../../../../"));
 define('DONT_AUTOLOAD_MODULE_CONNECTION', true);
+define('FG_SQLITE_PATH', FG_DIR . "/../../data/fragment.db");
+define('FG_DATA_DRIVER', isset($_ENV['FRAGMENT_DATA_DRIVER']) ? $_ENV['FRAGMENT_DATA_DRIVER'] : 'mysql');
+define('FG_SQLITE', 'sqlite');
 
 /**
  * Path of the latte directory
@@ -27,25 +30,62 @@ if(file_exists(FG_DIR . '/config.php')){
 }
 
 /**
- * If connection data present, connect.
+ * Check for SQLite indication
  */
-if(    defined('FG_DB_NAME') && defined('FG_DB_USER')
-    && defined('FG_DB_PASSWORD') && defined('FG_DB_HOST')){
-    // Try to connect to database
-    try{
-        DataLatte::$current = new DataConnection(FG_DB_USER, FG_DB_PASSWORD, FG_DB_HOST, FG_DB_NAME);
-        define('FG_DB_OK', true);
-    }catch(Exception $e){
+if(FG_DATA_DRIVER === FG_SQLITE){
+
+    if(file_exists(FG_SQLITE_PATH)){
+
+        // Try to connect to database
+        try{
+            Console::log("SQLite: " . FG_SQLITE_PATH);
+            $driver = PdoDataDriver::fromSQLite(FG_SQLITE_PATH);
+            DataLatte::$current = new DataConnection($driver);
+            define('FG_DB_OK', true);
+            define('CANT_PAGINATE', true);
+        }catch(Exception $e){
+            define('NO_DB_CONNECTION', 1);
+        }
+
+    }else{
         define('NO_DB_CONNECTION', 1);
+        $_SESSION['install-mode'] = true;
     }
+
+
 }else{
-    define('NO_DB_CONNECTION', 2);
+
+
+    /**
+     * Go with the good ol' MySQL
+     */
+
+    /**
+     * If connection data present, connect.
+     */
+    if(    defined('FG_DB_NAME')
+        && defined('FG_DB_USER')
+        && defined('FG_DB_PASSWORD')
+        && defined('FG_DB_HOST')){
+
+        // Try to connect to database
+        try{
+            $driver = PdoDataDriver::fromMySQL(FG_DB_HOST, FG_DB_NAME, FG_DB_USER, FG_DB_PASSWORD);
+            DataLatte::$current = new DataConnection($driver);
+            define('FG_DB_OK', true);
+        }catch(Exception $e){
+            define('NO_DB_CONNECTION', 1);
+        }
+    }else{
+        define('NO_DB_CONNECTION', 2);
+    }
 }
 
 /**
  * If no connection
  */
 if (defined('NO_DB_CONNECTION')){
+    Console::log('NO_DB_CONNECTION');
     $_SESSION['install-mode'] = true;
 }
 

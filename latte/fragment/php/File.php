@@ -244,7 +244,7 @@ class File extends fileBase{
      * @return array
      * @throws Exception
      */
-    public static function createFiles($owner, $idowner, $data, $unlinkTempFiles = true){
+    public static function createFiles($owner, $idowner, $data = null, $unlinkTempFiles = true){
         global $strings;
 
         function microtime_float() { list($usec, $sec) = explode(" ", microtime()); return ((float)$usec + (float)$sec); }

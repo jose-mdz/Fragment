@@ -493,11 +493,11 @@ class DataLatteUa {
                 $mod = LatteModule::memoryLoad($module);
                 if($mod->hasConnection()){
                     $connectionBuffer = DL::$current;
-                    $mod->loadConnection();
+                    $mod->loadConnection(true);
                 }
             }else{
                 $connectionBuffer = DL::$current;
-                LatteModule::byName($module)->loadConnection();
+                LatteModule::byName($module)->loadConnection(true);
             }
         }
 

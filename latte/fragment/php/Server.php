@@ -12,23 +12,30 @@ class Server{
      * @param $sql
      */
     private static function multiQuery($sql){
-        $mysqli = new mysqli(FG_DB_HOST, FG_DB_USER, FG_DB_PASSWORD, FG_DB_NAME);
 
-        if ($mysqli->connect_errno) {
-            echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+        if(FG_DATA_DRIVER === FG_SQLITE){
+
+            DL::getCurrent()->driver->exec($sql);
+
+            $info = DL::getCurrent()->driver->errorInfo();
+
+            if ($info[0] != '00000'){
+                die('ERROR on multiQuery:' . var_export($info, true));
+            }
+
+        }else{
+            $mysqli = new mysqli(FG_DB_HOST, FG_DB_USER, FG_DB_PASSWORD, FG_DB_NAME);
+
+            if ($mysqli->connect_errno) {
+                echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+            }
+
+            if (!$mysqli->multi_query($sql)) {
+                echo "Multi query failed: (" . $mysqli->errno . ") " . $mysqli->error;
+            }
+
         }
 
-
-        if (!$mysqli->multi_query($sql)) {
-            echo "Multi query failed: (" . $mysqli->errno . ") " . $mysqli->error;
-        }
-
-//        do {
-//            if ($res = $mysqli->store_result()) {
-//                var_dump($res->fetch_all(MYSQLI_ASSOC));
-//                $res->free();
-//            }
-//        } while ($mysqli->more_results() && $mysqli->next_result());
     }
 
     /**
@@ -47,6 +54,11 @@ class Server{
      */
     public static function checkConnectionOk(){
         if($_SESSION['install-mode'] !== true) throw new SecurityException();
+
+        if(FG_DATA_DRIVER === FG_SQLITE){
+            self::saveConnectionParameters('', '', '', '', $_SESSION['tmp-lang']);
+            return true;
+        }
 
         return defined('FG_DB_OK');
     }
@@ -67,6 +79,7 @@ class Server{
      * @return boolean
      */
     public static function isDatabaseEmpty(){
+
         $c = DL::getCache('SHOW tables');
 
         return sizeof($c) == 0;
@@ -116,12 +129,16 @@ class Server{
     public static function installDatabase(){
         if($_SESSION['install-mode'] !== true) throw new SecurityException();
 
-        $sql_file = FG_DIR . '/files/install/fragment.sql';
+        if(FG_DATA_DRIVER === FG_SQLITE){
+            $sql_file = FG_DIR . '/files/install/fragment-sqlite.sql';
+        }else{
+            $sql_file = FG_DIR . '/files/install/fragment-mysql.sql';
+        }
 
         if (file_exists($sql_file)){
             self::multiQuery(file_get_contents($sql_file));
         }else{
-            return "Can't find: files/install/fragment.sql";
+            return "Can't find: $sql_file";
         }
 
         return 'OK';
@@ -147,19 +164,27 @@ class Server{
      * @throws SecurityException
      */
     public static function installInitialRecords($rootPassword){
+
         if($_SESSION['install-mode'] !== true) throw new SecurityException();
 
-        $sql_file = FG_DIR . '/files/install/initial.sql';
+        $md5 = md5($rootPassword);
+
+
+        if(FG_DATA_DRIVER === FG_SQLITE){
+            $sql_file = FG_DIR . '/files/install/initial-sqlite.sql';
+        }else{
+            $sql_file = FG_DIR . '/files/install/initial-mysql.sql';
+        }
 
         if (file_exists($sql_file)){
             self::multiQuery(file_get_contents($sql_file));
             self::multiQuery("
               UPDATE user 
-              SET password = md5('$rootPassword') 
+              SET password = '$md5' 
               WHERE uname = 'root'
               ");
         }else{
-            return "Can't find: files/install/initial.sql";
+            return "Can't find: $sql_file";
         }
 
         return 'OK';
@@ -182,12 +207,38 @@ class Server{
 
         $success = false;
 
-        // Try to connect
-        try{
-            $x = new DataConnection($user, $pass, $host, $db, false);
-            $success = !!($x->getSingle('SELECT NOW()'));
-        }catch(Exception $e){
-            return $e . '';
+        if(FG_DATA_DRIVER === FG_SQLITE){
+            // Try to connect
+            try{
+                Console::log("Creating SQLite database file: " . FG_SQLITE_PATH);
+                $driver = PdoDataDriver::fromSQLite(FG_SQLITE_PATH);
+
+                $info = $driver->errorInfo();
+
+                if ($info[0] !== '00000'){
+                    Console::err("Can't create SQLite database");
+                    Console::err($info[2]);
+                }
+
+                Console::log(var_export($info, true));
+
+                $x = new DataConnection($driver);
+
+                $success = !!($x->getSingle('SELECT DATE()'));
+            }catch(Exception $e){
+                Console::err('Error happened while connecting to SQLite');
+                Console::err(var_export($e, true));
+                die($e);
+            }
+        }else{
+            // Try to connect
+            try{
+                $driver = PdoDataDriver::fromMySQL($host, $db, $user, $pass);
+                $x = new DataConnection($driver);
+                $success = !!($x->getSingle('SELECT NOW()'));
+            }catch(Exception $e){
+                return $e . '';
+            }
         }
 
         if (!$success){
