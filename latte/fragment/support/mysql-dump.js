@@ -36,7 +36,7 @@ async function run(cmd){
     const {stdout} = await run(`docker ps -q -f name=${img}`);
 
     if(stdout.trim().length > 0) {
-        const result = await run("docker exec mysql_fragment mysqldump -uroot -pdocker --no-data=TRUE fragment " + tables.join(' ') + " > html/fragment/files/install/fragment.sql");
+        const result = await run("docker exec mysql_fragment mysqldump -uroot -pdocker --no-data=TRUE fragment " + tables.join(' ') + " > html/fragment/files/install/fragment-mysql.sql");
 
         if(result.stderr) {
             console.error(result.stderr);

@@ -24,7 +24,7 @@ $ docker-compose up         # Run Docker containers
 2. Import schema into MySQL. Schema is located in
 
 ```
-html/fragment/files/install/fragment.sql
+html/fragment/files/install/fragment-mysql.sql
 ```
 
 3. Create `connection-cms.json` outside the install directory

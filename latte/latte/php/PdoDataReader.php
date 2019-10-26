@@ -1,6 +1,6 @@
 <?php
 
-class SQLiteDataReader{
+class PdoDataReader implements DataReader {
 
     public $result;
 

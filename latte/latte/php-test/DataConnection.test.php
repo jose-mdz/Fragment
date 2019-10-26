@@ -1,19 +1,18 @@
 <?php
-$pdo = new PDO('sqlite:example.db');
 
+include '../php/DataReader.php';
+include '../php/DataDriver.php';
+include "../php/PdoDataReader.php";
+include "../php/PdoDataDriver.php";
+include "../php/DataConnection.php";
 
+echo 'Creating SQLite driver...' . PHP_EOL;
+$sqlite = PdoDataDriver::fromSQLite(':memory:');
 
-$result = $pdo->exec('CREATE TABLE person(name TEXT)');
+echo 'Creating connection...' . PHP_EOL;
+$x = new DataConnection($sqlite);
 
-echo "[RES: $result]";
+echo 'Getting Single...' . PHP_EOL;
+$single = $x->getSingle('SELECT DATE()');
+echo $single . PHP_EOL;
 
-$stmt = $pdo->query("SELECT name
-                               FROM sqlite_master
-                               WHERE type = 'table'
-                               ORDER BY name");
-
-while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-    $table = $row['name'];
-
-    echo "[TBL: $table]";
-}

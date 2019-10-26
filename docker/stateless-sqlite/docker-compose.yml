@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  webserver:
+    image: fragment
+    container_name: fragment
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./php.ini:/usr/local/etc/php/php.ini
+    environment:
+      - FRAGMENT_DATA_DRIVER=sqlite

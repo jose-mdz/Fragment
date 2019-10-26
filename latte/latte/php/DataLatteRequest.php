@@ -37,7 +37,7 @@ class DataLatteRequest {
 
         $response = array();
 
-        
+        Console::log($calls_raw);
 
         // Parse calls
         $calls = json_decode($calls_raw, true);
@@ -46,8 +46,6 @@ class DataLatteRequest {
         if(!is_array($calls)){
             die("Calls is not an array: $calls_raw");
         }
-        
-       
 
         // Execute each call
         foreach($calls as $calldata){
@@ -73,7 +71,12 @@ class DataLatteRequest {
 
         }
 
-        echo json_encode($response);
+        $json = json_encode($response);
+
+
+        Console::log($json);
+
+        echo $json;
     }
 
 }

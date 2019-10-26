@@ -62,18 +62,15 @@
      public static $globalCanDelete = false;
 
     /**
-     * Throws an Exception. This class should not be instantiated.
+     * This class should not be instantiated.
      */
-    private function __construct() {
-        throw new Exception();
-    }
+    private function __construct() {}
 
     /**
      * Initializes the connection to the database.
      * @throws Exception if call to <c>init()</c> method is called.
      */
     public static function init() {
-        global $strings;
 
         // Check if already initialized
         if (!self::$current){
@@ -82,13 +79,21 @@
 
             // Check if connection in /_files exists
             if (!DataLatte::canInit()) {
-                throw new Exception($strings['datalatteInitFailed']);
+                throw new Exception('DL_CANT_INITIALIZE');
             }
 
-            // Create current object
-            self::$current = DataConnection::fromParametersClass();
         }
 
+    }
+
+    static function getCurrent(): DataConnection{
+        self::init();
+
+        if(!self::$current){
+            throw new Exception('DL_NOT_INITIALIZED');
+        }
+
+        return self::$current;
     }
 
     /**
@@ -186,26 +191,12 @@
      * @returns boolean
      */
     public static function debugMode() {
-        self::init();
-        return self::$current->debug;
+        return self::getCurrent()->debug;
     }
 
-    /**
-     * Queries the database and returns the entire result as an array of arrays
-     *
-     * @param $query
-     * @param $mode
-     * @returns array
-     */
-    public static function getCache($query, $mode = DataReader::MODE_BOTH) {
 
-        $a = array();
-        $reader = self::getreader($query);
-
-        while ($r = $reader->read($mode))
-            $a[] = $r;
-
-        return $a;
+    public static function getCache($query) {
+        return self::getCurrent()->getCache($query);
     }
 
     /**
@@ -228,53 +219,20 @@
 
     }
 
-    /**
-     * Executes a SELECT statement on the current connection that returns a table of data.
-     * 
-     * @param string $query
-     * @returns DataReader
-     */
     public static function getReader($query) {
-        self::init();
-        return self::$current->getReader($query);
+        return self::getCurrent()->getReader($query);
     }
 
-    /**
-     * Executes a SELECT statement on the current connection and gets the first field of the first row of result
-     * 
-     * @param string $query
-     * @returns mixed
-     */
     public static function getSingle($query) {
-        self::init();
-        return self::$current->getsingle($query);
+        return self::getCurrent()->getSingle($query);
     }
 
-
-    /**
-     * Executes an UPDATE query on the current connection
-     * 
-     * @param string $query
-     * @returns number
-     */
     public static function update($query) {
-        self::init();
-        return self::$current->update($query);
-    }
-
-    /**
-     * Closes the current connection with the server
-     */
-    public static function close() {
-        init();
-        return self::$current->close();
+        return self::getCurrent()->update($query);
     }
 
     /**
      * Converts a MySQL date-time string to a timestamp (used in PHP)
-     * 
-     * @param string $datetime MySQL formatted date-time 'yyyy-mm-dd'
-     * @returns integer
      */
     public static function timestamp($datetime = null) {
         if (!$datetime)
@@ -309,9 +267,6 @@
     /**
      * Converts a timestamp to a MySQL formatted date-time.
      * If no <c>$timestamp</c> is provided, current time will be used.
-     * 
-     * @param integer $timestamp
-     * @returns string In the format: yyyy-mm-dd
      */
     static function date($timestamp = NULL) {
         if ($timestamp === NULL)
@@ -322,9 +277,6 @@
     /**
      * Converts a Unix Timestamp to a MySQL formatted date-time.
      * If no <c>$timestamp</c> is provided, current time will be used.
-     * 
-     * @param integer $timestamp
-     * @returns string
      */
     static function dateTime($timestamp = NULL) {
         if ($timestamp === NULL)
@@ -348,19 +300,31 @@
      * @throws Exception
      */
     public static function pageOf($class, $query, $page, $pageSize = 50) {
+
+        if (defined('CANT_PAGINATE')){
+
+            $result = self::arrayOf($class, $query);
+
+            return array(
+                'records' => $result,
+                'recordcount' => sizeof($result),
+                'page' => 1,
+                'pages' => 1
+            );
+        }
         
         // Check for SQL_CALC_FOUND_ROWS flag
         if(strpos($query, 'SQL_CALC_FOUND_ROWS') === false){
             $query = preg_replace("/SELECT/", "SELECT SQL_CALC_FOUND_ROWS ", $query, 1);
-            
+
             if(strpos($query, 'SQL_CALC_FOUND_ROWS') === false){
                 throw new Exception("DataLatte::pageOf() Can't insert SQL_CALC_FOUND_ROWS into query. SELECT statement must be followed by a space.");
             }
         }
-        
+
         // Compute offset for query
         $offset = ($page - 1) * $pageSize;
-        
+
         // Append pagination to query
         $query .= PHP_EOL . "LIMIT $pageSize OFFSET $offset";
 
@@ -387,9 +351,6 @@
     /**
      * Recognizes the fields in the array and applies its values to the correspondant record fields.
      * 
-     * @param any $array
-     * @param DataRecord $record
-     * @oaram string $alias
      */
     public static function recognize($array, $record, $alias = '') {
 
@@ -437,10 +398,6 @@
      * Queries the database and maps the result to an object
      * of the specified class name.
      * 
-     * @param string $classname  Name of the class of the object to create
-     * @param string $query SQL sentence to retieve object values
-     * 
-     * @returns object
      */
     public static function oneOf($classname, $query) {
         $arr = self::arrayOf($classname, $query);
@@ -488,7 +445,7 @@
             }
             $query = str_replace("#COLUMNS", (implode(", ", $columns)), $query);
         }
-        
+
         $arr = self::getCache($query);
 
         foreach ($arr as $row) {
@@ -515,7 +472,6 @@
     /**
      * Escapes the specified value or values, necessary process to ensure application security.
      * 
-     * @param array|string $array
      */
     public static function escape($array) {
         self::init();
@@ -525,10 +481,14 @@
             }
             return $array;
         } elseif(!is_object($array)) {
-            return self::$current->connection->real_escape_string($array);
+            return self::escapeString($array);
         } else {
             return $array;
         }
+    }
+
+    public static function escapeString($string){
+        return $string; //addslashes($string);
     }
 
     /**
