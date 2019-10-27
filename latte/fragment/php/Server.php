@@ -10,6 +10,7 @@ class Server{
     /**
      * @neverRemote
      * @param $sql
+     * @throws
      */
     private static function multiQuery($sql){
 
@@ -215,16 +216,15 @@ class Server{
 
                 $info = $driver->errorInfo();
 
-                if ($info[0] !== '00000'){
+                if ($info[0] && $info[0] !== '00000'){
                     Console::err("Can't create SQLite database");
                     Console::err($info[2]);
+                    Console::log(var_export($info, true));
                 }
-
-                Console::log(var_export($info, true));
-
                 $x = new DataConnection($driver);
 
                 $success = !!($x->getSingle('SELECT DATE()'));
+                DataLatte::$current = new DataConnection($driver);
             }catch(Exception $e){
                 Console::err('Error happened while connecting to SQLite');
                 Console::err(var_export($e, true));

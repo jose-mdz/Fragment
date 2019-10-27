@@ -11,3 +11,4 @@ services:
       - ./php.ini:/usr/local/etc/php/php.ini
     environment:
       - FRAGMENT_DATA_DRIVER=sqlite
+      - FRAGMENT_ROOT_PASSWORD=root

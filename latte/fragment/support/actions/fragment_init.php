@@ -34,6 +34,11 @@ if(file_exists(FG_DIR . '/config.php')){
  */
 if(FG_DATA_DRIVER === FG_SQLITE){
 
+    if(!file_exists(FG_SQLITE_PATH)){
+        // Try to auto-install
+        define('AUTO_INSTALL_SQLITE', true);
+    }
+
     if(file_exists(FG_SQLITE_PATH)){
 
         // Try to connect to database
@@ -104,6 +109,10 @@ if(!defined('FG_LANG')){
 
 // Load fragment module
 LatteModule::loadMain('fragment', defined('FG_LANG') ? FG_LANG : FG_TMP_LANG, false);
+
+if (defined('AUTO_INSTALL_SQLITE')){
+    include "sqlite_auto_install.php";
+}
 
 /**
  * Include theme's _include.php

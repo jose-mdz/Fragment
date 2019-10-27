@@ -3,7 +3,7 @@
 // Initialize fragment
 include  __DIR__ . "/fragment_init.php";
 
-if (defined('NO_DB_CONNECTION')){
+if (defined('NO_DB_CONNECTION') && !defined('DB_CONNECTION_SOLVED')){
     header('Location: /fragment');
     die();
 }

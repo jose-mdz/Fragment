@@ -12,7 +12,7 @@ include  __DIR__ . "/fragment_init.php";
 /// Create document
 $doc = new LatteDocument("Fragment");
 
-if (defined('NO_DB_CONNECTION')){
+if (defined('NO_DB_CONNECTION') && !defined('DB_CONNECTION_SOLVED')){
 
     if(defined('FG_TMP_LANG_SET') && FG_TMP_LANG_SET == false){
         $doc->addScript("window['fragmentMustChooseLang'] = true;");

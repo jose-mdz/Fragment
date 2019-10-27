@@ -37,7 +37,7 @@ killcontainers && \
 xlatte --release fragment && \
 docker build --tag=fragment . && \
 cd docker/stateless-sqlite && \
-docker-compose up && \
+docker-compose up ; \
 cd ../..
 
 ```
