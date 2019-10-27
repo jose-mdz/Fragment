@@ -20,7 +20,16 @@ INSERT INTO fragment(`idpage`, `value`, `name`)
 VALUES(1, 'Lorem Ipsum', 'body');
 
 INSERT INTO `setting`(idowner, owner, `name`, `value`)
-VALUES(1, 'Page', 'page-configuration', '');
+VALUES(1, 'Page', 'page-configuration', '' ||
+ '{' ||
+  '"children":{' ||
+   '"fragments":[' ||
+    '{"key":"intro","name":"Introduction","type":"html"},' ||
+    '{"key":"illustration","name":"Illustration","type":"image"},' ||
+    '{"key":"body","name":"Article","type":"html"}' ||
+   ']' ||
+  '}' ||
+ '}');
 
 INSERT INTO `setting`(idowner, owner, `name`, `value`)
 VALUES(0, 'global', 'home', 'home');

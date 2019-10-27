@@ -141,6 +141,11 @@ module latte {
          */
         generatePresentableImage(file: File, callback: (child?:File) => void){
 
+            if(File.extensionOf(file.name) === 'gif') {
+                callback(file);
+                return;
+            }
+
             file.createThumbChild({
                 fit:  ImageUtil.imageFitFromString(this.fragmentConfiguration['image-fit']) || ImageFit.AspectFill,
                 quality: this.fragmentConfiguration['image-quality'],

@@ -31,6 +31,7 @@ Check our [3 Minute Install Guide](https://github.com/menendezpoo/Fragment/wiki/
 killcontainers  && docker-compose up
 ```
 
+Stateless SQLite
 ```bash
 # Kill containers, compile release, build image and spin docker compose
 killcontainers && \
@@ -39,5 +40,15 @@ docker build --tag=fragment . && \
 cd docker/stateless-sqlite && \
 docker-compose up ; \
 cd ../..
+```
 
+Stateful SQLite (Mapped)
+```bash
+# Kill containers, compile release, build image and spin docker compose
+killcontainers && \
+xlatte --release fragment && \
+docker build --tag=fragment . && \
+cd docker/stateful-map-sqlite && \
+docker-compose up ; \
+cd ../..
 ```

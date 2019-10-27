@@ -13,3 +13,4 @@ services:
       - ../../:/var/www/
     environment:
       - FRAGMENT_DATA_DRIVER=sqlite
+      - FRAGMENT_ROOT_PASSWORD=root
