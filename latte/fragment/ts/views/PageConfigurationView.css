@@ -25,3 +25,10 @@ textarea.page-configuration:focus{
     background: white;
     color: black;
 }
+
+.label.invalid-json{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: red;
+}

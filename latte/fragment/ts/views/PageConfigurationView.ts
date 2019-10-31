@@ -20,12 +20,32 @@ module latte {
         constructor(r: Page) {
             super();
 
-            this.container.get(0).appendChild(this.textbox.element)
+            this.container.get(0).appendChild(this.textbox.element);
+            this.container.get(0).appendChild(this.lblInvalidJson.raw);
 
             this.page = r;
         }
 
+
+
         //region Private Methods
+        private updateJsonWarning(){
+            let data = null;
+
+            try{
+                data = JSON.parse(this.textbox.text);
+            }catch(e){
+
+            }
+
+            this.lblInvalidJson.visible = !data;
+        }
+
+        private inputChanged(){
+            this.unsavedChanges = true;
+
+            this.updateJsonWarning();
+        }
         //endregion
 
         //region Methods
@@ -36,6 +56,8 @@ module latte {
         onLoad(){
             this.page.getConfiguration().send((config: string) => {
                 this.textbox.text = config;
+
+                this.updateJsonWarning();
             })
 
         }
@@ -52,6 +74,17 @@ module latte {
         //endregion
 
         //region Events
+
+        private _lblInvalidJson: LabelItem;
+
+        get lblInvalidJson(): LabelItem{
+            if(!this._lblInvalidJson) {
+                this._lblInvalidJson = new LabelItem(strings.invalidJson);
+                this._lblInvalidJson.addClass('invalid-json');
+            }
+            return this._lblInvalidJson;
+        }
+
         //endregion
 
         //region Components
@@ -69,7 +102,7 @@ module latte {
             if (!this._textbox) {
                 this._textbox = new Element<HTMLTextAreaElement>(document.createElement('textarea'));
                 this._textbox.addClass('page-configuration');
-                this._textbox.addEventListener('input', () => this.unsavedChanges = true);
+                this._textbox.addEventListener('input', () => this.inputChanged());
             }
             return this._textbox;
         }

@@ -69,6 +69,7 @@ class LatteModule {
      * If it is not yet loaded, loads it into memory
      * @param $name
      * @return LatteModule
+     * @throws
      */
     public static function byName($name){
 
@@ -123,6 +124,7 @@ class LatteModule {
      * @param string $lang
      * @param bool $loadConnection
      * @return LatteModule
+     * @throws
      */
     public static function loadMain($moduleName, $lang = null, $loadConnection = true){
 
@@ -151,6 +153,7 @@ class LatteModule {
      *
      * @param $moduleName
      * @return array
+     * @throws
      */
     public static function tagsOf($moduleName, $lang = null){
         $module = new LatteModule($moduleName);
@@ -163,6 +166,7 @@ class LatteModule {
      *
      * @param $moduleName
      * @return array
+     * @throws
      */
     public static function tagsAndConnectionOf($moduleName){
         $module = new LatteModule($moduleName);
@@ -176,6 +180,7 @@ class LatteModule {
      * @param $moduleName
      * @param null $lang
      * @return LatteModule
+     * @throws
      */
     public static function memoryLoad($moduleName, $lang = null){
 
@@ -277,7 +282,8 @@ class LatteModule {
 //        echo "[$releasePhp]";
 
         if(file_exists($releasePhp)){
-//            echo "[YES EXIST]";
+            Console::log("Using release for module $name: $releasePhp");
+
             $this->isRelease = true;
             $this->path = $releasePath;
 
@@ -286,12 +292,15 @@ class LatteModule {
             $this->pathSupport = DLString::combinePath($this->path, self::PATH_SUPPORT);
 
         }else{
-//            echo "[NO EXIST]";
+
+            Console::log("Release not present for module: " . $releasePhp);
 
             $this->path = $this->path = DLString::combinePath(DATALATTE_MODULES, $name);
 
             if(!is_dir($this->path)){
-                throw new ErrorException("Directory -$name- does not exist in modules directory");
+                Console::err("Module path not found: $this->path");
+                Console::err("DATALATTE_MODULES: " . DATALATTE_MODULES);
+                throw new ErrorException("Directory -$name- does not exist in modules directory ($this->path)");
             }
 
             $this->pathPhp = DLString::combinePath($this->path, self::PATH_PHP);
@@ -309,6 +318,7 @@ class LatteModule {
     /**
      * Returns an array with all strings of all languages
      * @return array
+     * @throws
      */
     private function createStringsArray(){
         
@@ -348,6 +358,7 @@ class LatteModule {
      * Helps recusively collect includes of the module
      * @param $names
      * @return array
+     * @throws
      */
     private function collectInclude(&$names = null){
 

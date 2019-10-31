@@ -14,7 +14,7 @@
 define(FRAGMENT_PLUGINS_DIR, DATALATTE_FILES . "/../plugins");
 
 // Patch: DATALATTE_FILES is not well formed when in release.
-if($ON_RELEASE){
+if( defined('ON_RELEASE') && ON_RELEASE){
     define(FRAGMENT_PLUGINS_DIR, __DIR__ . "/../../../plugins");
 }
 

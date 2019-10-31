@@ -129,3 +129,4 @@ tag Etiqueta
 tags Etiquetas
 nothingToShow No hay elementos que mostrar
 imageSize Tamaño de la Imagen
+invalidJson Inválido

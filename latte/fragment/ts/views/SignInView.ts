@@ -47,6 +47,8 @@ module latte {
                 e.preventDefault();
                 this.formSubmit();
             });
+
+            setTimeout(() => this.txtEmail.focus());
         }
 
         //region Private Methods

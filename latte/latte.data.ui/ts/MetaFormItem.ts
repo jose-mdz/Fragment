@@ -50,13 +50,21 @@ module latte{
                 for (let i in metadata.fields) {
 
                     let field = metadata.fields[i];
+                    const categorySpecified =  _isString(this.category);
+                    const categorySpecifiedIsEmpty = categorySpecified && !this.category;
+                    const fieldInCategory = field['category'] === this.category || (categorySpecifiedIsEmpty && !field['category']);
 
-                    // Skip if category specified and field is not in category
-                    if(!(_isString(this.category) && this.category && (field['category'] != this.category))) {
-
+                    if(categorySpecified && fieldInCategory) {
                         // Add input and get call to make
                         calls.push(this.addInput(i, metadata.fields[i]));
                     }
+
+                    // // Skip if category specified and field is not in category
+                    // if(!(_isString(this.category) && this.category && (field['category'] != this.category))) {
+                    //
+                    //     // Add input and get call to make
+                    //     calls.push(this.addInput(i, metadata.fields[i]));
+                    // }
                 }
             }
 
