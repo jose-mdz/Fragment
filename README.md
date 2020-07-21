@@ -3,11 +3,16 @@
 # Run with Docker
 ```bash
 # Quickly run a copy
-docker run menendezpoo/fragment:latest \
+docker run \
        -e FRAGMENT_DATA_DRIVER=sqlite \
-       -e FRAGMENT_ROOT_PASSWORD=root \ 
-       -p 80:80    
+       -e FRAGMENT_ROOT_PASSWORD=root \
+       -p 80:80 \
+       menendezpoo/fragment:latest    
 ```
+
+1. Go to `http://localhost`. You should see a "Lorem ipsum"
+2. Go to `http://localhost/fragment`. Use `root` both for user and password.
+3. Follow up on [wiki](https://github.com/menendezpoo/Fragment/wiki)
 
 ## Features
 - SQLite / MySQL Drivers
@@ -16,12 +21,9 @@ docker run menendezpoo/fragment:latest \
 - Awesome Backend
 - Instant Deploy
 
-## Why Fragment?
-- One word: Ultramegaconfigurability.
-
 ## Technology
 - PHP / MySQL
-- Kickass CMS UI.
+- Beautiful CMS UI.
 
 ## Know Everything About It
-- You sould start on our [wiki](https://github.com/menendezpoo/Fragment/wiki)
+- You should start on our [wiki](https://github.com/menendezpoo/Fragment/wiki)

@@ -16,8 +16,10 @@ RUN chown www-data /var/www/data
 # Copy .htaccess
 RUN cp /var/www/html/fragment/files/install/htaccess_original.txt /var/www/html/.htaccess
 
-# Add mod_rewrite module
+# Add mod_rewrite modulef
 RUN a2enmod rewrite
+
+RUN echo "ServerName Fragment" >> /etc/apache2/apache2.conf
 
 # Start Apache
 RUN service apache2 restart
