@@ -35,4 +35,8 @@
 # Necessary for latte.ui module
 !/latte/latte.ui/support/ts-include/jquery.d.ts
 
-docker/stateful-map/db
+# Database generated on the stateful-map docker image
+docker/stateful-mysql/db
+
+# Database generated on the stateful-map-sqlite image
+data/fragment.db

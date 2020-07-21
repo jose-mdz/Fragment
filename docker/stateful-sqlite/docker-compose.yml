@@ -9,7 +9,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./php.ini:/usr/local/etc/php/php.ini
+      - ./server/php.ini:/usr/local/etc/php/php.ini
       - ../../:/var/www/
     environment:
       - FRAGMENT_DATA_DRIVER=sqlite

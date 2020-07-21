@@ -13,8 +13,8 @@ services:
     - MYSQL_DATABASE=fragment
 
   webserver:
-    image: fragment
-    container_name: fragment
+    image: fragment_local
+    container_name: fragment_stateless_mysql
     ports:
     - "80:80"
     - "443:443"

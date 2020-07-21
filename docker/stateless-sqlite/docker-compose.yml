@@ -2,8 +2,8 @@ version: '2'
 
 services:
   webserver:
-    image: fragment
-    container_name: fragment
+    image: fragment_local
+    container_name: fragment_stateless_sqlite
     ports:
       - "80:80"
       - "443:443"

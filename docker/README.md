@@ -1,36 +1,20 @@
 # 🐳 Docker zone
+This folder provides 4 ways of using Fragment with docker.
 
-# Building the `fragment` image locally
-The setup requires building the fragment image before launching the docker-compose.
+When it comes to persistence, Fragment can use either MySQL
+or SQLite out the box. 
 
-```bash
-# Run this where the Dockerfile at the project root
-docker build --tag=fragment .
-```
+- `MySQL` is used for huge projects as well
+for legacy projects. 
 
-## Development `docker-compose` folders
-These folders contain docker-compose setups with different scenarios.
+- The preferred way of using Fragment is `SQLite`, which can serve
+a site with thousands of pages without any problem. 
 
-## stateless-mysql
-This setup spins a fresh:
+Folder          | Use to test
+----------------|--------
+stateful-mysql  | Live source code, MySQL setup
+stateful-sqlite | Live source code, SQLite setup
+stateless-mysql | Fresh image, MySQL setup
+stateless-sqlite| Fresh image, SQLite setup
 
-- mysql instance
-- apache/php fragment instance
-
-Proceed to install `fragment` by navigating to `localhost/fragment`
-Use these database settings:
-
-Property|Value
----|---
-User|`root`
-Password|`docker`
-Database|`fragment`
-Host|`db`
-
-
-## stateful-map
-This is similar to `stateless-mysql` but maps the filesystem to the actual project sources.
-Be aware of this because after installing, `config.php`, `.htaccess` and other files might be created.
-The database is persisted in the `db` folder inside `stateful-map`. 
-
-The `db` folder is added to the `.gitignore` list to avoid committing.  
+If you don't know where to begin, go to `stateless-sqlite`
