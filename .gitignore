@@ -22,10 +22,6 @@
 # Do include basic pack plugin
 !/html/fragment/plugins/basic-pack
 
-# Ignore files who are generated automagically
-/latte/*/support/ts-include/*
-/latte/*/support/records.php
-
 # Ignore release data
 /html/fragment/latte/releases/*
 
