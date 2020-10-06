@@ -11,26 +11,53 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Represents a collection of records
-     */
-    class DataRecordCollection extends Collection<DataRecord> {
+     * Represents a set of structured data
+     **/
+    class DataSet {
         /**
-         * Creates the collection of the specified type.
-         * Optionally specifies handlers for adding and removing items, and a
-         * context to call as closure of events.
-         *
-         * @param addCallback
-         * @param removeCallback
-         * @param context
-         */
-        constructor(addCallback?: (DataRecord: any, number: any) => any, removeCallback?: (DataRecord: any, number: any) => any, context?: any);
+         * Columns of the dataset
+         **/
+        columns: Collection<DataSetColumn>;
         /**
-         * Finds the record of the specified <c>id</c>
-         *
-         * @param id
-         * @returns {null}
-         */
-        byId(id: number): DataRecord;
+         * Rows of data
+         **/
+        rows: Collection<DataSetRow>;
+        /**
+         * Creates the dataset
+         **/
+        constructor();
+        /**
+         * Creates a <c>DataSet</c> from the dataset specified as a JSON object
+         **/
+        static fromServerObject(dataset: any): DataSet;
+        /**
+         * Converts the type sent by server to a type compatible with <c>InputItem</c>
+         **/
+        static fromServerType(type: string): string;
+        /**
+         * Gets the index of the column by passing the name of the column
+         **/
+        getColumnIndex(columnName: string): number;
+        /**
+         * Gets the data as an array of arrays
+         **/
+        getDataArray(): any[];
+        /**
+         * Gets the value of the specified column at the specified row index
+         **/
+        getValue(columnName: string, rowIndex: number): any;
+        /**
+         * Gets the value at the specified position
+         **/
+        getValueAt(columnIndex: number, rowIndex: number): any;
+        /**
+         * Sets the value at the specified position
+         **/
+        setValue(columnName: string, rowIndex: number, value: any): DataSet;
+        /**
+         * Sets the value at the specified position
+         **/
+        setValueAt(columnIndex: number, rowIndex: number, value: any): DataSet;
     }
 }
 declare module latte {
@@ -115,53 +142,26 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Represents a set of structured data
-     **/
-    class DataSet {
+     * Represents a collection of records
+     */
+    class DataRecordCollection extends Collection<DataRecord> {
         /**
-         * Columns of the dataset
-         **/
-        columns: Collection<DataSetColumn>;
+         * Creates the collection of the specified type.
+         * Optionally specifies handlers for adding and removing items, and a
+         * context to call as closure of events.
+         *
+         * @param addCallback
+         * @param removeCallback
+         * @param context
+         */
+        constructor(addCallback?: (DataRecord: any, number: any) => any, removeCallback?: (DataRecord: any, number: any) => any, context?: any);
         /**
-         * Rows of data
-         **/
-        rows: Collection<DataSetRow>;
-        /**
-         * Creates the dataset
-         **/
-        constructor();
-        /**
-         * Creates a <c>DataSet</c> from the dataset specified as a JSON object
-         **/
-        static fromServerObject(dataset: any): DataSet;
-        /**
-         * Converts the type sent by server to a type compatible with <c>InputItem</c>
-         **/
-        static fromServerType(type: string): string;
-        /**
-         * Gets the index of the column by passing the name of the column
-         **/
-        getColumnIndex(columnName: string): number;
-        /**
-         * Gets the data as an array of arrays
-         **/
-        getDataArray(): any[];
-        /**
-         * Gets the value of the specified column at the specified row index
-         **/
-        getValue(columnName: string, rowIndex: number): any;
-        /**
-         * Gets the value at the specified position
-         **/
-        getValueAt(columnIndex: number, rowIndex: number): any;
-        /**
-         * Sets the value at the specified position
-         **/
-        setValue(columnName: string, rowIndex: number, value: any): DataSet;
-        /**
-         * Sets the value at the specified position
-         **/
-        setValueAt(columnIndex: number, rowIndex: number, value: any): DataSet;
+         * Finds the record of the specified <c>id</c>
+         *
+         * @param id
+         * @returns {null}
+         */
+        byId(id: number): DataRecord;
     }
 }
 declare module latte {
@@ -216,6 +216,366 @@ declare module latte {
          * Gets or sets the value at the specified position
          **/
         setValueAt(index: number, value: any): void;
+    }
+}
+declare module latte {
+    interface MessageSucceededCallback {
+        (data: any): void;
+        (): void;
+    }
+    /**
+     * Sends messages to objects on server.
+     * <example>
+     * // ( 1 )
+     * // Execute method Person::computeAge() on person with id 1
+     * var m1 = new Message('Person', 'computeAge', {}, 1);
+     *
+     * m1.send(function(){
+     *   // Log result of computeAge()
+     *   log(this.data);
+     * });
+     *
+     * // ( 2 )
+     * // Execute *static* method Person::count()
+     * var m2 = new Message('Person', 'count');
+     *
+     * m2.send(function(){
+     *   // Log result of count()
+     *   log(this.data);
+     * });
+     *
+     * </example>
+     *
+     * @class
+     */
+    class Message {
+        static log: Message[];
+        /**
+         * Holds the current amount of seconds to execute next retry
+         **/
+        private static _retryCountdown;
+        /**
+         * Pointer to message who is leading the retry mechanism
+         **/
+        private static _retryLeader;
+        /**
+         * Holds the time of last retry
+         **/
+        private static _retryTime;
+        /**
+         * Pointer to timer who executes retry
+         **/
+        private static _retryTimer;
+        /**
+         * Path where requests are made
+         */
+        static readonly pathToRequest: string;
+        /**
+         * Directly sends an array of calls
+         * @param calls
+         * @returns {latte.Message}
+         */
+        static sendCalls(calls: ICall[], callback?: () => void): Message;
+        /**
+         * Assign a function to this property to be executed on global fail. Its executed on the context of the failed message
+         **/
+        static globalFailed: Function;
+        /**
+         * Property field
+         */
+        private static _networkAvailable;
+        /**
+         * Gets or sets a value indicating if the Network is currently available
+         *
+         * @returns {boolean}
+         */
+        /**
+        * Gets or sets a value indicating if the Network is currently available
+        *
+        * @param {boolean} value
+        */
+        static networkAvailable: boolean;
+        /**
+         * Back field for event
+         */
+        private static _networkAvailableChanged;
+        /**
+         * Gets an event raised when the value of the networkAvailable property changes
+         *
+         * @returns {LatteEvent}
+         */
+        static readonly networkAvailableChanged: LatteEvent;
+        /**
+         * Raises the <c>networkAvailable</c> event
+         */
+        static onNetworkAvailableChanged(): void;
+        /**
+         *
+         **/
+        private _loaderText;
+        /**
+         *
+         **/
+        private _working;
+        /**
+         *
+         */
+        private _calls;
+        /**
+         *
+         */
+        critical: boolean;
+        /**
+         * Complete response of message
+         **/
+        response: string;
+        /**
+         * Executed when message response arrives, before parsing it
+         **/
+        _responseArrived: LatteEvent;
+        /**
+         * Executed when message is sent
+         **/
+        _sent: LatteEvent;
+        /**
+         * Executed when message arrives with error
+         **/
+        _failed: LatteEvent;
+        /**
+         * Executed when the network has failed
+         **/
+        _networkFailed: LatteEvent;
+        /**
+         * Creates the message with the specified call
+         **/
+        constructor(moduleName?: string, className?: string, method?: string, methodArgs?: any, id?: number);
+        /**
+         * Adds calls to the calls array
+         * @param calls
+         */
+        addCalls(calls: ICall[]): void;
+        /**
+         * Reacts to data arrived
+         **/
+        dataArrived(data: string): void;
+        /**
+         * Raises the failed event
+         **/
+        onFailed(errorDescription: string): void;
+        /**
+         * Raises the networkFailed event
+         **/
+        onNetworkFailed(): void;
+        /**
+         * Raises the responseArrived event
+         **/
+        onResponseArrived(): void;
+        /**
+         * Raises the <c>sent</c> event
+         **/
+        onSent(): void;
+        /**
+         * Sends the message. Optionally adds event handlers for <c>succeeded</c> and <c>failed</c> events
+         **/
+        send(success?: (data: any) => any, failure?: (errorDesc: string) => any): Message;
+        /**
+         * Gets a value indcating if the message is in progress
+         **/
+        working(): boolean;
+        /**
+         * Gets the calls this message will make
+         *
+         * @returns {Array<RemoteCall>}
+         */
+        readonly calls: ICall[];
+        /**
+         * Gets an event raised when the message fails by network issues or server issues
+         * @returns {LatteEvent}
+         */
+        readonly failed: LatteEvent;
+        /**
+         * Gets an event raised when the network fails
+         * @returns {LatteEvent}
+         */
+        readonly networkFailed: LatteEvent;
+        /**
+         * Gets an event raised when the response arrives
+         * @returns {LatteEvent}
+         */
+        readonly responseArrived: LatteEvent;
+        /**
+         * Gets an event raised when the message is sent
+         * @returns {LatteEvent}
+         */
+        readonly sent: LatteEvent;
+    }
+}
+declare module latte {
+    /**
+     * Represents a call to a remote procedure
+     */
+    class RemoteCall<T> implements ICall {
+        private _className;
+        private _method;
+        private _id;
+        private _params;
+        private _returns;
+        private _beforeSuccess;
+        private _success;
+        private _failure;
+        private _response;
+        /**
+         * Creates the procedure with optional parameters
+         * @param moduleName
+         * @param className
+         * @param method
+         * @param params
+         * @param id
+         * @param returns
+         */
+        constructor(moduleName?: string, className?: string, method?: string, params?: any, id?: number, returns?: T);
+        /**
+         * Gets the marshalled call
+         */
+        marshall(): IDataRemoteCall;
+        /**
+         * Raises the <c>failure</c> event
+         */
+        onFailure(errorDescription: string, errorCode: string): void;
+        onBeforeSuccess(data: T): void;
+        /**
+         * Raises the <c>success</c> event
+         * @param data
+         */
+        onSuccess(data: T): void;
+        /**
+         * Reports a response from server to the call
+         *
+         * @param responseData
+         */
+        respond(responseData: IRemoteResponse): void;
+        /**
+         * Creates a Message object and sends the call, additionally handlers for success and failure may be added.
+         */
+        send(success?: (data: T) => void, failure?: (errorDescription: string) => void): Message;
+        /**
+         * Creates a Message object and sends the call, showing a loader with the specified text
+         * @param loaderText
+         * @param success
+         * @param failure
+         */
+        sendWithLoader(loaderText: string, success?: (data: T) => void, failure?: () => void): Message;
+        /**
+         * Gets a string representation of the call
+         * @returns {*|string}
+         */
+        toString(): string;
+        /**
+         * Adds handlers for success and/or failure and returns the call object
+         * @param success
+         * @param failure
+         * @returns {latte.RemoteCall}
+         */
+        withHandlers(success?: (data: T) => void, failure?: (errorDescription: string) => void): RemoteCall<any>;
+        /**
+         * Gets or sets the name of the class where the procedure is located
+         * @returns {string}
+         */
+        /**
+        * Gets or sets the name of the class where the procedure is located
+        * @param value
+        */
+        className: string;
+        /**
+         * Gets or sets the name of the remote procedure to be called
+         * @returns {string}
+         */
+        /**
+        * Gets or sets the name of the remote procedure to be called
+        * @param value
+        */
+        method: string;
+        /**
+         * Gets an event raised when the call fails
+         * @returns {LatteEvent}
+         */
+        readonly failure: LatteEvent;
+        /**
+         * Property field
+         */
+        private _something;
+        /**
+         * Gets or sets something
+         *
+         * @returns {string}
+         */
+        /**
+        * Gets or sets something
+        *
+        * @param {string} value
+        */
+        something: string;
+        /**
+         * Property field
+         */
+        private _moduleName;
+        /**
+         * Gets or sets the module name
+         *
+         * @returns {string}
+         */
+        /**
+        * Gets or sets the module name
+        *
+        * @param {string} value
+        */
+        moduleName: string;
+        /**
+         * Gets or sets the id of the object instance where procedure should be called
+         * @returns {number}
+         */
+        /**
+        * Gets or sets the id of the object instance where procedure should be called
+        * @param value
+        */
+        id: number;
+        /**
+         * Gets or sets an object representing the parameters to use when calling the remote procedure
+         * @returns {*}
+         */
+        /**
+        * Gets or sets an object representing the parameters to use when calling the remote procedure
+        * @param value
+        */
+        params: any;
+        /**
+         * Gets or sets the response of the message
+         *
+         * @returns {RemoteResponse}
+         */
+        /**
+        * Gets or sets the response of the message
+        *
+        * @param value
+        */
+        response: RemoteResponse<T>;
+        /**
+         * Gets or sets the type of data returned by the remote procedure
+         * @param value
+         */
+        /**
+        * Gets or sets the type of data returned by the remote procedure
+        * @param value
+        */
+        returns: T;
+        /**
+         * Gets an event raised when message arrives successfully
+         */
+        readonly success: LatteEvent;
+        /**
+         * Gets an event raised when message arrives successfully
+         */
+        readonly beforeSuccess: LatteEvent;
     }
 }
 declare module latte {
@@ -711,198 +1071,6 @@ declare module latte {
     }
 }
 declare module latte {
-    interface MessageSucceededCallback {
-        (data: any): void;
-        (): void;
-    }
-    /**
-     * Sends messages to objects on server.
-     * <example>
-     * // ( 1 )
-     * // Execute method Person::computeAge() on person with id 1
-     * var m1 = new Message('Person', 'computeAge', {}, 1);
-     *
-     * m1.send(function(){
-     *   // Log result of computeAge()
-     *   log(this.data);
-     * });
-     *
-     * // ( 2 )
-     * // Execute *static* method Person::count()
-     * var m2 = new Message('Person', 'count');
-     *
-     * m2.send(function(){
-     *   // Log result of count()
-     *   log(this.data);
-     * });
-     *
-     * </example>
-     *
-     * @class
-     */
-    class Message {
-        static log: Message[];
-        /**
-         * Holds the current amount of seconds to execute next retry
-         **/
-        private static _retryCountdown;
-        /**
-         * Pointer to message who is leading the retry mechanism
-         **/
-        private static _retryLeader;
-        /**
-         * Holds the time of last retry
-         **/
-        private static _retryTime;
-        /**
-         * Pointer to timer who executes retry
-         **/
-        private static _retryTimer;
-        /**
-         * Path where requests are made
-         */
-        static readonly pathToRequest: string;
-        /**
-         * Directly sends an array of calls
-         * @param calls
-         * @returns {latte.Message}
-         */
-        static sendCalls(calls: ICall[], callback?: () => void): Message;
-        /**
-         * Assign a function to this property to be executed on global fail. Its executed on the context of the failed message
-         **/
-        static globalFailed: Function;
-        /**
-         * Property field
-         */
-        private static _networkAvailable;
-        /**
-         * Gets or sets a value indicating if the Network is currently available
-         *
-         * @returns {boolean}
-         */
-        /**
-        * Gets or sets a value indicating if the Network is currently available
-        *
-        * @param {boolean} value
-        */
-        static networkAvailable: boolean;
-        /**
-         * Back field for event
-         */
-        private static _networkAvailableChanged;
-        /**
-         * Gets an event raised when the value of the networkAvailable property changes
-         *
-         * @returns {LatteEvent}
-         */
-        static readonly networkAvailableChanged: LatteEvent;
-        /**
-         * Raises the <c>networkAvailable</c> event
-         */
-        static onNetworkAvailableChanged(): void;
-        /**
-         *
-         **/
-        private _loaderText;
-        /**
-         *
-         **/
-        private _working;
-        /**
-         *
-         */
-        private _calls;
-        /**
-         *
-         */
-        critical: boolean;
-        /**
-         * Complete response of message
-         **/
-        response: string;
-        /**
-         * Executed when message response arrives, before parsing it
-         **/
-        _responseArrived: LatteEvent;
-        /**
-         * Executed when message is sent
-         **/
-        _sent: LatteEvent;
-        /**
-         * Executed when message arrives with error
-         **/
-        _failed: LatteEvent;
-        /**
-         * Executed when the network has failed
-         **/
-        _networkFailed: LatteEvent;
-        /**
-         * Creates the message with the specified call
-         **/
-        constructor(moduleName?: string, className?: string, method?: string, methodArgs?: any, id?: number);
-        /**
-         * Adds calls to the calls array
-         * @param calls
-         */
-        addCalls(calls: ICall[]): void;
-        /**
-         * Reacts to data arrived
-         **/
-        dataArrived(data: string): void;
-        /**
-         * Raises the failed event
-         **/
-        onFailed(errorDescription: string): void;
-        /**
-         * Raises the networkFailed event
-         **/
-        onNetworkFailed(): void;
-        /**
-         * Raises the responseArrived event
-         **/
-        onResponseArrived(): void;
-        /**
-         * Raises the <c>sent</c> event
-         **/
-        onSent(): void;
-        /**
-         * Sends the message. Optionally adds event handlers for <c>succeeded</c> and <c>failed</c> events
-         **/
-        send(success?: (data: any) => any, failure?: (errorDesc: string) => any): Message;
-        /**
-         * Gets a value indcating if the message is in progress
-         **/
-        working(): boolean;
-        /**
-         * Gets the calls this message will make
-         *
-         * @returns {Array<RemoteCall>}
-         */
-        readonly calls: ICall[];
-        /**
-         * Gets an event raised when the message fails by network issues or server issues
-         * @returns {LatteEvent}
-         */
-        readonly failed: LatteEvent;
-        /**
-         * Gets an event raised when the network fails
-         * @returns {LatteEvent}
-         */
-        readonly networkFailed: LatteEvent;
-        /**
-         * Gets an event raised when the response arrives
-         * @returns {LatteEvent}
-         */
-        readonly responseArrived: LatteEvent;
-        /**
-         * Gets an event raised when the message is sent
-         * @returns {LatteEvent}
-         */
-        readonly sent: LatteEvent;
-    }
-}
-declare module latte {
     /**
      * Binds one source to
      */
@@ -987,173 +1155,5 @@ declare module latte {
          * @returns {DataBindActor}
          */
         readonly targetActor: DataBindActor;
-    }
-}
-declare module latte {
-    /**
-     * Represents a call to a remote procedure
-     */
-    class RemoteCall<T> implements ICall {
-        private _className;
-        private _method;
-        private _id;
-        private _params;
-        private _returns;
-        private _beforeSuccess;
-        private _success;
-        private _failure;
-        private _response;
-        /**
-         * Creates the procedure with optional parameters
-         * @param moduleName
-         * @param className
-         * @param method
-         * @param params
-         * @param id
-         * @param returns
-         */
-        constructor(moduleName?: string, className?: string, method?: string, params?: any, id?: number, returns?: T);
-        /**
-         * Gets the marshalled call
-         */
-        marshall(): IDataRemoteCall;
-        /**
-         * Raises the <c>failure</c> event
-         */
-        onFailure(errorDescription: string, errorCode: string): void;
-        onBeforeSuccess(data: T): void;
-        /**
-         * Raises the <c>success</c> event
-         * @param data
-         */
-        onSuccess(data: T): void;
-        /**
-         * Reports a response from server to the call
-         *
-         * @param responseData
-         */
-        respond(responseData: IRemoteResponse): void;
-        /**
-         * Creates a Message object and sends the call, additionally handlers for success and failure may be added.
-         */
-        send(success?: (data: T) => void, failure?: (errorDescription: string) => void): Message;
-        /**
-         * Creates a Message object and sends the call, showing a loader with the specified text
-         * @param loaderText
-         * @param success
-         * @param failure
-         */
-        sendWithLoader(loaderText: string, success?: (data: T) => void, failure?: () => void): Message;
-        /**
-         * Gets a string representation of the call
-         * @returns {*|string}
-         */
-        toString(): string;
-        /**
-         * Adds handlers for success and/or failure and returns the call object
-         * @param success
-         * @param failure
-         * @returns {latte.RemoteCall}
-         */
-        withHandlers(success?: (data: T) => void, failure?: (errorDescription: string) => void): RemoteCall<any>;
-        /**
-         * Gets or sets the name of the class where the procedure is located
-         * @returns {string}
-         */
-        /**
-        * Gets or sets the name of the class where the procedure is located
-        * @param value
-        */
-        className: string;
-        /**
-         * Gets or sets the name of the remote procedure to be called
-         * @returns {string}
-         */
-        /**
-        * Gets or sets the name of the remote procedure to be called
-        * @param value
-        */
-        method: string;
-        /**
-         * Gets an event raised when the call fails
-         * @returns {LatteEvent}
-         */
-        readonly failure: LatteEvent;
-        /**
-         * Property field
-         */
-        private _something;
-        /**
-         * Gets or sets something
-         *
-         * @returns {string}
-         */
-        /**
-        * Gets or sets something
-        *
-        * @param {string} value
-        */
-        something: string;
-        /**
-         * Property field
-         */
-        private _moduleName;
-        /**
-         * Gets or sets the module name
-         *
-         * @returns {string}
-         */
-        /**
-        * Gets or sets the module name
-        *
-        * @param {string} value
-        */
-        moduleName: string;
-        /**
-         * Gets or sets the id of the object instance where procedure should be called
-         * @returns {number}
-         */
-        /**
-        * Gets or sets the id of the object instance where procedure should be called
-        * @param value
-        */
-        id: number;
-        /**
-         * Gets or sets an object representing the parameters to use when calling the remote procedure
-         * @returns {*}
-         */
-        /**
-        * Gets or sets an object representing the parameters to use when calling the remote procedure
-        * @param value
-        */
-        params: any;
-        /**
-         * Gets or sets the response of the message
-         *
-         * @returns {RemoteResponse}
-         */
-        /**
-        * Gets or sets the response of the message
-        *
-        * @param value
-        */
-        response: RemoteResponse<T>;
-        /**
-         * Gets or sets the type of data returned by the remote procedure
-         * @param value
-         */
-        /**
-        * Gets or sets the type of data returned by the remote procedure
-        * @param value
-        */
-        returns: T;
-        /**
-         * Gets an event raised when message arrives successfully
-         */
-        readonly success: LatteEvent;
-        /**
-         * Gets an event raised when message arrives successfully
-         */
-        readonly beforeSuccess: LatteEvent;
     }
 }

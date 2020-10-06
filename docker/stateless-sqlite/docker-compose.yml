@@ -10,5 +10,6 @@ services:
     volumes:
       - ./php.ini:/usr/local/etc/php/php.ini
     environment:
+#      - LOG_LEVEL=trace
       - FRAGMENT_DATA_DRIVER=sqlite
       - FRAGMENT_ROOT_PASSWORD=root

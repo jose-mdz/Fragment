@@ -1511,22 +1511,6 @@ declare module latte {
  * Created by josemanuel on 9/19/16.
  */
 declare module latte {
-    interface IFragments {
-        [index: string]: IFragment;
-    }
-}
-declare module latte {
-    interface IImageDescription {
-        "image-alt-text": string;
-        "image-desc-text": string;
-        "image-width": string;
-        "image-height": string;
-    }
-}
-/**
- * Created by josemanuel on 9/19/16.
- */
-declare module latte {
     interface IFragment {
         name?: string;
         key?: string;
@@ -1550,27 +1534,27 @@ declare module latte {
  * Created by josemanuel on 9/19/16.
  */
 declare module latte {
-    interface IPageConfiguration {
-        fragments?: IFragments;
-        children?: IPageConfigurationChildren;
-        settings?: IPageConfigurationSettings;
-    }
-}
-declare module latte {
-    interface IImageFragment extends IFragment {
-        "image-fit": "aspect-fit" | "aspect-fill" | "aspect-fill-far" | "aspect-fill-near";
-        "image-width": number;
-        "image-height": number;
+    interface IFragments {
+        [index: string]: IFragment;
     }
 }
 /**
  * Created by josemanuel on 9/19/16.
  */
 declare module latte {
-    interface IPageConfigurationChildren {
-        mayHaveChildren?: boolean;
-        settings?: IPageConfigurationSettings;
-        fragments?: IFragments;
+    /**
+     *
+     */
+    interface IGlobalConfigSettings {
+        [key: string]: IGlobalConfigSetting;
+    }
+}
+declare module latte {
+    interface IImageDescription {
+        "image-alt-text": string;
+        "image-desc-text": string;
+        "image-width": string;
+        "image-height": string;
     }
 }
 /**
@@ -1588,18 +1572,37 @@ declare module latte {
  * Created by josemanuel on 9/19/16.
  */
 declare module latte {
-    interface IPageSettingsPack {
-        config: string;
-        parentConfig: string;
-        settings: Setting[];
+    interface IPageConfigurationChildren {
+        mayHaveChildren?: boolean;
+        settings?: IPageConfigurationSettings;
+        fragments?: IFragments;
+    }
+}
+declare module latte {
+    interface IImageFragment extends IFragment {
+        "image-fit": "aspect-fit" | "aspect-fill" | "aspect-fill-far" | "aspect-fill-near";
+        "image-width": number;
+        "image-height": number;
     }
 }
 /**
  * Created by josemanuel on 9/19/16.
  */
 declare module latte {
-    interface IPageConfigurationSettings {
-        [index: string]: IPageConfigurationSetting;
+    interface IPageConfiguration {
+        fragments?: IFragments;
+        children?: IPageConfigurationChildren;
+        settings?: IPageConfigurationSettings;
+    }
+}
+/**
+ * Created by josemanuel on 9/19/16.
+ */
+declare module latte {
+    interface IPageSettingsPack {
+        config: string;
+        parentConfig: string;
+        settings: Setting[];
     }
 }
 /**
@@ -1619,11 +1622,8 @@ declare module latte {
  * Created by josemanuel on 9/19/16.
  */
 declare module latte {
-    /**
-     *
-     */
-    interface IGlobalConfigSettings {
-        [key: string]: IGlobalConfigSetting;
+    interface IPageConfigurationSettings {
+        [index: string]: IPageConfigurationSetting;
     }
 }
 /**
@@ -2254,6 +2254,41 @@ declare module latte {
     }
 }
 /**
+ * Created by josemanuel on 9/14/16.
+ */
+declare module latte {
+    /**
+     * Folder of global settings
+     */
+    class GlobalSettingsExplorer extends ExplorerItem {
+        /**
+         * Creates the item
+         */
+        constructor();
+        /**
+         * Override.
+         * @returns {latte.ColumnHeader[]}
+         */
+        getColumnHeaders(): ColumnHeader[];
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+    }
+}
+/**
  * Created by josemanuel on 7/14/16.
  */
 declare module latte {
@@ -2286,70 +2321,6 @@ declare module latte {
          * Boots the script
          */
         constructor();
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class GroupUserExplorer extends ExplorerItemDataRecord<GroupUser> {
-        /**
-         *
-         */
-        constructor(r?: GroupUser);
-        /**
-         * Gets the columns of the item
-         * @Override
-         */
-        getColumns(): string[];
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-    }
-}
-declare module latte {
-    /**
-     *
-     */
-    class UaEvents {
-        /**
-         * Raises the <c>initializedExplorer</c> event
-         */
-        static onInitializedExplorer(cmsExplorer: CmsExplorer): void;
-        /**
-         * Raises the <c>initializingExplorer</c> event
-         */
-        static onInitializingExplorer(cmsExplorer: CmsExplorer): void;
-        /**
-         * Back field for event
-         */
-        private static _initializingExplorer;
-        /**
-         * Gets an event raised when the explorer is being initialized
-         *
-         * @returns {LatteEvent}
-         */
-        static readonly initializingExplorer: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private static _initializedExplorer;
-        /**
-         * Gets an event raised when the explorer has been initialized
-         *
-         * @returns {LatteEvent}
-         */
-        static readonly initializedExplorer: LatteEvent;
     }
 }
 /**
@@ -2440,6 +2411,41 @@ declare module latte {
         settingIcon: IconItem;
     }
 }
+declare module latte {
+    /**
+     *
+     */
+    class UaEvents {
+        /**
+         * Raises the <c>initializedExplorer</c> event
+         */
+        static onInitializedExplorer(cmsExplorer: CmsExplorer): void;
+        /**
+         * Raises the <c>initializingExplorer</c> event
+         */
+        static onInitializingExplorer(cmsExplorer: CmsExplorer): void;
+        /**
+         * Back field for event
+         */
+        private static _initializingExplorer;
+        /**
+         * Gets an event raised when the explorer is being initialized
+         *
+         * @returns {LatteEvent}
+         */
+        static readonly initializingExplorer: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private static _initializedExplorer;
+        /**
+         * Gets an event raised when the explorer has been initialized
+         *
+         * @returns {LatteEvent}
+         */
+        static readonly initializedExplorer: LatteEvent;
+    }
+}
 /**
  * Created by josemanuel on 8/5/16.
  */
@@ -2473,6 +2479,246 @@ declare module latte {
          * @Override
          */
         getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageExplorer extends ExplorerItemDataRecord<Page> {
+        /**
+         * Creates the Item
+         */
+        constructor(r: Page);
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Override
+         */
+        getColumnHeaders(): ColumnHeader[];
+        /**
+         * Gets the columns of the item
+         * @Override
+         */
+        getColumns(): string[];
+        /**
+         * Gets the width of columns
+         * @Override
+         */
+        getColumnWithFor(name: string): number;
+        /**
+         * Gets the detail view of the item
+         * @Override
+         */
+        getDetailView(): View;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class GroupsExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class GroupUserExplorer extends ExplorerItemDataRecord<GroupUser> {
+        /**
+         *
+         */
+        constructor(r?: GroupUser);
+        /**
+         * Gets the columns of the item
+         * @Override
+         */
+        getColumns(): string[];
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PagesExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Gets the loader of children items
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Override
+         */
+        getColumnHeaders(): ColumnHeader[];
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class UsersExplorer extends ExplorerItem {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Override.
+         * @returns {latte.ColumnHeader[]}
+         */
+        getColumnHeaders(): ColumnHeader[];
+        /**
+         * Gets the loader of children items
+         *
+         * @Override
+         */
+        getChildrenLoader(): RemoteCall<any>;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Gets the items (actions) of the item
+         * @Override
+         */
+        getItems(): Item[];
+    }
+}
+/**
+ * Created by josemanuel on 8/5/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class UserExplorer extends ExplorerItemDataRecord<User> {
+        /**
+         *
+         */
+        constructor(r: User);
+        private changePassword;
+        /**
+        * Gets the columns of the item
+        * @Override
+        */
+        getColumns(): string[];
+        /**
+         * Gets the detail view of the item
+         * @Override
+         */
+        getDetailView(): View;
+        /**
+         * Gets the name of the item
+         * @Override
+         */
+        getName(): string;
+        /**
+         * Gets the icon of the item
+         * @Override
+         */
+        getIcon(): IconItem;
+        /**
+         * Field for btnChangePassword property
+         */
+        private _btnChangePassword;
+        /**
+         * Gets the change password button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnChangePassword: ButtonItem;
     }
 }
 /**
@@ -2595,259 +2841,6 @@ declare module latte {
         * @param {number} value
         */
         width: number;
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageExplorer extends ExplorerItemDataRecord<Page> {
-        /**
-         * Creates the Item
-         */
-        constructor(r: Page);
-        /**
-         * Gets the loader of children items
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Override
-         */
-        getColumnHeaders(): ColumnHeader[];
-        /**
-         * Gets the columns of the item
-         * @Override
-         */
-        getColumns(): string[];
-        /**
-         * Gets the width of columns
-         * @Override
-         */
-        getColumnWithFor(name: string): number;
-        /**
-         * Gets the detail view of the item
-         * @Override
-         */
-        getDetailView(): View;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class GroupsExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PagesExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Gets the loader of children items
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Override
-         */
-        getColumnHeaders(): ColumnHeader[];
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class FragmentAdapterManager {
-        private static _adapters;
-        /**
-         * Gets the adapter for the supported type
-         *
-         * @param type
-         * @returns {any|null}
-         */
-        static byType(type: string): FragmentAdapter<IFragment>;
-        /**
-         * Gets the list of loaded plugins
-         *
-         * @returns {Plugin[]}
-         */
-        static getLoadedAdapters(): FragmentAdapter<IFragment>[];
-        /**
-         * Returns a value indicating if the specified type is supported by the manager
-         *
-         * @param type
-         * @returns {boolean}
-         */
-        static isSupported(type: string): boolean;
-        /**
-         * Loads the specified plugin. If the plugin is already loaded, it will ignore it.
-         * @param p
-         */
-        static register(type: string, className: string): void;
-        /**
-         * Unloads the specified plugin. Ignored if plugin wasn't loaded
-         *
-         * @param f
-         */
-        static unregister(type: string): void;
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class UserExplorer extends ExplorerItemDataRecord<User> {
-        /**
-         *
-         */
-        constructor(r: User);
-        private changePassword;
-        /**
-        * Gets the columns of the item
-        * @Override
-        */
-        getColumns(): string[];
-        /**
-         * Gets the detail view of the item
-         * @Override
-         */
-        getDetailView(): View;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Field for btnChangePassword property
-         */
-        private _btnChangePassword;
-        /**
-         * Gets the change password button
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnChangePassword: ButtonItem;
-    }
-}
-/**
- * Created by josemanuel on 8/5/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class UsersExplorer extends ExplorerItem {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Override.
-         * @returns {latte.ColumnHeader[]}
-         */
-        getColumnHeaders(): ColumnHeader[];
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-        /**
-         * Gets the items (actions) of the item
-         * @Override
-         */
-        getItems(): Item[];
     }
 }
 /**
@@ -3032,1393 +3025,187 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 9/27/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class ImageLoader {
-        /**
-         *
-         */
-        constructor(src: string);
-        /**
-         * Starts the load
-         */
-        start(): void;
-        /**
-         * Raises the <c>ended</c> event
-         */
-        onEnded(): void;
-        /**
-         * Raises the <c>progress</c> event
-         */
-        onProgressChanged(): void;
-        /**
-         * Raises the <c>started</c> event
-         */
-        onStarted(): void;
-        /**
-         * Back field for event
-         */
-        private _ended;
-        /**
-         * Gets an event raised when the load has ended
-         *
-         * @returns {LatteEvent}
-         */
-        readonly ended: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _progressChanged;
-        /**
-         * Gets an event raised when the value of the progress property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly progressChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _started;
-        /**
-         * Gets an event raised when the load has started
-         *
-         * @returns {LatteEvent}
-         */
-        readonly started: LatteEvent;
-        /**
-         * Property field
-         */
-        private _hasStarted;
-        /**
-         * Gets a value indicating if the load has started
-         *
-         * @returns {boolean}
-         */
-        readonly hasStarted: boolean;
-        /**
-         * Property field
-         */
-        private _hasEnded;
-        /**
-         * Gets a value indicating if the load has ended
-         *
-         * @returns {boolean}
-         */
-        readonly hasEnded: boolean;
-        /**
-         * Property field
-         */
-        private _progress;
-        /**
-         * Gets or sets the progress of the load
-         *
-         * @returns {number}
-         */
-        /**
-        * Gets or sets the progress of the load
-        *
-        * @param {number} value
-        */
-        progress: number;
-        /**
-         * Property field
-         */
-        private _resultBytes;
-        /**
-         * Gets the number of bytes
-         *
-         * @returns {number}
-         */
-        readonly resultBytes: number;
-        /**
-         * Field for resultImage property
-         */
-        private _resultImage;
-        /**
-         * Gets the result image
-         *
-         * @returns {HTMLImageElement}
-         */
-        readonly resultImage: HTMLImageElement;
-        /**
-         * Property field
-         */
-        private _resultSrc;
-        /**
-         * Gets the result source
-         *
-         * @returns {string}
-         */
-        readonly resultSrc: string;
-        /**
-         * Property field
-         */
-        private _src;
-        /**
-         * Gets the src of the image to load
-         *
-         * @returns {string}
-         */
-        readonly src: string;
-    }
-}
-/**
  * Created by josemanuel on 7/26/16.
  */
 declare module latte {
     /**
      *
      */
-    class Plugin {
+    class FragmentAdapterManager {
+        private static _adapters;
         /**
+         * Gets the adapter for the supported type
          *
+         * @param type
+         * @returns {any|null}
          */
-        constructor();
-        /**
-         * Raises the <c>load</c> event
-         */
-        onLoad(): void;
-        /**
-         * Raises the <c>unload</c> event
-         */
-        onUnload(): void;
-        /**
-         * Back field for event
-         */
-        private _load;
-        /**
-         * Gets an event raised when the plugin is loaded
-         *
-         * @returns {LatteEvent}
-         */
-        readonly load: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _unload;
-        /**
-         * Gets an event raised when the plugin is unloaded
-         *
-         * @returns {LatteEvent}
-         */
-        readonly unload: LatteEvent;
-    }
-}
-/**
- * Created by josemanuel on 9/14/16.
- */
-declare module latte {
-    /**
-     * Folder of global settings
-     */
-    class GlobalSettingsExplorer extends ExplorerItem {
-        /**
-         * Creates the item
-         */
-        constructor();
-        /**
-         * Override.
-         * @returns {latte.ColumnHeader[]}
-         */
-        getColumnHeaders(): ColumnHeader[];
-        /**
-         * Gets the loader of children items
-         *
-         * @Override
-         */
-        getChildrenLoader(): RemoteCall<any>;
-        /**
-         * Gets the name of the item
-         * @Override
-         */
-        getName(): string;
-        /**
-         * Gets the icon of the item
-         * @Override
-         */
-        getIcon(): IconItem;
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     * Manages the plugins of the program
-     */
-    class PluginManager {
-        private static _plugins;
+        static byType(type: string): FragmentAdapter<IFragment>;
         /**
          * Gets the list of loaded plugins
          *
          * @returns {Plugin[]}
          */
-        static getLoadedPlugins(): Plugin[];
+        static getLoadedAdapters(): FragmentAdapter<IFragment>[];
+        /**
+         * Returns a value indicating if the specified type is supported by the manager
+         *
+         * @param type
+         * @returns {boolean}
+         */
+        static isSupported(type: string): boolean;
         /**
          * Loads the specified plugin. If the plugin is already loaded, it will ignore it.
          * @param p
          */
-        static load(p: Plugin): void;
+        static register(type: string, className: string): void;
         /**
          * Unloads the specified plugin. Ignored if plugin wasn't loaded
          *
-         * @param plugin
+         * @param f
          */
-        static unload(plugin: Plugin): void;
+        static unregister(type: string): void;
     }
 }
 /**
- * Created by josemanuel on 7/26/16.
+ * Created by josemanuel on 4/29/15.
  */
 declare module latte {
+    interface ICropBounds {
+        top?: number;
+        left?: number;
+        right?: number;
+        bottom?: number;
+    }
+    enum ImageFit {
+        AspectFit = 0,
+        AspectFill = 1,
+        AspectFillNear = 2,
+        AspectFillFar = 3
+    }
+    interface ImageExportOptions {
+        size: Size;
+        type?: string;
+        quality?: number;
+        background?: Color;
+        fit: ImageFit;
+        resize?: boolean;
+    }
     /**
      *
      */
-    class PlainTextFragmentAdapter extends FragmentAdapter<IFragment> {
+    class ImageUtil {
+        static DEFAULT_QUALITY: number;
+        static DEFAULT_TYPE: string;
         /**
-         * Override. Raises the <c>createEditorItem</c> event
+         * Returns the amount of bytes on the specified string
+         * @param base64
+         * @returns {number}
          */
-        onCreateEditorItem(): void;
+        static base64ByteSize(base64: string): number;
         /**
-         * Field for textbox property
+         * Parses ImageFit from specified string
+         * @param fit
+         * @returns {any}
          */
-        private _textbox;
-        private baseScrollHeight;
-        private heightCheck;
+        static imageFitFromString(fit: string): ImageFit;
         /**
-         * Gets the textbox element
+         * Creates an icon of the specified file, assuming it's an image file.
          *
-         * @returns {Element<HTMLTextAreaElement>}
-         */
-        readonly textbox: Element<HTMLTextAreaElement>;
-    }
-}
-/**
- * Created by josemanuel on 7/27/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class HtmlFragmentAdapter extends FragmentAdapter<IFragment> {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Override
-         */
-        getEditorTabs(): TabItem[];
-        /**
-         * Returns the items for the ribbon of the view
-         * @returns {Array}
-         */
-        getEditorTabItems(): Item[];
-        /**
-         * Override. Raises the <c>createEditorItem</c> event
-         */
-        onCreateEditorItem(): void;
-        /**
-         * Field for htmlEditor property
-         */
-        private _htmlEditor;
-        /**
-         * Gets the html editor
-         *
-         * @returns {HtmlEditorItem}
-         */
-        readonly htmlEditor: HtmlEditorItem;
-        /**
-         * Field for tabFormat property
-         */
-        private _tabFormat;
-        /**
-         * Gets the format tab
-         *
-         * @returns {TabItem}
-         */
-        readonly tabFormat: TabItem;
-        /**
-         * Field for formatItems property
-         */
-        private _formatItems;
-        /**
-         * Gets the format items
-         *
-         * @returns {Item[]}
-         */
-        readonly formatItems: Item[];
-    }
-}
-/**
- * Created by josemanuel on 7/26/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class FragmentExpandoItem extends ItemStack {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Raises the <c>fragmentItem</c> event
-         */
-        onFragmentItemChanged(): void;
-        /**
-         * Raises the <c>expanded</c> event
-         */
-        onExpandedChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _expandedChanged;
-        /**
-         * Gets an event raised when the value of the expanded property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly expandedChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _fragmentItemChanged;
-        /**
-         * Gets an event raised when the value of the fragmentItem property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly fragmentItemChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _expanded;
-        /**
-         * Gets or sets a value indicating if the expando is expanded
-         *
-         * @returns {boolean}
-         */
-        /**
-        * Gets or sets a value indicating if the expando is expanded
-        *
-        * @param {boolean} value
-        */
-        expanded: boolean;
-        /**
-         * Property field
-         */
-        private _fragmentItem;
-        /**
-         * Gets or sets the fragment item of the expando
-         *
-         * @returns {Item}
-         */
-        /**
-        * Gets or sets the fragment item of the expando
-        *
-        * @param {Item} value
-        */
-        fragmentItem: Item;
-        /**
-         * Gets or sets the title of the expando
-         *
-         * @returns {string}
-         */
-        /**
-        * Gets or sets the title of the expando
-        *
-        * @param {string} value
-        */
-        title: string;
-        /**
-         * Field for btnFold property
-         */
-        private _btnFold;
-        /**
-         * Gets the fold button
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnFold: ButtonItem;
-        /**
-         * Field for lblTitle property
-         */
-        private _lblTitle;
-        /**
-         * Gets the title label
-         *
-         * @returns {LabelItem}
-         */
-        readonly lblTitle: LabelItem;
-        /**
-         * Field for toolbar property
-         */
-        private _toolbar;
-        /**
-         * Gets the toolbar of the expando
-         *
-         * @returns {Toolbar}
-         */
-        readonly toolbar: Toolbar;
-    }
-}
-/**
- * Created by josemanuel on 10/9/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class FragmentPlaceholderItem extends Item {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Raises the <c>click</c> event
-         */
-        onClick(): void;
-        /**
-         * Raises the <c>dragEnd</c> event
-         */
-        onDragEnd(e: DragEvent): void;
-        /**
-         * Raises the <c>dragging</c> event
-         */
-        onDraggingChanged(): void;
-        /**
-         * Raises the <c>dragStart</c> event
-         */
-        onDragStart(e: DragEvent): void;
-        /**
-         * Raises the <c>drop</c> event
-         */
-        onDrop(e: DragEvent): void;
-        /**
-         * Raises the <c>emptyIcon</c> event
-         */
-        onEmptyIconChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _click;
-        /**
-         * Gets an event raised when user clicks the control
-         *
-         * @returns {LatteEvent}
-         */
-        readonly click: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _dragEnd;
-        /**
-         * Gets an event raised when the drag operation ends
-         *
-         * @returns {LatteEvent}
-         */
-        readonly dragEnd: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _draggingChanged;
-        /**
-         * Gets an event raised when the value of the dragging property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly draggingChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _dragStart;
-        /**
-         * Gets an event raised when a drag operation starts
-         *
-         * @returns {LatteEvent}
-         */
-        readonly dragStart: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _drop;
-        /**
-         * Gets an event raised when the user drops data
-         *
-         * @returns {LatteEvent}
-         */
-        readonly drop: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _emptyIconChanged;
-        /**
-         * Gets an event raised when the value of the emptyIcon property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly emptyIconChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _allowDrop;
-        /**
-         * Gets or sets a value indicating if the placeholder allows drop
-         *
-         * @returns {boolean}
-         */
-        /**
-        * Gets or sets a value indicating if the placeholder allows drop
-        *
-        * @param {boolean} value
-        */
-        allowDrop: boolean;
-        /**
-         * Property field
-         */
-        private _dragging;
-        /**
-         * Gets or sets a value indicating if the user is dragging something over the item
-         *
-         * @returns {boolean}
-         */
-        /**
-        * Gets or sets a value indicating if the user is dragging something over the item
-        *
-        * @param {boolean} value
-        */
-        dragging: boolean;
-        /**
-         * Property field
-         */
-        private _emptyIcon;
-        /**
-         * Gets or sets the icon item
-         *
-         * @returns {IconItem}
-         */
-        /**
-        * Gets or sets the icon item
-        *
-        * @param {IconItem} value
-        */
-        emptyIcon: IconItem;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table fragment
-     */
-    class Fragment extends fragmentBase {
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table group
-     */
-    class Group extends groupBase {
-        /**
-         * Gets the suggestion loader
-         * @returns {*}
-         */
-        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Returns a string representation of the object
-         */
-        toString(): string;
-    }
-}
-declare module latte {
-    /**
-     * File Record
-     **/
-    class File extends fileBase {
-        /**
-         * Gets an array of files belonging to the specified record
-         **/
-        static byRecord(record: DataRecord, callback: (arr: Array<File>) => any): Message;
-        /**
-         * Gets the extension of the file
-         * @param ext
-         * @returns {string}
-         */
-        static extensionOf(ext: string): string;
-        /**
-         * Returns a value indicating if the extension is an image extension
-         * @param e
-         * @returns {boolean}
-         */
-        static isImageExtension(e: string): boolean;
-        /**
-         * Gets the name of the file without extension
-         * @param fileName
-         */
-        static nameWithoutExtensionOf(fileName: string): string;
-        /**
-         * Makes a single upload of a file with the specified record as owner
-         *
-         * @param owner
-         * @param idOwner
+         * @param file
+         * @param options
          * @param callback
          */
-        static singleUpload(owner: string, idOwner: string, callback?: (File: any) => any): void;
+        static createThumbOfFile(file: any, options: ImageExportOptions, callback?: (dataUrl: string) => any): void;
         /**
-         * Gets the human size of specified amount of bytes
+         * Creates an icon of the specified image.
+         * This algorithm is stored under the name _Steps because it makes n steps
+         * to scale down the image. It proved to be ineficient and results unwanted.
+         * @param image
          * @param size
          * @returns {string}
          */
-        static humanSizeOf(size?: number): string;
+        static createThumbOfImage_Steps(image: HTMLImageElement, size: Size): string;
         /**
-         * Gets an URL for the specified path, by using the default bucket
-         **/
-        static urlOfPath(path: string): string;
-        children: File[];
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Creates a thumb that fits on the specified size
-         *
+         * Crops the image with the specified crop bounds.
+         * Crop bounds are referenced as dimensions from the edges to the specified property.
+         * @param image
+         * @param crop
          * @param options
-         * @param key
+         * @returns {HTMLImageElement|HTMLElement}
+         */
+        static cropImage(image: HTMLImageElement, crop: ICropBounds, options?: ImageExportOptions): HTMLImageElement;
+        /**
+         * Resize Images
+         *
+         * @param {HTMLImageElement} image
+         * @param {latte.ImageExportOptions} options
+         * @return {string}
+         */
+        static resizeImage(image: HTMLImageElement, options: ImageExportOptions): string;
+        /**
+         * Creates a smaller version of the image.
+         * @param image
+         * @param options
+         */
+        static createThumbOfImage(image: HTMLImageElement, options: ImageExportOptions): string;
+        private static resample_hermite;
+        /**
+         * Creates an icon of the specified url image
+         *
+         * @param url
+         * @param options
          * @param callback
          */
-        createThumbChild(options: ImageExportOptions, key: string, callback?: (child: File) => void): void;
+        static createThumbOfUrl(url: string, options: ImageExportOptions, callback?: (dataUrl: string) => any): void;
         /**
-         * Searches for the child of the specified description. Returns null if not found.
-         * @param key
-         * @returns {any}
+         * Gets the base64 data of the specified data url
+         * @param dataUrl
          */
-        getChildByKey(key: string): File;
+        static getBase64(dataUrl: string): string;
         /**
-         * Override.
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Gets a value indicating if the file can be manipulated
-         **/
-        readonly canManipulate: boolean;
-        /**
-         * Gets the extension of the file, without the dot.
-         The extension is returned always as a lowercase string.
-         If the file has no name set, null will be returned. If the name has no extension,
-         empty string will be returned.
-         **/
-        readonly extension: string;
-        /**
-         * Gets the human size of the file
-         **/
-        readonly humanSize: string;
-        /**
-         * Gets a value indicating if the file is an image
-         **/
-        readonly isImage: boolean;
-        /**
-         * Gets the url for downloading the file
-         **/
-        readonly url: string;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table setting
-     */
-    class Setting extends settingBase {
-        /**
-         * Buffer of settings
-         * @type {{}}
-         */
-        private static globalBuffer;
-        /**
-         * Clears the buffer of loaded global settings
-         */
-        static clearGlobalSettingsBuffer(): void;
-        /**
-         * Goes to the server for a global setting. It buffers it locally.
-         * @param name
+         * Reads the file and returns de data as dataUrl in the callback
+         * @param url
          * @param callback
          */
-        static getGlobalBuffered(name: string, callback: (s: Setting) => void): void;
-        settingType: string;
+        static readFileAsDataUrl(file: any, callback: (dataUrl: string) => any): void;
         /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table user
-     */
-    class User extends userBase {
-        static FLAG_ROOT_USER: number;
-        static FLAG_SYS_ADMIN: number;
-        static FLAG_BANNED_USER: number;
-        static FLAG_TRASH: number;
-        static FLAG_USE_BACKEND: number;
-        static me: User;
-        /**
-         * Gets the suggestion loader
-         * @returns {*}
-         */
-        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Returns a value indicating if the user belongs to the specified group
-         * @param idgroup
-         * @returns {boolean}
-         */
-        inGroup(idgroup: number): boolean;
-        /**
-         * Returns a string representation of the object
-         */
-        toString(): string;
-        /**
-         * Gets a string with attributes of the record
-         *
+         * Gets the image encoded as base64 data
+         * @param image
          * @returns {string}
          */
-        readonly attributes: string;
+        static getImageAsBase64(image: HTMLImageElement): string;
         /**
-         * Gets a value indicating if the user is able to use the backend
-         *
+         * Gets the mimetype of the specified extension.
+         * Pass extension either with or without dot at the first character.
+         * @param extension
+         */
+        static mimeTypeOf(extension: string): string;
+        /**
+         * Returns a value indicating if the specified mimetype is compressabel
+         * @param mimeType
          * @returns {boolean}
          */
-        readonly canUseBackend: boolean;
+        static mimeTypeCompressable(mimeType: string): boolean;
         /**
-         * Gets the flags as a string
-         *
-         * @returns {string}
-         */
-        readonly flagsString: string;
-        /**
-         * Property field
-         */
-        private _groups;
-        /**
-         * Gets or sets the groups of the record
-         *
-         * @returns {Group[]}
-         */
-        /**
-        * Gets or sets the groups of the record
-        *
-        * @param {Group[]} value
-        */
-        groups: Group[];
-        /**
-         * Gets a value indicating if the user is banned
-         *
+         * Returns a value indicating if the specified mimetype is compressabel
+         * @param mimeType
          * @returns {boolean}
          */
-        readonly isBanned: boolean;
+        static mimeTypeTransparent(mimeType: string): boolean;
         /**
-         * Gets a value indicating if user is root
-         *
-         * @returns {boolean}
+         * Rotates the image counterclockwise
+         * @param image
+         * @param options
+         * @returns {HTMLImageElement|HTMLElement}
          */
-        readonly isRoot: boolean;
+        static rotateCounterClockwise(image: HTMLImageElement, options?: ImageExportOptions): HTMLImageElement;
         /**
-         * Gets a value indicating if user is sys-admin
-         *
-         * @returns {boolean}
+         * Rotates the image clockwise.
+         * @param image
+         * @param options
+         * @returns {HTMLImageElement|HTMLElement}
          */
-        readonly isSysAdmin: boolean;
-        /**
-         * Gets a value indicating if the user is trash
-         *
-         * @returns {boolean}
-         */
-        readonly isTrash: boolean;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table group_user
-     */
-    class GroupUser extends groupUserBase {
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Property field
-         */
-        private _user;
-        /**
-         * Gets or sets the user of the relationship
-         *
-         * @returns {User}
-         */
-        /**
-        * Gets or sets the user of the relationship
-        *
-        * @param {User} value
-        */
-        user: User;
-        /**
-         * Gets the users name
-         *
-         * @returns {string}
-         */
-        readonly userName: string;
-        /**
-         * Gets the user attributes string
-         *
-         * @returns {string}
-         */
-        readonly userAttributes: string;
-    }
-}
-/**
- * Created by josemanuel on 8/11/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class CmsMainView extends View {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Override.
-         */
-        onLoad(): void;
-        /**
-         * Field for explorer property
-         */
-        private _explorer;
-        /**
-         * Gets the explorer
-         *
-         * @returns {CmsExplorer}
-         */
-        readonly explorer: CmsExplorer;
-        /**
-         * Field for topBar property
-         */
-        private _topBar;
-        /**
-         * Gets the top bar
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly topBar: Element<HTMLDivElement>;
-        /**
-         * Field for logo property
-         */
-        private _logo;
-        /**
-         * Gets the logo element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly logo: Element<HTMLDivElement>;
-        /**
-         * Field for logout property
-         */
-        private _logout;
-        /**
-         * Gets the logout element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly logout: Element<HTMLDivElement>;
-    }
-}
-/**
- * Created by josemanuel on 8/7/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageAdvancedView extends ColumnView {
-        /**
-         *
-         */
-        constructor(r?: Page);
-        /**
-         * Override
-         */
-        onLoad(): void;
-        /**
-         * Raises the <c>page</c> event
-         */
-        onPageChanged(): void;
-        /**
-         * Raises the <c>sentToTrash</c> event
-         */
-        onSentToTrash(): void;
-        /**
-         * Sends the page to trash
-         */
-        sendToTrash(): void;
-        /**
-         * Back field for event
-         */
-        private _pageChanged;
-        /**
-         * Gets an event raised when the value of the page property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly pageChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _sentToTrash;
-        /**
-         * Gets an event raised when the page is sent to trash
-         *
-         * @returns {LatteEvent}
-         */
-        readonly sentToTrash: LatteEvent;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of the view
-         *
-         * @returns {Page}
-         */
-        /**
-        * Gets or sets the page of the view
-        *
-        * @param {Page} value
-        */
-        page: Page;
-        /**
-         * Field for btnDelete property
-         */
-        private _btnDelete;
-        /**
-         * Gets the delete button
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnDelete: ButtonItem;
-        /**
-         * Field for form property
-         */
-        private _form;
-        /**
-         * Gets the form item
-         *
-         * @returns {DataRecordFormItem}
-         */
-        readonly form: DataRecordFormItem;
-    }
-}
-/**
- * Created by josemanuel on 9/18/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class GlobalSettingView extends ColumnView {
-        /**
-         * Creates the view
-         */
-        constructor(globalSetting: IGlobalConfigSetting);
-        /**
-         * Override.
-         */
-        onLoad(): void;
-        /**
-         * Raises the <c>setting</c> event
-         */
-        onSettingChanged(): any;
-        /**
-         * Back field for event
-         */
-        private _settingChanged;
-        /**
-         * Gets an event raised when the value of the setting property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly settingChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _setting;
-        /**
-         * Gets or sets the setting of the view
-         *
-         * @returns {Setting}
-         */
-        /**
-        * Gets or sets the setting of the view
-        *
-        * @param {Setting} value
-        */
-        setting: Setting;
-        /**
-         * Property field
-         */
-        private _globalSetting;
-        /**
-         * Gets or sets the setting item
-         *
-         * @returns {IGlobalConfigSetting}
-         */
-        /**
-        * Gets or sets the setting item
-        *
-        * @param {IGlobalConfigSetting} value
-        */
-        globalSetting: IGlobalConfigSetting;
-        /**
-         * Field for settingForm property
-         */
-        private _settingForm;
-        /**
-         * Gets the form of the setting
-         *
-         * @returns {DataRecordFormItem}
-         */
-        readonly settingForm: DataRecordFormItem;
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class CmsExplorer extends ExplorerView {
-        /**
-         *
-         */
-        constructor();
-    }
-}
-/**
- * Created by josemanuel on 7/16/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageConfigurationView extends View {
-        /**
-         * Creates the view
-         */
-        constructor(r: Page);
-        private updateJsonWarning;
-        private inputChanged;
-        /**
-         * Loads data
-         */
-        onLoad(): void;
-        getSaveCalls(): ICall[];
-        private _lblInvalidJson;
-        readonly lblInvalidJson: LabelItem;
-        /**
-         * Field for textbox property
-         */
-        private _textbox;
-        /**
-         * Gets the textbox
-         *
-         * @returns {Textbox}
-         */
-        readonly textbox: Element<HTMLTextAreaElement>;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of theview
-         *
-         * @returns {Page}
-         */
-        /**
-        * Gets or sets the page of theview
-        *
-        * @param {Page} value
-        */
-        page: Page;
-    }
-}
-/**
- * Created by josemanuel on 7/14/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageSidebar extends TabView {
-        static lastSelectedTab: string;
-        /**
-         *
-         */
-        constructor(r: PageExplorer);
-        /**
-         * Override.
-         */
-        onLoad(): void;
-        /**
-         * Override.
-         */
-        onSavingChanges(): boolean;
-        /**
-         * Override.
-         */
-        onSelectedTabChanged(): void;
-        /**
-         * Raises the <c>page</c> event
-         */
-        onPageChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _pageChanged;
-        /**
-         * Gets an event raised when the value of the page property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly pageChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of the sidebar
-         *
-         * @returns {Page}
-         */
-        /**
-        * Gets or sets the page of the sidebar
-        *
-        * @param {Page} value
-        */
-        page: Page;
-        /**
-         * Property field
-         */
-        private _pageExplorer;
-        /**
-         * Gets or sets the page explorer
-         *
-         * @returns {PageExplorer}
-         */
-        /**
-        * Gets or sets the page explorer
-        *
-        * @param {PageExplorer} value
-        */
-        pageExplorer: PageExplorer;
-        /**
-         * Field for advancedView property
-         */
-        private _advancedView;
-        /**
-         * Gets the advanced view
-         *
-         * @returns {PageAdvancedView}
-         */
-        readonly advancedView: PageAdvancedView;
-        /**
-         * Field for configurationView property
-         */
-        private _configurationView;
-        /**
-         * Gets the configuration view
-         *
-         * @returns {PageConfigurationView}
-         */
-        readonly configurationView: PageConfigurationView;
-        /**
-         * Field for detailView property
-         */
-        private _detailView;
-        /**
-         * Gets the detail view
-         *
-         * @returns {PageDetailView}
-         */
-        readonly detailView: PageDetailView;
-        /**
-         * Field for tabAdvanced property
-         */
-        private _tabAdvanced;
-        /**
-         * Gets the advanced tab
-         *
-         * @returns {TabItem}
-         */
-        readonly tabAdvanced: TabItem;
-        /**
-         * Field for tabDetail property
-         */
-        private _tabDetail;
-        /**
-         * Gets the detail tab
-         *
-         * @returns {TabItem}
-         */
-        readonly tabDetail: TabItem;
-        /**
-         * Field for tabConfiguration property
-         */
-        private _tabConfiguration;
-        /**
-         * Gets the configuration tab
-         *
-         * @returns {TabItem}
-         */
-        readonly tabConfiguration: TabItem;
-    }
-}
-declare module latte {
-    /**
-     * PageTagsForm
-     */
-    class PageTagsForm extends FormItem {
-        /**
-         * PageTagsForm
-         */
-        constructor();
-        /**
-         * Raises the <c>record</c> event
-         */
-        onRecordChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _recordChanged;
-        /**
-         * Gets an event raised when the value of the record property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly recordChanged: LatteEvent;
-        /**
-         * Field for inputItem property
-         */
-        private _inputItem;
-        /**
-         * Gets the input for control tags
-         *
-         * @returns {InputItem}
-         */
-        readonly inputItem: InputItem;
-        /**
-         * Field for pageTagItem property
-         */
-        private _pageTagItem;
-        /**
-         * Gets the tag system property
-         *
-         * @returns {SettingValueItem}
-         */
-        readonly pageTagItem: SettingValueItem;
-        /**
-         * Property field
-         */
-        private _record;
-        /**
-         * Gets or sets when the record property changes
-         *
-         * @returns {Page}
-         */
-        /**
-        * Gets or sets when the record property changes
-        *
-        * @param {Page} value
-        */
-        record: Page;
-    }
-}
-declare module latte {
-    /**
-     * Create new SettingValueItem
-     */
-    class SettingValueItem extends TagValueItem<Page> {
-        /**
-         * Creates a new SettingValueItem
-         */
-        constructor();
-        /**
-         * @override
-         * @param setting
-         */
-        onCreateItem(setting?: DataRecord): void;
-        /**
-         * Filter Suggestions
-         */
-        onFilterSuggestions(): void;
-        /**
-         * @param {latte.Setting} record
-         */
-        onAddItem(record: Setting): void;
-        /**
-         * Called when fill to list
-         * @param callback
-         */
-        onLoadItems(callback: GenericCallback): void;
-    }
-}
-/**
- * Created by josemanuel on 6/10/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class SignInView extends SignInViewBase {
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Handles the form submit
-         */
-        formSubmit(): void;
+        static rotateClockwise(image: HTMLImageElement, options?: ImageExportOptions): HTMLImageElement;
     }
 }
 /**
@@ -4586,1186 +3373,208 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 8/1/16.
+ * Created by josemanuel on 7/26/16.
  */
 declare module latte {
     /**
      *
      */
-    class FileItem extends Item {
-        static SYS_THUMB_KEY: string;
-        static defaultThumbWidth: number;
-        static defaultThumbHeight: number;
-        /**
-         *
-         */
-        constructor(f?: latte.File);
-        /**
-         * Updates the thumb of the item.
-         */
-        private updateThumb;
-        /**
-         * Raises the <c>file</c> event
-         */
-        onFileChanged(): void;
-        /**
-         * Raises the <c>fileUploader</c> event
-         */
-        onFileUploaderChanged(): void;
-        /**
-         * Raises the <c>thumbCreated</c> event
-         */
-        onThumbCreated(): void;
-        /**
-         * Raises the <c>thumbSize</c> event
-         */
-        onThumbSizeChanged(): void;
-        /**
-         * Back field for event
-         */
-        private _fileChanged;
-        /**
-         * Gets an event raised when the value of the file property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly fileChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _fileUploaderChanged;
-        /**
-         * Gets an event raised when the value of the fileUploader property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly fileUploaderChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _thumbCreated;
-        /**
-         * Gets an event raised when the system thumb has been created
-         *
-         * @returns {LatteEvent}
-         */
-        readonly thumbCreated: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _thumbSizeChanged;
-        /**
-         * Gets an event raised when the value of the thumbSize property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly thumbSizeChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _file;
-        /**
-         * Gets or sets the latte File
-         *
-         * @returns {latte.File}
-         */
-        /**
-        * Gets or sets the latte File
-        *
-        * @param {latte.File} value
-        */
-        file: latte.File;
-        /**
-         * Property field
-         */
-        private _fileUploader;
-        /**
-         * Gets or sets the file uploader for this item. After uploading the file record will be added.
-         *
-         * @returns {FileUploader}
-         */
-        /**
-        * Gets or sets the file uploader for this item. After uploading the file record will be added.
-        *
-        * @param {FileUploader} value
-        */
-        fileUploader: FileUploader;
-        /**
-         * Property field
-         */
-        private _thumbSize;
-        /**
-         * Gets or sets the size of the thumbnail
-         *
-         * @returns {Size}
-         */
-        /**
-        * Gets or sets the size of the thumbnail
-        *
-        * @param {Size} value
-        */
-        thumbSize: Size;
-        /**
-         * Property field
-         */
-        private _quality;
-        /**
-         * Gets or sets the quality value
-         *
-         * @returns {number}
-         */
-        /**
-        * Gets or sets the quality value
-        *
-        * @param {number} value
-        */
-        quality: number;
-        /**
-         * Field for infoBar property
-         */
-        private _divBar;
-        /**
-         * Gets the info bar element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly divBar: Element<HTMLDivElement>;
-        /**
-         * Field for divExtension property
-         */
-        private _divExtension;
-        /**
-         * Gets the extension div
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly divExtension: Element<HTMLDivElement>;
-        /**
-         * Field for divName property
-         */
-        private _divName;
-        /**
-         * Gets the name element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly divName: Element<HTMLDivElement>;
-        /**
-         * Field for divSize property
-         */
-        private _divSize;
-        /**
-         * Gets the size element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly divSize: Element<HTMLDivElement>;
-        /**
-         * Field for thumb property
-         */
-        private _divThumb;
-        /**
-         * Gets the thumb of the item
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly divThumb: Element<HTMLDivElement>;
-        /**
-         * Field for img property
-         */
-        private _img;
-        /**
-         * Gets the image of the thumb
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly img: Element<HTMLImageElement>;
-        /**
-         * Field for progressBar property
-         */
-        private _progressBar;
-        /**
-         * Gets the progress item
-         *
-         * @returns {ProgressItem}
-         */
-        readonly progressBar: ProgressItem;
-    }
-}
-/**
- * Generated by xlatte
- */
-declare module latte {
-    /**
-     * Record for table page
-     */
-    class Page extends pageBase {
-        /**
-         * Allows the user to see the page and access the fragments of the page.
-         * @type {number}
-         */
-        static PERMISSION_READ: number;
-        /**
-         * Allows the user to modify the page after it becomes online.
-         * @type {number}
-         */
-        static PERMISSION_WRITE: number;
-        /**
-         * Allows the user to delete the page.
-         * @type {number}
-         */
-        static PERMISSION_DELETE: number;
-        /**
-         * Allows the user to insert new children to the page.
-         * @type {number}
-         */
-        static PERMISSION_INSERT_CHILD: number;
-        /**
-         * Allows the user to read children of the page. User gets to know the children he owns.
-         * @type {number}
-         */
-        static PERMISSION_READ_CHILDREN: number;
-        /**
-         * Returns a boolean indicating if the user has the specified permission for the page
-         * @param permission
-         */
-        canI(permission: number): boolean;
-        /**
-         * Gets the metadata about the record
-         *
-         * @returns Object
-         */
-        getMetadata(): IRecordMeta;
-        /**
-         * Override.
-         * @param form
-         */
-        onFormCreated(form: DataRecordFormItem): void;
-        /**
-         * Raises the <c>onlineSwitched</c> event
-         */
-        onOnlineSwitched(): void;
-        /**
-         * Back field for event
-         */
-        private _onlineSwitched;
-        /**
-         * Gets an event raised when the online attribute has been switched
-         *
-         * @returns {LatteEvent}
-         */
-        readonly onlineSwitched: LatteEvent;
-        /**
-         * Gets a value indicating if user has WRITE permission
-         *
-         * @returns {boolean}
-         */
-        readonly canIDelete: boolean;
-        /**
-         * Gets a value indicating if user has INSERT_CHILD permission
-         *
-         * @returns {boolean}
-         */
-        readonly canIInsertChild: boolean;
-        /**
-         * Gets a value indicating if user has READ permission
-         *
-         * @returns {boolean}
-         */
-        readonly canIRead: boolean;
-        /**
-         * Gets a value indicating if the user has READ_CHILDREN permission
-         *
-         * @returns {boolean}
-         */
-        readonly canIReadChildren: boolean;
-        /**
-         * Gets a value indicating if user has WRITE permission
-         *
-         * @returns {boolean}
-         */
-        readonly canIWrite: boolean;
-        /**
-         * Property field
-         */
-        private _configurationSetting;
-        /**
-         * Gets or sets the configuration of the page
-         *
-         * @returns {Setting}
-         */
-        /**
-        * Gets or sets the configuration of the page
-        *
-        * @param {Setting} value
-        */
-        configurationSetting: Setting;
-        /**
-         * Field for configuration property
-         */
-        private _configuration;
-        /**
-         * Gets the configuration helper for the page
-         *
-         * @returns {PageConfiguration}
-         */
-        readonly configuration: PageConfiguration;
-        /**
-         * Gets a value indicating if the page belongs to the logged user
-         *
-         * @returns {boolean}
-         */
-        readonly isMine: boolean;
-        /**
-         * Gets a value indicating if the user owns the page and has not write permissions
-         *
-         * @returns {boolean}
-         */
-        readonly isMineAndCantWrite: boolean;
-        /**
-         * Gets a value indicating if the page is currently online
-         *
-         * @returns {boolean}
-         */
-        readonly isOnline: boolean;
-    }
-}
-/**
- * Created by josemanuel on 4/29/15.
- */
-declare module latte {
-    interface ICropBounds {
-        top?: number;
-        left?: number;
-        right?: number;
-        bottom?: number;
-    }
-    enum ImageFit {
-        AspectFit = 0,
-        AspectFill = 1,
-        AspectFillNear = 2,
-        AspectFillFar = 3
-    }
-    interface ImageExportOptions {
-        size: Size;
-        type?: string;
-        quality?: number;
-        background?: Color;
-        fit: ImageFit;
-        resize?: boolean;
-    }
-    /**
-     *
-     */
-    class ImageUtil {
-        static DEFAULT_QUALITY: number;
-        static DEFAULT_TYPE: string;
-        /**
-         * Returns the amount of bytes on the specified string
-         * @param base64
-         * @returns {number}
-         */
-        static base64ByteSize(base64: string): number;
-        /**
-         * Parses ImageFit from specified string
-         * @param fit
-         * @returns {any}
-         */
-        static imageFitFromString(fit: string): ImageFit;
-        /**
-         * Creates an icon of the specified file, assuming it's an image file.
-         *
-         * @param file
-         * @param options
-         * @param callback
-         */
-        static createThumbOfFile(file: any, options: ImageExportOptions, callback?: (dataUrl: string) => any): void;
-        /**
-         * Creates an icon of the specified image.
-         * This algorithm is stored under the name _Steps because it makes n steps
-         * to scale down the image. It proved to be ineficient and results unwanted.
-         * @param image
-         * @param size
-         * @returns {string}
-         */
-        static createThumbOfImage_Steps(image: HTMLImageElement, size: Size): string;
-        /**
-         * Crops the image with the specified crop bounds.
-         * Crop bounds are referenced as dimensions from the edges to the specified property.
-         * @param image
-         * @param crop
-         * @param options
-         * @returns {HTMLImageElement|HTMLElement}
-         */
-        static cropImage(image: HTMLImageElement, crop: ICropBounds, options?: ImageExportOptions): HTMLImageElement;
-        /**
-         * Resize Images
-         *
-         * @param {HTMLImageElement} image
-         * @param {latte.ImageExportOptions} options
-         * @return {string}
-         */
-        static resizeImage(image: HTMLImageElement, options: ImageExportOptions): string;
-        /**
-         * Creates a smaller version of the image.
-         * @param image
-         * @param options
-         */
-        static createThumbOfImage(image: HTMLImageElement, options: ImageExportOptions): string;
-        private static resample_hermite;
-        /**
-         * Creates an icon of the specified url image
-         *
-         * @param url
-         * @param options
-         * @param callback
-         */
-        static createThumbOfUrl(url: string, options: ImageExportOptions, callback?: (dataUrl: string) => any): void;
-        /**
-         * Gets the base64 data of the specified data url
-         * @param dataUrl
-         */
-        static getBase64(dataUrl: string): string;
-        /**
-         * Reads the file and returns de data as dataUrl in the callback
-         * @param url
-         * @param callback
-         */
-        static readFileAsDataUrl(file: any, callback: (dataUrl: string) => any): void;
-        /**
-         * Gets the image encoded as base64 data
-         * @param image
-         * @returns {string}
-         */
-        static getImageAsBase64(image: HTMLImageElement): string;
-        /**
-         * Gets the mimetype of the specified extension.
-         * Pass extension either with or without dot at the first character.
-         * @param extension
-         */
-        static mimeTypeOf(extension: string): string;
-        /**
-         * Returns a value indicating if the specified mimetype is compressabel
-         * @param mimeType
-         * @returns {boolean}
-         */
-        static mimeTypeCompressable(mimeType: string): boolean;
-        /**
-         * Returns a value indicating if the specified mimetype is compressabel
-         * @param mimeType
-         * @returns {boolean}
-         */
-        static mimeTypeTransparent(mimeType: string): boolean;
-        /**
-         * Rotates the image counterclockwise
-         * @param image
-         * @param options
-         * @returns {HTMLImageElement|HTMLElement}
-         */
-        static rotateCounterClockwise(image: HTMLImageElement, options?: ImageExportOptions): HTMLImageElement;
-        /**
-         * Rotates the image clockwise.
-         * @param image
-         * @param options
-         * @returns {HTMLImageElement|HTMLElement}
-         */
-        static rotateClockwise(image: HTMLImageElement, options?: ImageExportOptions): HTMLImageElement;
-    }
-}
-/**
- * Created by josemanuel on 9/21/16.
- */
-declare module latte {
-    interface InstallWizardStep {
-        (callback: () => any): any;
-    }
-    /**
-     *
-     */
-    class InstallWizardView extends View {
-        /**
-         * Notes during installation
-         * @type {Array}
-         */
-        notes: string[];
+    class Plugin {
         /**
          *
          */
         constructor();
         /**
-         * Starts the wizard
-         */
-        start(): void;
-        /**
-         * Executes the next step of installation wizard
-         */
-        disptachStep(): void;
-        /**
-         * Step for checking folder writability
-         * @param callback
-         */
-        checkFolderWritable(callback: () => any): void;
-        /**
-         * Checks if htaccess is present, installs if not
-         * @param callback
-         */
-        checkHtAccess(callback: () => any): void;
-        /**
-         * Checks if mod_rewrite is available
-         * @param callback
-         */
-        checkModRewrite(callback: () => any): void;
-        /**
-         * Ensures the database is present
-         * @param callback
-         */
-        setupDataBase(callback: () => any): void;
-        /**
-         *
-         * @param callback
-         */
-        setupDBConnection(callback: () => any): void;
-        setupRoot(callback: () => any): void;
-        /**
-         * Chooose lang
-         * @param callback
-         */
-        langChoose(callback: () => any): void;
-        /**
-         * Override. Start dispatching.
+         * Raises the <c>load</c> event
          */
         onLoad(): void;
+        /**
+         * Raises the <c>unload</c> event
+         */
+        onUnload(): void;
+        /**
+         * Back field for event
+         */
+        private _load;
+        /**
+         * Gets an event raised when the plugin is loaded
+         *
+         * @returns {LatteEvent}
+         */
+        readonly load: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _unload;
+        /**
+         * Gets an event raised when the plugin is unloaded
+         *
+         * @returns {LatteEvent}
+         */
+        readonly unload: LatteEvent;
+    }
+}
+/**
+ * Created by josemanuel on 9/27/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class ImageLoader {
+        /**
+         *
+         */
+        constructor(src: string);
+        /**
+         * Starts the load
+         */
+        start(): void;
         /**
          * Raises the <c>ended</c> event
          */
         onEnded(): void;
         /**
+         * Raises the <c>progress</c> event
+         */
+        onProgressChanged(): void;
+        /**
+         * Raises the <c>started</c> event
+         */
+        onStarted(): void;
+        /**
          * Back field for event
          */
         private _ended;
         /**
-         * Gets an event raised when the install steps end
+         * Gets an event raised when the load has ended
          *
          * @returns {LatteEvent}
          */
         readonly ended: LatteEvent;
         /**
-         * Field for steps property
-         */
-        private _steps;
-        /**
-         * Gets the steps to execute on the wizard
-         *
-         * @returns {InstallWizardStep[]}
-         */
-        readonly steps: InstallWizardStep[];
-        /**
-         * Field for spinner property
-         */
-        private _spinner;
-        /**
-         * Gets the spinner element
-         *
-         * @returns {HTMLDivElement}
-         */
-        readonly spinner: HTMLDivElement;
-    }
-}
-/**
- * Created by josemanuel on 7/18/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class PageDetailView extends ColumnView {
-        private validated;
-        /**
-         * Creates the view
-         */
-        constructor();
-        /**
-         * Adds settings to the view
-         * @param settings
-         * @param values
-         */
-        addSettings(settings: IPageConfigurationSettings, values: {
-            [index: string]: Setting;
-        }): void;
-        /**
-         * Loads the settings of the page
-         */
-        loadSettings(): void;
-        /**
-         * Override
-         */
-        onLoad(): void;
-        /**
-         * Raises the <c>page</c> event
-         */
-        onPageChanged(): void;
-        /**
-         * Override.
-         */
-        onSavingChanges(): boolean;
-        /**
-         * Opens the editor
-         */
-        openEditor(): void;
-        /**
-         * Override.
-         * @returns {any[]}
-         */
-        getSaveCalls(): ICall[];
-        /**
-         * @returns {Array}
-         */
-        saveSettingsCalls(): ICall[];
-        /**
          * Back field for event
          */
-        private _pageChanged;
+        private _progressChanged;
         /**
-         * Gets an event raised when the value of the page property changes
+         * Gets an event raised when the value of the progress property changes
          *
          * @returns {LatteEvent}
          */
-        readonly pageChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _page;
-        /**
-         * Gets or sets the page of the view
-         *
-         * @returns {Page}
-         */
-        /**
-        * Gets or sets the page of the view
-        *
-        * @param {Page} value
-        */
-        page: Page;
-        /**
-         * Field for btnOpen property
-         */
-        private _btnOpen;
-        /**
-         * Gets the open button
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnOpen: ButtonItem;
-        /**
-         * Field for dataForm property
-         */
-        private _dataForm;
-        /**
-         * Gets the data record for item of the page
-         *
-         * @returns {DataRecordFormItem}
-         */
-        readonly dataForm: DataRecordFormItem;
-        /**
-         * Field for settingsForm property
-         */
-        private _settingsForm;
-        /**
-         * Gets the settings form item
-         *
-         * @returns {FormItem}
-         */
-        readonly settingsForm: FormItem;
-        /**
-         * Field for tagsForm property
-         */
-        private _tagsForm;
-        /**
-         * Gets the tags form item
-         *
-         * @returns {PageTagsForm}
-         */
-        readonly tagsForm: PageTagsForm;
-    }
-}
-/**
- * Created by josemanuel on 7/23/16.
- */
-declare module latte {
-    /**
-     * PageEditorView
-     */
-    class PageEditorView extends View {
-        private timerId;
-        private fragmentAdapters;
-        private titleChanged;
-        private cancelTitle;
-        private onlineChanged;
-        /**
-         * @param {latte.Page} r
-         * @param {latte.IPageSettingsPack} pack
-         */
-        constructor(r: Page, pack?: IPageSettingsPack);
-        /**
-         * Clears the ribbon of non-standard items and tabs
-         */
-        private clearRibbon;
-        /**
-         * Handles focus on the fragment
-         *
-         * @param adapter
-         */
-        private fragmentFocus;
-        /**
-         * Updates the tabs of the specified fragment adapter
-         * @param adapter
-         */
-        private fragmentTabsUpdate;
-        /**
-         * Adds a fragment to the ui
-         * @param key
-         * @param fragmentData
-         * @param fragment
-         */
-        addFragment(key: string, fragmentData: IFragment, fragment: Fragment): void;
-        /**
-         * Loads the page
-         */
-        loadPage(): void;
-        /**
-         * Raises the <c>focusedFragmentAdapter</c> event
-         */
-        onFocusedFragmentAdapterChanged(): void;
-        /**
-         * Override.
-         */
-        onLoad(): void;
-        /**
-         * Override.
-         */
-        onUnload(): void;
-        /**
-         * Raises the <c>page</c> event
-         */
-        onPageChanged(): void;
-        /**
-         * Previews the page
-         */
-        preview(): void;
-        /**
-         *
-         */
-        saveTick(): void;
+        readonly progressChanged: LatteEvent;
         /**
          * Back field for event
          */
-        private _closeRequested;
+        private _started;
         /**
-         * Gets an event raised when close was requested
+         * Gets an event raised when the load has started
          *
          * @returns {LatteEvent}
          */
-        readonly closeRequested: LatteEvent;
-        /**
-         * Raises the <c>closeRequested</c> event
-         */
-        onCloseRequested(): void;
-        /**
-         * Back field for event
-         */
-        private _focusedFragmentAdapterChanged;
-        /**
-         * Gets an event raised when the value of the focusedFragmentAdapter property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly focusedFragmentAdapterChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _pageChanged;
-        /**
-         * Gets an event raised when the value of the page property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly pageChanged: LatteEvent;
+        readonly started: LatteEvent;
         /**
          * Property field
          */
-        private _focusedFragmentAdapter;
+        private _hasStarted;
         /**
-         * Gets or sets the focused fragment adapter
+         * Gets a value indicating if the load has started
          *
-         * @returns {FragmentAdapter<IFragment>}
+         * @returns {boolean}
          */
-        /**
-        * Gets or sets the focused fragment adapter
-        *
-        * @param {FragmentAdapter<IFragment>} value
-        */
-        focusedFragmentAdapter: FragmentAdapter<IFragment>;
+        readonly hasStarted: boolean;
         /**
          * Property field
          */
-        private _pack;
+        private _hasEnded;
         /**
-         * Gets or sets the settings pack of the page
+         * Gets a value indicating if the load has ended
          *
-         * @returns {IPageSettingsPack}
+         * @returns {boolean}
          */
-        /**
-        * Gets or sets
-        *
-        * @param {IPageSettingsPack} value
-        */
-        pack: IPageSettingsPack;
+        readonly hasEnded: boolean;
         /**
          * Property field
          */
-        private _page;
+        private _progress;
         /**
-         * Gets or sets the record of the view
+         * Gets or sets the progress of the load
          *
-         * @returns {Page}
+         * @returns {number}
          */
         /**
-        * Gets or sets the record of the view
+        * Gets or sets the progress of the load
         *
-        * @param {Page} value
+        * @param {number} value
         */
-        page: Page;
-        /**
-         * Gets the ribbon of the view
-         *
-         * @returns {Ribbon}
-         */
-        readonly ribbon: Ribbon;
-        /**
-         * Field for btnClose property
-         */
-        private _btnClose;
-        /**
-         * Gets the close button
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnClose: ButtonItem;
-        /**
-         * Field for btnPreview property
-         */
-        private _btnPreview;
-        /**
-         * Gets the preview button
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnPreview: ButtonItem;
-        /**
-         * Field for columnView property
-         */
-        private _columnView;
-        /**
-         * Gets the column view
-         *
-         * @returns {ColumnView}
-         */
-        readonly columnView: ColumnView;
-        /**
-         * Field for ribbonView property
-         */
-        private _ribbonView;
-        /**
-         * Gets the ribbon in the view
-         *
-         * @returns {RibbonView}
-         */
-        readonly ribbonView: RibbonView;
-        /**
-         * Field for onlineInput property
-         */
-        private _onlineInput;
-        /**
-         * Gets the online input
-         *
-         * @returns {InputItem}
-         */
-        readonly onlineInput: InputItem;
-        /**
-         * Field for tabPage property
-         */
-        private _tabPage;
-        /**
-         * Gets the page tab
-         *
-         * @returns {TabItem}
-         */
-        readonly tabPage: TabItem;
-        /**
-         * Field for titleElement property
-         */
-        private _titleElement;
-        /**
-         * Gets the title element
-         *
-         * @returns {Element<HTMLDivElement>}
-         */
-        readonly titleElement: Element<HTMLDivElement>;
-    }
-}
-/**
- * Created by josemanuel on 10/9/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    class ImageFragmentAdapter extends FragmentAdapter<IImageFragment> {
-        static PRESENTABLE_KEY: string;
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Uploads the file on the input
-         */
-        private fileInputChanged;
-        private showProgressItem;
-        private hideProgressItem;
-        private redoImages;
-        private viewOriginal;
-        private viewResultImage;
-        /**
-         * Handler for the button alt image
-         */
-        private btnImageAltText_Click;
-        /**
-         * Override
-         */
-        getEditorTabs(): TabItem[];
-        /**
-         * Returns the items for the ribbon of the view
-         * @returns {Array}
-         */
-        getEditorTabItems(): Item[];
-        /**
-         * Generates the presentable image of the specified file item.
-         * @param file
-         * @param callback
-         */
-        generatePresentableImage(file: File, callback: (child?: File) => void): void;
-        /**
-         * Activates the file input
-         */
-        insertImage(): void;
-        /**
-         * Raises the <c>file</c> event
-         */
-        onFileChanged(): void;
-        /**
-         * Override.
-         */
-        onCreateEditorItem(): void;
-        /**
-         * Raises the <c>image</c> event
-         */
-        onImageChanged(): void;
-        /**
-         * Raises the <c>presentableFile</c> event
-         */
-        onPresentableFileChanged(): void;
-        /**
-         * Raises the <c>fragmentConfiguration</c> event
-         */
-        onFragmentConfigurationChanged(): void;
-        /**
-         * Sets the file
-         * @param file
-         */
-        setSystemFile(file: SystemFile): void;
-        /**
-         * Serializes the presentable image
-         */
-        serialize(): void;
-        /**
-         * Unserializes the presentable image
-         */
-        unserialize(): void;
-        /**
-         * Back field for event
-         */
-        private _fileChanged;
-        /**
-         * Gets an event raised when the value of the file property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly fileChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _imageChanged;
-        /**
-         * Gets an event raised when the value of the image property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly imageChanged: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _presentableFileChanged;
-        /**
-         * Gets an event raised when the value of the presentableFile property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly presentableFileChanged: LatteEvent;
+        progress: number;
         /**
          * Property field
          */
-        private _file;
+        private _resultBytes;
         /**
-         * Gets or sets the file of image
+         * Gets the number of bytes
          *
-         * @returns {File}
+         * @returns {number}
          */
+        readonly resultBytes: number;
         /**
-        * Gets or sets the file of image
-        *
-        * @param {File} value
-        */
-        file: File;
-        /**
-         * Field for fileInput property
+         * Field for resultImage property
          */
-        private _fileInput;
-        /**
-         * Gets the file input
-         *
-         * @returns {Element<HTMLInputElement>}
-         */
-        readonly fileInput: Element<HTMLInputElement>;
-        /**
-         * Property field
-         */
-        private _image;
-        /**
-         * Gets or sets the presentable image
-         *
-         * @returns {HTMLImageElement}
-         */
-        /**
-        * Gets or sets the presentable image
-        *
-        * @param {HTMLImageElement} value
-        */
-        image: HTMLImageElement;
-        /**
-         * Field for imageContainer property
-         */
-        private _imageContainer;
-        /**
-         * Gets the container of the image
-         *
-         * @returns {HTMLDivElement}
-         */
-        readonly imageContainer: HTMLDivElement;
-        /**
-         * Field for imageSize property
-         */
-        private _imageSize;
-        /**
-         * Gets the configured image size
-         *
-         * @returns {Size}
-         */
-        readonly imageSize: Size;
-        /**
-         * Property field
-         */
-        private _presentableFile;
-        /**
-         * Gets or sets the presentable file of the fragment
-         *
-         * @returns {File}
-         */
-        /**
-        * Gets or sets the presentable file of the fragment
-        *
-        * @param {File} value
-        */
-        presentableFile: File;
-        /**
-         * Field for progressItem property
-         */
-        private _progressItem;
-        /**
-         * Gets the progress item
-         *
-         * @returns {ProgressItem}
-         */
-        readonly progressItem: ProgressItem;
-        /**
-         * Field for btnInsertImage property
-         */
-        private _btnInsertImage;
-        /**
-         * Gets the inser image button
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnInsertImage: ButtonItem;
-        /**
-         * Field for btnRedoImages property
-         */
-        private _btnRedoImages;
-        /**
-         * Gets the redo images button
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnRedoImages: ButtonItem;
-        /**
-         * Field for btnImageAltText property
-         */
-        private _btnImageAltText;
-        /**
-         * Gets the button for place the alt text
-         *
-         * @returns {ButtonItem}
-         */
-        readonly btnImageAltText: ButtonItem;
-        /**
-         * Field for btnResultImage property
-         */
-        private _btnResultImage;
+        private _resultImage;
         /**
          * Gets the result image
          *
-         * @returns {ButtonItem}
+         * @returns {HTMLImageElement}
          */
-        readonly btnResultImage: ButtonItem;
+        readonly resultImage: HTMLImageElement;
         /**
-         * Field for btnViewOriginal property
+         * Property field
          */
-        private _btnViewOriginal;
+        private _resultSrc;
         /**
-         * Gets the view original button
+         * Gets the result source
          *
-         * @returns {ButtonItem}
+         * @returns {string}
          */
-        readonly btnViewOriginal: ButtonItem;
+        readonly resultSrc: string;
         /**
-         * Field for tabImage property
+         * Property field
          */
-        private _tabImage;
+        private _src;
         /**
-         * Gets the image tab
+         * Gets the src of the image to load
          *
-         * @returns {TabItem}
+         * @returns {string}
          */
-        readonly tabImage: TabItem;
+        readonly src: string;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
+    /**
+     * Manages the plugins of the program
+     */
+    class PluginManager {
+        private static _plugins;
+        /**
+         * Gets the list of loaded plugins
+         *
+         * @returns {Plugin[]}
+         */
+        static getLoadedPlugins(): Plugin[];
+        /**
+         * Loads the specified plugin. If the plugin is already loaded, it will ignore it.
+         * @param p
+         */
+        static load(p: Plugin): void;
+        /**
+         * Unloads the specified plugin. Ignored if plugin wasn't loaded
+         *
+         * @param plugin
+         */
+        static unload(plugin: Plugin): void;
     }
 }
 /**
@@ -6086,6 +3895,1385 @@ declare module latte {
          * @returns {TabItem}
          */
         readonly tabImage: TabItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PlainTextFragmentAdapter extends FragmentAdapter<IFragment> {
+        /**
+         * Override. Raises the <c>createEditorItem</c> event
+         */
+        onCreateEditorItem(): void;
+        /**
+         * Field for textbox property
+         */
+        private _textbox;
+        private baseScrollHeight;
+        private heightCheck;
+        /**
+         * Gets the textbox element
+         *
+         * @returns {Element<HTMLTextAreaElement>}
+         */
+        readonly textbox: Element<HTMLTextAreaElement>;
+    }
+}
+/**
+ * Created by josemanuel on 10/9/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class ImageFragmentAdapter extends FragmentAdapter<IImageFragment> {
+        static PRESENTABLE_KEY: string;
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Uploads the file on the input
+         */
+        private fileInputChanged;
+        private showProgressItem;
+        private hideProgressItem;
+        private redoImages;
+        private viewOriginal;
+        private viewResultImage;
+        /**
+         * Handler for the button alt image
+         */
+        private btnImageAltText_Click;
+        /**
+         * Override
+         */
+        getEditorTabs(): TabItem[];
+        /**
+         * Returns the items for the ribbon of the view
+         * @returns {Array}
+         */
+        getEditorTabItems(): Item[];
+        /**
+         * Generates the presentable image of the specified file item.
+         * @param file
+         * @param callback
+         */
+        generatePresentableImage(file: File, callback: (child?: File) => void): void;
+        /**
+         * Activates the file input
+         */
+        insertImage(): void;
+        /**
+         * Raises the <c>file</c> event
+         */
+        onFileChanged(): void;
+        /**
+         * Override.
+         */
+        onCreateEditorItem(): void;
+        /**
+         * Raises the <c>image</c> event
+         */
+        onImageChanged(): void;
+        /**
+         * Raises the <c>presentableFile</c> event
+         */
+        onPresentableFileChanged(): void;
+        /**
+         * Raises the <c>fragmentConfiguration</c> event
+         */
+        onFragmentConfigurationChanged(): void;
+        /**
+         * Sets the file
+         * @param file
+         */
+        setSystemFile(file: SystemFile): void;
+        /**
+         * Serializes the presentable image
+         */
+        serialize(): void;
+        /**
+         * Unserializes the presentable image
+         */
+        unserialize(): void;
+        /**
+         * Back field for event
+         */
+        private _fileChanged;
+        /**
+         * Gets an event raised when the value of the file property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly fileChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _imageChanged;
+        /**
+         * Gets an event raised when the value of the image property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly imageChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _presentableFileChanged;
+        /**
+         * Gets an event raised when the value of the presentableFile property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly presentableFileChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _file;
+        /**
+         * Gets or sets the file of image
+         *
+         * @returns {File}
+         */
+        /**
+        * Gets or sets the file of image
+        *
+        * @param {File} value
+        */
+        file: File;
+        /**
+         * Field for fileInput property
+         */
+        private _fileInput;
+        /**
+         * Gets the file input
+         *
+         * @returns {Element<HTMLInputElement>}
+         */
+        readonly fileInput: Element<HTMLInputElement>;
+        /**
+         * Property field
+         */
+        private _image;
+        /**
+         * Gets or sets the presentable image
+         *
+         * @returns {HTMLImageElement}
+         */
+        /**
+        * Gets or sets the presentable image
+        *
+        * @param {HTMLImageElement} value
+        */
+        image: HTMLImageElement;
+        /**
+         * Field for imageContainer property
+         */
+        private _imageContainer;
+        /**
+         * Gets the container of the image
+         *
+         * @returns {HTMLDivElement}
+         */
+        readonly imageContainer: HTMLDivElement;
+        /**
+         * Field for imageSize property
+         */
+        private _imageSize;
+        /**
+         * Gets the configured image size
+         *
+         * @returns {Size}
+         */
+        readonly imageSize: Size;
+        /**
+         * Property field
+         */
+        private _presentableFile;
+        /**
+         * Gets or sets the presentable file of the fragment
+         *
+         * @returns {File}
+         */
+        /**
+        * Gets or sets the presentable file of the fragment
+        *
+        * @param {File} value
+        */
+        presentableFile: File;
+        /**
+         * Field for progressItem property
+         */
+        private _progressItem;
+        /**
+         * Gets the progress item
+         *
+         * @returns {ProgressItem}
+         */
+        readonly progressItem: ProgressItem;
+        /**
+         * Field for btnInsertImage property
+         */
+        private _btnInsertImage;
+        /**
+         * Gets the inser image button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnInsertImage: ButtonItem;
+        /**
+         * Field for btnRedoImages property
+         */
+        private _btnRedoImages;
+        /**
+         * Gets the redo images button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnRedoImages: ButtonItem;
+        /**
+         * Field for btnImageAltText property
+         */
+        private _btnImageAltText;
+        /**
+         * Gets the button for place the alt text
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnImageAltText: ButtonItem;
+        /**
+         * Field for btnResultImage property
+         */
+        private _btnResultImage;
+        /**
+         * Gets the result image
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnResultImage: ButtonItem;
+        /**
+         * Field for btnViewOriginal property
+         */
+        private _btnViewOriginal;
+        /**
+         * Gets the view original button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnViewOriginal: ButtonItem;
+        /**
+         * Field for tabImage property
+         */
+        private _tabImage;
+        /**
+         * Gets the image tab
+         *
+         * @returns {TabItem}
+         */
+        readonly tabImage: TabItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/26/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class FragmentExpandoItem extends ItemStack {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Raises the <c>fragmentItem</c> event
+         */
+        onFragmentItemChanged(): void;
+        /**
+         * Raises the <c>expanded</c> event
+         */
+        onExpandedChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _expandedChanged;
+        /**
+         * Gets an event raised when the value of the expanded property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly expandedChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _fragmentItemChanged;
+        /**
+         * Gets an event raised when the value of the fragmentItem property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly fragmentItemChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _expanded;
+        /**
+         * Gets or sets a value indicating if the expando is expanded
+         *
+         * @returns {boolean}
+         */
+        /**
+        * Gets or sets a value indicating if the expando is expanded
+        *
+        * @param {boolean} value
+        */
+        expanded: boolean;
+        /**
+         * Property field
+         */
+        private _fragmentItem;
+        /**
+         * Gets or sets the fragment item of the expando
+         *
+         * @returns {Item}
+         */
+        /**
+        * Gets or sets the fragment item of the expando
+        *
+        * @param {Item} value
+        */
+        fragmentItem: Item;
+        /**
+         * Gets or sets the title of the expando
+         *
+         * @returns {string}
+         */
+        /**
+        * Gets or sets the title of the expando
+        *
+        * @param {string} value
+        */
+        title: string;
+        /**
+         * Field for btnFold property
+         */
+        private _btnFold;
+        /**
+         * Gets the fold button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnFold: ButtonItem;
+        /**
+         * Field for lblTitle property
+         */
+        private _lblTitle;
+        /**
+         * Gets the title label
+         *
+         * @returns {LabelItem}
+         */
+        readonly lblTitle: LabelItem;
+        /**
+         * Field for toolbar property
+         */
+        private _toolbar;
+        /**
+         * Gets the toolbar of the expando
+         *
+         * @returns {Toolbar}
+         */
+        readonly toolbar: Toolbar;
+    }
+}
+/**
+ * Created by josemanuel on 8/1/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class FileItem extends Item {
+        static SYS_THUMB_KEY: string;
+        static defaultThumbWidth: number;
+        static defaultThumbHeight: number;
+        /**
+         *
+         */
+        constructor(f?: latte.File);
+        /**
+         * Updates the thumb of the item.
+         */
+        private updateThumb;
+        /**
+         * Raises the <c>file</c> event
+         */
+        onFileChanged(): void;
+        /**
+         * Raises the <c>fileUploader</c> event
+         */
+        onFileUploaderChanged(): void;
+        /**
+         * Raises the <c>thumbCreated</c> event
+         */
+        onThumbCreated(): void;
+        /**
+         * Raises the <c>thumbSize</c> event
+         */
+        onThumbSizeChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _fileChanged;
+        /**
+         * Gets an event raised when the value of the file property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly fileChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _fileUploaderChanged;
+        /**
+         * Gets an event raised when the value of the fileUploader property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly fileUploaderChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _thumbCreated;
+        /**
+         * Gets an event raised when the system thumb has been created
+         *
+         * @returns {LatteEvent}
+         */
+        readonly thumbCreated: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _thumbSizeChanged;
+        /**
+         * Gets an event raised when the value of the thumbSize property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly thumbSizeChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _file;
+        /**
+         * Gets or sets the latte File
+         *
+         * @returns {latte.File}
+         */
+        /**
+        * Gets or sets the latte File
+        *
+        * @param {latte.File} value
+        */
+        file: latte.File;
+        /**
+         * Property field
+         */
+        private _fileUploader;
+        /**
+         * Gets or sets the file uploader for this item. After uploading the file record will be added.
+         *
+         * @returns {FileUploader}
+         */
+        /**
+        * Gets or sets the file uploader for this item. After uploading the file record will be added.
+        *
+        * @param {FileUploader} value
+        */
+        fileUploader: FileUploader;
+        /**
+         * Property field
+         */
+        private _thumbSize;
+        /**
+         * Gets or sets the size of the thumbnail
+         *
+         * @returns {Size}
+         */
+        /**
+        * Gets or sets the size of the thumbnail
+        *
+        * @param {Size} value
+        */
+        thumbSize: Size;
+        /**
+         * Property field
+         */
+        private _quality;
+        /**
+         * Gets or sets the quality value
+         *
+         * @returns {number}
+         */
+        /**
+        * Gets or sets the quality value
+        *
+        * @param {number} value
+        */
+        quality: number;
+        /**
+         * Field for infoBar property
+         */
+        private _divBar;
+        /**
+         * Gets the info bar element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly divBar: Element<HTMLDivElement>;
+        /**
+         * Field for divExtension property
+         */
+        private _divExtension;
+        /**
+         * Gets the extension div
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly divExtension: Element<HTMLDivElement>;
+        /**
+         * Field for divName property
+         */
+        private _divName;
+        /**
+         * Gets the name element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly divName: Element<HTMLDivElement>;
+        /**
+         * Field for divSize property
+         */
+        private _divSize;
+        /**
+         * Gets the size element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly divSize: Element<HTMLDivElement>;
+        /**
+         * Field for thumb property
+         */
+        private _divThumb;
+        /**
+         * Gets the thumb of the item
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly divThumb: Element<HTMLDivElement>;
+        /**
+         * Field for img property
+         */
+        private _img;
+        /**
+         * Gets the image of the thumb
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly img: Element<HTMLImageElement>;
+        /**
+         * Field for progressBar property
+         */
+        private _progressBar;
+        /**
+         * Gets the progress item
+         *
+         * @returns {ProgressItem}
+         */
+        readonly progressBar: ProgressItem;
+    }
+}
+declare module latte {
+    /**
+     * File Record
+     **/
+    class File extends fileBase {
+        /**
+         * Gets an array of files belonging to the specified record
+         **/
+        static byRecord(record: DataRecord, callback: (arr: Array<File>) => any): Message;
+        /**
+         * Gets the extension of the file
+         * @param ext
+         * @returns {string}
+         */
+        static extensionOf(ext: string): string;
+        /**
+         * Returns a value indicating if the extension is an image extension
+         * @param e
+         * @returns {boolean}
+         */
+        static isImageExtension(e: string): boolean;
+        /**
+         * Gets the name of the file without extension
+         * @param fileName
+         */
+        static nameWithoutExtensionOf(fileName: string): string;
+        /**
+         * Makes a single upload of a file with the specified record as owner
+         *
+         * @param owner
+         * @param idOwner
+         * @param callback
+         */
+        static singleUpload(owner: string, idOwner: string, callback?: (File: any) => any): void;
+        /**
+         * Gets the human size of specified amount of bytes
+         * @param size
+         * @returns {string}
+         */
+        static humanSizeOf(size?: number): string;
+        /**
+         * Gets an URL for the specified path, by using the default bucket
+         **/
+        static urlOfPath(path: string): string;
+        children: File[];
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Creates a thumb that fits on the specified size
+         *
+         * @param options
+         * @param key
+         * @param callback
+         */
+        createThumbChild(options: ImageExportOptions, key: string, callback?: (child: File) => void): void;
+        /**
+         * Searches for the child of the specified description. Returns null if not found.
+         * @param key
+         * @returns {any}
+         */
+        getChildByKey(key: string): File;
+        /**
+         * Override.
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Gets a value indicating if the file can be manipulated
+         **/
+        readonly canManipulate: boolean;
+        /**
+         * Gets the extension of the file, without the dot.
+         The extension is returned always as a lowercase string.
+         If the file has no name set, null will be returned. If the name has no extension,
+         empty string will be returned.
+         **/
+        readonly extension: string;
+        /**
+         * Gets the human size of the file
+         **/
+        readonly humanSize: string;
+        /**
+         * Gets a value indicating if the file is an image
+         **/
+        readonly isImage: boolean;
+        /**
+         * Gets the url for downloading the file
+         **/
+        readonly url: string;
+    }
+}
+/**
+ * Created by josemanuel on 7/27/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class HtmlFragmentAdapter extends FragmentAdapter<IFragment> {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Override
+         */
+        getEditorTabs(): TabItem[];
+        /**
+         * Returns the items for the ribbon of the view
+         * @returns {Array}
+         */
+        getEditorTabItems(): Item[];
+        /**
+         * Override. Raises the <c>createEditorItem</c> event
+         */
+        onCreateEditorItem(): void;
+        /**
+         * Field for htmlEditor property
+         */
+        private _htmlEditor;
+        /**
+         * Gets the html editor
+         *
+         * @returns {HtmlEditorItem}
+         */
+        readonly htmlEditor: HtmlEditorItem;
+        /**
+         * Field for tabFormat property
+         */
+        private _tabFormat;
+        /**
+         * Gets the format tab
+         *
+         * @returns {TabItem}
+         */
+        readonly tabFormat: TabItem;
+        /**
+         * Field for formatItems property
+         */
+        private _formatItems;
+        /**
+         * Gets the format items
+         *
+         * @returns {Item[]}
+         */
+        readonly formatItems: Item[];
+    }
+}
+/**
+ * Created by josemanuel on 10/9/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class FragmentPlaceholderItem extends Item {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Raises the <c>click</c> event
+         */
+        onClick(): void;
+        /**
+         * Raises the <c>dragEnd</c> event
+         */
+        onDragEnd(e: DragEvent): void;
+        /**
+         * Raises the <c>dragging</c> event
+         */
+        onDraggingChanged(): void;
+        /**
+         * Raises the <c>dragStart</c> event
+         */
+        onDragStart(e: DragEvent): void;
+        /**
+         * Raises the <c>drop</c> event
+         */
+        onDrop(e: DragEvent): void;
+        /**
+         * Raises the <c>emptyIcon</c> event
+         */
+        onEmptyIconChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _click;
+        /**
+         * Gets an event raised when user clicks the control
+         *
+         * @returns {LatteEvent}
+         */
+        readonly click: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _dragEnd;
+        /**
+         * Gets an event raised when the drag operation ends
+         *
+         * @returns {LatteEvent}
+         */
+        readonly dragEnd: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _draggingChanged;
+        /**
+         * Gets an event raised when the value of the dragging property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly draggingChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _dragStart;
+        /**
+         * Gets an event raised when a drag operation starts
+         *
+         * @returns {LatteEvent}
+         */
+        readonly dragStart: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _drop;
+        /**
+         * Gets an event raised when the user drops data
+         *
+         * @returns {LatteEvent}
+         */
+        readonly drop: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _emptyIconChanged;
+        /**
+         * Gets an event raised when the value of the emptyIcon property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly emptyIconChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _allowDrop;
+        /**
+         * Gets or sets a value indicating if the placeholder allows drop
+         *
+         * @returns {boolean}
+         */
+        /**
+        * Gets or sets a value indicating if the placeholder allows drop
+        *
+        * @param {boolean} value
+        */
+        allowDrop: boolean;
+        /**
+         * Property field
+         */
+        private _dragging;
+        /**
+         * Gets or sets a value indicating if the user is dragging something over the item
+         *
+         * @returns {boolean}
+         */
+        /**
+        * Gets or sets a value indicating if the user is dragging something over the item
+        *
+        * @param {boolean} value
+        */
+        dragging: boolean;
+        /**
+         * Property field
+         */
+        private _emptyIcon;
+        /**
+         * Gets or sets the icon item
+         *
+         * @returns {IconItem}
+         */
+        /**
+        * Gets or sets the icon item
+        *
+        * @param {IconItem} value
+        */
+        emptyIcon: IconItem;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table fragment
+     */
+    class Fragment extends fragmentBase {
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table page
+     */
+    class Page extends pageBase {
+        /**
+         * Allows the user to see the page and access the fragments of the page.
+         * @type {number}
+         */
+        static PERMISSION_READ: number;
+        /**
+         * Allows the user to modify the page after it becomes online.
+         * @type {number}
+         */
+        static PERMISSION_WRITE: number;
+        /**
+         * Allows the user to delete the page.
+         * @type {number}
+         */
+        static PERMISSION_DELETE: number;
+        /**
+         * Allows the user to insert new children to the page.
+         * @type {number}
+         */
+        static PERMISSION_INSERT_CHILD: number;
+        /**
+         * Allows the user to read children of the page. User gets to know the children he owns.
+         * @type {number}
+         */
+        static PERMISSION_READ_CHILDREN: number;
+        /**
+         * Returns a boolean indicating if the user has the specified permission for the page
+         * @param permission
+         */
+        canI(permission: number): boolean;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Override.
+         * @param form
+         */
+        onFormCreated(form: DataRecordFormItem): void;
+        /**
+         * Raises the <c>onlineSwitched</c> event
+         */
+        onOnlineSwitched(): void;
+        /**
+         * Back field for event
+         */
+        private _onlineSwitched;
+        /**
+         * Gets an event raised when the online attribute has been switched
+         *
+         * @returns {LatteEvent}
+         */
+        readonly onlineSwitched: LatteEvent;
+        /**
+         * Gets a value indicating if user has WRITE permission
+         *
+         * @returns {boolean}
+         */
+        readonly canIDelete: boolean;
+        /**
+         * Gets a value indicating if user has INSERT_CHILD permission
+         *
+         * @returns {boolean}
+         */
+        readonly canIInsertChild: boolean;
+        /**
+         * Gets a value indicating if user has READ permission
+         *
+         * @returns {boolean}
+         */
+        readonly canIRead: boolean;
+        /**
+         * Gets a value indicating if the user has READ_CHILDREN permission
+         *
+         * @returns {boolean}
+         */
+        readonly canIReadChildren: boolean;
+        /**
+         * Gets a value indicating if user has WRITE permission
+         *
+         * @returns {boolean}
+         */
+        readonly canIWrite: boolean;
+        /**
+         * Property field
+         */
+        private _configurationSetting;
+        /**
+         * Gets or sets the configuration of the page
+         *
+         * @returns {Setting}
+         */
+        /**
+        * Gets or sets the configuration of the page
+        *
+        * @param {Setting} value
+        */
+        configurationSetting: Setting;
+        /**
+         * Field for configuration property
+         */
+        private _configuration;
+        /**
+         * Gets the configuration helper for the page
+         *
+         * @returns {PageConfiguration}
+         */
+        readonly configuration: PageConfiguration;
+        /**
+         * Gets a value indicating if the page belongs to the logged user
+         *
+         * @returns {boolean}
+         */
+        readonly isMine: boolean;
+        /**
+         * Gets a value indicating if the user owns the page and has not write permissions
+         *
+         * @returns {boolean}
+         */
+        readonly isMineAndCantWrite: boolean;
+        /**
+         * Gets a value indicating if the page is currently online
+         *
+         * @returns {boolean}
+         */
+        readonly isOnline: boolean;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table group_user
+     */
+    class GroupUser extends groupUserBase {
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Property field
+         */
+        private _user;
+        /**
+         * Gets or sets the user of the relationship
+         *
+         * @returns {User}
+         */
+        /**
+        * Gets or sets the user of the relationship
+        *
+        * @param {User} value
+        */
+        user: User;
+        /**
+         * Gets the users name
+         *
+         * @returns {string}
+         */
+        readonly userName: string;
+        /**
+         * Gets the user attributes string
+         *
+         * @returns {string}
+         */
+        readonly userAttributes: string;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table group
+     */
+    class Group extends groupBase {
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Returns a string representation of the object
+         */
+        toString(): string;
+    }
+}
+/**
+ * Created by josemanuel on 8/11/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class CmsMainView extends View {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Override.
+         */
+        onLoad(): void;
+        /**
+         * Field for explorer property
+         */
+        private _explorer;
+        /**
+         * Gets the explorer
+         *
+         * @returns {CmsExplorer}
+         */
+        readonly explorer: CmsExplorer;
+        /**
+         * Field for topBar property
+         */
+        private _topBar;
+        /**
+         * Gets the top bar
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly topBar: Element<HTMLDivElement>;
+        /**
+         * Field for logo property
+         */
+        private _logo;
+        /**
+         * Gets the logo element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly logo: Element<HTMLDivElement>;
+        /**
+         * Field for logout property
+         */
+        private _logout;
+        /**
+         * Gets the logout element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly logout: Element<HTMLDivElement>;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table user
+     */
+    class User extends userBase {
+        static FLAG_ROOT_USER: number;
+        static FLAG_SYS_ADMIN: number;
+        static FLAG_BANNED_USER: number;
+        static FLAG_TRASH: number;
+        static FLAG_USE_BACKEND: number;
+        static me: User;
+        /**
+         * Gets the suggestion loader
+         * @returns {*}
+         */
+        static suggestionLoader(): (d: DataRecordValueItem, callback: (items: Item[]) => any) => Message;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+        /**
+         * Returns a value indicating if the user belongs to the specified group
+         * @param idgroup
+         * @returns {boolean}
+         */
+        inGroup(idgroup: number): boolean;
+        /**
+         * Returns a string representation of the object
+         */
+        toString(): string;
+        /**
+         * Gets a string with attributes of the record
+         *
+         * @returns {string}
+         */
+        readonly attributes: string;
+        /**
+         * Gets a value indicating if the user is able to use the backend
+         *
+         * @returns {boolean}
+         */
+        readonly canUseBackend: boolean;
+        /**
+         * Gets the flags as a string
+         *
+         * @returns {string}
+         */
+        readonly flagsString: string;
+        /**
+         * Property field
+         */
+        private _groups;
+        /**
+         * Gets or sets the groups of the record
+         *
+         * @returns {Group[]}
+         */
+        /**
+        * Gets or sets the groups of the record
+        *
+        * @param {Group[]} value
+        */
+        groups: Group[];
+        /**
+         * Gets a value indicating if the user is banned
+         *
+         * @returns {boolean}
+         */
+        readonly isBanned: boolean;
+        /**
+         * Gets a value indicating if user is root
+         *
+         * @returns {boolean}
+         */
+        readonly isRoot: boolean;
+        /**
+         * Gets a value indicating if user is sys-admin
+         *
+         * @returns {boolean}
+         */
+        readonly isSysAdmin: boolean;
+        /**
+         * Gets a value indicating if the user is trash
+         *
+         * @returns {boolean}
+         */
+        readonly isTrash: boolean;
+    }
+}
+/**
+ * Generated by xlatte
+ */
+declare module latte {
+    /**
+     * Record for table setting
+     */
+    class Setting extends settingBase {
+        /**
+         * Buffer of settings
+         * @type {{}}
+         */
+        private static globalBuffer;
+        /**
+         * Clears the buffer of loaded global settings
+         */
+        static clearGlobalSettingsBuffer(): void;
+        /**
+         * Goes to the server for a global setting. It buffers it locally.
+         * @param name
+         * @param callback
+         */
+        static getGlobalBuffered(name: string, callback: (s: Setting) => void): void;
+        settingType: string;
+        /**
+         * Gets the metadata about the record
+         *
+         * @returns Object
+         */
+        getMetadata(): IRecordMeta;
+    }
+}
+/**
+ * Created by josemanuel on 9/18/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class GlobalSettingView extends ColumnView {
+        /**
+         * Creates the view
+         */
+        constructor(globalSetting: IGlobalConfigSetting);
+        /**
+         * Override.
+         */
+        onLoad(): void;
+        /**
+         * Raises the <c>setting</c> event
+         */
+        onSettingChanged(): any;
+        /**
+         * Back field for event
+         */
+        private _settingChanged;
+        /**
+         * Gets an event raised when the value of the setting property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly settingChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _setting;
+        /**
+         * Gets or sets the setting of the view
+         *
+         * @returns {Setting}
+         */
+        /**
+        * Gets or sets the setting of the view
+        *
+        * @param {Setting} value
+        */
+        setting: Setting;
+        /**
+         * Property field
+         */
+        private _globalSetting;
+        /**
+         * Gets or sets the setting item
+         *
+         * @returns {IGlobalConfigSetting}
+         */
+        /**
+        * Gets or sets the setting item
+        *
+        * @param {IGlobalConfigSetting} value
+        */
+        globalSetting: IGlobalConfigSetting;
+        /**
+         * Field for settingForm property
+         */
+        private _settingForm;
+        /**
+         * Gets the form of the setting
+         *
+         * @returns {DataRecordFormItem}
+         */
+        readonly settingForm: DataRecordFormItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class CmsExplorer extends ExplorerView {
+        /**
+         *
+         */
+        constructor();
     }
 }
 /**
@@ -6780,5 +5968,817 @@ declare module latte {
          * @returns {ProgressItem}
          */
         readonly progressItem: ProgressItem;
+    }
+}
+/**
+ * Created by josemanuel on 8/7/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageAdvancedView extends ColumnView {
+        /**
+         *
+         */
+        constructor(r?: Page);
+        /**
+         * Override
+         */
+        onLoad(): void;
+        /**
+         * Raises the <c>page</c> event
+         */
+        onPageChanged(): void;
+        /**
+         * Raises the <c>sentToTrash</c> event
+         */
+        onSentToTrash(): void;
+        /**
+         * Sends the page to trash
+         */
+        sendToTrash(): void;
+        /**
+         * Back field for event
+         */
+        private _pageChanged;
+        /**
+         * Gets an event raised when the value of the page property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly pageChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _sentToTrash;
+        /**
+         * Gets an event raised when the page is sent to trash
+         *
+         * @returns {LatteEvent}
+         */
+        readonly sentToTrash: LatteEvent;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the page of the view
+         *
+         * @returns {Page}
+         */
+        /**
+        * Gets or sets the page of the view
+        *
+        * @param {Page} value
+        */
+        page: Page;
+        /**
+         * Field for btnDelete property
+         */
+        private _btnDelete;
+        /**
+         * Gets the delete button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnDelete: ButtonItem;
+        /**
+         * Field for form property
+         */
+        private _form;
+        /**
+         * Gets the form item
+         *
+         * @returns {DataRecordFormItem}
+         */
+        readonly form: DataRecordFormItem;
+    }
+}
+/**
+ * Created by josemanuel on 9/21/16.
+ */
+declare module latte {
+    interface InstallWizardStep {
+        (callback: () => any): any;
+    }
+    /**
+     *
+     */
+    class InstallWizardView extends View {
+        /**
+         * Notes during installation
+         * @type {Array}
+         */
+        notes: string[];
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Starts the wizard
+         */
+        start(): void;
+        /**
+         * Executes the next step of installation wizard
+         */
+        disptachStep(): void;
+        /**
+         * Step for checking folder writability
+         * @param callback
+         */
+        checkFolderWritable(callback: () => any): void;
+        /**
+         * Checks if htaccess is present, installs if not
+         * @param callback
+         */
+        checkHtAccess(callback: () => any): void;
+        /**
+         * Checks if mod_rewrite is available
+         * @param callback
+         */
+        checkModRewrite(callback: () => any): void;
+        /**
+         * Ensures the database is present
+         * @param callback
+         */
+        setupDataBase(callback: () => any): void;
+        /**
+         *
+         * @param callback
+         */
+        setupDBConnection(callback: () => any): void;
+        setupRoot(callback: () => any): void;
+        /**
+         * Chooose lang
+         * @param callback
+         */
+        langChoose(callback: () => any): void;
+        /**
+         * Override. Start dispatching.
+         */
+        onLoad(): void;
+        /**
+         * Raises the <c>ended</c> event
+         */
+        onEnded(): void;
+        /**
+         * Back field for event
+         */
+        private _ended;
+        /**
+         * Gets an event raised when the install steps end
+         *
+         * @returns {LatteEvent}
+         */
+        readonly ended: LatteEvent;
+        /**
+         * Field for steps property
+         */
+        private _steps;
+        /**
+         * Gets the steps to execute on the wizard
+         *
+         * @returns {InstallWizardStep[]}
+         */
+        readonly steps: InstallWizardStep[];
+        /**
+         * Field for spinner property
+         */
+        private _spinner;
+        /**
+         * Gets the spinner element
+         *
+         * @returns {HTMLDivElement}
+         */
+        readonly spinner: HTMLDivElement;
+    }
+}
+/**
+ * Created by josemanuel on 7/16/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageConfigurationView extends View {
+        /**
+         * Creates the view
+         */
+        constructor(r: Page);
+        private updateJsonWarning;
+        private inputChanged;
+        /**
+         * Loads data
+         */
+        onLoad(): void;
+        getSaveCalls(): ICall[];
+        private _lblInvalidJson;
+        readonly lblInvalidJson: LabelItem;
+        /**
+         * Field for textbox property
+         */
+        private _textbox;
+        /**
+         * Gets the textbox
+         *
+         * @returns {Textbox}
+         */
+        readonly textbox: Element<HTMLTextAreaElement>;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the page of theview
+         *
+         * @returns {Page}
+         */
+        /**
+        * Gets or sets the page of theview
+        *
+        * @param {Page} value
+        */
+        page: Page;
+    }
+}
+/**
+ * Created by josemanuel on 7/14/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageSidebar extends TabView {
+        static lastSelectedTab: string;
+        /**
+         *
+         */
+        constructor(r: PageExplorer);
+        /**
+         * Override.
+         */
+        onLoad(): void;
+        /**
+         * Override.
+         */
+        onSavingChanges(): boolean;
+        /**
+         * Override.
+         */
+        onSelectedTabChanged(): void;
+        /**
+         * Raises the <c>page</c> event
+         */
+        onPageChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _pageChanged;
+        /**
+         * Gets an event raised when the value of the page property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly pageChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the page of the sidebar
+         *
+         * @returns {Page}
+         */
+        /**
+        * Gets or sets the page of the sidebar
+        *
+        * @param {Page} value
+        */
+        page: Page;
+        /**
+         * Property field
+         */
+        private _pageExplorer;
+        /**
+         * Gets or sets the page explorer
+         *
+         * @returns {PageExplorer}
+         */
+        /**
+        * Gets or sets the page explorer
+        *
+        * @param {PageExplorer} value
+        */
+        pageExplorer: PageExplorer;
+        /**
+         * Field for advancedView property
+         */
+        private _advancedView;
+        /**
+         * Gets the advanced view
+         *
+         * @returns {PageAdvancedView}
+         */
+        readonly advancedView: PageAdvancedView;
+        /**
+         * Field for configurationView property
+         */
+        private _configurationView;
+        /**
+         * Gets the configuration view
+         *
+         * @returns {PageConfigurationView}
+         */
+        readonly configurationView: PageConfigurationView;
+        /**
+         * Field for detailView property
+         */
+        private _detailView;
+        /**
+         * Gets the detail view
+         *
+         * @returns {PageDetailView}
+         */
+        readonly detailView: PageDetailView;
+        /**
+         * Field for tabAdvanced property
+         */
+        private _tabAdvanced;
+        /**
+         * Gets the advanced tab
+         *
+         * @returns {TabItem}
+         */
+        readonly tabAdvanced: TabItem;
+        /**
+         * Field for tabDetail property
+         */
+        private _tabDetail;
+        /**
+         * Gets the detail tab
+         *
+         * @returns {TabItem}
+         */
+        readonly tabDetail: TabItem;
+        /**
+         * Field for tabConfiguration property
+         */
+        private _tabConfiguration;
+        /**
+         * Gets the configuration tab
+         *
+         * @returns {TabItem}
+         */
+        readonly tabConfiguration: TabItem;
+    }
+}
+/**
+ * Created by josemanuel on 7/18/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class PageDetailView extends ColumnView {
+        private validated;
+        /**
+         * Creates the view
+         */
+        constructor();
+        /**
+         * Adds settings to the view
+         * @param settings
+         * @param values
+         */
+        addSettings(settings: IPageConfigurationSettings, values: {
+            [index: string]: Setting;
+        }): void;
+        /**
+         * Loads the settings of the page
+         */
+        loadSettings(): void;
+        /**
+         * Override
+         */
+        onLoad(): void;
+        /**
+         * Raises the <c>page</c> event
+         */
+        onPageChanged(): void;
+        /**
+         * Override.
+         */
+        onSavingChanges(): boolean;
+        /**
+         * Opens the editor
+         */
+        openEditor(): void;
+        /**
+         * Override.
+         * @returns {any[]}
+         */
+        getSaveCalls(): ICall[];
+        /**
+         * @returns {Array}
+         */
+        saveSettingsCalls(): ICall[];
+        /**
+         * Back field for event
+         */
+        private _pageChanged;
+        /**
+         * Gets an event raised when the value of the page property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly pageChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the page of the view
+         *
+         * @returns {Page}
+         */
+        /**
+        * Gets or sets the page of the view
+        *
+        * @param {Page} value
+        */
+        page: Page;
+        /**
+         * Field for btnOpen property
+         */
+        private _btnOpen;
+        /**
+         * Gets the open button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnOpen: ButtonItem;
+        /**
+         * Field for dataForm property
+         */
+        private _dataForm;
+        /**
+         * Gets the data record for item of the page
+         *
+         * @returns {DataRecordFormItem}
+         */
+        readonly dataForm: DataRecordFormItem;
+        /**
+         * Field for settingsForm property
+         */
+        private _settingsForm;
+        /**
+         * Gets the settings form item
+         *
+         * @returns {FormItem}
+         */
+        readonly settingsForm: FormItem;
+        /**
+         * Field for tagsForm property
+         */
+        private _tagsForm;
+        /**
+         * Gets the tags form item
+         *
+         * @returns {PageTagsForm}
+         */
+        readonly tagsForm: PageTagsForm;
+    }
+}
+declare module latte {
+    /**
+     * Create new SettingValueItem
+     */
+    class SettingValueItem extends TagValueItem<Page> {
+        /**
+         * Creates a new SettingValueItem
+         */
+        constructor();
+        /**
+         * @override
+         * @param setting
+         */
+        onCreateItem(setting?: DataRecord): void;
+        /**
+         * Filter Suggestions
+         */
+        onFilterSuggestions(): void;
+        /**
+         * @param {latte.Setting} record
+         */
+        onAddItem(record: Setting): void;
+        /**
+         * Called when fill to list
+         * @param callback
+         */
+        onLoadItems(callback: GenericCallback): void;
+    }
+}
+/**
+ * Created by josemanuel on 7/23/16.
+ */
+declare module latte {
+    /**
+     * PageEditorView
+     */
+    class PageEditorView extends View {
+        private timerId;
+        private fragmentAdapters;
+        private titleChanged;
+        private cancelTitle;
+        private onlineChanged;
+        /**
+         * @param {latte.Page} r
+         * @param {latte.IPageSettingsPack} pack
+         */
+        constructor(r: Page, pack?: IPageSettingsPack);
+        /**
+         * Clears the ribbon of non-standard items and tabs
+         */
+        private clearRibbon;
+        /**
+         * Handles focus on the fragment
+         *
+         * @param adapter
+         */
+        private fragmentFocus;
+        /**
+         * Updates the tabs of the specified fragment adapter
+         * @param adapter
+         */
+        private fragmentTabsUpdate;
+        /**
+         * Adds a fragment to the ui
+         * @param key
+         * @param fragmentData
+         * @param fragment
+         */
+        addFragment(key: string, fragmentData: IFragment, fragment: Fragment): void;
+        /**
+         * Loads the page
+         */
+        loadPage(): void;
+        /**
+         * Raises the <c>focusedFragmentAdapter</c> event
+         */
+        onFocusedFragmentAdapterChanged(): void;
+        /**
+         * Override.
+         */
+        onLoad(): void;
+        /**
+         * Override.
+         */
+        onUnload(): void;
+        /**
+         * Raises the <c>page</c> event
+         */
+        onPageChanged(): void;
+        /**
+         * Previews the page
+         */
+        preview(): void;
+        /**
+         *
+         */
+        saveTick(): void;
+        /**
+         * Back field for event
+         */
+        private _closeRequested;
+        /**
+         * Gets an event raised when close was requested
+         *
+         * @returns {LatteEvent}
+         */
+        readonly closeRequested: LatteEvent;
+        /**
+         * Raises the <c>closeRequested</c> event
+         */
+        onCloseRequested(): void;
+        /**
+         * Back field for event
+         */
+        private _focusedFragmentAdapterChanged;
+        /**
+         * Gets an event raised when the value of the focusedFragmentAdapter property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly focusedFragmentAdapterChanged: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _pageChanged;
+        /**
+         * Gets an event raised when the value of the page property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly pageChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _focusedFragmentAdapter;
+        /**
+         * Gets or sets the focused fragment adapter
+         *
+         * @returns {FragmentAdapter<IFragment>}
+         */
+        /**
+        * Gets or sets the focused fragment adapter
+        *
+        * @param {FragmentAdapter<IFragment>} value
+        */
+        focusedFragmentAdapter: FragmentAdapter<IFragment>;
+        /**
+         * Property field
+         */
+        private _pack;
+        /**
+         * Gets or sets the settings pack of the page
+         *
+         * @returns {IPageSettingsPack}
+         */
+        /**
+        * Gets or sets
+        *
+        * @param {IPageSettingsPack} value
+        */
+        pack: IPageSettingsPack;
+        /**
+         * Property field
+         */
+        private _page;
+        /**
+         * Gets or sets the record of the view
+         *
+         * @returns {Page}
+         */
+        /**
+        * Gets or sets the record of the view
+        *
+        * @param {Page} value
+        */
+        page: Page;
+        /**
+         * Gets the ribbon of the view
+         *
+         * @returns {Ribbon}
+         */
+        readonly ribbon: Ribbon;
+        /**
+         * Field for btnClose property
+         */
+        private _btnClose;
+        /**
+         * Gets the close button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnClose: ButtonItem;
+        /**
+         * Field for btnPreview property
+         */
+        private _btnPreview;
+        /**
+         * Gets the preview button
+         *
+         * @returns {ButtonItem}
+         */
+        readonly btnPreview: ButtonItem;
+        /**
+         * Field for columnView property
+         */
+        private _columnView;
+        /**
+         * Gets the column view
+         *
+         * @returns {ColumnView}
+         */
+        readonly columnView: ColumnView;
+        /**
+         * Field for ribbonView property
+         */
+        private _ribbonView;
+        /**
+         * Gets the ribbon in the view
+         *
+         * @returns {RibbonView}
+         */
+        readonly ribbonView: RibbonView;
+        /**
+         * Field for onlineInput property
+         */
+        private _onlineInput;
+        /**
+         * Gets the online input
+         *
+         * @returns {InputItem}
+         */
+        readonly onlineInput: InputItem;
+        /**
+         * Field for tabPage property
+         */
+        private _tabPage;
+        /**
+         * Gets the page tab
+         *
+         * @returns {TabItem}
+         */
+        readonly tabPage: TabItem;
+        /**
+         * Field for titleElement property
+         */
+        private _titleElement;
+        /**
+         * Gets the title element
+         *
+         * @returns {Element<HTMLDivElement>}
+         */
+        readonly titleElement: Element<HTMLDivElement>;
+    }
+}
+declare module latte {
+    /**
+     * PageTagsForm
+     */
+    class PageTagsForm extends FormItem {
+        /**
+         * PageTagsForm
+         */
+        constructor();
+        /**
+         * Raises the <c>record</c> event
+         */
+        onRecordChanged(): void;
+        /**
+         * Back field for event
+         */
+        private _recordChanged;
+        /**
+         * Gets an event raised when the value of the record property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly recordChanged: LatteEvent;
+        /**
+         * Field for inputItem property
+         */
+        private _inputItem;
+        /**
+         * Gets the input for control tags
+         *
+         * @returns {InputItem}
+         */
+        readonly inputItem: InputItem;
+        /**
+         * Field for pageTagItem property
+         */
+        private _pageTagItem;
+        /**
+         * Gets the tag system property
+         *
+         * @returns {SettingValueItem}
+         */
+        readonly pageTagItem: SettingValueItem;
+        /**
+         * Property field
+         */
+        private _record;
+        /**
+         * Gets or sets when the record property changes
+         *
+         * @returns {Page}
+         */
+        /**
+        * Gets or sets when the record property changes
+        *
+        * @param {Page} value
+        */
+        record: Page;
+    }
+}
+/**
+ * Created by josemanuel on 6/10/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class SignInView extends SignInViewBase {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Handles the form submit
+         */
+        formSubmit(): void;
     }
 }

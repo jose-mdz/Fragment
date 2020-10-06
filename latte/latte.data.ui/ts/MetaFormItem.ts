@@ -35,6 +35,8 @@ module latte{
          */
         private loadMetadata(){
 
+            const categorySpecifiedOnForm = _isString(this.category) && this.category.length > 0;
+
             this.inputs.clear();
 
             // Calls to get foreign key records
@@ -43,6 +45,11 @@ module latte{
             // Extract metadata
             let metadata = this.metadata;
 
+            // console.log(`Loading metadata`);
+            // console.log(metadata);
+            // console.log(`this.category:`);
+            // console.log(this.category);
+
             // Check fields metadata
             if (metadata && metadata.fields) {
 
@@ -50,21 +57,19 @@ module latte{
                 for (let i in metadata.fields) {
 
                     let field = metadata.fields[i];
-                    const categorySpecified =  _isString(this.category);
-                    const categorySpecifiedIsEmpty = categorySpecified && !this.category;
-                    const fieldInCategory = field['category'] === this.category || (categorySpecifiedIsEmpty && !field['category']);
+                    const fieldCategory = field['category'] || null;
+                    const categorySpecifiedOnField = _isString(fieldCategory);
+                    const passesCategoryFilter = categorySpecifiedOnForm && fieldCategory === this.category;
+                    const shouldAdd = !categorySpecifiedOnField || passesCategoryFilter;
 
-                    if(categorySpecified && fieldInCategory) {
+                    if(shouldAdd) {
+                        // console.log(`Adding ${i}`);
                         // Add input and get call to make
                         calls.push(this.addInput(i, metadata.fields[i]));
+                    }else{
+                        // console.log(`Skipping ${i}`);
                     }
 
-                    // // Skip if category specified and field is not in category
-                    // if(!(_isString(this.category) && this.category && (field['category'] != this.category))) {
-                    //
-                    //     // Add input and get call to make
-                    //     calls.push(this.addInput(i, metadata.fields[i]));
-                    // }
                 }
             }
 

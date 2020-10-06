@@ -15,29 +15,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Object who contains marshalled call data
-     */
-    interface IDataRemoteCall {
-        moduleName: string;
-        className: string;
-        method: string;
-        id: number;
-        params: any;
-    }
-}
-declare module latte {
-    /**
-     *
-     */
-    interface ICountry {
-        name: string;
-        phone: string;
-        code: string;
-        shortCode: string;
-    }
-}
-declare module latte {
-    /**
      *
      */
     interface ICall {
@@ -112,11 +89,37 @@ declare module latte {
     }
 }
 declare module latte {
-    interface IRemoteResponse {
-        success: boolean;
-        data: any;
-        errorCode: number;
-        errorDescription: string;
+    /**
+     *
+     */
+    interface ICountry {
+        name: string;
+        phone: string;
+        code: string;
+        shortCode: string;
+    }
+}
+declare module latte {
+    /**
+     * Object who contains marshalled call data
+     */
+    interface IDataRemoteCall {
+        moduleName: string;
+        className: string;
+        method: string;
+        id: number;
+        params: any;
+    }
+}
+/**
+ * Created by josemanuel on 7/20/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    interface IMessage {
+        responseArrived: LatteEvent;
     }
 }
 /**
@@ -161,15 +164,12 @@ declare module latte {
         getSaveCalls(): ICall[];
     }
 }
-/**
- * Created by josemanuel on 7/20/16.
- */
 declare module latte {
-    /**
-     *
-     */
-    interface IMessage {
-        responseArrived: LatteEvent;
+    interface IRemoteResponse {
+        success: boolean;
+        data: any;
+        errorCode: number;
+        errorDescription: string;
     }
 }
 /**
@@ -184,65 +184,6 @@ declare module latte {
          * Collection of ISave objects this container has.
          */
         saveItems: Collection<ISave>;
-    }
-}
-/**
- * Created by josemanuel on 12/12/13.
- */
-declare module latte {
-    enum TriBool {
-        UNKNOWN = 0,
-        TRUE = 1,
-        FALSE = 2
-    }
-}
-declare module latte {
-    /**
-     * Enumerates week days
-     */
-    enum WeekDay {
-        /**
-         * Sunday
-         *
-         * @type {number}
-         */
-        SUNDAY = 0,
-        /**
-         * Monday
-         *
-         * @type {number}
-         */
-        MONDAY = 1,
-        /**
-         * Tuesday
-         *
-         * @type {number}
-         */
-        TUESDAY = 2,
-        /**
-         * Wednesday
-         *
-         * @type {number}
-         */
-        WEDNESDAY = 3,
-        /**
-         * Thursday
-         *
-         * @type {number}
-         */
-        THURSDAY = 4,
-        /**
-         * Friday
-         *
-         * @type {number}
-         */
-        FRIDAY = 5,
-        /**
-         * Saturday
-         *
-         * @type {number}
-         */
-        SATURDAY = 6
     }
 }
 declare module latte {
@@ -845,6 +786,65 @@ declare module latte {
         SPACEBAR = 32
     }
 }
+/**
+ * Created by josemanuel on 12/12/13.
+ */
+declare module latte {
+    enum TriBool {
+        UNKNOWN = 0,
+        TRUE = 1,
+        FALSE = 2
+    }
+}
+declare module latte {
+    /**
+     * Enumerates week days
+     */
+    enum WeekDay {
+        /**
+         * Sunday
+         *
+         * @type {number}
+         */
+        SUNDAY = 0,
+        /**
+         * Monday
+         *
+         * @type {number}
+         */
+        MONDAY = 1,
+        /**
+         * Tuesday
+         *
+         * @type {number}
+         */
+        TUESDAY = 2,
+        /**
+         * Wednesday
+         *
+         * @type {number}
+         */
+        WEDNESDAY = 3,
+        /**
+         * Thursday
+         *
+         * @type {number}
+         */
+        THURSDAY = 4,
+        /**
+         * Friday
+         *
+         * @type {number}
+         */
+        FRIDAY = 5,
+        /**
+         * Saturday
+         *
+         * @type {number}
+         */
+        SATURDAY = 6
+    }
+}
 declare module latte {
     /**
      * Holds a list of already included plugins
@@ -971,56 +971,201 @@ declare module latte {
         toString(): string;
     }
 }
-/**
- * Created by josemanuel on 5/4/15.
- */
 declare module latte {
+    interface CollectionEventHanler<T> {
+        (item: T, e: CollectionEvent<T>): any;
+    }
     /**
      *
      */
-    class Ajax {
+    class Collection<T> {
+        private pointer;
         /**
-         * Loads an URL
-         * @param url
-         * @param success
-         * @param error
+         * Initializes the collection
          */
-        static get(url: string, success?: (string: any) => void, error?: (string: any) => void): void;
+        constructor(addCallback?: (e: T, index: number) => void, removeCallback?: (e: T, index: number) => void, context?: any);
         /**
-         * Loads an URL
+         * Adds an element to the collection
          *
-         * @param url
-         * @param data
-         * @param success
-         * @param error
+         * @param element
+         * @param raiseEvent
          */
-        static post(url: string, data: any, success?: (string: any) => void, error?: (string: any) => void): void;
-    }
-}
-declare module latte {
-    /**
-     * Passed to events that could be cancelled after executing a callback
-     */
-    class CancellableCallbackEvent {
+        add(element: T, raiseEvent?: boolean): T;
         /**
+         * Adds an array of elements
          *
+         * @param elements
+         * @param raiseEvent
          */
-        constructor();
+        addArray(elements: T[], raiseEvent?: boolean): T[];
+        /**
+         * Adds a collection of elements to the collection
+         *
+         * @param collection
+         * @param raiseEvent
+         */
+        addCollection(collection: Collection<T>, raiseEvent?: boolean): void;
+        /**
+         * Clears the collection
+         */
+        clear(): void;
+        /**
+         * Returns a value indicating if the specified element is contained in the collection
+         * @param element
+         */
+        contains(element: T): boolean;
+        /**
+         * Corrects the collection to be the specified on the arguments, without raising events.
+         *
+         * @param {T[]} elements
+         */
+        correctItems(elements: T[]): void;
+        /**
+         * Iterates through the collection, executing the handler for each item
+         * @param handler
+         */
+        each(handler: (item: T, index: number) => any): void;
+        /**
+         * Iterates through the collection, executing the handler for each item
+         * @param handler
+         */
+        eachBut(exclude: T, handler: (item: T, index: number) => any): void;
+        /**
+         * Gets the index of the specified element if found. -1 if not found.
+         * @param item
+         * @returns {number}
+         */
+        indexOf(item: T): number;
+        /**
+         * Gets the item at the specified position
+         * @param index
+         * @returns {*}
+         */
+        item(index: number): T;
+        /**
+         * Returns the object on current pointer and moves the pointer forward.
+         * It returns null and resets pointer if end of collection reached.
+         * @returns {*}
+         */
+        next(): T;
+        /**
+         * Raises the <c>addItem</c> event
+         */
+        onAddItem(item: T, index: number): void;
+        /**
+         * Raises the <c>removeItem</c> event
+         */
+        onRemoveItem(item: T, index: number): void;
+        /**
+         * Raises the <c>removingItem</c> event
+         */
+        onRemovingItem(e: CollectionEvent<T>): void;
+        /**
+         * Removes the specified item from the collection
+         * @param item
+         * @param raiseEvent
+         */
+        remove(item: T, raiseEvent?: boolean): T;
+        /**
+         * Removes the item ath the specified index
+         * @param index
+         * @param raiseEvent
+         */
+        removeAt(index: number, raiseEvent?: boolean): void;
+        /**
+         * Resets the internal pointer for calls to <c>next()</c> method.
+         */
+        resetPointer(): void;
+        /**
+         * Returns an array representation of the collection
+         * @returns {T[]}
+         */
+        toArray(): T[];
+        /**
+         * Back field for event
+         */
+        private _addingItem;
+        /**
+         * Gets an event raised when the collection is about to add an item. Its cancellable
+         *
+         * @returns {LatteEvent}
+         */
+        readonly addingItem: LatteEvent;
+        /**
+         * Raises the <c>addingItem</c> event
+         */
+        onAddingItem(e: CollectionEvent<T>): void;
+        /**
+         * Back field for event
+         */
+        private _addItem;
+        /**
+         * Gets an event raised when an item is added
+         *
+         * @returns {LatteEvent}
+         */
+        readonly addItem: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _removeItem;
+        /**
+         * Gets an event raised when an item is removed
+         *
+         * @returns {LatteEvent}
+         */
+        readonly removeItem: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _removingItem;
+        /**
+         * Gets an event raised when the item is about to be removed
+         *
+         * @returns {LatteEvent}
+         */
+        readonly removingItem: LatteEvent;
         /**
          * Property field
          */
-        private _callback;
+        private _context;
         /**
-         * Gets or sets the callback to check for cancelation
+         * Gets or sets the context to execute methods of collection
          *
-         * @returns {(cancel: boolean) => any}
+         * @returns {any}
          */
         /**
-        * Gets or sets the callback to check for cancelation
+        * Gets or sets the context to execute methods of collection
         *
-        * @param {(cancel: boolean) => any} value
+        * @param {any} value
         */
-        callback: (handle: (cancel: boolean) => any) => any;
+        context: any;
+        /**
+         * Gets the count of elements in collection
+         *
+         * @returns {number}
+         */
+        readonly count: number;
+        /**
+         * Gets the first element of the collection
+         * @returns {*}
+         */
+        readonly first: T;
+        /**
+         * Gets the last element of the collection
+         * @returns {*}
+         */
+        readonly last: T;
+        /**
+         * Property field
+         */
+        private _length;
+        /**
+         * Gets the length of the collection
+         *
+         * @returns {number}
+         */
+        readonly length: number;
     }
 }
 declare module latte {
@@ -1077,6 +1222,910 @@ declare module latte {
          * @returns {number}
          */
         readonly itemIndex: number;
+    }
+}
+/**
+ * Created by josemanuel on 5/4/15.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Ajax {
+        /**
+         * Loads an URL
+         * @param url
+         * @param success
+         * @param error
+         */
+        static get(url: string, success?: (string: any) => void, error?: (string: any) => void): void;
+        /**
+         * Loads an URL
+         *
+         * @param url
+         * @param data
+         * @param success
+         * @param error
+         */
+        static post(url: string, data: any, success?: (string: any) => void, error?: (string: any) => void): void;
+    }
+}
+declare module latte {
+    /**
+     * Represents a color
+     **/
+    class Color {
+        /**
+         * Creates a color from the hexadecimal value.
+         * It may contain the <c>#</c> symbol at the beginning of the string.
+         **/
+        static fromHex(hexColor: string): Color;
+        /**
+         * Gets the RGB (Red, Green, Blue) components from a CMYK namespace
+         * @param c
+         * @param m
+         * @param y
+         * @param k
+         * @returns number[]
+         */
+        static cmykToRgb(c: number, m: number, y: number, k: number): number[];
+        /**
+         * HSV to RGB color conversion
+         *
+         * H runs from 0 to 360 degrees
+         * S and V run from 0 to 100
+         *
+         * Ported from the excellent java algorithm by Eugene Vishnevsky at:
+         * http://www.cs.rit.edu/~ncs/color/t_convert.html
+         */
+        static hsvToRgb(h: any, s: any, v: any): number[];
+        /**
+         * Gets the CMYK (Cyan, Magenta, Yellow and Key Black) components from a RGB namespace
+         * @param red
+         * @param green
+         * @param blue
+         * @returns {number[]}
+         */
+        static rgbToCmyk(red: number, green: number, blue: number): number[];
+        /**
+         * Gets the HSV (Hue, Saturation, Value) components from a RGB namespace
+         * @param red
+         * @param green
+         * @param blue
+         * @returns {number[]}
+         */
+        static rgbToHsv(red: number, green: number, blue: number): number[];
+        /**
+         * Field for black property.
+         */
+        private static _black;
+        /**
+         * Gets the black color
+         */
+        static readonly black: Color;
+        /**
+         * Field for white property.
+         */
+        private static _white;
+        /**
+         * Gets the white color
+         */
+        static readonly white: Color;
+        /**
+         * Field for red property.
+         */
+        private static _red;
+        /**
+         * Gets the red color
+         */
+        static readonly red: Color;
+        /**
+         * Field for green property.
+         */
+        private static _green;
+        /**
+         * Gets the green color
+         */
+        static readonly green: Color;
+        /**
+         * Field for blue property.
+         */
+        private static _blue;
+        /**
+         * Gets the blue color
+         */
+        static readonly blue: Color;
+        /**
+         * Field for transparent property.
+         */
+        private static _transparent;
+        /**
+         * Gets the transparent color
+         */
+        static readonly transparent: Color;
+        /**
+         * Creates the color from the specified RGB and Aplha components.
+         **/
+        constructor(r?: number, g?: number, b?: number, a?: number);
+        /**
+         * Returns the color as a hex string
+         **/
+        toHexString(): string;
+        /**
+         * Returns the color as a string
+         **/
+        toString(): string;
+        /**
+         *
+         **/
+        private _a;
+        /**
+         * Gets r sets the Alpha component of color, from 0 to 255
+         * @returns {number}
+         */
+        /**
+        * Gets or sets the Aplha component of color, from 0 to 255.
+        **/
+        a: number;
+        /**
+         *
+         **/
+        private _b;
+        /**
+         * Gets or sets the Blue component of color, from 0 to 255.
+         **/
+        /**
+        * Gets or sets the Blue component of color, from 0 to 255.
+        **/
+        b: number;
+        /**
+         * Gets or sets the Cyan component of the CMKYK namespace
+         *
+         * @returns {number}
+         */
+        /**
+        * Gets or sets the Cyan component of the CMKYK namespace
+        *
+        * @returns {number}
+        */
+        c: number;
+        /**
+         *
+         **/
+        private _g;
+        /**
+         * Gets or sets the Green component of color, from 0 to 255.
+         **/
+        /**
+        * Gets or sets the Green component of color, from 0 to 255.
+        **/
+        g: number;
+        /**
+         * Gets the K (Black Key) component of the CMKYK namespace
+         *
+         * @returns {number}
+         */
+        readonly k: number;
+        /**
+         * Gets the Magenta component of the CMYK namespace
+         *
+         * @returns {number}
+         */
+        readonly m: number;
+        /**
+         * Gets the Yellow component of the CMYK namespace
+         *
+         * @returns {number}
+         */
+        readonly y: number;
+        /**
+         * Returns a copy of the color with the specified alpha between 0 and 255.
+         *
+         * @param alpha
+         */
+        fade(alpha: number): Color;
+        /**
+         * Returns a copy of the color with the specified alpha between 0 and 1.
+         *
+         * @param alpha
+         */
+        fadeFloat(alpha: number): Color;
+        /**
+         * Gets a value indicating if the color is a dark color, by checking its perceived luminosity
+         *
+         * @returns {boolean}
+         */
+        readonly isDark: boolean;
+        /**
+         * Gets a value indicating if the color is a light color, by checking its perceived luminosity
+         *
+         * @returns {boolean}
+         */
+        readonly isLight: boolean;
+        /**
+         * Gets a value indicating if the color is transparent.
+         **/
+        readonly isTransparent: boolean;
+        /**
+         * Returns the perceived luminosity (https://en.wikipedia.org/wiki/Luminous_intensity)
+         *
+         *
+         * @returns {number}
+         */
+        readonly perceivedLuminosity: number;
+        /**
+         *
+         **/
+        private _r;
+        /**
+         * Gets or sets the Red component of color, from 0 to 255.
+         **/
+        /**
+        * Gets or sets the Red component of color, from 0 to 255.
+        **/
+        r: number;
+    }
+}
+/**
+ * Created by josemanuel on 2/6/14.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Culture {
+        /**
+         * Property field
+         */
+        private static _current;
+        /**
+         * Gets or sets the current culture of the system
+         *
+         * @returns {Culture}
+         */
+        /**
+        * Gets or sets the current culture of the system
+        *
+        * @param {Culture} value
+        */
+        static current: Culture;
+        /**
+         * Field for esMX property
+         */
+        private static _esEs;
+        /**
+         * Gets the Español-Mexico Culture
+         *
+         * @returns {Culture}
+         */
+        static readonly esEs: Culture;
+        /**
+         * Field for esMX property
+         */
+        private static _esMx;
+        /**
+         * Gets the Español-Mexico Culture
+         *
+         * @returns {Culture}
+         */
+        static readonly esMx: Culture;
+        /**
+         * Field for enUs property
+         */
+        private static _enUs;
+        /**
+         * Gets the English-USA Culture
+         *
+         * @returns {Culture}
+         */
+        static readonly enUs: Culture;
+        /**
+         * Formats currency using the current culture
+         * @param n
+         * @returns {string}
+         */
+        static formatCurrency(n: number): string;
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        static formatShortDate(d: DateTime): string;
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        static formatLongDate(d: DateTime): string;
+        /**
+         * Formats a number using the current Culture
+         * @param n
+         * @param decimals
+         * @param symbol
+         * @returns {string}
+         */
+        static formatNumber(n: number, decimals?: number, symbol?: string): string;
+        /**
+         * Short date format
+         */
+        shortDateFormat: string;
+        /**
+         * Long date format
+         */
+        longDateFormat: string;
+        /**
+         * Amount of decimals to show in currency format
+         */
+        currencyDecimals: number;
+        /**
+         * Separator of decimals for currency
+         */
+        numberDecimalsSeparator: string;
+        /**
+         * Thousands separator for currency
+         */
+        numberThousandsSeparator: string;
+        /**
+         * Symbol to use in currency
+         */
+        currencySymbol: string;
+        /**
+         * Regular expression for validating floating point numbers
+         * @type {RegExp}
+         */
+        floatValidator: RegExp;
+        /**
+         * Regular expression for validating integer numbers
+         * @type {RegExp}
+         */
+        intValidator: RegExp;
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Returns the specified number as a currency
+         * @param n
+         */
+        onFormatCurrency(n: number): string;
+        /**
+         * Formats the specified number
+         * @param n
+         * @param decimals
+         * @param symbol
+         * @returns {string}
+         */
+        onFormatNumber(n: number, decimals?: number, symbol?: string): string;
+        /**
+         * Returns the date as a long format
+         * @param d
+         */
+        onFormatLongDate(d: DateTime): string;
+        /**
+         * Returns the date as a short format
+         * @param d
+         */
+        onFormatShortDate(d: DateTime): string;
+    }
+}
+declare module latte {
+    /**
+     *
+     */
+    class Country {
+        /**
+         * Gets the country codes
+         */
+        static codes: string[];
+        /**
+         * Gets options for a select of country
+         * @returns {{[p: string]: string}}
+         */
+        static getCountrySelectOptions(): {
+            [index: string]: string;
+        };
+        /**
+         * Gets options for a select of country phone code
+         * @returns {{[p: string]: string}}
+         */
+        static getCountryPhoneSelectOptions(): {
+            [index: string]: string;
+        };
+        static AF: ICountry;
+        static AL: ICountry;
+        static DZ: ICountry;
+        static AS: ICountry;
+        static AD: ICountry;
+        static AO: ICountry;
+        static AI: ICountry;
+        static AQ: ICountry;
+        static AG: ICountry;
+        static AR: ICountry;
+        static AM: ICountry;
+        static AW: ICountry;
+        static AU: ICountry;
+        static AT: ICountry;
+        static AZ: ICountry;
+        static BS: ICountry;
+        static BH: ICountry;
+        static BD: ICountry;
+        static BB: ICountry;
+        static BY: ICountry;
+        static BE: ICountry;
+        static BZ: ICountry;
+        static BJ: ICountry;
+        static BM: ICountry;
+        static BT: ICountry;
+        static BO: ICountry;
+        static BA: ICountry;
+        static BW: ICountry;
+        static BR: ICountry;
+        static IO: ICountry;
+        static VG: ICountry;
+        static BN: ICountry;
+        static BG: ICountry;
+        static BF: ICountry;
+        static BI: ICountry;
+        static KH: ICountry;
+        static CM: ICountry;
+        static CA: ICountry;
+        static CV: ICountry;
+        static KY: ICountry;
+        static CF: ICountry;
+        static TD: ICountry;
+        static CL: ICountry;
+        static CN: ICountry;
+        static CX: ICountry;
+        static CC: ICountry;
+        static CO: ICountry;
+        static KM: ICountry;
+        static CK: ICountry;
+        static CR: ICountry;
+        static HR: ICountry;
+        static CU: ICountry;
+        static CW: ICountry;
+        static CY: ICountry;
+        static CZ: ICountry;
+        static CD: ICountry;
+        static DK: ICountry;
+        static DJ: ICountry;
+        static DM: ICountry;
+        static DO: ICountry;
+        static TL: ICountry;
+        static EC: ICountry;
+        static EG: ICountry;
+        static SV: ICountry;
+        static GQ: ICountry;
+        static ER: ICountry;
+        static EE: ICountry;
+        static ET: ICountry;
+        static FK: ICountry;
+        static FO: ICountry;
+        static FJ: ICountry;
+        static FI: ICountry;
+        static FR: ICountry;
+        static PF: ICountry;
+        static GA: ICountry;
+        static GM: ICountry;
+        static GE: ICountry;
+        static DE: ICountry;
+        static GH: ICountry;
+        static GI: ICountry;
+        static GR: ICountry;
+        static GL: ICountry;
+        static GD: ICountry;
+        static GU: ICountry;
+        static GT: ICountry;
+        static GG: ICountry;
+        static GN: ICountry;
+        static GW: ICountry;
+        static GY: ICountry;
+        static HT: ICountry;
+        static HN: ICountry;
+        static HK: ICountry;
+        static HU: ICountry;
+        static IS: ICountry;
+        static IN: ICountry;
+        static ID: ICountry;
+        static IR: ICountry;
+        static IQ: ICountry;
+        static IE: ICountry;
+        static IM: ICountry;
+        static IL: ICountry;
+        static IT: ICountry;
+        static CI: ICountry;
+        static JM: ICountry;
+        static JP: ICountry;
+        static JE: ICountry;
+        static JO: ICountry;
+        static KZ: ICountry;
+        static KE: ICountry;
+        static KI: ICountry;
+        static XK: ICountry;
+        static KW: ICountry;
+        static KG: ICountry;
+        static LA: ICountry;
+        static LV: ICountry;
+        static LB: ICountry;
+        static LS: ICountry;
+        static LR: ICountry;
+        static LY: ICountry;
+        static LI: ICountry;
+        static LT: ICountry;
+        static LU: ICountry;
+        static MO: ICountry;
+        static MK: ICountry;
+        static MG: ICountry;
+        static MW: ICountry;
+        static MY: ICountry;
+        static MV: ICountry;
+        static ML: ICountry;
+        static MT: ICountry;
+        static MH: ICountry;
+        static MR: ICountry;
+        static MU: ICountry;
+        static YT: ICountry;
+        static MX: ICountry;
+        static FM: ICountry;
+        static MD: ICountry;
+        static MC: ICountry;
+        static MN: ICountry;
+        static ME: ICountry;
+        static MS: ICountry;
+        static MA: ICountry;
+        static MZ: ICountry;
+        static MM: ICountry;
+        static NA: ICountry;
+        static NR: ICountry;
+        static NP: ICountry;
+        static NL: ICountry;
+        static AN: ICountry;
+        static NC: ICountry;
+        static NZ: ICountry;
+        static NI: ICountry;
+        static NE: ICountry;
+        static NG: ICountry;
+        static NU: ICountry;
+        static KP: ICountry;
+        static MP: ICountry;
+        static NO: ICountry;
+        static OM: ICountry;
+        static PK: ICountry;
+        static PW: ICountry;
+        static PS: ICountry;
+        static PA: ICountry;
+        static PG: ICountry;
+        static PY: ICountry;
+        static PE: ICountry;
+        static PH: ICountry;
+        static PN: ICountry;
+        static PL: ICountry;
+        static PT: ICountry;
+        static PR: ICountry;
+        static QA: ICountry;
+        static CG: ICountry;
+        static RE: ICountry;
+        static RO: ICountry;
+        static RU: ICountry;
+        static RW: ICountry;
+        static BL: ICountry;
+        static SH: ICountry;
+        static KN: ICountry;
+        static LC: ICountry;
+        static MF: ICountry;
+        static PM: ICountry;
+        static VC: ICountry;
+        static WS: ICountry;
+        static SM: ICountry;
+        static ST: ICountry;
+        static SA: ICountry;
+        static SN: ICountry;
+        static RS: ICountry;
+        static SC: ICountry;
+        static SL: ICountry;
+        static SG: ICountry;
+        static SX: ICountry;
+        static SK: ICountry;
+        static SI: ICountry;
+        static SB: ICountry;
+        static SO: ICountry;
+        static ZA: ICountry;
+        static KR: ICountry;
+        static SS: ICountry;
+        static ES: ICountry;
+        static LK: ICountry;
+        static SD: ICountry;
+        static SR: ICountry;
+        static SJ: ICountry;
+        static SZ: ICountry;
+        static SE: ICountry;
+        static CH: ICountry;
+        static SY: ICountry;
+        static TW: ICountry;
+        static TJ: ICountry;
+        static TZ: ICountry;
+        static TH: ICountry;
+        static TG: ICountry;
+        static TK: ICountry;
+        static TO: ICountry;
+        static TT: ICountry;
+        static TN: ICountry;
+        static TR: ICountry;
+        static TM: ICountry;
+        static TC: ICountry;
+        static TV: ICountry;
+        static VI: ICountry;
+        static UG: ICountry;
+        static UA: ICountry;
+        static AE: ICountry;
+        static GB: ICountry;
+        static US: ICountry;
+        static UY: ICountry;
+        static UZ: ICountry;
+        static VU: ICountry;
+        static VA: ICountry;
+        static VE: ICountry;
+        static VN: ICountry;
+        static WF: ICountry;
+        static EH: ICountry;
+        static YE: ICountry;
+        static ZM: ICountry;
+        static ZW: ICountry;
+    }
+}
+declare module latte {
+    /**
+     * Represents a specific date and time
+     **/
+    class DateTime {
+        /**
+         * Amount of days in months of a non-leap year
+         **/
+        static monthDays: Array<number>;
+        /**
+         * Amount of days in months of leap year
+         **/
+        static monthDaysLeapYear: Array<number>;
+        /**
+         * Returns the absolute number of days on the specified day-month-year
+         **/
+        static absoluteDays(year: number, month: number, day: number): number;
+        /**
+         * Returns the amount of days in the specified month of the specified year
+         **/
+        static daysInMonth(year: number, month: number): number;
+        /**
+         * Returns a DateTime object from the specifed date and time components
+         **/
+        static fromDateAndTime(date: DateTime, time: TimeSpan): DateTime;
+        /**
+         * Returns a DateTime object from the specified amount of milliseconds
+         **/
+        static fromMilliseconds(milliseconds: number): DateTime;
+        /**
+         * Creates a DateTime object from the specified string.
+         String should be in the format <c>yyyy-mm-dd hh:mm:ss</c>
+         **/
+        static fromString(dateTimeString: string): DateTime;
+        /**
+         * Returns a value indicating if the specified year is leap year
+         **/
+        static isLeapYear(year: number): boolean;
+        /**
+         * Gets a DateTime representing the current millisecond
+         **/
+        static readonly now: DateTime;
+        /**
+         * Gets a DateTime representing the current day without time component
+         **/
+        static readonly today: DateTime;
+        /**
+         * Gets a DateTime representing the day of tomorrow without time component
+         **/
+        static readonly tomorrow: DateTime;
+        /**
+         * Gets the unix epoch
+         * @returns {latte.DateTime}
+         */
+        static readonly epoch: DateTime;
+        /**
+         * Gets a DateTime representing the day of yesterday without time component
+         **/
+        static readonly yesterday: DateTime;
+        _span: TimeSpan;
+        /**
+         * Creates the DateTime object
+         **/
+        constructor(year?: number, month?: number, day?: number, hour?: number, minute?: number, second?: number, millisecond?: number);
+        /**
+         * Prepends a zero to the number if lower than 10
+         **/
+        private _zeroPad;
+        /**
+         * Returns the specified element of date.
+         Possible values for <c>what</c> are: <c>year</c> | <c>month</c> | <c>dayyear</c> | <c>day</c>
+         **/
+        private fromTimeSpan;
+        /**
+         * Returns the result of adding the specified timespan to this date
+         **/
+        add(timespan: TimeSpan): DateTime;
+        /**
+         * Returns the result of adding the specified amount of days to this date
+         **/
+        addDays(days: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of hours to this date
+         **/
+        addHours(hours: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of milliseconds to this date
+         **/
+        addMilliseconds(milliseconds: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of minutes to this date
+         **/
+        addMinutes(minutes: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of months to this date
+         **/
+        addMonths(months: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of seconds to this date
+         **/
+        addSeconds(seconds: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of years to this date
+         **/
+        addYears(years: number): DateTime;
+        /**
+         * Returns the result of comparing this datetime to the specified datetime
+         **/
+        compareTo(datetime: DateTime): number;
+        /**
+         * Gets a value indicating if the specified datetime is equals to this datetime
+         **/
+        equals(datetime: DateTime): boolean;
+        /**
+         * Returns a value indicating if the date is contained in the range specified by the arguments
+         **/
+        onRange(start: DateTime, end: DateTime): boolean;
+        /**
+         * Returns the result of subtracting the specified datetime to this datetime
+         **/
+        subtractDate(datetime: DateTime): TimeSpan;
+        /**
+         * Returns the result of subtracting the specified timespan to this datetime
+         **/
+        subtractTime(timespan: TimeSpan): DateTime;
+        /**
+         * Returns a relative representatio of the date, like "Yesterday 10:00AM"
+         **/
+        toRelativeString(withTime?: boolean): string;
+        /**
+         * Returns a formatted string
+         **/
+        toFormattedString(format?: string): string;
+        /**
+         * Gets the DateTime as a string
+         **/
+        toString(includeTime?: boolean): string;
+        /**
+         * Gets a value of the object
+         * @returns {number}
+         */
+        valueOf(): number;
+        /**
+         * Gets the day of this datetime
+         **/
+        readonly day: number;
+        /**
+         * Gets the day of week this datetime. Sunday is 0 and Saturday is 6.
+         **/
+        readonly dayOfWeek: number;
+        /**
+         * Gets the name of the day of the week
+         * @returns {*}
+         */
+        readonly dayOfWeekString: string;
+        /**
+         * Gets the name of the day of the week
+         * @returns {*}
+         */
+        readonly dayOfWeekStringShort: string;
+        /**
+         * Gets the name of the day of the week
+         * @returns {*}
+         */
+        readonly dayOfWeekStringInitial: string;
+        /**
+         * Gets the day of year datetime
+         **/
+        readonly dayOfYear: number;
+        /**
+         * Gets the comparer value of the date
+         *
+         * @returns {number}
+         */
+        readonly comparer: number;
+        /**
+         * Returns just the date component of this datetime
+         **/
+        readonly date: DateTime;
+        /**
+         * Gets the hour of the datetime
+         **/
+        readonly hour: number;
+        /**
+         * Gets the millisecond of the date
+         **/
+        readonly millisecond: number;
+        /**
+         * Gets the minute of the time
+         **/
+        readonly minute: number;
+        /**
+         * Gets the month of the date
+         **/
+        readonly month: number;
+        /**
+         * Gets the name of the month of the date
+         **/
+        readonly monthString: string;
+        /**
+         * Gets the name of the month of the date
+         **/
+        readonly monthStringShort: string;
+        /**
+         * Gets the name of the month of the date
+         **/
+        readonly monthStringInitial: string;
+        /**
+         * Gets the second of the date
+         **/
+        readonly second: number;
+        /**
+         * Gets the time component of this datetime
+         **/
+        readonly timeOfDay: TimeSpan;
+        /**
+         * Gets a value indicating if the date is after the unix epoch
+         *
+         * @returns {boolean}
+         */
+        readonly thisEpoch: boolean;
+        /**
+         * Gets the week number of date. First week of year is 1
+         **/
+        readonly weekOfYear: number;
+        /**
+         * Gets the year of the date
+         **/
+        readonly year: number;
+    }
+}
+declare module latte {
+    /**
+     * Passed to events that could be cancelled after executing a callback
+     */
+    class CancellableCallbackEvent {
+        /**
+         *
+         */
+        constructor();
+        /**
+         * Property field
+         */
+        private _callback;
+        /**
+         * Gets or sets the callback to check for cancelation
+         *
+         * @returns {(cancel: boolean) => any}
+         */
+        /**
+        * Gets or sets the callback to check for cancelation
+        *
+        * @param {(cancel: boolean) => any} value
+        */
+        callback: (handle: (cancel: boolean) => any) => any;
     }
 }
 declare module latte {
@@ -1377,731 +2426,6 @@ declare module latte {
         y: number;
     }
 }
-/**
- * Created by josemanuel on 5/12/14.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Size {
-        /**
-         * Returns an empty size
-         * @returns {latte.Size}
-         */
-        static empty(): Size;
-        /**
-         * Returns a size of zero width and zero height
-         * @returns {latte.Point}
-         */
-        static zero(): Size;
-        /**
-         * Creates a new Size, optionally sets its Width and Height components
-         */
-        constructor(width?: number, height?: number);
-        /**
-         * Gets a value indicating if the size contains the specified size.
-         * @param size
-         */
-        contains(size: Size): boolean;
-        /**
-         * Inflates the size on the specified width and height
-         *
-         * @param width
-         * @param height
-         * @returns {latte.Size}
-         */
-        inflate(width: number, height: number): Size;
-        /**
-         * Inflates the size uniformly
-         * @param wide
-         */
-        inflateUniform(wide: number): Size;
-        /**
-         * Gets a scaled Size that fits in the specified target.
-         * @param target
-         */
-        scaleToFit(target: Size): Size;
-        /**
-         * Gets a scaled Size that fills the specified target.
-         * @param target
-         */
-        scaleToFill(target: Size): Size;
-        /**
-         * Gets string representation of the size
-         * @returns {string}
-         */
-        toString(): string;
-        /**
-         * Gets the area represented by the size
-         *
-         * @returns {number}
-         */
-        readonly area: number;
-        /**
-         * Gets a value indicating if the size has no compnents assigned or initialized
-         *
-         * @returns {boolean}
-         */
-        readonly isEmpty: boolean;
-        /**
-         * Gets a value indicating if the size is horizontal
-         *
-         * @returns {boolean}
-         */
-        readonly isHorizontal: boolean;
-        /**
-         * Gets a value indicating if the size is a square
-         *
-         * @returns {boolean}
-         */
-        readonly isSquare: boolean;
-        /**
-         * Gets a value indicating if the size is vertical
-         *
-         * @returns {boolean}
-         */
-        readonly isVertical: boolean;
-        /**
-         * Property field
-         */
-        private _height;
-        /**
-         * Gets the Height component of the size
-         *
-         * @returns {number}
-         */
-        readonly height: number;
-        /**
-         * Property field
-         */
-        private _width;
-        /**
-         * Gets the Width component of the size
-         *
-         * @returns {number}
-         */
-        readonly width: number;
-    }
-}
-declare module latte {
-    class HEvent<T> {
-    }
-}
-declare module latte {
-    /**
-     * Executes an action every specified amount of milliseconds
-     **/
-    class Timer {
-        /**
-         *
-         **/
-        private _callback;
-        /**
-         *
-         **/
-        private _context;
-        /**
-         *
-         **/
-        private _milliseconds;
-        /**
-         *
-         **/
-        private _paused;
-        /**
-         * Creates a timer that will call <c>callback</c> every specified amount of
-         <c>milliseconds</c> on the specified <c>context</c>.
-         **/
-        constructor(callback: Function, milliseconds: number, context: any);
-        /**
-         * Gets or sets the function who will be called every tick
-         **/
-        /**
-        * Gets or sets the function who will be called every tick
-        **/
-        callback: Function;
-        /**
-         * Gets or sets the context in which the function is executed
-         **/
-        /**
-        * Gets or sets the context in which the function is executed
-        **/
-        context: any;
-        /**
-         * Gets or sets the milliseconds to sleep between calls
-         **/
-        /**
-        * Gets or sets the milliseconds to sleep between calls
-        **/
-        milliseconds: number;
-        /**
-         * Pauses the timer
-         **/
-        pause(): void;
-        /**
-         * Starts ticking
-         **/
-        start(): void;
-        /**
-         * Ticks the timer. Executes the callback and programs next tick.
-         **/
-        tick(): void;
-    }
-}
-declare module latte {
-    interface CollectionEventHanler<T> {
-        (item: T, e: CollectionEvent<T>): any;
-    }
-    /**
-     *
-     */
-    class Collection<T> {
-        private pointer;
-        /**
-         * Initializes the collection
-         */
-        constructor(addCallback?: (e: T, index: number) => void, removeCallback?: (e: T, index: number) => void, context?: any);
-        /**
-         * Adds an element to the collection
-         *
-         * @param element
-         * @param raiseEvent
-         */
-        add(element: T, raiseEvent?: boolean): T;
-        /**
-         * Adds an array of elements
-         *
-         * @param elements
-         * @param raiseEvent
-         */
-        addArray(elements: T[], raiseEvent?: boolean): T[];
-        /**
-         * Adds a collection of elements to the collection
-         *
-         * @param collection
-         * @param raiseEvent
-         */
-        addCollection(collection: Collection<T>, raiseEvent?: boolean): void;
-        /**
-         * Clears the collection
-         */
-        clear(): void;
-        /**
-         * Returns a value indicating if the specified element is contained in the collection
-         * @param element
-         */
-        contains(element: T): boolean;
-        /**
-         * Corrects the collection to be the specified on the arguments, without raising events.
-         *
-         * @param {T[]} elements
-         */
-        correctItems(elements: T[]): void;
-        /**
-         * Iterates through the collection, executing the handler for each item
-         * @param handler
-         */
-        each(handler: (item: T, index: number) => any): void;
-        /**
-         * Iterates through the collection, executing the handler for each item
-         * @param handler
-         */
-        eachBut(exclude: T, handler: (item: T, index: number) => any): void;
-        /**
-         * Gets the index of the specified element if found. -1 if not found.
-         * @param item
-         * @returns {number}
-         */
-        indexOf(item: T): number;
-        /**
-         * Gets the item at the specified position
-         * @param index
-         * @returns {*}
-         */
-        item(index: number): T;
-        /**
-         * Returns the object on current pointer and moves the pointer forward.
-         * It returns null and resets pointer if end of collection reached.
-         * @returns {*}
-         */
-        next(): T;
-        /**
-         * Raises the <c>addItem</c> event
-         */
-        onAddItem(item: T, index: number): void;
-        /**
-         * Raises the <c>removeItem</c> event
-         */
-        onRemoveItem(item: T, index: number): void;
-        /**
-         * Raises the <c>removingItem</c> event
-         */
-        onRemovingItem(e: CollectionEvent<T>): void;
-        /**
-         * Removes the specified item from the collection
-         * @param item
-         * @param raiseEvent
-         */
-        remove(item: T, raiseEvent?: boolean): T;
-        /**
-         * Removes the item ath the specified index
-         * @param index
-         * @param raiseEvent
-         */
-        removeAt(index: number, raiseEvent?: boolean): void;
-        /**
-         * Resets the internal pointer for calls to <c>next()</c> method.
-         */
-        resetPointer(): void;
-        /**
-         * Returns an array representation of the collection
-         * @returns {T[]}
-         */
-        toArray(): T[];
-        /**
-         * Back field for event
-         */
-        private _addingItem;
-        /**
-         * Gets an event raised when the collection is about to add an item. Its cancellable
-         *
-         * @returns {LatteEvent}
-         */
-        readonly addingItem: LatteEvent;
-        /**
-         * Raises the <c>addingItem</c> event
-         */
-        onAddingItem(e: CollectionEvent<T>): void;
-        /**
-         * Back field for event
-         */
-        private _addItem;
-        /**
-         * Gets an event raised when an item is added
-         *
-         * @returns {LatteEvent}
-         */
-        readonly addItem: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _removeItem;
-        /**
-         * Gets an event raised when an item is removed
-         *
-         * @returns {LatteEvent}
-         */
-        readonly removeItem: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _removingItem;
-        /**
-         * Gets an event raised when the item is about to be removed
-         *
-         * @returns {LatteEvent}
-         */
-        readonly removingItem: LatteEvent;
-        /**
-         * Property field
-         */
-        private _context;
-        /**
-         * Gets or sets the context to execute methods of collection
-         *
-         * @returns {any}
-         */
-        /**
-        * Gets or sets the context to execute methods of collection
-        *
-        * @param {any} value
-        */
-        context: any;
-        /**
-         * Gets the count of elements in collection
-         *
-         * @returns {number}
-         */
-        readonly count: number;
-        /**
-         * Gets the first element of the collection
-         * @returns {*}
-         */
-        readonly first: T;
-        /**
-         * Gets the last element of the collection
-         * @returns {*}
-         */
-        readonly last: T;
-        /**
-         * Property field
-         */
-        private _length;
-        /**
-         * Gets the length of the collection
-         *
-         * @returns {number}
-         */
-        readonly length: number;
-    }
-}
-/**
- * Created by josemanuel on 2/6/14.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Culture {
-        /**
-         * Property field
-         */
-        private static _current;
-        /**
-         * Gets or sets the current culture of the system
-         *
-         * @returns {Culture}
-         */
-        /**
-        * Gets or sets the current culture of the system
-        *
-        * @param {Culture} value
-        */
-        static current: Culture;
-        /**
-         * Field for esMX property
-         */
-        private static _esEs;
-        /**
-         * Gets the Español-Mexico Culture
-         *
-         * @returns {Culture}
-         */
-        static readonly esEs: Culture;
-        /**
-         * Field for esMX property
-         */
-        private static _esMx;
-        /**
-         * Gets the Español-Mexico Culture
-         *
-         * @returns {Culture}
-         */
-        static readonly esMx: Culture;
-        /**
-         * Field for enUs property
-         */
-        private static _enUs;
-        /**
-         * Gets the English-USA Culture
-         *
-         * @returns {Culture}
-         */
-        static readonly enUs: Culture;
-        /**
-         * Formats currency using the current culture
-         * @param n
-         * @returns {string}
-         */
-        static formatCurrency(n: number): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        static formatShortDate(d: DateTime): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        static formatLongDate(d: DateTime): string;
-        /**
-         * Formats a number using the current Culture
-         * @param n
-         * @param decimals
-         * @param symbol
-         * @returns {string}
-         */
-        static formatNumber(n: number, decimals?: number, symbol?: string): string;
-        /**
-         * Short date format
-         */
-        shortDateFormat: string;
-        /**
-         * Long date format
-         */
-        longDateFormat: string;
-        /**
-         * Amount of decimals to show in currency format
-         */
-        currencyDecimals: number;
-        /**
-         * Separator of decimals for currency
-         */
-        numberDecimalsSeparator: string;
-        /**
-         * Thousands separator for currency
-         */
-        numberThousandsSeparator: string;
-        /**
-         * Symbol to use in currency
-         */
-        currencySymbol: string;
-        /**
-         * Regular expression for validating floating point numbers
-         * @type {RegExp}
-         */
-        floatValidator: RegExp;
-        /**
-         * Regular expression for validating integer numbers
-         * @type {RegExp}
-         */
-        intValidator: RegExp;
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Returns the specified number as a currency
-         * @param n
-         */
-        onFormatCurrency(n: number): string;
-        /**
-         * Formats the specified number
-         * @param n
-         * @param decimals
-         * @param symbol
-         * @returns {string}
-         */
-        onFormatNumber(n: number, decimals?: number, symbol?: string): string;
-        /**
-         * Returns the date as a long format
-         * @param d
-         */
-        onFormatLongDate(d: DateTime): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        onFormatShortDate(d: DateTime): string;
-    }
-}
-declare module latte {
-    /**
-     * Represents a color
-     **/
-    class Color {
-        /**
-         * Creates a color from the hexadecimal value.
-         * It may contain the <c>#</c> symbol at the beginning of the string.
-         **/
-        static fromHex(hexColor: string): Color;
-        /**
-         * Gets the RGB (Red, Green, Blue) components from a CMYK namespace
-         * @param c
-         * @param m
-         * @param y
-         * @param k
-         * @returns number[]
-         */
-        static cmykToRgb(c: number, m: number, y: number, k: number): number[];
-        /**
-         * HSV to RGB color conversion
-         *
-         * H runs from 0 to 360 degrees
-         * S and V run from 0 to 100
-         *
-         * Ported from the excellent java algorithm by Eugene Vishnevsky at:
-         * http://www.cs.rit.edu/~ncs/color/t_convert.html
-         */
-        static hsvToRgb(h: any, s: any, v: any): number[];
-        /**
-         * Gets the CMYK (Cyan, Magenta, Yellow and Key Black) components from a RGB namespace
-         * @param red
-         * @param green
-         * @param blue
-         * @returns {number[]}
-         */
-        static rgbToCmyk(red: number, green: number, blue: number): number[];
-        /**
-         * Gets the HSV (Hue, Saturation, Value) components from a RGB namespace
-         * @param red
-         * @param green
-         * @param blue
-         * @returns {number[]}
-         */
-        static rgbToHsv(red: number, green: number, blue: number): number[];
-        /**
-         * Field for black property.
-         */
-        private static _black;
-        /**
-         * Gets the black color
-         */
-        static readonly black: Color;
-        /**
-         * Field for white property.
-         */
-        private static _white;
-        /**
-         * Gets the white color
-         */
-        static readonly white: Color;
-        /**
-         * Field for red property.
-         */
-        private static _red;
-        /**
-         * Gets the red color
-         */
-        static readonly red: Color;
-        /**
-         * Field for green property.
-         */
-        private static _green;
-        /**
-         * Gets the green color
-         */
-        static readonly green: Color;
-        /**
-         * Field for blue property.
-         */
-        private static _blue;
-        /**
-         * Gets the blue color
-         */
-        static readonly blue: Color;
-        /**
-         * Field for transparent property.
-         */
-        private static _transparent;
-        /**
-         * Gets the transparent color
-         */
-        static readonly transparent: Color;
-        /**
-         * Creates the color from the specified RGB and Aplha components.
-         **/
-        constructor(r?: number, g?: number, b?: number, a?: number);
-        /**
-         * Returns the color as a hex string
-         **/
-        toHexString(): string;
-        /**
-         * Returns the color as a string
-         **/
-        toString(): string;
-        /**
-         *
-         **/
-        private _a;
-        /**
-         * Gets r sets the Alpha component of color, from 0 to 255
-         * @returns {number}
-         */
-        /**
-        * Gets or sets the Aplha component of color, from 0 to 255.
-        **/
-        a: number;
-        /**
-         *
-         **/
-        private _b;
-        /**
-         * Gets or sets the Blue component of color, from 0 to 255.
-         **/
-        /**
-        * Gets or sets the Blue component of color, from 0 to 255.
-        **/
-        b: number;
-        /**
-         * Gets or sets the Cyan component of the CMKYK namespace
-         *
-         * @returns {number}
-         */
-        /**
-        * Gets or sets the Cyan component of the CMKYK namespace
-        *
-        * @returns {number}
-        */
-        c: number;
-        /**
-         *
-         **/
-        private _g;
-        /**
-         * Gets or sets the Green component of color, from 0 to 255.
-         **/
-        /**
-        * Gets or sets the Green component of color, from 0 to 255.
-        **/
-        g: number;
-        /**
-         * Gets the K (Black Key) component of the CMKYK namespace
-         *
-         * @returns {number}
-         */
-        readonly k: number;
-        /**
-         * Gets the Magenta component of the CMYK namespace
-         *
-         * @returns {number}
-         */
-        readonly m: number;
-        /**
-         * Gets the Yellow component of the CMYK namespace
-         *
-         * @returns {number}
-         */
-        readonly y: number;
-        /**
-         * Returns a copy of the color with the specified alpha between 0 and 255.
-         *
-         * @param alpha
-         */
-        fade(alpha: number): Color;
-        /**
-         * Returns a copy of the color with the specified alpha between 0 and 1.
-         *
-         * @param alpha
-         */
-        fadeFloat(alpha: number): Color;
-        /**
-         * Gets a value indicating if the color is a dark color, by checking its perceived luminosity
-         *
-         * @returns {boolean}
-         */
-        readonly isDark: boolean;
-        /**
-         * Gets a value indicating if the color is a light color, by checking its perceived luminosity
-         *
-         * @returns {boolean}
-         */
-        readonly isLight: boolean;
-        /**
-         * Gets a value indicating if the color is transparent.
-         **/
-        readonly isTransparent: boolean;
-        /**
-         * Returns the perceived luminosity (https://en.wikipedia.org/wiki/Luminous_intensity)
-         *
-         *
-         * @returns {number}
-         */
-        readonly perceivedLuminosity: number;
-        /**
-         *
-         **/
-        private _r;
-        /**
-         * Gets or sets the Red component of color, from 0 to 255.
-         **/
-        /**
-        * Gets or sets the Red component of color, from 0 to 255.
-        **/
-        r: number;
-    }
-}
 declare module latte {
     /**
      * Represents a time interval.
@@ -2244,6 +2568,113 @@ declare module latte {
          * Gets the value of this timespan expressed in whole and fractional seconds
          **/
         readonly totalSeconds: number;
+    }
+}
+/**
+ * Created by josemanuel on 5/12/14.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Size {
+        /**
+         * Returns an empty size
+         * @returns {latte.Size}
+         */
+        static empty(): Size;
+        /**
+         * Returns a size of zero width and zero height
+         * @returns {latte.Point}
+         */
+        static zero(): Size;
+        /**
+         * Creates a new Size, optionally sets its Width and Height components
+         */
+        constructor(width?: number, height?: number);
+        /**
+         * Gets a value indicating if the size contains the specified size.
+         * @param size
+         */
+        contains(size: Size): boolean;
+        /**
+         * Inflates the size on the specified width and height
+         *
+         * @param width
+         * @param height
+         * @returns {latte.Size}
+         */
+        inflate(width: number, height: number): Size;
+        /**
+         * Inflates the size uniformly
+         * @param wide
+         */
+        inflateUniform(wide: number): Size;
+        /**
+         * Gets a scaled Size that fits in the specified target.
+         * @param target
+         */
+        scaleToFit(target: Size): Size;
+        /**
+         * Gets a scaled Size that fills the specified target.
+         * @param target
+         */
+        scaleToFill(target: Size): Size;
+        /**
+         * Gets string representation of the size
+         * @returns {string}
+         */
+        toString(): string;
+        /**
+         * Gets the area represented by the size
+         *
+         * @returns {number}
+         */
+        readonly area: number;
+        /**
+         * Gets a value indicating if the size has no compnents assigned or initialized
+         *
+         * @returns {boolean}
+         */
+        readonly isEmpty: boolean;
+        /**
+         * Gets a value indicating if the size is horizontal
+         *
+         * @returns {boolean}
+         */
+        readonly isHorizontal: boolean;
+        /**
+         * Gets a value indicating if the size is a square
+         *
+         * @returns {boolean}
+         */
+        readonly isSquare: boolean;
+        /**
+         * Gets a value indicating if the size is vertical
+         *
+         * @returns {boolean}
+         */
+        readonly isVertical: boolean;
+        /**
+         * Property field
+         */
+        private _height;
+        /**
+         * Gets the Height component of the size
+         *
+         * @returns {number}
+         */
+        readonly height: number;
+        /**
+         * Property field
+         */
+        private _width;
+        /**
+         * Gets the Width component of the size
+         *
+         * @returns {number}
+         */
+        readonly width: number;
     }
 }
 declare module latte {
@@ -2435,497 +2866,66 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Represents a specific date and time
+     * Executes an action every specified amount of milliseconds
      **/
-    class DateTime {
+    class Timer {
         /**
-         * Amount of days in months of a non-leap year
-         **/
-        static monthDays: Array<number>;
-        /**
-         * Amount of days in months of leap year
-         **/
-        static monthDaysLeapYear: Array<number>;
-        /**
-         * Returns the absolute number of days on the specified day-month-year
-         **/
-        static absoluteDays(year: number, month: number, day: number): number;
-        /**
-         * Returns the amount of days in the specified month of the specified year
-         **/
-        static daysInMonth(year: number, month: number): number;
-        /**
-         * Returns a DateTime object from the specifed date and time components
-         **/
-        static fromDateAndTime(date: DateTime, time: TimeSpan): DateTime;
-        /**
-         * Returns a DateTime object from the specified amount of milliseconds
-         **/
-        static fromMilliseconds(milliseconds: number): DateTime;
-        /**
-         * Creates a DateTime object from the specified string.
-         String should be in the format <c>yyyy-mm-dd hh:mm:ss</c>
-         **/
-        static fromString(dateTimeString: string): DateTime;
-        /**
-         * Returns a value indicating if the specified year is leap year
-         **/
-        static isLeapYear(year: number): boolean;
-        /**
-         * Gets a DateTime representing the current millisecond
-         **/
-        static readonly now: DateTime;
-        /**
-         * Gets a DateTime representing the current day without time component
-         **/
-        static readonly today: DateTime;
-        /**
-         * Gets a DateTime representing the day of tomorrow without time component
-         **/
-        static readonly tomorrow: DateTime;
-        /**
-         * Gets the unix epoch
-         * @returns {latte.DateTime}
-         */
-        static readonly epoch: DateTime;
-        /**
-         * Gets a DateTime representing the day of yesterday without time component
-         **/
-        static readonly yesterday: DateTime;
-        _span: TimeSpan;
-        /**
-         * Creates the DateTime object
-         **/
-        constructor(year?: number, month?: number, day?: number, hour?: number, minute?: number, second?: number, millisecond?: number);
-        /**
-         * Prepends a zero to the number if lower than 10
-         **/
-        private _zeroPad;
-        /**
-         * Returns the specified element of date.
-         Possible values for <c>what</c> are: <c>year</c> | <c>month</c> | <c>dayyear</c> | <c>day</c>
-         **/
-        private fromTimeSpan;
-        /**
-         * Returns the result of adding the specified timespan to this date
-         **/
-        add(timespan: TimeSpan): DateTime;
-        /**
-         * Returns the result of adding the specified amount of days to this date
-         **/
-        addDays(days: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of hours to this date
-         **/
-        addHours(hours: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of milliseconds to this date
-         **/
-        addMilliseconds(milliseconds: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of minutes to this date
-         **/
-        addMinutes(minutes: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of months to this date
-         **/
-        addMonths(months: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of seconds to this date
-         **/
-        addSeconds(seconds: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of years to this date
-         **/
-        addYears(years: number): DateTime;
-        /**
-         * Returns the result of comparing this datetime to the specified datetime
-         **/
-        compareTo(datetime: DateTime): number;
-        /**
-         * Gets a value indicating if the specified datetime is equals to this datetime
-         **/
-        equals(datetime: DateTime): boolean;
-        /**
-         * Returns a value indicating if the date is contained in the range specified by the arguments
-         **/
-        onRange(start: DateTime, end: DateTime): boolean;
-        /**
-         * Returns the result of subtracting the specified datetime to this datetime
-         **/
-        subtractDate(datetime: DateTime): TimeSpan;
-        /**
-         * Returns the result of subtracting the specified timespan to this datetime
-         **/
-        subtractTime(timespan: TimeSpan): DateTime;
-        /**
-         * Returns a relative representatio of the date, like "Yesterday 10:00AM"
-         **/
-        toRelativeString(withTime?: boolean): string;
-        /**
-         * Returns a formatted string
-         **/
-        toFormattedString(format?: string): string;
-        /**
-         * Gets the DateTime as a string
-         **/
-        toString(includeTime?: boolean): string;
-        /**
-         * Gets a value of the object
-         * @returns {number}
-         */
-        valueOf(): number;
-        /**
-         * Gets the day of this datetime
-         **/
-        readonly day: number;
-        /**
-         * Gets the day of week this datetime. Sunday is 0 and Saturday is 6.
-         **/
-        readonly dayOfWeek: number;
-        /**
-         * Gets the name of the day of the week
-         * @returns {*}
-         */
-        readonly dayOfWeekString: string;
-        /**
-         * Gets the name of the day of the week
-         * @returns {*}
-         */
-        readonly dayOfWeekStringShort: string;
-        /**
-         * Gets the name of the day of the week
-         * @returns {*}
-         */
-        readonly dayOfWeekStringInitial: string;
-        /**
-         * Gets the day of year datetime
-         **/
-        readonly dayOfYear: number;
-        /**
-         * Gets the comparer value of the date
          *
-         * @returns {number}
-         */
-        readonly comparer: number;
-        /**
-         * Returns just the date component of this datetime
          **/
-        readonly date: DateTime;
+        private _callback;
         /**
-         * Gets the hour of the datetime
-         **/
-        readonly hour: number;
-        /**
-         * Gets the millisecond of the date
-         **/
-        readonly millisecond: number;
-        /**
-         * Gets the minute of the time
-         **/
-        readonly minute: number;
-        /**
-         * Gets the month of the date
-         **/
-        readonly month: number;
-        /**
-         * Gets the name of the month of the date
-         **/
-        readonly monthString: string;
-        /**
-         * Gets the name of the month of the date
-         **/
-        readonly monthStringShort: string;
-        /**
-         * Gets the name of the month of the date
-         **/
-        readonly monthStringInitial: string;
-        /**
-         * Gets the second of the date
-         **/
-        readonly second: number;
-        /**
-         * Gets the time component of this datetime
-         **/
-        readonly timeOfDay: TimeSpan;
-        /**
-         * Gets a value indicating if the date is after the unix epoch
          *
-         * @returns {boolean}
-         */
-        readonly thisEpoch: boolean;
-        /**
-         * Gets the week number of date. First week of year is 1
          **/
-        readonly weekOfYear: number;
+        private _context;
         /**
-         * Gets the year of the date
+         *
          **/
-        readonly year: number;
+        private _milliseconds;
+        /**
+         *
+         **/
+        private _paused;
+        /**
+         * Creates a timer that will call <c>callback</c> every specified amount of
+         <c>milliseconds</c> on the specified <c>context</c>.
+         **/
+        constructor(callback: Function, milliseconds: number, context: any);
+        /**
+         * Gets or sets the function who will be called every tick
+         **/
+        /**
+        * Gets or sets the function who will be called every tick
+        **/
+        callback: Function;
+        /**
+         * Gets or sets the context in which the function is executed
+         **/
+        /**
+        * Gets or sets the context in which the function is executed
+        **/
+        context: any;
+        /**
+         * Gets or sets the milliseconds to sleep between calls
+         **/
+        /**
+        * Gets or sets the milliseconds to sleep between calls
+        **/
+        milliseconds: number;
+        /**
+         * Pauses the timer
+         **/
+        pause(): void;
+        /**
+         * Starts ticking
+         **/
+        start(): void;
+        /**
+         * Ticks the timer. Executes the callback and programs next tick.
+         **/
+        tick(): void;
     }
 }
 declare module latte {
-    /**
-     *
-     */
-    class Country {
-        /**
-         * Gets the country codes
-         */
-        static codes: string[];
-        /**
-         * Gets options for a select of country
-         * @returns {{[p: string]: string}}
-         */
-        static getCountrySelectOptions(): {
-            [index: string]: string;
-        };
-        /**
-         * Gets options for a select of country phone code
-         * @returns {{[p: string]: string}}
-         */
-        static getCountryPhoneSelectOptions(): {
-            [index: string]: string;
-        };
-        static AF: ICountry;
-        static AL: ICountry;
-        static DZ: ICountry;
-        static AS: ICountry;
-        static AD: ICountry;
-        static AO: ICountry;
-        static AI: ICountry;
-        static AQ: ICountry;
-        static AG: ICountry;
-        static AR: ICountry;
-        static AM: ICountry;
-        static AW: ICountry;
-        static AU: ICountry;
-        static AT: ICountry;
-        static AZ: ICountry;
-        static BS: ICountry;
-        static BH: ICountry;
-        static BD: ICountry;
-        static BB: ICountry;
-        static BY: ICountry;
-        static BE: ICountry;
-        static BZ: ICountry;
-        static BJ: ICountry;
-        static BM: ICountry;
-        static BT: ICountry;
-        static BO: ICountry;
-        static BA: ICountry;
-        static BW: ICountry;
-        static BR: ICountry;
-        static IO: ICountry;
-        static VG: ICountry;
-        static BN: ICountry;
-        static BG: ICountry;
-        static BF: ICountry;
-        static BI: ICountry;
-        static KH: ICountry;
-        static CM: ICountry;
-        static CA: ICountry;
-        static CV: ICountry;
-        static KY: ICountry;
-        static CF: ICountry;
-        static TD: ICountry;
-        static CL: ICountry;
-        static CN: ICountry;
-        static CX: ICountry;
-        static CC: ICountry;
-        static CO: ICountry;
-        static KM: ICountry;
-        static CK: ICountry;
-        static CR: ICountry;
-        static HR: ICountry;
-        static CU: ICountry;
-        static CW: ICountry;
-        static CY: ICountry;
-        static CZ: ICountry;
-        static CD: ICountry;
-        static DK: ICountry;
-        static DJ: ICountry;
-        static DM: ICountry;
-        static DO: ICountry;
-        static TL: ICountry;
-        static EC: ICountry;
-        static EG: ICountry;
-        static SV: ICountry;
-        static GQ: ICountry;
-        static ER: ICountry;
-        static EE: ICountry;
-        static ET: ICountry;
-        static FK: ICountry;
-        static FO: ICountry;
-        static FJ: ICountry;
-        static FI: ICountry;
-        static FR: ICountry;
-        static PF: ICountry;
-        static GA: ICountry;
-        static GM: ICountry;
-        static GE: ICountry;
-        static DE: ICountry;
-        static GH: ICountry;
-        static GI: ICountry;
-        static GR: ICountry;
-        static GL: ICountry;
-        static GD: ICountry;
-        static GU: ICountry;
-        static GT: ICountry;
-        static GG: ICountry;
-        static GN: ICountry;
-        static GW: ICountry;
-        static GY: ICountry;
-        static HT: ICountry;
-        static HN: ICountry;
-        static HK: ICountry;
-        static HU: ICountry;
-        static IS: ICountry;
-        static IN: ICountry;
-        static ID: ICountry;
-        static IR: ICountry;
-        static IQ: ICountry;
-        static IE: ICountry;
-        static IM: ICountry;
-        static IL: ICountry;
-        static IT: ICountry;
-        static CI: ICountry;
-        static JM: ICountry;
-        static JP: ICountry;
-        static JE: ICountry;
-        static JO: ICountry;
-        static KZ: ICountry;
-        static KE: ICountry;
-        static KI: ICountry;
-        static XK: ICountry;
-        static KW: ICountry;
-        static KG: ICountry;
-        static LA: ICountry;
-        static LV: ICountry;
-        static LB: ICountry;
-        static LS: ICountry;
-        static LR: ICountry;
-        static LY: ICountry;
-        static LI: ICountry;
-        static LT: ICountry;
-        static LU: ICountry;
-        static MO: ICountry;
-        static MK: ICountry;
-        static MG: ICountry;
-        static MW: ICountry;
-        static MY: ICountry;
-        static MV: ICountry;
-        static ML: ICountry;
-        static MT: ICountry;
-        static MH: ICountry;
-        static MR: ICountry;
-        static MU: ICountry;
-        static YT: ICountry;
-        static MX: ICountry;
-        static FM: ICountry;
-        static MD: ICountry;
-        static MC: ICountry;
-        static MN: ICountry;
-        static ME: ICountry;
-        static MS: ICountry;
-        static MA: ICountry;
-        static MZ: ICountry;
-        static MM: ICountry;
-        static NA: ICountry;
-        static NR: ICountry;
-        static NP: ICountry;
-        static NL: ICountry;
-        static AN: ICountry;
-        static NC: ICountry;
-        static NZ: ICountry;
-        static NI: ICountry;
-        static NE: ICountry;
-        static NG: ICountry;
-        static NU: ICountry;
-        static KP: ICountry;
-        static MP: ICountry;
-        static NO: ICountry;
-        static OM: ICountry;
-        static PK: ICountry;
-        static PW: ICountry;
-        static PS: ICountry;
-        static PA: ICountry;
-        static PG: ICountry;
-        static PY: ICountry;
-        static PE: ICountry;
-        static PH: ICountry;
-        static PN: ICountry;
-        static PL: ICountry;
-        static PT: ICountry;
-        static PR: ICountry;
-        static QA: ICountry;
-        static CG: ICountry;
-        static RE: ICountry;
-        static RO: ICountry;
-        static RU: ICountry;
-        static RW: ICountry;
-        static BL: ICountry;
-        static SH: ICountry;
-        static KN: ICountry;
-        static LC: ICountry;
-        static MF: ICountry;
-        static PM: ICountry;
-        static VC: ICountry;
-        static WS: ICountry;
-        static SM: ICountry;
-        static ST: ICountry;
-        static SA: ICountry;
-        static SN: ICountry;
-        static RS: ICountry;
-        static SC: ICountry;
-        static SL: ICountry;
-        static SG: ICountry;
-        static SX: ICountry;
-        static SK: ICountry;
-        static SI: ICountry;
-        static SB: ICountry;
-        static SO: ICountry;
-        static ZA: ICountry;
-        static KR: ICountry;
-        static SS: ICountry;
-        static ES: ICountry;
-        static LK: ICountry;
-        static SD: ICountry;
-        static SR: ICountry;
-        static SJ: ICountry;
-        static SZ: ICountry;
-        static SE: ICountry;
-        static CH: ICountry;
-        static SY: ICountry;
-        static TW: ICountry;
-        static TJ: ICountry;
-        static TZ: ICountry;
-        static TH: ICountry;
-        static TG: ICountry;
-        static TK: ICountry;
-        static TO: ICountry;
-        static TT: ICountry;
-        static TN: ICountry;
-        static TR: ICountry;
-        static TM: ICountry;
-        static TC: ICountry;
-        static TV: ICountry;
-        static VI: ICountry;
-        static UG: ICountry;
-        static UA: ICountry;
-        static AE: ICountry;
-        static GB: ICountry;
-        static US: ICountry;
-        static UY: ICountry;
-        static UZ: ICountry;
-        static VU: ICountry;
-        static VA: ICountry;
-        static VE: ICountry;
-        static VN: ICountry;
-        static WF: ICountry;
-        static EH: ICountry;
-        static YE: ICountry;
-        static ZM: ICountry;
-        static ZW: ICountry;
+    class HEvent<T> {
     }
 }

@@ -20,3 +20,19 @@ Property | Value
 ---------|--------
 User     | `root`
 Password | `root`
+
+
+# Dev examples
+If you are modifying latte code, the steps to launch an image are
+
+- Compile latte
+- Create Image
+- Run Docker Compose
+
+```bash
+pushd ../../. && \
+xlatte --release fragment && \
+docker build --tag=fragment_local . && \
+popd && \
+docker-compose up
+```

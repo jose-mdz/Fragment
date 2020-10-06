@@ -603,6 +603,180 @@ declare module latte {
         width: number;
     }
 }
+declare module latte {
+    /**
+     * Wrapper of a div element
+     */
+    class DivElement extends Element<HTMLElement> {
+        /**
+         *
+         */
+        constructor(className?: string);
+    }
+}
+/**
+ * Created by josemanuel on 4/20/15.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Animation {
+        /**
+         * Stack of active animations
+         * @type {Array}
+         */
+        static stack: Animation[];
+        /**
+         * Gets the requestAnimationRequest function, cross-browser
+         */
+        static readonly requestAnimationFrame: any;
+        static loopActive: boolean;
+        /**
+         * Starts the animation loop.
+         */
+        static loop(): void;
+        /**
+         * Creates the animation
+         * @param startValue
+         * @param endValue
+         * @param duration Duration of animation in seconds
+         */
+        constructor(startValue: number, endValue: number, duration: number, updateHandler?: (value?: number) => any, endHandler?: () => any);
+        /**
+         * Gets the value of the animation for the specified second of the animation
+         * @param f
+         * @returns {number}
+         */
+        getValueForSecond(s: number): number;
+        /**
+         * Starts the animation
+         */
+        start(): void;
+        /**
+         * Back field for event
+         */
+        private _ended;
+        /**
+         * Gets an event raised when the animation ends
+         *
+         * @returns {LatteEvent}
+         */
+        readonly ended: LatteEvent;
+        /**
+         * Raises the <c>ended</c> event
+         */
+        onEnded(): void;
+        /**
+         * Back field for event
+         */
+        private _update;
+        /**
+         * Gets an event raised when an update to the animation is performed
+         *
+         * @returns {LatteEvent}
+         */
+        readonly update: LatteEvent;
+        /**
+         * Raises the <c>update</c> event
+         */
+        onUpdate(value: number): void;
+        /**
+         * Gets the current value of distance to the current frame
+         *
+         * @returns {number}
+         */
+        readonly currentValue: number;
+        /**
+         * Gets the distance of the animation
+         *
+         * @returns {number}
+         */
+        readonly distance: number;
+        /**
+         * Property field
+         */
+        private _duration;
+        /**
+         * Gets the duration of the animation, in seconds
+         *
+         * @returns {number}
+         */
+        readonly duration: number;
+        /**
+         * Property field
+         */
+        private _endValue;
+        /**
+         * Gets the final value of the animation
+         *
+         * @returns {number}
+         */
+        readonly endValue: number;
+        /**
+         * Gets the end time of the animation
+         *
+         * @returns {number}
+         */
+        readonly endTime: DateTime;
+        /**
+         * Property field
+         */
+        private _running;
+        /**
+         * Gets a value indicating if the animation is currently running
+         *
+         * @returns {boolean}
+         */
+        readonly running: boolean;
+        /**
+         * Property field
+         */
+        private _startValue;
+        /**
+         * Gets the initial value for the animation
+         *
+         * @returns {number}
+         */
+        readonly startValue: number;
+        /**
+         * Property field
+         */
+        private _startTime;
+        /**
+         * Gets or sets the initial time of the animation
+         *
+         * @returns {DateTime}
+         */
+        /**
+        * Gets or sets the initial time of the animation
+        *
+        * @returns {DateTime}
+        */
+        startTime: DateTime;
+        /**
+         * Gets the speed of the animation value, in distance per second
+         *
+         * @returns {number}
+         */
+        readonly speed: number;
+        /**
+         * Property field
+         */
+        private _tag;
+        /**
+         * Gets or sets the tag of the animation
+         *
+         * @returns {any}
+         */
+        /**
+        * Gets or sets the tag of the animation
+        *
+        * @param {any} value
+        */
+        tag: any;
+    }
+}
 /**
  * Created by josemanuel on 5/28/15.
  */
@@ -688,17 +862,6 @@ declare module latte {
          * @param visible
          */
         setVisible(visible: boolean): void;
-    }
-}
-declare module latte {
-    /**
-     * Wrapper of a div element
-     */
-    class DivElement extends Element<HTMLElement> {
-        /**
-         *
-         */
-        constructor(className?: string);
     }
 }
 /**
@@ -839,31 +1002,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 5/28/15.
- */
-declare module latte {
-    /**
-     * Represents a very simple data adapter that passes the data along as strings.
-     */
-    class DefaultDataAdapter implements DataAdapter<string, string> {
-        /**
-         * Creates the adapter
-         */
-        constructor();
-        /**
-         * Transforms the value of the record into a proper value for the element
-         *
-         * @param value
-         */
-        adaptForElement(value: string): string;
-        /**
-         * Transforms the value of the element into a proper value for the record
-         * @param value
-         */
-        adaptForRecord(value: string): string;
-    }
-}
-/**
  * Created by josemanuel on 4/15/15.
  */
 declare module latte {
@@ -988,61 +1126,24 @@ declare module latte {
  */
 declare module latte {
     /**
-     *
+     * Represents a very simple data adapter that passes the data along as strings.
      */
-    class EventBind {
+    class DefaultDataAdapter implements DataAdapter<string, string> {
         /**
+         * Creates the adapter
+         */
+        constructor();
+        /**
+         * Transforms the value of the record into a proper value for the element
          *
+         * @param value
          */
-        constructor(element: Element<HTMLElement>, elementEvent: string, record: any, recordMethod: string);
+        adaptForElement(value: string): string;
         /**
-         * Sets up the bind
-         * @param element
-         * @param elementEvent
-         * @param record
-         * @param recordMethod
+         * Transforms the value of the element into a proper value for the record
+         * @param value
          */
-        setup(element: Element<HTMLElement>, elementEvent: string, record: any, recordMethod: string): void;
-        /**
-         * Property field
-         */
-        private _element;
-        /**
-         * Gets the element to bind
-         *
-         * @returns {Element<HTMLElement>}
-         */
-        readonly element: Element<HTMLElement>;
-        /**
-         * Property field
-         */
-        private _elementEvent;
-        /**
-         * Gets the element event
-         *
-         * @returns {string}
-         */
-        readonly elementEvent: string;
-        /**
-         * Property field
-         */
-        private _record;
-        /**
-         * Gets the record to bind
-         *
-         * @returns {any}
-         */
-        readonly record: any;
-        /**
-         * Property field
-         */
-        private _recordMethod;
-        /**
-         * Gets the method to execute on the record
-         *
-         * @returns {string}
-         */
-        readonly recordMethod: string;
+        adaptForRecord(value: string): string;
     }
 }
 /**
@@ -1219,165 +1320,64 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 4/20/15.
+ * Created by josemanuel on 5/28/15.
  */
 declare module latte {
     /**
      *
      */
-    class Animation {
+    class EventBind {
         /**
-         * Stack of active animations
-         * @type {Array}
-         */
-        static stack: Animation[];
-        /**
-         * Gets the requestAnimationRequest function, cross-browser
-         */
-        static readonly requestAnimationFrame: any;
-        static loopActive: boolean;
-        /**
-         * Starts the animation loop.
-         */
-        static loop(): void;
-        /**
-         * Creates the animation
-         * @param startValue
-         * @param endValue
-         * @param duration Duration of animation in seconds
-         */
-        constructor(startValue: number, endValue: number, duration: number, updateHandler?: (value?: number) => any, endHandler?: () => any);
-        /**
-         * Gets the value of the animation for the specified second of the animation
-         * @param f
-         * @returns {number}
-         */
-        getValueForSecond(s: number): number;
-        /**
-         * Starts the animation
-         */
-        start(): void;
-        /**
-         * Back field for event
-         */
-        private _ended;
-        /**
-         * Gets an event raised when the animation ends
          *
-         * @returns {LatteEvent}
          */
-        readonly ended: LatteEvent;
+        constructor(element: Element<HTMLElement>, elementEvent: string, record: any, recordMethod: string);
         /**
-         * Raises the <c>ended</c> event
+         * Sets up the bind
+         * @param element
+         * @param elementEvent
+         * @param record
+         * @param recordMethod
          */
-        onEnded(): void;
-        /**
-         * Back field for event
-         */
-        private _update;
-        /**
-         * Gets an event raised when an update to the animation is performed
-         *
-         * @returns {LatteEvent}
-         */
-        readonly update: LatteEvent;
-        /**
-         * Raises the <c>update</c> event
-         */
-        onUpdate(value: number): void;
-        /**
-         * Gets the current value of distance to the current frame
-         *
-         * @returns {number}
-         */
-        readonly currentValue: number;
-        /**
-         * Gets the distance of the animation
-         *
-         * @returns {number}
-         */
-        readonly distance: number;
+        setup(element: Element<HTMLElement>, elementEvent: string, record: any, recordMethod: string): void;
         /**
          * Property field
          */
-        private _duration;
+        private _element;
         /**
-         * Gets the duration of the animation, in seconds
+         * Gets the element to bind
          *
-         * @returns {number}
+         * @returns {Element<HTMLElement>}
          */
-        readonly duration: number;
+        readonly element: Element<HTMLElement>;
         /**
          * Property field
          */
-        private _endValue;
+        private _elementEvent;
         /**
-         * Gets the final value of the animation
+         * Gets the element event
          *
-         * @returns {number}
+         * @returns {string}
          */
-        readonly endValue: number;
-        /**
-         * Gets the end time of the animation
-         *
-         * @returns {number}
-         */
-        readonly endTime: DateTime;
+        readonly elementEvent: string;
         /**
          * Property field
          */
-        private _running;
+        private _record;
         /**
-         * Gets a value indicating if the animation is currently running
-         *
-         * @returns {boolean}
-         */
-        readonly running: boolean;
-        /**
-         * Property field
-         */
-        private _startValue;
-        /**
-         * Gets the initial value for the animation
-         *
-         * @returns {number}
-         */
-        readonly startValue: number;
-        /**
-         * Property field
-         */
-        private _startTime;
-        /**
-         * Gets or sets the initial time of the animation
-         *
-         * @returns {DateTime}
-         */
-        /**
-        * Gets or sets the initial time of the animation
-        *
-        * @returns {DateTime}
-        */
-        startTime: DateTime;
-        /**
-         * Gets the speed of the animation value, in distance per second
-         *
-         * @returns {number}
-         */
-        readonly speed: number;
-        /**
-         * Property field
-         */
-        private _tag;
-        /**
-         * Gets or sets the tag of the animation
+         * Gets the record to bind
          *
          * @returns {any}
          */
+        readonly record: any;
         /**
-        * Gets or sets the tag of the animation
-        *
-        * @param {any} value
-        */
-        tag: any;
+         * Property field
+         */
+        private _recordMethod;
+        /**
+         * Gets the method to execute on the record
+         *
+         * @returns {string}
+         */
+        readonly recordMethod: string;
     }
 }

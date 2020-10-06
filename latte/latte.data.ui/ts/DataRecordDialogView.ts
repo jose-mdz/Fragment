@@ -79,10 +79,10 @@ module latte{
 
             this.formView = new DataRecordFormView(record);
 
-            this.saveButton = new ButtonItem()
+            this.saveButton = new ButtonItem();
             this.saveButton.text = strings.save;
-            this.saveButton.click.add(() => { dialog.formView.saveChanges(() => this.onSaved());});
-            this.cancelButton = new ButtonItem()
+            this.saveButton.click.add(() => { dialog.formView.saveChanges(() => this.onSaved())});
+            this.cancelButton = new ButtonItem();
             this.cancelButton.text = strings.cancel;
 
             this.view = this.formView;

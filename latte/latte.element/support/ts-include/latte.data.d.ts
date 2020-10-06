@@ -11,161 +11,6 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Represents a collection of records
-     */
-    class DataRecordCollection extends Collection<DataRecord> {
-        /**
-         * Creates the collection of the specified type.
-         * Optionally specifies handlers for adding and removing items, and a
-         * context to call as closure of events.
-         *
-         * @param addCallback
-         * @param removeCallback
-         * @param context
-         */
-        constructor(addCallback?: (DataRecord: any, number: any) => any, removeCallback?: (DataRecord: any, number: any) => any, context?: any);
-        /**
-         * Finds the record of the specified <c>id</c>
-         *
-         * @param id
-         * @returns {null}
-         */
-        byId(id: number): DataRecord;
-    }
-}
-declare module latte {
-    /**
-     *
-     */
-    class DataBindActor {
-        /**
-         * Creates the actor
-         *
-         * If no propertyChanged event is passed, the "propertyChanged" event will be automatically seeked.
-         *
-         */
-        constructor(actor: any, propertyName: string, propertyType?: BindValueType, propertyChanged?: LatteEvent);
-        /**
-         * Property field
-         */
-        private _actor;
-        /**
-         * Gets the actor of the bind
-         *
-         * @returns {any}
-         */
-        readonly actor: any;
-        /**
-         * Property field
-         */
-        private _propertyChanged;
-        /**
-         * Gets the event of property change
-         *
-         * @returns {LatteEvent}
-         */
-        readonly propertyChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _propertyName;
-        /**
-         * Gets the name of the property
-         *
-         * @returns {string}
-         */
-        readonly propertyName: string;
-        /**
-         * Property field
-         */
-        private _propertyType;
-        /**
-         * Gets the type of the property
-         *
-         * @returns {BindType}
-         */
-        readonly propertyType: BindValueType;
-    }
-}
-declare module latte {
-    /**
-     * Initialize, then call value property to obtain coerced value
-     */
-    class DataBindCoercion {
-        /**
-         * Performs the coercion
-         * @param value
-         * @param {latte.BindValueType} sourceType
-         * @param {latte.BindValueType} targetType
-         * @returns {any}
-         */
-        static coerce(value: any, sourceType: BindValueType, targetType: BindValueType): any;
-        /**
-         * Ensures the specified value is of the specified type
-         * @param value
-         * @param {latte.BindValueType} type
-         */
-        static ensureType(value: any, type: BindValueType): any;
-        /**
-         * Parses the type
-         * @param {string} typeAsString
-         */
-        static parseType(typeAsString?: string): BindValueType;
-    }
-}
-declare module latte {
-    /**
-     * Represents a set of structured data
-     **/
-    class DataSet {
-        /**
-         * Columns of the dataset
-         **/
-        columns: Collection<DataSetColumn>;
-        /**
-         * Rows of data
-         **/
-        rows: Collection<DataSetRow>;
-        /**
-         * Creates the dataset
-         **/
-        constructor();
-        /**
-         * Creates a <c>DataSet</c> from the dataset specified as a JSON object
-         **/
-        static fromServerObject(dataset: any): DataSet;
-        /**
-         * Converts the type sent by server to a type compatible with <c>InputItem</c>
-         **/
-        static fromServerType(type: string): string;
-        /**
-         * Gets the index of the column by passing the name of the column
-         **/
-        getColumnIndex(columnName: string): number;
-        /**
-         * Gets the data as an array of arrays
-         **/
-        getDataArray(): any[];
-        /**
-         * Gets the value of the specified column at the specified row index
-         **/
-        getValue(columnName: string, rowIndex: number): any;
-        /**
-         * Gets the value at the specified position
-         **/
-        getValueAt(columnIndex: number, rowIndex: number): any;
-        /**
-         * Sets the value at the specified position
-         **/
-        setValue(columnName: string, rowIndex: number, value: any): DataSet;
-        /**
-         * Sets the value at the specified position
-         **/
-        setValueAt(columnIndex: number, rowIndex: number, value: any): DataSet;
-    }
-}
-declare module latte {
-    /**
      * Represents a row of data for <c>DataSet</c>
      **/
     class DataSetRow {
@@ -220,215 +65,28 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Represents a column of data for <c>DataSet</c>
-     **/
-    class DataSetColumn {
-        /**
-         *
-         **/
-        private _length;
-        /**
-         *
-         **/
-        private _name;
-        /**
-         *
-         **/
-        private _options;
-        /**
-         *
-         **/
-        private _tag;
-        /**
-         *
-         **/
-        private _type;
-        /**
-         * Raised when <c>options</c> value is changed.
-         **/
-        optionsChanged: LatteEvent;
-        /**
-         * Creates the column.
-         Optionally specifies its name, type and length.
-         **/
-        constructor(name?: string, type?: string, length?: number);
-        /**
-         * Gets or sets the length of the column values.
-         **/
-        /**
-        * Gets or sets the length of the column values.
-        **/
-        length: number;
-        /**
-         * Gets or sets the name of the column.
-         **/
-        /**
-        * Gets or sets the name of the column.
-        **/
-        name: string;
-        /**
-         * Raises the <c>optionsChanged</c> event.
-         **/
-        onOptionsChanged(): void;
-        /**
-         * Gets or sets the options of the column.
-         **/
-        /**
-        * Gets or sets the options of the column.
-        **/
-        options: any;
-        /**
-         * Gets or sets a generic tag value for the object
-         **/
-        /**
-        * Gets or sets a generic tag value for the object
-        **/
-        tag: any;
-        /**
-         * Gets or sets the type of the column values.
-         **/
-        /**
-        * Gets or sets the type of the column values.
-        **/
-        type: string;
-    }
-}
-declare module latte {
-    /**
-     *
+     * Initialize, then call value property to obtain coerced value
      */
-    class RemoteResponse<T> {
-        private _call;
-        private _response;
-        private _errorCode;
-        private _errorDescription;
-        private _success;
-        private _data;
+    class DataBindCoercion {
         /**
-         * Creates the response
-         * @param call
-         * @param responseText
+         * Performs the coercion
+         * @param value
+         * @param {latte.BindValueType} sourceType
+         * @param {latte.BindValueType} targetType
+         * @returns {any}
          */
-        constructor(call: RemoteCall<T>, response: IRemoteResponse);
+        static coerce(value: any, sourceType: BindValueType, targetType: BindValueType): any;
         /**
-         * Unpacks the response text to indicate attributes
+         * Ensures the specified value is of the specified type
+         * @param value
+         * @param {latte.BindValueType} type
          */
-        private unmarshall;
+        static ensureType(value: any, type: BindValueType): any;
         /**
-         * Gets the call who originated this response
-         * @returns {RemoteCall}
+         * Parses the type
+         * @param {string} typeAsString
          */
-        readonly call: RemoteCall<T>;
-        /**
-         * Gets the error code returned (if any)
-         * @returns {number}
-         */
-        readonly errorCode: number;
-        /**
-         * Gets the error description returned (if any)
-         * @returns {string}
-         */
-        readonly errorDescription: string;
-        /**
-         * Property field
-         */
-        private _logs;
-        /**
-         * Gets or sets the logs array in response
-         *
-         * @returns {Array<string>}
-         */
-        /**
-        * Gets or sets the logs array in response
-        *
-        * @param {Array<string>} value
-        */
-        logs: Array<string>;
-        /**
-         * Gets the literal response from server
-         * @returns {string}
-         */
-        readonly response: IRemoteResponse;
-        /**
-         * Gets
-         * @returns {T}
-         */
-        readonly data: T;
-        /**
-         * Gets a value indicating if the call was a success
-         * @returns {boolean}
-         */
-        readonly success: boolean;
-        /**
-         * Property field
-         */
-        private _warnings;
-        /**
-         * Gets or sets
-         *
-         * @returns {Array<string>}
-         */
-        /**
-        * Gets or sets
-        *
-        * @param {Array<string>} value
-        */
-        warnings: Array<string>;
-    }
-}
-declare module latte {
-    /**
-     * Binds two values bi-directionally
-     */
-    class ValueDataBind {
-        /**
-         * Creates the bi-directional bind
-         */
-        constructor(a: DataBindActor, b: DataBindActor);
-        /**
-         * Uninstall the
-         */
-        uninstall(): void;
-        /**
-         * Property field
-         */
-        private _actorA;
-        /**
-         * Gets the A actor
-         *
-         * @returns {DataBindActor}
-         */
-        readonly actorA: DataBindActor;
-        /**
-         * Property field
-         */
-        private _actorB;
-        /**
-         * Gets the B actor
-         *
-         * @returns {DataBindActor}
-         */
-        readonly actorB: DataBindActor;
-        /**
-         * Property field
-         */
-        private _bindA;
-        /**
-         * Gets the A bind
-         *
-         * @returns {ValueSingleDataBind}
-         */
-        readonly bindA: ValueSingleDataBind;
-        /**
-         * Property field
-         */
-        private _bindB;
-        /**
-         * Gets the B Bind
-         *
-         * @returns {ValueSingleDataBind}
-         */
-        readonly bindB: ValueSingleDataBind;
+        static parseType(typeAsString?: string): BindValueType;
     }
 }
 declare module latte {
@@ -711,6 +369,293 @@ declare module latte {
     }
 }
 declare module latte {
+    /**
+     *
+     */
+    class DataBindActor {
+        /**
+         * Creates the actor
+         *
+         * If no propertyChanged event is passed, the "propertyChanged" event will be automatically seeked.
+         *
+         */
+        constructor(actor: any, propertyName: string, propertyType?: BindValueType, propertyChanged?: LatteEvent);
+        /**
+         * Property field
+         */
+        private _actor;
+        /**
+         * Gets the actor of the bind
+         *
+         * @returns {any}
+         */
+        readonly actor: any;
+        /**
+         * Property field
+         */
+        private _propertyChanged;
+        /**
+         * Gets the event of property change
+         *
+         * @returns {LatteEvent}
+         */
+        readonly propertyChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _propertyName;
+        /**
+         * Gets the name of the property
+         *
+         * @returns {string}
+         */
+        readonly propertyName: string;
+        /**
+         * Property field
+         */
+        private _propertyType;
+        /**
+         * Gets the type of the property
+         *
+         * @returns {BindType}
+         */
+        readonly propertyType: BindValueType;
+    }
+}
+declare module latte {
+    /**
+     * Represents a set of structured data
+     **/
+    class DataSet {
+        /**
+         * Columns of the dataset
+         **/
+        columns: Collection<DataSetColumn>;
+        /**
+         * Rows of data
+         **/
+        rows: Collection<DataSetRow>;
+        /**
+         * Creates the dataset
+         **/
+        constructor();
+        /**
+         * Creates a <c>DataSet</c> from the dataset specified as a JSON object
+         **/
+        static fromServerObject(dataset: any): DataSet;
+        /**
+         * Converts the type sent by server to a type compatible with <c>InputItem</c>
+         **/
+        static fromServerType(type: string): string;
+        /**
+         * Gets the index of the column by passing the name of the column
+         **/
+        getColumnIndex(columnName: string): number;
+        /**
+         * Gets the data as an array of arrays
+         **/
+        getDataArray(): any[];
+        /**
+         * Gets the value of the specified column at the specified row index
+         **/
+        getValue(columnName: string, rowIndex: number): any;
+        /**
+         * Gets the value at the specified position
+         **/
+        getValueAt(columnIndex: number, rowIndex: number): any;
+        /**
+         * Sets the value at the specified position
+         **/
+        setValue(columnName: string, rowIndex: number, value: any): DataSet;
+        /**
+         * Sets the value at the specified position
+         **/
+        setValueAt(columnIndex: number, rowIndex: number, value: any): DataSet;
+    }
+}
+declare module latte {
+    /**
+     * Represents a column of data for <c>DataSet</c>
+     **/
+    class DataSetColumn {
+        /**
+         *
+         **/
+        private _length;
+        /**
+         *
+         **/
+        private _name;
+        /**
+         *
+         **/
+        private _options;
+        /**
+         *
+         **/
+        private _tag;
+        /**
+         *
+         **/
+        private _type;
+        /**
+         * Raised when <c>options</c> value is changed.
+         **/
+        optionsChanged: LatteEvent;
+        /**
+         * Creates the column.
+         Optionally specifies its name, type and length.
+         **/
+        constructor(name?: string, type?: string, length?: number);
+        /**
+         * Gets or sets the length of the column values.
+         **/
+        /**
+        * Gets or sets the length of the column values.
+        **/
+        length: number;
+        /**
+         * Gets or sets the name of the column.
+         **/
+        /**
+        * Gets or sets the name of the column.
+        **/
+        name: string;
+        /**
+         * Raises the <c>optionsChanged</c> event.
+         **/
+        onOptionsChanged(): void;
+        /**
+         * Gets or sets the options of the column.
+         **/
+        /**
+        * Gets or sets the options of the column.
+        **/
+        options: any;
+        /**
+         * Gets or sets a generic tag value for the object
+         **/
+        /**
+        * Gets or sets a generic tag value for the object
+        **/
+        tag: any;
+        /**
+         * Gets or sets the type of the column values.
+         **/
+        /**
+        * Gets or sets the type of the column values.
+        **/
+        type: string;
+    }
+}
+declare module latte {
+    /**
+     *
+     */
+    class RemoteResponse<T> {
+        private _call;
+        private _response;
+        private _errorCode;
+        private _errorDescription;
+        private _success;
+        private _data;
+        /**
+         * Creates the response
+         * @param call
+         * @param responseText
+         */
+        constructor(call: RemoteCall<T>, response: IRemoteResponse);
+        /**
+         * Unpacks the response text to indicate attributes
+         */
+        private unmarshall;
+        /**
+         * Gets the call who originated this response
+         * @returns {RemoteCall}
+         */
+        readonly call: RemoteCall<T>;
+        /**
+         * Gets the error code returned (if any)
+         * @returns {number}
+         */
+        readonly errorCode: number;
+        /**
+         * Gets the error description returned (if any)
+         * @returns {string}
+         */
+        readonly errorDescription: string;
+        /**
+         * Property field
+         */
+        private _logs;
+        /**
+         * Gets or sets the logs array in response
+         *
+         * @returns {Array<string>}
+         */
+        /**
+        * Gets or sets the logs array in response
+        *
+        * @param {Array<string>} value
+        */
+        logs: Array<string>;
+        /**
+         * Gets the literal response from server
+         * @returns {string}
+         */
+        readonly response: IRemoteResponse;
+        /**
+         * Gets
+         * @returns {T}
+         */
+        readonly data: T;
+        /**
+         * Gets a value indicating if the call was a success
+         * @returns {boolean}
+         */
+        readonly success: boolean;
+        /**
+         * Property field
+         */
+        private _warnings;
+        /**
+         * Gets or sets
+         *
+         * @returns {Array<string>}
+         */
+        /**
+        * Gets or sets
+        *
+        * @param {Array<string>} value
+        */
+        warnings: Array<string>;
+    }
+}
+declare module latte {
+    /**
+     * Represents a collection of records
+     */
+    class DataRecordCollection extends Collection<DataRecord> {
+        /**
+         * Creates the collection of the specified type.
+         * Optionally specifies handlers for adding and removing items, and a
+         * context to call as closure of events.
+         *
+         * @param addCallback
+         * @param removeCallback
+         * @param context
+         */
+        constructor(addCallback?: (DataRecord: any, number: any) => any, removeCallback?: (DataRecord: any, number: any) => any, context?: any);
+        /**
+         * Finds the record of the specified <c>id</c>
+         *
+         * @param id
+         * @returns {null}
+         */
+        byId(id: number): DataRecord;
+    }
+}
+declare module latte {
     interface MessageSucceededCallback {
         (data: any): void;
         (): void;
@@ -904,89 +849,57 @@ declare module latte {
 }
 declare module latte {
     /**
-     * Binds one source to
+     * Binds two values bi-directionally
      */
-    class ValueSingleDataBind {
-        lastHandleApplied: () => void;
+    class ValueDataBind {
         /**
-         * Creates the bind
+         * Creates the bi-directional bind
          */
-        constructor(sourceActor: DataBindActor, targetActor: DataBindActor);
+        constructor(a: DataBindActor, b: DataBindActor);
         /**
-         * Updates the target's value
-         */
-        apply(): void;
-        /**
-         * Installs the bind
-         */
-        install(): void;
-        /**
-         * Raises the <c>applied</c> event
-         */
-        onApplied(): void;
-        /**
-         * Raises the <c>willApply</c> event
-         */
-        onWillApply(): void;
-        /**
-         * Uninstalls the bind
+         * Uninstall the
          */
         uninstall(): void;
         /**
-         * Back field for event
-         */
-        private _applied;
-        /**
-         * Gets an event raised when the value has been applied to the target
-         *
-         * @returns {LatteEvent}
-         */
-        readonly applied: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _willApply;
-        /**
-         * Gets an event raised when the bind will apply the value
-         *
-         * @returns {LatteEvent}
-         */
-        readonly willApply: LatteEvent;
-        /**
          * Property field
          */
-        private _sourceActor;
+        private _actorA;
         /**
-         * Gets the source actor data
+         * Gets the A actor
          *
          * @returns {DataBindActor}
          */
-        readonly sourceActor: DataBindActor;
+        readonly actorA: DataBindActor;
         /**
          * Property field
          */
-        private _skipNextApply;
+        private _actorB;
         /**
-         * Gets or sets a value indicating if the next apply should be ignored
-         *
-         * @returns {boolean}
-         */
-        /**
-        * Gets or sets a value indicating if the next apply should be ignored
-        *
-        * @param {boolean} value
-        */
-        skipNextApply: boolean;
-        /**
-         * Property field
-         */
-        private _targetActor;
-        /**
-         * Gets the target actor data
+         * Gets the B actor
          *
          * @returns {DataBindActor}
          */
-        readonly targetActor: DataBindActor;
+        readonly actorB: DataBindActor;
+        /**
+         * Property field
+         */
+        private _bindA;
+        /**
+         * Gets the A bind
+         *
+         * @returns {ValueSingleDataBind}
+         */
+        readonly bindA: ValueSingleDataBind;
+        /**
+         * Property field
+         */
+        private _bindB;
+        /**
+         * Gets the B Bind
+         *
+         * @returns {ValueSingleDataBind}
+         */
+        readonly bindB: ValueSingleDataBind;
     }
 }
 declare module latte {
@@ -1155,5 +1068,92 @@ declare module latte {
          * Gets an event raised when message arrives successfully
          */
         readonly beforeSuccess: LatteEvent;
+    }
+}
+declare module latte {
+    /**
+     * Binds one source to
+     */
+    class ValueSingleDataBind {
+        lastHandleApplied: () => void;
+        /**
+         * Creates the bind
+         */
+        constructor(sourceActor: DataBindActor, targetActor: DataBindActor);
+        /**
+         * Updates the target's value
+         */
+        apply(): void;
+        /**
+         * Installs the bind
+         */
+        install(): void;
+        /**
+         * Raises the <c>applied</c> event
+         */
+        onApplied(): void;
+        /**
+         * Raises the <c>willApply</c> event
+         */
+        onWillApply(): void;
+        /**
+         * Uninstalls the bind
+         */
+        uninstall(): void;
+        /**
+         * Back field for event
+         */
+        private _applied;
+        /**
+         * Gets an event raised when the value has been applied to the target
+         *
+         * @returns {LatteEvent}
+         */
+        readonly applied: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _willApply;
+        /**
+         * Gets an event raised when the bind will apply the value
+         *
+         * @returns {LatteEvent}
+         */
+        readonly willApply: LatteEvent;
+        /**
+         * Property field
+         */
+        private _sourceActor;
+        /**
+         * Gets the source actor data
+         *
+         * @returns {DataBindActor}
+         */
+        readonly sourceActor: DataBindActor;
+        /**
+         * Property field
+         */
+        private _skipNextApply;
+        /**
+         * Gets or sets a value indicating if the next apply should be ignored
+         *
+         * @returns {boolean}
+         */
+        /**
+        * Gets or sets a value indicating if the next apply should be ignored
+        *
+        * @param {boolean} value
+        */
+        skipNextApply: boolean;
+        /**
+         * Property field
+         */
+        private _targetActor;
+        /**
+         * Gets the target actor data
+         *
+         * @returns {DataBindActor}
+         */
+        readonly targetActor: DataBindActor;
     }
 }

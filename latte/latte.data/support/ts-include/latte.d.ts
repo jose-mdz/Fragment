@@ -29,17 +29,6 @@ declare module latte {
     /**
      *
      */
-    interface ICountry {
-        name: string;
-        phone: string;
-        code: string;
-        shortCode: string;
-    }
-}
-declare module latte {
-    /**
-     *
-     */
     interface ICall {
         marshall(): IDataRemoteCall;
         respond(responseData: IRemoteResponse): any;
@@ -47,27 +36,6 @@ declare module latte {
         withHandlers(success?: (data: any) => void, failure?: (errorDescription: string) => void): ICall;
         success: LatteEvent;
         failure: LatteEvent;
-    }
-}
-/**
- * Created by josemanuel on 8/9/16.
- */
-declare module latte {
-    interface IEntityMeta {
-        /**
-         * Should give information about the fields of the entity
-         */
-        fields?: IInputList;
-        /**
-         * It's called when the form about the entity is created and fully loaded
-         * @param form
-         */
-        onFormCreated?(form: any): any;
-        /**
-         * It's called when the form about the entity is created
-         * @param form
-         */
-        onFormCreating?(form: any): any;
     }
 }
 /**
@@ -109,6 +77,38 @@ declare module latte {
         nullable?: InputResolvedBoolean;
         updatesForm?: InputResolvedBoolean;
         customFunction?: () => any;
+    }
+}
+declare module latte {
+    /**
+     *
+     */
+    interface ICountry {
+        name: string;
+        phone: string;
+        code: string;
+        shortCode: string;
+    }
+}
+/**
+ * Created by josemanuel on 8/9/16.
+ */
+declare module latte {
+    interface IEntityMeta {
+        /**
+         * Should give information about the fields of the entity
+         */
+        fields?: IInputList;
+        /**
+         * It's called when the form about the entity is created and fully loaded
+         * @param form
+         */
+        onFormCreated?(form: any): any;
+        /**
+         * It's called when the form about the entity is created
+         * @param form
+         */
+        onFormCreating?(form: any): any;
     }
 }
 declare module latte {
@@ -162,17 +162,6 @@ declare module latte {
     }
 }
 /**
- * Created by josemanuel on 7/20/16.
- */
-declare module latte {
-    /**
-     *
-     */
-    interface IMessage {
-        responseArrived: LatteEvent;
-    }
-}
-/**
  * Created by josemanuel on 7/18/16.
  */
 declare module latte {
@@ -194,55 +183,6 @@ declare module latte {
         UNKNOWN = 0,
         TRUE = 1,
         FALSE = 2
-    }
-}
-declare module latte {
-    /**
-     * Enumerates week days
-     */
-    enum WeekDay {
-        /**
-         * Sunday
-         *
-         * @type {number}
-         */
-        SUNDAY = 0,
-        /**
-         * Monday
-         *
-         * @type {number}
-         */
-        MONDAY = 1,
-        /**
-         * Tuesday
-         *
-         * @type {number}
-         */
-        TUESDAY = 2,
-        /**
-         * Wednesday
-         *
-         * @type {number}
-         */
-        WEDNESDAY = 3,
-        /**
-         * Thursday
-         *
-         * @type {number}
-         */
-        THURSDAY = 4,
-        /**
-         * Friday
-         *
-         * @type {number}
-         */
-        FRIDAY = 5,
-        /**
-         * Saturday
-         *
-         * @type {number}
-         */
-        SATURDAY = 6
     }
 }
 declare module latte {
@@ -945,6 +885,66 @@ declare module latte {
 }
 declare module latte {
     /**
+     * Enumerates week days
+     */
+    enum WeekDay {
+        /**
+         * Sunday
+         *
+         * @type {number}
+         */
+        SUNDAY = 0,
+        /**
+         * Monday
+         *
+         * @type {number}
+         */
+        MONDAY = 1,
+        /**
+         * Tuesday
+         *
+         * @type {number}
+         */
+        TUESDAY = 2,
+        /**
+         * Wednesday
+         *
+         * @type {number}
+         */
+        WEDNESDAY = 3,
+        /**
+         * Thursday
+         *
+         * @type {number}
+         */
+        THURSDAY = 4,
+        /**
+         * Friday
+         *
+         * @type {number}
+         */
+        FRIDAY = 5,
+        /**
+         * Saturday
+         *
+         * @type {number}
+         */
+        SATURDAY = 6
+    }
+}
+/**
+ * Created by josemanuel on 7/20/16.
+ */
+declare module latte {
+    /**
+     *
+     */
+    interface IMessage {
+        responseArrived: LatteEvent;
+    }
+}
+declare module latte {
+    /**
      * Generic Exception class
      *
      * Usage
@@ -1077,476 +1077,6 @@ declare module latte {
          * @returns {number}
          */
         readonly itemIndex: number;
-    }
-}
-declare module latte {
-    class EventHandler {
-        handler: Function;
-        context: any;
-        constructor(handler: Function, context: any);
-    }
-    /**
-     * Manages events and event handlers
-     */
-    class LatteEvent {
-        context: any;
-        handlers: Array<EventHandler>;
-        /**
-         * Raised when a handler is added to the event
-         */
-        _handlerAdded: LatteEvent;
-        /**
-         *
-         * @param context Context where
-         */
-        constructor(context: any);
-        /**
-         * Gets the event for handler adding
-         *
-         * @returns {LatteEvent}
-         */
-        readonly handlerAdded: LatteEvent;
-        /**
-         * Adds a handler to the event
-         * @param handler
-         */
-        add(handler: Function, context?: any): void;
-        /**
-         * Raises the <c>handlerAdded</c> event
-         * @param handler
-         */
-        onHandlerAdded(handler: Function): void;
-        /**
-         * Raises the actual event handlers.
-         * @param parameter
-         * @returns {*}
-         */
-        raise(...parameter: any[]): any;
-        /**
-         * Removes the specified handler
-         * @param {Function} handler
-         */
-        remove(handler: Function): void;
-    }
-}
-declare module latte {
-    /**
-     * Exception thrown when an argument of the function was invalid.
-     *
-     * Usage:
-     * <example>
-     *
-     * function pow(a){
-     *
-     *      throw new latte.InvalidCallEx('pow')
-     *
-     * }
-     *
-     * </example>
-     */
-    class InvalidCallEx extends Ex {
-        method: string;
-        /**
-         * Creates the Exception
-         * @param method
-         */
-        constructor(method?: string);
-        /**
-         * Returns a string explaining the exception
-         *
-         * @returns {string}
-         */
-        toString(): string;
-    }
-}
-declare module latte {
-    /**
-     * Exception thrown when an argument of the function was invalid.
-     *
-     * Usage:
-     * <example>
-     *
-     * function pow(a){
-     *
-     *      if(typeof a != 'number')
-     *          // Inform user that the parameter was invalid
-     *          throw new InvalidArgumentEx('a');
-     *
-     *      return a * a;
-     *
-     * }
-     *
-     * </example>
-     */
-    class InvalidArgumentEx extends Ex {
-        argument: string;
-        value: any;
-        /**
-         * Creates the exception
-         *
-         * @param argument
-         * @param value
-         */
-        constructor(argument?: string, value?: any);
-        /**
-         * Returns a string explaining the exception
-         *
-         * @returns {string}
-         */
-        toString(): string;
-    }
-}
-/**
- * Created by josemanuel on 5/26/15.
- */
-declare module latte {
-    /**
-     *
-     */
-    class LoadInfo {
-        /**
-         * Field for instance property
-         */
-        private static _instance;
-        /**
-         * Gets the load mechanism singleton.
-         *
-         * @returns {LoadMechanism}
-         */
-        static readonly instance: LoadInfo;
-        /**
-         * @private
-         */
-        constructor();
-        /**
-         * Ends a loading process
-         */
-        end(): void;
-        /**
-         * Raises the <c>loadingStart</c> event
-         */
-        onLoadingStart(): void;
-        /**
-         * Raises the <c>loadingEnd</c> event
-         */
-        onLoadingEnd(): void;
-        /**
-         * Raises the <c>loadingText</c> event
-         */
-        onLoadingTextChanged(): void;
-        /**
-         * Starts a loading process
-         * @param text
-         */
-        start(text: string): void;
-        /**
-         * Back field for event
-         */
-        private _loadingStart;
-        /**
-         * Gets an event raised when the loading starts
-         *
-         * @returns {LatteEvent}
-         */
-        readonly loadingStart: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _loadingEnd;
-        /**
-         * Gets an event raised when the loading ends
-         *
-         * @returns {LatteEvent}
-         */
-        readonly loadingEnd: LatteEvent;
-        /**
-         * Back field for event
-         */
-        private _loadingTextChanged;
-        /**
-         * Gets an event raised when the value of the loadingText property changes
-         *
-         * @returns {LatteEvent}
-         */
-        readonly loadingTextChanged: LatteEvent;
-        /**
-         * Property field
-         */
-        private _loadingText;
-        /**
-         * Gets or sets the text of the load information
-         *
-         * @returns {string}
-         */
-        /**
-        * Gets or sets the text of the load information
-        *
-        * @param {string} value
-        */
-        loadingText: string;
-    }
-}
-/**
- * Created by josemanuel on 5/12/14.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Point {
-        /**
-         * Gets the distance between two points
-         * @param a
-         * @param b
-         */
-        static distance(a: Point, b: Point): number;
-        /**
-         * Returns an empty point
-         * @returns {latte.Point}
-         */
-        static empty(): Point;
-        /**
-         * Returns a point situated on the origin
-         * @returns {latte.Point}
-         */
-        static origin(): Point;
-        /**
-         * Creates a new point, optionally
-         */
-        constructor(x?: number, y?: number);
-        /**
-         * Gets the distance to the specified point
-         * @param {latte.Point} p
-         * @returns {number}
-         */
-        distanceTo(p: Point): number;
-        /**
-         * Gets a value indicating if the passed point is equals to this one
-         * @param {latte.Point} p
-         * @returns {boolean}
-         */
-        equals(p: Point): boolean;
-        /**
-         * Returns the offset operation of the point
-         *
-         * @param x
-         * @param y
-         * @returns {latte.Point}
-         */
-        offset(x: number, y: number): Point;
-        /**
-         * Gets string representation of the point
-         * @returns {string}
-         */
-        toString(): string;
-        /**
-         * Gets a value indicating if the point is empty (No value has been set)
-         *
-         * @returns {boolean}
-         */
-        readonly isEmpty: boolean;
-        /**
-         * Property field
-         */
-        private _x;
-        /**
-         * Gets or sets the x coordinate
-         *
-         * @returns {number}
-         */
-        /**
-        * Gets or sets the x coordinate
-        *
-        * @param {number} value
-        */
-        x: number;
-        /**
-         * Property field
-         */
-        private _y;
-        /**
-         * Gets or sets the y coordinate
-         *
-         * @returns {number}
-         */
-        /**
-        * Gets or sets the y coordinate
-        *
-        * @param {number} value
-        */
-        y: number;
-    }
-}
-/**
- * Created by josemanuel on 5/12/14.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Size {
-        /**
-         * Returns an empty size
-         * @returns {latte.Size}
-         */
-        static empty(): Size;
-        /**
-         * Returns a size of zero width and zero height
-         * @returns {latte.Point}
-         */
-        static zero(): Size;
-        /**
-         * Creates a new Size, optionally sets its Width and Height components
-         */
-        constructor(width?: number, height?: number);
-        /**
-         * Gets a value indicating if the size contains the specified size.
-         * @param size
-         */
-        contains(size: Size): boolean;
-        /**
-         * Inflates the size on the specified width and height
-         *
-         * @param width
-         * @param height
-         * @returns {latte.Size}
-         */
-        inflate(width: number, height: number): Size;
-        /**
-         * Inflates the size uniformly
-         * @param wide
-         */
-        inflateUniform(wide: number): Size;
-        /**
-         * Gets a scaled Size that fits in the specified target.
-         * @param target
-         */
-        scaleToFit(target: Size): Size;
-        /**
-         * Gets a scaled Size that fills the specified target.
-         * @param target
-         */
-        scaleToFill(target: Size): Size;
-        /**
-         * Gets string representation of the size
-         * @returns {string}
-         */
-        toString(): string;
-        /**
-         * Gets the area represented by the size
-         *
-         * @returns {number}
-         */
-        readonly area: number;
-        /**
-         * Gets a value indicating if the size has no compnents assigned or initialized
-         *
-         * @returns {boolean}
-         */
-        readonly isEmpty: boolean;
-        /**
-         * Gets a value indicating if the size is horizontal
-         *
-         * @returns {boolean}
-         */
-        readonly isHorizontal: boolean;
-        /**
-         * Gets a value indicating if the size is a square
-         *
-         * @returns {boolean}
-         */
-        readonly isSquare: boolean;
-        /**
-         * Gets a value indicating if the size is vertical
-         *
-         * @returns {boolean}
-         */
-        readonly isVertical: boolean;
-        /**
-         * Property field
-         */
-        private _height;
-        /**
-         * Gets the Height component of the size
-         *
-         * @returns {number}
-         */
-        readonly height: number;
-        /**
-         * Property field
-         */
-        private _width;
-        /**
-         * Gets the Width component of the size
-         *
-         * @returns {number}
-         */
-        readonly width: number;
-    }
-}
-declare module latte {
-    class HEvent<T> {
-    }
-}
-declare module latte {
-    /**
-     * Executes an action every specified amount of milliseconds
-     **/
-    class Timer {
-        /**
-         *
-         **/
-        private _callback;
-        /**
-         *
-         **/
-        private _context;
-        /**
-         *
-         **/
-        private _milliseconds;
-        /**
-         *
-         **/
-        private _paused;
-        /**
-         * Creates a timer that will call <c>callback</c> every specified amount of
-         <c>milliseconds</c> on the specified <c>context</c>.
-         **/
-        constructor(callback: Function, milliseconds: number, context: any);
-        /**
-         * Gets or sets the function who will be called every tick
-         **/
-        /**
-        * Gets or sets the function who will be called every tick
-        **/
-        callback: Function;
-        /**
-         * Gets or sets the context in which the function is executed
-         **/
-        /**
-        * Gets or sets the context in which the function is executed
-        **/
-        context: any;
-        /**
-         * Gets or sets the milliseconds to sleep between calls
-         **/
-        /**
-        * Gets or sets the milliseconds to sleep between calls
-        **/
-        milliseconds: number;
-        /**
-         * Pauses the timer
-         **/
-        pause(): void;
-        /**
-         * Starts ticking
-         **/
-        start(): void;
-        /**
-         * Ticks the timer. Executes the callback and programs next tick.
-         **/
-        tick(): void;
     }
 }
 declare module latte {
@@ -1744,146 +1274,6 @@ declare module latte {
          * @returns {number}
          */
         readonly length: number;
-    }
-}
-/**
- * Created by josemanuel on 2/6/14.
- */
-declare module latte {
-    /**
-     *
-     */
-    class Culture {
-        /**
-         * Property field
-         */
-        private static _current;
-        /**
-         * Gets or sets the current culture of the system
-         *
-         * @returns {Culture}
-         */
-        /**
-        * Gets or sets the current culture of the system
-        *
-        * @param {Culture} value
-        */
-        static current: Culture;
-        /**
-         * Field for esMX property
-         */
-        private static _esEs;
-        /**
-         * Gets the Español-Mexico Culture
-         *
-         * @returns {Culture}
-         */
-        static readonly esEs: Culture;
-        /**
-         * Field for esMX property
-         */
-        private static _esMx;
-        /**
-         * Gets the Español-Mexico Culture
-         *
-         * @returns {Culture}
-         */
-        static readonly esMx: Culture;
-        /**
-         * Field for enUs property
-         */
-        private static _enUs;
-        /**
-         * Gets the English-USA Culture
-         *
-         * @returns {Culture}
-         */
-        static readonly enUs: Culture;
-        /**
-         * Formats currency using the current culture
-         * @param n
-         * @returns {string}
-         */
-        static formatCurrency(n: number): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        static formatShortDate(d: DateTime): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        static formatLongDate(d: DateTime): string;
-        /**
-         * Formats a number using the current Culture
-         * @param n
-         * @param decimals
-         * @param symbol
-         * @returns {string}
-         */
-        static formatNumber(n: number, decimals?: number, symbol?: string): string;
-        /**
-         * Short date format
-         */
-        shortDateFormat: string;
-        /**
-         * Long date format
-         */
-        longDateFormat: string;
-        /**
-         * Amount of decimals to show in currency format
-         */
-        currencyDecimals: number;
-        /**
-         * Separator of decimals for currency
-         */
-        numberDecimalsSeparator: string;
-        /**
-         * Thousands separator for currency
-         */
-        numberThousandsSeparator: string;
-        /**
-         * Symbol to use in currency
-         */
-        currencySymbol: string;
-        /**
-         * Regular expression for validating floating point numbers
-         * @type {RegExp}
-         */
-        floatValidator: RegExp;
-        /**
-         * Regular expression for validating integer numbers
-         * @type {RegExp}
-         */
-        intValidator: RegExp;
-        /**
-         *
-         */
-        constructor();
-        /**
-         * Returns the specified number as a currency
-         * @param n
-         */
-        onFormatCurrency(n: number): string;
-        /**
-         * Formats the specified number
-         * @param n
-         * @param decimals
-         * @param symbol
-         * @returns {string}
-         */
-        onFormatNumber(n: number, decimals?: number, symbol?: string): string;
-        /**
-         * Returns the date as a long format
-         * @param d
-         */
-        onFormatLongDate(d: DateTime): string;
-        /**
-         * Returns the date as a short format
-         * @param d
-         */
-        onFormatShortDate(d: DateTime): string;
     }
 }
 declare module latte {
@@ -2102,566 +1492,144 @@ declare module latte {
         r: number;
     }
 }
+/**
+ * Created by josemanuel on 2/6/14.
+ */
 declare module latte {
     /**
-     * Represents a time interval.
-     **/
-    class TimeSpan {
-        millis: number;
+     *
+     */
+    class Culture {
         /**
-         * Creates a TimeSpan from the specified amount of days
-         **/
-        static fromDays(days: number): TimeSpan;
+         * Property field
+         */
+        private static _current;
         /**
-         * Creates a TimeSpan from the specified amount of hours
-         **/
-        static fromHours(hours: number): TimeSpan;
+         * Gets or sets the current culture of the system
+         *
+         * @returns {Culture}
+         */
         /**
-         * Creates a TimeSpan from the specified amount of milliseconds
-         **/
-        static fromMilliseconds(milliseconds: number): TimeSpan;
+        * Gets or sets the current culture of the system
+        *
+        * @param {Culture} value
+        */
+        static current: Culture;
         /**
-         * Creates a TimeSpan from the specified amount of minutes
-         **/
-        static fromMinutes(minutes: number): TimeSpan;
+         * Field for esMX property
+         */
+        private static _esEs;
         /**
-         * Creates a TimeSpan from the specified amount of seconds
-         **/
-        static fromSeconds(seconds: number): TimeSpan;
+         * Gets the Español-Mexico Culture
+         *
+         * @returns {Culture}
+         */
+        static readonly esEs: Culture;
         /**
-         * Creates a TimeSpan object from the specified string.
-         String should be in the format <c>hh:mm:ss</c>
-         **/
-        static fromString(timeString: string): TimeSpan;
+         * Field for esMX property
+         */
+        private static _esMx;
         /**
-         * Gets a timespan with the time passed since the specified date and time
+         * Gets the Español-Mexico Culture
+         *
+         * @returns {Culture}
+         */
+        static readonly esMx: Culture;
+        /**
+         * Field for enUs property
+         */
+        private static _enUs;
+        /**
+         * Gets the English-USA Culture
+         *
+         * @returns {Culture}
+         */
+        static readonly enUs: Culture;
+        /**
+         * Formats currency using the current culture
+         * @param n
+         * @returns {string}
+         */
+        static formatCurrency(n: number): string;
+        /**
+         * Returns the date as a short format
          * @param d
          */
-        static timeSince(d: DateTime): TimeSpan;
+        static formatShortDate(d: DateTime): string;
         /**
-         * Creates the TimeSpan with the specified parameters. Parameters not specified will be asumed to be zero.
-         **/
-        constructor(days?: number, hours?: number, minutes?: number, seconds?: number, milliseconds?: number);
-        /**
-         * Makes math rounding depending on the sign of the milliseconds
-         **/
-        private _rounder;
-        /**
-         * Prepends a zero to the number if lower than 10
-         **/
-        private _zeroPad;
-        /**
-         * Returns the result of adding the specified timespan to this timespan
-         **/
-        add(timespan: TimeSpan): TimeSpan;
-        /**
-         * Returns the result of adding the specified amount of hours to this timespan
-         **/
-        addHours(hours: number): TimeSpan;
-        /**
-         * Returns the result of adding the specified amount of minutes to this timespan
-         **/
-        addMinutes(minutes: number): TimeSpan;
-        /**
-         * Returns the result of adding the specified amount of seconds to this timespan
-         **/
-        addSeconds(seconds: number): TimeSpan;
-        /**
-         * Returns the result of comparing this timespan against the provided timespan
-         **/
-        compareTo(timespan: TimeSpan): number;
-        /**
-         * Returns a timespan representing the actual duration of the timespan
-         **/
-        duration(): TimeSpan;
-        /**
-         * Returns a value indicating if this timespan represents the same than the specified timespan
-         **/
-        equals(timespan: TimeSpan): boolean;
-        /**
-         * Negates the timespan duration
-         **/
-        negate(): void;
-        /**
-         * Returns the result of subtracting the specified timespan to this timespan
-         **/
-        subtract(timespan: TimeSpan): TimeSpan;
-        /**
-         * Returns this timespan as a string
-         **/
-        toString(includeMilliseconds?: boolean): string;
-        /**
-         * Returns the timespan as a shor string, e.g. 5 minutes or 5m
-         * @param shortNames
+         * Returns the date as a short format
+         * @param d
          */
-        toShortString(shortNames?: boolean): string;
+        static formatLongDate(d: DateTime): string;
         /**
-         * Gets the timespan as a number
-         * @returns {number}
+         * Formats a number using the current Culture
+         * @param n
+         * @param decimals
+         * @param symbol
+         * @returns {string}
          */
-        valueOf(): number;
+        static formatNumber(n: number, decimals?: number, symbol?: string): string;
         /**
-         * Gets the days component of the time interval represented by this object
-         **/
-        readonly days: number;
-        /**
-         * Gets the hours component of the time interval represented by this object
-         **/
-        readonly hours: number;
-        /**
-         * Gets a value indicating if the total time this timespan represents is zero
-         **/
-        readonly isEmpty: boolean;
-        /**
-         * Gets the milliseconds component of the time interval represented by this object
-         **/
-        readonly milliseconds: number;
-        /**
-         * Gets the minutes component of the time interval represented by this object
-         **/
-        readonly minutes: number;
-        /**
-         * Gets the seconds component of the time interval represented by this object
-         **/
-        readonly seconds: number;
-        /**
-         * Gets the value of this timespan expressed in whole and fractional days
-         **/
-        readonly totalDays: number;
-        /**
-         * Gets the value of this timespan expressed in whole and fractional hours
-         **/
-        readonly totalHours: number;
-        /**
-         * Gets the value of this timespan expressed in milliseconds
-         **/
-        readonly totalMilliseconds: number;
-        /**
-         * Gets the value of this timespan expressed in whole and fractional minutes
-         **/
-        readonly totalMinutes: number;
-        /**
-         * Gets the value of this timespan expressed in whole and fractional seconds
-         **/
-        readonly totalSeconds: number;
-    }
-}
-declare module latte {
-    /**
-     * Reprsents a Rectangle
-     **/
-    class Rectangle {
-        /**
-         * Creates a rectangle with the specified left, right, top and bottom.
-         **/
-        static fromLRTB(left: number, right: number, top: number, bottom: number): Rectangle;
-        /**
-         * Creates a rectangle from the specified object (top, left, width, height)
-         * @param obj
+         * Short date format
          */
-        static fromObject(obj: any): Rectangle;
+        shortDateFormat: string;
         /**
-         * Creates a rectangle from the specified object (top, left, width, height)
-         * @param obj
+         * Long date format
          */
-        static fromObjectLFTB(obj: any): Rectangle;
+        longDateFormat: string;
         /**
-         * Creates a rectangle of the specified rectangle
-         * @param {HTMLElement} e
-         * @returns {latte.Rectangle}
+         * Amount of decimals to show in currency format
          */
-        static fromElement(e: HTMLElement): Rectangle;
+        currencyDecimals: number;
         /**
-         * Height of rectangle
-         **/
-        private _height;
+         * Separator of decimals for currency
+         */
+        numberDecimalsSeparator: string;
         /**
-         * Left of rectangle
-         **/
-        private _left;
+         * Thousands separator for currency
+         */
+        numberThousandsSeparator: string;
         /**
-         * Top of rectangle
-         **/
-        private _top;
+         * Symbol to use in currency
+         */
+        currencySymbol: string;
         /**
-         * Width of rectangle
-         **/
-        private _width;
+         * Regular expression for validating floating point numbers
+         * @type {RegExp}
+         */
+        floatValidator: RegExp;
+        /**
+         * Regular expression for validating integer numbers
+         * @type {RegExp}
+         */
+        intValidator: RegExp;
         /**
          *
          */
-        private _tag;
+        constructor();
         /**
-         * Creates a rectangle with the specified left, top, width and height.
-         **/
-        constructor(left?: number, top?: number, width?: number, height?: number);
-        /**
-         * Returns a rectangle of positive width and height, by changing its coordinates and preserving width and height
+         * Returns the specified number as a currency
+         * @param n
          */
-        absolute(): Rectangle;
+        onFormatCurrency(n: number): string;
         /**
-         * Returns the result of centering this into the specified container
-         **/
-        centerOn(container: Rectangle): Rectangle;
-        /**
-         * Gets a value indicating if the specified point is contained
-         **/
-        contains(x: number, y: number): boolean;
-        /**
-         * Gets a value indicating if the rectangle is contained inside this rectangle
-         **/
-        containsRectangle(rectangle: Rectangle): boolean;
-        /**
-         * Compares this rectangle with the specified rectangle and returns the result
-         * @param r
-         * @returns {boolean}
+         * Formats the specified number
+         * @param n
+         * @param decimals
+         * @param symbol
+         * @returns {string}
          */
-        equals(r: Rectangle): boolean;
+        onFormatNumber(n: number, decimals?: number, symbol?: string): string;
         /**
-         * Returns the result of inflating the rectangle vertically and horizontally on each edge.
-         **/
-        inflate(horizontal: number, vertical: number): Rectangle;
-        /**
-         * Returns the rectangle result of intersecting this with passed rectangle
-         **/
-        intersection(rectangle: Rectangle): Rectangle;
-        /**
-         * Gets a value indicating if the rectangle intersects specified rectangle
-         **/
-        intersects(rectangle: Rectangle): boolean;
-        /**
-         * Returns a scaled rectangle
-         * @param width
+         * Returns the date as a long format
+         * @param d
          */
-        scaleToHeight(height: number): Rectangle;
+        onFormatLongDate(d: DateTime): string;
         /**
-         * Returns a scaled rectangle
-         * @param width
+         * Returns the date as a short format
+         * @param d
          */
-        scaleToWidth(width: number): Rectangle;
-        /**
-         * Returns a string describing the rectangle
-         **/
-        toString(): string;
-        /**
-         * Gets a rectangle representing the union of this rectangle and the passed one
-         **/
-        union(rectangle: Rectangle): Rectangle;
-        /**
-         * Gets the area of the rectangle
-         *
-         * @returns {number}
-         */
-        readonly area: number;
-        /**
-         * Gets or sets the right side of the rectangle
-         **/
-        /**
-        * Gets or sets the right side of the rectangle
-        **/
-        bottom: number;
-        /**
-         * Gets or sets the center of the rectangle
-         * @returns {latte.Point}
-         */
-        /**
-        * Gets or sets the center of the rectangle
-        * @param value
-        */
-        center: Point;
-        /**
-         * Gets or sets the height of the rectangle
-         **/
-        /**
-        * Gets or sets the height of the rectangle
-        **/
-        height: number;
-        /**
-         * Gets a value indicating if the rectangle is empty
-         *
-         * @returns {boolean}
-         */
-        readonly isEmpty: boolean;
-        /**
-         * Gets or sets the left of the rectangle
-         **/
-        /**
-        * Gets or sets the left of the rectangle
-        **/
-        left: number;
-        /**
-         * Gets the location of the rectangle
-         *
-         * @returns {Point}
-         */
-        readonly location: Point;
-        /**
-         * Gets or sets the right side of the rectangle
-         **/
-        /**
-        * Gets or sets the right side of the rectangle
-        **/
-        right: number;
-        /**
-         * Gets the size of the rectangle
-         *
-         * @returns {Size}
-         */
-        readonly size: Size;
-        /**
-         * Gets or sets a tag
-         * @returns {any}
-         */
-        /**
-        * Gets or sets a tag
-        * @param value
-        */
-        tag: any;
-        /**
-         * Gets or sets the top of the rectangle
-         **/
-        /**
-        * Gets or sets the top of the rectangle
-        **/
-        top: number;
-        /**
-         * Gets or sets the width of the rectangle
-         **/
-        /**
-        * Gets or sets the width of the rectangle
-        **/
-        width: number;
-    }
-}
-declare module latte {
-    /**
-     * Represents a specific date and time
-     **/
-    class DateTime {
-        /**
-         * Amount of days in months of a non-leap year
-         **/
-        static monthDays: Array<number>;
-        /**
-         * Amount of days in months of leap year
-         **/
-        static monthDaysLeapYear: Array<number>;
-        /**
-         * Returns the absolute number of days on the specified day-month-year
-         **/
-        static absoluteDays(year: number, month: number, day: number): number;
-        /**
-         * Returns the amount of days in the specified month of the specified year
-         **/
-        static daysInMonth(year: number, month: number): number;
-        /**
-         * Returns a DateTime object from the specifed date and time components
-         **/
-        static fromDateAndTime(date: DateTime, time: TimeSpan): DateTime;
-        /**
-         * Returns a DateTime object from the specified amount of milliseconds
-         **/
-        static fromMilliseconds(milliseconds: number): DateTime;
-        /**
-         * Creates a DateTime object from the specified string.
-         String should be in the format <c>yyyy-mm-dd hh:mm:ss</c>
-         **/
-        static fromString(dateTimeString: string): DateTime;
-        /**
-         * Returns a value indicating if the specified year is leap year
-         **/
-        static isLeapYear(year: number): boolean;
-        /**
-         * Gets a DateTime representing the current millisecond
-         **/
-        static readonly now: DateTime;
-        /**
-         * Gets a DateTime representing the current day without time component
-         **/
-        static readonly today: DateTime;
-        /**
-         * Gets a DateTime representing the day of tomorrow without time component
-         **/
-        static readonly tomorrow: DateTime;
-        /**
-         * Gets the unix epoch
-         * @returns {latte.DateTime}
-         */
-        static readonly epoch: DateTime;
-        /**
-         * Gets a DateTime representing the day of yesterday without time component
-         **/
-        static readonly yesterday: DateTime;
-        _span: TimeSpan;
-        /**
-         * Creates the DateTime object
-         **/
-        constructor(year?: number, month?: number, day?: number, hour?: number, minute?: number, second?: number, millisecond?: number);
-        /**
-         * Prepends a zero to the number if lower than 10
-         **/
-        private _zeroPad;
-        /**
-         * Returns the specified element of date.
-         Possible values for <c>what</c> are: <c>year</c> | <c>month</c> | <c>dayyear</c> | <c>day</c>
-         **/
-        private fromTimeSpan;
-        /**
-         * Returns the result of adding the specified timespan to this date
-         **/
-        add(timespan: TimeSpan): DateTime;
-        /**
-         * Returns the result of adding the specified amount of days to this date
-         **/
-        addDays(days: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of hours to this date
-         **/
-        addHours(hours: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of milliseconds to this date
-         **/
-        addMilliseconds(milliseconds: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of minutes to this date
-         **/
-        addMinutes(minutes: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of months to this date
-         **/
-        addMonths(months: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of seconds to this date
-         **/
-        addSeconds(seconds: number): DateTime;
-        /**
-         * Returns the result of adding the specified amount of years to this date
-         **/
-        addYears(years: number): DateTime;
-        /**
-         * Returns the result of comparing this datetime to the specified datetime
-         **/
-        compareTo(datetime: DateTime): number;
-        /**
-         * Gets a value indicating if the specified datetime is equals to this datetime
-         **/
-        equals(datetime: DateTime): boolean;
-        /**
-         * Returns a value indicating if the date is contained in the range specified by the arguments
-         **/
-        onRange(start: DateTime, end: DateTime): boolean;
-        /**
-         * Returns the result of subtracting the specified datetime to this datetime
-         **/
-        subtractDate(datetime: DateTime): TimeSpan;
-        /**
-         * Returns the result of subtracting the specified timespan to this datetime
-         **/
-        subtractTime(timespan: TimeSpan): DateTime;
-        /**
-         * Returns a relative representatio of the date, like "Yesterday 10:00AM"
-         **/
-        toRelativeString(withTime?: boolean): string;
-        /**
-         * Returns a formatted string
-         **/
-        toFormattedString(format?: string): string;
-        /**
-         * Gets the DateTime as a string
-         **/
-        toString(includeTime?: boolean): string;
-        /**
-         * Gets a value of the object
-         * @returns {number}
-         */
-        valueOf(): number;
-        /**
-         * Gets the day of this datetime
-         **/
-        readonly day: number;
-        /**
-         * Gets the day of week this datetime. Sunday is 0 and Saturday is 6.
-         **/
-        readonly dayOfWeek: number;
-        /**
-         * Gets the name of the day of the week
-         * @returns {*}
-         */
-        readonly dayOfWeekString: string;
-        /**
-         * Gets the name of the day of the week
-         * @returns {*}
-         */
-        readonly dayOfWeekStringShort: string;
-        /**
-         * Gets the name of the day of the week
-         * @returns {*}
-         */
-        readonly dayOfWeekStringInitial: string;
-        /**
-         * Gets the day of year datetime
-         **/
-        readonly dayOfYear: number;
-        /**
-         * Gets the comparer value of the date
-         *
-         * @returns {number}
-         */
-        readonly comparer: number;
-        /**
-         * Returns just the date component of this datetime
-         **/
-        readonly date: DateTime;
-        /**
-         * Gets the hour of the datetime
-         **/
-        readonly hour: number;
-        /**
-         * Gets the millisecond of the date
-         **/
-        readonly millisecond: number;
-        /**
-         * Gets the minute of the time
-         **/
-        readonly minute: number;
-        /**
-         * Gets the month of the date
-         **/
-        readonly month: number;
-        /**
-         * Gets the name of the month of the date
-         **/
-        readonly monthString: string;
-        /**
-         * Gets the name of the month of the date
-         **/
-        readonly monthStringShort: string;
-        /**
-         * Gets the name of the month of the date
-         **/
-        readonly monthStringInitial: string;
-        /**
-         * Gets the second of the date
-         **/
-        readonly second: number;
-        /**
-         * Gets the time component of this datetime
-         **/
-        readonly timeOfDay: TimeSpan;
-        /**
-         * Gets a value indicating if the date is after the unix epoch
-         *
-         * @returns {boolean}
-         */
-        readonly thisEpoch: boolean;
-        /**
-         * Gets the week number of date. First week of year is 1
-         **/
-        readonly weekOfYear: number;
-        /**
-         * Gets the year of the date
-         **/
-        readonly year: number;
+        onFormatShortDate(d: DateTime): string;
     }
 }
 declare module latte {
@@ -2927,5 +1895,1037 @@ declare module latte {
         static YE: ICountry;
         static ZM: ICountry;
         static ZW: ICountry;
+    }
+}
+declare module latte {
+    /**
+     * Represents a specific date and time
+     **/
+    class DateTime {
+        /**
+         * Amount of days in months of a non-leap year
+         **/
+        static monthDays: Array<number>;
+        /**
+         * Amount of days in months of leap year
+         **/
+        static monthDaysLeapYear: Array<number>;
+        /**
+         * Returns the absolute number of days on the specified day-month-year
+         **/
+        static absoluteDays(year: number, month: number, day: number): number;
+        /**
+         * Returns the amount of days in the specified month of the specified year
+         **/
+        static daysInMonth(year: number, month: number): number;
+        /**
+         * Returns a DateTime object from the specifed date and time components
+         **/
+        static fromDateAndTime(date: DateTime, time: TimeSpan): DateTime;
+        /**
+         * Returns a DateTime object from the specified amount of milliseconds
+         **/
+        static fromMilliseconds(milliseconds: number): DateTime;
+        /**
+         * Creates a DateTime object from the specified string.
+         String should be in the format <c>yyyy-mm-dd hh:mm:ss</c>
+         **/
+        static fromString(dateTimeString: string): DateTime;
+        /**
+         * Returns a value indicating if the specified year is leap year
+         **/
+        static isLeapYear(year: number): boolean;
+        /**
+         * Gets a DateTime representing the current millisecond
+         **/
+        static readonly now: DateTime;
+        /**
+         * Gets a DateTime representing the current day without time component
+         **/
+        static readonly today: DateTime;
+        /**
+         * Gets a DateTime representing the day of tomorrow without time component
+         **/
+        static readonly tomorrow: DateTime;
+        /**
+         * Gets the unix epoch
+         * @returns {latte.DateTime}
+         */
+        static readonly epoch: DateTime;
+        /**
+         * Gets a DateTime representing the day of yesterday without time component
+         **/
+        static readonly yesterday: DateTime;
+        _span: TimeSpan;
+        /**
+         * Creates the DateTime object
+         **/
+        constructor(year?: number, month?: number, day?: number, hour?: number, minute?: number, second?: number, millisecond?: number);
+        /**
+         * Prepends a zero to the number if lower than 10
+         **/
+        private _zeroPad;
+        /**
+         * Returns the specified element of date.
+         Possible values for <c>what</c> are: <c>year</c> | <c>month</c> | <c>dayyear</c> | <c>day</c>
+         **/
+        private fromTimeSpan;
+        /**
+         * Returns the result of adding the specified timespan to this date
+         **/
+        add(timespan: TimeSpan): DateTime;
+        /**
+         * Returns the result of adding the specified amount of days to this date
+         **/
+        addDays(days: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of hours to this date
+         **/
+        addHours(hours: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of milliseconds to this date
+         **/
+        addMilliseconds(milliseconds: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of minutes to this date
+         **/
+        addMinutes(minutes: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of months to this date
+         **/
+        addMonths(months: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of seconds to this date
+         **/
+        addSeconds(seconds: number): DateTime;
+        /**
+         * Returns the result of adding the specified amount of years to this date
+         **/
+        addYears(years: number): DateTime;
+        /**
+         * Returns the result of comparing this datetime to the specified datetime
+         **/
+        compareTo(datetime: DateTime): number;
+        /**
+         * Gets a value indicating if the specified datetime is equals to this datetime
+         **/
+        equals(datetime: DateTime): boolean;
+        /**
+         * Returns a value indicating if the date is contained in the range specified by the arguments
+         **/
+        onRange(start: DateTime, end: DateTime): boolean;
+        /**
+         * Returns the result of subtracting the specified datetime to this datetime
+         **/
+        subtractDate(datetime: DateTime): TimeSpan;
+        /**
+         * Returns the result of subtracting the specified timespan to this datetime
+         **/
+        subtractTime(timespan: TimeSpan): DateTime;
+        /**
+         * Returns a relative representatio of the date, like "Yesterday 10:00AM"
+         **/
+        toRelativeString(withTime?: boolean): string;
+        /**
+         * Returns a formatted string
+         **/
+        toFormattedString(format?: string): string;
+        /**
+         * Gets the DateTime as a string
+         **/
+        toString(includeTime?: boolean): string;
+        /**
+         * Gets a value of the object
+         * @returns {number}
+         */
+        valueOf(): number;
+        /**
+         * Gets the day of this datetime
+         **/
+        readonly day: number;
+        /**
+         * Gets the day of week this datetime. Sunday is 0 and Saturday is 6.
+         **/
+        readonly dayOfWeek: number;
+        /**
+         * Gets the name of the day of the week
+         * @returns {*}
+         */
+        readonly dayOfWeekString: string;
+        /**
+         * Gets the name of the day of the week
+         * @returns {*}
+         */
+        readonly dayOfWeekStringShort: string;
+        /**
+         * Gets the name of the day of the week
+         * @returns {*}
+         */
+        readonly dayOfWeekStringInitial: string;
+        /**
+         * Gets the day of year datetime
+         **/
+        readonly dayOfYear: number;
+        /**
+         * Gets the comparer value of the date
+         *
+         * @returns {number}
+         */
+        readonly comparer: number;
+        /**
+         * Returns just the date component of this datetime
+         **/
+        readonly date: DateTime;
+        /**
+         * Gets the hour of the datetime
+         **/
+        readonly hour: number;
+        /**
+         * Gets the millisecond of the date
+         **/
+        readonly millisecond: number;
+        /**
+         * Gets the minute of the time
+         **/
+        readonly minute: number;
+        /**
+         * Gets the month of the date
+         **/
+        readonly month: number;
+        /**
+         * Gets the name of the month of the date
+         **/
+        readonly monthString: string;
+        /**
+         * Gets the name of the month of the date
+         **/
+        readonly monthStringShort: string;
+        /**
+         * Gets the name of the month of the date
+         **/
+        readonly monthStringInitial: string;
+        /**
+         * Gets the second of the date
+         **/
+        readonly second: number;
+        /**
+         * Gets the time component of this datetime
+         **/
+        readonly timeOfDay: TimeSpan;
+        /**
+         * Gets a value indicating if the date is after the unix epoch
+         *
+         * @returns {boolean}
+         */
+        readonly thisEpoch: boolean;
+        /**
+         * Gets the week number of date. First week of year is 1
+         **/
+        readonly weekOfYear: number;
+        /**
+         * Gets the year of the date
+         **/
+        readonly year: number;
+    }
+}
+declare module latte {
+    class EventHandler {
+        handler: Function;
+        context: any;
+        constructor(handler: Function, context: any);
+    }
+    /**
+     * Manages events and event handlers
+     */
+    class LatteEvent {
+        context: any;
+        handlers: Array<EventHandler>;
+        /**
+         * Raised when a handler is added to the event
+         */
+        _handlerAdded: LatteEvent;
+        /**
+         *
+         * @param context Context where
+         */
+        constructor(context: any);
+        /**
+         * Gets the event for handler adding
+         *
+         * @returns {LatteEvent}
+         */
+        readonly handlerAdded: LatteEvent;
+        /**
+         * Adds a handler to the event
+         * @param handler
+         */
+        add(handler: Function, context?: any): void;
+        /**
+         * Raises the <c>handlerAdded</c> event
+         * @param handler
+         */
+        onHandlerAdded(handler: Function): void;
+        /**
+         * Raises the actual event handlers.
+         * @param parameter
+         * @returns {*}
+         */
+        raise(...parameter: any[]): any;
+        /**
+         * Removes the specified handler
+         * @param {Function} handler
+         */
+        remove(handler: Function): void;
+    }
+}
+declare module latte {
+    /**
+     * Exception thrown when an argument of the function was invalid.
+     *
+     * Usage:
+     * <example>
+     *
+     * function pow(a){
+     *
+     *      if(typeof a != 'number')
+     *          // Inform user that the parameter was invalid
+     *          throw new InvalidArgumentEx('a');
+     *
+     *      return a * a;
+     *
+     * }
+     *
+     * </example>
+     */
+    class InvalidArgumentEx extends Ex {
+        argument: string;
+        value: any;
+        /**
+         * Creates the exception
+         *
+         * @param argument
+         * @param value
+         */
+        constructor(argument?: string, value?: any);
+        /**
+         * Returns a string explaining the exception
+         *
+         * @returns {string}
+         */
+        toString(): string;
+    }
+}
+/**
+ * Created by josemanuel on 5/12/14.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Point {
+        /**
+         * Gets the distance between two points
+         * @param a
+         * @param b
+         */
+        static distance(a: Point, b: Point): number;
+        /**
+         * Returns an empty point
+         * @returns {latte.Point}
+         */
+        static empty(): Point;
+        /**
+         * Returns a point situated on the origin
+         * @returns {latte.Point}
+         */
+        static origin(): Point;
+        /**
+         * Creates a new point, optionally
+         */
+        constructor(x?: number, y?: number);
+        /**
+         * Gets the distance to the specified point
+         * @param {latte.Point} p
+         * @returns {number}
+         */
+        distanceTo(p: Point): number;
+        /**
+         * Gets a value indicating if the passed point is equals to this one
+         * @param {latte.Point} p
+         * @returns {boolean}
+         */
+        equals(p: Point): boolean;
+        /**
+         * Returns the offset operation of the point
+         *
+         * @param x
+         * @param y
+         * @returns {latte.Point}
+         */
+        offset(x: number, y: number): Point;
+        /**
+         * Gets string representation of the point
+         * @returns {string}
+         */
+        toString(): string;
+        /**
+         * Gets a value indicating if the point is empty (No value has been set)
+         *
+         * @returns {boolean}
+         */
+        readonly isEmpty: boolean;
+        /**
+         * Property field
+         */
+        private _x;
+        /**
+         * Gets or sets the x coordinate
+         *
+         * @returns {number}
+         */
+        /**
+        * Gets or sets the x coordinate
+        *
+        * @param {number} value
+        */
+        x: number;
+        /**
+         * Property field
+         */
+        private _y;
+        /**
+         * Gets or sets the y coordinate
+         *
+         * @returns {number}
+         */
+        /**
+        * Gets or sets the y coordinate
+        *
+        * @param {number} value
+        */
+        y: number;
+    }
+}
+declare module latte {
+    /**
+     * Exception thrown when an argument of the function was invalid.
+     *
+     * Usage:
+     * <example>
+     *
+     * function pow(a){
+     *
+     *      throw new latte.InvalidCallEx('pow')
+     *
+     * }
+     *
+     * </example>
+     */
+    class InvalidCallEx extends Ex {
+        method: string;
+        /**
+         * Creates the Exception
+         * @param method
+         */
+        constructor(method?: string);
+        /**
+         * Returns a string explaining the exception
+         *
+         * @returns {string}
+         */
+        toString(): string;
+    }
+}
+declare module latte {
+    /**
+     * Reprsents a Rectangle
+     **/
+    class Rectangle {
+        /**
+         * Creates a rectangle with the specified left, right, top and bottom.
+         **/
+        static fromLRTB(left: number, right: number, top: number, bottom: number): Rectangle;
+        /**
+         * Creates a rectangle from the specified object (top, left, width, height)
+         * @param obj
+         */
+        static fromObject(obj: any): Rectangle;
+        /**
+         * Creates a rectangle from the specified object (top, left, width, height)
+         * @param obj
+         */
+        static fromObjectLFTB(obj: any): Rectangle;
+        /**
+         * Creates a rectangle of the specified rectangle
+         * @param {HTMLElement} e
+         * @returns {latte.Rectangle}
+         */
+        static fromElement(e: HTMLElement): Rectangle;
+        /**
+         * Height of rectangle
+         **/
+        private _height;
+        /**
+         * Left of rectangle
+         **/
+        private _left;
+        /**
+         * Top of rectangle
+         **/
+        private _top;
+        /**
+         * Width of rectangle
+         **/
+        private _width;
+        /**
+         *
+         */
+        private _tag;
+        /**
+         * Creates a rectangle with the specified left, top, width and height.
+         **/
+        constructor(left?: number, top?: number, width?: number, height?: number);
+        /**
+         * Returns a rectangle of positive width and height, by changing its coordinates and preserving width and height
+         */
+        absolute(): Rectangle;
+        /**
+         * Returns the result of centering this into the specified container
+         **/
+        centerOn(container: Rectangle): Rectangle;
+        /**
+         * Gets a value indicating if the specified point is contained
+         **/
+        contains(x: number, y: number): boolean;
+        /**
+         * Gets a value indicating if the rectangle is contained inside this rectangle
+         **/
+        containsRectangle(rectangle: Rectangle): boolean;
+        /**
+         * Compares this rectangle with the specified rectangle and returns the result
+         * @param r
+         * @returns {boolean}
+         */
+        equals(r: Rectangle): boolean;
+        /**
+         * Returns the result of inflating the rectangle vertically and horizontally on each edge.
+         **/
+        inflate(horizontal: number, vertical: number): Rectangle;
+        /**
+         * Returns the rectangle result of intersecting this with passed rectangle
+         **/
+        intersection(rectangle: Rectangle): Rectangle;
+        /**
+         * Gets a value indicating if the rectangle intersects specified rectangle
+         **/
+        intersects(rectangle: Rectangle): boolean;
+        /**
+         * Returns a scaled rectangle
+         * @param width
+         */
+        scaleToHeight(height: number): Rectangle;
+        /**
+         * Returns a scaled rectangle
+         * @param width
+         */
+        scaleToWidth(width: number): Rectangle;
+        /**
+         * Returns a string describing the rectangle
+         **/
+        toString(): string;
+        /**
+         * Gets a rectangle representing the union of this rectangle and the passed one
+         **/
+        union(rectangle: Rectangle): Rectangle;
+        /**
+         * Gets the area of the rectangle
+         *
+         * @returns {number}
+         */
+        readonly area: number;
+        /**
+         * Gets or sets the right side of the rectangle
+         **/
+        /**
+        * Gets or sets the right side of the rectangle
+        **/
+        bottom: number;
+        /**
+         * Gets or sets the center of the rectangle
+         * @returns {latte.Point}
+         */
+        /**
+        * Gets or sets the center of the rectangle
+        * @param value
+        */
+        center: Point;
+        /**
+         * Gets or sets the height of the rectangle
+         **/
+        /**
+        * Gets or sets the height of the rectangle
+        **/
+        height: number;
+        /**
+         * Gets a value indicating if the rectangle is empty
+         *
+         * @returns {boolean}
+         */
+        readonly isEmpty: boolean;
+        /**
+         * Gets or sets the left of the rectangle
+         **/
+        /**
+        * Gets or sets the left of the rectangle
+        **/
+        left: number;
+        /**
+         * Gets the location of the rectangle
+         *
+         * @returns {Point}
+         */
+        readonly location: Point;
+        /**
+         * Gets or sets the right side of the rectangle
+         **/
+        /**
+        * Gets or sets the right side of the rectangle
+        **/
+        right: number;
+        /**
+         * Gets the size of the rectangle
+         *
+         * @returns {Size}
+         */
+        readonly size: Size;
+        /**
+         * Gets or sets a tag
+         * @returns {any}
+         */
+        /**
+        * Gets or sets a tag
+        * @param value
+        */
+        tag: any;
+        /**
+         * Gets or sets the top of the rectangle
+         **/
+        /**
+        * Gets or sets the top of the rectangle
+        **/
+        top: number;
+        /**
+         * Gets or sets the width of the rectangle
+         **/
+        /**
+        * Gets or sets the width of the rectangle
+        **/
+        width: number;
+    }
+}
+declare module latte {
+    /**
+     * Represents a time interval.
+     **/
+    class TimeSpan {
+        millis: number;
+        /**
+         * Creates a TimeSpan from the specified amount of days
+         **/
+        static fromDays(days: number): TimeSpan;
+        /**
+         * Creates a TimeSpan from the specified amount of hours
+         **/
+        static fromHours(hours: number): TimeSpan;
+        /**
+         * Creates a TimeSpan from the specified amount of milliseconds
+         **/
+        static fromMilliseconds(milliseconds: number): TimeSpan;
+        /**
+         * Creates a TimeSpan from the specified amount of minutes
+         **/
+        static fromMinutes(minutes: number): TimeSpan;
+        /**
+         * Creates a TimeSpan from the specified amount of seconds
+         **/
+        static fromSeconds(seconds: number): TimeSpan;
+        /**
+         * Creates a TimeSpan object from the specified string.
+         String should be in the format <c>hh:mm:ss</c>
+         **/
+        static fromString(timeString: string): TimeSpan;
+        /**
+         * Gets a timespan with the time passed since the specified date and time
+         * @param d
+         */
+        static timeSince(d: DateTime): TimeSpan;
+        /**
+         * Creates the TimeSpan with the specified parameters. Parameters not specified will be asumed to be zero.
+         **/
+        constructor(days?: number, hours?: number, minutes?: number, seconds?: number, milliseconds?: number);
+        /**
+         * Makes math rounding depending on the sign of the milliseconds
+         **/
+        private _rounder;
+        /**
+         * Prepends a zero to the number if lower than 10
+         **/
+        private _zeroPad;
+        /**
+         * Returns the result of adding the specified timespan to this timespan
+         **/
+        add(timespan: TimeSpan): TimeSpan;
+        /**
+         * Returns the result of adding the specified amount of hours to this timespan
+         **/
+        addHours(hours: number): TimeSpan;
+        /**
+         * Returns the result of adding the specified amount of minutes to this timespan
+         **/
+        addMinutes(minutes: number): TimeSpan;
+        /**
+         * Returns the result of adding the specified amount of seconds to this timespan
+         **/
+        addSeconds(seconds: number): TimeSpan;
+        /**
+         * Returns the result of comparing this timespan against the provided timespan
+         **/
+        compareTo(timespan: TimeSpan): number;
+        /**
+         * Returns a timespan representing the actual duration of the timespan
+         **/
+        duration(): TimeSpan;
+        /**
+         * Returns a value indicating if this timespan represents the same than the specified timespan
+         **/
+        equals(timespan: TimeSpan): boolean;
+        /**
+         * Negates the timespan duration
+         **/
+        negate(): void;
+        /**
+         * Returns the result of subtracting the specified timespan to this timespan
+         **/
+        subtract(timespan: TimeSpan): TimeSpan;
+        /**
+         * Returns this timespan as a string
+         **/
+        toString(includeMilliseconds?: boolean): string;
+        /**
+         * Returns the timespan as a shor string, e.g. 5 minutes or 5m
+         * @param shortNames
+         */
+        toShortString(shortNames?: boolean): string;
+        /**
+         * Gets the timespan as a number
+         * @returns {number}
+         */
+        valueOf(): number;
+        /**
+         * Gets the days component of the time interval represented by this object
+         **/
+        readonly days: number;
+        /**
+         * Gets the hours component of the time interval represented by this object
+         **/
+        readonly hours: number;
+        /**
+         * Gets a value indicating if the total time this timespan represents is zero
+         **/
+        readonly isEmpty: boolean;
+        /**
+         * Gets the milliseconds component of the time interval represented by this object
+         **/
+        readonly milliseconds: number;
+        /**
+         * Gets the minutes component of the time interval represented by this object
+         **/
+        readonly minutes: number;
+        /**
+         * Gets the seconds component of the time interval represented by this object
+         **/
+        readonly seconds: number;
+        /**
+         * Gets the value of this timespan expressed in whole and fractional days
+         **/
+        readonly totalDays: number;
+        /**
+         * Gets the value of this timespan expressed in whole and fractional hours
+         **/
+        readonly totalHours: number;
+        /**
+         * Gets the value of this timespan expressed in milliseconds
+         **/
+        readonly totalMilliseconds: number;
+        /**
+         * Gets the value of this timespan expressed in whole and fractional minutes
+         **/
+        readonly totalMinutes: number;
+        /**
+         * Gets the value of this timespan expressed in whole and fractional seconds
+         **/
+        readonly totalSeconds: number;
+    }
+}
+/**
+ * Created by josemanuel on 5/26/15.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class LoadInfo {
+        /**
+         * Field for instance property
+         */
+        private static _instance;
+        /**
+         * Gets the load mechanism singleton.
+         *
+         * @returns {LoadMechanism}
+         */
+        static readonly instance: LoadInfo;
+        /**
+         * @private
+         */
+        constructor();
+        /**
+         * Ends a loading process
+         */
+        end(): void;
+        /**
+         * Raises the <c>loadingStart</c> event
+         */
+        onLoadingStart(): void;
+        /**
+         * Raises the <c>loadingEnd</c> event
+         */
+        onLoadingEnd(): void;
+        /**
+         * Raises the <c>loadingText</c> event
+         */
+        onLoadingTextChanged(): void;
+        /**
+         * Starts a loading process
+         * @param text
+         */
+        start(text: string): void;
+        /**
+         * Back field for event
+         */
+        private _loadingStart;
+        /**
+         * Gets an event raised when the loading starts
+         *
+         * @returns {LatteEvent}
+         */
+        readonly loadingStart: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _loadingEnd;
+        /**
+         * Gets an event raised when the loading ends
+         *
+         * @returns {LatteEvent}
+         */
+        readonly loadingEnd: LatteEvent;
+        /**
+         * Back field for event
+         */
+        private _loadingTextChanged;
+        /**
+         * Gets an event raised when the value of the loadingText property changes
+         *
+         * @returns {LatteEvent}
+         */
+        readonly loadingTextChanged: LatteEvent;
+        /**
+         * Property field
+         */
+        private _loadingText;
+        /**
+         * Gets or sets the text of the load information
+         *
+         * @returns {string}
+         */
+        /**
+        * Gets or sets the text of the load information
+        *
+        * @param {string} value
+        */
+        loadingText: string;
+    }
+}
+/**
+ * Created by josemanuel on 5/12/14.
+ */
+declare module latte {
+    /**
+     *
+     */
+    class Size {
+        /**
+         * Returns an empty size
+         * @returns {latte.Size}
+         */
+        static empty(): Size;
+        /**
+         * Returns a size of zero width and zero height
+         * @returns {latte.Point}
+         */
+        static zero(): Size;
+        /**
+         * Creates a new Size, optionally sets its Width and Height components
+         */
+        constructor(width?: number, height?: number);
+        /**
+         * Gets a value indicating if the size contains the specified size.
+         * @param size
+         */
+        contains(size: Size): boolean;
+        /**
+         * Inflates the size on the specified width and height
+         *
+         * @param width
+         * @param height
+         * @returns {latte.Size}
+         */
+        inflate(width: number, height: number): Size;
+        /**
+         * Inflates the size uniformly
+         * @param wide
+         */
+        inflateUniform(wide: number): Size;
+        /**
+         * Gets a scaled Size that fits in the specified target.
+         * @param target
+         */
+        scaleToFit(target: Size): Size;
+        /**
+         * Gets a scaled Size that fills the specified target.
+         * @param target
+         */
+        scaleToFill(target: Size): Size;
+        /**
+         * Gets string representation of the size
+         * @returns {string}
+         */
+        toString(): string;
+        /**
+         * Gets the area represented by the size
+         *
+         * @returns {number}
+         */
+        readonly area: number;
+        /**
+         * Gets a value indicating if the size has no compnents assigned or initialized
+         *
+         * @returns {boolean}
+         */
+        readonly isEmpty: boolean;
+        /**
+         * Gets a value indicating if the size is horizontal
+         *
+         * @returns {boolean}
+         */
+        readonly isHorizontal: boolean;
+        /**
+         * Gets a value indicating if the size is a square
+         *
+         * @returns {boolean}
+         */
+        readonly isSquare: boolean;
+        /**
+         * Gets a value indicating if the size is vertical
+         *
+         * @returns {boolean}
+         */
+        readonly isVertical: boolean;
+        /**
+         * Property field
+         */
+        private _height;
+        /**
+         * Gets the Height component of the size
+         *
+         * @returns {number}
+         */
+        readonly height: number;
+        /**
+         * Property field
+         */
+        private _width;
+        /**
+         * Gets the Width component of the size
+         *
+         * @returns {number}
+         */
+        readonly width: number;
+    }
+}
+declare module latte {
+    class HEvent<T> {
+    }
+}
+declare module latte {
+    /**
+     * Executes an action every specified amount of milliseconds
+     **/
+    class Timer {
+        /**
+         *
+         **/
+        private _callback;
+        /**
+         *
+         **/
+        private _context;
+        /**
+         *
+         **/
+        private _milliseconds;
+        /**
+         *
+         **/
+        private _paused;
+        /**
+         * Creates a timer that will call <c>callback</c> every specified amount of
+         <c>milliseconds</c> on the specified <c>context</c>.
+         **/
+        constructor(callback: Function, milliseconds: number, context: any);
+        /**
+         * Gets or sets the function who will be called every tick
+         **/
+        /**
+        * Gets or sets the function who will be called every tick
+        **/
+        callback: Function;
+        /**
+         * Gets or sets the context in which the function is executed
+         **/
+        /**
+        * Gets or sets the context in which the function is executed
+        **/
+        context: any;
+        /**
+         * Gets or sets the milliseconds to sleep between calls
+         **/
+        /**
+        * Gets or sets the milliseconds to sleep between calls
+        **/
+        milliseconds: number;
+        /**
+         * Pauses the timer
+         **/
+        pause(): void;
+        /**
+         * Starts ticking
+         **/
+        start(): void;
+        /**
+         * Ticks the timer. Executes the callback and programs next tick.
+         **/
+        tick(): void;
     }
 }
