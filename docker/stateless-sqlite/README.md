@@ -5,8 +5,16 @@ SQLite is the preferred way of using Fragment, because of portability.
 
 This `docker-compose` uses a `fragment_local` image. Create one
 if not present.
+
+Execute from this directory.
+
 ```bash
-# Run this where the Dockerfile at the project root
+#
+# Execute from this directory.
+cd docker/stateless-sqlite
+
+#
+# Remove previous image and build a fragment_local
 docker image rm fragment_local; docker build --tag=fragment_local ../../.
 ```
 
